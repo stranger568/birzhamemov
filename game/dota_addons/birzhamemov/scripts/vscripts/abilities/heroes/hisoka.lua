@@ -1,0 +1,1008 @@
+LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_birzha_bashed", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_hisoka_cards_buff", "abilities/heroes/hisoka.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_hisoka_cards_debuff", "abilities/heroes/hisoka.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_hisoka_cards_stack", "abilities/heroes/hisoka.lua", LUA_MODIFIER_MOTION_NONE )
+
+hisoka_cards = class({})
+
+function hisoka_cards:GetCooldown(level) 
+    return self.BaseClass.GetCooldown( self, level )
+end
+
+function hisoka_cards:GetCastRange(location, target)
+    return self.BaseClass.GetCastRange(self, location, target)
+end
+
+function hisoka_cards:GetManaCost(level)
+    return self.BaseClass.GetManaCost(self, level)
+end
+
+function hisoka_cards:OnAbilityPhaseStart()
+    self:GetCaster():StartGesture( ACT_DOTA_CAST_ABILITY_1 )
+    return true
+end
+
+function hisoka_cards:OnAbilityPhaseInterrupted()
+    self:GetCaster():RemoveGesture( ACT_DOTA_CAST_ABILITY_1 )
+end
+
+function hisoka_cards:OnSpellStart()
+    if not IsServer() then return end
+    local caster = self:GetCaster()
+    local target_loc = self:GetCursorPosition()
+    local caster_loc = caster:GetAbsOrigin()
+    local card_count = 10
+    if target_loc == caster_loc then
+        direction = caster:GetForwardVector()
+    else
+        direction = (target_loc - caster_loc):Normalized()
+    end
+
+    local index = DoUniqueString("index")
+    self[index] = {}
+
+    local start_angle
+    local interval_angle = 0
+
+    if card_count == 1 then
+        start_angle = 0
+    else
+        start_angle = 40 / 2 * (-1)
+        interval_angle = 40 / (card_count - 1)
+    end
+    local range = self:GetSpecialValueFor("range")
+    self:GetCaster():EmitSound("HisokaCard")
+    for i = 1, card_count, 1 do
+        local angle = start_angle + (i-1) * interval_angle
+        local velocity = RotateVector2D(direction,angle,true) * 900
+        local projectile =
+        {
+            Ability             = self,
+            EffectName          = "particles/hisoka/card_particle.vpcf",
+            vSpawnOrigin        = caster_loc,
+            fDistance           = range,
+            fStartRadius        = 100,
+            fEndRadius          = 100,
+            Source              = caster,
+            bHasFrontalCone     = false,
+            bReplaceExisting    = false,
+            iUnitTargetFlags    = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
+            iUnitTargetTeam     = DOTA_UNIT_TARGET_TEAM_ENEMY,
+            iUnitTargetType     = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+            fExpireTime         = GameRules:GetGameTime() + 10.0,
+            bDeleteOnHit        = true,
+            vVelocity           = Vector(velocity.x,velocity.y,0),
+            bProvidesVision     = false,
+            ExtraData           = {index = index, card_count = card_count}
+        }
+        ProjectileManager:CreateLinearProjectile(projectile)
+        self:GetCaster():EmitSound("playercard.flip")
+    end
+end
+
+function hisoka_cards:OnProjectileHit_ExtraData(target, location, ExtraData)
+    local caster = self:GetCaster()
+    local damage = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_hisoka_1")
+    local debuff_duration = self:GetSpecialValueFor("slow_duration")
+    local buff_duration = self:GetSpecialValueFor("caster_movespeed_bonus_duration")
+    local stun_duration = self:GetSpecialValueFor("stun_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_hisoka_4")
+    local bonus_duration = self:GetSpecialValueFor("stack_duration")
+    local bonus_damage = self:GetSpecialValueFor("bonus_damage_stack")
+    local bonus_count = self:GetSpecialValueFor("stack_count")
+
+    if target ~= nil then
+        if not self:GetCaster():HasTalent("special_bonus_birzha_hisoka_3") then
+            if target:IsMagicImmune() then return true end
+        end
+        local was_hit = false
+        for _, stored_target in ipairs(self[ExtraData.index]) do
+            if target == stored_target then
+                was_hit = true
+                break
+            end
+        end
+        if was_hit then
+            return nil
+        end
+        table.insert(self[ExtraData.index],target)
+        local stack_modifier = target:FindModifierByName("modifier_hisoka_cards_stack")
+        self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_hisoka_cards_buff", {duration = buff_duration})
+        target:AddNewModifier(self:GetCaster(), self, "modifier_hisoka_cards_debuff", {duration = debuff_duration * (1 - target:GetStatusResistance())})
+        target:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = stun_duration})
+        local damage_table = {
+            victim = target,
+            attacker = self:GetCaster(),
+            damage = damage,
+            damage_type = DAMAGE_TYPE_PHYSICAL,
+            ability = self
+        }
+        if stack_modifier then
+            damage_table.damage = damage + (stack_modifier:GetStackCount() * bonus_damage)
+        end
+        ApplyDamage( damage_table )
+        target:EmitSound("playercard.flip")
+        if stack_modifier then
+            stack_modifier:SetDuration(bonus_duration, true)
+            if stack_modifier:GetStackCount() < bonus_count then
+                stack_modifier:SetStackCount(stack_modifier:GetStackCount()+1)
+                ParticleManager:SetParticleControl(stack_modifier.pfx, 1, Vector(0, stack_modifier:GetStackCount(), 0))
+            end
+        else
+            target:AddNewModifier(self:GetCaster(), self, "modifier_hisoka_cards_stack", {duration = bonus_duration})
+        end
+        return true
+    else
+        self[ExtraData.index]["count"] = self[ExtraData.index]["count"] or 0
+        self[ExtraData.index]["count"] = self[ExtraData.index]["count"] + 1
+        if self[ExtraData.index]["count"] == ExtraData.card_count then
+            self[ExtraData.index] = nil
+        end
+    end
+end
+
+modifier_hisoka_cards_buff = class({})
+
+function modifier_hisoka_cards_buff:IsPurgable()
+    return false
+end
+
+function modifier_hisoka_cards_buff:DeclareFunctions()
+    local funcs = {
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+    }
+
+    return funcs
+end
+
+function modifier_hisoka_cards_buff:GetModifierMoveSpeedBonus_Percentage()
+    return self:GetAbility():GetSpecialValueFor("caster_movespeed_bonus") 
+end
+
+modifier_hisoka_cards_debuff = class({})
+
+function modifier_hisoka_cards_debuff:IsPurgable()
+    return true
+end
+
+
+function modifier_hisoka_cards_debuff:DeclareFunctions()
+    local funcs = {
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+    }
+
+    return funcs
+end
+
+function modifier_hisoka_cards_debuff:GetModifierMoveSpeedBonus_Percentage()
+    return self:GetAbility():GetSpecialValueFor("movespeed_slow") 
+end
+
+modifier_hisoka_cards_stack = class({})
+
+function modifier_hisoka_cards_stack:IsHidden()
+    return true
+end
+
+function modifier_hisoka_cards_stack:OnCreated()
+    if not IsServer() then return end
+    self.pfx = ParticleManager:CreateParticle("particles/hisoka/card_particle_overhead.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent())
+    self:SetStackCount(1)
+    ParticleManager:SetParticleControl(self.pfx, 1, Vector(0, 1, 0))
+end
+
+function modifier_hisoka_cards_stack:OnDestroy()
+    if not IsServer() then return end
+    if self.pfx then
+        ParticleManager:DestroyParticle(self.pfx, false)
+        ParticleManager:ReleaseParticleIndex(self.pfx)
+    end
+end
+
+LinkLuaModifier( "modifier_hisoka_shield_buff_attack", "abilities/heroes/hisoka.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_hisoka_shield_buff_shield", "abilities/heroes/hisoka.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_hisoka_shield_buff_shield_visual", "abilities/heroes/hisoka.lua", LUA_MODIFIER_MOTION_NONE )
+
+hisoka_shield = class({})
+
+function hisoka_shield:OnSpellStart()
+    if not IsServer() then return end
+    local duration = self:GetSpecialValueFor("duration")
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_hisoka_shield_buff_attack", {duration = duration})
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_hisoka_shield_buff_shield", {duration = duration})
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_hisoka_shield_buff_shield_visual", {duration = duration})
+    self:GetCaster():Purge(false, true, false, true, true)
+    self:GetCaster():EmitSound("HisokaShield")
+    if self:GetCaster():HasScepter() then
+        local caster = self:GetCaster()
+        local caster_loc = caster:GetAbsOrigin()
+        local card_count = 40
+        direction = caster:GetForwardVector()
+        local index = DoUniqueString("index")
+        self[index] = {}
+
+        self.original_ability = self:GetCaster():FindAbilityByName("hisoka_cards")
+        local range = self.original_ability:GetSpecialValueFor("range")
+        self:GetCaster():EmitSound("HisokaCard")
+        local projectile =
+        {
+            Ability             = self,
+            EffectName          = "particles/hisoka/card_particle.vpcf",
+            vSpawnOrigin        = caster_loc,
+            fDistance           = range,
+            fStartRadius        = 100,
+            fEndRadius          = 100,
+            Source              = caster,
+            bHasFrontalCone     = false,
+            bReplaceExisting    = false,
+            iUnitTargetFlags    = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
+            iUnitTargetTeam     = DOTA_UNIT_TARGET_TEAM_ENEMY,
+            iUnitTargetType     = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+            fExpireTime         = GameRules:GetGameTime() + 10.0,
+            bDeleteOnHit        = true,
+            vVelocity           = Vector(direction.x,direction.y,0),
+            bProvidesVision     = false,
+            ExtraData           = {index = index, card_count = card_count}
+        }
+        i = -30
+        for var=1,13, 1 do
+            projectile.vVelocity = RotatePosition(Vector(0,0,0), QAngle(0,i,0), caster:GetForwardVector()) * 1000
+            ProjectileManager:CreateLinearProjectile(projectile)
+            i = i + 30
+        end
+        self:GetCaster():EmitSound("playercard.flip")
+    end
+end
+
+function hisoka_shield:OnProjectileHit_ExtraData(target, location, ExtraData)
+    local caster = self:GetCaster()
+    local damage = self.original_ability:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_hisoka_1")
+    local debuff_duration = self.original_ability:GetSpecialValueFor("slow_duration")
+    local buff_duration = self.original_ability:GetSpecialValueFor("caster_movespeed_bonus_duration")
+    local stun_duration = self.original_ability:GetSpecialValueFor("stun_duration")
+    local bonus_duration = self.original_ability:GetSpecialValueFor("stack_duration")
+    local bonus_damage = self.original_ability:GetSpecialValueFor("bonus_damage_stack")
+    local bonus_count = self.original_ability:GetSpecialValueFor("stack_count")
+
+    if target ~= nil then
+        if not self:GetCaster():HasTalent("special_bonus_birzha_hisoka_3") then
+            if target:IsMagicImmune() then return true end
+        end
+        local was_hit = false
+        for _, stored_target in ipairs(self[ExtraData.index]) do
+            if target == stored_target then
+                was_hit = true
+                break
+            end
+        end
+        if was_hit then
+            return nil
+        end
+        table.insert(self[ExtraData.index],target)
+        local stack_modifier = target:FindModifierByName("modifier_hisoka_cards_stack")
+        self:GetCaster():AddNewModifier(self:GetCaster(), self.original_ability, "modifier_hisoka_cards_buff", {duration = buff_duration})
+        target:AddNewModifier(self:GetCaster(), self.original_ability, "modifier_hisoka_cards_debuff", {duration = debuff_duration * (1 - target:GetStatusResistance())})
+        target:AddNewModifier(self:GetCaster(), self.original_ability, "modifier_birzha_stunned", {duration = stun_duration})
+        local damage_table = {
+            victim = target,
+            attacker = self:GetCaster(),
+            damage = damage,
+            damage_type = DAMAGE_TYPE_PHYSICAL,
+            ability = self.original_ability
+        }
+        if stack_modifier then
+            damage_table.damage = damage + (stack_modifier:GetStackCount() * bonus_damage)
+        end
+        ApplyDamage( damage_table )
+        target:EmitSound("playercard.flip")
+        if stack_modifier then
+            stack_modifier:SetDuration(bonus_duration, true)
+            if stack_modifier:GetStackCount() < bonus_count then
+                stack_modifier:SetStackCount(stack_modifier:GetStackCount()+1)
+                ParticleManager:SetParticleControl(stack_modifier.pfx, 1, Vector(0, stack_modifier:GetStackCount(), 0))
+            end
+        else
+            target:AddNewModifier(self:GetCaster(), self.original_ability, "modifier_hisoka_cards_stack", {duration = bonus_duration})
+        end
+        return true
+    else
+        self[ExtraData.index]["count"] = self[ExtraData.index]["count"] or 0
+        self[ExtraData.index]["count"] = self[ExtraData.index]["count"] + 1
+        if self[ExtraData.index]["count"] == ExtraData.card_count then
+            self[ExtraData.index] = nil
+        end
+    end
+end
+
+modifier_hisoka_shield_buff_attack = class({})
+
+function modifier_hisoka_shield_buff_attack:IsPurgable()
+    return false
+end
+
+function modifier_hisoka_shield_buff_attack:OnCreated()
+    self.bonus_damage   = self:GetAbility():GetSpecialValueFor("damage")
+    if not IsServer() then return end
+    self.stacks  = self:GetAbility():GetSpecialValueFor("stacks") + self:GetCaster():FindTalentValue("special_bonus_birzha_hisoka_5")
+    self:SetStackCount(self.stacks)
+end
+
+function modifier_hisoka_shield_buff_attack:OnRefresh()
+    self:OnCreated()
+end
+
+function modifier_hisoka_shield_buff_attack:OnStackCountChanged(iStackCount)
+    if not IsServer() then return end
+    if self:GetStackCount() <= 0 then
+        local effect = self:GetParent():FindModifierByName("modifier_hisoka_shield_buff_shield_visual")
+        if effect and not self:GetParent():HasModifier("modifier_hisoka_shield_buff_shield") then
+            effect:Destroy()
+        end
+        self:Destroy()
+    end
+end
+
+function modifier_hisoka_shield_buff_attack:DeclareFunctions()
+    return {
+        MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
+        MODIFIER_EVENT_ON_ATTACK_LANDED
+    }
+end
+
+function modifier_hisoka_shield_buff_attack:GetModifierPreAttack_BonusDamage()
+    return self.bonus_damage
+end
+
+function modifier_hisoka_shield_buff_attack:OnAttackLanded(keys)
+    if keys.attacker == self:GetParent() and keys.target:GetTeamNumber() ~= self:GetParent():GetTeamNumber() then
+        self:DecrementStackCount()
+    end
+end
+
+modifier_hisoka_shield_buff_shield = class({})
+
+function modifier_hisoka_shield_buff_shield:IsPurgable()
+    return false
+end
+
+function modifier_hisoka_shield_buff_shield:GetPriority()     return MODIFIER_PRIORITY_ULTRA end
+
+function modifier_hisoka_shield_buff_shield:OnCreated()
+    if not IsServer() then return end
+    self.stacks  = self:GetAbility():GetSpecialValueFor("stacks") + self:GetCaster():FindTalentValue("special_bonus_birzha_hisoka_5")
+    self:SetStackCount(self.stacks)
+end
+
+function modifier_hisoka_shield_buff_shield:OnRefresh()
+    self:OnCreated()
+end
+
+function modifier_hisoka_shield_buff_shield:OnStackCountChanged(iStackCount)
+    if not IsServer() then return end
+    if self:GetStackCount() <= 0 then
+        local effect = self:GetParent():FindModifierByName("modifier_hisoka_shield_buff_shield_visual")
+        if effect and not self:GetParent():HasModifier("modifier_hisoka_shield_buff_attack") then
+            effect:Destroy()
+        end
+        self:Destroy()
+    end
+end
+
+modifier_hisoka_shield_buff_shield_visual = class({})
+
+function modifier_hisoka_shield_buff_shield_visual:IsPurgable()
+    return false
+end
+
+function modifier_hisoka_shield_buff_shield_visual:IsHidden()
+    return true
+end
+
+function modifier_hisoka_shield_buff_shield_visual:OnCreated()
+    if not IsServer() then return end
+    if self.refraction_particle then
+        ParticleManager:DestroyParticle(self.refraction_particle, false)
+        ParticleManager:ReleaseParticleIndex(self.refraction_particle)
+    end
+    self.refraction_particle = ParticleManager:CreateParticle("particles/hisoka/hisoka_shield.vpcf", PATTACH_POINT_FOLLOW, self:GetParent())
+    ParticleManager:SetParticleControlEnt(self.refraction_particle, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
+    self:AddParticle(self.refraction_particle, false, false, -1, true, false)
+    ParticleManager:SetParticleControl( self.refraction_particle, 15, Vector( 255, 0, 255 ) )
+    ParticleManager:SetParticleControl( self.refraction_particle, 16, Vector( 1, 0, 0 ) )
+end
+
+
+function modifier_hisoka_shield_buff_shield:DeclareFunctions()
+    local funcs = {
+        MODIFIER_PROPERTY_TOTAL_CONSTANT_BLOCK
+    }
+    return funcs
+end
+
+function modifier_hisoka_shield_buff_shield:GetModifierTotal_ConstantBlock(kv)
+    if IsServer() then
+        if kv.damage > 0 and bit.band(kv.damage_flags, DOTA_DAMAGE_FLAG_HPLOSS) ~= DOTA_DAMAGE_FLAG_HPLOSS then
+            self:DecrementStackCount()
+            return kv.damage
+        end
+    end
+end
+
+LinkLuaModifier( "modifier_hisoka_trap_counter", "abilities/heroes/hisoka.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_hisoka_trap", "abilities/heroes/hisoka.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_hisoka_trap_debuff", "abilities/heroes/hisoka.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_hisoka_trap_debuff_movespeed", "abilities/heroes/hisoka.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_hisoka_trap_debuff_attackspeed", "abilities/heroes/hisoka.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_bubble_unit", "abilities/heroes/hisoka.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_bubble_unit_debuff", "abilities/heroes/hisoka.lua", LUA_MODIFIER_MOTION_NONE )
+
+hisoka_trap = class({})
+
+function hisoka_trap:GetIntrinsicModifierName()
+    return "modifier_hisoka_trap_counter"
+end
+
+function hisoka_trap:OnSpellStart()
+    if not self.counter_modifier or self.counter_modifier:IsNull() then
+        self.counter_modifier = self:GetCaster():FindModifierByName("modifier_hisoka_trap_counter")
+    end
+    if self.counter_modifier and self.counter_modifier.trap_table then
+        local trap = CreateUnitByName("npc_dota_templar_assassin_psionic_trap", self:GetCursorPosition(), false, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
+        FindClearSpaceForUnit(trap, trap:GetAbsOrigin(), false)
+        local trap_modifier = trap:AddNewModifier(self:GetCaster(), self, "modifier_hisoka_trap", {})
+        trap:SetControllableByPlayer(self:GetCaster():GetPlayerID(), true)
+        self:GetCaster():EmitSound("Hero_TemplarAssassin.Trap.Cast")
+        EmitSoundOnLocationWithCaster(self:GetCursorPosition(), "Hero_TemplarAssassin.Trap", self:GetCaster())
+        if trap:HasAbility("hisoka_trap_trap") then
+            trap:FindAbilityByName("hisoka_trap_trap"):SetHidden(false)
+            trap:FindAbilityByName("hisoka_trap_trap"):SetLevel(self:GetLevel())
+        end
+        table.insert(self.counter_modifier.trap_table, trap_modifier)
+        if #self.counter_modifier.trap_table > self:GetSpecialValueFor("max_traps") then
+            if self.counter_modifier.trap_table[1]:GetParent() then
+                self.counter_modifier.trap_table[1]:GetParent():ForceKill(false)
+            end
+        end
+        self.counter_modifier:SetStackCount(#self.counter_modifier.trap_table)
+    end
+end
+
+modifier_hisoka_trap = class({})
+
+function modifier_hisoka_trap:IsHidden() return true end
+function modifier_hisoka_trap:IsPurgable() return false end
+
+function modifier_hisoka_trap:OnCreated()
+    if not IsServer() then return end
+    self.self_particle      = ParticleManager:CreateParticle("particles/units/heroes/hero_templar_assassin/templar_assassin_trap.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+    ParticleManager:SetParticleControl(self.self_particle, 60, Vector(255, 0, 255))
+    ParticleManager:SetParticleControl(self.self_particle, 61, Vector(1, 0, 0))
+    self:AddParticle(self.self_particle, false, false, -1, false, false)
+    self.trap_counter_modifier = self:GetCaster():FindModifierByName("modifier_hisoka_trap_counter")
+end
+
+function modifier_hisoka_trap:OnDestroy()
+    if not IsServer() then return end
+    if self.trap_counter_modifier and self.trap_counter_modifier.trap_table then
+        for trap_modifier = 1, #self.trap_counter_modifier.trap_table do
+            if self.trap_counter_modifier.trap_table[trap_modifier] == self then
+                table.remove(self.trap_counter_modifier.trap_table, trap_modifier)
+                if self:GetCaster():HasModifier("modifier_hisoka_trap_counter") then
+                    self:GetCaster():FindModifierByName("modifier_hisoka_trap_counter"):DecrementStackCount()
+                end
+                break
+            end
+        end
+    end
+end
+
+function modifier_hisoka_trap:CheckState()
+    return {
+        [MODIFIER_STATE_INVISIBLE]          = true,
+        [MODIFIER_STATE_NO_UNIT_COLLISION]  = true
+    }
+end
+
+function modifier_hisoka_trap:Explode(ability, radius)
+    self.explode_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_templar_assassin/templar_assassin_trap_explode.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+    ParticleManager:SetParticleControl(self.self_particle, 60, Vector(255, 0, 255))
+    ParticleManager:SetParticleControl(self.self_particle, 61, Vector(1, 0, 0))
+    ParticleManager:ReleaseParticleIndex(self.explode_particle)
+    self:GetParent():EmitSound("Hero_TemplarAssassin.Trap.Explode")
+    self:GetCaster():EmitSound("HisokaActivated")
+    if self:GetParent():GetOwner() then
+        for _, enemy in pairs(FindUnitsInRadius(self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)) do
+            local damage = self:GetAbility():GetSpecialValueFor("damage")
+            local duration = self:GetAbility():GetSpecialValueFor("movespeed_slow_duration")
+            local damage_table = {
+            victim = enemy,
+            attacker = self:GetCaster(),
+            damage = damage,
+            damage_type = DAMAGE_TYPE_MAGICAL,
+            ability = self:GetAbility()
+            }
+            ApplyDamage( damage_table )
+            enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_hisoka_trap_debuff", {duration = duration * (1 - enemy:GetStatusResistance())})
+        end
+    end
+    self:GetParent():ForceKill(false)
+    self:Destroy()
+end
+
+modifier_hisoka_trap_counter = class({})
+
+function modifier_hisoka_trap_counter:OnCreated()
+    if not IsServer() then return end
+    self.trap_table = {}
+end
+
+hisoka_trap_trap = class({})
+
+function hisoka_trap_trap:OnSpellStart()
+    if self:GetCaster():GetOwner() then
+        self.trap_counter_modifier = self:GetCaster():GetOwner():FindModifierByName("modifier_hisoka_trap_counter")
+        if self:GetCaster():HasModifier("modifier_hisoka_trap") then
+            self:GetCaster():FindModifierByName("modifier_hisoka_trap"):Explode(self, self:GetSpecialValueFor("radius"))
+        end
+    end
+end
+
+hisoka_trap_destroy  = class({})
+
+function hisoka_trap_destroy:OnSpellStart()
+    if not self.trap_ability then
+        self.trap_ability = self:GetCaster():FindAbilityByName("hisoka_trap")
+    end
+    
+    if not self.counter_modifier or self.counter_modifier:IsNull() then
+        self.counter_modifier = self:GetCaster():FindModifierByName("modifier_hisoka_trap_counter")
+    end
+    
+    if self.trap_ability and self.counter_modifier and self.counter_modifier.trap_table and #self.counter_modifier.trap_table > 0 then
+        local distance  = nil
+        local index     = nil
+        for trap_number = 1, #self.counter_modifier.trap_table do
+            if self.counter_modifier.trap_table[trap_number] and not self.counter_modifier.trap_table[trap_number]:IsNull() then
+                if not distance then
+                    index       = trap_number
+                    distance    = (self:GetCaster():GetAbsOrigin() - self.counter_modifier.trap_table[trap_number]:GetParent():GetAbsOrigin()):Length2D()
+                elseif ((self:GetCaster():GetAbsOrigin() - self.counter_modifier.trap_table[trap_number]:GetParent():GetAbsOrigin()):Length2D() < distance) then
+                    index       = trap_number
+                    distance    = (self:GetCaster():GetAbsOrigin() - self.counter_modifier.trap_table[trap_number]:GetParent():GetAbsOrigin()):Length2D()
+                end
+            end
+        end
+        
+        if index then
+            self.counter_modifier.trap_table[index]:Explode(self.trap_ability, self:GetSpecialValueFor("radius"))
+        end
+    else
+        DisplayError(self:GetCaster():GetPlayerOwnerID(), "#notraps")
+    end
+end
+
+hisoka_trap_teleport = class({})
+
+function hisoka_trap_teleport:OnChannelFinish(bInterrupted)
+    if not bInterrupted then
+        if not self.trap_ability then
+            self.trap_ability = self:GetCaster():FindAbilityByName("hisoka_trap")
+        end
+        
+        if not self.counter_modifier or self.counter_modifier:IsNull() then
+            self.counter_modifier = self:GetCaster():FindModifierByName("modifier_hisoka_trap_counter")
+        end
+        
+        if self.trap_ability and self.counter_modifier and self.counter_modifier.trap_table and #self.counter_modifier.trap_table > 0 then
+            local distance  = nil
+            local index     = nil
+            for trap_number = 1, #self.counter_modifier.trap_table do
+                if self.counter_modifier.trap_table[trap_number] and not self.counter_modifier.trap_table[trap_number]:IsNull() then
+                    if not distance then
+                        index       = trap_number
+                        distance    = (self:GetCursorPosition() - self.counter_modifier.trap_table[trap_number]:GetParent():GetAbsOrigin()):Length2D()
+                    elseif ((self:GetCursorPosition() - self.counter_modifier.trap_table[trap_number]:GetParent():GetAbsOrigin()):Length2D() < distance) then
+                        index       = trap_number
+                        distance    = (self:GetCursorPosition() - self.counter_modifier.trap_table[trap_number]:GetParent():GetAbsOrigin()):Length2D()
+                    end
+                end
+            end
+            if index then
+                FindClearSpaceForUnit(self:GetCaster(), self.counter_modifier.trap_table[index]:GetParent():GetAbsOrigin(), false)
+                self.counter_modifier.trap_table[index]:Explode(self.trap_ability, self:GetSpecialValueFor("radius"))
+            end
+        end
+    end
+end
+
+modifier_hisoka_trap_debuff = class({})
+
+function modifier_hisoka_trap_debuff:IsHidden()
+    return true
+end
+
+function modifier_hisoka_trap_debuff:IsPurgable()
+    return true
+end
+
+function modifier_hisoka_trap_debuff:OnCreated()
+    if not IsServer() then return end
+    local duration_m = self:GetAbility():GetSpecialValueFor("movespeed_slow_duration")
+    local duration_a = self:GetAbility():GetSpecialValueFor("attackspeed_slow_duration")
+    self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_hisoka_trap_debuff_movespeed", {duration = duration_m})
+    self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_hisoka_trap_debuff_attackspeed", {duration = duration_a})
+    self:GetParent():EmitSound("Hero_Snapfire.MortimerBlob.Projectile")
+    if not self:GetParent():HasModifier("modifier_bubble_unit_debuff") then
+        local bubble = CreateUnitByName("npc_dota_bubble", self:GetParent():GetAbsOrigin() + self:GetParent():GetForwardVector() * 64, false, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
+        bubble:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_bubble_unit",  { destroy_attacks = self:GetAbility():GetSpecialValueFor("health_bubble"), target_entindex = self:GetParent():entindex() })
+        bubble:SetForwardVector((self:GetParent():GetAbsOrigin() - bubble:GetAbsOrigin()):Normalized())
+        self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_bubble_unit_debuff",
+        {
+            duration            = self:GetAbility():GetSpecialValueFor("duration_bubble"),
+            damage              = self:GetAbility():GetSpecialValueFor("damage_bubble") + (self:GetCaster():GetAgility() * self:GetAbility():GetSpecialValueFor("agi_mult")),
+            attack_rate         = self:GetAbility():GetSpecialValueFor("attack_rate"),
+            max_armor           = self:GetAbility():GetSpecialValueFor("armor_reduction_max"),
+            armor_reduction     = self:GetAbility():GetSpecialValueFor("armor_reduction"),
+            damage_type         = DAMAGE_TYPE_MAGICAL,
+            beetle_entindex     = bubble:entindex()
+        })
+    end
+end
+
+function modifier_hisoka_trap_debuff:OnRefresh()
+    if not IsServer() then return end
+    self:OnCreated()
+end
+
+function modifier_hisoka_trap_debuff:OnDestroy()
+    if not IsServer() then return end
+    if self:GetParent():HasModifier("modifier_hisoka_trap_debuff_movespeed") then
+        self:GetParent():RemoveModifierByName("modifier_hisoka_trap_debuff_movespeed")
+    end
+    if self:GetParent():HasModifier("modifier_hisoka_trap_debuff_attackspeed") then
+        self:GetParent():RemoveModifierByName("modifier_hisoka_trap_debuff_attackspeed")
+    end
+end
+
+function modifier_hisoka_trap_debuff:GetEffectName() return "particles/hisoka/hisoka_bubble_ultimate.vpcf" end
+function modifier_hisoka_trap_debuff:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
+
+modifier_bubble_unit = class({})
+
+function modifier_bubble_unit:IsHidden()     return true end
+function modifier_bubble_unit:IsPurgable()   return false end
+
+function modifier_bubble_unit:OnCreated(params)
+    if not IsServer() then return end
+    self.destroy_attacks            = params.destroy_attacks
+    self.target                     = EntIndexToHScript(params.target_entindex)
+    self:StartIntervalThink(FrameTime())
+end
+
+function modifier_bubble_unit:OnIntervalThink()
+    if self.target and not self.target:IsNull() then
+        if (self.target:IsInvisible() and not self:GetParent():CanEntityBeSeenByMyTeam(self.target)) then
+            self:GetParent():ForceKill(false)
+            self:Destroy()
+        elseif self.target:IsAlive() then
+            self:GetParent():SetAbsOrigin(self.target:GetAbsOrigin() + self.target:GetForwardVector() * 64)
+            self:GetParent():SetForwardVector((self.target:GetAbsOrigin() - self:GetParent():GetAbsOrigin()):Normalized())
+        end
+    end
+end
+
+function modifier_bubble_unit:OnDestroy()
+    if not IsServer() then return end
+    if self.target and not self.target:IsNull() and self.target:HasModifier("modifier_bubble_unit_debuff") then
+        self.target:RemoveModifierByName("modifier_bubble_unit_debuff")
+    end
+end
+
+function modifier_bubble_unit:CheckState()
+    return
+    {
+        [MODIFIER_STATE_NO_UNIT_COLLISION]  = true,
+        [MODIFIER_STATE_MAGIC_IMMUNE]       = true,
+    }
+end
+
+function modifier_bubble_unit:DeclareFunctions()
+    local decFuncs = {
+        MODIFIER_PROPERTY_OVERRIDE_ANIMATION,
+        
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
+        
+        MODIFIER_EVENT_ON_ATTACKED
+    }
+
+    return decFuncs
+end
+
+function modifier_bubble_unit:GetOverrideAnimation()
+    return ACT_DOTA_IDLE
+end
+
+function modifier_bubble_unit:GetAbsoluteNoDamageMagical()
+    return 1
+end
+
+function modifier_bubble_unit:GetAbsoluteNoDamagePhysical()
+    return 1
+end
+
+function modifier_bubble_unit:GetAbsoluteNoDamagePure()
+    return 1
+end
+
+function modifier_bubble_unit:OnAttacked(keys)
+    if not IsServer() then return end
+    if keys.target == self:GetParent() then
+        if keys.attacker:IsHero() then
+            self:GetParent():SetHealth(self:GetParent():GetHealth() - 1)
+        else
+            self:GetParent():SetHealth(self:GetParent():GetHealth() - 1)
+        end
+        if self:GetParent():GetHealth() <= 0 then
+            self:GetParent():EmitSound("Hero_Grimstroke.InkCreature.Death")
+            self:GetParent():Kill(nil, keys.attacker)
+            self:Destroy()
+        end
+    end
+end
+
+modifier_bubble_unit_debuff = class({})
+
+function modifier_bubble_unit_debuff:IsPurgable()     return true end
+
+function modifier_bubble_unit_debuff:OnCreated(params)
+    if self:GetAbility() then
+        self.armor_reduction    = self:GetAbility():GetSpecialValueFor("armor_reduction")
+    else
+        self.armor_reduction    = 1
+    end
+
+    if not IsServer() then return end
+    
+    self.damage         = params.damage
+    self.attack_rate    = params.attack_rate
+    self.damage_type    = params.damage_type
+    self.max_armor      = params.max_armor
+    self.beetle         = EntIndexToHScript(params.beetle_entindex)
+    
+    self.damage_table   = {
+        victim          = self:GetParent(),
+        damage          = self.damage,
+        damage_type     = self.damage_type,
+        damage_flags    = DOTA_DAMAGE_FLAG_NONE,
+        attacker        = self:GetCaster(),
+        ability         = self:GetAbility()
+    }
+    
+    self:OnIntervalThink()
+    self:StartIntervalThink(self.attack_rate)
+end
+
+function modifier_bubble_unit_debuff:OnIntervalThink()
+    if self:GetStackCount() < self.max_armor then
+        self:IncrementStackCount()
+    end
+    ApplyDamage(self.damage_table)
+    self.damage = self:GetAbility():GetSpecialValueFor("damage_bubble")
+end
+
+function modifier_bubble_unit_debuff:OnDestroy()
+    if not IsServer() then return end
+    if self.beetle and not self.beetle:IsNull() and self.beetle:IsAlive() then
+        self.beetle:ForceKill(false)
+    end
+end
+
+function modifier_bubble_unit_debuff:DeclareFunctions()
+    return {
+        MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
+        MODIFIER_EVENT_ON_ATTACK_LANDED
+    }
+end
+
+function modifier_bubble_unit_debuff:GetModifierPhysicalArmorBonus()
+    return self.armor_reduction * self:GetStackCount() * (-1)
+end
+
+function modifier_bubble_unit_debuff:OnAttackLanded(keys)
+    if keys.attacker == self:GetCaster() and keys.target == self:GetParent() then
+        if self:GetStackCount() < self.max_armor then
+            self:IncrementStackCount()
+        end
+    end
+end
+
+modifier_hisoka_trap_debuff_movespeed = class({})
+
+function modifier_hisoka_trap_debuff_movespeed:DeclareFunctions()
+    return {
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+    }
+end
+
+function modifier_hisoka_trap_debuff_movespeed:GetModifierMoveSpeedBonus_Percentage()
+    return self:GetAbility():GetSpecialValueFor("movespeed_slow")
+end
+
+
+modifier_hisoka_trap_debuff_attackspeed = class({})
+
+function modifier_hisoka_trap_debuff_attackspeed:DeclareFunctions()
+    return {
+        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+    }
+end
+
+function modifier_hisoka_trap_debuff_attackspeed:GetModifierAttackSpeedBonus_Constant()
+    return self:GetAbility():GetSpecialValueFor("attackspeed_slow")
+end
+
+LinkLuaModifier( "modifier_hisoka_bubble_counter", "abilities/heroes/hisoka.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_hisoka_bubble_buff", "abilities/heroes/hisoka.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_hisoka_bubble_debuff", "abilities/heroes/hisoka.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_hisoka_bubble_passive", "abilities/heroes/hisoka.lua", LUA_MODIFIER_MOTION_NONE )
+
+hisoka_bubble = class({})
+modifier_hisoka_bubble_counter = class({})
+modifier_hisoka_bubble_passive = class({})
+
+function hisoka_bubble:GetIntrinsicModifierName()
+    return "modifier_hisoka_bubble_passive"
+end
+
+function modifier_hisoka_bubble_passive:IsHidden()
+    return true
+end
+
+function modifier_hisoka_bubble_passive:IsPurgable()
+    return false
+end
+
+function modifier_hisoka_bubble_passive:DeclareFunctions()
+    local funcs = {
+        MODIFIER_EVENT_ON_ATTACK,
+    }
+
+    return funcs
+end
+
+function modifier_hisoka_bubble_passive:OnAttack(kv)
+    if IsServer() then
+        if not self:GetCaster():PassivesDisabled() and not self:GetCaster():IsIllusion() then
+            local attacker = kv.attacker
+            if attacker == self:GetCaster() then
+                local target = kv.target
+                if target:IsBoss() then return end
+                if target:IsOther() then
+                    return nil
+                end
+                if target:HasModifier("modifier_hisoka_bubble_debuff") then return end
+                if target:GetTeamNumber() ~= self:GetCaster():GetTeamNumber() then
+                    local slow_duration = self:GetAbility():GetSpecialValueFor("duration_attack")
+                    local modifier = target:FindModifierByName("modifier_hisoka_bubble_counter")
+                    self:GetCaster():EmitSound("HisokaBubble")
+                    if modifier then
+                        target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_hisoka_bubble_counter", { duration = slow_duration * (1 - target:GetStatusResistance())})
+                        modifier:IncrementStackCount()
+                    else
+                        target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_hisoka_bubble_counter", { duration = slow_duration * (1 - target:GetStatusResistance())})
+                    end
+                end
+            end
+        end
+    end
+end
+
+function modifier_hisoka_bubble_counter:IsPurgable()
+    if self:GetCaster():HasTalent("special_bonus_birzha_hisoka_6") then return false end
+    return true
+end
+
+function modifier_hisoka_bubble_counter:DeclareFunctions()
+    local funcs = {
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+    }
+
+    return funcs
+end
+
+function modifier_hisoka_bubble_counter:OnCreated(kv)
+    if not IsServer() then return end
+    self:SetStackCount(1)
+end
+
+function modifier_hisoka_bubble_counter:OnStackCountChanged(iStackCount)
+    if not IsServer() then return end
+
+    if not self.pfx then
+        self.pfx = ParticleManager:CreateParticle("particles/hisoka/hisoka_bubble_stack.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent())
+    end
+
+    ParticleManager:SetParticleControl(self.pfx, 1, Vector(0, self:GetStackCount(), 0))
+
+    if self:GetStackCount() >= self:GetAbility():GetSpecialValueFor("max_stack") then
+        self:GetParent():EmitSound("Hero_Snapfire.MortimerBlob.Projectile")
+        self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_hisoka_bubble_debuff", {duration = self:GetAbility():GetSpecialValueFor("duration_debuff")})
+        self:Destroy()
+    end
+end
+
+function modifier_hisoka_bubble_counter:OnRemoved()
+    if not IsServer() then return end
+
+    if self.pfx then
+        ParticleManager:DestroyParticle(self.pfx, false)
+        ParticleManager:ReleaseParticleIndex(self.pfx)
+    end
+end
+
+function modifier_hisoka_bubble_counter:GetModifierMoveSpeedBonus_Percentage() return self:GetAbility():GetSpecialValueFor("movessped_slow_base") end
+
+modifier_hisoka_bubble_debuff = modifier_hisoka_bubble_debuff or class({
+    IsHidden                = function(self) return false end,
+    IsDebuff                = function(self) return true end,
+    GetEffectName           = function(self) return "particles/hisoka/hisoka_bubble_debuff.vpcf" end,
+    GetEffectAttachType     = function(self) return PATTACH_ABSORIGIN_FOLLOW end,
+})
+
+function modifier_hisoka_bubble_debuff:IsPurgable()
+    if self:GetCaster():HasTalent("special_bonus_birzha_hisoka_6") then return false end
+    return true
+end
+
+function modifier_hisoka_bubble_debuff:DeclareFunctions()
+    local funcs = {
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+        MODIFIER_EVENT_ON_ATTACK,
+    }
+
+    return funcs
+end
+
+function modifier_hisoka_bubble_debuff:CheckState() 
+    return {
+        [MODIFIER_STATE_SILENCED] = true,
+    } 
+end
+
+function modifier_hisoka_bubble_debuff:OnAttack(kv)
+    if IsServer() then
+        local target = kv.target
+        if target == self:GetParent() then
+            local caster    = self:GetCaster()
+            local attacker  = kv.attacker
+            if caster:GetTeamNumber() == attacker:GetTeamNumber() then
+                local ability = self:GetAbility()
+                local buff_duration = ability:GetSpecialValueFor("duration_debuff")
+                attacker:AddNewModifier(caster, ability, "modifier_hisoka_bubble_buff", { duration = buff_duration })
+            end
+        end
+    end
+end
+
+function modifier_hisoka_bubble_debuff:GetModifierMoveSpeedBonus_Percentage() return self:GetAbility():GetSpecialValueFor("movessped_slow_debuff") end
+
+modifier_hisoka_bubble_buff = modifier_hisoka_bubble_buff or class({
+    IsHidden                = function(self) return false end,
+    IsPurgable              = function(self) return true end,
+    IsDebuff                = function(self) return false end,
+    GetEffectName           = function(self) return "particles/hisoka/hisoka_bubble_buff.vpcf" end,
+    GetEffectAttachType     = function(self) return PATTACH_ABSORIGIN_FOLLOW end,
+})
+
+function modifier_hisoka_bubble_buff:DeclareFunctions()
+    local funcs = {
+        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT
+    }
+
+    return funcs
+end
+
+function modifier_hisoka_bubble_buff:GetModifierAttackSpeedBonus_Constant() return self:GetAbility():GetSpecialValueFor("bonus_attack_speed") + self:GetCaster():FindTalentValue("special_bonus_birzha_hisoka_2")end

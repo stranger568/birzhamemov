@@ -1,0 +1,44 @@
+"itembuilds"
+{
+	"author"	"Solomon"
+	"hero"		"npc_dota_hero_shredder"
+	"tile"		"Birzha memov"
+
+	"items"
+	{
+		"#DOTA_Item_Build_Starting_Items"
+		{
+			"item"		"item_boots"
+			"item"		"item_bond"
+			"item"		"item_abakan"
+			"item"		"item_flask"
+		}
+		"#DOTA_Item_Build_Core_Items"
+		{
+			"item"		"item_baldezh"
+			"item"		"item_roscom_midas"
+			"item"		"item_birzha_force_boots"
+			"item"		"item_ghost"
+			"item"		"item_ultimate_scepter"
+		}
+		"#DOTA_Item_Build_Late_Items"
+		{
+			"item"		"item_blink_boots"
+			"item"		"item_sharoeb"
+			"item"		"item_uebator"
+			"item"		"item_ethereal_blade"
+			"item"		"item_mystic_booster"
+			"item"		"item_tar2"
+			"item"		"item_birzha_diffusal_blade_2"
+		}
+		"#DOTA_Item_Build_Luxury_Items"
+		{
+			"item"		"item_moon_shard"
+			"item"		"item_ultimate_mem"
+			"item"		"item_birzha_gem"
+			"item"		"item_burger_larin"
+			"item"		"item_burger_sobolev"
+			"item"		"item_burger_oblomoff"
+		}
+	}
+}
