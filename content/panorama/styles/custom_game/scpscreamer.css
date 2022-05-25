@@ -1,0 +1,11 @@
+.Screamer{width: 100%;height: 100%;overflow: clip;}
+
+#ScreamerScp{width: 100%;height: 100%;visibility: collapse;}
+
+#ScreamerScpImage{width: 50%;height: 50%;align: center center;background-image: url("s2r://panorama/images/custom_game/scp/screamer_png.vtex");background-size: contain;opacity: 1;}
+
+
+
+#ScreamerScpBonus{width: 100%;height: 100%;visibility: collapse;}
+
+#ScreamerScpImageBonus{width: 50%;height: 50%;align: center center;background-image: url("file://{images}/custom_game/scp/solomon.png");background-size: 100%;opacity: 1;}

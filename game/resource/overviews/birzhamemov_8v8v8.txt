@@ -1,0 +1,8 @@
+birzhamemov_8v8v8
+{
+	material materials/overviews/birzhamemov_8v8v8.vmat
+	pos_x -4996
+	pos_y 5843
+	scale 9.857
+}
+

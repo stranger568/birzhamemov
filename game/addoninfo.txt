@@ -1,0 +1,65 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	maps = 
+	[
+		"birzhamemov_solo",
+		"birzhamemov_duo",
+		"birzhamemov_trio",
+		"birzhamemov_5v5v5",
+		"birzhamemov_5v5",
+		"birzhamemov_zxc",
+	]
+	IsPlayable = 1
+	PenaltiesEnabled = 0
+	Default_Keys = 
+	[
+		{
+			Key = "Y"
+			Command = "+WheelButton"
+			Name = "CustomCommand"
+		},
+	]
+	map_options = 
+	[
+		{
+			MaxPlayers = 10
+			map = "birzhamemov_5v5"
+		},
+		{
+			MaxPlayers = 15
+			map = "birzhamemov_5v5v5"
+		},
+		{
+			MaxPlayers = 12
+			map = "birzhamemov_trio"
+		},
+		{
+			MaxPlayers = 8
+			map = "birzhamemov_duo"
+		},
+		{
+			MaxPlayers = 10
+			map = "birzhamemov_solo"
+		},
+		{
+			MaxPlayers = 2
+			map = "birzhamemov_zxc"
+		},
+	]
+	HideInTools = false
+	IsTemplate = false
+	CheckAFKPlayers = true
+	DefaultMap = ""
+	DisableIK = false
+	EnablePickRules = false
+	EventGame = false
+	hero_picker = 
+	{
+	}
+	HeroGuidesSupported = true
+	ForceDefaultGuide = true
+	MinimalPrecache = true
+	MinPlayers = 1
+	MaxPlayers = 10
+	TeamCount = -1
+}

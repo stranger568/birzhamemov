@@ -1,0 +1,4243 @@
+"DOTAHeroes"
+{
+	
+	//=================================================================================================================
+	// Начальный герой для выбора героев
+	//=================================================================================================================
+
+	"npc_dota_hero_wisp"
+	{
+		"model"				"models/items/io/io_ti7/io_ti7.vmdl"
+		"Ability1" 			"game_start"
+	}
+
+	//=================================================================================================================
+	// Huskar | Букин | Bukin
+	//=================================================================================================================
+    "npc_dota_hero_huskar"
+	{
+		"ModelScale"	"1.1"
+        "AbilityLayout" "4"
+        "Ability1" "Bukin_HatTrickLeatherBall"
+        "Ability2" "Bukin_Spears"
+		"Ability3" "Bukin_Rage"
+		"Ability4" "generic_hidden"
+		"Ability5" "generic_hidden"
+		"Ability6" "bukin_clubnogirls"
+		"Ability25"		""
+		
+		"AttributeBaseStrength"			"25"
+		"AttributeStrengthGain"			"3"
+		"AttributeBaseAgility"			"17"
+		"AttributeAgilityGain"			"1.60000"
+		"AttributeBaseIntelligence"		"18"
+		"AttributeIntelligenceGain"		"1.500000"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_STRENGTH"
+		"ArmorPhysical"		"4"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"		"special_bonus_hp_250"
+		"Ability11"		"special_bonus_movement_speed_25"
+		"Ability12"		"special_bonus_birzha_bukin_1"
+		"Ability13"		"special_bonus_armor_10"
+		"Ability14"		"special_bonus_hp_350"
+		"Ability15"		"special_bonus_attack_range_100"
+		"Ability16"		"special_bonus_birzha_bukin_2"
+		"Ability17"		"special_bonus_birzha_bukin_3"
+	}
+
+	//=================================================================================================================
+	// Alchemist | BigRussianBoss
+	//=================================================================================================================
+	"npc_dota_hero_alchemist"
+	{	
+	    "AbilityLayout" "4"
+		"Ability1"					"BigRussianBoss_Vape"
+		"Ability2"					"BigRussianBoss_prank"
+		"Ability3"					"BigRussianBoss_Steb"	
+		"Ability4"					"bigrussianboss_spise"
+		"Ability5"					"generic_hidden"
+		"Ability6"					"BigRussianBoss_test"
+		"Ability25"		""
+
+		
+		"AttributeBaseStrength"		"25"
+		"AttributeStrengthGain"		"3.500000"
+		"AttributeBaseAgility"		"16"
+		"AttributeAgilityGain"		"2.700000"
+		"AttributeBaseIntelligence"		"25"
+		"AttributeIntelligenceGain"		"1.800000"
+		"AttributePrimary"			"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"		"special_bonus_attack_speed_20"
+		"Ability11"		"special_bonus_armor_5"
+		"Ability12"		"special_bonus_lifesteal_15"
+		"Ability13"		"special_bonus_all_stats_10"
+		"Ability14"		"special_bonus_attack_speed_100"
+		"Ability15"		"special_bonus_cooldown_reduction_15"
+		"Ability16"		"special_bonus_birzha_brb_1"
+		"Ability17"		"special_bonus_gold_income_420"
+	}
+
+	//=================================================================================================================
+	// Lycan | Versuta | Versuta
+	//=================================================================================================================
+	"npc_dota_hero_lycan"
+	{
+		"Ability1"					"Versuta_son_dog"
+		"Ability2"					"Versuta_dog_change"
+		"Ability3"					"Versuta_Rage"
+		"Ability4"					"generic_hidden"
+		"Ability5"					"generic_hidden"
+		"Ability6"					"Versuta_pudge"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"25"
+		"AttributeStrengthGain"		"3.4000"
+		"AttributeBaseAgility"		"16"
+		"AttributeAgilityGain"		"2.00000"
+		"AttributeBaseIntelligence"		"17"
+		"AttributeIntelligenceGain"		"1.40000"
+		"AttributePrimary"			"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_birzha_versuta_4"
+		"Ability11"		"special_bonus_attack_damage_35"
+		"Ability12"		"special_bonus_birzha_versuta_2"
+		"Ability13"		"special_bonus_armor_10"
+		"Ability14"		"special_bonus_birzha_versuta_1"
+		"Ability15"		"special_bonus_strength_25"
+		"Ability16"		"special_bonus_birzha_versuta_5"
+		"Ability17"		"special_bonus_birzha_versuta_3"
+	}
+
+	//=================================================================================================================
+	// Tusk | Кирилл Терешин | Kirill Tereshin
+	//=================================================================================================================
+    "npc_dota_hero_tusk"
+	{
+		"ModelScale"		"1.2"
+        "Ability1" "Kirill_GiantArms"
+        "Ability2" "Kirill_ShakeTheGround"
+        "Ability3" "Kirill_InjectSynthol"
+		"Ability4" "generic_hidden"
+		"Ability5" "generic_hidden"
+		"Ability6" "Kirill_SpecialDobbleHit"
+		"Ability25"		""
+
+		"AttackRate"		"1.3"
+		"AttributeBaseStrength"		"23"
+		"AttributeStrengthGain"		"3.900"
+		"AttributeBaseAgility"		"23"
+		"AttributeAgilityGain"		"2.100000"
+		"AttributeBaseIntelligence"		"18"
+		"AttributeIntelligenceGain"		"1.700000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"		"special_bonus_exp_boost_25"
+		"Ability11"		"special_bonus_strength_10"
+		"Ability12"		"special_bonus_birzha_tereshin_4"
+		"Ability13"		"special_bonus_birzha_tereshin_2"
+		"Ability14"		"special_bonus_corruption_5"
+		"Ability15"		"special_bonus_lifesteal_30"
+		"Ability16"		"special_bonus_birzha_tereshin_1"
+		"Ability17"		"special_bonus_birzha_tereshin_3"
+	}
+
+	//=================================================================================================================
+	// Skeleton King | Папич | EvilArthas
+	//=================================================================================================================
+	"npc_dota_hero_skeleton_king"
+	{
+		"Model"					"models/heroes/wraith_king/wraith_king.vmdl"
+		"Ability1"				"Papich_HellFire_Blast"
+		"Ability2"				"Papich_reincarnation"
+		"Ability3"				"Papich_StreamSnipers"
+		"Ability4"				"generic_hidden"
+		"Ability5"				"generic_hidden"
+		"Ability6"				"Papich_in_solo"
+		"Ability25"		""
+
+		"AttributeBaseStrength"			"25"
+		"AttributeStrengthGain"			"2.800000"
+		"AttributeBaseIntelligence"		"18"
+		"AttributeIntelligenceGain"		"1.600000"
+		"AttributeBaseAgility"			"18"
+		"AttributeAgilityGain"			"1.700000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"				"special_bonus_attack_speed_25"
+		"Ability11"				"special_bonus_hp_250"
+
+		"Ability12"				"special_bonus_lifesteal_20"
+		"Ability13"				"special_bonus_birzha_papich_2"
+
+		"Ability14"				"special_bonus_birzha_papich_5"
+		"Ability15"				"special_bonus_birzha_papich_3"
+
+		"Ability16"				"special_bonus_birzha_papich_6"
+		"Ability17"				"special_bonus_birzha_papich_1"
+	}
+
+	//=================================================================================================================
+	// Slark | Vjlink | Vjlink
+	//=================================================================================================================
+	"npc_dota_hero_slark"
+	{
+		"Ability1"					"Vjlink_sputum"	
+		"Ability2"					"Vjlink_python"	
+		"Ability3"					"Vjlink_teeth"
+		"Ability4"					"generic_hidden"
+		"Ability5"					"generic_hidden"
+		"Ability6"					"Vjlink_dudos"
+		"Ability25"		""
+		
+		"AttributeBaseStrength"		"25"
+		"AttributeStrengthGain"		"3.100000"
+		"AttributeBaseIntelligence"		"15"
+		"AttributeIntelligenceGain"		"1.75000"
+		"AttributeBaseAgility"		"22 "
+		"AttributeAgilityGain"		"1.900000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_armor_7"
+		"Ability11"		"special_bonus_hp_200"
+		"Ability12"		"special_bonus_movement_speed_50"
+		"Ability13"		"special_bonus_birzha_vjlink_2"
+		"Ability14"		"special_bonus_evasion_50"
+		"Ability15"		"special_bonus_30_crit_2"
+		"Ability16"		"special_bonus_birzha_vjlink_1"
+		"Ability17"		"special_bonus_attack_speed_250"		
+	}
+
+	//=================================================================================================================
+	// Abaddon | Edward Debil | Edward Debil
+	//=================================================================================================================
+	"npc_dota_hero_abaddon"
+	{	
+		"model"				"models/heroes/meepo/meepo.vmdl"
+		"DisableWearables"				"1"
+		"ModelScale"					"1.7"
+		"Ability1"			"EdwardBil_Agression"
+		"Ability2"			"EdwardBil_Chi_Yes"
+		"Ability3"			"EdwardBil_V_EBASOS"
+		"Ability4"			"generic_hidden"
+		"Ability5"			"edward_bil_prank"
+		"Ability6"			"edward_gopnik"
+		"Ability25"		""
+		
+		"AttributeBaseStrength"		"20"
+		"AttributeStrengthGain"		"3"
+		"AttributeBaseIntelligence"		"23"
+		"AttributeIntelligenceGain"		"2"
+		"AttributeBaseAgility"		"16"
+		"AttributeAgilityGain"		"1.9"
+		"MovementSpeed"		"315"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_hp_250"
+		"Ability11"		"special_bonus_birzha_edwardbill_4"
+		"Ability12"		"special_bonus_birzha_edwardbill_2"
+		"Ability13"		"special_bonus_birzha_edwardbill_3"
+		"Ability14"		"special_bonus_birzha_edwardbill_5"
+		"Ability15"		"special_bonus_birzha_edwardbill_6"
+		"Ability16"		"special_bonus_birzha_edwardbill_1"
+		"Ability17"		"special_bonus_birzha_edwardbill_7"
+	}
+
+	//=================================================================================================================
+	// Kunkka | Навальный | Navalniy
+	//=================================================================================================================
+	"npc_dota_hero_kunkka"
+	{
+		"Ability1"				"Naval_meeting"
+		"Ability2"				"naval_acid_spray"
+		"Ability3"				"Naval_Youtube"
+		"Ability4"				"generic_hidden"
+		"Ability5"				"generic_hidden"
+		"Ability6"				"Naval_President"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"24"
+		"AttributeStrengthGain"		"3.800000"
+		"AttributeBaseIntelligence"		"18"
+		"AttributeIntelligenceGain"		"1.500000"
+		"AttributeBaseAgility"		"18"
+		"AttributeAgilityGain"		"1.300000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_birzha_navalny_1"
+		"Ability11"		"special_bonus_attack_speed_50"
+		"Ability12"		"special_bonus_birzha_navalny_3"
+		"Ability13"		"special_bonus_birzha_navalny_2"
+		"Ability14"		"special_bonus_strength_25"
+		"Ability15"		"special_bonus_birzha_navalny_4"
+		"Ability16"		"special_bonus_birzha_navalny_6"
+		"Ability17"		"special_bonus_birzha_navalny_5"
+	}
+
+	//=================================================================================================================
+	// Pudge | Жирная мамка | Fat Mum
+	//=================================================================================================================
+	"npc_dota_hero_pudge"
+	{
+		"Ability1"				"mum_meat_hook"
+		"Ability2"				"mum_arrows_of_death"
+		"Ability3"				"mum_fart"
+		"Ability4"				"generic_hidden"
+		"Ability5"				"generic_hidden"
+		"Ability6"				"fut_mum_eat"
+		"Ability25"		""
+
+		"MovementSpeed"		"320"
+		"AttributeBaseStrength"		"25"
+		"AttributeStrengthGain"		"3.000000"
+		"AttributeBaseIntelligence"		"14"
+		"AttributeIntelligenceGain"		"1.500000"
+		"AttributeBaseAgility"		"14"
+		"AttributeAgilityGain"		"1.500000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Killer"
+		
+		"Ability10"		"special_bonus_birzha_mum_2"
+		"Ability11"		"special_bonus_strength_8"
+		"Ability12"		"special_bonus_birzha_mum_3"
+		"Ability13"		"special_bonus_cast_range_200"
+		"Ability14"		"special_bonus_spell_lifesteal_20"
+		"Ability15"		"special_bonus_movement_speed_75"
+		"Ability16"		"special_bonus_cooldown_reduction_15"
+		"Ability17"		"special_bonus_birzha_mum_1"
+	}
+	//=================================================================================================================
+	// Spirit Breaker | Кличко | Klichko
+	//=================================================================================================================
+    "npc_dota_hero_spirit_breaker"
+	{
+        "Ability1" 		"klichko_charge_of_darkness"
+        "Ability2" 		"Klichko_BoxingPunchSeries"
+        "Ability3" 		"Klichko_SayBullshit"
+		"Ability4"		"generic_hidden"
+		"Ability5"		"generic_hidden"
+		"Ability6"		"Klichko_BecomeMayor"
+		"Ability25"		""
+
+		"MovementSpeed"		"300"
+		"StatusMana"		"200"
+		"AttributeBaseStrength"		"35"
+		"AttributeStrengthGain"		"3"
+		"AttributeBaseAgility"		"25"
+		"AttributeAgilityGain"		"2"
+		"AttributeBaseIntelligence"		"0"
+		"AttributeIntelligenceGain"		"0"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_agility_10"
+		"Ability11"		"special_bonus_mp_100"
+		"Ability12"		"special_bonus_lifesteal_15"
+		"Ability13"		"special_bonus_strength_15"	
+		"Ability14"		"special_bonus_hp_600"
+		"Ability15"		"special_bonus_magic_resistance_30"
+		"Ability16"		"special_bonus_birzha_klichko_1"
+		"Ability17"		"special_bonus_birzha_klichko_2"
+	}
+
+	//=================================================================================================================
+	// Clockwerk | Face | Face
+	//=================================================================================================================
+     "npc_dota_hero_rattletrap"
+	{
+        "Ability1" "Face_ShopGucci"
+        "Ability2" "Face_Hate"
+        "Ability3" "face_tombstone"
+		"Ability4" "generic_hidden"
+		"Ability5" "face_esketit"
+		"Ability6" "Face_NewSong"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"26"
+		"AttributeStrengthGain"		"3.500000"
+		"AttributeBaseAgility"		"13"
+		"AttributeAgilityGain"		"2.300000"
+		"AttributeBaseIntelligence"		"17"
+		"AttributeIntelligenceGain"	"1.9"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Tank"
+
+		"Ability10"		"special_bonus_birzha_face_1"
+		"Ability11"		"special_bonus_hp_regen_10"
+		"Ability13"		"special_bonus_cooldown_reduction_12"
+		"Ability12"		"special_bonus_birzha_face_2"
+		"Ability14"		"special_bonus_birzha_face_3"
+		"Ability15"		"special_bonus_birzha_face_4"
+		"Ability16"		"special_bonus_birzha_face_5"
+		"Ability17" 	"special_bonus_hp_600"
+	}
+
+	//=================================================================================================================
+	// Mars | Kudes | Kudes
+	//=================================================================================================================
+	"npc_dota_hero_mars"
+	{	
+		"Ability1"			"Kudes_GoldHook"
+		"Ability2"			"Kudes_JumpInHead"
+		"Ability3"			"Kudes_Fat"
+		"Ability4"			"generic_hidden"
+		"Ability5"			"generic_hidden"
+		"Ability6"			"Kudes_Items"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"23"
+		"AttributeStrengthGain"		"3.200000"
+		"AttributeBaseAgility"		"20"
+		"AttributeAgilityGain"		"1.900000"
+		"AttributeBaseIntelligence"		"17"
+		"AttributeIntelligenceGain"		"1.800000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"		"special_bonus_birzha_kudes_1"
+		"Ability11"		"special_bonus_attack_speed_20"
+		"Ability12"		"special_bonus_armor_10"
+		"Ability13"		"special_bonus_gold_income_180"
+		"Ability14"		"special_bonus_birzha_kudes_2"
+		"Ability15"		"special_bonus_cooldown_reduction_20"
+		"Ability16"		"special_bonus_birzha_kudes_3"
+		"Ability17"		"special_bonus_birzha_kudes_4"
+	}
+
+	//=================================================================================================================
+	// Brewmaster | Хованский | KHovansky
+	//=================================================================================================================
+	"npc_dota_hero_brewmaster"
+	{
+		"DisableWearables"				"1"
+
+		"Ability1"					"Hovan_Pyramide"
+		"Ability2"					"Hovan_DrinkBeer"
+		"Ability3"					"Hovan_ShavermaPatrul"
+		"Ability4"					"generic_hidden"
+		"Ability5"					"generic_hidden"
+		"Ability6"					"Hovan_GanstaBooms"
+		"Ability25"		""
+
+		"AttributeBaseStrength"			"23"
+		"AttributeStrengthGain"			"2.8"
+		"AttributeBaseAgility"			"22"
+		"AttributeAgilityGain"			"2.0000"
+		"AttributeBaseIntelligence"		"17"
+		"AttributeIntelligenceGain"		"1.60000"
+		"AttributePrimary"			"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_hp_350"
+		"Ability11"		"special_bonus_birzha_hovan_1"
+		"Ability12"		"special_bonus_armor_10"
+		"Ability13"		"special_bonus_magic_resistance_20"
+		"Ability14"		"special_bonus_birzha_hovan_2"
+		"Ability15"		"special_bonus_birzha_hovan_3"
+		"Ability16"		"special_bonus_cooldown_reduction_25"
+		"Ability17"		"special_bonus_birzha_hovan_4"
+	}
+
+	//=================================================================================================================
+	// Beastmaster | Кама пуля | Kama Bullet
+	//=================================================================================================================
+	"npc_dota_hero_beastmaster"
+	{	
+		"Ability1"					"bullet_taa"
+		"Ability2"					"bullet_sha"	
+		"Ability3"					"Bullet_Stats"
+		"Ability4"					"generic_hidden"
+		"Ability5"					"generic_hidden"
+		"Ability6"					"Bullet_BulletInTheHead"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"23"
+		"AttributeStrengthGain"		"2.900000"
+		"AttributeBaseIntelligence"		"19"
+		"AttributeIntelligenceGain"		"2.500000"
+		"AttributeBaseAgility"		"18"
+		"AttributeAgilityGain"		"1.600000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Killer"
+		
+		"Ability10"		"special_bonus_gold_income_90"
+		"Ability11"		"special_bonus_hp_350"
+		"Ability12"		"special_bonus_birzha_bullet_1"
+		"Ability13"		"special_bonus_birzha_bullet_2"
+		"Ability14"		"special_bonus_birzha_bullet_3"
+		"Ability15"		"special_bonus_vision_200"
+		"Ability16"		"special_bonus_spell_amplify_25"
+		"Ability17"		"special_bonus_cooldown_reduction_25"
+	}
+
+	//=================================================================================================================
+	// Axe | Абдулов | Abdulov
+	//=================================================================================================================
+    "npc_dota_hero_axe"
+	{
+        "Ability1" 			"Abdulov_DefenceFromMushrooms"
+        "Ability2" 			"Abdulov_OvertakingMushrooms"
+        "Ability3" 			"Abdulov_TripToHell"
+		"Ability4"			"generic_hidden"
+		"Ability5"			"generic_hidden"
+		"Ability6"			"Abdulov_CutMushrooms"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"25"
+		"AttributeStrengthGain"		"3.400000"
+		"AttributeBaseIntelligence"		"18"
+		"AttributeIntelligenceGain"		"1.600000"
+		"AttributeBaseAgility"		"20"
+		"AttributeAgilityGain"		"2.400000"
+		"ArmorPhysical"		"4"
+		"AttackRate"		"1.400000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"			"special_bonus_strength_10"
+		"Ability11"			"special_bonus_attack_speed_25"
+		"Ability12"			"special_bonus_birzha_abdul_1"
+		"Ability13"			"special_bonus_birzha_abdul_2"
+		"Ability14"			"special_bonus_cooldown_reduction_20"
+		"Ability15"			"special_bonus_birzha_abdul_3"
+		"Ability16"			"special_bonus_birzha_abdul_5"
+		"Ability17"			"special_bonus_birzha_abdul_4"
+	}
+
+	//=================================================================================================================
+	// Omniknight | Порошенко | Poroshenko
+	//=================================================================================================================
+	"npc_dota_hero_omniknight"
+	{
+		"Ability1"				"Poroshenko_Slava_Ukraine"
+		"Ability2"				"Poroshenko_fat"
+		"Ability3"				"Poroshenko_bunt"
+		"Ability4"				"generic_hidden"
+		"Ability5"				"generic_hidden"
+		"Ability6"				"poroshenko_donbass"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"22"
+		"AttributeStrengthGain"		"3.60000"
+		"AttributeBaseAgility"		"15"
+		"AttributeAgilityGain"		"1.80000"
+		"AttributeBaseIntelligence"		"15"
+		"AttributeIntelligenceGain"		"1.800000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_mp_200"
+		"Ability11"		"special_bonus_strength_10"
+		"Ability12"		"special_bonus_movement_speed_40"
+		"Ability13"		"special_bonus_lifesteal_15"
+		"Ability14"		"special_bonus_attack_damage_60"
+		"Ability15"		"special_bonus_cooldown_reduction_20"
+		"Ability16"		"special_bonus_birzha_poroshenko_1"
+		"Ability17"		"special_bonus_strength_40"
+	}
+
+	//=================================================================================================================
+	// Ursa | Пистолетов | Pistoletov
+	//=================================================================================================================
+	"npc_dota_hero_ursa"
+	{	
+		"Ability1"			"Pistoletov_dolphin"
+		"Ability2"			"Pistoletov_DeathFight"
+		"Ability3"			"Pistoletov_TrahTibidoh"
+		"Ability4"			"generic_hidden"
+		"Ability5"			"generic_hidden"
+		"Ability6"			"Pistoletov_NewPirat"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"22"
+		"AttributeStrengthGain"		"2.5"
+		"AttributeBaseIntelligence"		"16"
+		"AttributeIntelligenceGain"		"1.7"
+		"AttributeBaseAgility"		"19"
+		"AttributeAgilityGain"		"2.500000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_strength_10"
+		"Ability11"		"special_bonus_magic_resistance_15"
+		"Ability12"		"special_bonus_birzha_pistoletov_5"
+		"Ability13"		"special_bonus_birzha_pistoletov_1"
+		"Ability14"		"special_bonus_birzha_pistoletov_2"
+		"Ability15"		"special_bonus_birzha_pistoletov_3"
+		"Ability16"		"special_bonus_birzha_pistoletov_4"
+		"Ability17"		"special_bonus_cooldown_reduction_25"
+	}
+
+	//=================================================================================================================
+	// Dark Seer | Гарольд | Garold 
+	//=================================================================================================================
+	"npc_dota_hero_dark_seer"
+	{	
+		"Ability1"			"Garold_pain"
+		"Ability2"			"Garold_StealPain"
+		"Ability3"			"Garold_HidePain"
+		"Ability4"			"garold_cloud"
+		"Ability5"			"generic_hidden"
+		"Ability6"			"Garold_Joy"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"22"
+		"AttributeStrengthGain"		"2.1"
+		"AttributeBaseIntelligence"		"16"
+		"AttributeIntelligenceGain"		"1.800000"
+		"AttributeBaseAgility"		"19"
+		"AttributeAgilityGain"		"2.100000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Tank"
+		
+		"Ability10"		"special_bonus_hp_200"
+		"Ability11"		"special_bonus_mp_200"
+		"Ability12"		"special_bonus_movement_speed_50"
+		"Ability13"		"special_bonus_birzha_garold_1"
+		"Ability14"		"special_bonus_armor_15"
+		"Ability15"		"special_bonus_birzha_garold_2"
+		"Ability16"		"special_bonus_birzha_garold_3"
+		"Ability17"		"special_bonus_birzha_garold_4"
+	}
+
+	//=================================================================================================================
+	// Tiny | John Cena | John Cena
+	//=================================================================================================================
+    "npc_dota_hero_tiny"
+	{
+        "Model"	"models/items/tiny/burning_stone_giant/burning_stone_giant_01.vmdl"
+        "DisableWearables"		"1"
+
+        "Ability1" 	"johncena_Wrestling"
+        "Ability2" 	"JohnCena_Chargehit"
+        "Ability3" 	"JohnCena_greater_bash"
+	    "Ability4" 	"generic_hidden"
+		"Ability5"	"generic_hidden"
+		"Ability6"	"JohnCena_Grab"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"26"
+		"AttributeStrengthGain"		"3.5"
+		"AttributeBaseIntelligence"		"17"
+		"AttributeIntelligenceGain"		"1.600000"
+		"AttributeBaseAgility"		"15"
+		"AttributeAgilityGain"		"2"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_agility_10"
+		"Ability11"		"special_bonus_strength_8"
+		"Ability12"		"special_bonus_birzha_johncena_1"
+		"Ability13"		"special_bonus_birzha_johncena_2"
+		"Ability14"		"special_bonus_cooldown_reduction_20"
+		"Ability15"		"special_bonus_attack_speed_120"
+		"Ability16"		"special_bonus_birzha_johncena_3"
+		"Ability17"		"special_bonus_birzha_johncena_4"
+	}
+
+	//=================================================================================================================
+	// Juggernaut | Азазин | Azazin
+	//=================================================================================================================
+	"npc_dota_hero_juggernaut"
+	{
+		"DisableWearables"				"1"	
+		"ModelScale"					"1.25"
+		"Model"		"models/npc/npc_dingus/dingus.vmdl"
+
+		"Ability1"				"azazin_teama"
+		"Ability2"				"azazin_gayaura"
+		"Ability3"				"azazin_agressive"
+		"Ability4"				"generic_hidden"
+		"Ability5"				"generic_hidden"
+		"Ability6"				"Azazin_Spinner"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"26"
+		"AttributeStrengthGain"		"3"
+		"AttributeBaseIntelligence"		"14"
+		"AttributeIntelligenceGain"		"1.400000"
+		"AttributeBaseAgility"		"21"
+		"AttributeAgilityGain"		"2.200000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Tank"
+		
+		"Ability10"		"special_bonus_birzha_azazin_1"
+		"Ability11"		"special_bonus_movement_speed_35"
+		"Ability12"		"special_bonus_birzha_azazin_2"
+		"Ability13"		"special_bonus_armor_10"
+		"Ability14"		"special_bonus_birzha_azazin_3"
+		"Ability15"		"special_bonus_gold_income_180"
+		"Ability16"		"special_bonus_birzha_azazin_4"
+		"Ability17"		"special_bonus_birzha_azazin_5"
+	}
+
+	//=================================================================================================================
+	// EarthShaker | Глад Валакас | Glad Valakas
+	//=================================================================================================================
+    "npc_dota_hero_earthshaker"
+	{
+        "AbilityLayout" "4"
+        "Ability1" 		"Valakas_sorry"
+        "Ability2" 		"Valakas_DabDabDab"
+        "Ability3" 		"Valakas_DaDaYa"
+		"Ability4"		"generic_hidden"
+		"Ability5"		"generic_hidden"
+		"Ability6"		"Valakas_Gadza"	
+		"Ability25"		""
+
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"AttributeBaseStrength"		"22"
+		"AttributeStrengthGain"		"3.700000"
+		"AttributeBaseIntelligence"		"16"
+		"AttributeIntelligenceGain"		"2.4"
+		"AttributeBaseAgility"		"17"
+		"AttributeAgilityGain"		"1.400000"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Tank"
+		
+		"Ability10"		"special_bonus_movement_speed_40"
+		"Ability11"		"special_bonus_cooldown_reduction_10"
+		"Ability12"		"special_bonus_armor_10"
+		"Ability13"		"special_bonus_birzha_valakas_1"
+		"Ability14"		"special_bonus_birzha_valakas_3"
+		"Ability15"		"special_bonus_birzha_valakas_4"
+		"Ability16"		"special_bonus_birzha_valakas_2"
+		"Ability17"		"special_bonus_birzha_valakas_5"
+	}
+
+	//=================================================================================================================
+	// Bristleback | Грем | Grem
+	//=================================================================================================================
+    "npc_dota_hero_bristleback"
+  	{
+        "DisableWearables"				"1"	
+		"ModelScale"					"1.5"
+
+        "Ability1" 		"Grem_CreepyAppearance"
+        "Ability2" 		"Grem_Impenetrability"
+        "Ability3" 		"Grem_HardSkeleton"
+		"Ability4"		"generic_hidden"
+		"Ability5"		"generic_hidden"
+		"Ability6"		"Grem_DoNothing"
+		"Ability25"		""
+		
+		"MovementSpeed"		"305"
+		"AttributeBaseStrength"		"20"
+		"AttributeStrengthGain"		"3.5"
+		"AttributeBaseAgility"		"15"
+		"AttributeAgilityGain"		"2.2"
+		"AttributeBaseIntelligence"		"18"
+		"AttributeIntelligenceGain"		"1.9"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Tank"
+
+		"Ability10"		"special_bonus_mp_100"
+		"Ability11"		"special_bonus_spell_amplify_6"
+		"Ability12"		"special_bonus_birzha_grem_1"
+		"Ability13"		"special_bonus_birzha_grem_3"	
+		"Ability14"		"special_bonus_strength_20"
+		"Ability15"		"special_bonus_gold_income_180"
+		"Ability16"		"special_bonus_birzha_grem_2"
+		"Ability17"		"special_bonus_armor_15"
+	}
+
+	//=================================================================================================================
+	// Дядя Вернон
+	//=================================================================================================================
+	"npc_dota_hero_elder_titan"
+	{
+		"DisableWearables"				"1"
+		"Ability1"			"Vernon_pogonya"
+		"Ability2"			"Vernon_power_cogs"
+		"Ability3"			"Vernon_uporstvo"
+		"Ability4"			"generic_hidden"
+		"Ability5"			"generic_hidden"
+		"Ability6"			"Vernon_silence"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"24"
+		"AttributeStrengthGain"		"3.800000"
+		"AttributeBaseAgility"		"14"
+		"AttributeAgilityGain"		"1.800000"
+		"AttributeBaseIntelligence"		"20"
+		"AttributeIntelligenceGain"		"1.600000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Killer"
+
+		"Ability10"		"special_bonus_exp_boost_40"
+		"Ability11"		"special_bonus_attack_speed_30"
+		"Ability12"		"special_bonus_hp_350"
+		"Ability13"		"special_bonus_birzha_vernon_1"
+		"Ability14"		"special_bonus_birzha_vernon_2"
+		"Ability15"		"special_bonus_birzha_vernon_3"
+		"Ability16"		"special_bonus_birzha_vernon_4"
+		"Ability17"		"special_bonus_birzha_vernon_5"
+	}
+
+	//=================================================================================================================
+	// Earth Spirit | Red21 | Red21
+	//=================================================================================================================
+    "npc_dota_hero_earth_spirit"
+	{
+		"ModelScale"		"1.2"
+
+        "Ability1" "red_vomit"
+        "Ability2" "Red_MakeAFeeder"
+        "Ability3" "Red_GetMoreMass"
+		"Ability4" "generic_hidden"
+		"Ability5" "generic_hidden"
+		"Ability6" "Red_HUSTLE"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"21"
+		"AttributeStrengthGain"		"4.400000"
+		"AttributeBaseAgility"		"17"
+		"AttributeAgilityGain"		"1.500000"
+		"AttributeBaseIntelligence"		"20"
+		"AttributeIntelligenceGain"		"2.100000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"		"special_bonus_birzha_red21_1"
+		"Ability11"		"special_bonus_strength_10"
+		"Ability12"		"special_bonus_birzha_red21_2"
+		"Ability13"		"special_bonus_cooldown_reduction_15"
+		"Ability14"		"special_bonus_lifesteal_25"
+		"Ability15"		"special_bonus_movement_speed_75"
+		"Ability16"		"special_bonus_attack_damage_150"
+		"Ability17"		"special_bonus_birzha_red21_3"
+	}
+
+	//=================================================================================================================
+	// Chaos Knight | Павел Дуров | Pavel Durov
+	//=================================================================================================================
+    "npc_dota_hero_chaos_knight"
+	{
+        "Ability1" 	"Durov_AttackOnPoliceman"
+        "Ability2"	"Durov_omni_slash"
+        "Ability3" 	"Durov_DropMoneyInFace"
+		"Ability4"	"generic_hidden"
+		"Ability5"	"generic_hidden"
+		"Ability6"	"Durov_Vpn"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"22"
+		"AttributeStrengthGain"		"3.700000"
+		"AttributeBaseAgility"		"14"
+		"AttributeAgilityGain"		"2.100000"
+		"AttributeBaseIntelligence"		"18"
+		"AttributeIntelligenceGain"		"1.200000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"		"special_bonus_attack_speed_25"
+		"Ability11"		"special_bonus_mp_100"
+		"Ability12"		"special_bonus_strength_10"
+		"Ability13"		"special_bonus_movement_speed_50"
+		"Ability14"		"special_bonus_lifesteal_25"
+		"Ability15"		"special_bonus_20_bash_2"
+		"Ability16"		"special_bonus_magic_resistance_50"
+		"Ability17"		"special_bonus_birzha_durov_1"
+	}	
+
+	//=================================================================================================================
+	// Legion Commander | Аяно Аиши | Yandere Chan
+	//=================================================================================================================
+    "npc_dota_hero_legion_commander"
+	{
+		"IsAnime"	"1"
+        "Ability1" 			"Ayano_TakeACircularSaw"
+        "Ability2"			"Ayano_Tranquilizer"
+        "Ability3" 			"Ayano_WeakMind"
+		"Ability4"			"generic_hidden"
+		"Ability5"			"generic_hidden"
+		"Ability6"			"Ayano_SpotTheTarget"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"26"
+		"AttributeStrengthGain"		"3.300000"
+		"AttributeBaseAgility"		"18"
+		"AttributeAgilityGain"		"1.900000"
+		"AttributeBaseIntelligence"		"20"
+		"AttributeIntelligenceGain"		"2.200000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"ArmorPhysical"			"4"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"		"special_bonus_birzha_ayano_2"
+		"Ability11"		"special_bonus_strength_10"
+		"Ability12"		"special_bonus_armor_10"
+		"Ability13"		"special_bonus_cooldown_reduction_15"
+		"Ability14"		"special_bonus_birzha_ayano_3"
+		"Ability15"		"special_bonus_strength_25"
+		"Ability16"		"special_bonus_birzha_ayano_4"
+		"Ability17"		"special_bonus_birzha_ayano_1"
+	}
+
+	//=================================================================================================================
+	// LifeStealer | Канеки | Kaneki
+	//=================================================================================================================
+	"npc_dota_hero_life_stealer"
+	{	
+		"IsAnime"	"1"
+		"DisableWearables"				"1"
+		"ModelScale"					"0.5"
+		"model"				"models/heroes/anime/rwby/ruby/ruby_basic.vmdl"
+		"Ability1"			"kaneki_ghoul"
+		"Ability2"			"kaneki_coffee"
+		"Ability3"			"kaneki_feeling"
+		"Ability4"			"kaneki_pull"
+		"Ability5"			"generic_hidden"
+		"Ability6"			"kaneki_rage"
+		"Ability25"		""
+
+		"MovementSpeed"		"310"
+		"AttributeBaseStrength"		"25"
+		"AttributeStrengthGain"		"2.900000"
+		"AttributeBaseIntelligence"		"15"
+		"AttributeIntelligenceGain"		"1.8000"
+		"AttributeBaseAgility"		"18"
+		"AttributeAgilityGain"		"2.800000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_attack_speed_40"
+		"Ability11"		"special_bonus_hp_250"
+		"Ability12"		"special_bonus_birzha_kaneki_1"
+		"Ability13"		"special_bonus_birzha_kaneki_2"
+		"Ability14"		"special_bonus_birzha_kaneki_4"
+		"Ability15"		"special_bonus_all_stats_20"
+		"Ability16"		"special_bonus_birzha_kaneki_3"
+		"Ability17"		"special_bonus_lifesteal_30"
+	}
+
+	//=================================================================================================================
+	// Spectre | Ruby Rose | Ruby Rose
+	//=================================================================================================================
+    "npc_dota_hero_spectre"
+	{
+		"Model"	"models/heroes/anime/ghoul/kaneki/kaneki_base/kaneki_base.vmdl"
+		"DisableWearables"				"1"
+		"ModelScale"		"1.270000"
+		"IsAnime"	"1"
+
+        "Ability1" "pangolier_swashbuckle"
+        "Ability2" "Ruby_Fade"
+		"Ability3" "Ruby_SilverEyes"
+		"Ability4" "generic_hidden"
+		"Ability5" "generic_hidden"
+		"Ability6" "Ruby_RoseStrike"
+		"Ability25"		""
+
+		"AttributeBaseStrength"			"25"
+		"AttributeStrengthGain"			"2.500000"
+		"AttributeBaseAgility"			"23"
+		"AttributeAgilityGain"			"2.100000"
+		"AttributeBaseIntelligence"		"16"
+		"AttributeIntelligenceGain"		"1.500000"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_mp_100"
+		"Ability11"		"special_bonus_movement_speed_45"
+		"Ability12"		"special_bonus_unique_pangolier_3"
+		"Ability13"		"special_bonus_strength_15"
+		"Ability14"		"special_bonus_unique_pangolier_4"
+		"Ability15"		"special_bonus_birzha_ruby_1"
+		"Ability16"		"special_bonus_attack_speed_250"
+		"Ability17"		"special_bonus_birzha_ruby_2"
+	}
+	
+	//=================================================================================================================
+	// Sven | Гатс | Guts
+	//=================================================================================================================
+    "npc_dota_hero_sven"
+	{
+		"IsAnime"						"1"
+		"DisableWearables"				"1"
+		"ModelScale"					"1.1"
+		"Model"							"models/heroes/anime/berserk/guts/guts.vmdl"
+
+        "Ability1" "Guts_Hand"
+        "Ability2" "guts_cannon"
+        "Ability3" "Guts_InimitableTactician"
+		"Ability4" "generic_hidden"
+		"Ability5" "generic_hidden"
+		"Ability6" "Guts_DarkArmor"
+		"Ability25"		""
+
+		"AttackRate"		"0.900000"
+		"AttributeBaseStrength"		"23"
+		"AttributeStrengthGain"		"3.200000"
+		"AttributeBaseIntelligence"		"16"
+		"AttributeIntelligenceGain"		"1.300000"
+		"AttributeBaseAgility"		"21"
+		"AttributeAgilityGain"		"2.00000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"		"special_bonus_strength_10"
+		"Ability11"		"special_bonus_attack_speed_30"
+		"Ability12"		"special_bonus_birzha_guts_1"
+		"Ability13"		"special_bonus_corruption_5"
+		"Ability14"		"special_bonus_birzha_guts_2"
+		"Ability15"		"special_bonus_birzha_guts_3"
+		"Ability16"		"special_bonus_birzha_guts_4"
+		"Ability17"		"special_bonus_birzha_guts_5"
+	}
+
+	//=================================================================================================================
+	// Lone Druid | Кадет | Kadet
+	//=================================================================================================================
+	"npc_dota_hero_lone_druid"
+	{
+		"Ability1"				"Kadet_fuck_faggots"
+		"Ability2"				"Kadet_Army"
+		"Ability3"				"Kadet_fast_attacks"
+		"Ability4"				"generic_hidden"
+		"Ability5"				"generic_hidden"
+		"Ability6"				"kadet_razogrev"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"18"
+		"AttributeStrengthGain"		"2.100000"
+		"AttributeBaseAgility"		"28"
+		"AttributeAgilityGain"		"3.100000"
+		"AttributeBaseIntelligence"		"18"
+		"AttributeIntelligenceGain"		"1.400000"
+		"MovementSpeed"					"295"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_agility_10"
+		"Ability11"		"special_bonus_attack_range_175"
+		"Ability12"		"special_bonus_birzha_kadet_2"
+		"Ability13"		"special_bonus_movement_speed_30"
+		"Ability14"		"special_bonus_birzha_kadet_1"
+		"Ability15"		"special_bonus_birzha_kadet_4"
+		"Ability16"		"special_bonus_birzha_kadet_3"
+		"Ability17"		"special_bonus_birzha_kadet_5"
+	}
+
+	//=================================================================================================================
+	// Ogre Magi | SilverName | SilverName
+	//=================================================================================================================
+	"npc_dota_hero_ogre_magi"
+	{
+		"DisableWearables"				"1"
+		"ModelScale"		"1.000000"
+		"Model"							"models/creeps/ogre_1/large_ogre.vmdl"
+		"Ability1"					"SilverName_TopDeck"
+		"Ability2"					"SilverName_Screamer"
+		"Ability3"					"SilverName_Papaz"
+		"Ability4"					"generic_hidden"
+	    "Ability5"					"generic_hidden"
+		"Ability6"					"SilverName_Owl"
+		"Ability25"		""
+		
+		"AttributeBaseStrength"		"23"
+		"AttributeStrengthGain"		"1.500000"
+		"AttributeBaseAgility"		"18"
+		"AttributeAgilityGain"		"3.000000"
+		"AttributeBaseIntelligence"		"17"
+		"AttributeIntelligenceGain"		"2.000000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_birzha_silver_1"
+		"Ability11"		"special_bonus_strength_10"
+		"Ability12"		"special_bonus_birzha_silver_2"
+		"Ability13"		"special_bonus_cooldown_reduction_20"
+		"Ability14"		"special_bonus_birzha_silver_3"
+		"Ability15"		"special_bonus_birzha_silver_4"
+		"Ability17"		"special_bonus_attack_damage_150"
+		"Ability16"		"special_bonus_attack_range_250"
+	}
+
+	//=================================================================================================================
+	// Sand King | SCP-173 | SCP-173
+	//=================================================================================================================
+	"npc_dota_hero_sand_king"
+	{
+		"DisableWearables"				"1"
+		"Model"							"models/models/heroes/scp/scp_173.vmdl"
+		"ModelScale"					"1.5"
+
+		"Ability1"			"Scp_fast_movement"
+		"Ability2"			"Scp173_Screamer"
+		"Ability3"			"Scp_DamageAura"
+		"Ability4"			"scp173_statue_aghanim"
+		"Ability5"			"scp173_statue_aghanim_teleport"
+		"Ability6"			"Scp_FastKill"
+		"Ability25"		""
+		
+		"AttributeBaseStrength"		"20"
+		"AttributeStrengthGain"		"2.1"
+		"AttributeBaseIntelligence"		"16"
+		"AttributeIntelligenceGain"		"1.800000"
+		"AttributeBaseAgility"		"22"
+		"AttributeAgilityGain"		"2.700000"
+		"MovementSpeed"					"250"
+		"AttackRange"					"50"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_hp_200"
+		"Ability11"		"special_bonus_movement_speed_25"
+		"Ability12"		"special_bonus_attack_speed_50"
+		"Ability13"		"special_bonus_birzha_scp_2"
+		"Ability14"		"special_bonus_magic_resistance_25"
+		"Ability15"		"special_bonus_armor_10"
+		"Ability16"		"special_bonus_hp_600"
+		"Ability17"		"special_bonus_birzha_scp_1"
+	}
+
+	//=================================================================================================================
+	// Pangolier | Гительман | Gitelman
+	//=================================================================================================================
+    "npc_dota_hero_pangolier"
+	{
+        "Ability1" 	"Gitelman_Kaif"
+        "Ability2"	"gitelman_chain"
+        "Ability3" 	"Gitelman_PhysicalCulture"
+		"Ability4"	"generic_hidden"
+		"Ability5"	"generic_hidden"
+		"Ability6"	"Gitelman_MixedIngridients"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"19"
+		"AttributeStrengthGain"		"2.500000"
+		"AttributeBaseIntelligence"		"16"
+		"AttributeIntelligenceGain"		"1.900000"
+		"AttributeBaseAgility"		"21"
+		"AttributeAgilityGain"		"3.200000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Carry"
+
+
+		"Ability10"		"special_bonus_agility_10"
+		"Ability11"		"special_bonus_attack_speed_50"
+		"Ability12"		"special_bonus_attack_damage_50"
+		"Ability13"		"special_bonus_hp_400"
+		"Ability14"		"special_bonus_birzha_gitelman_1"
+		"Ability15"		"special_bonus_cooldown_reduction_20"
+		"Ability16"		"special_bonus_lifesteal_100"
+		"Ability17"		"special_bonus_birzha_gitelman_2"
+	}
+
+	//=================================================================================================================
+	// Monkey King | Опасный Поцык | Dangerous Boy
+	//=================================================================================================================
+    "npc_dota_hero_monkey_king"
+	{
+        "Ability1" "Pocik_VerySmall"
+        "Ability2" "Pocik_pizda"
+        "Ability3" "Pocik_ThisMyPoint"
+		"Ability4" "generic_hidden"
+		"Ability5" "generic_hidden"
+		"Ability6" "Pocik_penek"
+		"Ability7" "generic_hidden"
+		"Ability25"		""
+
+		"AttributeBaseStrength"			"19"
+		"AttributeStrengthGain"			"2.8"
+		"AttributeBaseIntelligence"		"20"
+		"AttributeIntelligenceGain"		"1.8"
+		"AttributeBaseAgility"			"22"
+		"AttributeAgilityGain"			"3.7"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_agility_15"
+		"Ability11"		"special_bonus_armor_7"
+		"Ability12"		"special_bonus_birzha_boy_1"
+		"Ability13"		"special_bonus_birzha_boy_2"
+		"Ability14"		"special_bonus_attack_speed_100"
+		"Ability15"		"special_bonus_cooldown_reduction_15"
+		"Ability16"		"special_bonus_birzha_boy_3"
+		"Ability17"		"special_bonus_birzha_boy_4"
+	}
+
+	//=================================================================================================================
+	// AntiMage | Illidan | Illidan
+	//=================================================================================================================
+    "npc_dota_hero_antimage"
+	{
+		"DisableWearables"				"1"	
+
+        "Ability1" 		"Illidan_ChaseTheDevil"
+        "Ability2"		"Illidan_DrinkSomePepper"
+        "Ability3" 		"Illidan_KidsHit"
+		"Ability4"		"generic_hidden"
+		"Ability5"		"generic_hidden"
+		"Ability6"		"Illidan_Brutality"
+		"Ability25"		""
+		
+		"AttributeBaseStrength"		"23"
+		"AttributeStrengthGain"		"2.0"
+		"AttributeBaseIntelligence"		"12"
+		"AttributeIntelligenceGain"		"1.800000"
+		"AttributeBaseAgility"		"24"
+		"AttributeAgilityGain"		"3.200000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"		"special_bonus_attack_speed_40"
+		"Ability11"		"special_bonus_strength_10"
+		"Ability12"		"special_bonus_birzha_illidan_3"
+		"Ability13"		"special_bonus_agility_15"
+		"Ability14"		"special_bonus_all_stats_20"
+		"Ability15"		"special_bonus_lifesteal_30"
+		"Ability16"		"special_bonus_birzha_illidan_1"
+		"Ability17"		"special_bonus_birzha_illidan_2"
+	}
+
+	//=================================================================================================================
+	// Крик Underlord
+	//=================================================================================================================
+	"npc_dota_hero_abyssal_underlord"
+	{
+		"Model"							"models/heroes/spectre/spectre.vmdl"
+		"DisableWearables"				"1"
+
+		"Ability1"			"Scream_TelephoneCall"
+		"Ability2"			"Scream_rush"
+		"Ability3"			"Scream_knife"
+		"Ability4"			"generic_hidden"
+		"Ability5"			"Scream_night_two"
+		"Ability6"			"Scream_night"
+		"Ability25"		""
+
+		"AttributeBaseStrength"			"25"
+		"AttributeStrengthGain"			"2.4"
+		"AttributeBaseIntelligence"		"16"
+		"AttributeIntelligenceGain"		"1.3"
+		"AttributeBaseAgility"			"20"
+		"AttributeAgilityGain"			"3.2"
+		"AttributePrimary"	"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"		"special_bonus_attack_speed_30"
+		"Ability11"		"special_bonus_movement_speed_25"
+		"Ability12"		"special_bonus_birzha_scream_1"
+		"Ability13"		"special_bonus_birzha_scream_2"
+		"Ability14"		"special_bonus_birzha_scream_3"
+		"Ability15"		"special_bonus_birzha_scream_4"
+		"Ability16"		"special_bonus_birzha_scream_6"
+		"Ability17"		"special_bonus_birzha_scream_5"
+	}
+
+	//=================================================================================================================
+	// Nevermore | Never | Never
+	//=================================================================================================================
+	"npc_dota_hero_nevermore"
+	{
+		"Ability1"				"never_stupid"
+		"Ability2"				"never_spit"
+		"Ability3"				"never_speed"
+		"Ability4"				"never_zxc"
+		"Ability5"				"generic_hidden"
+		"Ability6"				"Never_ultimate"
+		"Ability25"		""
+
+		"MovementSpeed"		"275"
+		"AttackDamageMin"		"40"
+		"AttackDamageMax"		"50"
+		"AttributeBaseStrength"		"20"
+		"AttributeStrengthGain"		"2.300000"
+		"AttributeBaseIntelligence"		"18"
+		"AttributeIntelligenceGain"		"2.200000"
+		"AttributeBaseAgility"		"24"
+		"AttributeAgilityGain"		"3.2"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"		"special_bonus_all_stats_5"
+		"Ability11"		"special_bonus_attack_speed_20"
+		"Ability12"		"special_bonus_lifesteal_15"
+		"Ability13"		"special_bonus_hp_250"
+		"Ability14"		"special_bonus_strength_15"
+		"Ability15"		"special_bonus_agility_20"
+		"Ability16"		"special_bonus_attack_damage_100"
+		"Ability17"		"special_bonus_magic_resistance_50"
+
+		"precache"
+		{
+			"model" 	"models/heroes/shadow_fiend/arcana_wings.vmdl"
+			"model" 	"models/heroes/shadow_fiend/head_arcana.vmdl"
+			"model" 	"models/heroes/shadow_fiend/shadow_fiend_arcana.vmdl"
+			"model" 	"models/items/shadow_fiend/arms_deso/arms_deso.vmdl"
+		}
+	}
+
+	//=================================================================================================================
+	// Terrorblade | Николай Соболев | Sobolev
+	//=================================================================================================================
+	"npc_dota_hero_terrorblade"
+	{
+		"ModelScale"		"1.480000"
+
+		"Ability1"				"Sobolev_Bash"
+		"Ability2"				"sobolev_prank"
+		"Ability3"				"sobolev_biceps"
+		"Ability4"				"generic_hidden"
+		"Ability5"				"generic_hidden"
+		"Ability6"				"Sobolev_Egoism"
+		"Ability25"		""
+
+		"AttributeBaseStrength"			"15"
+		"AttributeStrengthGain"			"1.500000"
+		"AttributeBaseIntelligence"		"19"
+		"AttributeIntelligenceGain"		"1.600000"
+		"AttributeBaseAgility"			"18"
+		"AttributeAgilityGain"			"4.800000"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+
+
+		"Ability10"		"special_bonus_attack_speed_30"
+		"Ability11"		"special_bonus_hp_250"
+		"Ability12"		"special_bonus_birzha_sobolev_4"
+		"Ability13"		"special_bonus_birzha_sobolev_3"
+		"Ability14"		"special_bonus_evasion_30"
+		"Ability15"		"special_bonus_lifesteal_25"
+		"Ability16"		"special_bonus_birzha_sobolev_2"
+		"Ability17"		"special_bonus_birzha_sobolev_1"
+	}
+
+	//=================================================================================================================
+	// BloodSeeker | LenaGolovach | LenaGolovach
+	//=================================================================================================================
+	"npc_dota_hero_bloodseeker"
+	{	
+		"Ability1"			"LenaGolovach_Donate"
+		"Ability2"			"LenaGolovach_taunt"
+		"Ability3"			"golovach_rocket"
+		"Ability4"			"generic_hidden"
+		"Ability5"			"generic_hidden"
+		"Ability6"			"LenaGolovach_Radio"
+		"Ability25"		""
+
+		"AttributeBaseStrength"			"20"
+		"AttributeStrengthGain"			"2.2"
+		"AttributeBaseIntelligence"		"15"
+		"AttributeIntelligenceGain"		"1.6"
+		"AttributeBaseAgility"			"25"
+		"AttributeAgilityGain"			"4"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"		"special_bonus_birzha_golovach_1"
+		"Ability11"		"special_bonus_cooldown_reduction_12"
+		"Ability12"		"special_bonus_evasion_25"
+		"Ability13"		"special_bonus_spell_amplify_15"
+		"Ability14"		"special_bonus_birzha_golovach_2"
+		"Ability15"		"special_bonus_birzha_golovach_3"
+		"Ability16"		"special_bonus_birzha_golovach_4"
+		"Ability17"		"special_bonus_birzha_golovach_5"
+	}
+
+	//=================================================================================================================
+	// Bounty Hunter | Еврей | Jew
+	//=================================================================================================================
+	"npc_dota_hero_bounty_hunter"
+	{
+		"Ability1"				"jew_flame_guard"
+		"Ability2"				"evrei_zhad"
+		"Ability3"				"evrei_znak"
+		"Ability4"				"generic_hidden"
+		"Ability5"				"generic_hidden"
+		"Ability6"				"evrei_ult"
+		"Ability25"		""
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"AttributeBaseStrength"		"20"
+		"AttributeStrengthGain"		"2.500000"
+		"AttributeBaseAgility"		"21"
+		"AttributeAgilityGain"		"2.600000"
+		"AttributeBaseIntelligence"		"19"
+		"AttributeIntelligenceGain"		"2.000000"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_birzha_jew_3"
+		"Ability11"		"special_bonus_movement_speed_45"
+		"Ability12"		"special_bonus_birzha_jew_1"
+		"Ability13"		"special_bonus_attack_speed_60"
+		"Ability14"		"special_bonus_birzha_jew_2"
+		"Ability15"		"special_bonus_truestrike"
+		"Ability16"		"special_bonus_birzha_jew_4"
+		"Ability17"		"special_bonus_evasion_50"
+	}
+
+	//=================================================================================================================
+	// Dragon Knight | Роби Злобный | Robi Evil
+	//=================================================================================================================
+    "npc_dota_hero_dragon_knight"
+	{
+		"DisableWearables"	"1"	
+
+        "Ability1" 			"robbie_trap"
+        "Ability2"			"roby_agility"
+        "Ability3" 			"robbie_timeinvis"
+		"Ability4"			"generic_hidden"
+		"Ability5"			"Robi_WeAreNumberOneTeleport"
+		"Ability6"			"Robi_WeAreNumberOne"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"19"
+		"AttributeStrengthGain"		"2.2"
+		"AttributeBaseAgility"		"30"
+		"AttributeAgilityGain"		"2.2"
+		"AttributeBaseIntelligence"	"15"
+		"AttributeIntelligenceGain"	"1.7"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Carry"
+	
+		"Ability10"		"special_bonus_hp_regen_5"
+		"Ability11"		"special_bonus_agility_10"
+		"Ability12"		"special_bonus_20_crit_15"
+		"Ability13"		"special_bonus_birzha_robbie_1"
+		"Ability14"		"special_bonus_hp_500"
+		"Ability15"		"special_bonus_birzha_robbie_3"
+		"Ability16"		"special_bonus_birzha_robbie_2"
+		"Ability17"		"special_bonus_birzha_robbie_4"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+	}
+
+	//=================================================================================================================
+	// Wyvern | Наклз | Knuckles
+	//=================================================================================================================
+    "npc_dota_hero_winter_wyvern"
+	{
+        "DisableWearables"				"1"
+		"ModelScale"					"4"
+		"Model"							"models/hero_knuckles.vmdl"
+		
+        "Ability1" "phantom_lancer_juxtapose"
+        "Ability2" "Knuckles_Spit"
+        "Ability3" "Knuckles_queens"
+		"Ability4" "generic_hidden"
+		"Ability5" "generic_hidden"
+		"Ability6" "Knuckles_GetInTheTank"
+		"Ability25"		""
+		
+		"AttributeBaseStrength"			"19"
+		"AttributeStrengthGain"			"2.400000"
+		"AttributeBaseIntelligence"		"16"
+		"AttributeIntelligenceGain"		"1.100000"
+		"AttributeBaseAgility"			"25"
+		"AttributeAgilityGain"			"2.600000"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_gold_income_90"
+		"Ability11"		"special_bonus_all_stats_7"
+		"Ability12"		"special_bonus_hp_350"
+		"Ability13"		"special_bonus_birzha_knuckles_1"
+		"Ability14"		"special_bonus_movement_speed_100"
+		"Ability15"		"special_bonus_magic_resistance_30"
+		"Ability16"		"special_bonus_birzha_knuckles_2"
+		"Ability17"		"special_bonus_attack_speed_140"
+
+		"precache"
+		{
+			"model" 	"models/hero_knuckles.vmdl"
+			"model" 	"models/knuckles_tank.vmdl"
+			"model" 	"models/items/crystal_maiden/pw_cm_staff/crystal_maiden_weapon.vmdl"
+			"model" 	"models/heroes/crystal_maiden/crystal_maiden_arcana_back.vmdl"
+			"model" 	"models/items/crystal_maiden/immortal_shoulders/cm_immortal_shoulders.vmdl"
+			"model" 	"models/items/crystal_maiden/winter_solstice_fashion/winter_solstice_fashion.vmdl"
+			"model" 	"models/items/lina/origins_flamehair/origins_flamehair.vmdl"
+			"model" 	"models/items/lina/lina_immortal_ii/mesh/lina_immortal_ii.vmdl"
+			"model" 	"models/items/lina/lina_ti7/lina_ti7.vmdl"
+			"model"	 	"models/items/windrunner/ti6_falcon_bow/ti6_falcon_bow_model.vmdl"
+			"model"	 	"models/items/windrunner/sylvan_cascade/sylvan_cascade.vmdl"
+			"model" 	"models/items/windrunner/orchid_flowersong_head/orchid_flowersong_head.vmdl"
+		}
+	}
+
+	//=================================================================================================================
+	// Windrunner | Оляша | Olyasha
+	//=================================================================================================================
+    "npc_dota_hero_windrunner"
+	{
+        "Ability1" 					"olyasha_gasm"
+        "Ability2" 					"Olyasha_love"
+        "Ability3" 					"Olyasha_Vzhuh"
+		"Ability4"					"generic_hidden"
+		"Ability5"					"generic_hidden"
+		"Ability6"					"kunkka_ghostship"
+		"Ability25"		""
+				
+		"AttributeBaseStrength"		"20"
+		"AttributeStrengthGain"		"2.2"
+		"AttributeBaseIntelligence"		"19"
+		"AttributeIntelligenceGain"		"2.1000"
+		"AttributeBaseAgility"		"30"
+		"AttributeAgilityGain"		"3.400000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Carry"
+
+		"MovementSpeed"		"300"
+		"ArmorPhysical"		"4"
+
+		"Ability10"		"special_bonus_attack_speed_20"
+		"Ability11"		"special_bonus_armor_5"
+		"Ability12"		"special_bonus_birzha_olyasha_1"
+		"Ability13"		"special_bonus_birzha_olyasha_2"
+		"Ability14"		"special_bonus_spell_amplify_25"
+		"Ability15"		"special_bonus_unique_kunkka_3"
+		"Ability16"		"special_bonus_birzha_olyasha_3"
+		"Ability17"		"special_bonus_birzha_olyasha_4"
+	}
+
+	//=================================================================================================================
+	// Warlock | Дядя Богдан | Uncle Bogdan
+	//=================================================================================================================
+	"npc_dota_hero_warlock"
+	{
+		"Model"					"models/heroes/warlock/warlock.vmdl"
+		"DisableWearables"		"1"	
+
+		"Ability1"				"Bogdan_Cower"
+		"Ability2"				"Bogdan_key"
+		"Ability3"				"bogdan_aids"
+		"Ability4"				"generic_hidden"
+		"Ability5"				"generic_hidden"
+		"Ability6"				"Bogdan_Ultimate"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"25"
+		"AttributeStrengthGain"		"1.800000"
+		"AttributeBaseIntelligence"		"20"
+		"AttributeIntelligenceGain"		"1.500000"
+		"AttributeBaseAgility"		"29"
+		"AttributeAgilityGain"		"2.800000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_birzha_bogdan_1"
+		"Ability11"		"special_bonus_evasion_10"
+		"Ability12"		"special_bonus_corruption_5"
+		"Ability13"		"special_bonus_birzha_bogdan_2"
+		"Ability14"		"special_bonus_attack_range_175"
+		"Ability15"		"special_bonus_lifesteal_30"
+		"Ability16"		"special_bonus_birzha_bogdan_3"
+		"Ability17"		"special_bonus_gold_income_420"
+	}
+
+	//=================================================================================================================
+	// Sniper | RangeR | RangeR
+	//=================================================================================================================
+    "npc_dota_hero_sniper"
+	{
+        "Ability1" 	"Ranger_NailGun"
+        "Ability2"	"Ranger_GrenadeLauncher"
+        "Ability3" 	"Ranger_ShotGun"
+		"Ability4"	"generic_hidden"
+		"Ability5"	"Ranger_Jump"
+		"Ability6"	"Ranger_QuadDamage"
+		"Ability25"		""
+
+		"AttributeBaseStrength"			"19"
+		"AttributeStrengthGain"			"1.700000"
+		"AttributeBaseIntelligence"		"18"
+		"AttributeIntelligenceGain"		"2.600000"
+		"AttributeBaseAgility"			"26"
+		"AttributeAgilityGain"			"3.100000"
+		"AttackDamageMin"				"55"
+		"AttackDamageMax"				"55"
+		"MovementSpeed"		"290"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"		"special_bonus_birzha_ranger_3"
+		"Ability11"		"special_bonus_birzha_ranger_5"
+		"Ability12"		"special_bonus_birzha_ranger_1"
+		"Ability13"		"special_bonus_birzha_ranger_4"
+		"Ability14"		"special_bonus_birzha_ranger_2"
+		"Ability15"		"special_bonus_armor_15"
+		"Ability16"		"special_bonus_birzha_ranger_6"
+		"Ability17"		"special_bonus_cooldown_reduction_25"
+	}
+
+	//=================================================================================================================
+	// Ember Spirit | Билли Херингтон | Billy Herington
+	//=================================================================================================================
+    "npc_dota_hero_ember_spirit"
+	{
+		"DisableWearables"				"1"	
+
+        "Ability1" 		"Gachi_Binding"
+        "Ability2" 		"Gachi_armor"
+        "Ability3" 		"Gachi_HitOnAss"
+		"Ability4"		"generic_hidden"
+		"Ability5"		"generic_hidden"
+		"Ability6"		"Gachi_GachiPower"
+		"Ability25"		""
+		
+		"AttributeBaseStrength"			"22"
+		"AttributeStrengthGain"			"3"
+		"AttributeBaseAgility"			"22"
+		"AttributeAgilityGain"			"2.8"	
+		"AttributeBaseIntelligence"		"20"
+		"AttributeIntelligenceGain"		"1.800000"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"		"special_bonus_hp_250"
+		"Ability11"		"special_bonus_attack_speed_25"
+	    "Ability12"		"special_bonus_birzha_gachi_2"
+		"Ability13"		"special_bonus_birzha_gachi_5"
+		"Ability14"		"special_bonus_birzha_gachi_4"
+		"Ability15"		"special_bonus_birzha_gachi_6"
+		"Ability16"		"special_bonus_birzha_gachi_3"
+		"Ability17"		"special_bonus_birzha_gachi_1"
+	}
+
+	//=================================================================================================================
+	// Clinkz | JesusAVGN | JesusAVGN
+	//=================================================================================================================
+    "npc_dota_hero_clinkz"
+	{
+        "Ability1" "JesusAVGN_Spider"
+        "Ability2" "JesusAVGN_SpiderPoison"
+        "Ability3" "JesusAVGN_PunchSpider"
+		"Ability4" "generic_hidden"
+		"Ability5" "generic_hidden"
+		"Ability6" "JesusAVGN_GangstaAlexey"
+		"Ability25"		""
+
+		"Ability10"				"special_bonus_armor_5"
+		"Ability11"				"special_bonus_magic_resistance_15"
+		"Ability12"				"special_bonus_evasion_20"
+		"Ability13"				"special_bonus_birzha_jesus_4"
+		"Ability14"				"special_bonus_birzha_jesus_1"
+		"Ability15"				"special_bonus_birzha_jesus_2"
+		"Ability16"				"special_bonus_attack_speed_140"
+		"Ability17"				"special_bonus_birzha_jesus_3"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Carry"
+		
+		"AttributeBaseStrength"			"20"
+		"AttributeStrengthGain"			"2.200000"
+		"AttributeBaseAgility"			"24"
+		"AttributeAgilityGain"			"3.4"
+		"AttributeBaseIntelligence"		"18"
+		"AttributeIntelligenceGain"		"1.7000"
+		"ModelScale"					"0.850000"
+		"AttackRate"					"1.400000"
+	}
+
+	//=================================================================================================================
+	// Troll Warlord | Генадий Горин | Gorin
+	//=================================================================================================================
+    "npc_dota_hero_troll_warlord"
+	{
+        "Ability1" 	"troll_warlord_berserkers_rage"
+        "Ability2"	"Gorin_TwinBrother"
+        "Ability3" 	"Gorin_Resourcefulness"
+		"Ability4"	"generic_hidden"
+		"Ability5"	"generic_hidden"
+		"Ability6"	"Gorin_rabies"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"21"
+		"AttributeStrengthGain"		"2.500000"
+		"AttributeBaseIntelligence"		"13"
+		"AttributeIntelligenceGain"		"1.000000"
+		"AttributeBaseAgility"		"21"
+		"AttributeAgilityGain"		"2.90000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_agility_10"
+		"Ability11"		"special_bonus_hp_250"
+		"Ability12"		"special_bonus_evasion_15"
+		"Ability13"		"special_bonus_attack_speed_50"
+		"Ability14"		"special_bonus_all_stats_20"
+		"Ability15"		"special_bonus_birzha_gorin_3"
+		"Ability16"		"special_bonus_birzha_gorin_2"
+		"Ability17"		"special_bonus_birzha_gorin_1"
+	}
+	
+	//=================================================================================================================
+	// Naga Siren | Акаме | Akame
+	//=================================================================================================================
+	"npc_dota_hero_naga_siren"
+	{
+		"DisableWearables"				"1"
+		"ModelScale"					"1.220000"
+		"IsAnime" "1"
+
+		"Ability1"					"Akame_slice"
+		"Ability2"					"Akame_Obraz"
+		"Ability3"					"akame_attack_series"
+		"Ability4"					"Akame_jump"
+	    "Ability5"					"generic_hidden"
+		"Ability6"					"Akame_cursed_blade"
+		"Ability25"		""
+		
+		"AttributeBaseStrength"			"20"
+		"AttributeStrengthGain"			"2.600000"
+		"AttributeBaseAgility"			"30"
+		"AttributeAgilityGain"			"3.400000"
+		"AttributeBaseIntelligence"		"16"
+		"AttributeIntelligenceGain"		"1.6"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"				"special_bonus_birzha_akame_4"
+		"Ability11"				"special_bonus_birzha_akame_1"
+
+		"Ability12"				"special_bonus_birzha_akame_2"
+		"Ability13"				"special_bonus_birzha_akame_5"
+
+		"Ability14"				"special_bonus_birzha_akame_3"
+		"Ability15"				"special_bonus_birzha_akame_7"
+
+		"Ability16"				"special_bonus_birzha_akame_6"
+		"Ability17"				"special_bonus_birzha_akame_8"
+	}
+
+	//=================================================================================================================
+	// Vengeful Spirit | Широ | Shiro
+	//=================================================================================================================
+    "npc_dota_hero_vengefulspirit"
+	{
+		"IsAnime"	"1"
+		"Model"				"models/heroes/shiro/shiro.vmdl"
+		"DisableWearables"				"1"
+		"ModelScale"		"0.99"
+
+        "Ability1" "Shiro_NamelessWorm"
+        "Ability2" "Shiro_Punch"
+        "Ability3" "Shiro_Shield"
+		"Ability4" "generic_hidden"
+		"Ability5" "generic_hidden"
+		"Ability6" "Shiro_WretchedEggAwakeness"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"19"
+		"AttributeStrengthGain"		"2.900000"
+		"AttributeBaseIntelligence"		"17"
+		"AttributeIntelligenceGain"		"1.50000"
+		"AttributeBaseAgility"		"27"
+		"AttributeAgilityGain"		"3.800000"
+		"AttackDamageMin"		"27"
+		"AttackDamageMax"		"35"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+	
+		"Ability10"		"special_bonus_birzha_shiro_1"
+		"Ability11"		"special_bonus_birzha_shiro_2"
+		"Ability12"		"special_bonus_birzha_shiro_3"
+		"Ability13"		"special_bonus_birzha_shiro_4"
+		"Ability14"		"special_bonus_birzha_shiro_5"
+		"Ability15"		"special_bonus_birzha_shiro_6"
+		"Ability16"		"special_bonus_birzha_shiro_7"
+		"Ability17"		"special_bonus_birzha_shiro_8"
+	}
+
+	//=================================================================================================================
+	// Queen Of Pain | Куруми | Kurumi
+	//=================================================================================================================
+    "npc_dota_hero_queenofpain"
+  	{
+		"Model"				"models/heroes/weaver/weaver.vmdl"
+		"ProjectileModel"	"particles/units/heroes/hero_sniper/sniper_base_attack.vpcf"
+		"DisableWearables"	"1"	
+		"IsAnime"			"1"
+		
+        "Ability1" 		"phantom_lancer_doppelwalk"
+        "Ability2" 		"Kurumi_god"
+        "Ability3" 		"Kurumi_Absorption"
+		"Ability4"		"Kurumi_scepter"
+		"Ability5"		"Kurumi_shard"
+		"Ability6"		"Kurumi_Zafkiel"
+		"Ability25"		""
+
+		"AttributeBaseStrength"			"17"
+		"AttributeStrengthGain"			"2"
+		"AttributeBaseIntelligence"		"17"
+		"AttributeIntelligenceGain"		"1.7"
+		"AttributeBaseAgility"			"29"
+		"AttributeAgilityGain"			"3"
+		"MovementSpeed"					"290"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_birzha_kurumi_3"
+		"Ability11"		"special_bonus_attack_speed_20"
+	    "Ability12"		"special_bonus_agility_20"
+		"Ability13"		"special_bonus_birzha_kurumi_2"
+		"Ability14"		"special_bonus_birzha_kurumi_1"
+		"Ability15"		"special_bonus_birzha_kurumi_5"
+		"Ability16"		"special_bonus_unique_phantom_lancer_4"
+		"Ability17"		"special_bonus_birzha_kurumi_4"
+	}
+
+	//=================================================================================================================
+	// Willow | Monika | Моника
+	//=================================================================================================================
+	"npc_dota_hero_dark_willow"
+	{	
+		"Model"                         "models/heroes/monika/monika.vmdl"
+		"DisableWearables"				"1"
+		"ModelScale"					"1.3"
+		"IsAnime"						"1"
+
+		"Ability1"        "monika_omniper"
+		"Ability2"        "monika_concept"
+        "Ability3"        "monika_fourthwall"
+        "Ability4"        "monika_fourthwall_two"
+        "Ability5"        "generic_hidden"
+        "Ability6"        "monika_perception"
+        "Ability7"        "monika_perception_teleport"
+        "Ability25"			""
+
+        "AttributeBaseStrength"		"20"
+		"AttributeStrengthGain"		"2.300000"
+		"AttributeBaseIntelligence"		"12"
+		"AttributeIntelligenceGain"		"1.0"
+		"AttributeBaseAgility"		"24"
+		"AttributeAgilityGain"		"3.200000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_attack_speed_20"
+		"Ability11"		"special_bonus_birzha_monika_5"
+		"Ability12"		"special_bonus_birzha_monika_4"
+		"Ability13"		"special_bonus_birzha_monika_6"
+		"Ability14"		"special_bonus_birzha_monika_2"
+		"Ability15"		"special_bonus_birzha_monika_3"
+		"Ability16"		"special_bonus_birzha_monika_1"
+		"Ability17"		"special_bonus_all_stats_4"
+
+	}
+
+	//=================================================================================================================
+	// Phantom Lancer | Rin | Рин
+	//=================================================================================================================
+	"npc_dota_hero_phantom_lancer"
+	{	
+		"IsAnime"	"1"
+		"Model"                         "models/heroes/rin/rin.vmdl"
+		"DisableWearables"				"1"
+		"ModelScale"		"0.940000"
+		"Ability1"			"blue_incision"
+		"Ability2"			"satan_son_aura"
+		"Ability3"			"rin_blackish"
+		"Ability4"			"generic_hidden"
+		"Ability5"			"generic_hidden"
+		"Ability6"			"rin_satana_explosion"
+		"Ability25"		""
+
+		"AttributeBaseStrength"			"19"
+		"AttributeStrengthGain"			"2.200000"
+		"AttributeBaseIntelligence"		"19"
+		"AttributeIntelligenceGain"		"2.400000"
+		"AttributeBaseAgility"			"29"
+		"AttributeAgilityGain"			"3.200000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Killer"
+
+		"Ability10"		"special_bonus_movement_speed_45"
+		"Ability11"		"special_bonus_birzha_rin_1"
+		"Ability12"		"special_bonus_all_stats_10"
+		"Ability13"		"special_bonus_exp_boost_40"
+		"Ability14"		"special_bonus_birzha_rin_2"
+		"Ability15"		"special_bonus_birzha_rin_3"
+		"Ability16"		"special_bonus_birzha_rin_4"
+		"Ability17"		"special_bonus_birzha_rin_5"
+	}
+
+	//=================================================================================================================
+	// Phantom Assassin | Юно Гасай | Yuno Gasai
+	//=================================================================================================================
+    "npc_dota_hero_phantom_assassin"
+	{
+		"Model"					"models/heroes/life_stealer/life_stealer.vmdl"
+		"DisableWearables"		"1"	
+		"IsAnime"				"1"
+
+        "Ability1" 	"Yuno_Rage"
+        "Ability2" 	"Yuno_sharpness_axe"
+        "Ability3" 	"yuno_omnipresence"
+		"Ability4"	"generic_hidden"
+		"Ability5"	"generic_hidden"
+		"Ability6"	"weaver_time_lapse"
+		"Ability25"		""
+		
+		"AttributeBaseStrength"			"25"
+		"AttributeStrengthGain"			"2.600000"
+		"AttributeBaseIntelligence"		"15"
+		"AttributeIntelligenceGain"		"1.8000"
+		"AttributeBaseAgility"			"28"
+		"AttributeAgilityGain"			"2.400000"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
+		"MovementSpeed"					"325"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_movement_speed_20"
+		"Ability11"		"special_bonus_hp_250"
+	    "Ability12"		"special_bonus_mana_break_25"
+		"Ability13"		"special_bonus_attack_damage_60"
+		"Ability14"		"special_bonus_corruption_5"
+		"Ability15"		"special_bonus_birzha_yuno_1"
+		"Ability16"		"special_bonus_birzha_yuno_2"
+		"Ability17"		"special_bonus_birzha_yuno_3"
+	}
+	
+	//=================================================================================================================
+	// Crystal Maiden | Рем | Rem
+	//=================================================================================================================
+	"npc_dota_hero_crystal_maiden"
+	{
+		"Model"						"models/hero_rem/hero_rem_base.vmdl"
+		"ModelScale"				"1.120000"
+		"IsAnime"					"1"
+		"DisableWearables"			"1"
+
+		"Ability1"				"Rem_StrikeJump"
+		"Ability2"				"rem_morgenshtern"
+		"Ability3"				"Rem_BigBoobs"
+		"Ability4"				"generic_hidden"
+		"Ability5"				"generic_hidden"
+		"Ability6"				"Rem_DemonicForm"
+		"Ability25"		""
+		
+		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
+		"AttributeBaseStrength"			"19"
+		"AttributeStrengthGain"			"2"
+		"AttributeBaseIntelligence"		"18"
+		"AttributeIntelligenceGain"		"1.500000"
+		"AttributeBaseAgility"			"22"
+		"AttributeAgilityGain"			"3.000000"
+		"AttackCapabilities"			"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackAcquisitionRange"		"600"
+		"AttackRange"					"250"
+		"ProjectileSpeed"				"1800"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_hp_300"
+		"Ability11"		"special_bonus_magic_resistance_30"
+		"Ability12"		"special_bonus_agility_15"
+		"Ability13"		"special_bonus_corruption_5"
+		"Ability14"		"special_bonus_birzha_rem_1"
+		"Ability15"		"special_bonus_birzha_rem_2"
+		"Ability16"		"special_bonus_hp_500"
+		"Ability17"		"special_bonus_attack_damage_150"
+	}
+
+	//=================================================================================================================
+	// Necrophos | Зема | Zema
+	//=================================================================================================================
+	"npc_dota_hero_necrolyte"
+	{
+		"DisableWearables"				"1"
+
+		"Ability1"					"Zema_CosmoTeleport"
+		"Ability2"					"Zema_Cosmo_Ray"
+		"Ability3"					"Zema_MagicDamage"
+		"Ability4"					"generic_hidden"	
+		"Ability5"					"Zema_cosmo_ray_stop"
+		"Ability6"					"Zema_cosmic_blindness"
+		"Ability25"		""
+
+		"AttributeBaseStrength"			"18"
+		"AttributeStrengthGain"			"2.800000"
+		"AttributeBaseIntelligence"		"20"
+		"AttributeIntelligenceGain"		"2.900000"
+		"AttributeBaseAgility"			"12"
+		"AttributeAgilityGain"			"1.300000"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Killer"
+
+		"Ability10"		"special_bonus_birzha_zema_1"
+		"Ability11"		"special_bonus_birzha_zema_2"
+		"Ability12"		"special_bonus_spell_lifesteal_10"
+		"Ability13"		"special_bonus_intelligence_20"
+		"Ability14"		"special_bonus_birzha_zema_3"
+		"Ability15"		"special_bonus_gold_income_180"
+		"Ability16"		"special_bonus_cooldown_reduction_30"
+		"Ability17"		"special_bonus_birzha_zema_4"			
+	}
+
+	//=================================================================================================================
+	// Enigma | Рикардо милос | Rikardo Milos
+	//=================================================================================================================
+	"npc_dota_hero_enigma"
+	{	
+		"ModelScale"					"1.000000"
+		"Model"                         "models/items/axe/ti9_jungle_axe/axe_bare.vmdl"
+		"DisableWearables"				"1"
+		"ProjectileModel"				"particles/econ/events/ti9/rock_golem_tower/dire_tower_attack.vpcf"
+		"AttackSpeedActivityModifiers"
+		{
+			"fast"		"170"
+		}
+		"MovementSpeedActivityModifiers"
+		{
+			"jog"		"0"
+			"run"		"340"
+		}
+		"BoundsHullName"		"DOTA_HULL_SIZE_HERO"
+
+		"Ability1"			"Ricardo_Zhopa"
+		"Ability2"			"Ricardo_shel"
+		"Ability3"			"Ricardo_KokosMaslo"
+		"Ability4"			"Rikardo_Fire"
+		"Ability5"			"generic_hidden"
+		"Ability6"			"Ricardo_Golosovanie"
+		"Ability25"		""
+
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Killer"
+
+		"AttributeBaseStrength"		"21"
+		"AttributeStrengthGain"		"2.500000"
+		"AttributeBaseIntelligence"		"28"
+		"AttributeIntelligenceGain"		"3.900000"
+		"AttributeBaseAgility"		"14"
+		"AttributeAgilityGain"		"1.0"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
+
+		"Ability10"		"special_bonus_armor_6"
+		"Ability11"		"special_bonus_mp_250"
+		"Ability12"		"special_bonus_birzha_ricardo_6"
+		"Ability13"		"special_bonus_birzha_ricardo_1"
+		"Ability14"		"special_bonus_birzha_ricardo_2"
+		"Ability15"		"special_bonus_birzha_ricardo_3"
+		"Ability16"		"special_bonus_birzha_ricardo_4"
+		"Ability17"		"special_bonus_birzha_ricardo_5"
+	}
+
+	//=================================================================================================================
+	// Timbersaw | Должанский | Doljansky
+	//=================================================================================================================
+    "npc_dota_hero_shredder"
+	{	
+        "Ability1" 	"Doljan_RapBattle"
+        "Ability2"	"doljan_trolling"
+        "Ability3" 	"Doljan_DrinkSomeVodka"
+		"Ability4"	"generic_hidden"
+		"Ability5"	"generic_hidden"
+		"Ability6"	"Doljan_Intellect"
+		"Ability25"		""
+
+		"AttributeBaseStrength"			"18"
+		"AttributeStrengthGain"			"1.500000"
+		"AttributeBaseIntelligence"		"24"
+		"AttributeIntelligenceGain"		"2.800000"
+		"AttributeBaseAgility"			"19"
+		"AttributeAgilityGain"			"2.100000"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Killer"
+
+		"Ability10"		"special_bonus_movement_speed_45"
+		"Ability11"		"special_bonus_hp_250"
+		"Ability12"		"special_bonus_birzha_doljan_4"
+		"Ability13"		"special_bonus_birzha_doljan_2"
+		"Ability14"		"special_bonus_birzha_doljan_3"
+		"Ability15"		"special_bonus_birzha_doljan_1"
+		"Ability16"		"special_bonus_cooldown_reduction_30"
+		"Ability17"		"special_bonus_spell_amplify_3"
+	}
+
+	//=================================================================================================================
+	// Storm Spirit | DaniilNavat | DaniilNavat
+	//=================================================================================================================
+    "npc_dota_hero_storm_spirit"
+	{
+		"Model"					"models/heroes/storm_spirit/storm_spirit.vmdl"
+		"DisableWearables"		"1"	
+
+        "Ability1" "Daniil_StormBolt"
+        "Ability2" "Daniil_LaughingRush"
+        "Ability3" "Daniil_StormCharge"
+        "Ability4" "generic_hidden"
+		"Ability5" "generic_hidden"
+		"Ability6" "Daniil_VortexSilence"
+		"Ability25"		""
+
+		"AttributeBaseStrength"			"21"
+		"AttributeStrengthGain"			"2.000000"
+		"AttributeBaseIntelligence"		"23"
+		"AttributeIntelligenceGain"		"3.900000"
+		"AttributeBaseAgility"			"22"
+		"AttributeAgilityGain"			"1.500000"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Killer"
+		
+		"Ability10"		"special_bonus_birzha_navat_2"
+		"Ability11"		"special_bonus_attack_speed_50"
+		"Ability12"		"special_bonus_birzha_navat_1"
+		"Ability13"		"special_bonus_attack_damage_60"
+		"Ability14"		"special_bonus_cooldown_reduction_20"
+		"Ability15"		"special_bonus_spell_amplify_25"
+		"Ability17"		"special_bonus_attack_speed_140"
+		"Ability16"		"special_bonus_birzha_navat_3"
+	}
+
+	//=================================================================================================================
+	// Doom | Slidan | Slidan
+	//=================================================================================================================
+    "npc_dota_hero_doom_bringer"
+	{	
+        "Ability1" 			"Slidan_WorldEdit"
+        "Ability2" 			"Slidan_SuckDick"
+        "Ability3" 			"Slidan_NetherDroch"
+		"Ability4"			"generic_hidden"
+		"Ability5"			"generic_hidden"
+	    "Ability6" 			"Slidan_ReallyClassic"	
+	    "Ability25"		""
+
+	    "AttributeBaseStrength"			"18"
+		"AttributeStrengthGain"			"1.700000"
+		"AttributeBaseAgility"			"14"
+		"AttributeAgilityGain"			"1.300000"
+		"AttributeBaseIntelligence"		"30"
+		"AttributeIntelligenceGain"		"3.500000"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Killer"
+		
+		"Ability10"		"special_bonus_spell_amplify_6"
+		"Ability11"		"special_bonus_cast_range_75"
+		"Ability12"		"special_bonus_birzha_slidan_3"
+		"Ability13"		"special_bonus_birzha_slidan_2"
+		"Ability14"		"special_bonus_gold_income_180"
+		"Ability15"		"special_bonus_armor_15"
+		"Ability16"		"special_bonus_birzha_slidan_4"
+		"Ability17"		"special_bonus_birzha_slidan_1"
+	}
+
+	//=================================================================================================================
+	// Invoker | Сергей Дружко | Sergey Druzhko
+	//=================================================================================================================
+	"npc_dota_hero_invoker"
+	{
+		"Model"				"models/heroes/invoker_kid/invoker_kid.vmdl"
+		"ModelScale"		"1"
+
+		"Ability1"						"druzhko_unstable_magic"
+		"Ability2"						"druzhko_dark_magic"
+		"Ability3"						"druzhko_ice_armor"
+		"Ability4"						"generic_hidden"
+		"Ability5"						"generic_hidden"
+		"Ability6"						"Druzhko_Hype"
+		"Ability7"						"generic_hidden"
+		"Ability8"						"generic_hidden"
+		"Ability9"						"generic_hidden"
+		"Ability10"						"generic_hidden"
+		"Ability11"						"generic_hidden"
+		"Ability12"						"generic_hidden"
+		"Ability13"						"generic_hidden"
+		"Ability14"						"generic_hidden"
+		"Ability15"						"generic_hidden"
+		"Ability16"						"generic_hidden"
+		"Ability25"		""
+
+		"MovementSpeed"		"290"
+		"AttributeBaseStrength"		"18"
+		"AttributeStrengthGain"		"2.400000"
+		"AttributeBaseAgility"		"14"
+		"AttributeAgilityGain"		"1.900000"
+		"AttributeBaseIntelligence"		"25"
+		"AttributeIntelligenceGain"		"5.000000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Killer"
+
+        "Ability17"		"special_bonus_movement_speed_45"
+		"Ability18"		"special_bonus_all_stats_6"
+		"Ability19"		"special_bonus_spell_amplify_12"
+		"Ability20"		"special_bonus_evasion_30"
+		"Ability21"		"special_bonus_birzha_druzhko_2"
+		"Ability22"		"special_bonus_birzha_druzhko_1"
+		"Ability23"		"special_bonus_cast_range_400"
+		"Ability24"		"special_bonus_birzha_druzhko_3"
+	}
+
+	//=================================================================================================================
+	// Zeus | Якубович | Yakubovich
+	//=================================================================================================================
+    "npc_dota_hero_zuus"
+	{
+		"ModelScale"	"1.2"
+
+        "Ability1" 		"Yakubovich_GiftsInTheStudio"
+        "Ability2" 		"yakubovich_roll"
+        "Ability3" 		"Yakubovich_Really"
+		"Ability4"		"yakubovich_roll_scepter"
+		"Ability5" 		"generic_hidden"
+		"Ability6" 		"Yakubovich_Car"
+		"Ability7"		"yakubovich_roll_return"
+		"Ability8"		"yakubovich_roll_return_scepter"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"21"
+		"AttributeStrengthGain"		"2.100000"
+		"AttributeBaseIntelligence"		"21"
+		"AttributeIntelligenceGain"		"3.300000"
+		"AttributeBaseAgility"		"11"
+		"AttributeAgilityGain"		"1.200000"	
+		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Killer"
+
+		"Ability10"		"special_bonus_hp_250"
+		"Ability11"		"special_bonus_exp_boost_25"
+		"Ability12"		"special_bonus_birzha_yakubovich_1"
+		"Ability13"		"special_bonus_cooldown_reduction_15"
+		"Ability14"		"special_bonus_spell_lifesteal_20"
+		"Ability15"		"special_bonus_spell_amplify_25"
+		"Ability16"		"special_bonus_hp_600"
+		"Ability17"		"special_bonus_birzha_yakubovich_2"
+	}
+
+	//=================================================================================================================
+	// Visage | V1lat | V1lat
+	//=================================================================================================================
+	"npc_dota_hero_visage"
+	{	
+		"Ability1"					"V1lat_Crab"
+		"Ability2"					"V1lat_AiAiAi"
+		"Ability3"					"V1lat_ItsNotNormal"
+		"Ability4"					"generic_hidden"
+		"Ability5"					"V1lat_AiAiAi_slam"
+		"Ability6"					"V1lat_Eminem"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"22"
+		"AttributeStrengthGain"		"2.80000"
+		"AttributeBaseAgility"		"15"
+		"AttributeAgilityGain"		"1.800000"
+		"AttributeBaseIntelligence"		"22"
+		"AttributeIntelligenceGain"		"2.800000"	
+		"ArmorPhysical"		"2.000000"
+		"AttributePrimary"			"DOTA_ATTRIBUTE_INTELLECT"	
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Killer"
+
+		"Ability10"		"special_bonus_spell_amplify_12"
+		"Ability11"		"special_bonus_birzha_v1lat_3"
+
+		"Ability12"		"special_bonus_birzha_v1lat_2"
+		"Ability13"		"special_bonus_intelligence_20"
+
+		"Ability14"		"special_bonus_cooldown_reduction_15"
+		"Ability15"		"special_bonus_birzha_v1lat_4"
+
+		"Ability16"		"special_bonus_birzha_v1lat_5"
+		"Ability17"		"special_bonus_birzha_v1lat_1"
+	}
+
+	//=================================================================================================================
+	// Venomancer | Гомункул | Homunculus
+	//=================================================================================================================
+    "npc_dota_hero_venomancer"
+	{
+        "Ability1" 	"Homunculus_IBorn"
+        "Ability2" 	"Homunculus_Spit"
+        "Ability3" 	"Homunculus_Damn"
+		"Ability4" 	"generic_hidden"
+		"Ability5" 	"generic_hidden"
+		"Ability6" 	"Homunculus_Dictionary"
+		"Ability25"		""
+		
+		"AttributeBaseStrength"		"21"
+		"AttributeStrengthGain"		"1.7"
+		"AttributeBaseIntelligence"	"30"
+		"AttributeIntelligenceGain"	"3.0"
+		"AttributeBaseAgility"		"16"
+		"AttributeAgilityGain"		"1.2"	
+		"AttributePrimary"			"DOTA_ATTRIBUTE_INTELLECT"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Killer"
+		
+		"Ability10"		"special_bonus_gold_income_90"
+		"Ability11"		"special_bonus_armor_5"
+		"Ability12"		"special_bonus_birzha_homunculus_1"
+		"Ability13"		"special_bonus_cast_range_200"
+		"Ability14"		"special_bonus_cooldown_reduction_15"
+		"Ability15"		"special_bonus_spell_amplify_15"
+		"Ability16"		"special_bonus_birzha_homunculus_2"
+		"Ability17"		"special_bonus_birzha_homunculus_3"
+	}
+
+	//=================================================================================================================
+	// Gyrocopter | Паровозик Томас | Train Thomas
+	//=================================================================================================================
+	"npc_dota_hero_gyrocopter"
+	{
+		"DisableWearables"				"1"	
+		"Model"							"models/heroes/thomas/thomas.vmdl"
+		"ModelScale"					"1.2"
+
+		"Ability1"					"Thomas_smoke"
+		"Ability2"					"thomas_fired"	
+		"Ability3"					"thomas_housing"		
+		"Ability4"					"generic_hidden"
+		"Ability5"					"generic_hidden"
+		"Ability6"					"Thomas_MLG_RaGE"
+		"Ability25"		""
+
+		"AttributeBaseStrength"			"18"
+		"AttributeStrengthGain"			"1.500000"
+		"AttributeBaseIntelligence"		"30"
+		"AttributeIntelligenceGain"		"2.800000"
+		"AttributeBaseAgility"			"10"
+		"AttributeAgilityGain"			"0"
+		"MovementSpeed"					"250"
+		"ArmorPhysical"					"5"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Killer"
+		
+		"Ability10"		"special_bonus_gold_income_60"
+		"Ability11"		"special_bonus_birzha_thomas_1"
+		"Ability12"		"special_bonus_hp_350"
+		"Ability13"		"special_bonus_mp_250"	
+		"Ability14"		"special_bonus_spell_amplify_15"
+		"Ability15"		"special_bonus_birzha_thomas_4"	
+		"Ability16"		"special_bonus_birzha_thomas_2"
+		"Ability17"		"special_bonus_birzha_thomas_3"
+	}
+
+	//=================================================================================================================
+	// Rubick | NS | NS
+	//=================================================================================================================
+    "npc_dota_hero_rubick"
+	{
+        "DisableWearables"				"1"
+		"Model"							"models/courier/donkey_crummy_wizard_2014/donkey_crummy_wizard_2014.vmdl"
+		"ModelScale"					"1.2"
+		
+        "Ability1" 		"Ns_Tricks"
+        "Ability2" 		"Ns_FullCounter"
+        "Ability3" 		"Ns_TricksMaster"
+		"Ability4"		"generic_hidden"
+		"Ability5"		"generic_hidden"
+		"Ability6"		"Ns_KBU"
+		"Ability7"		"generic_hidden"
+		"Ability8"		"generic_hidden"
+		"Ability9"		"generic_hidden"
+		"Ability10"		"generic_hidden"
+		"Ability11"		"generic_hidden"
+		"Ability25"		""
+		
+		"AttributeBaseStrength"			"25"
+		"AttributeStrengthGain"			"2.5"
+		"AttributeBaseAgility"			"25"
+		"AttributeAgilityGain"			"2.5"
+		"AttributeBaseIntelligence"		"35"
+		"AttributeIntelligenceGain"		"3.5"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Carry"
+
+		"Ability12"		"special_bonus_exp_boost_25"
+		"Ability13"		"special_bonus_movement_speed_50"
+		"Ability14"		"special_bonus_cast_range_125"
+		"Ability15"		"special_bonus_hp_250"
+		"Ability16"		"special_bonus_birzha_ns_1"
+		"Ability17"		"special_bonus_gold_income_180"
+		"Ability18"		"special_bonus_attack_speed_140"
+		"Ability19"		"special_bonus_birzha_ns_2"
+	}
+
+	//=================================================================================================================
+	// Techies | Димон Мина | Dimon mine
+	//=================================================================================================================
+	"npc_dota_hero_techies"
+	{
+		"Model"		"models/items/courier/nilbog/nilbog.vmdl"
+		"ModelScale"		"1.580000"
+		"DisableWearables"				"1"
+
+		"Ability1"					"mina_explosive_wave"
+		"Ability2"					"mina_explosion_jump"
+		"Ability3"					"mina_radiation_field"
+		"Ability4"					"mina_suicide"
+		"Ability5"					"mina_passive_shard"
+		"Ability6"					"mina_nuclear_strike"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"19"
+		"AttributeStrengthGain"		"2.500000"
+		"AttributeBaseAgility"		"14"
+		"AttributeAgilityGain"		"1.300000"
+		"AttributeBaseIntelligence"		"22"
+		"AttributeIntelligenceGain"		"3.300000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
+		"AttackDamageMin"		"47"
+		"AttackDamageMax"		"49"
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Killer"
+
+      	"Ability10"		"special_bonus_birzha_mina_2"
+		"Ability11"		"special_bonus_hp_225"
+		"Ability12"		"special_bonus_attack_speed_120"
+		"Ability13"		"special_bonus_birzha_mina_1"
+		"Ability15"		"special_bonus_spell_amplify_15"
+		"Ability14"		"special_bonus_cooldown_reduction_15"
+		"Ability16"		"special_bonus_birzha_mina_4"
+		"Ability17"		"special_bonus_birzha_mina_3"
+	}
+
+	//=================================================================================================================
+	// Панасенков
+	//=================================================================================================================
+	"npc_dota_hero_leshrac"
+	{
+		"Ability1"			"Panasenkov_catch"
+		"Ability2"			"Panasenkov_rakom"
+		"Ability3"			"Panasenkov_groza"
+		"Ability4"			"ponasenkov_ya_vas_killed"
+		"Ability5"			"generic_hidden"
+		"Ability6"			"Panasenkov_song"
+		"Ability25"		""
+
+		"AttributeBaseStrength"			"18"
+		"AttributeStrengthGain"			"2.200000"
+		"AttributeBaseAgility"			"12"
+		"AttributeAgilityGain"			"1.100000"
+		"AttributeBaseIntelligence"		"25"
+		"AttributeIntelligenceGain"		"3.400000"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Killer"
+
+		"Ability10"		"special_bonus_mp_250"
+		"Ability11"		"special_bonus_armor_5"
+		"Ability12"		"special_bonus_cast_range_200"
+		"Ability13"		"special_bonus_strength_15"
+		"Ability14"		"special_bonus_birzha_ponasenkov_1"
+		"Ability15"		"special_bonus_birzha_ponasenkov_2"
+		"Ability16"		"special_bonus_birzha_ponasenkov_3"
+		"Ability17"		"special_bonus_birzha_ponasenkov_4"
+	}
+
+	//=================================================================================================================
+	// Феликс Morpling
+	//=================================================================================================================
+	"npc_dota_hero_morphling"
+	{
+		"Model"							"models/models/heroes/felix/felix.vmdl"
+		"ModelScale"					"1.220000"
+		"DisableWearables"				"1"
+		"IsAnime"						"1"
+
+		"SoundSet"			"Hero_Puck"
+		"Ability1"			"Felix_WaterStream"
+		"Ability2"			"Felix_ItsATrap"
+		"Ability3"			"Felix_NyashaCat"
+		"Ability4"			"Felix_water_block"
+		"Ability5"			"generic_hidden"
+		"Ability6"			"Felix_WaterShield"
+		"Ability7"			"generic_hidden"
+		"Ability8"			"generic_hidden"
+		"Ability25"		""
+
+		"AttributeBaseStrength"			"22"
+		"AttributeStrengthGain"			"2.4"
+		"AttributeBaseIntelligence"		"27"
+		"AttributeIntelligenceGain"		"3"
+		"AttributeBaseAgility"			"18"
+		"AttributeAgilityGain"			"2"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
+		"MovementSpeed"				"295"
+		"ArmorPhysical"				"0"
+		"AttackDamageMin"			"28"
+		"AttackDamageMax"			"34"
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Support"
+
+		"Ability15"		"special_bonus_gold_income_90"
+		"Ability16"		"special_bonus_hp_300"
+		"Ability17"		"special_bonus_birzha_felix_5"
+		"Ability18"		"special_bonus_birzha_felix_1"
+		"Ability19"		"special_bonus_attack_speed_200"
+		"Ability20"		"special_bonus_birzha_felix_3"
+		"Ability21"		"special_bonus_birzha_felix_4"
+		"Ability22"		"special_bonus_birzha_felix_2"
+	}
+
+	//=================================================================================================================
+	// Templar Assassin | Мегумин | Megumin
+	//=================================================================================================================
+	"npc_dota_hero_templar_assassin"
+	{
+		"Model"					"models/heroes/anime/konosuba/megumin/megumin.vmdl"
+		"DisableWearables"		"1"
+		"IsAnime"				"1"
+
+		"Ability1"					"Megumin_armageddon"
+		"Ability2"					"megumin_meteor"
+		"Ability3"					"Megumin_mana_aura"
+		"Ability4"					"generic_hidden"
+		"Ability5"					"generic_hidden"
+		"Ability6"					"Megumin_ExplosionMagic"
+		"Ability25"		""
+
+		"AttackAcquisitionRange"	"600"
+		"AttackRange"				"600"		
+		"AttributeBaseStrength"		"18"
+		"AttributeStrengthGain"		"2.500000"
+		"AttributeBaseIntelligence"		"27"
+		"AttributeIntelligenceGain"		"3.300000"
+		"AttributeBaseAgility"		"19"
+		"AttributeAgilityGain"		"2.200000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Killer"
+		
+		"Ability10"		"special_bonus_birzha_megumin_2"
+		"Ability11"		"special_bonus_birzha_megumin_6"
+		"Ability12"		"special_bonus_birzha_megumin_4"
+		"Ability13"		"special_bonus_birzha_megumin_3"
+		"Ability14"		"special_bonus_birzha_megumin_5"
+		"Ability15"		"special_bonus_birzha_megumin_1"
+		"Ability17"		"special_bonus_spell_amplify_3"
+		"Ability16"		"special_bonus_cooldown_reduction_30"
+	}
+
+	//=================================================================================================================
+	// Lina | Рам | Ram
+	//=================================================================================================================
+	"npc_dota_hero_lina"
+	{
+		"ProjectileModel"	"particles/ram_base_attack.vpcf"
+		"Model"		"models/heroes/invoker/invoker.vmdl"
+		"ModelScale"		"0.710000"
+		"DisableWearables"				"1"	
+		"IsAnime"	"1"
+
+		"Ability1"				"ram_fura"
+		"Ability2"				"ram_ElFura"
+		"Ability3"				"ram_DemonicShield"
+		"Ability4"				"generic_hidden"
+		"Ability5"				"generic_hidden"
+		"Ability6"				"ram_ultimate"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"20"
+		"AttributeStrengthGain"		"2.400000"
+		"AttributeBaseIntelligence"		"30"
+		"AttributeIntelligenceGain"		"3.700000"
+		"AttributeBaseAgility"		"23"
+		"AttributeAgilityGain"		"1.800000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Killer"
+
+		"Ability10"		"special_bonus_birzha_ram_2"
+		"Ability11"		"special_bonus_movement_speed_40"
+		"Ability12"		"special_bonus_birzha_ram_1"
+		"Ability13"		"special_bonus_armor_10"
+		"Ability14"		"special_bonus_gold_income_180"
+		"Ability15"		"special_bonus_cooldown_reduction_25"
+		"Ability16"		"special_bonus_spell_amplify_3"
+		"Ability17"		"special_bonus_spell_block_20"
+	}
+
+	//=================================================================================================================
+	// Faceless Void | Дио Брандо | Dio Brando
+	//=================================================================================================================
+    "npc_dota_hero_faceless_void"
+	{
+		"Model" 				"models/heroes/faceless_void/faceless_void.vmdl"
+		"DisableWearables"		"1"
+		"IsAnime"	"1"
+
+        "Ability1" 		"Dio_Kakyoin"
+        "Ability2" 		"Dio_Wry"
+        "Ability3" 		"Dio_Blink"
+		"Ability4"		"dio_vampire"
+		"Ability5"		"dio_roller"
+		"Ability6"		"Dio_TheWorld"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"21"									
+		"AttributeStrengthGain"		"1.7"									
+		"AttributeBaseIntelligence"	"30"									
+		"AttributeIntelligenceGain"	"3.0"									
+		"AttributeBaseAgility"		"19"
+		"AttributeAgilityGain"		"1.2"	
+		"AttributePrimary"			"DOTA_ATTRIBUTE_INTELLECT"
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Carry"
+		
+		"Ability10"		"special_bonus_birzha_dio_3"
+		"Ability11"		"special_bonus_birzha_dio_5"
+
+		"Ability12"		"special_bonus_attack_speed_60"
+		"Ability13"		"special_bonus_movement_speed_65"
+		"Ability14"		"special_bonus_spell_amplify_20"
+		"Ability15"		"special_bonus_birzha_dio_1"
+		"Ability16"		"special_bonus_birzha_dio_2"
+		"Ability17"		"special_bonus_birzha_dio_4"
+	}
+
+	//=================================================================================================================
+	// Enchantress | Hatsune Miku | Hatsune Miku
+	//=================================================================================================================
+	"npc_dota_hero_enchantress"
+	{
+		"DisableWearables"				"1"
+		"Model"							"models/heroes/skeleton_king/skeleton_king.vmdl"
+		"ModelScale"					"0.5"
+		"ProjectileModel"				"particles/units/heroes/hero_crystalmaiden/maiden_base_attack.vpcf"
+		"ProjectileSpeed"				"900"
+		"IsAnime"	"1"
+
+		"Ability1"			"Miku_MusicWave"
+		"Ability2"			"Miku_MusicBarrier"
+		"Ability3"			"Miku_HealSound"
+		"Ability4"			"Miku_ritmic_song"
+		"Ability5"			"Miku_BattleSong"
+		"Ability6"			"Miku_DanceSong"
+		"Ability7"			"Miku_DanceSong_cancel"
+		"Ability25"		""
+
+		"AttributeBaseStrength"			"19"
+		"AttributeStrengthGain"			"2.000000"
+		"AttributeBaseAgility"			"19"
+		"AttributeAgilityGain"			"1.800000"
+		"AttributeBaseIntelligence"		"26"
+		"AttributeIntelligenceGain"		"3.600000"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
+
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Support"
+		
+		"Ability10"		"special_bonus_hp_250"
+		"Ability11"		"special_bonus_birzha_miku_2"
+
+		"Ability12"		"special_bonus_birzha_miku_5"
+		"Ability13"		"special_bonus_birzha_miku_6"
+
+		"Ability14"		"special_bonus_birzha_miku_3"
+		"Ability15"		"special_bonus_birzha_miku_7"
+		"Ability16"		"special_bonus_birzha_miku_4"
+		"Ability17"		"special_bonus_birzha_miku_1"
+	}
+	
+	//=================================================================================================================
+	// Цыган Keeper
+	//=================================================================================================================
+	"npc_dota_hero_keeper_of_the_light"
+	{
+		"Model"				"models/heroes/keeper_of_the_light/keeper_of_the_light.vmdl"
+
+		"Ability1"			"gypsy_tabor"
+		"Ability2"			"gypsy_gipnoz"
+		"Ability3"			"gypsy_lucky"
+		"Ability4"			"gypsy_debosh"
+		"Ability5"			"gypsy_steal_slot1"
+		"Ability6"			"gypsy_steal"
+		"Ability7"			""
+		"Ability8"			""
+		"Ability9"			""
+		"Ability10"			""
+
+		"Ability25"			""
+
+		"difficulty"		"Pick_medium"
+		"role_hero"			"Pick_Killer"
+
+		"AttributeBaseStrength"			"18"
+		"AttributeStrengthGain"			"3"
+		"AttributeBaseIntelligence"		"20"
+		"AttributeIntelligenceGain"		"2.8"
+		"AttributeBaseAgility"			"25"
+		"AttributeAgilityGain"			"1.8"
+		"MovementSpeed"					"350"
+		"ArmorPhysical"					"3"
+		"AttackDamageMin"				"15"
+		"AttackDamageMax"				"75"
+		"AttackCapabilities"			"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
+		"AttackRange"					"150"
+
+		"Ability11"		"special_bonus_mp_regen_150"
+		"Ability12"		"special_bonus_movement_speed_30"
+
+		"Ability13"		"special_bonus_magic_resistance_20"
+		"Ability14"		"special_bonus_armor_8"
+
+		"Ability15"		"special_bonus_spell_lifesteal_25"
+		"Ability16"		"special_bonus_mana_reduction_11"
+
+		"Ability17"		"special_bonus_cast_range_350"
+		"Ability18"		"special_bonus_spell_amplify_20"
+	}
+
+	//=================================================================================================================
+	// Хоро Luna
+	//=================================================================================================================
+	"npc_dota_hero_luna"
+	{
+		"Model"                         "models/heroes/horo/horo.vmdl"
+		"DisableWearables"				"1"
+		"ModelScale"					"0.940000"
+
+		"Ability1"			"horo_forest_girl"
+		"Ability2"			"horo_forest_apple"
+		"Ability3"			"horo_forest_wisdom"
+		"Ability4"			"horo_forest_heart_beast"
+		"Ability5"			"horo_forest_howl"
+		"Ability6"			"horo_ultimate"
+		"Ability7"			"horo_forest_girl_form"
+		"Ability25"		""
+
+		"AttributeBaseStrength"			"25"
+		"AttributeStrengthGain"			"2.2"
+		"AttributeBaseIntelligence"		"18"
+		"AttributeIntelligenceGain"		"2.1"
+		"AttributeBaseAgility"			"20"
+		"AttributeAgilityGain"			"4.5"
+		"AttackCapabilities"			"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
+		"AttackRange"					"150"
+
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Support"
+
+		"Ability10"		"special_bonus_mp_250"
+		"Ability11"		"special_bonus_movement_speed_25"
+		"Ability12"		"special_bonus_birzha_horo_1"
+		"Ability13"		"special_bonus_birzha_horo_2"
+		"Ability14"		"special_bonus_birzha_horo_3"
+		"Ability15"		"special_bonus_birzha_horo_4"
+		"Ability16"		"special_bonus_birzha_horo_5"
+		"Ability17"		"special_bonus_birzha_horo_6"
+	}
+
+	//=================================================================================================================
+	// Пучков 
+	//=================================================================================================================
+	"npc_dota_hero_grimstroke"
+	{
+		"Ability1"			"puchkov_pigs"
+		"Ability2"			"puchkov_small_debils"
+		"Ability3"			"puchkov_smeh"
+		"Ability4"			"enraged_wildkin_hurricane"
+		"Ability5"			"generic_hidden"
+		"Ability6"			"puchkov_shiza"
+		"Ability25"		""
+
+		"AttributeBaseStrength"			"21"
+		"AttributeStrengthGain"			"2.2"
+		"AttributeBaseIntelligence"		"28"
+		"AttributeIntelligenceGain"		"3.2"
+		"AttributeBaseAgility"			"15"
+		"AttributeAgilityGain"			"2.2"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
+
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Killer"
+
+		"Ability10"		"special_bonus_birzha_puchkov_5"
+		"Ability11"		"special_bonus_cooldown_reduction_12"
+		"Ability12"		"special_bonus_birzha_puchkov_6"
+		"Ability13"		"special_bonus_birzha_puchkov_1"
+		"Ability14"		"special_bonus_birzha_puchkov_3"
+		"Ability15"		"special_bonus_birzha_puchkov_2"
+		"Ability16"		"special_bonus_birzha_puchkov_7"
+		"Ability17"		"special_bonus_birzha_puchkov_4"
+	}
+	//=================================================================================================================
+	// Сон Джин ву
+	//=================================================================================================================
+	"npc_dota_hero_riki"
+	{
+		"Model"                         "models/creeps/thief/thief_01.vmdl"
+		"DisableWearables"				"1"
+		"ModelScale"				"0.920000"
+		"Ability1"			"dzhin_quite_walk"
+		"Ability2"			"dzhin_im_not_die"
+		"Ability3"			"dzhin_call_of_shadows"
+		"Ability4"			"generic_hidden"
+		"Ability5"			"generic_hidden"
+		"Ability6"			"dzhin_knifes"
+		"Ability25"		""
+
+		"AttributeBaseStrength"			"18"
+		"AttributeStrengthGain"			"2"
+		"AttributeBaseIntelligence"		"12"
+		"AttributeIntelligenceGain"		"1.2"
+		"AttributeBaseAgility"			"18"
+		"AttributeAgilityGain"			"4.5"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"		"special_bonus_attack_speed_20"
+		"Ability11"		"special_bonus_armor_5"
+		"Ability12"		"special_bonus_birzha_dzhin_1"
+		"Ability13"		"special_bonus_all_stats_12"
+		"Ability14"		"special_bonus_birzha_dzhin_2"
+		"Ability15"		"special_bonus_birzha_dzhin_3"
+		"Ability16"		"special_bonus_birzha_dzhin_4"
+		"Ability17"		"special_bonus_birzha_dzhin_5"
+	}
+	
+	//=================================================================================================================
+	// Stray228
+	//=================================================================================================================
+	"npc_dota_hero_nyx_assassin"
+	{
+		"Model"             	"models/heroes/rikimaru/rikimaru.vmdl"
+		"DisableWearables"		"1"
+		"ModelScale"		"0.870000"
+
+		"Ability1"				"stray_rat_poison"
+		"Ability2"				"stray_rat"
+		"Ability3"				"stray_kill_stealer"
+		"Ability4"				"stray_shveps"
+		"Ability5"				"generic_hidden"
+		"Ability6"				"stray_donate_music"
+		"Ability25"		""
+
+		"ArmorPhysical"		"6"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"		"41"
+		"AttackDamageMax"		"45"
+		"AttackRate"		"1.700000"
+		"BaseAttackSpeed"		"100"
+		"AttackAnimationPoint"		"0.300000"
+		"AttackAcquisitionRange"		"600"
+		"AttackRange"		"150"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"AttributeBaseStrength"		"21"
+		"AttributeStrengthGain"		"2"
+		"AttributeBaseIntelligence"		"19"
+		"AttributeIntelligenceGain"		"2.5"
+		"AttributeBaseAgility"		"23"
+		"AttributeAgilityGain"		"3"
+		"StatusHealthRegen"		"2.5"
+		"MovementSpeed"		"320"
+		"MovementTurnRate"		"0.600000"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"		"special_bonus_agility_10"
+		"Ability11"		"special_bonus_movement_speed_25"
+		"Ability12"		"special_bonus_attack_damage_50"
+		"Ability13"		"special_bonus_birzha_stray_1"
+
+		"Ability14"		"special_bonus_cooldown_reduction_20"
+		"Ability15"		"special_bonus_attack_speed_100"
+
+		"Ability16"		"special_bonus_birzha_stray_2"
+		"Ability17"		"special_bonus_birzha_stray_3"
+	}
+	//=================================================================================================================
+	// Польнарефф
+	//=================================================================================================================
+	"npc_dota_hero_batrider"
+	{
+		"Model"             	"models/heroes/polnaref/polnaref.vmdl"
+		"DisableWearables"		"1"
+		"Ability1"				"polnaref_stand"
+		"Ability2"				"polnaref_battle_exp"
+		"Ability3"				"polnaref_ragess"
+		"Ability4"				"polnaref_stand_inside"
+		"Ability5"				"generic_hidden"
+		"Ability6"				"polnaref_requeim"
+		"Ability25"		""
+		"AttackAcquisitionRange"	"600"
+		"AttackRange"				"200"
+		"VisionDaytimeRange"		"1800"
+		"VisionNighttimeRange"		"800"
+		"ArmorPhysical"		"0"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"		"30"
+		"AttackDamageMax"		"40"
+		"AttackRate"		"1.700000"
+		"BaseAttackSpeed"		"130"
+		"AttackRange"			"75"
+		"AttackAnimationPoint"		"0.300000"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"AttributeBaseStrength"		"26"
+		"AttributeStrengthGain"		"3.2"
+		"AttributeBaseIntelligence"		"23"
+		"AttributeIntelligenceGain"		"2.5"
+		"AttributeBaseAgility"		"34"
+		"AttributeAgilityGain"		"3.2"
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"		"special_bonus_birzha_polnaref_1"
+		"Ability11"		"special_bonus_birzha_polnaref_2"
+		"Ability12"		"special_bonus_birzha_polnaref_3"
+		"Ability13"		"special_bonus_birzha_polnaref_4"
+		"Ability14"		"special_bonus_birzha_polnaref_5"
+		"Ability15"		"special_bonus_birzha_polnaref_6"
+		"Ability16"		"special_bonus_birzha_polnaref_7"
+		"Ability17"		"special_bonus_birzha_polnaref_8"
+	}
+	//=================================================================================================================
+	// Son Goku
+	//=================================================================================================================
+	"npc_dota_hero_centaur"
+	{
+		"Model"             	"models/heroes/goku/goku.vmdl"
+		"DisableWearables"		"1"
+		"ModelScale"			"0.95"
+
+		"Ability1"					"goku_kamehame"
+		"Ability2"					"goku_merni_attacks"
+		"Ability3"					"goku_ki_blast"
+		"Ability4"					"goku_blink_one"
+		"Ability5"					"goku_blink_two"
+		"Ability6"					"goku_saiyan"
+		"Ability25"					""
+		"SoundSet"					"Hero_VoidSpirit"
+		"VoiceFile"					"soundevents/voscripts/game_sounds_vo_void_spirit.vsndevts"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_void_spirit.vsndevts"
+		"HeroSelectSoundEffect"		"Hero_VoidSpirit.Pick"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"		"50"
+		"AttackDamageMax"		"55"
+		"AttackRate"			"1.38"
+		"BaseAttackSpeed"		"123"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"AttackRange"			"150"
+		"MovementSpeed"			"290"
+		"StatusManaRegen"		"1.15"
+		"difficulty"	"Pick_hard"
+		"AttributeBaseStrength"		"23"
+		"AttributeStrengthGain"		"3.5"
+		"AttributeBaseAgility"		"20"
+		"AttributeAgilityGain"		"1.9"
+		"AttributeBaseIntelligence"		"18"
+		"AttributeIntelligenceGain"		"2.3"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"		"special_bonus_birzha_goku_1"
+		"Ability11"		"special_bonus_birzha_goku_7"
+
+		"Ability12"		"special_bonus_strength_15"
+		"Ability13"		"special_bonus_birzha_goku_5"
+
+		"Ability14"		"special_bonus_birzha_goku_6"
+		"Ability15"		"special_bonus_birzha_goku_4"
+
+		"Ability16"		"special_bonus_birzha_goku_2"
+		"Ability17"		"special_bonus_birzha_goku_3"
+	}
+	//=================================================================================================================
+	// Morgenshtern
+	//=================================================================================================================
+	"npc_dota_hero_puck"
+	{
+		"Ability1"					"morgenshtern_rift"
+		"Ability2"					"morgenshtern_ratata"
+		"Ability3"					"morgenshtern_rich"
+		"Ability4"					"generic_hidden"
+		"Ability5"					"morgenshtern_ice"
+		"Ability6"					"morgenshtern_car"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"20"
+		"AttributeStrengthGain"		"2.200000"
+		"AttributeBaseIntelligence"		"30"
+		"AttributeIntelligenceGain"		"3.300000"
+		"AttributeBaseAgility"		"22"
+		"AttributeAgilityGain"		"2.5"
+		"AttackRange"		"550"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
+		"ArmorPhysical"		"3"
+		"StatusHealth"		"260"
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"		"special_bonus_birzha_morgenshtern_1"
+		"Ability11"		"special_bonus_birzha_morgenshtern_2"
+		"Ability12"		"special_bonus_birzha_morgenshtern_3"
+		"Ability13"		"special_bonus_birzha_morgenshtern_4"
+		"Ability14"		"special_bonus_birzha_morgenshtern_5"
+		"Ability15"		"special_bonus_birzha_morgenshtern_6"
+		"Ability16"		"special_bonus_birzha_morgenshtern_7"
+		"Ability17"		"special_bonus_birzha_morgenshtern_8"
+	}
+	//=================================================================================================================
+	// Хисока
+	//=================================================================================================================
+	"npc_dota_hero_magnataur"
+	{
+		"Model"             		"models/heroes/hisoka/hisoka.vmdl"
+		"DisableWearables"			"1"
+		"ModelScale"				"0.85"
+
+		"Ability1"					"hisoka_cards"
+		"Ability2"					"hisoka_shield"
+		"Ability3"					"hisoka_bubble"
+		"Ability4"					"hisoka_trap_teleport"
+		"Ability5"					"hisoka_trap_destroy"
+		"Ability6"					"hisoka_trap"
+		"Ability25"		""
+
+		"AttributeBaseStrength"		"19"
+		"AttributeStrengthGain"		"2.7"
+		"AttributeBaseIntelligence"		"18"
+		"AttributeIntelligenceGain"		"2.3"
+		"AttributeBaseAgility"		"25"
+		"AttributeAgilityGain"		"3.4"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+		"StatusManaRegen"		"1.15"
+		"MovementSpeed"			"310"
+		"AttackRange"			"150"
+		"BaseAttackSpeed"		"130"
+		"AttackDamageMin"		"41"
+		"AttackDamageMax"		"47"
+		"ArmorPhysical"		"4"
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"		"special_bonus_birzha_hisoka_1"
+		"Ability11"		"special_bonus_movement_speed_45"
+		"Ability12"		"special_bonus_birzha_hisoka_7"
+		"Ability13"		"special_bonus_birzha_hisoka_2"
+		"Ability14"		"special_bonus_birzha_hisoka_3"
+		"Ability15"		"special_bonus_birzha_hisoka_4"
+		"Ability16"		"special_bonus_birzha_hisoka_5"
+		"Ability17"		"special_bonus_birzha_hisoka_6"
+	}
+	//=================================================================================================================
+	// SCP 682
+	//=================================================================================================================
+	"npc_dota_hero_slardar"
+	{
+		"Model"             		"models/scp_682/scp_crock_reference.vmdl"
+		"DisableWearables"			"1"
+		"ModelScale"				"1.3"
+
+		"Ability1"					"scp682_bite"
+		"Ability2"					"scp682_rage"
+		"Ability3"					"scp682_plot"
+		"Ability4"					"generic_hidden"
+		"Ability5"					"generic_hidden"
+		"Ability6"					"scp682_ultimate"
+		"Ability25"		""
+
+		"AttributeBaseStrength"			"25"
+		"AttributeStrengthGain"			"3.2"
+		"AttributeBaseIntelligence"		"18"
+		"AttributeIntelligenceGain"		"2"
+		"AttributeBaseAgility"			"18"
+		"AttributeAgilityGain"			"2.5"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Carry"
+
+		"Ability10"		"special_bonus_mp_100"
+		"Ability11"		"special_bonus_birzha_scp683_1"
+		"Ability12"		"special_bonus_birzha_scp683_2"
+		"Ability13"		"special_bonus_birzha_scp683_3"
+		"Ability14"		"special_bonus_birzha_scp683_6"
+		"Ability15"		"special_bonus_birzha_scp683_7"
+		"Ability16"		"special_bonus_birzha_scp683_4"
+		"Ability17"		"special_bonus_birzha_scp683_5"
+	}
+	//=================================================================================================================
+	// Горшок
+	//=================================================================================================================
+	"npc_dota_hero_tidehunter"
+	{
+		"Model"             		"models/creeps/neutral_creeps/n_creep_gargoyle/n_creep_gargoyle.vmdl"
+		"SoundSet"					"n_creep_Melee"
+		"DisableWearables"			"1"
+		"ModelScale"				"0.9"
+
+		"Ability1"					"gorshok_death_anarhia"
+		"Ability2"					"gorshok_rome"
+		"Ability3"					"gorshok_writer_goodwin"
+		"Ability4"					"gorshok_evil_dance"
+		"Ability5"					"gorshok_spin_web"
+		"Ability6"					"gorshok_wodoo"
+		"Ability7"					"gorshok_death_passive"
+		"Ability25"					""
+
+		"AttributeBaseStrength"			"25"
+		"AttributeStrengthGain"			"2.1"
+		"AttributeBaseIntelligence"		"22"
+		"AttributeIntelligenceGain"		"1.8"
+		"AttributeBaseAgility"			"18"
+		"AttributeAgilityGain"			"1.8"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_STRENGTH"
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Summoner"
+
+		"Ability10"		"special_bonus_birzha_gorshok_2"
+		"Ability11"		"special_bonus_birzha_gorshok_3"
+
+		"Ability12"		"special_bonus_birzha_gorshok_1"
+		"Ability13"		"special_bonus_birzha_gorshok_6"
+
+		"Ability14"		"special_bonus_birzha_gorshok_8"
+		"Ability15"		"special_bonus_birzha_gorshok_7"
+
+		"Ability16"		"special_bonus_birzha_gorshok_5"
+		"Ability17"		"special_bonus_cooldown_reduction_25"
+	}
+	//=================================================================================================================
+	// Overlord
+	//=================================================================================================================
+	"npc_dota_hero_treant"
+	{
+		"Model"             		"models/models/heroes/overlord/overlord.vmdl"
+		"DisableWearables"			"1"
+		"ModelScale"		"0.940000"
+		"SoundSet"			"Hero_Sven"
+		
+		"Ability1"					"overlord_prihvosti"
+		"Ability2"					"overlord_fireball"
+		"Ability3"					"overlord_terror_legion"
+		"Ability4"					"overlord_select_target"
+		"Ability5"					"overlord_portal"
+		"Ability6"					"overlord_shut"
+		"Ability25"		""
+
+		"AttributeBaseStrength"			"26"
+		"AttributeStrengthGain"			"3.4"
+		"AttributeBaseIntelligence"		"14"
+		"AttributeIntelligenceGain"		"1"
+		"AttributeBaseAgility"			"25"
+		"AttributeAgilityGain"			"1.4"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_STRENGTH"
+		"AttackRate"		"1.700000"
+		"AttackAnimationPoint"		"0.560000"
+		"role_hero"		"Pick_Summoner"
+		"AttackSpeedActivityModifiers"
+		{
+			"fast"		"175"
+			"faster"	"250"
+			"fastest"	"350"
+		}
+		"difficulty"	"Pick_hard"
+		"Ability10"		"special_bonus_birzha_overlord_1"
+		"Ability11"		"special_bonus_birzha_overlord_2"
+		"Ability12"		"special_bonus_birzha_overlord_3"
+		"Ability13"		"special_bonus_birzha_overlord_4"
+		"Ability14"		"special_bonus_birzha_overlord_7"
+		"Ability15"		"special_bonus_birzha_overlord_5"
+		"Ability16"		"special_bonus_birzha_overlord_6"
+		"Ability17"		"special_bonus_birzha_overlord_8"
+	}
+
+	//=================================================================================================================
+	// Haku
+	//=================================================================================================================
+	"npc_dota_hero_arc_warden"
+	{
+		"ProjectileModel"			"particles/haku_attack.vpcf"
+		"Ability1"					"haku_needle"
+		"Ability2"					"haku_speed"
+		"Ability3"					"haku_best"
+		"Ability4"					"haku_zerkalo"
+		"Ability5"					"haku_mask"
+		"Ability6"					"haku_zerkala"
+		"Ability7"					"haku_needle_heal"
+		"Ability8"					"haku_eyes"
+		"Ability9"					"haku_aura"
+		"Ability10"					"haku_help"
+		"Ability25"					""
+
+		"ModelScale"	"0.85"
+		"Model"	"models/haku/haku_mask.vmdl"
+		"DisableWearables"			"1"
+		"role_hero"		"Pick_Carry"
+
+		"AttributeBaseStrength"			"21"
+		"AttributeStrengthGain"			"2.3"
+		"AttributeBaseAgility"			"25"
+		"AttributeAgilityGain"			"3.4"
+		"AttributeBaseIntelligence"		"18"
+		"AttributeIntelligenceGain"		"2.5"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
+
+		"AttackRate"		"1.700000"
+		"MovementSpeed"		"305"
+		"AttackRange"		"520"
+		"AttackDamageMin"	"47"
+		"AttackDamageMax"	"50"
+		"ArmorPhysical"		"3"
+
+		"AttackSpeedActivityModifiers"
+		{
+			"fast"		"190"
+			"faster"	"300"
+		}
+		"AttackRangeActivityModifiers"
+		{
+			"close"		"0"
+			"far"		"350"
+		}
+		"animation_transitions"
+		{
+			"ACT_DOTA_RUN"
+			{
+				"regular"		"0.300000"
+			}
+			"ACT_DOTA_IDLE"
+			{
+				"regular"		"0.50000"
+			}
+		}
+		"AbilityTalentStart" 		"11"
+		"difficulty"	"Pick_hard"
+		"Ability11"		"special_bonus_birzha_haku_1"
+		"Ability12"		"special_bonus_birzha_haku_2"
+		"Ability13"		"special_bonus_birzha_haku_3"
+		"Ability14"		"special_bonus_birzha_haku_4"
+		"Ability15"		"special_bonus_birzha_haku_5"
+		"Ability16"		"special_bonus_birzha_haku_6"
+		"Ability17"		"special_bonus_birzha_haku_7"
+		"Ability18"		"special_bonus_cooldown_reduction_30"
+	}
+
+	//=================================================================================================================
+	// Van
+	//=================================================================================================================
+	"npc_dota_hero_void_spirit"
+	{
+		"Model"						"models/items/queenofpain/queenofpain_arcana/queenofpain_arcana.vmdl"
+		"DisableWearables"			"1"
+		"SoundSet"					"Hero_Centaur"
+		"Ability1"					"van_threehundredbucks"
+		"Ability2"					"van_leatherstuff"
+		"Ability3"					"van_takeitboy"
+		"Ability4"					"van_swallowmycum"
+		"Ability5"					"generic_hidden"
+		"Ability6"					"van_ultimate"
+		"Ability25"					""
+
+		"AttributeBaseStrength"			"20"
+		"AttributeStrengthGain"			"2.4"
+		"AttributeBaseIntelligence"		"18"
+		"AttributeIntelligenceGain"		"2"
+		"AttributeBaseAgility"			"26"
+		"AttributeAgilityGain"			"3.2"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
+
+		"BaseAttackSpeed"	"123"
+		"AttackRate"		"1.500000"
+		"MovementSpeed"		"300"
+		"AttackRange"		"300"
+		"AttackDamageMin"	"35"
+		"AttackDamageMax"	"40"
+		"ArmorPhysical"		"1"
+
+		"role_hero"		"Pick_Carry"
+		"difficulty"	"Pick_hard"
+
+		"AttackSpeedActivityModifiers"
+		{
+			"fast"		"190"
+			"faster"	"300"
+		}
+		"AttackRangeActivityModifiers"
+		{
+			"close"		"0"
+			"far"		"450"
+		}
+		"animation_transitions"
+		{
+			"ACT_DOTA_RUN"
+			{
+				"regular"		"0.300000"
+			}
+			"ACT_DOTA_IDLE"
+			{
+				"regular"		"0.50000"
+			}
+		}
+
+		"Ability10"		"special_bonus_movement_speed_30"
+		"Ability11"		"special_bonus_birzha_van_2"
+
+		"Ability12"		"special_bonus_birzha_van_1"
+		"Ability13"		"special_bonus_birzha_van_5"
+
+		"Ability14"		"special_bonus_birzha_van_4"
+		"Ability15"		"special_bonus_attack_speed_100"
+
+		"Ability16"		"special_bonus_birzha_van_3"
+		"Ability17"		"special_bonus_birzha_van_6"
+	}
+
+	//=================================================================================================================
+	// Kakashi
+	//=================================================================================================================
+	"npc_dota_hero_dawnbreaker"
+	{
+		"Ability1"					"kakashi_quas"
+		"Ability2"					"kakashi_wex"
+		"Ability3"					"kakashi_exort"
+		"Ability4"					"kakashi_empty1"
+		"Ability5"					"kakashi_empty2"
+		"Ability6"					"kakashi_invoke"
+
+		"Ability7"					"kakashi_lightning"
+		"Ability8"					"kakashi_raikiri"
+		"Ability9"					"kakashi_lightning_hit"
+		"Ability10"					"kakashi_shadow_clone"
+		"Ability11"					"kakashi_tornado"
+		"Ability12"					"kakashi_graze_wave"
+		"Ability13"					"kakashi_susano"
+		"Ability14"					"kakashi_ligning_sphere"
+		"Ability15"					"kakashi_meteor"
+		"Ability16"					"kakashi_sharingan"
+		"Ability26"					""
+
+
+		"AttackDamageMin"	"35"
+		"AttackDamageMax"	"40"
+		"StatusHealthRegen"		"4"
+		"StatusManaRegen"		"5"
+		"MovementSpeed"		"290"
+		"AbilityTalentStart" 		"17"
+		"Ability25"					""
+		"difficulty"	"Pick_hard"
+		"AttributeStrengthGain"			"3"
+		"AttributeIntelligenceGain"		"4.3"
+		"AttributeAgilityGain"			"1.8"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
+		"AttributeBaseStrength"		"18"
+		"AttributeBaseAgility"		"14"
+		"AttributeBaseIntelligence"		"15"
+		"DisableWearables"	"1"
+		"ModelScale"	"0.75"
+		"AttackRange"	"100"
+		"role_hero"		"Pick_Killer"
+		"Model"			"models/kakashi_new/kakashi.vmdl"
+
+		"Ability17"		"special_bonus_birzha_kakashi_1"
+		"Ability18"		"special_bonus_birzha_kakashi_2"
+
+		"Ability19"		"special_bonus_birzha_kakashi_3"
+		"Ability20"		"special_bonus_birzha_kakashi_6"
+
+		"Ability21"		"special_bonus_birzha_kakashi_5"
+		"Ability22"		"special_bonus_birzha_kakashi_4"
+
+		"Ability23"		"special_bonus_birzha_kakashi_7"
+		"Ability24"		"special_bonus_birzha_kakashi_8"
+	}
+
+	//=================================================================================================================
+	// Avatar Aang
+	//=================================================================================================================
+	"npc_dota_hero_oracle"
+	{
+		"Ability1"					"aang_quas"
+		"Ability2"					"aang_wex"
+		"Ability3"					"aang_exort"
+		"Ability4"					"aang_empty1"
+		"Ability5"					"aang_empty2"
+		"Ability6"					"aang_invoke"
+
+		"Ability7"					"aang_lunge"
+		"Ability8"					"aang_ice_wall"
+		"Ability9"					"aang_vacuum"
+		"Ability10"					"aang_fast_hit"
+		"Ability11"					"aang_jumping"
+		"Ability12"					"aang_agility"
+		"Ability13"					"aang_fire_hit"
+		"Ability14"					"aang_lightning"
+		"Ability15"					"aang_firestone"
+		"Ability16"					"aang_avatar"
+
+		"difficulty"	"Pick_hard"
+
+		"AttackAnimationPoint"		"0.58000"
+
+		"AbilityTalentStart" 		"17"
+		"Ability25"					""
+
+		"AttributeBaseStrength"			"18"
+		"AttributeStrengthGain"			"3"
+
+		"AttributeBaseIntelligence"		"15"
+		"AttributeIntelligenceGain"		"4.3"
+
+		"AttributeBaseAgility"			"14"
+		"AttributeAgilityGain"			"1.8"
+
+		"AttackRate"		"1.600000"
+		"MovementSpeed"		"280"
+		"AttackDamageMin"	"55"
+		"AttackDamageMax"	"60"
+
+		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
+
+		"ProjectileModel"	"particles/units/heroes/hero_invoker_kid/invoker_kid_base_attack_all.vpcf"
+		"DisableWearables"	"1"
+		"Model"			"models/heroes/aang/aang.vmdl"
+		"ModelScale"	"1.5"
+		"role_hero"		"Pick_Killer"
+
+		"Ability17"		"special_bonus_birzha_avatar_1"
+		"Ability18"		"special_bonus_birzha_avatar_2"
+		"Ability19"		"special_bonus_birzha_avatar_3"
+		"Ability20"		"special_bonus_birzha_avatar_6"
+		"Ability21"		"special_bonus_birzha_avatar_5"
+		"Ability22"		"special_bonus_birzha_avatar_4"
+		"Ability23"		"special_bonus_birzha_avatar_7"
+		"Ability24"		"special_bonus_birzha_avatar_8"
+	}
+
+	//=================================================================================================================
+	// Sasake
+	//=================================================================================================================
+	"npc_dota_hero_sasake"
+	{
+		"BaseClass"					"npc_dota_hero_medusa"
+		"HeroID"					"168"
+		"Model"						"models/heroes/juggernaut/juggernaut_arcana.vmdl"
+		"SoundSet"					"Hero_Juggernaut"
+		"ModelScale"				"0.850000"
+
+		"Ability1"		"sasake_one_ability"
+		"Ability2"		"sasake_two_ability"
+		"Ability3"		"sasake_three_ability"
+		"Ability4"		"sasake_talent_ability"
+		"Ability5"		"generic_hidden"
+		"Ability6"		"sasake_four_ability"
+
+		"Ability10"		"special_bonus_strength_12"
+		"Ability11"		"special_bonus_agility_8"
+
+		"Ability12"		"special_bonus_mana_break_35"
+		"Ability13"		"special_bonus_birzha_sasake_2"
+
+		"Ability14"		"special_bonus_birzha_sasake_1"
+		"Ability15"		"special_bonus_birzha_sasake_5"
+
+		"Ability16"		"special_bonus_birzha_sasake_3"
+		"Ability17"		"special_bonus_birzha_sasake_4"
+
+		"Ability25"					""
+
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Carry"
+
+		"ArmorPhysical"		"0"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"		"16"
+		"AttackDamageMax"		"20"
+		"AttackRate"		"1.200000"
+		"BaseAttackSpeed"		"110"
+		"AttackAnimationPoint"		"0.330000"
+		"AttackSpeedActivityModifiers"
+		{
+			"fast"		"170"
+			"faster"	"275"
+			"fastest"	"350"
+		}
+		"AttackAcquisitionRange"		"600"
+		"AttackRange"		"150"
+		"ProjectileSpeed"		"0"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
+
+		"AttributeBaseStrength"		"20"
+		"AttributeStrengthGain"		"1.7000"
+		"AttributeBaseIntelligence"		"16"
+		"AttributeIntelligenceGain"		"1.600000"
+		"AttributeBaseAgility"		"34"
+		"AttributeAgilityGain"		"3.000000"
+
+		"StatusHealthRegen"		"0.5"
+		"MovementSpeed"		"325"
+		"MovementSpeedActivityModifiers"
+		{
+			"walk"		"0"
+			"run"		"345"
+			"run_fast"	"373"
+		}
+
+		"HasAggressiveStance"		"1"
+		"BoundsHullName"		"DOTA_HULL_SIZE_HERO"
+		"particle_folder"		"particles/units/heroes/hero_juggernaut"
+		"GameSoundsFile"		"soundevents/game_sounds_heroes/game_sounds_juggernaut.vsndevts"
+		"VoiceFile"		"soundevents/voscripts/game_sounds_vo_juggernaut.vsndevts"
+	}
+	//=================================================================================================================
+	// Migi
+	//=================================================================================================================
+	"npc_dota_hero_migi"
+	{
+		"BaseClass"					"npc_dota_hero_tinker"
+		"HeroID"					"169"
+		"ModelScale"				"0.5"
+		"Model"						"models/migi/migi.vmdl"
+		"DisableWearables"			"1"
+
+		"Ability1"		"migi_inside"
+		"Ability2"		"migi_bubble"
+		"Ability3"		"migi_speed"
+		"Ability4"		"migi_death"
+		"Ability5"		"migi_aghanim_ability"
+		"Ability6"		"migi_mutation"
+		"Ability7"		""
+
+		"Ability10"		"special_bonus_gold_income_90"
+		"Ability11"		"special_bonus_birzha_migi_1"
+		"Ability12"		"special_bonus_birzha_migi_2"
+		"Ability13"		"special_bonus_birzha_migi_3"
+		"Ability14"		"special_bonus_birzha_migi_4"
+		"Ability15"		"special_bonus_birzha_migi_5"
+		"Ability16"		"special_bonus_birzha_migi_6"
+		"Ability17"		"special_bonus_birzha_migi_7"
+
+		"Ability25"					""
+
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Support"
+
+		"ArmorPhysical"				"1"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackRate"				"1.7"
+		"BaseAttackSpeed"			"110"
+		"AttackAnimationPoint"		"0.330000"
+		"AttackAcquisitionRange"	"0"
+		"AttackRange"				"0"
+		"ProjectileSpeed"			"0"
+		"AttributePrimary"			"DOTA_ATTRIBUTE_STRENGTH"
+
+		"AttributeBaseStrength"		"17"
+		"AttributeStrengthGain"		"3.000000"
+		"AttributeBaseAgility"		"14"
+		"AttributeAgilityGain"		"1.600000"
+		"AttributeBaseIntelligence"		"23"
+		"AttributeIntelligenceGain"		"1.700000"
+		"MovementSpeed"		"320"
+		"MovementTurnRate"		"0.700000"
+
+		"HasAggressiveStance"	"1"
+		"BoundsHullName"		"DOTA_HULL_SIZE_HERO"
+		"particle_folder"		"particles/units/heroes/hero_wisp"
+		"GameSoundsFile"		"soundevents/game_sounds_heroes/game_sounds_wisp.vsndevts"
+		"VoiceFile"		"soundevents/voscripts/game_sounds_vo_wisp.vsndevts"
+	}
+	//=================================================================================================================
+	// Overlord
+	//=================================================================================================================
+	"npc_dota_hero_overlord"
+	{
+		"BaseClass"					"npc_dota_hero_witch_doctor"
+		"HeroID"					"170"
+		"Model"						"models/heroes/anime/overlord/overlord2/overlord2.vmdl"
+		"ProjectileModel"			"particles/units/heroes/hero_necrolyte/necrolyte_base_attack.vpcf"
+		"ModelScale"				"1.08750"
+
+		"Ability1"		"Overlord_one_book"
+		"Ability2"		"Overlord_two_book"
+		"Ability3"		"Overlord_three_book"
+		"Ability4"		"Overlord_passive"
+		"Ability5"		"Overlord_hidden_2"
+		"Ability6"		"Overlord_spell_ultimate"
+		"Ability7"		"overlord_spellbook_close"
+
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Killer"
+
+
+		"Ability8"				"Overlord_spell_1"
+		"Ability9"				"Overlord_spell_2"
+		"Ability10"				"Overlord_spell_3"
+		"Ability11"				"Overlord_spell_4"
+		"Ability12"				"Overlord_spell_5"
+
+		"Ability13"				"Overlord_spell_6"
+		"Ability14"				"Overlord_spell_7"
+		"Ability15"				"Overlord_spell_8"
+		"Ability16"				"Overlord_spell_9"
+		"Ability17"				"Overlord_spell_10"
+
+		"Ability18"				"Overlord_spell_11"
+		"Ability19"				"Overlord_spell_12"
+		"Ability20"				"Overlord_spell_13"
+		"Ability21"				"Overlord_spell_14"
+		"Ability22"				"Overlord_spell_15"
+
+		"Ability23"				"special_bonus_birzha_overlord_anime_1"
+		"Ability24"				"special_bonus_birzha_overlord_anime_2"
+		"Ability25"				"special_bonus_birzha_overlord_anime_3"
+		"Ability26"				"special_bonus_armor_12"
+		"Ability27"				"special_bonus_birzha_overlord_anime_7"
+		"Ability28"				"special_bonus_birzha_overlord_anime_6"
+		"Ability29"				"special_bonus_birzha_overlord_anime_5"
+		"Ability30"				"special_bonus_birzha_overlord_anime_8"
+
+		"AbilityTalentStart" 		"23"
+
+		"ArmorPhysical"				"1"
+		"AttackRate"				"2.1"
+		"BaseAttackSpeed"			"110"
+		"AttackAnimationPoint"		"0.330000"
+		"AttackAcquisitionRange"	"400"
+		"AttackRange"				"350"
+		"ProjectileSpeed"			"800"
+		"AttributePrimary"			"DOTA_ATTRIBUTE_INTELLECT"
+
+		"AttributeBaseStrength"		"21"
+		"AttributeStrengthGain"		"2.3"
+		"AttributeBaseAgility"		"15"
+		"AttributeAgilityGain"		"0.25"
+		"AttributeBaseIntelligence"		"32"
+		"AttributeIntelligenceGain"		"3.700000"
+		"MovementSpeed"		"340"
+		"MovementTurnRate"		"0.700000"
+		"AttackDamageMin"		"32"
+		"AttackDamageMax"		"38"
+		"MovementTurnRate"		"0.500000"
+
+		"HasAggressiveStance"	"1"
+		"BoundsHullName"		"DOTA_HULL_SIZE_HERO"
+		"particle_folder"		"particles/units/heroes/hero_wisp"
+		"GameSoundsFile"		"soundevents/game_sounds_heroes/game_sounds_wisp.vsndevts"
+		"VoiceFile"		"soundevents/voscripts/game_sounds_vo_wisp.vsndevts"
+	}
+
+	"npc_dota_hero_stone_dwayne"
+	{
+		"BaseClass"					"npc_dota_hero_undying"
+		"HeroID"					"171"
+		"ModelScale"				"1.3"
+		"Model"						"models/items/tiny/tiny_bad_to_the_bone_belt/tiny_bad_to_the_bone_belt.vmdl"
+		"DisableWearables"			"1"
+
+		"Ability1"		"dwayne_throw_stone"
+		"Ability2"		"dwayne_stone_strength"
+		"Ability3"		"dwayne_stone_passive"
+		"Ability4"		"generic_hidden"
+		"Ability5"		"generic_hidden"
+		"Ability6"		"dwayne_fight_of_death"
+		"Ability7"		"dwayne_fight_of_death_charge"
+
+		"Ability10"		"special_bonus_strength_12"
+		"Ability11"		"special_bonus_birzha_dwayne_1"
+		"Ability12"		"special_bonus_birzha_dwayne_2"
+		"Ability13"		"special_bonus_birzha_dwayne_3"
+		"Ability14"		"special_bonus_birzha_dwayne_4"
+		"Ability15"		"special_bonus_birzha_dwayne_5"
+		"Ability16"		"special_bonus_birzha_dwayne_6"
+		"Ability17"		"special_bonus_birzha_dwayne_7"
+
+		"Ability25"					""
+
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Killer"
+
+		"ArmorPhysical"				"3"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackRate"				"1.5"
+		"BaseAttackSpeed"			"150"
+		"AttackAnimationPoint"		"0.330000"
+		"AttackRange"				"150"
+
+		"AttributePrimary"			"DOTA_ATTRIBUTE_STRENGTH"
+
+		"AttributeBaseStrength"		"23"
+		"AttributeStrengthGain"		"3.500000"
+		"AttributeBaseAgility"		"14"
+		"AttributeAgilityGain"		"1.500000"
+		"AttributeBaseIntelligence"		"15"
+		"AttributeIntelligenceGain"		"2.500000"
+
+		"MovementSpeed"			"300"
+		"MovementTurnRate"		"0.500000"
+
+
+
+		"SoundSet"		"Hero_Tiny"
+		"AttackDamageMin"		"31"
+		"AttackDamageMax"		"37"
+		"AttackAcquisitionRange"		"600"
+		"StatusHealthRegen"		"1.5"
+		"HasAggressiveStance"	"1"
+		"BoundsHullName"		"DOTA_HULL_SIZE_HERO"
+		"particle_folder"		"particles/units/heroes/hero_tiny"
+		"GameSoundsFile"		"soundevents/game_sounds_heroes/game_sounds_tiny.vsndevts"
+		"VoiceFile"				"soundevents/voscripts/game_sounds_vo_tiny.vsndevts"
+	}
+	"npc_dota_hero_marci"
+	{
+		"ModelScale"				"0.85"
+		"DisableWearables"			"1"
+		"Model"						"models/kyriyama/girl_2.vmdl"
+		"SoundSet"					"Hero_Juggernaut"
+
+		"Ability1"		"girl_blood_wall_shield"
+		"Ability2"		"girl_charge_of_attack"
+		"Ability3"		"girl_blood_of_blades"
+		"Ability4"		"generic_hidden"
+		"Ability5"		"generic_hidden"
+		"Ability6"		"girl_berserkers_mod"
+
+		"Ability10"		"special_bonus_birzha_girl_1"
+		"Ability11"		"special_bonus_birzha_girl_2"
+		"Ability12"		"special_bonus_birzha_girl_3"
+		"Ability13"		"special_bonus_birzha_girl_4"
+		"Ability14"		"special_bonus_birzha_girl_5"
+		"Ability15"		"special_bonus_birzha_girl_6"
+		"Ability16"		"special_bonus_birzha_girl_7"
+		"Ability17"		"special_bonus_birzha_girl_8"
+
+		"Ability25"		""
+
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Killer"
+
+		"ArmorPhysical"				"1"
+
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+
+		"AttackRate"				"1.7"
+
+		"BaseAttackSpeed"			"170"
+
+		"AttackAnimationPoint"		"0.330000"
+
+		"AttackRange"				"150"
+
+
+		"AttackSpeedActivityModifiers"
+		{
+			"fast"		"170"
+			"faster"	"275"
+			"fastest"	"350"
+		}
+
+		"AttributePrimary"			"DOTA_ATTRIBUTE_AGILITY"
+
+		"AttributeBaseStrength"		"20"
+		"AttributeStrengthGain"		"2.500000"
+
+		"AttributeBaseAgility"		"28"
+		"AttributeAgilityGain"		"3.300000"
+
+		"AttributeBaseIntelligence"		"10"
+		"AttributeIntelligenceGain"		"0"
+
+		"MovementSpeed"			"310"
+		"MovementTurnRate"		"0.500000"
+	}
+	"npc_dota_hero_silencer"
+	{
+		"ModelScale"				"1"
+		"DisableWearables"			"1"
+		"Model"						"models/heroes/anime/jojo/white_snake/pucci/pucci.vmdl"
+		"SoundSet"					"Hero_Marci"
+
+		"Ability1"		"pucci_time_acceleration"
+		"Ability2"		"pucci_erace_disk"
+		"Ability3"		"pucci_cmoon"
+		"Ability4"		"pucci_passive_dio"
+		"Ability5"		"pucci_passive_wave"
+		"Ability6"		"pucci_restart_world"
+
+		"Ability10"		"special_bonus_birzha_pucci_1"
+		"Ability11"		"special_bonus_birzha_pucci_2"
+		"Ability12"		"special_bonus_birzha_pucci_3"
+		"Ability13"		"special_bonus_birzha_pucci_4"
+		"Ability14"		"special_bonus_birzha_pucci_5"
+		"Ability15"		"special_bonus_birzha_pucci_6"
+		"Ability16"		"special_bonus_birzha_pucci_7"
+		"Ability17"		"special_bonus_birzha_pucci_8"
+
+		"Ability25"					""
+
+		"difficulty"	"Pick_medium"
+		"role_hero"		"Pick_Support"
+
+		"ArmorPhysical"				"1"
+
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+
+		"AttackRate"				"1.7"
+
+		"BaseAttackSpeed"			"170"
+
+		"AttackAnimationPoint"		"0.330000"
+
+		"AttackRange"				"320"
+
+		"AttributePrimary"			"DOTA_ATTRIBUTE_INTELLECT"
+
+		"AttributeBaseStrength"		"21"
+		"AttributeStrengthGain"		"2.300000"
+
+		"AttributeBaseAgility"		"15"
+		"AttributeAgilityGain"		"2.700000"
+
+		"AttributeBaseIntelligence"		"32"
+		"AttributeIntelligenceGain"		"3.7"
+
+		"MovementSpeed"			"320"
+		"MovementTurnRate"		"0.500000"
+	}
+
+	"npc_dota_hero_rat"
+	{
+		"BaseClass"					"npc_dota_hero_weaver"
+		"HeroID"					"172"
+		"ModelScale"				"1.1"
+		"Model"						"models/dead_rat/dead_rat.vmdl"
+		"DisableWearables"			"1"
+		"SoundSet"					"Hero_Weaver"
+
+		"Ability1"		"rat_courier_infection"
+		"Ability2"		"rat_burrow"
+		"Ability3"		"rat_passive"
+		"Ability4"		"generic_hidden"
+		"Ability5"		"generic_hidden"
+		"Ability6"		"rat_poison_explosion"
+
+		"Ability10"		"special_bonus_birzha_rat_1"
+		"Ability11"		"special_bonus_birzha_rat_2"
+		"Ability12"		"special_bonus_birzha_rat_3"
+		"Ability13"		"special_bonus_birzha_rat_4"
+		"Ability14"		"special_bonus_birzha_rat_5"
+		"Ability15"		"special_bonus_birzha_rat_6"
+		"Ability16"		"special_bonus_birzha_rat_7"
+		"Ability17"		"special_bonus_birzha_rat_8"
+
+		"Ability25"		""
+
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Carry"
+
+		"ArmorPhysical"				"1"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackRate"				"1.4"
+		"BaseAttackSpeed"			"130"
+		"AttackAnimationPoint"		"0.330000"
+		"AttackRange"				"140"
+
+		"AttackSpeedActivityModifiers"
+		{
+			"fast"		"170"
+			"faster"	"275"
+			"fastest"	"350"
+		}
+
+		"AttackDamageMin"		"33"
+		"AttackDamageMax"		"35"
+
+		"AttributePrimary"			"DOTA_ATTRIBUTE_AGILITY"
+		"AttributeBaseStrength"		"19"
+		"AttributeStrengthGain"		"2.700000"
+		"AttributeBaseAgility"		"25"
+		"AttributeAgilityGain"		"3.400000"
+		"AttributeBaseIntelligence"		"18"
+		"AttributeIntelligenceGain"		"2.3"
+
+
+		"particle_folder"		"particles/units/heroes/hero_weaver"
+		"GameSoundsFile"		"soundevents/game_sounds_heroes/game_sounds_weaver.vsndevts"
+		"VoiceFile"				"soundevents/voscripts/game_sounds_vo_weaver.vsndevts"
+		"MovementSpeed"			"300"
+		"MovementTurnRate"		"0.500000"
+	}
+
+	"npc_dota_hero_pump"
+	{
+		"BaseClass"					"npc_dota_hero_jakiro"
+		"HeroID"					"173"
+		"ModelScale"				"0.7"
+		"Model"						"models/pump/pump.vmdl"
+		"DisableWearables"			"1"
+		"SoundSet"					"Hero_Techies"
+
+		"Ability1"		"pump_charm"
+		"Ability2"		"pump_sugar"
+		"Ability3"		"pump_skid"
+		"Ability4"		"generic_hidden"
+		"Ability5"		"generic_hidden"
+		"Ability6"		"pump_spooky"
+
+		"Ability10"		"special_bonus_birzha_pump_1"
+		"Ability11"		"special_bonus_armor_5"
+
+		"Ability12"		"special_bonus_birzha_pump_2"
+		"Ability13"		"special_bonus_birzha_pump_6"
+
+		"Ability14"		"special_bonus_birzha_pump_3"
+		"Ability15"		"special_bonus_birzha_pump_4"
+
+		"Ability16"		"special_bonus_birzha_pump_5"
+		"Ability17"		"special_bonus_birzha_pump_7"
+
+		"Ability25"		""
+
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Support"
+
+		"ArmorPhysical"				"1"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackRate"				"1.6"
+		"BaseAttackSpeed"			"120"
+		"AttackAnimationPoint"		"0.330000"
+		"AttackRange"				"700"
+
+		"AttackDamageMin"		"55"
+		"AttackDamageMax"		"59"
+		"AttributePrimary"			"DOTA_ATTRIBUTE_INTELLECT"
+		"AttributeBaseStrength"		"19"
+		"AttributeStrengthGain"		"2.100000"
+		"AttributeBaseAgility"		"15"
+		"AttributeAgilityGain"		"2.100000"
+		"AttributeBaseIntelligence"		"28"
+		"AttributeIntelligenceGain"		"3.3"
+		"ProjectileModel"				"particles/rubick_willowisp_base_attack.vpcf"
+
+		"particle_folder"		"particles/units/heroes/hero_jakiro"
+		"GameSoundsFile"		"soundevents/game_sounds_heroes/game_sounds_jakiro.vsndevts"
+		"VoiceFile"				"soundevents/voscripts/game_sounds_vo_jakiro.vsndevts"
+	}
+	"npc_dota_hero_pyramide"
+	{
+		"BaseClass"					"npc_dota_hero_pugna"
+		"HeroID"					"174"
+		"ModelScale"				"0.9"
+		"Model"						"models/pyramide/pyramide.vmdl"
+		"DisableWearables"			"1"
+		"SoundSet"					"Hero_Sven"
+
+		"Ability1"		"pyramide_wires"
+		"Ability2"		"pyramide_sud"
+		"Ability3"		"pyramide_fault"
+		"Ability4"		"pyramide_passive"
+		"Ability5"		"generic_hidden"
+		"Ability6"		"pyramide_ultimate"
+
+		"Ability10"		"special_bonus_birzha_pyramide_1"
+		"Ability11"		"special_bonus_birzha_pyramide_2"
+
+		"Ability12"		"special_bonus_birzha_pyramide_3"
+		"Ability13"		"special_bonus_birzha_pyramide_4"
+
+		"Ability14"		"special_bonus_birzha_pyramide_5"
+		"Ability15"		"special_bonus_birzha_pyramide_6"
+
+		"Ability16"		"special_bonus_birzha_pyramide_7"
+		"Ability17"		"special_bonus_birzha_pyramide_8"
+
+		"Ability25"		""
+
+		"difficulty"	"Pick_easy"
+		"role_hero"		"Pick_Killer"
+
+		"ArmorPhysical"				"1"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackRate"				"1.6"
+		"BaseAttackSpeed"			"100"
+		"AttackAnimationPoint"		"0.330000"
+		"AttackRange"				"160"
+
+		"AttackDamageMin"		"55"
+		"AttackDamageMax"		"59"
+		"AttributePrimary"			"DOTA_ATTRIBUTE_STRENGTH"
+		"AttributeBaseStrength"		"20"
+		"AttributeStrengthGain"		"2.00000"
+		"AttributeBaseAgility"		"10"
+		"AttributeAgilityGain"		"2.000000"
+		"AttributeBaseIntelligence"		"25"
+		"AttributeIntelligenceGain"		"1"
+
+		"particle_folder"		"particles/units/heroes/hero_sven"
+		"GameSoundsFile"		"soundevents/game_sounds_heroes/game_sounds_sven.vsndevts"
+		"VoiceFile"				"soundevents/voscripts/game_sounds_vo_sven.vsndevts"
+	}
+
+	"npc_dota_hero_sonic"
+	{
+		"BaseClass"					"npc_dota_hero_primal_beast"
+		"HeroID"					"175"
+		"ModelScale"				"0.8"
+		"Model"						"models/sonic/sonic.vmdl"
+		"DisableWearables"			"1"
+		"SoundSet"					"Hero_PrimalBeast"
+
+		"Ability1"		"sonic_dash"
+		"Ability2"		"sonic_crash"
+		"Ability3"		"sonic_gottagofast"
+		"Ability4"		"sonic_steal_speed"
+		"Ability5"		"sonic_passive"
+		"Ability6"		"sonic_fast_sound"
+
+		"Ability10"		"special_bonus_birzha_sonic_1"
+		"Ability11"		"special_bonus_birzha_sonic_2"
+
+		"Ability12"		"special_bonus_birzha_sonic_3"
+		"Ability13"		"special_bonus_birzha_sonic_4"
+
+		"Ability14"		"special_bonus_birzha_sonic_5"
+		"Ability15"		"special_bonus_birzha_sonic_6"
+
+		"Ability16"		"special_bonus_birzha_sonic_7"
+		"Ability17"		"special_bonus_birzha_sonic_8"
+
+		"Ability25"		""
+
+		"difficulty"	"Pick_hard"
+		"role_hero"		"Pick_Killer"
+
+		"ArmorPhysical"					"1"
+		"AttackCapabilities"			"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackRate"					"1.6"
+		"BaseAttackSpeed"				"100"
+		"AttackAnimationPoint"			"0.330000"
+		"AttackRange"					"0"
+		"MovementTurnRate"				"3"
+		"AttackDamageMin"				"70"
+		"AttackDamageMax"				"90"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
+		"AttributeBaseStrength"			"20"
+		"AttributeStrengthGain"			"2.30000"
+		"AttributeBaseAgility"			"28"
+		"AttributeAgilityGain"			"2.700000"
+		"AttributeBaseIntelligence"		"18"
+		"AttributeIntelligenceGain"		"2.0"
+
+		"particle_folder"				"particles/units/heroes/hero_primal_beast"
+		"GameSoundsFile"				"soundevents/game_sounds_heroes/game_sounds_primal_beast.vsndevts"
+		"VoiceFile"						"soundevents/voscripts/game_sounds_vo_primal_beast.vsndevts"
+	}
+
+
+	"npc_dota_hero_furion"
+	{
+		"Ability1"						"metagame_shield"
+		"Ability2"						"metagame_mmr"
+		"Ability3"						"metagame_passive"
+		"Ability4"						"metagame_shadow_blade"
+		"Ability5"						"generic_hidden"
+		"Ability6"						"metagame_furion"
+				
+		"Ability10"						"special_bonus_birzha_metagame_1"
+		"Ability11"						"special_bonus_birzha_metagame_2"
+				
+		"Ability12"						"special_bonus_birzha_metagame_3"
+		"Ability13"						"special_bonus_birzha_metagame_4"
+				
+		"Ability14"						"special_bonus_birzha_metagame_5"
+		"Ability15"						"special_bonus_birzha_metagame_6"
+				
+		"Ability16"						"special_bonus_birzha_metagame_7"
+		"Ability17"						"special_bonus_birzha_metagame_8"
+				
+		"Ability25"						""
+				
+		"difficulty"					"Pick_easy"
+		"role_hero"						"Pick_Carry"
+
+		"ArmorPhysical"					"0"
+		"AttackCapabilities"			"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackRate"					"1.7"
+		"BaseAttackSpeed"				"100"
+		"AttackAnimationPoint"			"0.400000"
+		"AttackRange"					"600"
+		"MovementTurnRate"				"0.7"
+		"AttackDamageMin"				"27"
+		"AttackDamageMax"				"37"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
+		"AttributeBaseStrength"			"21"
+		"AttributeStrengthGain"			"2.600000"
+		"AttributeBaseIntelligence"		"20"
+		"AttributeIntelligenceGain"		"2.500000"
+		"AttributeBaseAgility"			"22"
+		"AttributeAgilityGain"			"3.600000"
+
+		"VoiceFile"						"soundevents/voscripts/game_sounds_vo_furion.vsndevts"
+		"particle_folder"				"particles/units/heroes/hero_furion"
+		"GameSoundsFile"				"soundevents/game_sounds_heroes/game_sounds_furion.vsndevts"
+	}
+
+	"npc_dota_hero_travoman"
+	{
+		"BaseClass"						"npc_dota_hero_chen"
+		"HeroID"						"176"
+		"ModelScale"					"0.9"
+		"Model"							"models/travoman/travoman_head.vmdl"
+		"DisableWearables"				"1"
+		"SoundSet"						"Hero_Techies"
+	
+	    "Ability1"						"travoman_land_mines"
+	    "Ability2"						"travoman_stasis_trap"
+	    "Ability3"						"travoman_suicide"
+	    "Ability4"						"travoman_focused_detonate"
+	    "Ability5"						"travoman_minefield_sign"
+	    "Ability6"						"travoman_remote_mines"
+	
+		"Ability10"						"special_bonus_hp_300"
+		"Ability11"						"special_bonus_birzha_travoman_2"
+				
+		"Ability12"						"special_bonus_birzha_travoman_3"
+		"Ability13"						"special_bonus_cast_range_250"
+				
+		"Ability14"						"special_bonus_birzha_travoman_4"
+		"Ability15"						"special_bonus_birzha_travoman_5"
+				
+		"Ability16"						"special_bonus_birzha_travoman_6"
+		"Ability17"						"special_bonus_birzha_travoman_7"
+				
+		"Ability25"						""
+	
+		"difficulty"					"Pick_hard"
+		"role_hero"						"Pick_Killer"
+
+		"ArmorPhysical"					"1"
+		"AttackCapabilities"			"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackRate"					"1.6"
+		"BaseAttackSpeed"				"120"
+		"AttackAnimationPoint"			"0.330000"
+		"AttackRange"					"700"
+
+		"AttackDamageMin"				"30"
+		"AttackDamageMax"				"32"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
+		"AttributeBaseStrength"			"22"
+		"AttributeStrengthGain"			"2.500000"
+		"AttributeBaseAgility"			"15"
+		"AttributeAgilityGain"			"1.300000"
+		"AttributeBaseIntelligence"		"25"
+		"AttributeIntelligenceGain"		"3.3"
+		"ProjectileModel"				"particles/econ/items/techies/techies_arcana/techies_base_attack_arcana.vpcf"
+		"MovementSpeed"					"320"
+
+		"particle_folder"				"particles/units/heroes/hero_techies"
+		"GameSoundsFile"				"soundevents/game_sounds_heroes/game_sounds_techies.vsndevts"
+		"VoiceFile"						"soundevents/voscripts/game_sounds_vo_techies.vsndevts"
+	}	
+
+	"npc_dota_hero_jull"
+	{
+		"BaseClass"						"npc_dota_hero_disruptor"
+		"HeroID"						"177"
+		"ModelScale"					"1"
+		"Model"							"models/jull/jull.vmdl"
+		"DisableWearables"				"1"
+		"SoundSet"						"Hero_Disruptor"
+	
+	    "Ability1"						"jull_crive_realy"
+	    "Ability2"						"jull_choronostasis"
+	    "Ability3"						"jull_in_time"
+	    "Ability4"						"jull_light_future"
+	    "Ability5"						"jull_steal_time"
+	    "Ability6"						"jull_portal_backend"
+	
+		"Ability10"						"special_bonus_birzha_jull_3"
+		"Ability11"						"special_bonus_birzha_jull_2"
+				
+		"Ability12"						"special_bonus_birzha_jull_1"
+		"Ability13"						"special_bonus_birzha_jull_4"
+				
+		"Ability14"						"special_bonus_birzha_jull_5"
+		"Ability15"						"special_bonus_mana_reduction_8"
+				
+		"Ability16"						"special_bonus_birzha_jull_7"
+		"Ability17"						"special_bonus_birzha_jull_8"
+				
+		"Ability25"						""
+	
+		"difficulty"					"Pick_hard"
+		"role_hero"						"Pick_Killer"
+
+		"ArmorPhysical"					"1"
+		"AttackCapabilities"			"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackRate"					"1.8"
+		"BaseAttackSpeed"				"120"
+		"AttackAnimationPoint"			"0.330000"
+		"AttackRange"					"600"
+
+		"AttackDamageMin"				"0"
+		"AttackDamageMax"				"0"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
+		"AttributeBaseStrength"			"20"
+		"AttributeStrengthGain"			"2.700000"
+		"AttributeBaseAgility"			"20"
+		"AttributeAgilityGain"			"1.500000"
+		"AttributeBaseIntelligence"		"35"
+		"AttributeIntelligenceGain"		"4.5"
+		"ProjectileModel"				"particles/jull_base_attack_tinker_laser.vpcf"
+		"MovementSpeed"					"310"
+		"ProjectileSpeed"				"10000"
+
+		"particle_folder"				"particles/units/heroes/hero_disruptor"
+		"GameSoundsFile"				"soundevents/game_sounds_heroes/game_sounds_disruptor.vsndevts"
+		"VoiceFile"						"soundevents/voscripts/game_sounds_vo_disruptor.vsndevts"
+	}
+}
+
+

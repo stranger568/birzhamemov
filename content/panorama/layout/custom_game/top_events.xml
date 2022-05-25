@@ -1,0 +1,23 @@
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="s2r://panorama/styles/custom_game/top_events.vcss_c" />
+	</styles>
+	
+	<Panel hittest="false" class="Events">
+		<Panel hittest="false" class="EventsPanels">
+			<Panel id="Bristlekek">
+				<Image class = "BristlekekImage" src="file://{images}/custom_game/events/bristlekek_png.vtex" />
+				<Label class="BristlekekDeath" text="#BristekekDeath" />
+			</Panel>
+			<Panel id="LolBlade">
+				<Image class = "LolbladeImage" src="file://{images}/custom_game/events/lolblade_png.vtex" />
+				<Label class="LolbladeDeath" text="#LolBladeDeath" />
+			</Panel>
+			<Panel id="Fountain">
+				<Image class = "FountainImage" src="file://{images}/custom_game/events/fountain_png.vtex" />
+				<Label class="FoutainOff" text="#fountainoff" />
+			</Panel>
+		</Panel>
+	</Panel>
+</root>

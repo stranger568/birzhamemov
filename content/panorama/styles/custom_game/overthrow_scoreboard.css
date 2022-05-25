@@ -1,0 +1,173 @@
+.ScoreboardLeft{margin-left: 6px;margin-top: 0px;margin-right: -40px;flow-children: down;}
+
+
+
+
+
+
+
+
+
+
+
+.VictoryPanel{
+	align: right top;
+	flow-children: down;
+}
+
+#AllVictoryPanel {
+	width: 255px;
+	flow-children: right-wrap;
+	transition-property: transform;
+    transition-duration: 0.5s;
+}
+
+.PanelInformation {
+	background-image: url("file://{images}/custom_game/right_info/panel.png");
+    background-size: contain;
+    width: 64px;
+    height: 64px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    flow-children: down;
+    box-shadow: gray 0px 0px 2px 1px;
+    tooltip-position: bottom;
+    border-radius: 5px;
+}
+
+.PanelText {
+	font-size: 18px;
+	font-weight: bold;
+	color: white;
+	horizontal-align: center;
+	width: 64px;
+	text-align: center;
+	margin-top: 3px;
+}
+
+.PanelCenter {
+	flow-children: down;
+	align: center center;
+}
+
+#TimerGame {
+	background-image: url("s2r://panorama/images/hud/reborn/icon_sun_psd.vtex");
+	transform: scaleX(-1);
+	width: 25px;
+	height: 25px;
+	background-size: 100%;
+	horizontal-align: center;
+}
+
+#PointToWin
+{
+	background-image: url("file://{images}/custom_game/right_info/win.png");
+	width: 25px;
+	height: 25px;
+	background-size: 100%;
+	horizontal-align: center;
+}
+
+
+#TimerReward
+{
+	background-image: url("file://{images}/custom_game/right_info/reward.png");
+	width: 25px;
+	height: 25px;
+	background-size: 100%;
+	horizontal-align: center;
+}
+
+
+#FountainTimerLogo
+{
+	background-image: url("file://{images}/custom_game/right_info/fountain.png");
+	width: 25px;
+	height: 25px;
+	background-size: 100%;
+	horizontal-align: center;
+}
+
+
+#EndGameTimer
+{
+	background-image: url("file://{images}/custom_game/right_info/end.png");
+	width: 25px;
+	height: 25px;
+	background-size: 100%;
+	horizontal-align: center;
+}
+
+#TimerContract
+{
+	background-image: url("file://{images}/custom_game/right_info/contract.png");
+	width: 25px;
+	height: 25px;
+	background-size: 100%;
+	horizontal-align: center;
+}
+
+#CloseGameInfo {
+	horizontal-align: right;
+	margin-right: 10px;
+	margin-top: 5px;
+}
+
+.TextOpen {
+	font-size: 14px;
+	color: white;
+	text-align: center;
+	margin-top: 3px;
+	font-family: Radiance;
+	text-shadow: 0px 0px 5px 3 black;
+}
+
+.TextOpen:hover {
+	color: white;
+}
+
+
+#ContractPanel {
+	width: 200px;
+	margin-top: 20px;
+	background-color: rgba(0,0,0,0.8);
+	align: right top;
+	flow-children: down;
+	transition-property: transform;
+    transition-duration: 0.5s;
+}
+
+.LabelText {
+	font-size: 15px;
+	horizontal-align: center;
+	color: white;
+	margin-top: 2px;
+}
+
+#HeroIcons {
+	flow-children: down;
+	margin-top: 10px;
+}
+
+.Hero {
+	flow-children: right;
+}
+
+.HeroIcon {
+	background-image: url("file://{images}/custom_game/hight_hood/heroes/npc_dota_hero_abaddon_png.png");
+	background-size: 100%;
+	width: 50px;
+	height: 30px;
+	margin: 5px;
+	vertical-align: center;
+}
+
+.HeroName {
+	font-size: 18px;
+	font-weight: bold;
+	color: white;
+	vertical-align: center;
+	width: 130px;
+	text-align: center;
+}

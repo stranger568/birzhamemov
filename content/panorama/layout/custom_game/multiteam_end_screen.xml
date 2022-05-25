@@ -1,0 +1,36 @@
+<root>
+    <styles>
+ 		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+        <include src="s2r://panorama/styles/custom_game/multiteam_end_screen.vcss_c" />
+    </styles>
+
+    <scripts>
+         <include src="s2r://panorama/scripts/custom_game/shared_scoreboard_updater.vjs_c" />
+       <include src="s2r://panorama/scripts/custom_game/multiteam_end_screen.vjs_c" />
+    </scripts>
+
+	<Panel hittest="false" class="EndScreenRoot">
+		<Panel id="CustomBg">
+			<DOTAScenePanel id="BackgroundScene" map="maps/backgrounds/dashboard_parallax_ti6_initial.vmap" always-cache-composition-layer="true"/>
+		</Panel>
+		<Panel hittest="false" class="EndScreenWindow">
+			<Panel class="Legend">
+				<Panel class="LegendPanel ScoreCol_TeamInfo" />
+				<Panel class="LegendPanel ScoreCol_Hero" />
+				<Panel class="LegendPanel ScoreCol_PlayerDetails" />
+				<Label class="LegendPanel ScoreCol_TeamScore" text="#custom_end_screen_legend_team_score" />
+				<Label class="LegendPanel ScoreCol_Kills" text="#custom_end_screen_legend_kills" />
+				<Label class="LegendPanel ScoreCol_Deaths" text="#custom_end_screen_legend_deaths" />
+				<Label class="LegendPanel ScoreCol_Assists" text="#custom_end_screen_legend_assists" />
+				<Label class="LegendPanel ScoreCol_Items" text="#custom_end_screen_legend_items" />
+				<Label class="LegendPanel ScoreCol_Mmr" text="MMR" />
+				<Label class="LegendPanel ScoreCol_MmrPlus" />
+				<Label class="LegendPanel ScoreCol_DogePlus"/>
+			</Panel>
+			<Panel id="TeamsContainer" />
+			<Button id="CloseButton" onactivate="Game.FinishGame();">
+				<Label text="#CustomEndScreenClose" />
+			</Button>
+		</Panel>
+	</Panel>
+</root>

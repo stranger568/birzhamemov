@@ -1,0 +1,85 @@
+.invisible{opacity: 0;visibility: collapse;transition-property: opacity;transition-delay: 0.0s;transition-duration: 0.4s;transition-timing-function: ease-in-out;}.disabled{saturation: 0.4;}.AddonLoadingRoot{width: 100%;height: 100%;background-color: black;overflow: clip;}#TitlePanel{horizontal-align: left;vertical-align: bottom;margin-bottom: 450px;position: 480px 0px 0px;animation-name: title_animation;animation-delay: 1s;animation-duration: 1s;animation-iteration-count: 999;}@keyframes 'title_animation'{50%{pre-transform-scale2d: 1.1;}}#CustomBg{width: 100%;height: 100%;overflow: clip;background-repeat: no-repeat;background-position: 0px 0px;background-size: 100% 100%;}#Movie{width: 100%;height: 100%;overflow: clip;background-repeat: no-repeat;background-position: 0px 0px;background-size: 100% 100%;z-index: -5;}#community_stuff_container{height: 100%;position: 100px 0px 0px;}#CommunityPanel{padding-top: -30px;margin-top: 50px;width: 400px;flow-children: down;background-color: #0d1c22ff, gradient( radial, 100% -0%, 100px -40px, 320% 270%, from( #3a464bff ), color-stop( 0.23, #0d1c22ff ), to( #0d1c22ff ) );transition-property: opacity;transition-delay: 0.0s;transition-duration: 0.4s;transition-timing-function: ease-in-out;}.Header{font-size: 24px;horizontal-align: center;vertical-align: center;color: #ffffff;}.CommunityImg{margin-top: 5px;margin-bottom: 5px;horizontal-align: center;border-radius: 10px;saturation: 0.9;transition-property: saturation, box-shadow;transition-duration: 0.2s;}.CommunityImg:hover{saturation: 1.0;box-shadow: #ffffff 0px 0px 10px 0px;}.column{width: 100%;flow-children: down;}.CommunityImg:active{transform: translate3d(1px, 1px, 0px);sound: "ui_team_select_lock_and_start";}.CommunityText{margin-top: 5px;margin-bottom: 5px;margin-left: 10px;margin-right: 10px;text-align: center;horizontal-align: center;}#Birzha-social{vertical-align: top;padding: 10px;margin-left: 100px;}#Birzha-social-buttons{flow-children: down;}#Birzha-social-buttons Button{width: 200px;height: 65px;box-shadow: #0096ff 0 0 10px 0;background-position: center center;border-radius: 50px;margin-top: 20px;}.AspectRatio4x3 #Birzha-social-buttons Button{width: 180px;height: 59px;box-shadow: #000 0 0 10px 0;background-position: center center;}#Birzha-social-buttons Button:hover{box-shadow: #111 0 0 15px 0;}#Birzha-social-buttons Button:active{box-shadow: #333 0 0 15px 0;}.AspectRatio4x3 #Birzha-social-buttons Button:active{width: 178px;}.Birzha-social-button{margin-left: 20px;background-size: contain;saturation: 0.9;}.Birzha-social-button:hover{saturation: 1.0;}#Birzha-social-button-dotaru{background-image: url("s2r://");}#Birzha-social-button-discord-ru{background-image: url("s2r://");}#Birzha-social-button-vk{background-image: url("s2r://");}#Birzha-social-button-wiki{background-image: url("s2r://");}.AspectRatio4x3 #Birzha-social-button-vk{background-size: contain;}#imba-loading-title-promote,{width: 300px;margin-top: 110px;margin-left: 95px;flow-children: right;background-color: gradient( linear, 0% 0%, 0% 100%, from( #2a3139 ), to( #062648 ) );}.down{flow-children: down;width: 100%;box-shadow: 0 0 10px #111;padding: 20px 40px;}#imba-loading-title-text-promote{font-size: 36px;}#imba-loading-content-text-promote,{font-size: 20px;color: #cccccc;width: 100%;}#imba-loading-link-promote{background-color: green;border: 2px solid green;box-shadow: 0 0 10px #111;margin-top: 20px;}#imba-loading-link-text-promote{padding: 0px 10px;font-size: 18px;text-shadow: 0 0 5px #000;color: #cccccc;}.News{height: 100%;flow-children: down;}#TipContainer{margin-top: 20px;width: 600px;height: 120px;z-index: 1;border-top: 2px solid black;background-image: url("s2r://panorama/images/custom_game/background_panel_ls_png.vtex");background-size: 100% 130%;box-shadow: 0px 0px 25px 2px #000000a5;animation-name: TipAnimation;animation-duration: 0.75s;}@keyframes 'TipAnimation'{0%{transform: translatey( -5% );}100%{transform: translatey( 0px );}}#TipText{horizontal-align:left;margin-left: 10px;margin-top: 12px;max-width: 450px;height: 100px;}#TipText > Label{vertical-align: center;color: #ffffff;text-overflow: shrink;font-size: 16px;}#NextTip{horizontal-align:right;background-image: url("s2r://panorama/images/custom_game/refresh_png.vtex");}.TipButton{vertical-align: center;width: 25px;height: 25px;background-size: 80% 80%;background-position: 50% 50%;background-repeat: no-repeat;wash-color:white;margin-right: 8px;margin-top: 5px;}#InfoWidgets{height: 100%;width: 600px;align: center center;margin-top: 150px;}#RankedInfo{width: 500px;height: 800px;align: left top;flow-children: down;}.AspectRatio5x4 #RankedInfo, .AspectRatio4x3 #RankedInfo{width: 500px;flow-children: down;}#RankedInfoContainer{height: 200px;}.WidgetContainer{width: 100%;height: 200px;}#RankedSeasonInfo{width: fill-parent-flow(1.0);height: 200px;background-image: url("s2r://panorama/images/custom_game/background_panel_ls_png.vtex");background-size: 100% 100%;border-top: 1px solid #490cae;box-shadow: 0px 0px 25px 2px #000000a5;}#RankedSeasonTop{width: 100%;flow-children: down;}.WidgetHeader{margin-top: 5px;horizontal-align: center;color: white;text-transform: uppercase;font-size: 20px;}.AspectRatio5x4 .WidgetHeader, .AspectRatio4x3 .WidgetHeader{font-size: 20px;}.RankedPlayers{flow-children: right;horizontal-align: center;margin-top: 10px;}#RankedInfoLoading{align: center center;}#RankedInfoHeader{align: left top;width: 120px;height: 32px;background-color: black;}#RankedInfoHeaderText{align: center center;text-transform: uppercase;color: skyblue;font-size: 16px;}.RankedSeasonCongratulationsPlayerAvatar{align: center center;width: 80px;height: 80px;border-radius: 10px;border: 1px solid gold;margin-bottom: 10px;margin-left: 15px;margin-right: 15px;margin-top: 20px;}.TopMmrPlayersSeasonPlayer{flow-children: right;align: center center;}.textcenter{align: center center;}.Player{flow-children: down;}.TrophyClass{background-image: url("s2r://panorama/images/custom_game/icon_trophy_battle_cup_summer_png.vtex");background-size: 100% 100%;background-repeat: no-repeat;width: 25px;height: 25px;align: center center;}#DonateContainer{margin-top: 20px;width: 600px;height: 120px;z-index: 1;border-top: 2px solid black;background-image: url("s2r://panorama/images/custom_game/background_panel_ls_png.vtex");background-size: 100% 130%;box-shadow: 0px 0px 25px 2px #000000a5;animation-name: DonateAnimation;animation-duration: 0.75s;}#DonateContainer:hover{border-top: 2px solid #490cae;}#TipContainer:hover{border-top: 2px solid #490cae;}#DonateInformation{margin-top: 20px;horizontal-align:center;margin-right: 8px;margin-left: 8px;max-width: 500px;height: 100%;padding: 2px;}#DonateInformation > Label{vertical-align: center;color: #ffffff;text-overflow: shrink;font-size: 16px;max-width: 450px;}#PassIcon{horizontal-align:right;background-image: url("s2r://panorama/images/custom_game/birzhapass/passbuttonoff_png.vtex");}.PassIcon{vertical-align: center;width: 80px;height: 80px;background-size: 80% 80%;background-position: 50% 50%;background-repeat: no-repeat;wash-color:white;margin-top: 15px;}#DonateContainer_2{margin-top: 20px;width: 600px;height: 120px;z-index: 1;border-top: 2px solid black;background-image: url("s2r://panorama/images/custom_game/background_panel_ls_png.vtex");background-size: 100% 130%;box-shadow: 0px 0px 25px 2px #000000a5;animation-name: DonateAnimation2;animation-duration: 0.75s;}@keyframes 'DonateAnimation2'{0%{transform: translatey( -60% );}100%{transform: translatey( 0px );}}@keyframes 'DonateAnimation'{0%{transform: translatey( -30% );}100%{transform: translatey( 0px );}}#DonateContainer_2:hover{border-top: 2px solid #490cae;}#DonateInformation_2{horizontal-align:center;margin-right: 8px;margin-left: 8px;max-width: 500px;height: 100%;padding: 2px;}#DonateInformation_2 > Label{vertical-align: center;color: #ffffff;text-overflow: shrink;font-size: 18px;}.NewWidgetLabel{margin-top: 3px;horizontal-align: center;color: white;text-transform: uppercase;font-size: 14px;}
+
+
+.RogaClass {
+    background-image: url("file://{images}/custom_game/roga.png");
+    background-size: 100%;
+    width: 54px;
+    height: 30px;
+    margin-top: 4px;
+    horizontal-align: center;
+    z-index: 2;
+}
+
+.RogaPlayer {
+    height: 135px;
+}
+
+.RogaPlayer DOTAAvatarImage {
+	margin-bottom: 34px;
+}
+
+#PlayerModifiedParticleAegis {
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+#PlayerModifiedParticleAegis2 {
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.TrophyClassRoga
+{
+    background-image: url("s2r://panorama/images/custom_game/icon_trophy_battle_cup_summer_png.vtex");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    width: 25px;
+    height: 25px;
+    align: center bottom;
+}
+
+.LostBetaMain{
+    margin-left: 200px;
+    margin-top: 150px;
+    width: 400px;
+    flow-children: down;
+    background-image: url("s2r://panorama/images/custom_game/background_panel_ls_png.vtex");
+    transition-property: pre-transform-scale2d;
+    transition-duration: 0.5s;
+    background-size: 100% 100%;
+}
+
+.LostBetaMain:hover {
+   pre-transform-scale2d: 1.1;
+}
+
+.LostBetaIcon{
+    width: 300px;
+    horizontal-align: center;
+    height: 250px;
+    background-size: 100%;
+    background-image: url("file://{images}/custom_game/lost_beta.jpg");
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.LostBetaLabel {
+    margin-top: 10px;
+    font-size: 16px;
+    color:white;
+    horizontal-align: center;
+
+
+
+}
+.LostBetaLabel2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color:white;
+    horizontal-align: center;
+    font-weight: bold;
+
+}

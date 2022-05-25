@@ -1,0 +1,8 @@
+birzhamemov_samepick
+{
+	material materials/overviews/birzhamemov_samepick.vmat
+	pos_x -6144
+	pos_y 6144
+	scale 12.000
+}
+

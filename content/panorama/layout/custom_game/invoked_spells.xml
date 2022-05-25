@@ -1,0 +1,26 @@
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="s2r://panorama/styles/custom_game/invoked_spells.vcss_c" />
+	</styles>
+
+	 <scripts>
+		<include src="s2r://panorama/scripts/custom_game/invoked_spells.vjs_c" />
+	</scripts>
+
+
+	<Panel class="Main" hittest="false">
+		<Panel id="AangButton" onactivate="AangWindowActive();">
+			<Label class="SpellsLabelAang" text="#DOTA_InvokerSpellCard_Title"/>
+		</Panel>	
+		<Panel id="KakashiButton" onactivate="KakashiWindowActive();">
+			<Label class="SpellsLabelAang" text="#DOTA_InvokerSpellCard_Title"/>
+		</Panel>
+		<Panel id="AangWindowAbilities">
+
+		</Panel>
+		<Panel id="KakashiWindowAbilities">
+
+		</Panel>				
+	</Panel>
+</root>

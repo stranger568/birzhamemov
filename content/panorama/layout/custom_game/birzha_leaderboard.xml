@@ -1,0 +1,299 @@
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="s2r://panorama/styles/custom_game/birzha_memepass.vcss_c" />
+		<include src="s2r://panorama/styles/dashboard_page_shared.vcss_c" />
+	</styles>
+
+	<scripts>
+		<include src="s2r://panorama/scripts/custom_game/birzha_leaderboard.vjs_c" />
+	</scripts>
+
+	<Panel class="Leaderboard" hittest="false">
+
+		<Panel id="ButtonsPanelBackground" />
+
+		<Panel id="LeaderBoardButton" onactivate="ToggleLeaderboard();">
+			<Panel class="LeaderBoardButtonIcon" />
+			<Label class="LeaderBoardButtonLabel" text="#LeaderBoard_button" />
+		</Panel>
+
+		<Panel id="LeaderboardWindow" hittest="false">
+			<Panel class="Leaderboardlogo">
+				<Panel id="LeaderBoardIcon" class="LeaderBoardIcon"/>
+				<Label text = "#birzhapass_leaderboards" class = "BirzhaPassLogoText"/>	
+			</Panel>
+			<Panel class="Leaderboardblock" hittest="false">
+				<Panel id="DonatorInfoContainer" hittest="false">
+					<Panel class = "InfoLeaderboardblock">
+						<Label text = "#birzhapass_leaderboards_description" class = "InfoLeaderboardblockPlayer"/>
+					</Panel>
+					<Panel id = "TopMmrPanel1" hittest = "false" class = "TopMmrClass">
+						<Label text = "" id = "MmrTopCount1" class = "LabelTopMmrlow"/>
+						<Panel class="PlayerInfoTable">
+							<DOTAAvatarImage id="TopMmrAvatar1" steamid="" class="AvatarTopMmr" />
+							<DOTAUserName id = "NickLabelid1"  steamid = "" class = "TopMmrNick" />
+						</Panel>
+						<Panel class="MmrInfoTable">
+							<Image class = "MmrLeaderboard" src="file://{images}/custom_game/birzhapass/mmr_png.png" />
+							<Label text = "0" id = "TopMmrReatingCount1" class = "TopMmrReatingCount"/>
+						</Panel>
+					</Panel>
+					<Panel id = "TopMmrPanel2" hittest = "false" class = "TopMmrClass">
+						<Label text = "" id = "MmrTopCount2" class = "LabelTopMmrlow"/>
+						<Panel class="PlayerInfoTable">
+							<DOTAAvatarImage id="TopMmrAvatar2" steamid="" class="AvatarTopMmr" />
+							<DOTAUserName id = "NickLabelid2" steamid = "" class = "TopMmrNick" />
+						</Panel>
+						<Panel class="MmrInfoTable">
+							<Image class = "MmrLeaderboard" src="file://{images}/custom_game/birzhapass/mmr_png.png" />
+							<Label text = "0" id = "TopMmrReatingCount2" class = "TopMmrReatingCount"/>
+						</Panel>
+					</Panel>
+					<Panel id = "TopMmrPanel3" hittest = "false" class = "TopMmrClass">
+						<Label text = "" id = "MmrTopCount3" class = "LabelTopMmrlow"/>
+						<Panel class="PlayerInfoTable">
+							<DOTAAvatarImage  id="TopMmrAvatar3" steamid="" class="AvatarTopMmr" />
+							<DOTAUserName id = "NickLabelid3"  steamid = "" class = "TopMmrNick" />
+						</Panel>
+						<Panel class="MmrInfoTable">
+							<Image class = "MmrLeaderboard" src="file://{images}/custom_game/birzhapass/mmr_png.png" />
+							<Label text = "0" id = "TopMmrReatingCount3" class = "TopMmrReatingCount"/>
+						</Panel>
+					</Panel>
+					<Panel id = "TopMmrPanel4" hittest = "false" class = "TopMmrClass">
+						<Label text = "" id = "MmrTopCount4" class = "LabelTopMmrlow"/>
+						<Panel class="PlayerInfoTable">
+							<DOTAAvatarImage  id="TopMmrAvatar4" steamid="" class="AvatarTopMmr" />
+							<DOTAUserName id = "NickLabelid4"  steamid = "" class = "TopMmrNick" />
+						</Panel>
+						<Panel class="MmrInfoTable">
+							<Image class = "MmrLeaderboard" src="file://{images}/custom_game/birzhapass/mmr_png.png" />
+							<Label text = "0" id = "TopMmrReatingCount4" class = "TopMmrReatingCount"/>
+						</Panel>
+					</Panel>
+					<Panel id = "TopMmrPanel5" hittest = "false" class = "TopMmrClass">
+						<Label text = "" id = "MmrTopCount5" class = "LabelTopMmrlow"/>
+						<Panel class="PlayerInfoTable">
+							<DOTAAvatarImage  id="TopMmrAvatar5" steamid="" class="AvatarTopMmr" />
+							<DOTAUserName id = "NickLabelid5"  steamid = "" class = "TopMmrNick" />
+						</Panel>
+						<Panel class="MmrInfoTable">
+							<Image class = "MmrLeaderboard" src="file://{images}/custom_game/birzhapass/mmr_png.png" />
+							<Label text = "0" id = "TopMmrReatingCount5" class = "TopMmrReatingCount"/>
+						</Panel>
+					</Panel>
+					<Panel id = "TopMmrPanel6" hittest = "false" class = "TopMmrClass">
+						<Label text = "" id = "MmrTopCount6" class = "LabelTopMmrlow"/>
+						<Panel class="PlayerInfoTable">
+							<DOTAAvatarImage  id="TopMmrAvatar6" steamid="" class="AvatarTopMmr" />
+							<DOTAUserName id = "NickLabelid6"  steamid = "" class = "TopMmrNick" />
+						</Panel>
+						<Panel class="MmrInfoTable">
+							<Image class = "MmrLeaderboard" src="file://{images}/custom_game/birzhapass/mmr_png.png" />
+							<Label text = "0" id = "TopMmrReatingCount6" class = "TopMmrReatingCount"/>
+						</Panel>
+					</Panel>
+					<Panel id = "TopMmrPanel7" hittest = "false" class = "TopMmrClass">
+						<Label text = "" id = "MmrTopCount7" class = "LabelTopMmrlow"/>
+						<Panel class="PlayerInfoTable">
+							<DOTAAvatarImage  id="TopMmrAvatar7" steamid="" class="AvatarTopMmr" />
+							<DOTAUserName id = "NickLabelid7"  steamid = "" class = "TopMmrNick" />
+						</Panel>
+						<Panel class="MmrInfoTable">
+							<Image class = "MmrLeaderboard" src="file://{images}/custom_game/birzhapass/mmr_png.png" />
+							<Label text = "0" id = "TopMmrReatingCount7" class = "TopMmrReatingCount"/>
+						</Panel>
+					</Panel>
+					<Panel id = "TopMmrPanel8" hittest = "false" class = "TopMmrClass">
+						<Label text = "" id = "MmrTopCount8" class = "LabelTopMmrlow"/>
+						<Panel class="PlayerInfoTable">
+							<DOTAAvatarImage  id="TopMmrAvatar8" steamid="" class="AvatarTopMmr" />
+							<DOTAUserName id = "NickLabelid8"  steamid = "" class = "TopMmrNick" />
+						</Panel>
+						<Panel class="MmrInfoTable">
+							<Image class = "MmrLeaderboard" src="file://{images}/custom_game/birzhapass/mmr_png.png" />
+							<Label text = "0" id = "TopMmrReatingCount8" class = "TopMmrReatingCount"/>
+						</Panel>
+					</Panel>
+					<Panel id = "TopMmrPanel9" hittest = "false" class = "TopMmrClass">
+						<Label text = "" id = "MmrTopCount9" class = "LabelTopMmrlow"/>
+						<Panel class="PlayerInfoTable">
+							<DOTAAvatarImage  id="TopMmrAvatar9" steamid="" class="AvatarTopMmr" />
+							<DOTAUserName id = "NickLabelid9"  steamid = "" class = "TopMmrNick" />
+						</Panel>
+						<Panel class="MmrInfoTable">
+							<Image class = "MmrLeaderboard" src="file://{images}/custom_game/birzhapass/mmr_png.png" />
+							<Label text = "0" id = "TopMmrReatingCount9" class = "TopMmrReatingCount"/>
+						</Panel>
+					</Panel>
+					<Panel id = "TopMmrPanel10" hittest = "false" class = "TopMmrClass">
+						<Label text = "" id = "MmrTopCount10" class = "LabelTopMmrlow"/>
+						<Panel class="PlayerInfoTable">
+							<DOTAAvatarImage  id="TopMmrAvatar10" steamid="" class="AvatarTopMmr" />
+							<DOTAUserName id = "NickLabelid10"  steamid = "" class = "TopMmrNick" />
+						</Panel>
+						<Panel class="MmrInfoTable">
+							<Image class = "MmrLeaderboard" src="file://{images}/custom_game/birzhapass/mmr_png.png" />
+							<Label text = "0" id = "TopMmrReatingCount10" class = "TopMmrReatingCount"/>
+						</Panel>
+					</Panel>
+				</Panel>
+
+				<Panel id="DeveloperInfoContainer" hittest="true">
+
+					<Panel class = "InfoLeaderboardblockCreators">
+						<Label text = "#DevelopersLabel" class = "InfoLeaderboardblockPlayer"/>
+					</Panel>
+					<Panel hittest="false" class="TopMmrClass">
+						<Panel class="PlayerInfoTableCreators">
+							<DOTAAvatarImage steamid="76561198066362606" class="AvatarTopMmr" />
+							<DOTAUserName steamid="76561198066362606" class="TopMmrNick" />
+						</Panel>
+					</Panel>
+					<Panel class = "InfoLeaderboardblockCreators">
+						<Label text = "#DonatersLabel" class = "InfoLeaderboardblockPlayer"/>
+					</Panel>
+
+					<Panel hittest="false" class="TopMmrClassExclusive">
+						<Panel class="ExclusiveDonaterBackground" />
+						<Panel class="PlayerInfoTableCreators">
+							<DOTAAvatarImage steamid="76561198192577435" class="AvatarTopMmr" />
+							<DOTAUserName steamid="76561198192577435" class="TopMmrNick" />
+						</Panel>
+					</Panel>
+
+					<Panel hittest="false" class="TopMmrClassExclusive">
+						<Panel class="ExclusiveDonaterBackground" />
+						<Panel class="PlayerInfoTableCreators">
+							<DOTAAvatarImage steamid="76561198073635811" class="AvatarTopMmr" />
+							<DOTAUserName steamid="76561198073635811" class="TopMmrNick" />
+						</Panel>
+					</Panel>
+
+					<Panel hittest="false" class="TopMmrClass">
+						<Panel class="PlayerInfoTableCreators">
+							<DOTAAvatarImage steamid="76561199232233912" class="AvatarTopMmr" />
+							<DOTAUserName steamid="76561199232233912" class="TopMmrNick" />
+						</Panel>
+					</Panel>
+
+					<Panel hittest="false" class="TopMmrClass">
+						<Panel class="PlayerInfoTableCreators">
+							<DOTAAvatarImage steamid="76561198214768023" class="AvatarTopMmr" />
+							<DOTAUserName steamid="76561198214768023" class="TopMmrNick" />
+						</Panel>
+					</Panel>
+					<Panel hittest="false" class="TopMmrClass">
+						<Panel class="PlayerInfoTableCreators">
+							<DOTAAvatarImage  steamid="76561198101300156" class="AvatarTopMmr" />
+							<DOTAUserName steamid="76561198101300156" class="TopMmrNick" />
+						</Panel>
+					</Panel>
+					<Panel hittest="false" class="TopMmrClass">
+						<Panel class="PlayerInfoTableCreators">
+							<DOTAAvatarImage steamid="76561198090434385" class="AvatarTopMmr" />
+							<DOTAUserName steamid="76561198090434385" class="TopMmrNick" />
+						</Panel>
+					</Panel>
+					<Panel hittest="false" class="TopMmrClass">
+						<Panel class="PlayerInfoTableCreators">
+							<DOTAAvatarImage steamid="76561198019243662" class="AvatarTopMmr" />
+							<DOTAUserName steamid="76561198019243662" class="TopMmrNick" />
+						</Panel>
+					</Panel>
+					<Panel hittest="false" class="TopMmrClass">
+						<Panel class="PlayerInfoTableCreators">
+							<DOTAAvatarImage steamid="76561198162436859" class="AvatarTopMmr" />
+							<DOTAUserName steamid="76561198162436859" class="TopMmrNick" />
+						</Panel>
+					</Panel>
+					<Panel class = "InfoLeaderboardblockCreators">
+						<Label text = "#ThanksLabel" class = "InfoLeaderboardblockPlayer"/>
+					</Panel>
+
+
+					<Panel hittest="false" class="TopMmrClass">
+						<Panel class="PlayerInfoTableCreators">
+							<DOTAAvatarImage steamid="76561198125120694" class="AvatarTopMmr" />
+							<DOTAUserName steamid="76561198125120694" class="TopMmrNick" />
+						</Panel>
+					</Panel>
+					<Panel hittest="false" class="TopMmrClass">
+						<Panel class="PlayerInfoTableCreators">
+							<DOTAAvatarImage steamid="76561198081980335" class="AvatarTopMmr" />
+							<DOTAUserName steamid="76561198081980335" class="TopMmrNick" />
+						</Panel>
+					</Panel>
+
+					<Panel hittest="false" class="TopMmrClass">
+						<Panel class="PlayerInfoTableCreators">
+							<DOTAAvatarImage steamid="76561198020868538" class="AvatarTopMmr" />
+							<DOTAUserName steamid="76561198020868538" class="TopMmrNick" />
+						</Panel>
+					</Panel>
+
+					<Panel hittest="false" class="TopMmrClass">
+						<Panel class="PlayerInfoTableCreators">
+							<DOTAAvatarImage steamid="76561198101300156" class="AvatarTopMmr" />
+							<DOTAUserName steamid="76561198101300156" class="TopMmrNick" />
+						</Panel>
+					</Panel>
+					<Panel hittest="false" class="TopMmrClass">
+						<Panel class="PlayerInfoTableCreators">
+							<DOTAAvatarImage steamid="76561198208610469" class="AvatarTopMmr" />
+							<DOTAUserName steamid="76561198208610469" class="TopMmrNick" />
+						</Panel>
+					</Panel>
+					<Panel hittest="false" class="TopMmrClass">
+						<Panel class="PlayerInfoTableCreators">
+							<DOTAAvatarImage steamid="76561198224912332" class="AvatarTopMmr" />
+							<DOTAUserName steamid="76561198224912332" class="TopMmrNick" />
+						</Panel>
+					</Panel>
+										<Panel hittest="false" class="TopMmrClass">
+						<Panel class="PlayerInfoTableCreators">
+							<DOTAAvatarImage steamid="76561198225671100" class="AvatarTopMmr" />
+							<DOTAUserName steamid="76561198225671100" class="TopMmrNick" />
+						</Panel>
+					</Panel>
+					<Panel hittest="false" class="TopMmrClass">
+						<Panel class="PlayerInfoTableCreators">
+							<DOTAAvatarImage steamid="76561198250906274" class="AvatarTopMmr" />
+							<DOTAUserName steamid="76561198250906274" class="TopMmrNick" />
+						</Panel>
+					</Panel>
+					<Panel hittest="false" class="TopMmrClass">
+						<Panel class="PlayerInfoTableCreators">
+							<DOTAAvatarImage steamid="76561198019243662" class="AvatarTopMmr" />
+							<DOTAUserName steamid="76561198019243662" class="TopMmrNick" />
+						</Panel>
+					</Panel>
+
+					<Panel hittest="false" class="TopMmrClass">
+						<Panel class="PlayerInfoTableCreators">
+							<DOTAAvatarImage steamid="76561198124264318" class="AvatarTopMmr" />
+							<DOTAUserName steamid="76561198124264318" class="TopMmrNick" />
+						</Panel>
+					</Panel>
+
+					<Panel hittest="false" class="TopMmrClass">
+						<Panel class="PlayerInfoTableCreators">
+							<DOTAAvatarImage steamid="76561198176475766" class="AvatarTopMmr" />
+							<DOTAUserName steamid="76561198176475766" class="TopMmrNick" />
+						</Panel>
+					</Panel>
+				</Panel>
+			</Panel>
+			<Panel class="MainInformationLeader">
+				<Label text = "#BestFreeBP" class = "MainTextInformationLeader"/>	
+			</Panel>
+			<Panel class="MainInformation2Leader">
+				<Label text = "#Top100players" class = "MainTextInformation2"/>	
+				<Button class="MainInformationButtonLeader" onactivate="ExternalBrowserGoToURL('https://bmemov.ru/leaderboards/');">
+					<Label text = "#birzhapass_leaderboards"/>
+				</Button> 
+			</Panel>
+		</Panel>
+	</Panel>
+</root>

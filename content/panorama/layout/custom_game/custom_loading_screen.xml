@@ -1,0 +1,78 @@
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/custom_game/custom_loading_screen.vcss_c" />
+		<include src="s2r://panorama/styles/custom_game/ads.vcss_c" />
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+	</styles>
+
+	<scripts>
+		<include src="s2r://panorama/scripts/custom_game/loading_screen.vjs_c" />
+	</scripts>
+
+	<Panel class="AddonLoadingRoot" hittest="false">
+		<Panel id="CustomBg">
+
+		<Panel class="LostBetaMain" onactivate="ExternalBrowserGoToURL('https://steamcommunity.com/sharedfiles/filedetails/?id=2505637251')">
+			<Label class="LostBetaLabel" text="Попробуйте также поиграть" />
+			<Label class="LostBetaLabel2" text="Dota: Lost Beta" />
+			<Panel class="LostBetaIcon" />
+		</Panel>
+
+
+		<Panel id="InfoWidgets" class="WidgetRow">
+            <Panel id="RankedInfo" class="Widget">
+                <Panel id="RankedInfoContainer" class="Hidden WidgetContainer">
+                    <Panel id="RankedSeasonInfo">
+                        <Panel id="RankedSeasonTop">
+                            <Label class="WidgetHeader" text="#TopMmrPlayersSeasonLabel"/>
+                            <Panel id="RankedTopPlayers" class="RankedPlayers">
+		                        <Panel class="TopMmrPlayersSeasonPlayer">
+		                        	<Panel class="Player">	                    
+										<DOTAAvatarImage steamid="76561198123095106" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<Panel class="TrophyClass"/>	
+									</Panel>
+									<Panel class="RogaPlayer">
+										<DOTAParticleScenePanel id="PlayerModifiedParticleAegis" hittest="false" particleName="particles/dev/library/base_fire.vpcf" particleonly="true" startActive="true" cameraOrigin="100 300 100" lookAt="0 90 -70" fov="60" squarePixels="true" />
+
+										<DOTAParticleScenePanel id="PlayerModifiedParticleAegis2" hittest="false" particleName="particles/dev/library/base_fire.vpcf" particleonly="true" startActive="true" cameraOrigin="100 -300 100" lookAt="0 -90 -70" fov="60" squarePixels="true" />
+
+										<Panel class="RogaClass"/>
+										<DOTAAvatarImage steamid="76561198073635811" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<Panel class="TrophyClassRoga"/>
+									</Panel>
+									<Panel class="Player">	
+										<DOTAAvatarImage steamid="76561198443828204" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<Panel class="TrophyClass"/>
+									</Panel>
+								</Panel>
+                            </Panel>
+                        </Panel>
+                    </Panel>
+                </Panel>
+				<Panel class="News">
+					<Panel id="TipContainer" onactivate="NextTip()">
+						<Label class="NewWidgetLabel" text="#Sovetsforyou"/>
+						<Panel id="TipText">
+							<Label id="TipLabel" text="#LoadingTip_1"/>
+						</Panel>
+						<Panel id="NextTip" class="TipButton" onactivate="NextTip()"/>
+					</Panel>
+					<Panel id="DonateContainer" onactivate="ExternalBrowserGoToURL('https://www.patreon.com/BirzhaMemov')">
+						<Label class="NewWidgetLabel" text="#Contributepanel"/>
+						<Panel id="DonateInformation">
+							<Label id="TipLabel" text="#LoadingDonate"/>
+						</Panel>
+						<Panel id="PassIcon" class="PassIcon"/>
+					</Panel>
+					<Panel id="DonateContainer_2" onactivate="ExternalBrowserGoToURL('https://bmemov.ru/updates/gypsy_return/')">
+						<Label class="NewWidgetLabel" text="#Updatename"/>
+						<Panel id="DonateInformation_2">
+							<Label id="TipLabel" text="#Updatedescription"/>
+						</Panel>
+					</Panel>
+				</Panel>
+            </Panel>
+        	</Panel>
+			</Panel>		
+		</Panel>
+</root>

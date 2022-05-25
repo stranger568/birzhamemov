@@ -1,0 +1,5 @@
+<root> 
+  <Panel class="AddonLoadingRoot">
+      <Image id="gamemode" class="SeqImg" src="s2r://panorama/images/items/angel_boots_png.vtex" />
+  </Panel>
+</root>

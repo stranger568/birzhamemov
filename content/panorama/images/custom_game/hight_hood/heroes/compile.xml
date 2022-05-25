@@ -1,0 +1,18 @@
+<root>
+<Panel>
+	<Image id="gamemode" class="SeqImg" src="s2r://panorama/images/custom_game/hight_hood/heroes/npc_dota_hero_ursa_png.vtex"/>
+	<Image id="gamemode" class="SeqImg" src="s2r://panorama/images/custom_game/hight_hood/heroes/npc_dota_hero_monkey_king_png.vtex"/>
+	<Image id="gamemode" class="SeqImg" src="s2r://panorama/images/custom_game/hight_hood/heroes/npc_dota_hero_pudge_png.vtex"/>
+		<Image id="gamemode" class="SeqImg" src="file://{images}/custom_game/hight_hood/heroes/npc_dota_hero_abaddon.png"/>
+			<Image id="gamemode" class="SeqImg" src="s2r://panorama/images/custom_game/hight_hood/heroes/npc_dota_hero_alchemist_png.vtex"/>
+				<Image id="gamemode" class="SeqImg" src="s2r://panorama/images/custom_game/hight_hood/heroes/npc_dota_hero_axe_png.vtex"/>
+					<Image id="gamemode" class="SeqImg" src="s2r://panorama/images/custom_game/hight_hood/heroes/npc_dota_hero_beastmaster_png.vtex"/>
+						<Image id="gamemode" class="SeqImg" src="s2r://panorama/images/custom_game/hight_hood/heroes/npc_dota_hero_bristleback_png.vtex"/>
+						<Image id="gamemode" class="SeqImg" src="s2r://panorama/images/custom_game/strangth_birzha_icon_png.vtex"/>
+						<Image id="gamemode" class="SeqImg" src="s2r://panorama/images/custom_game/int_birzha_icon_png.vtex"/>
+						<Image id="gamemode" class="SeqImg" src="s2r://panorama/images/custom_game/ag_birzha_icon_png.vtex"/>
+							<Image id="gamemode" class="SeqImg" src="s2r://panorama/images/custom_game/custom_pick/all_pick_button_png.vtex"/>
+									<Image id="gamemode" class="SeqImg" src="s2r://panorama/images/custom_game/custom_pick/cm_button_png.vtex"/>
+										<Image id="gamemode" class="SeqImg" src="s2r://panorama/images/custom_game/custom_pick/bg_gray_png.vtex"/>
+</Panel>
+</root>

@@ -1,0 +1,154 @@
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="s2r://panorama/styles/custom_game/custom_pick.vcss_c" />
+		<include src="s2r://panorama/styles/banners/front_page_dota_plus_debut.vcss_c" />
+		<include src="s2r://panorama/styles/custom_game/debug.vcss_c" />
+		<include src="s2r://panorama/styles/custom_game/ads.vcss_c" />
+	</styles>
+
+	<scripts>
+		<include src="s2r://panorama/scripts/custom_game/custom_pick.vjs_c" />
+		<include src="s2r://panorama/scripts/custom_game/debug.vjs_c" />
+	</scripts>
+
+	<snippets>
+		<snippet name="HeroPickRow">
+			<Panel class="HeroPickRow">
+			</Panel>
+		</snippet>
+		
+		<snippet name="HeroCard">
+			<Panel class="HeroCard">
+				<Image id="HeroImage"/>
+			</Panel>
+		</snippet>
+	</snippets>
+
+	<Panel class="CustomPick" onfocus="DropInputFocus()">
+			<DOTAScenePanel id="BGScene" onload="HeroSelectionLoad()" class="BackgroundPick" map="maps/backgrounds/pregame_phase.vmap"/>
+
+			<Panel id="StateInfoGlobal" class="StateInfoGlobalClass">
+				<Label id="PickTimer" class="PickTimerClass" text="#BIRZHA_PICK_STATE_START" />
+				<Label id="PickState" class="PickStateClass" text="" />
+				<Label id="PickAverageRating" class="PickAverageRating" text="#Pick_AverageRating" />
+			</Panel>
+
+			<Panel id="GeneralPickPanel">
+
+				<Panel id="HeroesConteiner" class="HeroesContClass">
+					<Panel id="PanelSelector" class="PanelSelector">
+
+					</Panel>
+				</Panel>
+
+
+
+
+
+
+				<Panel id = "HeroInfoCont" class = "HeroInfoContClass">
+					<Panel id ="HeroInformation" class="HeroInformation">
+						<Panel class="HeroInfoMain">
+							<Panel id = 'HeroModel' class="HeroModel">
+    							
+							</Panel>
+							<Label text = "" id = "hero_name_info" class = "HeroNameInfoClass"/>
+						</Panel> 
+
+						<Label text="" id="HeroDifficulty" />
+						<Label text="" id="HeroRole" />
+						<Label text="#HeroAviableInBPPlus" id="HeroAviableInBPPlus" />
+
+						<Panel id="HeroBPProgress">
+							<Label id="HeroBPProgressAviableBPPlus" text="#HeroBPProgressAviableBPPlus" />
+							<Label id="HeroRankTitle" text="#HeroRankTitle" />
+							<Panel class="RankIconPanel">
+								<Panel id="RankIcon" />
+								<Label id="RankName" text="#BP_rank_0" />
+							</Panel>
+							<Panel id="HeroLevelProgressBarPanel">
+								<Panel class="HeroLevelProgressBarPanelLabels" >
+									<Panel style="flow-children:right;">
+										<Label class="HeroExpLabel" text="#HeroProgressBirzha" />
+										<Label id="HeroExpLabel2" text="0 / 1000" />
+									</Panel>
+									<Panel style="flow-children:right;">
+										<Label class="HeroLevelLabel" text="#HeroProgressBirzhaLevel" />
+										<Label id="HeroLevelLabel2" text="0" />
+									</Panel>
+									<Panel class="ProgressHeroBarPanel">
+										<Panel class="ProgressHeroBarPanelBack" />
+										<Panel id="ProgressHeroBarPanelActive" />
+									</Panel>
+								</Panel>
+							</Panel>
+						</Panel>
+
+						<Panel class="BirzaAbilitiesPanel">
+							<Label class="BirzaAbilitiesLabel"	text="#Pick_abilities" />
+						</Panel>
+
+						<Panel id = 'BirzaAbilitiesInfo'/>
+
+						<Panel id="BirzaAbilitiesPanelBonus" class='BirzaAbilitiesPanelBonus'>
+							<Label class="BirzaAbilitiesLabelBonus"	text="#Pick_Bonusabilities" />
+						</Panel>
+
+						<Panel id = 'BirzaAbilitiesInfoBonus'/>
+					</Panel>
+					<Panel class="BottomPanel" >
+
+						<Panel id="RandomButtonWithUnlock" >
+							<Panel class="buttonsrandom">
+								<Button class="PickButtonClass2" id="PickButton">
+									<Label  id="birzhapickbutton" text = "#birzhabanhero"/>
+								</Button> 
+								<Panel id = "BirzhaRandomButton" class = "BirzhaRBClass">
+									<Panel class = "RandomIcon"/>
+								</Panel>
+							</Panel>
+						</Panel>
+
+						<Panel id="TokenButtonWithUnlock" >
+							<Panel id = "token_panel" class = "TokenPanel">
+								<Panel 	class = "TokenImage"/>
+								<Label  id="token_label" class="TokenLabel" text = "0"/>
+								<Label  class="TokenLabelInfo" text = "#tokeninfo"/>
+							</Panel> 
+							<Panel id="TokenInfo" />
+						</Panel>
+
+					</Panel>
+				</Panel>
+
+				<Panel id = "BacktoHero" class = "BacktoHeroes">
+					<Panel id = "BacktoHeroesButton" class = "BacktoHeroesButton" onactivate="BacktoHero();">
+						<Panel id="BacktoHeroesArrow" class="BacktoHeroesArrow" />
+						<Label class="" text="#DOTA_TutorialTitle_MaidenIntro" />
+					</Panel>
+				</Panel>
+			</Panel>
+
+			<Panel id="hero_selection_your_hero">
+				<Panel id = "BacktoHeroes" class = "BacktoHeroes">
+					<Panel id = "BacktoHeroesButton" class = "BacktoHeroesButton" onactivate="BacktoHeroes();">
+						<Panel id="BacktoHeroesArrow" class="BacktoHeroesArrow" />
+						<Label class="" text="#DOTA_Broadcaster_ImagePicker_Heroes" />
+					</Panel>	
+				</Panel>
+				<Panel id = "HeroPickedContainer" class = "HeroPickedContainer">
+					<Label class="HeroPickedName" text="#DOTA_TutorialTitle_MaidenIntro" />
+					<Label id="HeroPickedName" class="HeroPickedName" text="" />
+				</Panel>
+				<Panel id = "HeroDonateBlock" class = "HeroDonateBlock">
+					<Panel id = "HeroDonateBlockButtons" class = "HeroDonateBlockButtons">
+						<Panel id = "HeroDonateBlockButtonEffects" class = "HeroDonateBlockButton">
+							<Label text="#effects" />
+						</Panel>
+					</Panel>
+					<Panel id = "HeroDonateBlockEffects" class = "HeroDonateBlockEffects" />
+				</Panel>
+			</Panel>
+	</Panel>
+</root>

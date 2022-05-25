@@ -1,0 +1,76 @@
+.PucciQuestMain {
+    width: 100%;
+    height: 100%;
+}
+
+#CurrentQuest {
+    align: right top;
+    margin-top: 350px;
+    flow-children: right;
+    margin-right: 10px;
+    opacity: 1;
+    transition-property: opacity;
+    transition-duration: 0.25s;
+    opacity: 0;
+}
+
+.QuestIcon {
+    width: 32px;
+    height: 32px;
+    margin-right: 5px;
+    background-image: url("file://{images}/custom_game/pucci/quest_icon.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    vertical-align: center;
+}
+
+.QuestProgress {
+    vertical-align: center;
+    flow-children: down;
+}
+
+.QuestName {
+    font-size: 12px;
+    color: white;
+    font-weight: bold;
+}
+
+#QuestProgress {
+    width: 200px;
+    height: 15px;
+border: 1px solid black;
+}
+
+#QuestProgressBack {
+    background-color: rgba(0,0,0,0.5);
+    width: 100%;
+    height: 100%;
+}
+
+#QuestProgressFront {
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( green ), color-stop( .5, #187019), to( #175D17 ) );
+    width: 20%;
+    height: 100%;
+    transition-property: width;
+    transition-duration: 0.25s;
+}
+
+#QuestProgressLabel {
+    color: white;
+    vertical-align: center;
+    font-size: 11px;
+    margin-left: 2px;
+    margin-top: 1px;
+    text-shadow: 1px 1px 0 2 black;
+}
+
+#QuestProgressCountLabel {
+    color: white;
+    vertical-align: center;
+    horizontal-align: right;
+    font-size: 11px;
+    margin-right: 2px;
+    margin-top: 1px;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 2 black;
+}

@@ -1,0 +1,8 @@
+birzhamemov_4v4v4v4
+{
+	material materials/overviews/birzhamemov_4v4v4v4.vmat
+	pos_x -5632
+	pos_y 5632
+	scale 11.000
+}
+
