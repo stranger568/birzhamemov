@@ -300,7 +300,7 @@ function modifier_kadet_razogrev:OnAttackLanded( params )
     local parent = self:GetParent()
     local target = params.target
     if parent == params.attacker and target:GetTeamNumber() ~= parent:GetTeamNumber() then
-        if parent:IsIllusion() or parent:PassivesDisabled() then return end
+        if parent:IsIllusion() then return end
         if target:IsOther() then
             return nil
         end
@@ -364,7 +364,7 @@ function modifier_kadet_razogrev_caster:OnAttackLanded( params )
     local parent = self:GetParent()
     local target = params.target
     if parent == params.attacker and target:GetTeamNumber() ~= parent:GetTeamNumber() then
-        if parent:IsIllusion() or parent:PassivesDisabled() then return end
+        if parent:IsIllusion() then return end
         self.damage = self:GetAbility():GetSpecialValueFor("bonus_damage")
         local lifesteal = self:GetAbility():GetSpecialValueFor("lifesteal")
         local damage = {

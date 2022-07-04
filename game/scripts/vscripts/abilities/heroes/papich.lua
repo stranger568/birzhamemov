@@ -173,9 +173,11 @@ function modifier_papich_reincarnation_wraith_form_buff:OnTakeDamage(keys)
                 end
             end        
         end
+
         if self:GetParent():HasModifier("modifier_item_uebator_active") then
             return
         end
+        
         if self:GetParent():HasModifier("modifier_item_aeon_disk_buff") then
             return
         end

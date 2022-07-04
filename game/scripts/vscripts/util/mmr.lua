@@ -1,5 +1,5 @@
 BirzhaData = class({})
-BirzhaData.url = 'www.bmemov.ru'  -- сайт с бд
+BirzhaData.url = 'bmemov.ru'  -- сайт с бд
 
 ------------- Массивы рейтинга и догекоинов за игру
 
@@ -105,6 +105,7 @@ function BirzhaData:RegisterPlayerSiteInfo(player_id)
             gob = tonumber(data.gob) or 0,
             dragonball = tonumber(data.dragonball) or 0,
             leader = tonumber(data.leader) or 0,
+            chat_wheel = data.chat_wheel or {},
         }
 
         local table_shop = {
@@ -164,7 +165,16 @@ function BirzhaData.PostData()
             token_spended = false,
             pet_default = player_info.pet_id,
             default_border = player_info.border_id,
+            chatwheel_1 = BirzhaData.GetChatWheel(id, "1"),
+            chatwheel_2 = BirzhaData.GetChatWheel(id, "2"),
+            chatwheel_3 = BirzhaData.GetChatWheel(id, "3"),
+            chatwheel_4 = BirzhaData.GetChatWheel(id, "4"),
+            chatwheel_5 = BirzhaData.GetChatWheel(id, "5"),
+            chatwheel_6 = BirzhaData.GetChatWheel(id, "6"),
+            chatwheel_7 = BirzhaData.GetChatWheel(id, "7"),
+            chatwheel_8 = BirzhaData.GetChatWheel(id, "8"),
         }
+
         if PLAYERS[ id ] then
             player_table.token_spended = tostring(PLAYERS[ id ].token_used)
             player_table.pet_default = tonumber(PLAYERS[ id ].pet)
@@ -344,6 +354,20 @@ function BirzhaData.GetMmrByTeamPlace(id)
         return bonus_mmr
     end
     CustomNetTables:SetTableValue('bonus_rating', tostring(id), {mmr = 0})
+    return 0
+end
+
+function BirzhaData.GetChatWheel(id, number)
+    local player_table_for_chat_wheel = CustomNetTables:GetTableValue('birzhainfo', tostring(id))
+    if player_table_for_chat_wheel then
+        if player_table_for_chat_wheel.chat_wheel then
+            local player_chat_wheel_change = {}
+            for k, v in pairs(player_table_for_chat_wheel.chat_wheel) do
+                player_chat_wheel_change[k] = v
+            end
+            return player_chat_wheel_change[number]
+        end
+    end
     return 0
 end   
 

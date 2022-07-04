@@ -371,6 +371,9 @@ function modifier_overlord_spell_4:GetAuraEntityReject(target)
     if target:HasModifier("modifier_overlord_spell_4_buff") then
         return true 
     end
+    if target ~= self:GetCaster() then
+        return true
+    end
 
     return false    
 end
@@ -419,7 +422,6 @@ function modifier_overlord_spell_4_aura:OnTakeDamage(keys)
         local mod_invuls = {
             "modifier_Overlord_spell_10_invul",
             "modifier_Overlord_spell_10_buff",
-            "modifier_Overlord_spell_7_buff",
             "modifier_item_uebator_active",
             "modifier_LenaGolovach_Radio_god",
             "modifier_kurumi_god",
@@ -764,7 +766,7 @@ function modifier_Overlord_spell_1_buff:GetModifierTotal_ConstantBlock(kv)
         local target                    = self:GetParent()
         local original_shield_amount    = self.damage_absorb
 
-        if self:GetParent():HasModifier("modifier_Overlord_spell_10_invul") or self:GetParent():HasModifier("modifier_Overlord_spell_7_buff") then
+        if self:GetParent():HasModifier("modifier_Overlord_spell_10_invul") then
             return
         end
 
@@ -1515,13 +1517,10 @@ function modifier_Overlord_spell_11:OnIntervalThink()
     )
 
     for _,enemy in pairs(enemies) do
-        self.damageTable.damage = (self:GetAbility():GetSpecialValueFor("base_damage") +GetOverlordPassiveValue(self:GetCaster(), 5)) * self:GetStackCount()
+        self.damageTable.damage = (self:GetAbility():GetSpecialValueFor("base_damage") +GetOverlordPassiveValue(self:GetCaster(), 5))
         self.damageTable.victim = enemy
         if GetTargetHealthCheck(enemy) or GetOverlordPassiveGetStacks(self:GetCaster()) then
             ApplyDamage( self.damageTable )
-            if enemy:IsHero() then
-                AddPassiveStack(self:GetCaster())
-            end
         end
     end
 

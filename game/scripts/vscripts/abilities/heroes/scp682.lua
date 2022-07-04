@@ -40,9 +40,16 @@ function scp682_bite:OnSpellStart()
         if self:GetCaster():HasModifier("modifier_scp682_ultimate") then
             point_blank_range = point_blank_range + 150
         end
-        local point_blank_mult = (self:GetSpecialValueFor( "dmg_bonus_pct" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_scp683_6") )/100
+        local point_blank_mult = self:GetSpecialValueFor( "dmg_bonus_pct" ) /100
         local duration = self:GetSpecialValueFor( "duration" )
         local damage = self:GetSpecialValueFor( "damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_scp683_1")
+
+
+        if self:GetCaster():HasTalent("special_bonus_birzha_scp683_6") then
+            damage = self:GetCaster():GetAverageTrueAttackDamage(nil) + self:GetCaster():FindTalentValue("special_bonus_birzha_scp683_1")
+        end
+
+
         local length = (location-origin):Length2D()
         local point_blank = (length<=point_blank_range)
         if point_blank then damage = damage + point_blank_mult*damage end
@@ -57,7 +64,7 @@ function scp682_bite:OnSpellStart()
         ApplyDamage(damageTable)
 
         if self:GetCaster():HasShard() then
-            target:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = 0.5})
+            target:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = 1})
         end
 
         self:PlayEffects(target)
@@ -230,7 +237,7 @@ end
 
 function modifier_scp682_rage:OnIntervalThink()
     if not IsServer() then return end
-    AddFOWViewer(self:GetCaster():GetTeamNumber(), self.target:GetAbsOrigin(), 50, FrameTime(), false)
+    AddFOWViewer(self:GetCaster():GetTeamNumber(), self.target:GetAbsOrigin(), 100, 0.1, false)
     if self.target == nil or self.target:IsAlive() == false or self.target:IsInvulnerable() or ( not self:GetParent():CanEntityBeSeenByMyTeam(self.target) ) then 
         if not self:IsNull() then
             self:Destroy()

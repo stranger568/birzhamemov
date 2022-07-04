@@ -467,3 +467,44 @@ function donate_shop:change_border_effect(data)
 		end
 	end
 end
+
+function donate_shop:SelectChatWheel(keys)
+	if keys.PlayerID == nil then return end
+	local id_chatwheel = tostring(keys.id)
+	local item_chatwheel = tostring(keys.item)
+	local player_table = CustomNetTables:GetTableValue('birzhainfo', tostring(keys.PlayerID))
+	if player_table then
+		if player_table.chat_wheel then
+			local player_chat_wheel_change = {}
+			for k, v in pairs(player_table.chat_wheel) do
+		        player_chat_wheel_change[k] = v
+		    end
+		    player_chat_wheel_change[id_chatwheel] = item_chatwheel
+		    CustomNetTables:SetTableValue('birzhainfo', tostring(keys.PlayerID), {
+				mmr = player_table.mmr,
+				token_used = player_table.token_used,
+				bp_days = player_table.bp_days,
+				doge_coin = player_table.doge_coin,
+				birzha_coin = player_table.birzha_coin,
+				player_items = player_table.player_items,
+				heroes_matches = player_table.heroes_matches,
+				steamid = player_table.steamid,
+				pet_id = player_table.pet_id,
+				reports_count = player_table.reports_count,
+				ban_days = player_table.ban_days,
+				border_id = player_table.border_id,
+				vip = player_table.vip,
+				premium = player_table.premium,
+				gob = player_table.gob,
+				dragonball = player_table.dragonball,
+				leader = player_table.leader,
+				chat_wheel = player_chat_wheel_change,
+			})
+		end
+	end
+end
+
+
+
+
+

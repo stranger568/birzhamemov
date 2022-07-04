@@ -102,4 +102,7 @@
 	"npc_dota_hero_furion"				"1"
 	"npc_dota_hero_travoman"			"1"
 	"npc_dota_hero_jull"				"1"
+	"npc_dota_hero_freddy"				"1"
+	"npc_dota_hero_nolik"				"1"
+	"npc_dota_hero_saitama"				"1"
 }

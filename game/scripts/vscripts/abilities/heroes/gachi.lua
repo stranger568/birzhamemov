@@ -197,9 +197,6 @@ Gachi_HitOnAss = class({})
 
 function Gachi_HitOnAss:GetCooldown(level)
 	local cooldown = self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_gachi_1")
-	if self:GetCaster():HasShard() then
-		cooldown = cooldown - 2
-	end
     return cooldown / ( self:GetCaster():GetCooldownReduction())
 end
 

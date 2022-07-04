@@ -54,12 +54,11 @@ var heroes = {
         "npc_dota_hero_sonic": true,
         "npc_dota_hero_travoman": true,
         "npc_dota_hero_jull": true,
+        "npc_dota_hero_nolik": true,
+        "npc_dota_hero_freddy": true,
+        "npc_dota_hero_saitama": true,
         //
     };
-
-var donate_heroes = {
-    "npc_dota_hero_overlord": true,
-};
 
 var selected_hero
 
@@ -89,12 +88,15 @@ function PickInit(){
     
     $.Schedule( 0.1, function(){
         GameEvents.SendCustomGameEventToServer( 'birzha_pick_player_registred', {} );
+        $.Schedule( 0.1, function(){
+            HeroSelectionLoad()
+        })
     })
 }
 
 function HeroSelectionLoad(){
-    var is_spect = Players.IsSpectator( Players.GetLocalPlayer() )
-    var localTeam = Players.GetTeam(Players.GetLocalPlayer())
+    let is_spect = Players.IsSpectator( Players.GetLocalPlayer() )
+    let localTeam = Players.GetTeam(Players.GetLocalPlayer())
     if ( is_spect || localTeam != 2 && localTeam != 3 && localTeam != 6 && localTeam != 7 && localTeam != 8 && localTeam != 9 && localTeam != 10 && localTeam != 11 && localTeam != 12 && localTeam != 13 ) {
         $.Schedule( 1, function(){
             $.GetContextPanel().AddClass('Deletion');
@@ -110,8 +112,8 @@ function HeroSelectionLoad(){
 }
 
 function HeroSelectionEnd(){
-    var is_spect = Players.IsSpectator( Players.GetLocalPlayer() )
-    var localTeam = Players.GetTeam(Players.GetLocalPlayer())
+    let is_spect = Players.IsSpectator( Players.GetLocalPlayer() )
+    let localTeam = Players.GetTeam(Players.GetLocalPlayer())
     if ( is_spect || localTeam != 2 && localTeam != 3 && localTeam != 6 && localTeam != 7 && localTeam != 8 && localTeam != 9 && localTeam != 10 && localTeam != 11 && localTeam != 12 && localTeam != 13 ) {
         $.Schedule( 1, function(){
             $.GetContextPanel().AddClass('Deletion');
@@ -317,9 +319,12 @@ function ChangeHeroInfo(hero_name)
 
     $("#HeroDifficulty").html = true
     $("#HeroRole").html = true
+    $('#HeroAviableInBPPlus').html = true
     $("#HeroDifficulty").text = $.Localize("#Pick_HeroDifficulty") + ": " + $.Localize("#" + abilities.difficulty)
     $("#HeroRole").text = $.Localize("#Pick_HeroRole") + ": " + $.Localize("#" +abilities.role_hero)
 
+
+    SetShowText($("#HeroAviableInBPPlus"), $.Localize("#HeroAviableInBPPlus_description"))
     SetShowText($("#HeroRole"), $.Localize("#" + abilities.role_hero + "_description"))
 
     $('#BirzaAbilitiesInfo').RemoveAndDeleteChildren(); 
@@ -328,7 +333,7 @@ function ChangeHeroInfo(hero_name)
 
     $('#BirzaAbilitiesPanelBonus').style.visibility = "collapse"
     $('#BirzaAbilitiesInfoBonus').style.visibility = "collapse"
-    
+
     $('#HeroAviableInBPPlus').style.visibility = "collapse"
     
     var hero_list = CustomNetTables.GetTableValue("birzha_pick", "hero_list");
@@ -339,6 +344,8 @@ function ChangeHeroInfo(hero_name)
             }
         }        
     }
+
+    $('#HeroAviableInBPPlus').html = true
 
     var player_info = CustomNetTables.GetTableValue('birzhainfo', Players.GetLocalPlayer());
     if (player_info)

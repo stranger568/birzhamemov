@@ -1,0 +1,22 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/custom_game/nolik_energy.css" />
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+	</styles>
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/nolik_energy.js" />
+	</scripts>
+
+	<Panel class="NolikEnergyMain" hittest="false">
+		<Panel id="NolikEnergyPanel" class="NolikEnergyPanel">
+
+			<Panel id="EnergyPanel">
+				<Panel id="EnergyPanelBackground" />
+				<Panel id="EnergyPanelBackgroundGreen">
+
+				</Panel>
+			</Panel>
+			<Label id="Energy" text="50 / 100" />
+		</Panel>
+	</Panel>
+</root>

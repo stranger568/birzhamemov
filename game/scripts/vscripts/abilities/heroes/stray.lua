@@ -43,7 +43,12 @@ end
 function stray_rat_poison:OnProjectileHit(target,_)
     if target ~= nil and target:IsAlive() then
         local duration = self:GetSpecialValueFor( "duration" )
-        local damage = self:GetSpecialValueFor( "damage" ) + self:GetCaster():GetIntellect() * self:GetSpecialValueFor("int_multiplier")
+        local damage = self:GetSpecialValueFor( "damage" )
+
+        if self:GetCaster():HasScepter() then
+            damage = damage + self:GetCaster():GetIntellect() * self:GetSpecialValueFor("int_multiplier")
+        end
+
         target:AddNewModifier(self:GetCaster(), self, "modifier_stray_rat_poison_debuff", {duration = duration * (1 - target:GetStatusResistance())})
         target:EmitSound("GypsyDebosh")
         ApplyDamage({attacker = self:GetCaster(), victim = target, ability = self, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
@@ -225,7 +230,10 @@ function modifier_stray_rat_damage:IsHidden() return true end
 
 function modifier_stray_rat_damage:OnCreated()
     if IsServer() then
-        local damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():GetIntellect() * self:GetAbility():GetSpecialValueFor("int_multiplier")
+        local damage = self:GetAbility():GetSpecialValueFor("damage")
+        if self:GetCaster():HasScepter() then
+            damage = damage + self:GetCaster():GetIntellect() * self:GetAbility():GetSpecialValueFor("int_multiplier")
+        end
         local damageTable = {victim = self:GetParent(),
                             attacker = self:GetCaster(),
                             damage = damage,

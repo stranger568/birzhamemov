@@ -202,6 +202,7 @@ function modifier_item_ghoul_buff:OnHeroKilled(params)
     if params.attacker == self:GetParent() then
         if params.target == self:GetParent() then return end
         if RollPercentage(10) and not self:GetParent():IsIllusion() then
+            GameRules:GetGameModeEntity():SetPauseEnabled( true )
             PauseGame(true)
             GameRules:GetGameModeEntity():SetPauseEnabled( false )
             Timers:CreateTimer({
@@ -210,6 +211,7 @@ function modifier_item_ghoul_buff:OnHeroKilled(params)
                 callback = function()
                         GameRules:GetGameModeEntity():SetPauseEnabled( true )
                         PauseGame(false)
+                        GameRules:GetGameModeEntity():SetPauseEnabled( false )
                     return nil
                 end
             })

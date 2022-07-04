@@ -46,7 +46,6 @@ function CDOTA_BaseNPC:BirzhaTrueKill(ability, killer)
     local modifiers_to_remove = {
         "modifier_Overlord_spell_10_invul",
         "modifier_Overlord_spell_10_buff",
-        "modifier_Overlord_spell_7_buff",
         "modifier_item_uebator_active",
         "modifier_LenaGolovach_Radio_god",
         "modifier_kurumi_god",

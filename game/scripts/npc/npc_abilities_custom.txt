@@ -403,7 +403,6 @@
 			{
 				"var_type"				"FIELD_INTEGER"
 				"max_stacks"			"10"
-				"LinkedSpecialBonus"		"special_bonus_unique_troll_warlord_2"
 			}
 		}
 	}
@@ -7470,7 +7469,7 @@
 			{
 				"var_type"			"FIELD_INTEGER"
 				"value"				"40"
-				"ad_linked_ability"			"pangolier_swashbuckle"	
+				"ad_linked_abilities"			"pangolier_swashbuckle"	
 			}
 		}
 	}
@@ -7487,7 +7486,7 @@
 			{
 				"var_type"			"FIELD_FLOAT"
 				"value"				"-3.0"
-				"ad_linked_ability"			"pangolier_swashbuckle"
+				"ad_linked_abilities"			"pangolier_swashbuckle"
 			}
 		}
 	}
@@ -7803,7 +7802,7 @@
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"attack_factor"			"-40 -35 -30 -25"
+				"attack_factor"			"-75 -60 -45 -25"
 			}
 			"06"
 			{
@@ -8166,7 +8165,7 @@
 			"03"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"bonus_damage"				"375 750 1400"
+				"bonus_damage"				"375 575 775"
 				"CalculateSpellDamageTooltip"	"0"
 			}
 			"04"
@@ -10803,6 +10802,18 @@
 				"var_type"					"FIELD_INTEGER"
 				"illusion_from_illusion_duration"	"10"
 			}
+			"10"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"scepter_bonus_duration"	"10"
+				"RequiresScepter"			"1"
+			}
+			"11"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"scepter_bonus_illusions"	"2"
+				"RequiresScepter"			"1"
+			}
 		}
 	}
 	
@@ -11711,7 +11722,7 @@
 			"04"
 			{
 				"var_type"					"FIELD_FLOAT"
-				"damage"					"50 100 150 200"
+				"damage"					"75 100 125 150"
 				"CalculateSpellDamageTooltip"	"0"
 				"LinkedSpecialBonus"		"special_bonus_birzha_ranger_1"
 			}
@@ -11787,14 +11798,14 @@
 			"02"
 			{
 				"var_type"						"FIELD_INTEGER"
-				"damage"						"165 210 255 300"
+				"damage"						"120 165 210 255"
 				"CalculateSpellDamageTooltip"	"0"
 				"LinkedSpecialBonus"			"special_bonus_birzha_ranger_5"
 			}
 			"03"
 			{
 				"var_type"						"FIELD_INTEGER"
-				"base_damage"					"100 150 200 250"
+				"base_damage"					"125 150 175 200"
 			}
 			"04"
 			{
@@ -11866,7 +11877,7 @@
 			"03"
 			{
 				"var_type"						"FIELD_INTEGER"
-				"base_dmg"						"35 45 55 65"
+				"base_dmg"						"20 30 40 50"
 			}
 			"04"
 			{
@@ -11904,6 +11915,7 @@
 		"AbilityTextureName"			"Ranger/Jump"
 		"MaxLevel"						"1"
 		"AbilityCooldown"				"3"
+		"AbilityManaCost"				"25"
 
 		"precache"
 		{
@@ -12016,6 +12028,7 @@
         "AbilityCooldown"           "15"
         "AbilityManaCost"           "65 80 95 110"
 		"AbilityCastRange"          "600"
+		"HasShardUpgrade"			"1"
 
         "precache"
         {
@@ -12107,7 +12120,6 @@
         "SpellDispellableType"		"SPELL_DISPELLABLE_YES"
         "SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityCooldown"			"10 8 6 4"
-        "HasShardUpgrade"			"1"
 		
 		"precache"
 		 {
@@ -13571,7 +13583,7 @@
 			{
 				"var_type"					"FIELD_INTEGER"
 				"value"				"3"
-				"ad_linked_ability"			"phantom_lancer_doppelwalk"
+				"ad_linked_abilities"			"phantom_lancer_doppelwalk"
 			}
 		}
 	}
@@ -19940,7 +19952,7 @@
 			"03"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"illusion_count"		"1 1 1 2"
+				"illusion_count"		"1"
 			}
 			"04"
 			{
@@ -21076,6 +21088,7 @@
 		"AbilityCooldown"				"12"
 		"AbilityManaCost"				"90 100 110 120"
 		"AbilityCastRange"				"700 800 900 1000"
+		"HasScepterUpgrade"				"1"
 		
 		"AbilitySpecial"
 		{
@@ -21103,6 +21116,7 @@
 			{
 				"var_type"			"FIELD_FLOAT"
 				"int_multiplier"			"0.5"
+				"RequiresScepter"				"1"
 			}
 		}
 	}
@@ -21169,6 +21183,7 @@
 		"AbilityChargeRestoreTime"		"26 24 22 20"
 		"AbilityManaCost"				"100"
 		"AbilityCastRange"				"700 800 900 1000"
+		"HasScepterUpgrade"				"1"
 		
 		"AbilitySpecial"
 		{
@@ -21181,6 +21196,7 @@
 			{
 				"var_type"			"FIELD_FLOAT"
 				"int_multiplier"			"0.5"
+				"RequiresScepter"				"1"
 			}
 		}
 	}
@@ -21297,7 +21313,7 @@
 			"03"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"resistone"			"30 40 50"
+				"resistone"			"30"
 			}
 			"04"
 			{
@@ -22756,7 +22772,7 @@
 		"BaseClass"						"ability_lua"
 		"ScriptFile"					"abilities/heroes/hisoka.lua"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
-		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
 		"AbilityTextureName"			"hisoka/shield"
 		"AbilityCooldown"				"15 14 13 12"
 		"AbilityManaCost"				"100"
@@ -22897,11 +22913,11 @@
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"	
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
-		"AbilityCastRange"				"1700"
+		"AbilityCastRange"				"700 800 900"
 		"AbilityCastPoint"				"0.3 0.3 0.3 0.3"
 		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_6"
-		"AbilityCooldown"				"7"
-		"AbilityManaCost"				"40"
+		"AbilityCooldown"				"7 8 9"
+		"AbilityManaCost"				"60 70 80"
 		"LinkedAbility"					"hisoka_trap_destroy"
 
 		"AbilitySpecial"
@@ -22939,7 +22955,7 @@
 			"08"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"radius"					"400"
+				"radius"					"300"
 			}
 			"08"
 			{
@@ -22974,7 +22990,7 @@
 			"09"
 			{
 				"var_type"					"FIELD_FLOAT"
-				"agi_mult"					"1.3"
+				"agi_mult"					"0.4 0.6 0.8"
 			}
 		}
 	}
@@ -23086,7 +23102,6 @@
 			{
 				"var_type"					"FIELD_FLOAT"
 				"dmg_bonus_pct"				"50"
-				"LinkedSpecialBonus"		"special_bonus_birzha_scp683_6"
 			}
 			"03"
 			{
@@ -23143,7 +23158,7 @@
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
-		"AbilityCooldown"				"24 21 19 16"
+		"AbilityCooldown"				"22 20 18 16"
 		"AbilityCastRange"				"800"
 		"HasScepterUpgrade"				"1"
 
@@ -23250,7 +23265,7 @@
 			"01"
 			{
 				"var_type"					"FIELD_FLOAT"
-				"value"						"20"
+				"value"						"0"
 			}
 		}
 	}
@@ -23276,7 +23291,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
-		"AbilityCooldown"				"35 40 45"
+		"AbilityCooldown"				"35"
 		"AbilityManaCost"				"120 160 200"
 
 		"AbilitySpecial"
@@ -26364,18 +26379,19 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityCooldown"				"32 28 24 20"
 		"AbilityManaCost"				"150"
+		"HasScepterUpgrade"				"1"
 
 		"AbilitySpecial"
 		{
 			"01"
 			{
 				"var_type"						"FIELD_INTEGER"
-				"duration"						"8"
+				"duration"						"9"
 			}
 			"02"
 			{
 				"var_type"						"FIELD_INTEGER"
-				"bonus_agility"					"17 28 39 50"
+				"bonus_agility"					"24 30 36 42"
 				"LinkedSpecialBonus"			"special_bonus_birzha_sasake_1"
 			}
 		}
@@ -26408,7 +26424,7 @@
 		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityManaCost"				"130 165 200"
-		"HasScepterUpgrade"				"1"
+		"HasShardUpgrade"				"1"
 
 		"AbilitySpecial"
 		{
@@ -26657,7 +26673,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"value"					"50"
+				"value"					"25"
 			}			
 		}
 	}
@@ -26951,13 +26967,8 @@
 		"LevelsBetweenUpgrades"			"3"
 
 		"AbilitySpecial"
-		{
+		{	
 			"01"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"radius"				"500 600 700 800 900"
-			}	
-			"02"
 			{
 				"var_type"				"FIELD_FLOAT"
 				"duration"				"2 2.5 3 3.5 4"
@@ -27197,7 +27208,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"base_damage"			"5 10 15 20 25"
+				"base_damage"			"40 50 60 70 80"
 			}
 			"02"
 			{
@@ -29988,8 +29999,8 @@
 		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
 		"AbilityCooldown"				"0"
 		"AbilityCharges"				"3"
-		"AbilityChargeRestoreTime"		"20"
-		"AbilityManaCost"				"220 260 300 340"
+		"AbilityChargeRestoreTime"		"15"
+		"AbilityManaCost"				"150 190 230 270"
 		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
 
 		"AbilitySpecial"
@@ -30002,8 +30013,7 @@
 			"02"
 			{
 				"var_type"					"FIELD_FLOAT"
-				"proximity_threshold"		"1.6"
-				"LinkedSpecialBonus"		"special_bonus_birzha_travoman_6"
+				"proximity_threshold"		"1"
 			}
 			"03"
 			{
@@ -30013,7 +30023,8 @@
 			"04"
 			{
 				"var_type"					"FIELD_FLOAT"
-				"activation_delay"			"1.75"
+				"activation_delay"			"1"
+				"LinkedSpecialBonus"		"special_bonus_birzha_travoman_6"
 			}
 		}
 	}
@@ -30031,7 +30042,7 @@
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityCastRange"				"150"
-		"AbilityCastPoint"				"1.0"
+		"AbilityCastPoint"				"0.8"
 		
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
@@ -30096,11 +30107,11 @@
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityCastRange"				"1000"
-		"AbilityCastPoint"				"1.0"
+		"AbilityCastPoint"				"0.5"
 
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"35"
+		"AbilityCooldown"				"25"
 
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -30298,7 +30309,7 @@
 
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"360.0"
+		"AbilityCooldown"				"60.0"
 		
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -30317,7 +30328,7 @@
 			"02"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"lifetime"					"180"
+				"lifetime"					"70"
 			}
 		}
 	}
@@ -30378,7 +30389,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"value"					"2"
+				"value"					"1.5"
 			}			
 		}
 	}
@@ -30666,7 +30677,7 @@
 			"01"
 			{
 				"var_type"					"FIELD_FLOAT"
-				"respawn_time"				"2"
+				"respawn_time"				"1"
 			}
 		}
 	}
@@ -30700,7 +30711,7 @@
 			"02"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"damage_per_charge"			"20 30 40"
+				"damage_per_charge"			"20"
 			}
 			"03"
 			{
@@ -30872,6 +30883,935 @@
 				"var_type"					"FIELD_INTEGER"
 				"value"				"20"
 			}
+		}
+	}
+
+
+
+
+
+
+
+
+
+	"freddy_scream"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/freddy.lua"
+		"AbilityTextureName"			"freddy/scream"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"AbilityCooldown"				"15 14 13 12"
+		"AbilityManaCost"				"100 120 140 160"
+		"AbilityCastRange"				"500"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"damage_interval"			"50 100 150 200"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"debuff_duration"			"2.5"
+				"LinkedSpecialBonus"		"special_bonus_birzha_freddy_1"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"fear_duration"				"10"
+			}
+		}
+	}
+
+	"freddy_surprice"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/freddy.lua"
+		"AbilityTextureName"			"freddy/surprice"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_2"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"AbilityCooldown"				"20 18 16 14"
+		"AbilityManaCost"				"100 130 160 190"
+		"AbilityCastRange"				"450"
+		"HasShardUpgrade"				"1"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"damage"					"200 250 300 350"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"duration"					"10"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"heart_debuff_duration"		"8"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"radius"					"200"
+			}
+		}
+	}
+
+	"freddy_toreador"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/freddy.lua"
+		"AbilityTextureName"			"freddy/toreador"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_2"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"AbilityCooldown"				"20 16 12 10"
+		"AbilityManaCost"				"75"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"damage"					"100 125 150 175"
+				"LinkedSpecialBonus"		"special_bonus_birzha_freddy_4"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"bonus_damage"				"5"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"radius"					"300 400 500 600"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"duration"					"2.5 3 3.5 4"
+				"LinkedSpecialBonus"		"special_bonus_birzha_freddy_3"
+			}
+		}
+	}
+
+	"freddy_costume_launch"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/freddy.lua"
+		"AbilityTextureName"			"freddy/costume_launch"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_6"
+		"AbilityCooldown"				"7 5 3"
+		"AbilityManaCost"				"50"
+		"LinkedAbility"					"freddy_costume_active"
+		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"duration"					"10"
+			}
+		}
+	}
+
+	"freddy_costume_active"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/freddy.lua"
+		"AbilityTextureName"			"freddy/costume_active"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+		"AbilityCooldown"				"50 55 60"
+		"AbilityManaCost"				"250"
+		"LinkedAbility"					"freddy_costume_launch"
+		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
+		"HasScepterUpgrade"				"1"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"slow"						"-20 -40 -60"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"slow_attackspeed"			"-40 -50 -60"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"damage_per_health"			"10 15 20"
+				"LinkedSpecialBonus"		"special_bonus_birzha_freddy_5"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"duration"					"5"
+				"LinkedSpecialBonus"		"special_bonus_birzha_freddy_6"
+			}
+		}
+	}
+
+	"special_bonus_birzha_freddy_1"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"value"					"1"
+			}			
+		}
+	}
+	"special_bonus_birzha_freddy_2"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"value"					"-2"
+			}			
+		}
+	}
+
+	"special_bonus_birzha_freddy_3"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"value"					"1.5"
+			}			
+		}
+	}
+	"special_bonus_birzha_freddy_4"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"value"					"150"
+			}			
+		}
+	}
+
+	"special_bonus_birzha_freddy_5"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"value"					"10"
+			}			
+		}
+	}
+	"special_bonus_birzha_freddy_6"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"value"					"5"
+			}			
+		}
+	}
+
+	"nolik_mostdel"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/nolik.lua"
+		"AbilityTextureName"			"nolik/mostdel"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityCooldown"				"20"
+		"AbilityManaCost"				"120"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"duration"					"3 4 5 6"
+				"LinkedSpecialBonus"		"special_bonus_birzha_nolik_1"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"damage_reduced"			"-25"
+				"LinkedSpecialBonus"		"special_bonus_birzha_nolik_2"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"energy_lose"				"40 60 80 80"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"bonus_mana"				"400 450 500 550"
+			}
+		}
+	}
+
+	"nolik_tech"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/nolik.lua"
+		"AbilityTextureName"			"nolik/tech"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+		"AbilityCooldown"				"60 55 50 45"
+		"AbilityManaCost"				"200"
+	}
+
+	"nolik_chill"
+	{
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"BaseClass"						"ability_lua"
+		"AbilityTextureName"			"nolik/chill"
+		"ScriptFile"					"abilities/heroes/nolik.lua"
+		"AbilityCooldown"				"25"
+		"AbilityManaCost"				"80 90 100 110"
+			
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"duration"				"4 6 6 8"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"radius"				"250"
+				"LinkedSpecialBonus"	"special_bonus_birzha_nolik_3"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"movement_speed_slow"	"-20 -30 -40 -50"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"energy_damage"			"25 35 45 55"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"energy_heal"			"3 4 5 6"
+			}
+		}
+	}
+
+	"nolik_energizer"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/nolik.lua"
+		"AbilityTextureName"			"nolik/energizer"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_4"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
+		"AbilityCooldown"				"10 8 6 4 2"
+		"MaxLevel"						"5"
+		"AbilityCastRange"				"550"
+		"HasShardUpgrade"				"1"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"damage_energy"				"1"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"energy_cost"				"55"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"energy_min"				"10"
+			}
+		}
+	}
+
+	"nolik_energy"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/nolik.lua"
+		"AbilityTextureName"			"nolik/energy"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel"						"1"
+		"HasScepterUpgrade"				"1"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"max_energy"				"300"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"energy_per_level"			"5"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"energy_cost"				"2"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"energy_heal_attack"		"5"
+				"LinkedSpecialBonus"		"special_bonus_birzha_nolik_5"
+			}
+			"05"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"bonus_move_energy"			"0.2"
+			}
+			"06"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"bonus_agility_energy"		"0.05"
+			}
+			"07"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"bonus_str_energy"			"0.2"
+				"LinkedSpecialBonus"		"special_bonus_birzha_nolik_4"
+			}
+		}
+	}
+
+	"nolik_helper"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/nolik.lua"
+		"AbilityTextureName"			"nolik/helper"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityCooldown"				"55"
+		"AbilityManaCost"				"100"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"attack_speed_bonus"		"25"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"movespeed_bonus"			"25"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"bonus_attack_range"		"250"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"cleave_radius"				"150"
+			}
+			"05"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"damage_increase"			"50"
+			}
+			"06"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"duration"					"6"
+			}
+		}
+	}
+
+	"special_bonus_birzha_nolik_1"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"value"					"1"
+			}			
+		}
+	}
+	"special_bonus_birzha_nolik_2"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"value"					"-10"
+			}			
+		}
+	}
+	"special_bonus_birzha_nolik_3"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"value"					"200"
+			}			
+		}
+	}
+	"special_bonus_birzha_nolik_4"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"value"					"0.1"
+			}			
+		}
+	}
+	"special_bonus_birzha_nolik_5"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"value"					"5"
+			}			
+		}
+	}
+	"special_bonus_birzha_nolik_6"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"value"					"0"
+			}			
+		}
+	}
+	"special_bonus_birzha_nolik_7"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"value"					"-35"
+			}			
+		}
+	}
+
+	"saitama_fast_attack"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/saitama.lua"
+		"AbilityTextureName"			"saitama/fast_attack"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityCooldown"				"22 18 14 12"
+		"AbilityManaCost"				"75"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"attack_count"				"3 4 5 6"
+				"LinkedSpecialBonus"		"special_bonus_birzha_saitama_6"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"base_damage"				"30 60 90 120"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"damage_from_attack"		"50 60 70 80"
+				"LinkedSpecialBonus"		"special_bonus_birzha_saitama_1"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"damage_from_attack_minus"		"-50 -40 -30 -20"
+				"LinkedSpecialBonus"		"special_bonus_birzha_saitama_1"
+			}
+		}
+	}
+
+	"saitama_jump"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/saitama.lua"
+		"AbilityTextureName"			"saitama/jump"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityCooldown"				"25"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		"AbilityManaCost"				"80"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"damage"					"125 225 325 425"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"stun_duration"				"0.75 1 1.25 1.5"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"radius"					"150"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"limeter_castrange"			"50"
+			}
+		}
+	}
+
+	"saitama_kick"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/saitama.lua"
+		"AbilityTextureName"			"saitama/kick"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityCooldown"				"10"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"base_damage"				"100 150 200 250"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"damage_from_attack"		"50"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"stun_duration"				"0.75 1 1.25 1.5"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"limeter_radius"			"15"
+			}
+			"05"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"radius_damage"				"300"
+			}
+		}
+	}
+
+	"saitama_react"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/saitama.lua"
+		"AbilityTextureName"			"saitama/react"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel"						"1"
+		"HasScepterUpgrade"				"1"
+		"IsGrantedByScepter"			"1"
+		
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"chance"					"10"
+			}
+		}
+	}
+
+	"saitama_lemiter"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/saitama.lua"
+		"AbilityTextureName"			"saitama/lemiter"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel"						"1"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"damage_for_stack"			"1600"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"damage_per_stack"			"1"
+				"LinkedSpecialBonus"		"special_bonus_birzha_saitama_3"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"resist_per_stack"			"-0.5"
+				"LinkedSpecialBonus"		"special_bonus_birzha_saitama_4"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"max_charges"				"50"
+			}
+		}
+	}
+
+	"saitama_punch"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/saitama.lua"
+		"AbilityTextureName"			"saitama/punch"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+		"AbilityCastPoint"				"1.6"
+		"AbilityCooldown"				"40"
+		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityCastAnimation"			"ACT_INVALID"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
+		"HasShardUpgrade"				"1"
+		"AbilityManaCost"				"200 150 100"
+		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"damage"					"300 500 700"
+				"LinkedSpecialBonus"		"special_bonus_birzha_saitama_5"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"knockback_duration"		"0.5"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"range"						"1000"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"limeter_range"				"25"
+			}
+		}
+	}
+	"special_bonus_birzha_saitama_1"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"value"					"20"
+			}			
+		}
+	}
+	"special_bonus_birzha_saitama_2"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"value"					"-7"
+			}			
+		}
+	}
+	"special_bonus_birzha_saitama_3"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"value"					"1"
+			}			
+		}
+	}
+	"special_bonus_birzha_saitama_4"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"value"					"-0.5"
+			}			
+		}
+	}
+	"special_bonus_birzha_saitama_5"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"value"					"200"
+			}			
+		}
+	}
+	"special_bonus_birzha_saitama_6"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"value"					"4"
+			}			
 		}
 	}
 }

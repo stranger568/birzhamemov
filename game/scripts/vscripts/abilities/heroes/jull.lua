@@ -776,6 +776,8 @@ function modifier_jull_light_future_passive:OnAttackLanded( keys )
 
     self:GetCaster():EmitSound("jull_attack")
 
+    if self:GetParent():IsIllusion() then return end
+
     local damage = self:GetAbility():GetSpecialValueFor("base_damage") + (self:GetCaster():GetIntellect() * 0.7)
     damage = damage + (self:GetAbility():GetLevelSpecialValueFor("damage_intellect", self:GetStackCount()) + (self:GetCaster():GetIntellect() / 100 * self:GetStackCount()) )
 

@@ -314,6 +314,7 @@ function ToggleShop() {
 				SetMainCurrency()
 				InitInventory()
 				InitShop()
+				InitBirzhaChatWheel()
 				SwitchTab("MainContainer", "DonateMainButton")
 	        }  
 	        if ($("#DonateShopPanel").BHasClass("sethidden")) {
@@ -353,12 +354,15 @@ function SwitchTab(tab, button) {
 	$("#CouriersContainer").style.visibility = "collapse";
 	$("#EffectsContainer").style.visibility = "collapse";
 	$("#BannersContainer").style.visibility = "collapse";
+	$("#ChatWheelBirzhaContainer").style.visibility = "collapse";
 
 	$("#DonateMainButton").SetHasClass( "DonateNewMenuButtonSelected", false );
 	$("#DonateItemsButton").SetHasClass( "DonateNewMenuButtonSelected", false );
 	$("#DonateCouriersButton").SetHasClass( "DonateNewMenuButtonSelected", false );
 	$("#DonateEffectsButton").SetHasClass( "DonateNewMenuButtonSelected", false );
 	$("#DonateBannersButton").SetHasClass( "DonateNewMenuButtonSelected", false );
+	$("#ChatWheelBirzhaButton").SetHasClass( "DonateNewMenuButtonSelected", false );
+
 	$("#" + button).SetHasClass( "DonateNewMenuButtonSelected", true );
 
 	$("#" + tab).style.visibility = "visible";
@@ -952,4 +956,175 @@ function set_player_pet_from_data(data) {
 function set_player_border_from_data(data) {
 	var border_id = data.border_id
 	border_selected = border_id
+}
+
+function InitBirzhaChatWheel()
+{
+	var player_table = CustomNetTables.GetTableValue("birzhainfo", String(Players.GetLocalPlayer()))
+	if (player_table)
+	{
+		if (player_table.chat_wheel)
+		{
+			for (var i = 1; i <= 8; i++) {
+				
+				let name = $.Localize("#chatwheel_birzha_null")
+				for ( var item of Items_sounds )
+				{
+					if (item[0] == String(player_table.chat_wheel[i])) {
+						name = $.Localize("#" + item[4])
+					}
+				}
+				for ( var item of Items_sprays )
+				{
+					if (item[0] == String(player_table.chat_wheel[i])) {
+						name = $.Localize("#" + item[4])
+					}
+				}
+				for ( var item of Items_toys )
+				{
+					if (item[0] == String(player_table.chat_wheel[i])) {
+						name = $.Localize("#" + item[4])
+					}
+				}
+
+
+
+				$( "#chat_wheel_birzha_"+i ).text = name
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function CloseSelectChatWheel()
+{
+  	$("#info_select_chat_wheel").style.visibility = "collapse"
+  	$("#ChatWheelSelectList").RemoveAndDeleteChildren()
+}
+
+function OpenSelectChatWheel(id)
+{
+    $("#info_select_chat_wheel").style.visibility = "visible"
+	var player_table = CustomNetTables.GetTableValue("birzhashop", String(Players.GetLocalPlayer()))
+	var player_table_js = []
+	for (var d = 1; d < 300; d++) {
+		player_table_js.push(player_table.player_items[d])
+	}
+
+	var chatwheel_row = $.CreatePanel("Panel", $("#ChatWheelSelectList"), "");
+	chatwheel_row.AddClass("chatwheel_row_title");
+
+	var chatwheel_row_label = $.CreatePanel("Label", chatwheel_row, "");
+	chatwheel_row_label.AddClass("chatwheel_row_label_title");
+	chatwheel_row_label.text = $.Localize("#BirzhaPass_sound_1")
+
+	for ( var item_inventory of player_table_js )
+    {
+    	for ( var item of Items_sounds )
+    	{
+			if (item_inventory == item[0]) {
+				CreateChatWheelSelectItem(id, item[4], item[0])
+			}
+    	}
+	}
+
+	var chatwheel_row = $.CreatePanel("Panel", $("#ChatWheelSelectList"), "");
+	chatwheel_row.AddClass("chatwheel_row_title");
+
+	var chatwheel_row_label = $.CreatePanel("Label", chatwheel_row, "");
+	chatwheel_row_label.AddClass("chatwheel_row_label_title");
+	chatwheel_row_label.text = $.Localize("#BirzhaPass_sprays_1")
+
+	for ( var item_inventory of player_table_js )
+    {
+    	for ( var item of Items_sprays )
+    	{
+			if (item_inventory == item[0]) {
+				CreateChatWheelSelectItem(id, item[4], item[0])
+			}
+    	}
+    }
+
+    var chatwheel_row = $.CreatePanel("Panel", $("#ChatWheelSelectList"), "");
+	chatwheel_row.AddClass("chatwheel_row_title");
+
+	var chatwheel_row_label = $.CreatePanel("Label", chatwheel_row, "");
+	chatwheel_row_label.AddClass("chatwheel_row_label_title");
+	chatwheel_row_label.text = $.Localize("#BirzhaPass_toys_1")
+
+    for ( var item_inventory of player_table_js )
+    {
+    	for ( var item of Items_toys )
+    	{
+			if (item_inventory == item[0]) {
+				CreateChatWheelSelectItem(id, item[4], item[0])
+			}
+    	}
+    }
+}
+
+function CreateChatWheelSelectItem(id, label, item)
+{
+    let chatwheel_row = $.CreatePanel("Panel", $("#ChatWheelSelectList"), "");
+	chatwheel_row.AddClass("chatwheel_row");
+
+	let chatwheel_row_label = $.CreatePanel("Label", chatwheel_row, "");
+	chatwheel_row_label.AddClass("chatwheel_row_label");
+	chatwheel_row_label.text = $.Localize("#" + label)
+
+	chatwheel_row.SetPanelEvent("onactivate", function() { 
+		GameEvents.SendCustomGameEventToServer( "select_chatwheel_player", {id : id, item : item } );
+		$.Schedule( 0.25, function(){
+			InitBirzhaChatWheel()
+			CloseSelectChatWheel()
+		})
+	})
 }

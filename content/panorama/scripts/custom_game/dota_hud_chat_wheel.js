@@ -1,90 +1,170 @@
 var favourites = new Array();
 var nowrings = 8;
+var selected_sound_current = undefined;
 var rings = new Array(
     new Array(//0 start
-        new Array("#favourites","#BirzhaPass_sound_1","#BirzhaPass_sound_2","#BirzhaPass_sound_3","#BirzhaPass_next_wheel","#BirzhaPass_sprays_3","#BirzhaPass_sprays_2","#BirzhaPass_sprays_1"),
-        new Array(false,false,false,false,false,false,false,false),
-        new Array(7,1,2,3,8,6,5,4)
-    ),
-
-    new Array(//1 Sound list 1
-        new Array("#sounds_1","#sounds_2","#sounds_3","#sounds_4","#sounds_5","#sounds_6","#sounds_7","#sounds_8"),
+        new Array("","","","","","","",""),
         new Array(true,true,true,true,true,true,true,true),
-        new Array(52,53,54,55,56,57,58,59)
-    ),
-    new Array(//2 Sound list 2
-        new Array("#sounds_9","#sounds_10","#sounds_11","#sounds_12","#sounds_13","#sounds_14","#sounds_15","#sounds_16"),
-        new Array(true,true,true,true,true,true,true,true),
-        new Array(60,61,62,63,64,65,66,67)
-    ),
-    new Array(//3 Sound list 3
-        new Array("#sounds_17","#sounds_18","#sounds_19","#sounds_20","#sounds_21","#sounds_22","#sounds_23","#sounds_24"),
-        new Array(true,true,true,true,true,true,true,true),
-        new Array(68,69,70,71,72,73,74,75)
-    ),
-
-
-    new Array(//4 Sprays list 1
-        new Array("#spray_1","#spray_2","#spray_3","#spray_4","#spray_5","#spray_6","#spray_7","#spray_8"),
-        new Array(true,true,true,true,true,true,true,true),
-        new Array(88,89,90,91,92,93,94,95)
-    ),
-    new Array(//5 Sprays list 2
-        new Array("#spray_9","#spray_10","#spray_11","#spray_12","#spray_13","#spray_14","#spray_15","#spray_16"),
-        new Array(true,true,true,true,true,true,true,true),
-        new Array(96,97,98,99,100,101,102,103)
-    ),
-    new Array(//6 Sprays list 3
-        new Array("#spray_17","#spray_18","#spray_19","#spray_20","#spray_21","#spray_22","#spray_23","#spray_24"),
-        new Array(true,true,true,true,true,true,true,true),
-        new Array(104,105,106,107,108,109,110,111)
-    ),
-    
-
-    new Array(//7 Favourites
-        new Array("#favoriteWhat","","","","","","",""),
-        new Array(false,false,false,false,false,false,false,false),
-        new Array(0,0,0,0,0,0,0,0)
-    ),
-
-    new Array(//8 New Wheel
-        new Array("#BirzhaPass_sound_4","#BirzhaPass_sound_5","#BirzhaPass_sound_6","#BirzhaPass_toys_1","","","",""),
-        new Array(false,false,false,false,false,false,false,false),
-        new Array(9,10,11,12,0,0,0,0)
-    ),
-    new Array(//9 Sound list 4
-        new Array("#sounds_25","#sounds_26","#sounds_27","#sounds_28","#sounds_29","#sounds_30","#sounds_31","#sounds_32"),
-        new Array(true,true,true,true,true,true,true,true),
-        new Array(76,77,78,79,80,81,82,83)
-    ),
-    new Array(//10 Sound list 5
-        new Array("#sounds_33","#sounds_34","#sounds_35","#sounds_36","#sounds_37","#sounds_38","#sounds_39","#sounds_40"),
-        new Array(true,true,true,true,true,true,true,true),
-        new Array(84,85,86,87,113,114,118,119)
-    ),
-    new Array(//11 Sound list 6
-        new Array("#sounds_41","#sounds_42","#sounds_43","#sounds_44","#sounds_45","#sounds_46","#sounds_47","#sounds_48"),
-        new Array(true,true,true,true,true,true,true,true),
-        new Array(120,121,122,123,131,132,133,134)
-    ),
-    new Array(//12 Toys list 1
-        new Array("#toys_1","#toys_2","","","","","",""),
-        new Array(true,true,false,false,false,false,false,false),
-        new Array(124,125,0,0,0,0,0,0)
     ),
 );
 var nowselect = 0;
 
+var Items_sounds = [
+    ["52",  "sounds_1"], 
+    ["53",  "sounds_2"], 
+    ["54",  "sounds_3"], 
+    ["55",  "sounds_4"],
+    ["56",  "sounds_5"], 
+    ["57",  "sounds_6"], 
+    ["58",  "sounds_7"], 
+    ["59",  "sounds_8"], 
+    ["60",  "sounds_9"], 
+    ["61",  "sounds_10"], 
+    ["62",  "sounds_11"], 
+    ["63",  "sounds_12"], 
+    ["64",  "sounds_13"], 
+    ["65",  "sounds_14"], 
+    ["66",  "sounds_15"], 
+    ["67",  "sounds_16"],
+    ["68",  "sounds_17"], 
+    ["69",  "sounds_18"], 
+    ["70",  "sounds_19"], 
+    ["71",  "sounds_20"], 
+    ["72",  "sounds_21"], 
+    ["73",  "sounds_22"], 
+    ["74",  "sounds_23"], 
+    ["75",  "sounds_24"],
+    ["76",  "sounds_25"], 
+    ["77",  "sounds_26"], 
+    ["78",  "sounds_27"], 
+    ["79",  "sounds_28"], 
+    ["80",  "sounds_29"], 
+    ["81",  "sounds_30"], 
+    ["82",  "sounds_31"], 
+    ["83",  "sounds_32"], 
+    ["84",  "sounds_33"], 
+    ["85",  "sounds_34"], 
+    ["86",  "sounds_35"], 
+    ["87",  "sounds_36"], 
+    ["113", "sounds_37"], 
+    ["114", "sounds_38"], 
+    ["118", "sounds_39"], 
+    ["119", "sounds_40"], 
+    ["120", "sounds_41"], 
+    ["121", "sounds_42"], 
+    ["122", "sounds_43"], 
+    ["123", "sounds_44"], 
+    ["131", "sounds_45"], 
+    ["132", "sounds_46"], 
+    ["133", "sounds_47"], 
+    ["134", "sounds_48"], 
+]
+
+var Items_sprays = [
+    ["88",  "spray_1"], 
+    ["89",  "spray_2"], 
+    ["90",  "spray_3"], 
+    ["91",  "spray_4"], 
+    ["92",  "spray_5"], 
+    ["93",  "spray_6"], 
+    ["94",  "spray_7"], 
+    ["95",  "spray_8"],
+    ["96",  "spray_9"], 
+    ["97",  "spray_10"], 
+    ["98",  "spray_11"], 
+    ["99",  "spray_12"], 
+    ["100", "spray_13"], 
+    ["101", "spray_14"], 
+    ["102", "spray_15"], 
+    ["103", "spray_16"],
+    ["104", "spray_17"], 
+    ["105", "spray_18"], 
+    ["106", "spray_19"], 
+    ["107", "spray_20"],
+    ["108", "spray_21"], 
+    ["109", "spray_22"], 
+    ["110", "spray_23"], 
+    ["111", "spray_24"],  
+]
+
+var Items_toys = [ 
+    ["124", "toys_1"], 
+    ["125", "toys_2"], 
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function StartWheel() {
+    selected_sound_current = undefined;
     $("#Wheel").visible = true;
     $("#Bubble").visible = true;
     $("#PhrasesContainer").visible = true;
+
+    $("#PhrasesContainer").RemoveAndDeleteChildren();
+    for ( var i = 0; i < 8; i++ )
+    {
+        $.CreatePanelWithProperties(`Button`, $("#PhrasesContainer"), `Phrase${i}`, {
+            class: `MyPhrases`,
+            onmouseover: `OnMouseOver(${i})`,
+            onmouseout: `OnMouseOut(${i})`,
+        });
+        $("#Phrase"+i).BLoadLayoutSnippet("Phrase");
+        $("#Phrase"+i).GetChild(0).GetChild(0).visible = rings[0][1][i];
+
+        let name = $.Localize("#chatwheel_birzha_null")
+        var player_table = CustomNetTables.GetTableValue("birzhainfo", String(Players.GetLocalPlayer()))
+        if (player_table)
+        {
+            if (player_table.chat_wheel)
+            {
+                for ( var item of Items_sounds )
+                {
+                    if (item[0] == String(player_table.chat_wheel[i+1])) {
+                        name = $.Localize("#" + item[1])
+                    }
+                }
+                for ( var item of Items_sprays )
+                {
+                    if (item[0] == String(player_table.chat_wheel[i+1])) {
+                        name = $.Localize("#" + item[1])
+                    }
+                }
+                for ( var item of Items_toys )
+                {
+                    if (item[0] == String(player_table.chat_wheel[i+1])) {
+                        name = $.Localize("#" + item[1])
+                    }
+                }
+            }
+        }
+
+        $("#Phrase"+i).GetChild(0).GetChild(0).text = name;
+    }
 }
 
 function StopWheel() {
     $("#Wheel").visible = false;
     $("#Bubble").visible = false;
     $("#PhrasesContainer").visible = false;
+
     if (nowselect != 0)
     {
         $("#PhrasesContainer").RemoveAndDeleteChildren();
@@ -92,70 +172,65 @@ function StopWheel() {
         {
             $.CreatePanelWithProperties(`Button`, $("#PhrasesContainer"), `Phrase${i}`, {
                 class: `MyPhrases`,
-                onmouseactivate: `OnSelect(${i})`,
                 onmouseover: `OnMouseOver(${i})`,
                 onmouseout: `OnMouseOut(${i})`,
             });
             $("#Phrase"+i).BLoadLayoutSnippet("Phrase");
             $("#Phrase"+i).GetChild(0).GetChild(0).visible = rings[0][1][i];
-            $("#Phrase"+i).GetChild(0).GetChild(1).text = $.Localize(rings[0][0][i]);
+
+            let name = $.Localize("#chatwheel_birzha_null")
+            var player_table = CustomNetTables.GetTableValue("birzhainfo", String(Players.GetLocalPlayer()))
+            if (player_table)
+            {
+                if (player_table.chat_wheel)
+                {
+                    for ( var item of Items_sounds )
+                    {
+                        if (item[0] == String(player_table.chat_wheel[i+1])) {
+                            name = $.Localize("#" + item[1])
+                        }
+                    }
+                    for ( var item of Items_sprays )
+                    {
+                        if (item[0] == String(player_table.chat_wheel[i+1])) {
+                            name = $.Localize("#" + item[1])
+                        }
+                    }
+                    for ( var item of Items_toys )
+                    {
+                        if (item[0] == String(player_table.chat_wheel[i+1])) {
+                            name = $.Localize("#" + item[1])
+                        }
+                    }
+                }
+            }
+
+            $("#Phrase"+i).GetChild(0).GetChild(0).text = name;
         }
         nowselect = 0;
     }
+    var player_table = CustomNetTables.GetTableValue("birzhainfo", String(Players.GetLocalPlayer()))
+    if (player_table)
+    {
+        if (player_table.chat_wheel)
+        {
+            if (selected_sound_current != undefined)
+            {
+                GameEvents.SendCustomGameEventToServer("SelectVO", {num: Number(player_table.chat_wheel[selected_sound_current+1])});
+            }
+        }
+    }
+    selected_sound_current = undefined;
 }
 
 function OnSelect(num) {
-    var newnum = rings[nowselect][2][num];
-    if (rings[nowselect][1][num])
+    var player_table = CustomNetTables.GetTableValue("birzhainfo", String(Players.GetLocalPlayer()))
+    if (player_table)
     {
-        GameEvents.SendCustomGameEventToServer("SelectVO", {num: newnum});
-    }
-    else
-    {
-        $("#PhrasesContainer").RemoveAndDeleteChildren();
-        for ( var i = 0; i < 8; i++ )
+        if (player_table.chat_wheel)
         {
-            let properities_for_panel = {
-                class: `MyPhrases`,
-                onmouseactivate: `OnSelect(${i})`,
-                onmouseover: `OnMouseOver(${i})`,
-                onmouseout: `OnMouseOut(${i})`,
-            };
-
-            if (rings[newnum][1][i]) {
-                properities_for_panel.oncontextmenu = `AddOnFavourites(${i})`;
-            }
-
-            $.CreatePanelWithProperties(`Button`, $("#PhrasesContainer"), `Phrase${i}`, properities_for_panel);
-            $("#Phrase"+i).BLoadLayoutSnippet("Phrase");
-            $("#Phrase"+i).GetChild(0).GetChild(0).visible = rings[newnum][1][i];
-
-            //var plyData = CustomNetTables.GetTableValue("birzhainfo", Players.GetLocalPlayer());
-
-             var player_table = CustomNetTables.GetTableValue("birzhashop", String(Players.GetLocalPlayer()))
-             var player_table_js = []
-            
-             for (var d = 1; d < 300; d++) {
-                 player_table_js.push(player_table.player_items[d])
-             }
-            
-             var phase_deactive = true
-            
-             for ( var item of player_table_js )
-             {
-                 if (item == rings[newnum][2][i]) {
-                     phase_deactive = false
-                     break
-                 }
-             }
-
-            $("#Phrase"+i).GetChild(0).GetChild(1).text = $.Localize(rings[newnum][0][i]);
-
-            if (phase_deactive && rings[newnum][2][i] != 0 && rings[newnum][2][i] != 7 && rings[newnum][2][i] != 1 && rings[newnum][2][i] != 2 && rings[newnum][2][i] != 3 && rings[newnum][2][i] != 8 && rings[newnum][2][i] != 6 && rings[newnum][2][i] != 5 && rings[newnum][2][i] != 4 && rings[newnum][2][i] != 9 && rings[newnum][2][i] != 10 && rings[newnum][2][i] != 11 && rings[newnum][2][i] != 12) {   
-                $("#Phrase"+i).GetChild(0).GetChild(1).style.textDecoration = "line-through"
-            }
+            GameEvents.SendCustomGameEventToServer("SelectVO", {num: Number(player_table.chat_wheel[num+1])});
         }
-        nowselect = newnum;
     }
 }
 
@@ -219,7 +294,7 @@ function FindLabelByNum(num) {
 }
 
 function OnMouseOver(num) {
-    //$.Msg(num);
+    selected_sound_current = num;
     $( "#WheelPointer" ).RemoveClass( "Hidden" );
     $( "#Arrow" ).RemoveClass( "Hidden" );
     for ( var i = 0; i < 8; i++ )
@@ -231,6 +306,7 @@ function OnMouseOver(num) {
 }
 
 function OnMouseOut(num) {
+    selected_sound_current = undefined;
     $( "#WheelPointer" ).AddClass( "Hidden" );
     $( "#Arrow" ).AddClass( "Hidden" );
 }
@@ -242,13 +318,43 @@ function OnMouseOut(num) {
     {
         $.CreatePanelWithProperties(`Button`, $("#PhrasesContainer"), `Phrase${i}`, {
             class: `MyPhrases`,
-            onmouseactivate: `OnSelect(${i})`,
             onmouseover: `OnMouseOver(${i})`,
             onmouseout: `OnMouseOut(${i})`,
         });
         $("#Phrase"+i).BLoadLayoutSnippet("Phrase");
         $("#Phrase"+i).GetChild(0).GetChild(0).visible = rings[0][1][i];
-        $("#Phrase"+i).GetChild(0).GetChild(1).text = $.Localize(rings[0][0][i]);
+
+
+ 
+        let name = $.Localize("#chatwheel_birzha_null")
+
+        var player_table = CustomNetTables.GetTableValue("birzhainfo", String(Players.GetLocalPlayer()))
+        if (player_table)
+        {
+            if (player_table.chat_wheel)
+            {
+                for ( var item of Items_sounds )
+                {
+                    if (item[0] == String(player_table.chat_wheel[i+1])) {
+                        name = $.Localize("#" + item[1])
+                    }
+                }
+                for ( var item of Items_sprays )
+                {
+                    if (item[0] == String(player_table.chat_wheel[i+1])) {
+                        name = $.Localize("#" + item[1])
+                    }
+                }
+                for ( var item of Items_toys )
+                {
+                    if (item[0] == String(player_table.chat_wheel[i+1])) {
+                        name = $.Localize("#" + item[1])
+                    }
+                }
+            }
+        }
+
+        $("#Phrase"+i).GetChild(0).GetChild(0).text = name;
     }
     Game.AddCommand("+WheelButton", StartWheel, "", 0);
     Game.AddCommand("-WheelButton", StopWheel, "", 0);

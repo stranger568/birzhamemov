@@ -38,18 +38,18 @@ _G.PICK_STATE = BIRZHA_PICK_STATE_PLAYERS_LOADED
 _G.DISCONNECTED = {}
 
 BIRZHA_PLUS_HEROES = {
+	"npc_dota_hero_migi",
+	"npc_dota_hero_keeper_of_the_light",
 	"npc_dota_hero_overlord",
+	"npc_dota_hero_silencer",
 	"npc_dota_hero_pudge",
 	"npc_dota_hero_puck",
-	"npc_dota_hero_migi",
-	"npc_dota_hero_lone_druid",
-	"npc_dota_hero_elder_titan",
+	"npc_dota_hero_nolik",
+	"npc_dota_hero_saitama",
+	"npc_dota_hero_freddy",
 	"npc_dota_hero_nevermore",
-	"npc_dota_hero_silencer",
-	"npc_dota_hero_nyx_assassin",
-	"npc_dota_hero_travoman",
-	"npc_dota_hero_jull",
-	"npc_dota_hero_keeper_of_the_light",
+	"npc_dota_hero_naga_siren",
+	"npc_dota_hero_invoker",
 }
 
 function CustomPick:RegisterPlayerInfo( pid )
@@ -354,6 +354,11 @@ function CustomPick:PlayerSelect( kv )
 		if not pinfo or pinfo.ban_count <= 0 then
 			return
 		end
+
+		if kv.hero == "npc_dota_hero_nolik" then return end
+		if kv.hero == "npc_dota_hero_saitama" then return end
+		if kv.hero == "npc_dota_hero_freddy" then return end
+
 		if BANNED_HEROES[kv.hero] == nil then
 			BANNED_HEROES[kv.hero] = true
 			pinfo.ban_count = pinfo.ban_count - 1
@@ -524,7 +529,6 @@ function CustomPick:EndSelection()
 		CustomPick.pick_ended = true
 		CustomNetTables:SetTableValue('game_state', 'pickstate', {v = 'ended'})
 		CustomGameEventManager:Send_ServerToAllClients( 'pick_end', {} )
-		GameRules:GetGameModeEntity():SetPauseEnabled( true )
 		for pid, pinfo in pairs( PLAYERS ) do
 			if not IsPlayerDisconnected(pid) then
 				local hero = PlayerResource:GetSelectedHeroEntity(pid)

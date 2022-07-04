@@ -250,6 +250,7 @@ function BirzhaGameMode:InitGameMode()
 	CustomGameEventManager:RegisterListener("change_border_effect", Dynamic_Wrap(donate_shop, "change_border_effect"))
 	CustomGameEventManager:RegisterListener("donate_shop_buy_item", Dynamic_Wrap(donate_shop, "BuyItem"))
 	CustomGameEventManager:RegisterListener( "SelectVO", Dynamic_Wrap(donate_shop,'SelectVO'))
+	CustomGameEventManager:RegisterListener( "select_chatwheel_player", Dynamic_Wrap(donate_shop,'SelectChatWheel'))
 	CustomGameEventManager:RegisterListener( "report_player", Dynamic_Wrap(report_system,'ReportPlayer'))
 	CustomGameEventManager:RegisterListener( "SpawnHeroDemo", Dynamic_Wrap(HeroDemo,'SpawnHeroDemo'))
 

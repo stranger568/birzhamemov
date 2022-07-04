@@ -208,6 +208,21 @@
 							<DOTAUserName steamid="76561198162436859" class="TopMmrNick" />
 						</Panel>
 					</Panel>
+
+					<Panel hittest="false" class="TopMmrClass">
+						<Panel class="PlayerInfoTableCreators">
+							<DOTAAvatarImage steamid="76561198335261948" class="AvatarTopMmr" />
+							<DOTAUserName steamid="76561198335261948" class="TopMmrNick" />
+						</Panel>
+					</Panel>
+
+					<Panel hittest="false" class="TopMmrClass">
+						<Panel class="PlayerInfoTableCreators">
+							<DOTAAvatarImage steamid="76561198174585207" class="AvatarTopMmr" />
+							<DOTAUserName steamid="76561198174585207" class="TopMmrNick" />
+						</Panel>
+					</Panel>
+
 					<Panel class = "InfoLeaderboardblockCreators">
 						<Label text = "#ThanksLabel" class = "InfoLeaderboardblockPlayer"/>
 					</Panel>

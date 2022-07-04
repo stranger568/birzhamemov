@@ -324,7 +324,7 @@ end
 modifier_hisoka_shield_buff_attack = class({})
 
 function modifier_hisoka_shield_buff_attack:IsPurgable()
-    return false
+    return not self:GetCaster():HasScepter()
 end
 
 function modifier_hisoka_shield_buff_attack:OnCreated()
@@ -371,7 +371,7 @@ end
 modifier_hisoka_shield_buff_shield = class({})
 
 function modifier_hisoka_shield_buff_shield:IsPurgable()
-    return false
+    return not self:GetCaster():HasScepter()
 end
 
 function modifier_hisoka_shield_buff_shield:GetPriority()     return MODIFIER_PRIORITY_ULTRA end
@@ -402,7 +402,7 @@ end
 modifier_hisoka_shield_buff_shield_visual = class({})
 
 function modifier_hisoka_shield_buff_shield_visual:IsPurgable()
-    return false
+    return not self:GetCaster():HasScepter()
 end
 
 function modifier_hisoka_shield_buff_shield_visual:IsHidden()

@@ -26,7 +26,7 @@
 	</snippets>
 
 	<Panel class="CustomPick" onfocus="DropInputFocus()">
-			<DOTAScenePanel id="BGScene" onload="HeroSelectionLoad()" class="BackgroundPick" map="maps/backgrounds/pregame_phase.vmap"/>
+			<DOTAScenePanel id="BGBirzhaScene" onload="HeroSelectionLoad()" class="BackgroundPick" map="maps/backgrounds/pregame_phase.vmap"/>
 
 			<Panel id="StateInfoGlobal" class="StateInfoGlobalClass">
 				<Label id="PickTimer" class="PickTimerClass" text="#BIRZHA_PICK_STATE_START" />
@@ -58,7 +58,7 @@
 
 						<Label text="" id="HeroDifficulty" />
 						<Label text="" id="HeroRole" />
-						<Label text="#HeroAviableInBPPlus" id="HeroAviableInBPPlus" />
+						<Label text="#HeroAviableInBPPlus" html="true" id="HeroAviableInBPPlus" />
 
 						<Panel id="HeroBPProgress">
 							<Label id="HeroBPProgressAviableBPPlus" text="#HeroBPProgressAviableBPPlus" />

@@ -550,7 +550,7 @@ function Vernon_uporstvo:GetIntrinsicModifierName()
 end
 
 function Vernon_uporstvo:GetCooldown(level)
-	if not self:GetCaster():HasScepter() then return 0 end
+	if not self:GetCaster():HasShard() then return 0 end
     return self.BaseClass.GetCooldown( self, level ) / ( self:GetCaster():GetCooldownReduction())
 end
 
@@ -605,7 +605,7 @@ end
 function modifier_Vernon_uporstvo:GetAbsorbSpell( params )
 	if not IsServer() then return end
 	if self:GetParent():IsIllusion() or self:GetParent():PassivesDisabled() then return end
-	if not self:GetParent():HasScepter() then return end
+	if not self:GetParent():HasShard() then return end
 
 	if self:GetAbility():IsFullyCastable() then
 		if params.ability:GetCaster():GetTeamNumber() == self:GetParent():GetTeamNumber() then

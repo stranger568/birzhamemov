@@ -438,6 +438,46 @@
 		"vscripts"                  "memespass/donaters.lua"
 	}
 
+	"donater_top8"
+	{
+		"BaseClass"					"npc_dota_creature"
+		"Model"						"models/freddy/dino.vmdl"	
+		"ModelScale"				"0.8"
+		"Level"						"1"	
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"RingRadius"				"50"
+		"HealthBarOffset"			"250"
+		"BoundsHullName"			"DOTA_HULL_SIZE_HERO"	
+		"CanBeDominated"            "0"
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"				"420"
+		"MovementTurnRate"			"400"
+		"StatusHealth"				"1"
+		"VisionDaytimeRange"		"0"	
+		"VisionNighttimeRange"		"0"
+		"vscripts"                  "memespass/donaters.lua"
+	}
+
+	"donater_top9"
+	{
+		"BaseClass"					"npc_dota_creature"
+		"Model"						"models/courier/greevil/gold_greevil.vmdl"	
+		"ModelScale"				"0.8"
+		"Level"						"1"	
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"RingRadius"				"50"
+		"HealthBarOffset"			"250"
+		"BoundsHullName"			"DOTA_HULL_SIZE_HERO"	
+		"CanBeDominated"            "0"
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"				"420"
+		"MovementTurnRate"			"400"
+		"StatusHealth"				"1"
+		"VisionDaytimeRange"		"0"	
+		"VisionNighttimeRange"		"0"
+		"vscripts"                  "memespass/donaters.lua"
+	}
+
 	"npc_unit_happy_tank"
 	{
 		"BaseClass"					"npc_dota_creature"	
@@ -4613,7 +4653,43 @@
 		"HasInventory"				"0"
 	}
 
-
+	"npc_freddy_bunny"
+	{										
+		"Model"						"models/freddy/bunny.vmdl"
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Lycan_Wolf"
+		"ModelScale"				"1.2"
+		"IsSummoned"				"1"
+		"ArmorPhysical"				"0"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"			"0"
+		"AttackDamageMax"			"0"
+		"BaseAttackSpeed"			"300"
+		"AttackRate"				"1.7"
+		"AttackAnimationPoint"		"0.5"
+		"AttackAcquisitionRange"	"1200"
+		"AttackRange"				"100"
+		"ProjectileModel"			"particles/units/heroes/hero_beastmaster/beastmaster_boar_attack.vpcf"
+		"ProjectileSpeed"			"1500"
+		"HealthBarOffset"			"125"
+		"BountyXP"					"0"
+		"BountyGoldMin"				"0"
+		"BountyGoldMax"				"0"
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"				"350"
+		"MovementTurnRate"			"0.6"
+		"StatusHealth"				"800"
+		"StatusHealthRegen"			"0"
+		"StatusMana"            	"0"
+		"VisionDaytimeRange"		"800"
+		"VisionNighttimeRange"		"800"
+		"HealthBarOffset"			"300"
+		"TeamName"					"DOTA_TEAM_NEUTRALS"
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+		"MagicalResistance"			"0"
+	}
 
 
 

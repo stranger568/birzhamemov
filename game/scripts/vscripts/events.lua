@@ -390,7 +390,7 @@ function BirzhaGameMode:SetRespawnTime( killedTeam, killedUnit )
 			if stackcount > 0 then
 				for i = 1, stackcount do
 					if respawn_time > 1 then
-						respawn_time = respawn_time - 2
+						respawn_time = respawn_time - 1
 						modifier:DecrementStackCount()
 					end
 				end
@@ -470,7 +470,7 @@ function BirzhaGameMode:OnItemPickUp( event )
 end
 
 function BirzhaGameMode:SpawnDonaters()
-    for i = 1, 7 do
+    for i = 1, 9 do
         local donater = CreateUnitByName( "donater_top" ..i , Vector( 0, 0, 0 ), true, nil, nil, DOTA_TEAM_NEUTRALS )
         donater:AddNewModifier( donater, nil, "modifier_birzha_donater", {} )
         if i == 7 then
@@ -519,6 +519,13 @@ function BirzhaGameMode:OnHeroInGame(hero)
 			hero:AddNewModifier( hero, nil, "modifier_bp_never_reward", {})
 		end
 	end
+
+	--if npcName == "npc_dota_hero_zuus" then
+	--	hero:SetOriginalModel("models/heroes/zeus/zeus_arcana.vmdl")
+	--	hero.ZuusArcanaHead = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/heroes/zeus/zeus_hair_arcana.vmdl"})
+	--	hero.ZuusArcanaHead:FollowEntity(hero, true)
+	--	hero.ZeusArcana = ParticleManager:CreateParticle("particles/econ/items/zeus/arcana_chariot/zeus_arcana_chariot.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
+	--end
 
 	if npcName == "npc_dota_hero_earthshaker" then
 		if DonateShopIsItemBought(playerID, 28) then

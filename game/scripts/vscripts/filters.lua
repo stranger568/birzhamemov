@@ -22,7 +22,6 @@ function BirzhaGameMode:DamageFilter( filterTable  )
 		"modifier_kurumi_god",
 		"modifier_ExplosionMagic_immunity",
 		"modifier_item_uebator_active",
-		"modifier_Overlord_spell_7_buff",
 		"modifier_Overlord_spell_10_invul"
     }
 

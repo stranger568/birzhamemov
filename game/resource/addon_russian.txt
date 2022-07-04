@@ -157,6 +157,8 @@
 "donate_button_description_2"				"Для жителей РФ. (Qiwi, Банковские карты)"
 "donate_msg_notification"					"Пополнить донат валюту"
 
+"chatwheel_birzha_null"						"Выберите Звук / Спрей"
+
 //=================================================================================================================
 // Фонтан и Круг
 //=================================================================================================================
@@ -190,7 +192,7 @@
 "TopMmrPlayersSeasonLabel"						"Топ игроки прошлого сезона"
 
 "aviableforbp"	"Двойной рейтинг доступен в BIRZHA PLUS"
-"moreban_aviablefordonaters"	"Донатеры от 10$ имеют 4 бана<br><br>Донатеры от 50$ имеют 6 банов"
+"moreban_aviablefordonaters"	"Донатеры от 800 рублей имеют 4 бана<br><br>Донатеры от 4000 рублей имеют 6 банов"
 
 "BristekekDeath" "Босс BristleKEK был убит"
 "LolBladeDeath"	"Босс LolBlade был убит"
@@ -267,8 +269,8 @@
 
 "Sovetsforyou"												"Важные для вас советы"
 "Contributepanel"											"Поддержка разработчиков"
-"Updatename"												"Новое обновление - Возвращение цыгана 11.05.2022"
-"Updatedescription"											"Возвращен Цыган и добавлено 2 новых героя. Нажмите чтобы прочитать"
+"Updatename"												"Новое обновление - Июньское обновление 20.06.2022"
+"Updatedescription"											"Добавлено 3 новых героя. Нажмите чтобы прочитать"
 
 "bppanelfsub"	"Награды для подписчиков"
 "bppanelffree"	"Бесплатные награды"
@@ -298,7 +300,8 @@
 "donater_top5"	"Enjoy The silence"
 "donater_top6"	"Insane"
 "donater_top7"	"EVGENI"
-
+"donater_top8"	"AroundSpite"
+"donater_top9"	"L i N K"
 
 "DOTA_Tooltip_modifier_birzha_gob"	"GOB" 
 "DOTA_Tooltip_modifier_birzha_gob_Description"	"Разработчик BIRZHA MEMOV"
@@ -376,7 +379,7 @@
 
 "shop_dogecoinsitems" "Предметы за DC"
 "shop_banners"		  "Рамки"
-
+"shop_chatwheel"		"Колесо"
 
 
 
@@ -730,7 +733,8 @@
 "Pick_abilities" "Способности"
 "Pick_Bonusabilities" "Дополнительные способности"
 "Pick_AverageRating"	"Средний рейтинг: "
-"HeroAviableInBPPlus"	"Временно доступен обладателям BIRZHA PLUS"
+"HeroAviableInBPPlus"	"Временно доступен обладателям BIRZHA PLUS <font color='#fff700'>(?)</font>"
+"HeroAviableInBPPlus_description"	"Подписку можно купить в магазине ( слева сверху ) после начала игры. Биткоины можно приобрести нажав [+] возле валюты в магазине"
 "Token_Info_Descr" "Токены двойного рейтинга доступны обладателям BIRZHA PLUS <br><br> Вы получаете двойной рейтинг в конце игры, как положительный, так и отрицательный<br><br>Токены обновляются каждый понедельник"
 
 "Pick_HeroRole"		"Роль Героя"
@@ -932,7 +936,7 @@
 //=================================================================================================================
 
 "DOTA_Tooltip_ability_Bukin_Spears_shard_description"					"Cтановится активной. На 3 секунды каждый удар накладывает 2 эффекта способности"
-"DOTA_Tooltip_ability_scp682_bite_shard_description"					"Оглушает на 0.5 секунд"
+"DOTA_Tooltip_ability_scp682_bite_shard_description"					"Оглушает на 1 секунду"
 "DOTA_Tooltip_ability_Versuta_son_dog_shard_description"				"Проходит сквозь невосприимчивость к магии"
 "DOTA_Tooltip_ability_Kirill_GiantArms_shard_description"				"Становится активной способностью. Следующая атака нанесет на 25% больше урона"
 "DOTA_Tooltip_ability_Papich_reincarnation_shard_description"			"Больше не требует маны"
@@ -5809,6 +5813,10 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_stray_2" "+15% порогу здоровья Киллстиллер"
 "DOTA_Tooltip_Ability_special_bonus_birzha_stray_3" "Все эффекты музыка от донатера"
 
+
+"DOTA_Tooltip_Ability_stray_rat_poison_scepter_description"	"Добавляет к урону множитель интеллекта"
+"DOTA_Tooltip_Ability_stray_rat_scepter_description"	"Добавляет к урону множитель интеллекта"
+
 //=================================================================================================================
 // Жан-Пьер Польнарефф
 //=================================================================================================================
@@ -6102,7 +6110,7 @@
 "DOTA_Tooltip_Ability_hisoka_shield_damage" "ДОП. УРОН:"
 "DOTA_Tooltip_Ability_hisoka_shield_duration" "ДЛИТЕЛЬНОСТЬ:"
 "DOTA_Tooltip_Ability_hisoka_shield_stacks" "ЧИСЛО ЭФФЕКТОВ:"
-"DOTA_Tooltip_ability_hisoka_shield_scepter_description"	"При использовании способности герой разбрасывает во все стороны колоду карт"
+"DOTA_Tooltip_ability_hisoka_shield_scepter_description"	"При использовании способности герой разбрасывает во все стороны колоду карт<br>Способность нельзя развеять"
 "DOTA_Tooltip_Ability_hisoka_shield_lore"	"Данный герой создан благодаря <font color='#fffc00'>Insane</font>"
 
 "DOTA_Tooltip_modifier_hisoka_shield_buff_attack" "Щит из Банджи Жвачки"
@@ -6222,7 +6230,7 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_scp683_3"	"+2 к длительности Разрыв плоти"
 "DOTA_Tooltip_Ability_special_bonus_birzha_scp683_4"	"+1% урона от Разрыв Плоти"
 "DOTA_Tooltip_Ability_special_bonus_birzha_scp683_5"	"Разрыв плоти нельзя развеять"
-"DOTA_Tooltip_Ability_special_bonus_birzha_scp683_6"	"+20% урона от Сильный укус"
+"DOTA_Tooltip_Ability_special_bonus_birzha_scp683_6"	"Сильный укус наносит урон от атаки"
 "DOTA_Tooltip_Ability_special_bonus_birzha_scp683_7"	"Неуязвимость к магии в Ярости"
 
 //=================================================================================================================
@@ -6953,7 +6961,7 @@
 "DOTA_Tooltip_ability_sasake_one_ability_lore"							"Данный герой создан благодаря <font color='#fffc00'>AlAr_M</font>"
 
 "DOTA_Tooltip_modifier_sasake_gem_aura"									"Шестое чувство"
-"DOTA_Tooltip_modifier_sasake_gem_aura_Description"						"Видит невидимых существ и его сопротивление эффектам увеличено на %dMODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING%%%%"
+"DOTA_Tooltip_modifier_sasake_gem_aura_Description"						"Видит невидимых существ и его сопротивление эффектам увеличено на %dMODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING%%%"
 
 "DOTA_Tooltip_ability_sasake_two_ability"								"Скрытое присутствие"
 "DOTA_Tooltip_ability_sasake_two_ability_Description"					"Герой уходит в невидимость и получает иммунитет к магии на %bkb_duration% секунд. Атаки из невидимости уменьшает скорость передвижения цели на %movespeed_slow%%% длительностью в %movespeed_slow_duration% секунд. Выход из невидимости также дает иммунитет к магии на %bkb_duration% секунд"
@@ -6979,6 +6987,7 @@
 "DOTA_Tooltip_ability_sasake_three_ability_duration"					"ДЛИТЕЛЬНОСТЬ:"
 "DOTA_Tooltip_ability_sasake_three_ability_bonus_agility"				"ДОП. ЛОВКОСТЬ:"
 "DOTA_Tooltip_ability_sasake_three_ability_lore"						"Данный герой создан благодаря <font color='#fffc00'>AlAr_M</font>"
+"DOTA_Tooltip_ability_sasake_three_ability_scepter_description"			"Убийство сбрасывает перезарядку способности"
 
 "DOTA_Tooltip_modifier_sasake_agility_bonus"							"Знание первостепенной гармонии"
 "DOTA_Tooltip_modifier_sasake_agility_bonus_Description"				"Ловкость увеличена на %dMODIFIER_PROPERTY_STATS_AGILITY_BONUS%"
@@ -6995,7 +7004,7 @@
 "DOTA_Tooltip_ability_sasake_four_ability_crit_one"						"%КРИТ. УРОН ПЕРВОЙ АТАКИ:"
 "DOTA_Tooltip_ability_sasake_four_ability_crit_two"						"%КРИТ. УРОН ВТОРОЙ АТАКИ:"
 "DOTA_Tooltip_ability_sasake_four_ability_crit_three"					"%КРИТ. УРОН ТРЕТЬЕЙ АТАКИ:"
-"DOTA_Tooltip_ability_sasake_four_ability_scepter_description"			"Убийство противника снижает перезарядку способности на 4 секунды"
+"DOTA_Tooltip_ability_sasake_four_ability_shard_description"			"Атаки уменьшают перезарядку способности на 2 секунды"
 "DOTA_Tooltip_ability_sasake_four_ability_lore"							"Данный герой создан благодаря <font color='#fffc00'>AlAr_M</font>"
 
 "DOTA_Tooltip_Ability_special_bonus_birzha_sasake_1"					"+25 к ловкости от Знания Первостепенной Гармонии"
@@ -7135,8 +7144,7 @@
 
 
 "DOTA_Tooltip_ability_Overlord_spell_4"								"Аура бессмертия"
-"DOTA_Tooltip_ability_Overlord_spell_4_Description"					"Если вблизи умрёт союзный герой, то он превратится в призрака, отложив свою смерть на %duration% секунд"
-"DOTA_Tooltip_ability_Overlord_spell_4_radius"						"РАДИУС:"
+"DOTA_Tooltip_ability_Overlord_spell_4_Description"					"Если Overlord погибнет, то он превратится в призрака, отложив свою смерть на %duration% секунд"
 "DOTA_Tooltip_ability_Overlord_spell_4_lore"						"Данный герой создан благодаря <font color='#fffc00'>ForeverBlin4ik</font>"
 
 
@@ -7181,7 +7189,7 @@
 
 
 "DOTA_Tooltip_ability_Overlord_spell_11"								"Адское пламя"
-"DOTA_Tooltip_ability_Overlord_spell_11_Description"					"Overlord включает пламя, которое наносит урон. Каждый %interval% секунд стоимость маны и урон увеличивается в 2 раза<br><br><font color='#ff9900'>К урону способности прибавляется %perc_damage%%  от зарядов Не знающий поражения</font>"
+"DOTA_Tooltip_ability_Overlord_spell_11_Description"					"Overlord включает пламя, которое наносит урон. Каждый %interval% секунд стоимость маны увеличивается в 2 раза<br><br><font color='#ff9900'>К урону способности прибавляется %perc_damage%%  от зарядов Не знающий поражения</font>"
 "DOTA_Tooltip_ability_Overlord_spell_11_base_damage"					"УРОН:"
 "DOTA_Tooltip_ability_Overlord_spell_11_radius"							"РАДИУС:"
 "DOTA_Tooltip_ability_Overlord_spell_11_manacost"						"СТОИМОСТЬ МАНЫ ЗА ТИК:"
@@ -7879,9 +7887,8 @@
 "DOTA_Tooltip_ability_travoman_land_mines"													"Разрушитель трона"
 "DOTA_Tooltip_ability_travoman_land_mines_Description"										"Устанавливает невидимую мину. Её невидимость невозможно раскрыть, но она станет видна, если противник зайдёт в радиус действия"
 "DOTA_Tooltip_ability_travoman_land_mines_radius"											"РАДИУС:"
-"DOTA_Tooltip_ability_travoman_land_mines_proximity_threshold"								"ЗАДЕРЖКА ДО ВЗРЫВА:"
+"DOTA_Tooltip_ability_travoman_land_mines_activation_delay"									"ЗАДЕРЖКА ДО ВЗРЫВА:"
 "DOTA_Tooltip_ability_travoman_land_mines_damage"											"УРОН:"
-"DOTA_Tooltip_ability_travoman_land_mines_activation_delay"									"ЗАДЕРЖКА АКТИВАЦИИ:"
 "DOTA_Tooltip_ability_travoman_land_mines_lore"												"Данный герой создан благодаря <font color='#fffc00'>What's your problem?</font>"
 
 "DOTA_Tooltip_ability_travoman_stasis_trap"													"Звук из преисподней"
@@ -7945,7 +7952,7 @@
 "DOTA_Tooltip_ability_special_bonus_birzha_travoman_1"										"-3 перезарядки Разрушитель трона"
 "DOTA_Tooltip_ability_special_bonus_birzha_travoman_2"										"-10 перезарядки Гнев небес"
 "DOTA_Tooltip_ability_special_bonus_birzha_travoman_3"										"Каждые 5 секунд восстанавливает 7.5% от макс. маны"
-"DOTA_Tooltip_ability_special_bonus_birzha_travoman_4"										"Гнев небес оглушает на 2 секунды"
+"DOTA_Tooltip_ability_special_bonus_birzha_travoman_4"										"Гнев небес оглушает на 1.5 секунды"
 "DOTA_Tooltip_ability_special_bonus_birzha_travoman_5"										"Звук из преисподней запрещает использовать предметы"
 "DOTA_Tooltip_ability_special_bonus_birzha_travoman_6"										"-0.8 задержки взрыва Разрушитель трона"
 "DOTA_Tooltip_ability_special_bonus_birzha_travoman_7"										"Улучшить Табличка смерти"
@@ -7975,7 +7982,7 @@
 "DOTA_Tooltip_ability_jull_choronostasis_stun_duration"									"ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
 "DOTA_Tooltip_ability_jull_choronostasis_resist_magic_debuff"							"%УМЕНЬШЕНИЕ МАГ. СОПРОТИВЛЕНИЯ:"
 "DOTA_Tooltip_ability_jull_choronostasis_shield_duration"								"ДЛИТЕЛЬНОСТЬ:"
-"DOTA_Tooltip_ability_jull_choronostasis_resistance"									"%ДОП. СОПРОТИВЛЕНИЕ К ВХОДЯЩЕМУ %УРОНУ:"
+"DOTA_Tooltip_ability_jull_choronostasis_resistance"									"%ДОП. СОПРОТИВЛЕНИЕ К ВХОДЯЩЕМУ УРОНУ:"
 "DOTA_Tooltip_ability_jull_choronostasis_status_resistance"								"%ДОП. СОПРОТИВЛЕНИЕ ЭФФЕКТАМ:"
 "DOTA_Tooltip_ability_jull_choronostasis_lore"											"Данный герой создан благодаря <font color='#fffc00'>daertc</font>"
 
@@ -8053,5 +8060,226 @@
 
 "DOTA_Tooltip_ability_jull_portal_backend_scepter_description"							"Убийство этой способностью сбрасывает перезарядку базовых способностей"
 "DOTA_Tooltip_ability_jull_choronostasis_shard_description"								"Увеличивает сопротивление к урона на 20%"
+
+
+//=================================================================================================================
+// Фредди
+//=================================================================================================================
+
+"npc_dota_hero_freddy"		"Мишка Фредди"
+"npc_freddy_bunny"			"Сломанный аниматроник"
+
+"DOTA_Tooltip_ability_freddy_scream"												"Скример"
+"DOTA_Tooltip_ability_freddy_scream_Description"									"Фредди пугает выбранного противника, накладывая на него эффект ужаса, который наносит периодический урон каждую секунду.<br><br>Использование способности на испуганного противника увеличивает урон в 2 раза<br>Использование способности на противника с сердечным приступом увеличивает урон в 3 раза<br>Увеличение не влияет на периодический урон"
+"DOTA_Tooltip_ability_freddy_scream_damage_interval"								"УРОН:"
+"DOTA_Tooltip_ability_freddy_scream_debuff_duration"								"ДЛИТЕЛЬНОСТЬ ПЕРИОД. УРОНА:"
+"DOTA_Tooltip_ability_freddy_scream_fear_duration"									"ДЛИТЕЛЬНОСТЬ ИСПУГА:"
+"DOTA_Tooltip_ability_freddy_scream_lore"											"Данный герой создан благодаря <font color='#fffc00'>Rezor132</font>"
+
+"DOTA_Tooltip_ability_freddy_surprice"												"Подарок - Ловушка"
+"DOTA_Tooltip_ability_freddy_surprice_Description"									"Фредди оставляет на земле подарок. Любой противник пройдясь возле него в радиусе %radius% получит урон. Если противник был ранее испуган, то он получит сердечный приступ. По противникам с сердечным приступам способность наносит в 2 раза больше урона"
+"DOTA_Tooltip_ability_freddy_surprice_damage"										"УРОН:"
+"DOTA_Tooltip_ability_freddy_surprice_duration"										"ДЛИТЕЛЬНОСТЬ ПОДАРКА:"
+"DOTA_Tooltip_ability_freddy_surprice_heart_debuff_duration"						"ДЛИТЕЛЬНОСТЬ СЕРДЕЧНОГО ПРИСТУПА:"
+"DOTA_Tooltip_ability_freddy_surprice_lore"											"Данный герой создан благодаря <font color='#fffc00'>Rezor132</font>"
+
+"DOTA_Tooltip_ability_freddy_toreador"												"Марш Тореадора"
+"DOTA_Tooltip_ability_freddy_toreador_Description"									"Фредди во время марша становится невидимым и передвигается быстрыми рывками в сторону нажатия. Выход из невидимости наносит урон всем противникам в радиусе %radius% и пугает их. Каждое использование способности увеличивает ее урон на %bonus_damage%"
+"DOTA_Tooltip_ability_freddy_toreador_damage"										"УРОН:"
+"DOTA_Tooltip_ability_freddy_toreador_duration"										"ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_freddy_toreador_lore"											"Данный герой создан благодаря <font color='#fffc00'>Rezor132</font>"
+
+"DOTA_Tooltip_ability_freddy_costume_launch"										"Запустить костюм"
+"DOTA_Tooltip_ability_freddy_costume_launch_Description"							"Фредди бросает в выбранном направлении свой костюм. Костюм прекрепляется к первому попавшему противнику на пути"
+"DOTA_Tooltip_ability_freddy_costume_launch_duration"								"ДЛИТЕЛЬНОСТЬ КОСТЮМА:"
+"DOTA_Tooltip_ability_freddy_costume_launch_lore"									"Данный герой создан благодаря <font color='#fffc00'>Rezor132</font>"
+
+"DOTA_Tooltip_ability_freddy_costume_active"										"Захлопнуть костюмы"
+"DOTA_Tooltip_ability_freddy_costume_active_Description"							"Фредди захлопывает на всех своих костюмах пружинные замки, после чего все противники в них начинают медленней передвигаться и атаковать, а также теряют здоровье"
+"DOTA_Tooltip_ability_freddy_costume_active_slow"									"%ЗАМЕДЛЕНИЕ СКОРОСТИ ПЕРЕДВИЖЕНИЯ:"
+"DOTA_Tooltip_ability_freddy_costume_active_slow_attackspeed"						"ЗАМЕДЛЕНИЕ СКОРОСТИ АТАКИ:"
+"DOTA_Tooltip_ability_freddy_costume_active_damage_per_health"						"%УРОН ОТ МАКС. ЗДОРОВЬЯ:"
+"DOTA_Tooltip_ability_freddy_costume_active_duration"								"ДЛИТЕЛЬНОСТЬ ЭФФЕКТА:"
+"DOTA_Tooltip_ability_freddy_costume_active_lore"									"Данный герой создан благодаря <font color='#fffc00'>Rezor132</font>"
+
+"DOTA_Tooltip_ability_freddy_surprice_shard_description"							"Подарок накладывает эффект костюма на противника"
+"DOTA_Tooltip_ability_freddy_costume_active_scepter_description"					"Убитый под эффектом костюма герой превращается в сломанного аниматроника. Аниматроник атаками наносит 5% от максимального здоровья цели<br><br>Сломанный аниматроник патрулирует зону появления и нападает на всех в радиусе 1200, если цель уходит за радиус 2000 от точки появления аниматроника, то он уходит назад"
+
+"DOTA_Tooltip_modifier_freddy_scream_damage"											"Скример"
+"DOTA_Tooltip_modifier_freddy_scream_damage_Description"								"Вас напугал фредди, вы получаете урон"
+
+"DOTA_Tooltip_modifier_freddy_fear"														"Испуг"
+"DOTA_Tooltip_modifier_freddy_fear_Description"											"Вы чувствуете страх из-за Фредди, его способности наносят больше урона по вам"
+
+"DOTA_Tooltip_modifier_freddy_heart_death"												"Сердечный приступ"
+"DOTA_Tooltip_modifier_freddy_heart_death_Description"									"Вы сильно напуганы из-за Фредди, его способности наносят много урона по вам"
+
+"DOTA_Tooltip_modifier_freddy_costume_launch"											"Костюм Фредди"
+"DOTA_Tooltip_modifier_freddy_costume_launch_Description"								"На вас костюм Фредди. Он в любой момент может его захлопнуть и нанести вам урон"
+
+"DOTA_Tooltip_modifier_freddy_costume_active"											"Костюм Фредди"
+"DOTA_Tooltip_modifier_freddy_costume_active_Description"								"Вас захлопнули в костюм Фредди. Скорость передвижения уменьшена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% и скорость атаки на %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT% "
+
+"DOTA_Tooltip_modifier_freddy_toreador"													"Марш Тореадора"
+"DOTA_Tooltip_modifier_freddy_toreador_Description"										"Невидим. Быстро передвигается рывками"
+
+"DOTA_Tooltip_modifier_freddy_toreador_visual"											"Доп. урон от Марш Тореадора"
+"DOTA_Tooltip_modifier_freddy_toreador_visual_Description"								"Каждое использование увеличивает урон на 5"
+
+"DOTA_Tooltip_ability_special_bonus_birzha_freddy_1"									"+1 к длительности Скример"
+"DOTA_Tooltip_ability_special_bonus_birzha_freddy_2"									"-2 перезарядки Скример"
+
+"DOTA_Tooltip_ability_special_bonus_birzha_freddy_3"									"+1 к длительности Марш Тореадора"
+"DOTA_Tooltip_ability_special_bonus_birzha_freddy_4"									"+150 к урону от Марш Тореадора"
+
+"DOTA_Tooltip_ability_special_bonus_birzha_freddy_5"									"+10% к урону от макс. здоровья Захлопнуть Костюмы"
+"DOTA_Tooltip_ability_special_bonus_birzha_freddy_6"									"+5 к длительности Захлопнуть Костюмы"
+
+//=================================================================================================================
+// Нолик
+//=================================================================================================================
+
+"npc_dota_hero_nolik"		"Нолик"
+
+"DOTA_Tooltip_ability_nolik_mostdel"												"Сильная выдержка"
+"DOTA_Tooltip_ability_nolik_mostdel_Description"									"Нолик уменьшает входящий урон и тратит меньше энергии на время действия способности"
+"DOTA_Tooltip_ability_nolik_mostdel_duration"										"ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_nolik_mostdel_damage_reduced"									"%УМЕНЬШЕНИЕ ВХОДЯЩЕГО УРОНА:"
+"DOTA_Tooltip_ability_nolik_mostdel_energy_lose"									"%УМЕНЬШЕНИЕ ЗАТРАТ ЭНЕРГИИ:"
+"DOTA_Tooltip_ability_nolik_mostdel_bonus_mana"										"ДОП. МАНА:"
+"DOTA_Tooltip_ability_nolik_mostdel_lore"											"Данный герой создан благодаря <font color='#fffc00'>AroundSpitE</font>"
+
+"DOTA_Tooltip_ability_nolik_tech"													"Технологии фиксиков"
+"DOTA_Tooltip_ability_nolik_tech_Description"										"Следующий предмет, который вы используете после нажатия способности моментально сбросит свою перезарядку"
+"DOTA_Tooltip_ability_nolik_tech_lore"												"Данный герой создан благодаря <font color='#fffc00'>AroundSpitE</font>"
+
+"DOTA_Tooltip_ability_nolik_chill"													"Отдых"
+"DOTA_Tooltip_ability_nolik_chill_Description"										"Нолик засыпает под солевой приход и становится неуязвимым. Во время сна восстанавливает свою энергию. А противники возле него в радиусе %radius% замедляются и получают урон от энергии Нолика"
+"DOTA_Tooltip_ability_nolik_chill_duration"											"ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_nolik_chill_movement_speed_slow"								"%ЗАМЕДЛЕНИЕ ПРОТИВНИКОВ:"
+"DOTA_Tooltip_ability_nolik_chill_energy_damage"									"%УРОН ОТ ТЕКУЩЕЙ ЭНЕРГИИ:"
+"DOTA_Tooltip_ability_nolik_chill_energy_heal"										"%ВОССТАНОВЛЕНИЕ ЭНЕРГИИ:"
+"DOTA_Tooltip_ability_nolik_chill_lore"												"Данный герой создан благодаря <font color='#fffc00'>AroundSpitE</font>"
+
+"DOTA_Tooltip_ability_nolik_energizer"												"Удар током"
+"DOTA_Tooltip_ability_nolik_energizer_Description"									"Превращает %energy_cost%%% энергии в урон и выпускает заряд тока в выбранную цель\n<h1>Больше ударов</h1>Применение способности во время действия Сильная выдержка, сбрасывает перезарядку Удар током, но сбрасывает эффект Сильной выдержки\n<h1>Уровень способности</h1>Уровень способности автоматически повышается на <b>1 / 6 / 12 / 18 / 24</b> уровне"
+"DOTA_Tooltip_ability_nolik_energizer_damage_energy"								"УРОН ЗА ЭНЕРГИЮ:"
+"DOTA_Tooltip_ability_nolik_energizer_lore"											"Данный герой создан благодаря <font color='#fffc00'>AroundSpitE</font>"
+
+"DOTA_Tooltip_ability_nolik_energy"													"Энергия"
+"DOTA_Tooltip_ability_nolik_energy_Description"										"Нолик имеет дополнительный показатель - Энергия<br><br>Максимальное количество энергии %max_energy% + %energy_per_level% за уровень <br><br>Нолик теряет %energy_cost% энергии каждую секунду <br><br>Каждая атака восстанавливает %energy_heal_attack% энергии"
+"DOTA_Tooltip_ability_nolik_energy_bonus_move_energy"								"ДОП. СКОРОСТЬ ПЕРЕДВИЖЕНИЯ ЗА ЭНЕРГИЮ:"
+"DOTA_Tooltip_ability_nolik_energy_bonus_agility_energy"							"ДОП. ЛОВКОСТЬ ЗА ЭНЕРГИЮ:"
+"DOTA_Tooltip_ability_nolik_energy_bonus_str_energy"								"ДОП. СИЛА ЗА ЭНЕРГИЮ:"
+"DOTA_Tooltip_ability_nolik_energy_lore"											"Данный герой создан благодаря <font color='#fffc00'>AroundSpitE</font>"
+
+"DOTA_Tooltip_ability_nolik_helper"													"Помогатор"
+"DOTA_Tooltip_ability_nolik_helper_Description"										"Вытаскивает разный инструмент из помогатора в зависимости от уровня способности\n<h1>1 уровень - Дрель</h1> Увеличивает скорость атаки на %attack_speed_bonus%%%\n<h1>2 уровень - Молоток</h1> Увеличивает скорость передвижения на %movespeed_bonus%%% и дальность атаки на %bonus_attack_range%, каждая атака наносит прорубающий урон в радиусе %cleave_radius%\n<h1>3 уровень - Отвертка</h1> Любой исходящий урон увеличен на %damage_increase%%%\n<h1>Дополнительный эффект</h1> Когда любой инструмент в руках, Нолик теряет границы максимальной энергии и может накопить большое ее количество"
+"DOTA_Tooltip_ability_nolik_helper_duration"										"ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_nolik_helper_lore"											"Данный герой создан благодаря <font color='#fffc00'>AroundSpitE</font>"
+
+"nolik_error_small_energy"															"Мало энергии. Меньше 10%"
+
+"DOTA_Tooltip_ability_nolik_energizer_shard_description"							"Способность наносит двойной урон"
+"DOTA_Tooltip_ability_nolik_energy_scepter_description"								"Возрождается с максимальной энергией"
+
+"DOTA_Tooltip_modifier_nolik_mostdel"												"Сильная выдержка"
+"DOTA_Tooltip_modifier_nolik_mostdel_Description"									"Входящий урон уменьшен на %dMODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE%%% <br> Мана увеличена на %dMODIFIER_PROPERTY_MANA_BONUS%"
+		
+"DOTA_Tooltip_modifier_nolik_tech"													"Технологии фиксиков"
+"DOTA_Tooltip_modifier_nolik_tech_Description"										"Сбросит перезарядку следующего используемого предмета"
+		
+"DOTA_Tooltip_modifier_nolik_chill"													"Отдых"
+"DOTA_Tooltip_modifier_nolik_chill_Description"										"Восстанавливает энергию и замедляет противников вокруг себя"
+		
+"DOTA_Tooltip_modifier_nolik_chill_aura"											"Энергия Нолика"
+"DOTA_Tooltip_modifier_nolik_chill_aura_Description"								"Замедлен на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%"
+		
+"DOTA_Tooltip_modifier_nolik_energy"												"Энергия"
+"DOTA_Tooltip_modifier_nolik_energy_Description"									"Энергия для способностей Нолика"
+		
+"DOTA_Tooltip_modifier_nolik_helper_1"												"Помогатор - Дрель"
+"DOTA_Tooltip_modifier_nolik_helper_1_Description"									"Скорость атаки увеличена на %dMODIFIER_PROPERTY_ATTACKSPEED_PERCENTAGE%%%"
+		
+"DOTA_Tooltip_modifier_nolik_helper_2"												"Помогатор - Молоток"
+"DOTA_Tooltip_modifier_nolik_helper_2_Description"									"Скорость передвижения увеличена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% <br> Дальность атаки увеличена на %dMODIFIER_PROPERTY_ATTACK_RANGE_BONUS% <br> Атаки наносят прорубающий урон"
+		
+"DOTA_Tooltip_modifier_nolik_helper_3"												"Помогатор - Отвертка"
+"DOTA_Tooltip_modifier_nolik_helper_3_Description"									"Исходящий урон увеличен на %dMODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE%%% "
+
+"DOTA_Tooltip_ability_special_bonus_birzha_nolik_1"									"+1 к длительности Сильная выдержка"
+"DOTA_Tooltip_ability_special_bonus_birzha_nolik_2"									"+10% уменьшения входящего урона Сильная выдержка"
+"DOTA_Tooltip_ability_special_bonus_birzha_nolik_3"									"+200 к радиусу Отдых"
+"DOTA_Tooltip_ability_special_bonus_birzha_nolik_4"									"+0.1 к силе за единицу энергии"
+"DOTA_Tooltip_ability_special_bonus_birzha_nolik_5"									"+5 энергии за атаку"
+"DOTA_Tooltip_ability_special_bonus_birzha_nolik_6"									"Все инструменты из Помогатора"
+"DOTA_Tooltip_ability_special_bonus_birzha_nolik_7"									"Технология Фиксиков работает на Refresher orb"
+
+//=================================================================================================================
+// Сайтама
+//=================================================================================================================
+
+"npc_dota_hero_saitama"		"Сайтама"
+
+"DOTA_Tooltip_ability_saitama_fast_attack"										"Серия обычных ударов"
+"DOTA_Tooltip_ability_saitama_fast_attack_Description"							"Сайтама делает несколько ударов перед собой. Во время действия способности нельзя поворачиваться и быстро передвигаться"
+"DOTA_Tooltip_ability_saitama_fast_attack_attack_count"							"КОЛ-ВО АТАК:"
+"DOTA_Tooltip_ability_saitama_fast_attack_base_damage"							"БАЗОВЫЙ УРОН:"
+"DOTA_Tooltip_ability_saitama_fast_attack_damage_from_attack"					"%УРОН ОТ АТАКИ:"
+"DOTA_Tooltip_ability_saitama_fast_attack_lore"									"Данный герой создан благодаря <font color='#fffc00'>Александр Чумаров</font>"
+
+"DOTA_Tooltip_ability_saitama_jump"												"Прыжок"
+"DOTA_Tooltip_ability_saitama_jump_Description"									"Прыгает в указанную точку и оглушает противников в точке приземления"
+"DOTA_Tooltip_ability_saitama_jump_damage"										"УРОН:"
+"DOTA_Tooltip_ability_saitama_jump_stun_duration"								"ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
+"DOTA_Tooltip_ability_saitama_jump_radius"										"РАДИУС:"
+"DOTA_Tooltip_ability_saitama_jump_limeter_castrange"							"ДАЛЬНОСТЬ ПРИМЕНЕНИЯ ЗА ЗАРЯД ЛИМИТЕР:"
+"DOTA_Tooltip_ability_saitama_jump_lore"										"Данный герой создан благодаря <font color='#fffc00'>Александр Чумаров</font>"
+
+"DOTA_Tooltip_ability_saitama_kick"												"Ты че, быкуешь?"
+"DOTA_Tooltip_ability_saitama_kick_Description"									"Сайтама отпинывает ближайшего, атакующего его врага в радиусе %radius_damage%. После пинка противник может врезаться в другого, тогда оба получат оглушение и урон"
+"DOTA_Tooltip_ability_saitama_kick_base_damage"									"БАЗОВЫЙ УРОН:"
+"DOTA_Tooltip_ability_saitama_kick_damage_from_attack"							"%УРОН ОТ АТАКИ:"
+"DOTA_Tooltip_ability_saitama_kick_stun_duration"								"ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
+"DOTA_Tooltip_ability_saitama_kick_limeter_radius"								"ДАЛЬНОСТЬ ОТЛЕТА ЦЕЛИ ЗА ЗАРЯД ЛИМИТЕР:"
+"DOTA_Tooltip_ability_saitama_kick_lore"										"Данный герой создан благодаря <font color='#fffc00'>Александр Чумаров</font>"
+
+"DOTA_Tooltip_ability_saitama_react"											"Сверхрефлексы"
+"DOTA_Tooltip_ability_saitama_react_Description"								"Имеет шанс уклонится от урона"
+"DOTA_Tooltip_ability_saitama_react_chance"										"%ШАНС:"
+"DOTA_Tooltip_ability_saitama_react_lore"										"Данный герой создан благодаря <font color='#fffc00'>Александр Чумаров</font>"
+
+"DOTA_Tooltip_ability_saitama_lemiter"											"Лимитер"
+"DOTA_Tooltip_ability_saitama_lemiter_Description"								"Каждые %damage_for_stack% входящего урона Сайтама получает 1 заряд способности. Каждый заряд усиливает Сайтаму и его способности"
+"DOTA_Tooltip_ability_saitama_lemiter_damage_per_stack"							"%ДОП. УРОН ЗА ЗАРЯД:"
+"DOTA_Tooltip_ability_saitama_lemiter_resist_per_stack"							"%ДОП. ИММУНИТЕТ К УРОНУ ЗА ЗАРЯД:"
+"DOTA_Tooltip_ability_saitama_lemiter_max_charges"								"МАКСИМАЛЬНОЕ КОЛ-ВО ЗАРЯДОВ:"
+"DOTA_Tooltip_ability_saitama_lemiter_lore"										"Данный герой создан благодаря <font color='#fffc00'>Александр Чумаров</font>"
+
+"DOTA_Tooltip_ability_saitama_punch"											"Серьезный удар"
+"DOTA_Tooltip_ability_saitama_punch_Description"								"Сайтама наносит сокрушительный удар по выбранной цели. После удара создается сокрушительная волна, которая наносит урон и отталкивает противников на пути. Критический урон волны зависит от того, как далеко находилась цель до конечной точки волны"
+"DOTA_Tooltip_ability_saitama_punch_damage"										"%КРИТИЧЕСКИЙ УРОН:"
+"DOTA_Tooltip_ability_saitama_punch_knockback_duration"							"ДЛИТЕЛЬНОСТЬ ВОЛНЫ:"
+"DOTA_Tooltip_ability_saitama_punch_range"										"БАЗОВАЯ ДАЛЬНОСТЬ ВОЛНЫ:"
+"DOTA_Tooltip_ability_saitama_punch_limeter_range"								"ДАЛЬНОСТЬ ВОЛНЫ ЗА ЗАРЯД ЛИМИТЕР:"
+"DOTA_Tooltip_ability_saitama_punch_lore"										"Данный герой создан благодаря <font color='#fffc00'>Александр Чумаров</font>"
+
+"DOTA_Tooltip_ability_saitama_punch_shard_description"							"Уменьшает длительность применения до 1 секунды"
+
+"DOTA_Tooltip_ability_special_bonus_birzha_saitama_1"							"+20% к урону от атаки Серия обычных ударов"
+"DOTA_Tooltip_ability_special_bonus_birzha_saitama_2"							"-7 перезарядки Прыжок"
+
+"DOTA_Tooltip_ability_special_bonus_birzha_saitama_3"							"+1% к доп. урону за заряд Лимитер"
+"DOTA_Tooltip_ability_special_bonus_birzha_saitama_4"							"+0.5% доп. иммунитета к урону за заряд Лимитер"
+
+"DOTA_Tooltip_ability_special_bonus_birzha_saitama_5"							"+200% крит. урона Серьезный удар"
+"DOTA_Tooltip_ability_special_bonus_birzha_saitama_6"							"+4 атаки Серия обычных ударов"
+
+"DOTA_Tooltip_modifier_saitama_lemiter"											"Заряды Лимитер"
+"DOTA_Tooltip_modifier_saitama_lemiter_Description"								"Иммунитет к урону увеличен на %fMODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE%%% <br> Урон увеличен на %dMODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE%%%"
+
+"DOTA_Tooltip_modifier_saitama_buff"											"Включен Ты че, быкуешь?"
+"DOTA_Tooltip_modifier_saitama_buff_Description"								"Атакующий вас герой получит пинок под жопу"
+
 }	
 }

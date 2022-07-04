@@ -272,18 +272,16 @@ function modifier_Ranger_ShotGun_buff:OnAttack( params )
           false)
         local point = self:GetCaster():GetAttachmentOrigin(self:GetCaster():ScriptLookupAttachment("attach_attack2"))
         for _,unit in pairs(enemies) do
-            if unit ~= target then
-                local info = {
-                    EffectName = "particles/units/heroes/hero_gyrocopter/gyro_base_attack.vpcf",
-                    Ability = self:GetAbility(),
-                    iMoveSpeed = 1600,
-                    Source = self:GetCaster(),
-                    Target = unit,
-                    iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_2,
-                    vSpawnOrigin    = point
-                }
-                ProjectileManager:CreateTrackingProjectile( info )
-            end
+            local info = {
+                EffectName = "particles/units/heroes/hero_gyrocopter/gyro_base_attack.vpcf",
+                Ability = self:GetAbility(),
+                iMoveSpeed = 1600,
+                Source = self:GetCaster(),
+                Target = unit,
+                iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_2,
+                vSpawnOrigin    = point
+            }
+            ProjectileManager:CreateTrackingProjectile( info )
         end
     end
 end

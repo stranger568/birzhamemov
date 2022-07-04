@@ -45,9 +45,7 @@ function modifier_travoman_land_mines:OnCreated()
     ParticleManager:SetParticleControl(particle_mine_fx, 3, self:GetParent():GetAbsOrigin())
     self:AddParticle(particle_mine_fx, false, false, -1, false, false)
 
-    Timers:CreateTimer(delay_mine, function()
-        self:StartIntervalThink(FrameTime())
-    end)
+    self:StartIntervalThink(FrameTime())
 end
 
 function modifier_travoman_land_mines:OnIntervalThink()
@@ -74,6 +72,8 @@ function modifier_travoman_land_mines:OnIntervalThink()
     if #enemies > 0 then
         self.gogo_damage = self.gogo_damage + FrameTime()
     end
+
+    print(self.gogo_damage, self.activation_delay, self.activation_delay + self:GetCaster():FindTalentValue("special_bonus_birzha_travoman_6"))
 
     if self.gogo_damage >= self.activation_delay + self:GetCaster():FindTalentValue("special_bonus_birzha_travoman_6") then
         self:Explosion()
@@ -205,21 +205,13 @@ end
 function modifier_travoman_stasis_trap:OnIntervalThink()
     if not IsServer() then return end
     if not self:GetParent():IsAlive() then return end
-
     local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NO_INVIS, FIND_ANY_ORDER, false )
 
     if #enemies <= 0 then
-        self.gogo_damage = 0
         return
     end
-
-    if #enemies > 0 then
-        self.gogo_damage = self.gogo_damage + FrameTime()
-    end
-
-    if self.gogo_damage >= self.activation_delay then
-        self:Explosion()
-    end
+    
+    self:Explosion()
 end
 
 function modifier_travoman_stasis_trap:Explosion()
@@ -820,12 +812,6 @@ function travoman_minefield_sign:OnSpellStart()
     local point = self:GetCursorPosition()
     self:GetCaster():EmitSound("Hero_Techies.Sign")
 
-    if not self:GetCaster():HasTalent("special_bonus_birzha_travoman_7") then
-        if self.assigned_sign and self.assigned_sign.Destroy then
-            self.assigned_sign:Destroy()
-        end
-    end
-
     local sign = CreateUnitByName("npc_dota_travoman_minefield_sign", point, false, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
     sign:AddNewModifier(self:GetCaster(), self, "modifier_travoman_minefield_sign", {})
 
@@ -834,6 +820,13 @@ function travoman_minefield_sign:OnSpellStart()
     end
 
     sign:SetForwardVector(self:GetCaster():GetForwardVector() * -1)
+
+    if not self:GetCaster():HasTalent("special_bonus_birzha_travoman_7") then
+        if self.assigned_sign and not self.assigned_sign:IsNull() then
+            self.assigned_sign:Destroy()
+        end
+    end
+
     self.assigned_sign = sign
 end
 

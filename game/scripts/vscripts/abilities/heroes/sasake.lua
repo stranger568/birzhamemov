@@ -273,6 +273,7 @@ end
 function modifier_sasake_agility_bonus:DeclareFunctions()
     local decFuncs = {
         MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
+        MODIFIER_EVENT_ON_HERO_KILLED
     }
 
     return decFuncs
@@ -289,7 +290,8 @@ function modifier_sasake_agility_bonus_talent:IsHidden() return true end
 
 function modifier_sasake_agility_bonus_talent:DeclareFunctions()
     local funcs = {
-        MODIFIER_PROPERTY_AVOID_DAMAGE
+        MODIFIER_PROPERTY_AVOID_DAMAGE,
+        MODIFIER_EVENT_ON_HERO_KILLED
     }
     return funcs
 end
@@ -302,6 +304,13 @@ function modifier_sasake_agility_bonus_talent:GetModifierAvoidDamage(keys)
         return 1
     else
         return 0
+    end
+end
+
+function modifier_sasake_agility_bonus_talent:OnHeroKilled()
+    if not IsServer() then return end
+    if self:GetCaster():HasScepter() then
+        self:GetAbility():EndCooldown()
     end
 end
 
@@ -399,20 +408,24 @@ function modifier_sasake_ultimate_scepter:IsHidden() return true end
 function modifier_sasake_ultimate_scepter:DeclareFunctions()
     local decFuncs =
     {
-        MODIFIER_EVENT_ON_HERO_KILLED,
+        MODIFIER_EVENT_ON_ATTACK_LANDED,
     }
 
     return decFuncs
 end
 
-function modifier_sasake_ultimate_scepter:OnHeroKilled()
+function modifier_sasake_ultimate_scepter:OnAttackLanded(params)
     if not IsServer() then return end
-    if self:GetCaster():HasScepter() then
-        local cd = self:GetAbility():GetCooldownTimeRemaining()
-        if self:GetAbility():GetCooldownTimeRemaining() > 0 then
-            self:GetAbility():EndCooldown()
-            if cd > 4 then
-                self:GetAbility():StartCooldown(cd-4)
+    if params.attacker == self:GetParent() then
+        if self:GetCaster():HasShard() then
+            local cd = self:GetAbility():GetCooldownTimeRemaining()
+            if self:GetAbility():GetCooldownTimeRemaining() > 0 then
+                if cd > 2 then
+                    self:GetAbility():EndCooldown()
+                    self:GetAbility():StartCooldown(cd-2)
+                else
+                    self:GetAbility():EndCooldown()
+                end
             end
         end
     end

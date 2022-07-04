@@ -12,11 +12,25 @@
 	<Panel class="AddonLoadingRoot" hittest="false">
 		<Panel id="CustomBg">
 
-		<Panel class="LostBetaMain" onactivate="ExternalBrowserGoToURL('https://steamcommunity.com/sharedfiles/filedetails/?id=2505637251')">
-			<Label class="LostBetaLabel" text="Попробуйте также поиграть" />
-			<Label class="LostBetaLabel2" text="Dota: Lost Beta" />
-			<Panel class="LostBetaIcon" />
+		<Panel class="CashSteamADS" onactivate="ExternalBrowserGoToURL('http://Cashsteam.ru/?utm_source=dota&utm_medium=cpc&utm_campaign=bmemov')">
+			<Label class="CashSteamLabel" text="Площадка для пополнения кошелька Steam в России" />
+			<Panel class="CashSteamIcon" />
 		</Panel>
+
+		<Panel class="TwitchADS" onactivate="ExternalBrowserGoToURL('https://www.twitch.tv/stranger568')">
+			<Label class="TwitchLabel" text="Стрим создателя кастомки - Игры с подписчиками / Разработка кастомки" />
+			<Panel class="TwitchIcon" />
+		</Panel>
+
+		<Panel class="TelegramADS" onactivate="ExternalBrowserGoToURL('https://t.me/penguin568')">
+			<Label class="TelegramLabel" text="Telegram Канал создателя с информацией о кастомке и не только" />
+			<Panel class="TelegramIcon" />
+		</Panel>
+
+
+
+
+
 
 
 		<Panel id="InfoWidgets" class="WidgetRow">
@@ -64,7 +78,7 @@
 						</Panel>
 						<Panel id="PassIcon" class="PassIcon"/>
 					</Panel>
-					<Panel id="DonateContainer_2" onactivate="ExternalBrowserGoToURL('https://bmemov.ru/updates/gypsy_return/')">
+					<Panel id="DonateContainer_2" onactivate="ExternalBrowserGoToURL('https://bmemov.ru/updates/juneupdate/')">
 						<Label class="NewWidgetLabel" text="#Updatename"/>
 						<Panel id="DonateInformation_2">
 							<Label id="TipLabel" text="#Updatedescription"/>

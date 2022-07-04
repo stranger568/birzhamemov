@@ -12,7 +12,6 @@
 		<snippet name="Phrase">
 			<Panel>
 				<Panel class="Phrase">
-					<Panel class="BirzhaReward" />
 					<Label text="{s:phrase}" />
 				</Panel>
 			</Panel>
