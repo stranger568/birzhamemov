@@ -1,0 +1,8 @@
+birzhamemov_wtf
+{
+	material materials/overviews/birzhamemov_wtf.vmat
+	pos_x -8192
+	pos_y 8192
+	scale 16.000
+}
+

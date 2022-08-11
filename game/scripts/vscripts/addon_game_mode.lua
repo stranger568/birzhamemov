@@ -2,6 +2,7 @@ if BirzhaGameMode == nil then
 	_G.BirzhaGameMode = class({})
 end
 
+require( "functions/table" )
 require('functions/vector_targeting')
 require( 'util/birzha_events' )
 require( 'events' )
@@ -78,9 +79,8 @@ end
 function Activate()
 	BirzhaGameMode:InitGameMode()
 	BirzhaEvents:RegListeners()
-	BirzhaDisconnectFunction:Init()
 	StartTimerLoading()
-	SendToServerConsole("tv_delay 0")	
+	SendToServerConsole("tv_delay 10")	
 end
 
 function BirzhaGameMode:InitGameMode()
@@ -246,9 +246,12 @@ function BirzhaGameMode:InitGameMode()
 	ListenToGameEvent( "dota_item_picked_up", Dynamic_Wrap( self, "OnItemPickUp"), self )
 	ListenToGameEvent( "dota_npc_goal_reached", Dynamic_Wrap( self, "OnNpcGoalReached" ), self )
 	ListenToGameEvent( "player_chat", Dynamic_Wrap(ChatListener, 'OnPlayerChat'), ChatListener)
-	CustomGameEventManager:RegisterListener("change_premium_pet", Dynamic_Wrap(donate_shop, "ChangePetPremium"))
-	CustomGameEventManager:RegisterListener("change_border_effect", Dynamic_Wrap(donate_shop, "change_border_effect"))
-	CustomGameEventManager:RegisterListener("donate_shop_buy_item", Dynamic_Wrap(donate_shop, "BuyItem"))
+	CustomGameEventManager:RegisterListener( "change_premium_pet", Dynamic_Wrap(donate_shop, "ChangePetPremium"))
+	CustomGameEventManager:RegisterListener( "change_border_effect", Dynamic_Wrap(donate_shop, "change_border_effect"))
+	CustomGameEventManager:RegisterListener( "donate_shop_buy_item", Dynamic_Wrap(donate_shop, "BuyItem"))
+	CustomGameEventManager:RegisterListener( "PlayerTip", Dynamic_Wrap(donate_shop, 'PlayerTip'))
+	CustomGameEventManager:RegisterListener( "SelectSmile", Dynamic_Wrap(donate_shop, 'SelectSmile'))
+	CustomGameEventManager:RegisterListener( "LotteryStart", Dynamic_Wrap(donate_shop, 'LotteryStart'))
 	CustomGameEventManager:RegisterListener( "SelectVO", Dynamic_Wrap(donate_shop,'SelectVO'))
 	CustomGameEventManager:RegisterListener( "select_chatwheel_player", Dynamic_Wrap(donate_shop,'SelectChatWheel'))
 	CustomGameEventManager:RegisterListener( "report_player", Dynamic_Wrap(report_system,'ReportPlayer'))
@@ -262,8 +265,6 @@ function BirzhaGameMode:InitGameMode()
 end
 
 function FixPosition()
-
-
 	local check_modifiers = {
 		"modifier_girl_charge_of_attack",
 		"modifier_aang_vacuum",
@@ -336,13 +337,10 @@ function BirzhaGameMode:OnThink()
 	if GameRules:IsGamePaused() then return 1 end
     if CustomPick.pick_ended then
 		if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then		
+			
 			if not GameRules:IsCheatMode() then
-				if nCOUNTDOWNTIMER >= 300 then
-					BirzhaDisconnectFunction:AutoWin()
-				end
-
 				if GameEndTimer <= 0 then
-					BirzhaGameMode:EndGame( leaderbirzha, nil)
+					BirzhaGameMode:EndGame( leaderbirzha )
 					GameRules:SetGameWinner( leaderbirzha )
 				end
 			end
@@ -352,7 +350,6 @@ function BirzhaGameMode:OnThink()
 			CountdownTimer()
 
 			if self.ContractTimer <= 0 then
-				self.contract_gold = self.contract_gold + 500
 				self.ContractTimer = 180
 				self:SpawnContracts()
 			else
@@ -438,31 +435,6 @@ function BirzhaGameMode:UpdateScoreboard()
 	else
 		self.isGameTied = false
 	end
-	local allHeroes = HeroList:GetAllHeroes()
-	--for _,entity in pairs( allHeroes) do
-	--	if entity:GetTeamNumber() == leader and sortedTeams[1].teamScore ~= sortedTeams[2].teamScore then
-	--		if entity:IsAlive() == true then
-	--			local existingParticle = entity:Attribute_GetIntValue( "particleID", -1 )
-    --   			if existingParticle == -1 then
-    --   				local particleLeader = ParticleManager:CreateParticle( "particles/leader/leader_overhead.vpcf", PATTACH_OVERHEAD_FOLLOW, entity )
-	--				ParticleManager:SetParticleControlEnt( particleLeader, PATTACH_OVERHEAD_FOLLOW, entity, PATTACH_OVERHEAD_FOLLOW, "follow_overhead", entity:GetAbsOrigin(), true )
-	--				entity:Attribute_SetIntValue( "particleID", particleLeader )
-	--			end
-	--		else
-	--			local particleLeader = entity:Attribute_GetIntValue( "particleID", -1 )
-	--			if particleLeader ~= -1 then
-	--				ParticleManager:DestroyParticle( particleLeader, true )
-	--				entity:DeleteAttribute( "particleID" )
-	--			end
-	--		end
-	--	else
-	--		local particleLeader = entity:Attribute_GetIntValue( "particleID", -1 )
-	--		if particleLeader ~= -1 then
-	--			ParticleManager:DestroyParticle( particleLeader, true )
-	--			entity:DeleteAttribute( "particleID" )
-	--		end
-	--	end
-	--end
 end
 
 function BirzhaGameMode:GatherAndRegisterValidTeams()
@@ -495,24 +467,22 @@ function BirzhaGameMode:GatherAndRegisterValidTeams()
 	end
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function BirzhaGameMode:SpawnContracts()
 	CustomGameEventManager:Send_ServerToAllClients("contract_event_spawn", {} )
 	local spawn_points = {
 		["birzhamemov_solo"] =
+		{
+			Vector(-558.305, -1536, 257),
+			Vector(768, -1536, 257),
+			Vector(1380.82, -636.846, 257),
+			Vector(1380.82, 689.458, 257),
+			Vector(768, 1415.6, 257),
+			Vector(-558.305, 1415.6, 257),
+			Vector(-1570.78, 768, 257),
+			Vector(-1570.78, -704, 257),
+		},
+
+		["birzhamemov_wtf"] =
 		{
 			Vector(-558.305, -1536, 257),
 			Vector(768, -1536, 257),
@@ -574,5 +544,10 @@ function BirzhaGameMode:SpawnContracts()
 		local drop = CreateItemOnPositionForLaunch( origin, item_contract )
 		item_contract:LaunchLootInitialHeight( false, 0, 50, 0.15, origin )
 		item_contract:SetContextThink( "KillLoot", function() return self:KillLoot( item_contract, drop ) end, 180 )
+		Timers:CreateTimer(1*i, function()
+			for team = 2, 13 do
+				GameRules:ExecuteTeamPing( team, origin.x, origin.y, nil, 0 )
+			end
+		end)
 	end
 end

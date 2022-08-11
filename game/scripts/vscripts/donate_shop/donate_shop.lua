@@ -12,41 +12,70 @@ function donate_shop:BuyItem(data)
 	local price = data.price
 	local currency = data.currency
 	local player =	PlayerResource:GetPlayer(id)
-	local player_bitcoin = (CustomNetTables:GetTableValue('birzhashop', tostring(id)) or {}).birzha_coin
-	local player_dogecoin = (CustomNetTables:GetTableValue('birzhashop', tostring(id)) or {}).doge_coin
-	local player_items = (CustomNetTables:GetTableValue('birzhashop', tostring(id)) or {}).player_items
+	local player_donate_table = CustomNetTables:GetTableValue('birzhashop', tostring(id))
 
+	local change_bitcoin_currency = 0
+	local change_dogecoin_currency = 0
+
+	-- Прогрузка текущих предметов у игрока --
 	local player_items_table = {}
-
-	for k, v in pairs(player_items) do
+	for k, v in pairs(player_donate_table.player_items) do
         table.insert(player_items_table, v)
     end
 
+    -- Если покупка за донат валюту
 	if tostring(currency) == "gold" then
-		if tonumber(player_bitcoin) >= tonumber(price) then
-			player_bitcoin = player_bitcoin - tonumber(price)
+		if tonumber(player_donate_table.birzha_coin) >= tonumber(price) then
+			player_donate_table.birzha_coin = player_donate_table.birzha_coin - tonumber(price)
+			change_bitcoin_currency = tonumber(price) * -1
+			-- Если покупается валюта
+
+			if (item_id == "21") then
+				local player_table_info = CustomNetTables:GetTableValue('birzhainfo', tostring(id))
+				if player_table_info then
+					BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].bp_days = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].bp_days + 30
+					player_table_info.bp_days = player_table_info.bp_days + 30
+					CustomNetTables:SetTableValue('birzhainfo', tostring(id), player_table_info)
+				end
+			end
+			if (item_id == "135") then
+				local player_table_info = CustomNetTables:GetTableValue('birzhainfo', tostring(id))
+				if player_table_info then
+					BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].bp_days = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].bp_days + 180
+					player_table_info.bp_days = player_table_info.bp_days + 180
+					CustomNetTables:SetTableValue('birzhainfo', tostring(id), player_table_info)
+				end
+			end 
 
 			if (item_id == "0") then
-				player_dogecoin = player_dogecoin + (tonumber(price) * 2)
-				CustomGameEventManager:Send_ServerToPlayer(player, "shop_set_currency", {bitcoin = player_bitcoin, dogecoin = player_dogecoin} )
-				CustomNetTables:SetTableValue('birzhashop', tostring(id), {doge_coin = player_dogecoin, birzha_coin = player_bitcoin, player_items = player_items_table})
+				player_donate_table.doge_coin = player_donate_table.doge_coin + (tonumber(price) * 2)
+				change_dogecoin_currency = tonumber(price) * 2
+				CustomGameEventManager:Send_ServerToPlayer(player, "shop_set_currency", {bitcoin = player_donate_table.birzha_coin, dogecoin = player_donate_table.doge_coin} )
+				CustomNetTables:SetTableValue('birzhashop', tostring(id), player_donate_table)
+				CustomGameEventManager:Send_ServerToPlayer(player, "shop_accept_notification", {} )
 			else
-				CustomGameEventManager:Send_ServerToPlayer(player, "shop_set_currency", {bitcoin = player_bitcoin, dogecoin = player_dogecoin} )
+				CustomGameEventManager:Send_ServerToPlayer(player, "shop_set_currency", {bitcoin = player_donate_table.birzha_coin, dogecoin = player_donate_table.doge_coin} )
 				table.insert(player_items_table, item_id)
-				CustomNetTables:SetTableValue('birzhashop', tostring(id), {doge_coin = player_dogecoin, birzha_coin = player_bitcoin, player_items = player_items_table})
+				player_donate_table.player_items = player_items_table
+				CustomNetTables:SetTableValue('birzhashop', tostring(id), player_donate_table)
+				CustomGameEventManager:Send_ServerToPlayer(player, "shop_accept_notification", {} )
 			end
 		else
-			CustomGameEventManager:Send_ServerToPlayer(player, "shop_error_notification", {text = "shop_no_bitcoin"} )
+			print("ошибка биткоинов мало")
+			CustomGameEventManager:Send_ServerToPlayer(player, "shop_error_notification", {error_name = "shop_no_bitcoin"} )
 			return
 		end
 	elseif tostring(currency) == "gem" then
-		if tonumber(player_dogecoin) >= tonumber(price) then
-			player_dogecoin = player_dogecoin - tonumber(price)
-			CustomGameEventManager:Send_ServerToPlayer(player, "shop_set_currency", {bitcoin = player_bitcoin, dogecoin = player_dogecoin} )
+		if tonumber(player_donate_table.doge_coin) >= tonumber(price) then
+			player_donate_table.doge_coin = player_donate_table.doge_coin - tonumber(price)
+			change_dogecoin_currency = tonumber(price) * -1
+			CustomGameEventManager:Send_ServerToPlayer(player, "shop_set_currency", {bitcoin = player_donate_table.birzha_coin, dogecoin = player_donate_table.doge_coin} )
 			table.insert(player_items_table, item_id)
-			CustomNetTables:SetTableValue('birzhashop', tostring(id), {doge_coin = player_dogecoin, birzha_coin = player_bitcoin, player_items = player_items_table})
+			player_donate_table.player_items = player_items_table
+			CustomNetTables:SetTableValue('birzhashop', tostring(id), player_donate_table)
+			CustomGameEventManager:Send_ServerToPlayer(player, "shop_accept_notification", {} )
 		else
-			CustomGameEventManager:Send_ServerToPlayer(player, "shop_error_notification", {text = "shop_no_dogecoin"} )
+			CustomGameEventManager:Send_ServerToPlayer(player, "shop_error_notification", {error_name = "shop_no_dogecoin"} )
 			return
 		end
 	end
@@ -55,14 +84,14 @@ function donate_shop:BuyItem(data)
 		player = {
 			{
 				steamid = PlayerResource:GetSteamAccountID(id),
-				player_bitcoin = tonumber(player_bitcoin),
-				player_dogecoin = tonumber(player_dogecoin),
+				player_bitcoin = change_bitcoin_currency,
+				player_dogecoin = change_dogecoin_currency,
 				item_id = item_id,
 			}
 		},
 	}
 
-	SendData('https://bmemov.ru/data/post_player_shop_data.php', post_data, nil)
+	SendData('https://bmemov.ru/data/bm_post_buy_item.php', post_data, nil)
 end
 
 function DonateShopIsItemBought(id, item)
@@ -139,7 +168,6 @@ MEMESPASS_PREMIUM_PETS[18] = {
 MEMESPASS_PREMIUM_PETS[19] = {
 	effect = "particles/econ/courier/courier_lockjaw/courier_lockjaw_ambient.vpcf", model = "models/courier/lockjaw/lockjaw.vmdl"
 }
-
 MEMESPASS_PREMIUM_PETS["Insane"] = {
 	effect = "courier_devourling_gold_ambient", model = "models/insane/insane.vmdl"
 }
@@ -196,15 +224,10 @@ function donate_shop:AddPetFromStart(id)
 	if player then
 		local hero = player:GetAssignedHero()
 		if hero:GetUnitName() ~= "npc_dota_hero_wisp" then
-
 			CustomGameEventManager:Send_ServerToPlayer(player, "set_player_pet_from_data", {pet_id = pet_id} )
-
 			if PLAYERS[ id ].steamid == 113370083 then
 				pet_id = "Insane"
 			end
-
-			print(pet_id)
-
 			player.pet = CreateUnitByName("unit_premium_pet", hero:GetAbsOrigin() + RandomVector(RandomFloat(0,100)), true, hero, nil, hero:GetTeamNumber())
 			player.pet:SetOwner(hero)
 			player.pet:AddNewModifier( player.pet, nil, "modifier_birzha_pet", {} )
@@ -263,18 +286,32 @@ function donate_shop:SelectVO(keys)
 		"87",
 		"113",
 		"114",
-
 		"118",
 		"119",
 		"120",
 		"121",
 		"122",
 		"123",
-
 		"131",
 		"132",
 		"133",
 		"134",
+
+		-- Лотерея
+		"165",
+		"166",
+		"167",
+		"168",
+		"169",
+		"170",
+		"171",
+		"172",
+		"173",
+		"174",
+		"175",
+		"176",
+		"177",
+		"178",
 	}
 
 	local sprays = {
@@ -314,18 +351,52 @@ function donate_shop:SelectVO(keys)
 	if DonateShopIsItemBought(keys.PlayerID, keys.num) then
 		for _,sound in pairs(sounds) do
 			if tostring(keys.num) == tostring(sound) then
-				if player.sound_use == 1 then
-					EmitSoundOnClient("General.Cancel", player)
-					return
-				end
-				if not IsInToolsMode() then
-					player.sound_use = 1
-					Timers:CreateTimer(10, function() player.sound_use = 0 end)
-				end
+
+        		if player.sound_use_one == nil then
+        		    player.sound_use_one = 0
+        		end
+
+        		if player.sound_use_two == nil then
+        		    player.sound_use_two = 0
+        		end
+        		
+        		if (player.sound_use_one and player.sound_use_one > 0) and (player.sound_use_two and player.sound_use_two > 0) then
+        		  	local player = PlayerResource:GetPlayer(keys.PlayerID)
+        		  	if player then
+        		      	local cooldown_sound = math.max(player.sound_use_one, player.sound_use_two)
+        		      	CustomGameEventManager:Send_ServerToPlayer(player, "panorama_cooldown_error", {message="#birzha_sound_error", time=cooldown_sound})
+        		  	end
+        		  	EmitSoundOnClient("General.Cancel", player)
+        		  	return
+        		end
+		
+        		--if not IsInToolsMode() then
+        		  	if player.sound_use_one > 0 then
+        		      	player.sound_use_two = 30
+        		      	Timers:CreateTimer({
+						    useGameTime = false,
+						    endTime = 1,
+						    callback = function()
+						      	if player.sound_use_two <= 0 then return nil end
+		        		        player.sound_use_two = player.sound_use_two - 1
+		        		        return 1
+						    end
+						})
+        		  	else
+        		      	player.sound_use_one = 30
+        		      	Timers:CreateTimer({
+						    useGameTime = false,
+						    endTime = 1,
+						    callback = function()
+						      	if player.sound_use_one <= 0 then return nil end
+		        		        player.sound_use_one = player.sound_use_one - 1
+		        		        return 1
+						    end
+						})
+        		  	end
+        		--end
 
 				local sound_name = "item_wheel_"..keys.num
-
-				EmitGlobalSound(sound_name)
 
 				local chat_sounds = {
 					[52] = "Уху минус три",						
@@ -377,6 +448,21 @@ function donate_shop:SelectVO(keys)
 					[132] = "Нет, долбоеб",
 					[133] = "Похуй, нет, не похуй",
 					[134] = "Смех.. DAMAGE!!",
+
+					[165] = "Вот и все долбоеб",
+					[166] = "Действительно, блять",
+					[167] = "Ты убил моего клоуна",
+					[168] = "Это ничего не значит",
+					[169] = "Жестко наебал",
+					[170] = "Welcome to the CUMzone",
+					[171] = "Пошел нахуй гамбургер",
+					[172] = "Вот и встретились дебилы",
+					[173] = "Отдай шмотку",
+					[174] = "Ну не надо, не стукай",
+					[175] = "Okay, lets dance",
+					[176] = "Алло, дайте покачаться",
+					[177] = "Это моя команда",
+					[178] = "Еврейский смех",
 				}
 
 				local hero_name = ""
@@ -385,20 +471,57 @@ function donate_shop:SelectVO(keys)
 					hero_name = hero:GetUnitName()
 				end
 
-				CustomGameEventManager:Send_ServerToAllClients( 'chat_birzha_sound', {hero_name = hero_name, player_id = keys.PlayerID, sound_name = chat_sounds[keys.num]})
+				CustomGameEventManager:Send_ServerToAllClients( 'chat_birzha_sound', {hero_name = hero_name, player_id = keys.PlayerID, sound_name = chat_sounds[keys.num], sound_name_global = sound_name})
 			end
 		end
 
 		for _,spray in pairs(sprays) do
 			if tostring(keys.num) == tostring(spray) then
-				if player.spray_use == 1 then 
-					EmitSoundOnClient("General.Cancel", player)
-					return
-				end
-				if not IsInToolsMode() then
-					player.spray_use = 1
-					Timers:CreateTimer(10, function() player.spray_use = 0 end)
-				end
+				
+				if player.spray_use_one == nil then
+        		    player.spray_use_one = 0
+        		end
+
+        		if player.spray_use_two == nil then
+        		    player.spray_use_two = 0
+        		end
+        		
+        		if (player.spray_use_one and player.spray_use_one > 0) and (player.spray_use_two and player.spray_use_two > 0) then
+        		  	local player = PlayerResource:GetPlayer(keys.PlayerID)
+        		  	if player then
+        		      	local cooldown_sound = math.min(player.spray_use_one, player.spray_use_two)
+        		      	CustomGameEventManager:Send_ServerToPlayer(player, "panorama_cooldown_error", {message="#birzha_spray_error", time=cooldown_sound})
+        		  	end
+        		  	EmitSoundOnClient("General.Cancel", player)
+        		  	return
+        		end
+		
+        		--if not IsInToolsMode() then
+        		  	if player.spray_use_one > 0 then
+        		      	player.spray_use_two = 10
+        		      	Timers:CreateTimer({
+						    useGameTime = false,
+						    endTime = 1,
+						    callback = function()
+						      	if player.spray_use_two <= 0 then return nil end
+		        		        player.spray_use_two = player.spray_use_two - 1
+		        		        return 1
+						    end
+						})
+        		  	else
+        		      	player.spray_use_one = 10
+        		      	Timers:CreateTimer({
+						    useGameTime = false,
+						    endTime = 1,
+						    callback = function()
+						      	if player.spray_use_one <= 0 then return nil end
+		        		        player.spray_use_one = player.spray_use_one - 1
+		        		        return 1
+						    end
+						  })
+        		  	end
+        		--end
+
 
 				local spray_name = "item_wheel_"..keys.num
 
@@ -411,14 +534,50 @@ function donate_shop:SelectVO(keys)
 
 		for _,toy in pairs(toys) do
 			if tostring(keys.num) == tostring(toy) then
-				if player.toy_use == 1 then 
-					EmitSoundOnClient("General.Cancel", player)
-					return
-				end
-				if not IsInToolsMode() then
-					player.toy_use = 1
-					Timers:CreateTimer(30, function() player.toy_use = 0 end)
-				end
+				
+				if player.toy_use_one == nil then
+        		    player.toy_use_one = 0
+        		end
+
+        		if player.toy_use_two == nil then
+        		    player.toy_use_two = 0
+        		end
+        		
+        		if (player.toy_use_one and player.toy_use_one > 0) and (player.toy_use_two and player.toy_use_two > 0) then
+        		  	local player = PlayerResource:GetPlayer(keys.PlayerID)
+        		  	if player then
+        		      	local cooldown_sound = math.min(player.toy_use_one, player.toy_use_two)
+        		      	CustomGameEventManager:Send_ServerToPlayer(player, "panorama_cooldown_error", {message="#birzha_toy_error", time=cooldown_sound})
+        		  	end
+        		  	EmitSoundOnClient("General.Cancel", player)
+        		  	return
+        		end
+
+        		--if not IsInToolsMode() then
+        		  	if player.toy_use_one > 0 then
+        		      	player.toy_use_two = 60
+        		      	Timers:CreateTimer({
+						    useGameTime = false,
+						    endTime = 1,
+						    callback = function()
+						      	if player.toy_use_two <= 0 then return nil end
+		        		        player.toy_use_two = player.toy_use_two - 1
+		        		        return 1
+						    end
+						})
+        		  	else
+        		      	player.toy_use_one = 60
+        		      	Timers:CreateTimer({
+						    useGameTime = false,
+						    endTime = 1,
+						    callback = function()
+						      	if player.toy_use_one <= 0 then return nil end
+		        		        player.toy_use_one = player.toy_use_one - 1
+		        		        return 1
+						    end
+						 })
+        		  	end
+        		--end
 
 				if keys.num == 124 then
 					local toy_unit = CreateUnitByName("npc_dota_blinoid_shop", PlayerResource:GetSelectedHeroEntity(keys.PlayerID):GetAbsOrigin() + PlayerResource:GetSelectedHeroEntity(keys.PlayerID):GetForwardVector() * 50, true, PlayerResource:GetSelectedHeroEntity(keys.PlayerID), nil, PlayerResource:GetSelectedHeroEntity(keys.PlayerID):GetTeamNumber())
@@ -480,31 +639,237 @@ function donate_shop:SelectChatWheel(keys)
 		        player_chat_wheel_change[k] = v
 		    end
 		    player_chat_wheel_change[id_chatwheel] = item_chatwheel
-		    CustomNetTables:SetTableValue('birzhainfo', tostring(keys.PlayerID), {
-				mmr = player_table.mmr,
-				token_used = player_table.token_used,
-				bp_days = player_table.bp_days,
-				doge_coin = player_table.doge_coin,
-				birzha_coin = player_table.birzha_coin,
-				player_items = player_table.player_items,
-				heroes_matches = player_table.heroes_matches,
-				steamid = player_table.steamid,
-				pet_id = player_table.pet_id,
-				reports_count = player_table.reports_count,
-				ban_days = player_table.ban_days,
-				border_id = player_table.border_id,
-				vip = player_table.vip,
-				premium = player_table.premium,
-				gob = player_table.gob,
-				dragonball = player_table.dragonball,
-				leader = player_table.leader,
-				chat_wheel = player_chat_wheel_change,
-			})
+		    player_table.chat_wheel = player_chat_wheel_change
+		    CustomNetTables:SetTableValue('birzhainfo', tostring(keys.PlayerID), player_table)
 		end
 	end
 end
 
+function donate_shop:PlayerTip(keys)
+    local cooldown = 60
+    
+    if IsInToolsMode() then
+      cooldown = 1
+    end
+
+    local id_caster = keys.PlayerID
+    local id_target = keys.player_id_tip
+
+    CustomGameEventManager:Send_ServerToAllClients( 'TipPlayerNotification', {player_id_1 = id_caster, player_id_2 = id_target})
+
+    CustomNetTables:SetTableValue("tip_cooldown", tostring(id_caster), {cooldown = cooldown})
+    Timers:CreateTimer(1, function()
+      cooldown = cooldown - 1
+      CustomNetTables:SetTableValue("tip_cooldown", tostring(id_caster), {cooldown = cooldown})
+      if cooldown <= 0 then return nil end
+      return 1
+    end)
+end
+
+function donate_shop:SelectSmile(keys)
+  if keys.PlayerID == nil then return end
+  if DonateShopIsItemBought(keys.PlayerID, keys.id) then
+      local player = PlayerResource:GetPlayer(keys.PlayerID)
+      if player.smile_cooldown == nil then
+          player.smile_cooldown = 0
+      end
+      
+      if player.smile_cooldown and player.smile_cooldown > 0 then
+        local player = PlayerResource:GetPlayer(keys.PlayerID)
+        if player then
+            CustomGameEventManager:Send_ServerToPlayer(player, "panorama_cooldown_error", {message="#bm_smile_cooldown", time=player.smile_cooldown})
+        end
+        return
+      end
+
+      player.smile_cooldown = 5
+      Timers:CreateTimer(1, function() 
+          if player.smile_cooldown <= 0 then return nil end
+          player.smile_cooldown = player.smile_cooldown - 1
+          return 1
+      end)
+
+      local hero_name = ""
+      local hero = PlayerResource:GetSelectedHeroEntity(keys.PlayerID)
+      if hero then
+        hero_name = hero:GetUnitName()
+      end
+      CustomGameEventManager:Send_ServerToAllClients( 'chat_bm_smile', {hero_name = hero_name, player_id = keys.PlayerID, smile_icon = keys.smile_icon})
+  end
+end
+
+function donate_shop:LotteryStart(keys)
+    local playerid = keys.PlayerID
+    local dogecoin_currency = 0
+    local player_table_info = CustomNetTables:GetTableValue('birzhashop', tostring(playerid))
+
+   	if player_table_info then
+   	    dogecoin_currency = player_table_info.doge_coin
+   	else
+   	    local player = PlayerResource:GetPlayer(playerid)
+   	    if player then
+   	        CustomGameEventManager:Send_ServerToPlayer(player, "shop_error_notification", {})
+   	    end
+   		return
+   	end
+    if dogecoin_currency >= 100 then
+        player_table_info.doge_coin = player_table_info.doge_coin - 100
+        CustomNetTables:SetTableValue("birzhashop", tostring(playerid), player_table_info)
+        local player = PlayerResource:GetPlayer(playerid)
+        if player then
+            CustomGameEventManager:Send_ServerToPlayer(player, "shop_accept_notification", {})
+        end
+        print("запустил колесо")
+        donate_shop:LotteryActivate(playerid)
+      else
+        local player = PlayerResource:GetPlayer(playerid)
+        if player then
+            CustomGameEventManager:Send_ServerToPlayer(player, "shop_error_notification", {error_name = "shop_no_dogecoin"})
+        end
+    	return
+    end
+end
+
+function donate_shop:LotteryActivate(id)
+    local lottery_rewards = {
+		136,
+		137,
+		138,
+		139,
+		140,
+		141,
+		142,
+		143,
+		144,
+		145,
+		146,
+		147,
+		148,
+		149,
+		150,
+		151,
+		152,
+		153,
+		154,
+		155,
+		156,
+		157,
+		158,
+		159,
+		160,
+		162,
+		163,
+
+		--- Sounds
+		166,
+		168,
+		169,
+		170,
+		171,
+		172,
+		174,
+		175,
+		176,
+		177,
+		178,
+    }
+
+    local rarity_items = {
+		87,
+		131,
+		132,
+		133,
+		165,
+		167,
+		173,
+    }
+
+    local current_rewards = table.random_some(lottery_rewards, 30)
+
+    if RollPercentage(25) then
+    	current_rewards = table.random_some(lottery_rewards, 19)
+    	current_rewards = table.join(current_rewards,rarity_items)
+    end
+
+    current_rewards = table.shuffle(current_rewards)
+
+    local drop_reward = table.random_some(current_rewards, 1)[1]
+
+	if RollPercentage(20) then
+		local current_rewards_unique = table.deepcopy(current_rewards)
+		for item_id_check = #current_rewards_unique, 1, -1 do
+        	if current_rewards_unique[item_id_check] ~= nil then
+				if DonateShopIsItemBought(id, current_rewards_unique[item_id_check]) then
+					table.remove(current_rewards_unique, item_id_check)
+				end
+			end
+		end
+		if #current_rewards_unique >= 1 then
+			drop_reward = table.random_some(current_rewards_unique, 1)[1]
+			print("Выпадение нового предмета 100%")
+		else
+			drop_reward = table.random_some(current_rewards, 1)[1]
+			print("Выпадение нового предмета 100%, но ты уже все получил")
+		end
+	end
 
 
+    local visual = RandomInt(2400, 2535)
 
+    local player = PlayerResource:GetPlayer(id)
+    if player then
+        CustomGameEventManager:Send_ServerToPlayer(player, "bm_start_lottery", {items_list = current_rewards, visual = visual, drop_reward = drop_reward, rarity_items = rarity_items})
+    end
 
+    local sound_check = 0
+    Timers:CreateTimer(0.25, function()
+    	local player = PlayerResource:GetPlayer(id)
+	    if player then
+	        CustomGameEventManager:Send_ServerToPlayer(player, "bm_lottery_sound_client", {})
+	    end
+	    sound_check = sound_check + 0.25
+	    if sound_check >= 5 then
+	    	return nil
+	    else
+	    	return 0.25
+	    end
+    end)
+
+    Timers:CreateTimer(5.1, function()
+    	donate_shop:GiveGiftPlayer(id, drop_reward)
+    end)
+end
+
+function donate_shop:GiveGiftPlayer(id, item_id)
+    local player_table_info = CustomNetTables:GetTableValue('birzhashop', tostring(id))
+    local player_items_table = {}
+
+    for k, v in pairs(player_table_info.player_items) do
+        table.insert(player_items_table, v)
+    end
+
+    if DonateShopIsItemBought(id, item_id) then
+      player_table_info.doge_coin = player_table_info.doge_coin + 50
+      item_id = 0
+    else
+      table.insert(player_items_table, item_id)
+      player_table_info.player_items = player_items_table
+    end
+
+    CustomNetTables:SetTableValue("birzhashop", tostring(id), player_table_info)
+
+    local player = PlayerResource:GetPlayer(id)
+    if player then
+        CustomGameEventManager:Send_ServerToPlayer(player, "bm_reward_lottery", {item_id = item_id})
+    end
+
+    local post_data = {
+		player = {
+			{
+				steamid = PlayerResource:GetSteamAccountID(id),
+				item_id = item_id,
+			}
+		},
+	}
+	SendData('https://bmemov.ru/data/bm_post_lottery_item.php', post_data, nil)
+end

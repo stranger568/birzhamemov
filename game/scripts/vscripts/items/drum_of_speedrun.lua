@@ -119,11 +119,11 @@ function modifier_rune_haste_birzha:IsPurgable()
 end
 
 function modifier_rune_haste_birzha:DeclareFunctions()
-	return {MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE }
+	return {MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT }
 end
 
-function modifier_rune_haste_birzha:GetModifierMoveSpeed_Absolute()
-	return 550
+function modifier_rune_haste_birzha:GetModifierMoveSpeedBonus_Constant()
+	return 99999999
 end
 
 function modifier_rune_haste_birzha:GetModifierAttackSpeedBonus_Constant()

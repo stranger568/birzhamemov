@@ -64,14 +64,17 @@ function Guts_Hand:OnProjectileHit_ExtraData(target, location, ExtraData)
 		local caster = self:GetCaster()
 		EmitSoundOnLocationWithCaster(location, "Hero_Sven.StormBoltImpact", caster)
 		if target then
-			if self:GetCaster():HasShard() then
-				local point = SplineVectors( caster:GetOrigin(), target:GetOrigin(), 1 )
-				caster:SetOrigin( point )
-    			FindClearSpaceForUnit( caster, point, true )
-    			local vec = target:GetOrigin()-caster:GetOrigin()
-    			vec.z = 0
-    			caster:SetForwardVector( vec:Normalized() )
-    			caster:MoveToTargetToAttack( target )
+			if not target:IsMagicImmune() and not target:TriggerSpellAbsorb(self) then
+				if self:GetCaster():HasShard() then
+					local point = SplineVectors( caster:GetOrigin(), target:GetOrigin(), 1 )
+					point.z = 0
+					caster:SetOrigin( point )
+	    			FindClearSpaceForUnit( caster, point, true )
+	    			local vec = target:GetOrigin()-caster:GetOrigin()
+	    			vec.z = 0
+	    			caster:SetForwardVector( vec:Normalized() )
+	    			caster:MoveToTargetToAttack( target )
+				end
 			end
 			local enemies = FindUnitsInRadius(caster:GetTeamNumber(), location, nil, ExtraData.radius, self:GetAbilityTargetTeam(), self:GetAbilityTargetType(), self:GetAbilityTargetFlags(), FIND_ANY_ORDER, false)
 			for _,enemy in ipairs(enemies) do

@@ -362,7 +362,7 @@ Pistoletov_TrahTibidoh = class({})
 
 function Pistoletov_TrahTibidoh:GetCooldown(level)
     if self:GetCaster():HasScepter() then
-        return 1 / ( self:GetCaster():GetCooldownReduction())
+        return 2 / ( self:GetCaster():GetCooldownReduction())
     end
     return self.BaseClass.GetCooldown( self, level ) / ( self:GetCaster():GetCooldownReduction())
 end

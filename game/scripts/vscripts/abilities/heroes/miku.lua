@@ -196,7 +196,7 @@ function modifier_miku_MusicBarrier:IsAura()					return true end
 function modifier_miku_MusicBarrier:IsAuraActiveOnDeath() 		return false end
 function modifier_miku_MusicBarrier:GetAuraDuration()			return 0.1 end
 function modifier_miku_MusicBarrier:GetAuraRadius()				return self.radius end
-function modifier_miku_MusicBarrier:GetAuraSearchFlags()		return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES end
+function modifier_miku_MusicBarrier:GetAuraSearchFlags()		return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE end
 function modifier_miku_MusicBarrier:GetAuraSearchTeam()			return DOTA_UNIT_TARGET_TEAM_BOTH end
 function modifier_miku_MusicBarrier:GetAuraSearchType()			return DOTA_UNIT_TARGET_ALL end
 function modifier_miku_MusicBarrier:GetModifierAura()			return "modifier_miku_MusicBarrier_buff" end

@@ -25,5 +25,9 @@
 		<Panel hittest="false" id="RespawnIndicator">
 			<Label hittest="false" id="RespawnTimer" />
 		</Panel>
+		<Panel class="PlayerRank" id="PlayerRank" />
+		<Button class="TipButton" id="TipButtonCustom">
+			<Label class="TipText" id="TipText" text="Tip" />
+		</Button>
 	</Panel>
 </root>

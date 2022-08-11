@@ -118,7 +118,7 @@ function modifier_gachi_armor_buff_scepter:IsPurgable() return false end
 
 function modifier_gachi_armor_buff_scepter:OnCreated()
 	if not IsServer() then return end
-	self.damage_absorb = 300
+	self.damage_absorb = 700
 	self:SetStackCount(self.damage_absorb)
 	self.particle = ParticleManager:CreateParticle("particles/gachi_shield_scepter.vpcf", PATTACH_CUSTOMORIGIN, self:GetParent())
 	ParticleManager:SetParticleControl(self.particle, 1, Vector(100,1,1))
@@ -128,7 +128,7 @@ end
 
 function modifier_gachi_armor_buff_scepter:OnRefresh(keys)
     if not IsServer() then return end
-	self.damage_absorb = 300
+	self.damage_absorb = 700
 	self:SetStackCount(self.damage_absorb)
 end
 
@@ -155,7 +155,7 @@ function modifier_gachi_armor_buff_scepter:GetModifierTotal_ConstantBlock(kv)
                 if not self:IsNull() then
                     self:Destroy()
                 end
-                return original_shield_amount
+                return kv.damage
             end
         end
     end

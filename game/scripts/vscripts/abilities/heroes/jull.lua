@@ -341,7 +341,7 @@ function jull_choronostasis:OnSpellStart(new_target)
     if teammate then
         target:AddNewModifier(self:GetCaster(), self, "modifier_jull_choronostasis_buff", {duration = shield_duration})
         if self:GetCaster():HasTalent("special_bonus_birzha_jull_8") then
-            local targets = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), target:GetAbsOrigin(), nil, self:GetCaster():FindTalentValue("special_bonus_birzha_jull_8"), DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false )
+            local targets = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), target:GetAbsOrigin(), nil, self:GetCaster():FindTalentValue("special_bonus_birzha_jull_8"), DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
             for _, target_table in pairs(targets) do
                 target_table:AddNewModifier(self:GetCaster(), self, "modifier_jull_choronostasis_buff", {duration = shield_duration})
             end
@@ -352,7 +352,7 @@ function jull_choronostasis:OnSpellStart(new_target)
         end
         target:AddNewModifier(self:GetCaster(), self, "modifier_jull_choronostasis_debuff", {duration = stun_duration * (1 - target:GetStatusResistance())})
         if self:GetCaster():HasTalent("special_bonus_birzha_jull_8") then
-            local targets = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), target:GetAbsOrigin(), nil, self:GetCaster():FindTalentValue("special_bonus_birzha_jull_8"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false )
+            local targets = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), target:GetAbsOrigin(), nil, self:GetCaster():FindTalentValue("special_bonus_birzha_jull_8"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
             for _, target_table in pairs(targets) do
                 target_table:AddNewModifier(self:GetCaster(), self, "modifier_jull_choronostasis_debuff", {duration = stun_duration * (1 - target:GetStatusResistance())})
             end
@@ -446,11 +446,16 @@ end
 
 LinkLuaModifier("modifier_jull_in_time", "abilities/heroes/jull", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_jull_in_time_buff", "abilities/heroes/jull", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_jull_in_time_manacost", "abilities/heroes/jull", LUA_MODIFIER_MOTION_NONE)
 
 jull_in_time = class({})
 
 function jull_in_time:GetManaCost(level)
-    return self.BaseClass.GetManaCost(self, level) + (self:GetCaster():GetMaxMana() / 100 * self:GetSpecialValueFor("manacost_percentage"))
+    local mod_stack_count = self:GetCaster():GetModifierStackCount("modifier_jull_in_time_manacost", self:GetCaster())
+    if mod_stack_count <= 0 then
+        mod_stack_count = 1
+    end
+    return self.BaseClass.GetManaCost(self, level) * (mod_stack_count * 1.5)
 end
 
 function jull_in_time:GetIntrinsicModifierName()
@@ -518,6 +523,8 @@ function jull_in_time:OnSpellStart()
         self:AddMod()
     end
 
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_jull_in_time_manacost", {duration = 3})
+
     local particle_one = ParticleManager:CreateParticle( "particles/econ/events/fall_2021/blink_dagger_fall_2021_start.vpcf", PATTACH_ABSORIGIN, self:GetCaster() )
     ParticleManager:SetParticleControl( particle_one, 0, origin )
     ParticleManager:SetParticleControlForward( particle_one, 0, direction:Normalized() )
@@ -549,6 +556,21 @@ function jull_in_time:AddMod()
             self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_jull_light_future_passive_charge", {duration = 1})
         end
     end
+end
+
+modifier_jull_in_time_manacost = class({})
+
+function modifier_jull_in_time_manacost:IsPurgable() return false end
+function modifier_jull_in_time_manacost:IsHidden() return true end
+
+function modifier_jull_in_time_manacost:OnCreated()
+    if not IsServer() then return end
+    self:SetStackCount(1)
+end
+
+function modifier_jull_in_time_manacost:OnRefresh()
+    if not IsServer() then return end
+    self:IncrementStackCount()
 end
 
 modifier_jull_in_time = class({})
@@ -921,6 +943,27 @@ end
 LinkLuaModifier("modifier_jull_portal_backend_buff", "abilities/heroes/jull", LUA_MODIFIER_MOTION_NONE)
 
 jull_portal_backend = class({})
+
+function jull_portal_backend:CastFilterResultTarget( hTarget )
+    if hTarget:IsMagicImmune() and (not self:GetCaster():HasScepter()) then
+        return UF_FAIL_MAGIC_IMMUNE_ENEMY
+    end
+
+    if not IsServer() then return UF_SUCCESS end
+    local nResult = UnitFilter(
+        hTarget,
+        self:GetAbilityTargetTeam(),
+        self:GetAbilityTargetType(),
+        self:GetAbilityTargetFlags(),
+        self:GetCaster():GetTeamNumber()
+    )
+
+    if nResult ~= UF_SUCCESS then
+        return nResult
+    end
+
+    return UF_SUCCESS
+end
 
 function jull_portal_backend:GetManaCost(level)
     return self.BaseClass.GetManaCost(self, level) + (self:GetCaster():GetMaxMana() / 100 * self:GetSpecialValueFor("manacost_percentage"))

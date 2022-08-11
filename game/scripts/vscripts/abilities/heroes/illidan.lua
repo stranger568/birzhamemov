@@ -432,7 +432,7 @@ end
 
 modifier_illidan_KidsHit_debuff = class({})
 
-function modifier_illidan_KidsHit_debuff:IsPurgable() return false end
+function modifier_illidan_KidsHit_debuff:IsPurgable() return true end
 function modifier_illidan_KidsHit_debuff:IsPurgeException() return true end
 
 function modifier_illidan_KidsHit_debuff:CheckState()

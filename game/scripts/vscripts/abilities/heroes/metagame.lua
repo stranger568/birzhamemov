@@ -207,7 +207,9 @@ function metagame_passive:OnProjectileHit( target, vLocation )
                 enemy:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_metagame_4")})
             end
             local duration = self:GetSpecialValueFor("duration")
-            enemy:AddNewModifier(self:GetCaster(), self, "modifier_metagame_passive_debuff", {duration = duration})
+            local stun_duration = self:GetSpecialValueFor("stun_duration")
+            enemy:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = stun_duration})
+            enemy:AddNewModifier(self:GetCaster(), self, "modifier_metagame_passive_debuff", {duration = duration + stun_duration})
             ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_PHYSICAL, ability = self})
         end
     end
@@ -297,6 +299,7 @@ function modifier_metagame_furion:OnCreated( kv )
     self.parent:AddNewModifier( self.parent, self:GetAbility(), "modifier_metagame_furion_fury", {} )
     local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_marci/marci_unleash_cast.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
     ParticleManager:ReleaseParticleIndex( effect_cast )
+    self.pulse = 0
     EmitSoundOn( "Hero_Marci.Unleash.Cast", self:GetParent() )
 end
 
@@ -321,6 +324,55 @@ function modifier_metagame_furion:OnDestroy()
         recovery:ForceDestroy()
     end
 end
+
+function modifier_metagame_furion:DeclareFunctions()
+    local funcs = {
+        MODIFIER_EVENT_ON_ATTACK_LANDED
+    }
+    return funcs
+end
+
+function modifier_metagame_furion:OnAttackLanded( params )
+    if params.attacker ~= self:GetParent() then return end
+    self.pulse = self.pulse + 1
+    if self.pulse >= 3 then
+        self.pulse = 0
+        self:Pulse( params.target:GetAbsOrigin() )
+    end
+    if self:GetCaster():HasTalent("special_bonus_birzha_metagame_8") then
+        params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_metagame_furion_slow", {duration = 0.5})
+    end
+end
+
+function modifier_metagame_furion:Pulse( center )
+    local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), center, nil, 800, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
+    local damageTable = { attacker = self:GetParent(), damage = self:GetAbility():GetSpecialValueFor("impulse_damage"), damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility(), }
+    for _,enemy in pairs(enemies) do
+        damageTable.victim = enemy
+        ApplyDamage(damageTable)
+    end
+    self:PlayEffects4( center, 800 )
+end
+
+function modifier_metagame_furion:PlayEffects4( point, radius )
+    local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_marci/marci_unleash_pulse.vpcf", PATTACH_WORLDORIGIN, nil )
+    ParticleManager:SetParticleControl( effect_cast, 0, point )
+    ParticleManager:SetParticleControl( effect_cast, 1, Vector(radius,radius,radius) )
+    ParticleManager:ReleaseParticleIndex( effect_cast )
+    EmitSoundOnLocationWithCaster( point, "Hero_Marci.Unleash.Pulse", self:GetParent() )
+end
+
+
+
+
+
+
+
+
+
+
+
+
 
 modifier_metagame_furion_fury = class({})
 

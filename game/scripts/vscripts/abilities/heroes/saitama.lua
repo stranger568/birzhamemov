@@ -88,12 +88,12 @@ function modifier_saitama_fast_attack:GetModifierMoveSpeed_Absolute()
 	return 20
 end
 
-function modifier_saitama_fast_attack:GetModifierMoveSpeed_Absolute()
-	return 20
-end
-
 function modifier_saitama_fast_attack:GetModifierFixedAttackRate( params )
     return 10
+end
+
+function modifier_saitama_fast_attack:GetPriority()
+	return MODIFIER_PRIORITY_HIGH
 end
 
 LinkLuaModifier("modifier_saitama_jump", "abilities/heroes/saitama.lua", LUA_MODIFIER_MOTION_BOTH )
@@ -590,7 +590,7 @@ saitama_punch = class({})
 
 function saitama_punch:GetCastPoint()
     if self:GetCaster():HasShard() then
-        return 1
+        return 0.5
     end
     return self.BaseClass.GetCastPoint( self )
 end
@@ -605,7 +605,7 @@ function saitama_punch:OnAbilityPhaseStart()
 
     local cast_point = 1.55
     if self:GetCaster():HasShard() then
-    	cast_point = 2.55
+    	cast_point = 6.5
     end
     self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_6, cast_point / self:GetCastPointModifier() )
     return true

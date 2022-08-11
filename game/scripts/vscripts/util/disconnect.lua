@@ -1,9 +1,5 @@
 BirzhaDisconnectFunction = class({})
 
-function BirzhaDisconnectFunction:Init()
-	DISCONNECT_STATUS = {}
-end
-
 function BirzhaDisconnectFunction:AutoWin()
 	local winteam = nil
 	local teams_table = {2,3,6,7,8,9,10,11,12,13}
@@ -28,7 +24,7 @@ end
 function BirzhaDisconnectFunction:GetCNPlayersInTeam(t)
 	local count = 0
 	for id, player_info in pairs(BirzhaData.PLAYERS_GLOBAL_INFORMATION) do
-		if not IsPlayerDisconnected(id) and PlayerResource:GetTeam(id) == t then
+		if not IsPlayerAbandoned(id) and player_info.team == t then
 			count = count + 1
 		end
 	end

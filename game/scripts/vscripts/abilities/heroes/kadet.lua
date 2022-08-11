@@ -295,6 +295,11 @@ return  {
         }
 end
 
+function modifier_kadet_razogrev:OnCreated()
+    if not IsServer() then return end
+    self.target_attack = nil
+end
+
 function modifier_kadet_razogrev:OnAttackLanded( params )
     if not IsServer() then return end
     local parent = self:GetParent()
@@ -310,6 +315,17 @@ function modifier_kadet_razogrev:OnAttackLanded( params )
         if not self.hits then
             self.hits = 0 
         end
+
+        if self.target_attack ~= nil and self.target_attack ~= target then
+            self.hits = 0
+            if self.particle then
+                ParticleManager:DestroyParticle(self.particle, true)
+            end
+            self.target_attack = target
+            return
+        end
+
+        self.target_attack = target
 
         if parent:HasModifier("modifier_kadet_razogrev_caster") then return end
         if self.hits >= max_hits then

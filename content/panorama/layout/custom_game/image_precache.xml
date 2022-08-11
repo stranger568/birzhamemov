@@ -26,6 +26,7 @@
 		<Image style="opacity:0;" src="file://{images}/custom_game/shop/itemicon/border_5.png" />
 		<Image style="opacity:0;" src="file://{images}/custom_game/shop/itemicon/border_6.png" />
 		<Image style="opacity:0;" src="file://{images}/custom_game/shop/itemicon/border_7.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/shop/itemicon/border_8.png" />
 		<Image style="opacity:0;" src="file://{images}/custom_game/shop/itemicon/sound.png" />
 		<Image style="opacity:0;" src="file://{images}/custom_game/shop/itemicon/toys_1.png" />
 		<Image style="opacity:0;" src="file://{images}/custom_game/shop/itemicon/toys_2.png" />
@@ -171,5 +172,34 @@
 		<Image style="opacity:0;" src="s2r://panorama/images/custom_game/end/bugreport_png.vtex" />
 		<Image style="opacity:0;" src="s2r://panorama/images/custom_game/end/vk_png.vtex" />
 		<Image style="opacity:0;" src="s2r://panorama/images/custom_game/end_png.vtex" />
+
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/4elik.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/BirzhaMertva.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/Blin.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/Cat.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/CatSad.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/Clown.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/CoolStory.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/DwayneWut.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/Gachi.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/Head.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/insane.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/Kekw.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/Like.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/Micro4el.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/Omegalul.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/Oreh.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/OrehDaun.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/PapichRetard.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/PenguinSuck.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/Pepega.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/PepegaClown.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/RoflanEbalo.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/RoflanPominki.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/Wut.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/WutMeme.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/StrangerBan.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/stray.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/smiles/microcat.png" />
 	</Panel>
 </root>

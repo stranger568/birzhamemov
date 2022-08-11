@@ -459,7 +459,7 @@ function modifier_akame_obraz_illusion:OnAttackLanded( params )
     if parent == params.attacker and target:GetTeamNumber() ~= parent:GetTeamNumber() then
     	local damage_persentage = self:GetAbility():GetSpecialValueFor( "damage_one_persentage" ) / 100 * self:GetCaster():GetAverageTrueAttackDamage(nil)
     	local base_damage = self:GetAbility():GetSpecialValueFor( "damage_one" )
-    	local damage = base_damage + damage_persentage
+    	local damage = base_damage
     	ApplyDamage({ victim = target, attacker = self:GetParent(), ability=self:GetAbility(), damage = damage, damage_type = DAMAGE_TYPE_PHYSICAL })
         if not self:IsNull() then
             self:Destroy()
@@ -883,14 +883,14 @@ function modifier_Akame_jump_stack:DestroyOnExpire()
 end
 
 function modifier_Akame_jump_stack:OnCreated( kv )
-    self.max_charges = 1 + self:GetCaster():FindTalentValue("special_bonus_birzha_akame_6") + self:GetCaster():FindTalentValue("special_bonus_birzha_akame_8")
+    self.max_charges = 1
     if not IsServer() then return end
     self:SetStackCount( self.max_charges )
     self:CalculateCharge()
 end
 
 function modifier_Akame_jump_stack:OnRefresh( kv )
-    self.max_charges = 1 + self:GetCaster():FindTalentValue("special_bonus_birzha_akame_6") + self:GetCaster():FindTalentValue("special_bonus_birzha_akame_8")
+    self.max_charges = 1
     if not IsServer() then return end
     self:CalculateCharge()
 end
@@ -970,7 +970,7 @@ function modifier_Akame_jump:OnCreated( kv )
         self.origin = self:GetParent():GetOrigin()
         self.duration = self.distance/self.speed
         self.hVelocity = self.speed
-        self.direction = self:GetParent():GetForwardVector()
+        self.direction = -self:GetParent():GetForwardVector()
         self.peak = 200
         self.elapsedTime = 0
         self.motionTick = {}

@@ -69,34 +69,30 @@ function Commands:time(player, arg)
 	Convars:SetFloat("host_timescale", tonumber(arg[1]))
 end
 
+function Commands:mod(player, arg)
+	if not IsAdmin(player) then return end
+	local hero = player:GetAssignedHero()
+	for _, modifier in pairs(hero:FindAllModifiers()) do
+		print(modifier:GetName())
+	end
+end
 
---function Commands:listid(player, arg)
---	if not IsMod(player) then return end
---	local caster = player:GetAssignedHero()	
---    local all_heroes = HeroList:GetAllHeroes()
---    for _, hero in pairs(all_heroes) do
---        if hero:IsRealHero() then
---        	if _G.HEROES_ID_TABLE then
---        		if _G.HEROES_ID_TABLE[hero:GetPlayerOwnerID()] then
---        			GameRules:SendCustomMessageToTeam(hero:GetUnitName().."  ".._G.HEROES_ID_TABLE[hero:GetPlayerOwnerID()][1], caster:GetTeamNumber(), caster:GetTeamNumber(), caster:GetTeamNumber())
---        		end
---        	end
---        end
---    end
---end
+function Commands:listid(player, arg)
+	if not IsMod(player) then return end
+	local caster = player:GetAssignedHero()	
+    local all_heroes = HeroList:GetAllHeroes()
+    for _, hero in pairs(all_heroes) do
+        if hero:IsRealHero() then
+        	if _G.HEROES_ID_TABLE then
+        		if _G.HEROES_ID_TABLE[hero:GetPlayerOwnerID()] then
+        			GameRules:SendCustomMessageToTeam(hero:GetUnitName().."  ".._G.HEROES_ID_TABLE[hero:GetPlayerOwnerID()][1], caster:GetTeamNumber(), caster:GetTeamNumber(), caster:GetTeamNumber())
+        		end
+        	end
+        end
+    end
+end
 
---function Commands:kick(player, arg)
---	if not IsMod(player) then return end
---
---	--for _, hero in pairs(HeroList:GetAllHeroes()) do
---	--	if hero:IsRealHero() then
---	--		if _G.HEROES_ID_TABLE[hero:GetPlayerOwnerID()] then
---	--			local number = _G.HEROES_ID_TABLE[hero:GetPlayerOwnerID()][1]
---	--			if tostring(number) == arg[1] then
---	--				_G.HEROES_ID_TABLE[hero:GetPlayerOwnerID()][2] = true
---	--			end
---	--		end
---	--	end
---	--end
---	SendToServerConsole('kickid '.. arg[1])
---end
+function Commands:kick(player, arg)
+	if not IsMod(player) then return end
+	SendToServerConsole('kickid '.. arg[1])
+end

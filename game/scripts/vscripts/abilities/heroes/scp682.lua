@@ -238,7 +238,7 @@ end
 function modifier_scp682_rage:OnIntervalThink()
     if not IsServer() then return end
     AddFOWViewer(self:GetCaster():GetTeamNumber(), self.target:GetAbsOrigin(), 100, 0.1, false)
-    if self.target == nil or self.target:IsAlive() == false or self.target:IsInvulnerable() or ( not self:GetParent():CanEntityBeSeenByMyTeam(self.target) ) then 
+    if self.target == nil or not self.target:IsAlive() or self.target:HasModifier("modifier_fountain_passive_invul") or ( self.target:IsInvisible() and not self:GetParent():CanEntityBeSeenByMyTeam(self.target) ) then
         if not self:IsNull() then
             self:Destroy()
         end

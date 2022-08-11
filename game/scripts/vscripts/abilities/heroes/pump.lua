@@ -303,7 +303,7 @@ function pump_skid:OnSpellStart()
     if not IsServer() then return end
     local duration = self:GetSpecialValueFor("duration")
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_pump_skid_active", {duration = duration})
-    local heroes = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, 1000, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_CLOSEST, false)
+    local heroes = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, 600, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_CLOSEST, false)
     local count = 0
     for _, hero in pairs(heroes) do
         if count >= 2 then break end
@@ -393,6 +393,7 @@ function modifier_pump_spooky_aura:DeclareFunctions()
     local decFuncs =
     {
         MODIFIER_EVENT_ON_DEATH,
+        MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE
     }
 
     return decFuncs
@@ -403,6 +404,10 @@ function modifier_pump_spooky_aura:OnDeath( params )
             self:Destroy()
         end
     end
+end
+
+function modifier_pump_spooky_aura:GetModifierMoveSpeed_Absolute()
+    return 100
 end
 
 function modifier_pump_spooky_aura:OnIntervalThink()

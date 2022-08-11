@@ -73,12 +73,10 @@ function modifier_item_butter2_active:OnCreated()
 	local player = caster:GetPlayerID()
 	if DonateShopIsItemBought(player, 46) then
 		self.effect = "particles/birzhapass/butter2_donate.vpcf"
-	else
-		self.effect = "particles/items2_fx/butterfly_buff.vpcf"
+        local particle = ParticleManager:CreateParticle(self.effect, PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+        ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
+        self:AddParticle(particle, false, false, -1, false, false)
 	end
-	local particle = ParticleManager:CreateParticle(self.effect, PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
-    ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
-    self:AddParticle(particle, false, false, -1, false, false)
 end
 
 function modifier_item_butter2_active:GetTexture()
@@ -89,19 +87,29 @@ function modifier_item_butter2_active:CheckState()
     local state = {
         [MODIFIER_STATE_FLYING] = true,
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+        [MODIFIER_STATE_UNTARGETABLE] = true,
     }
 
     return state
 end
 
+function modifier_item_butter2_active:GetStatusEffectName() return "particles/status_fx/status_effect_dark_willow_shadow_realm.vpcf" end
+function modifier_item_butter2_active:StatusEffectPriority() return 10 end
+function modifier_item_butter2_active:GetEffectName() return "particles/donate_buttefly_2.vpcf" end
+function modifier_item_butter2_active:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
+
+
 function modifier_item_butter2_active:DeclareFunctions()
-    return {
-        MODIFIER_PROPERTY_EVASION_CONSTANT,
+    local funcs = {
+        MODIFIER_EVENT_ON_ATTACK,
     }
+    return funcs
 end
 
-function modifier_item_butter2_active:GetModifierEvasion_Constant()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor("bonus_evasion")
+function modifier_item_butter2_active:OnAttack( params )
+    if not IsServer() then return end
+    if params.attacker~=self:GetParent() then return end
+    if not self:IsNull() then
+        self:Destroy()
     end
 end

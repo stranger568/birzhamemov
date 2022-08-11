@@ -62,6 +62,8 @@ function modifier_vape_smoke:GetAuraRadius()
     return self.radius
 end
 
+function modifier_vape_smoke:GetAuraDuration() return 0 end
+
 modifier_vape_smoke_debuff = class({})
 
 function modifier_vape_smoke_debuff:IsPurgable() return false end

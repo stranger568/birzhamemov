@@ -39,7 +39,7 @@ function modifier_boss_drop:OnDeath(params)
 			local team = attacker:GetTeam()
 			local AllHeroes = HeroList:GetAllHeroes()
 			for count, hero in ipairs(AllHeroes) do
-				if hero:GetTeam() == team then
+				if hero:GetTeam() == team and hero:IsRealHero() then
 					hero:ModifyGold( 500, true, 0 )
 				end
 			end
@@ -60,7 +60,7 @@ function modifier_boss_drop:OnDeath(params)
 			local team = attacker:GetTeam()
 			local AllHeroes = HeroList:GetAllHeroes()
 			for count, hero in ipairs(AllHeroes) do
-				if hero:GetTeam() == team then
+				if hero:GetTeam() == team and hero:IsRealHero() then
 					hero:ModifyGold( 500, true, 0 )
 				end
 			end

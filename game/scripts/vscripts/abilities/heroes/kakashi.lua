@@ -885,9 +885,9 @@ function kakashi_raikiri:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end
 
-function kakashi_raikiri:GetCastRange(location, target)
-    return ability_manager:GetValueQuas(self, self:GetCaster(), "range")
-end
+--function kakashi_raikiri:GetCastRange(location, target)
+--    return ability_manager:GetValueQuas(self, self:GetCaster(), "range")
+--end
 
 function kakashi_raikiri:GetManaCost(level)
     return self.BaseClass.GetManaCost(self, level)
@@ -980,7 +980,7 @@ function kakashi_raikiri:OnSpellStart()
     direction = direction:Normalized()
     local target_pos = GetGroundPosition( self:GetCaster():GetOrigin() + direction*dist, nil )
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_kakashi_raikiri", {
-        duration    = math.min((point - self:GetCaster():GetAbsOrigin()):Length2D(), self:GetCastRange( self:GetCaster():GetOrigin(), self:GetCaster() )) / 3000,
+        duration    = math.min((point - self:GetCaster():GetAbsOrigin()):Length2D(), ability_manager:GetValueQuas(self, self:GetCaster(), "range")) / 3000,
         x           = point.x,
         y           = point.y,
         z           = point.z
@@ -1042,7 +1042,7 @@ function modifier_kakashi_raikiri:OnCreated(params)
         local caster = self:GetCaster()
         local ability = self:GetAbility()
         local position = GetGroundPosition(Vector(params.x, params.y, params.z), nil)
-        local max_distance = self:GetAbility():GetCastRange( self:GetCaster():GetOrigin(), self:GetCaster() )
+        local max_distance = ability_manager:GetValueQuas(self:GetAbility(), self:GetCaster(), "range")
         local distance = (caster:GetAbsOrigin() - position):Length2D()
         if distance > max_distance then distance = max_distance end
         self.velocity = 6000
@@ -1532,9 +1532,7 @@ function kakashi_tornado:OnSpellStart()
             iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1,
             iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
             bVisibleToEnemies = true,
-            bProvidesVision = true,
-            iVisionRadius = radius,
-            iVisionTeamNumber = self:GetCaster():GetTeamNumber(),
+            bProvidesVision = false,
         }
         local target_point = target:GetAbsOrigin()
         local caster_point = self:GetCaster():GetAbsOrigin() 
@@ -2228,7 +2226,7 @@ function modifier_kakashi_meteor_thinker:CheckUnitsInRadius()
     if self:GetCaster():HasTalent("special_bonus_birzha_kakashi_7") then
         flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
     end
-    local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, 275, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, 0, false )
+    local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, 100, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, 0, false )
     if #enemies <= 0 then return end
     CreateModifierThinker(self:GetCaster(), self:GetAbility(), "modifier_kakashi_meteor_thinker", {creator = self:GetParent():entindex()}, self:GetParent():GetAbsOrigin(), self:GetCaster():GetTeamNumber(), false)
 end
@@ -2239,7 +2237,7 @@ function modifier_kakashi_meteor_thinker:MeteorDamage()
     if self:GetCaster():HasTalent("special_bonus_birzha_kakashi_7") then
         flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
     end
-    local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, 275, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, 0, false )
+    local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, 100, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, 0, false )
     if #enemies <= 0 then return end
 
     local duration = 0
@@ -2253,11 +2251,13 @@ function modifier_kakashi_meteor_thinker:MeteorDamage()
     end
 
     for _, enemy in pairs(enemies) do
-        local thunder = ParticleManager:CreateParticle("particles/units/heroes/hero_zuus/zuus_shard.vpcf", PATTACH_WORLDORIGIN, nil)
-        ParticleManager:SetParticleControl( thunder, 0, enemy:GetAbsOrigin() + Vector( 0, 0, 1000 ) )
-        ParticleManager:SetParticleControl( thunder, 1, enemy:GetAbsOrigin())
-        enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = duration})
-        ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility()})
+        if not enemy:HasModifier("modifier_fountain_passive_invul") then
+            local thunder = ParticleManager:CreateParticle("particles/units/heroes/hero_zuus/zuus_shard.vpcf", PATTACH_WORLDORIGIN, nil)
+            ParticleManager:SetParticleControl( thunder, 0, enemy:GetAbsOrigin() + Vector( 0, 0, 1000 ) )
+            ParticleManager:SetParticleControl( thunder, 1, enemy:GetAbsOrigin())
+            enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = duration})
+            ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility()})
+        end
     end
 end
 
@@ -2310,6 +2310,72 @@ function kakashi_sharingan:GetManaCost(iLevel)
         end
     end
     return manacost
+end
+
+function kakashi_sharingan:GetCastRange(location, target)
+    local abilities_copy = {
+        [1] = "kakashi_lightning",
+        [2] = "kakashi_raikiri",
+        [3] = "kakashi_lightning_hit",
+        [4] = "kakashi_shadow_clone",
+        [5] = "kakashi_tornado",
+        [6] = "kakashi_graze_wave",
+        [7] = "kakashi_susano",
+        [8] = "kakashi_ligning_sphere",
+        [9] = "kakashi_meteor",
+    } 
+    local cast_range = 0
+    local modifier_stacks = self:GetCaster():GetModifierStackCount("modifier_kakashi_sharingan", self:GetCaster())
+    for id, abiliti_name in pairs(abilities_copy) do
+        if id == modifier_stacks then
+            local ability = self:GetCaster():FindAbilityByName(abiliti_name)
+            if ability then
+                cast_range = ability:GetCastRange(location, target)
+                break
+            end
+        end
+    end
+    return cast_range
+end
+
+function kakashi_sharingan:CastFilterResultTarget( hTarget )
+    if not IsServer() then return UF_SUCCESS end
+        local abilities_copy = {
+        [1] = "kakashi_lightning",
+        [2] = "kakashi_raikiri",
+        [3] = "kakashi_lightning_hit",
+        [4] = "kakashi_shadow_clone",
+        [5] = "kakashi_tornado",
+        [6] = "kakashi_graze_wave",
+        [7] = "kakashi_susano",
+        [8] = "kakashi_ligning_sphere",
+        [9] = "kakashi_meteor",
+    } 
+    local ability_head = self
+    local modifier_stacks = self:GetCaster():GetModifierStackCount("modifier_kakashi_sharingan", self:GetCaster())
+    for id, abiliti_name in pairs(abilities_copy) do
+        if id == modifier_stacks then
+            local ability = self:GetCaster():FindAbilityByName(abiliti_name)
+            if ability then
+                ability_head = ability
+                break
+            end
+        end
+    end
+
+    local nResult = UnitFilter(
+        hTarget,
+        ability_head:GetAbilityTargetTeam(),
+        ability_head:GetAbilityTargetType(),
+        ability_head:GetAbilityTargetFlags(),
+        ability_head:GetCaster():GetTeamNumber()
+    )
+
+    if nResult ~= UF_SUCCESS then
+        return nResult
+    end
+
+    return UF_SUCCESS
 end
 
 function kakashi_sharingan:GetCooldown(iLevel)

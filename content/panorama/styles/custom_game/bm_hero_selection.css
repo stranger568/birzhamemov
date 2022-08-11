@@ -1,6 +1,9 @@
 .CustomPick
 {
-	width: 100%;height: 100%;
+	width: 100%;
+	height: 100%;
+	transition-property: opacity;
+    transition-duration: 0.5s;
 }
 
 
@@ -10,6 +13,10 @@ width: 100%;height: 100%;background-color: gradient( linear, 100% 100%, 100% 100
 
 }
 
+.Deletion
+{
+	opacity: 0;
+}
 
 .StateInfoGlobalClass
 {
@@ -1052,4 +1059,35 @@ visibility: collapse;
 	background-color: gradient( linear, 0% 0%, 100% 0%, from( #ae9249 ), to( #e0c59a ) );
 	height: 100%;
 	width: 0%;
+}
+
+.repick_hero_panel
+{
+	width: 300px;
+	horizontal-align: center;
+	height: 60px;
+	margin-bottom: 20px;
+	background-size: contain;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #404D65dd ), to( #2B3445dd ) );
+	border-top: 1px solid #6F819B;
+	border-left: 1px solid #6F819B22;
+	border-right: 1px solid #6F819B11;
+	border-bottom: 1px solid #3F414B33;
+	transition-property: brightness;
+	transition-duration: 0.15s;
+	transition-timing-function: ease-in-out;
+	box-shadow: #0000008f 0px 0px 15px 2px;
+}
+
+.repick_hero_panel:hover
+{
+	brightness: 2;
+}
+
+.repick_hero_panel_label
+{
+	align: center center;
+	color: white;
+	font-weight: bold;
+	font-size: 20px;
 }

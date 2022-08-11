@@ -20,124 +20,41 @@
 
 		<Panel id="LeaderboardWindow" hittest="false">
 			<Panel class="Leaderboardlogo">
-				<Panel id="LeaderBoardIcon" class="LeaderBoardIcon"/>
-				<Label text = "#birzhapass_leaderboards" class = "BirzhaPassLogoText"/>	
+				<Panel style="align: center center;flow-children: left;">
+					<Panel id="LeaderBoardIcon" class="LeaderBoardIcon"/>
+					<Label text = "#birzhapass_leaderboards" class = "LeaderBoardLogoText"/>	
+				</Panel>
+				<Panel class="CloseLeaderboard" onactivate="ToggleLeaderboard();"/>
 			</Panel>
 			<Panel class="Leaderboardblock" hittest="false">
 				<Panel id="DonatorInfoContainer" hittest="false">
+					<Panel class="ButtonsMaps">
+						<Panel id="solo" class="ButtonMap ButtonMapSelect" onactivate="ToggleMap('solo', 'birzhamemov_solo');">
+							<Label class="ButtonMapLabel" text="Solo" />
+						</Panel>
+						<Panel id="duo" class="ButtonMap" onactivate="ToggleMap('duo', 'birzhamemov_duo');">
+							<Label class="ButtonMapLabel" text="Duo" />
+						</Panel>
+						<Panel id="trio" class="ButtonMap" onactivate="ToggleMap('trio', 'birzhamemov_trio');">
+							<Label class="ButtonMapLabel" text="Trio" />
+						</Panel>
+						<Panel id="5v5v5" class="ButtonMap" onactivate="ToggleMap('5v5v5', 'birzhamemov_5v5v5');">
+							<Label class="ButtonMapLabel" text="5v5v5" />
+						</Panel>
+						<Panel id="5v5" class="ButtonMap" onactivate="ToggleMap('5v5', 'birzhamemov_5v5');">
+							<Label class="ButtonMapLabel" text="5v5" />
+						</Panel>
+						<Panel id="zxc" class="ButtonMap" onactivate="ToggleMap('zxc', 'birzhamemov_zxc');">
+							<Label class="ButtonMapLabel" text="ZXC" />
+						</Panel>
+						<Panel id="wtf" class="ButtonMap" onactivate="ToggleMap('wtf', 'birzhamemov_wtf');">
+							<Label class="ButtonMapLabel" text="WTF" />
+						</Panel>
+					</Panel>
 					<Panel class = "InfoLeaderboardblock">
 						<Label text = "#birzhapass_leaderboards_description" class = "InfoLeaderboardblockPlayer"/>
 					</Panel>
-					<Panel id = "TopMmrPanel1" hittest = "false" class = "TopMmrClass">
-						<Label text = "" id = "MmrTopCount1" class = "LabelTopMmrlow"/>
-						<Panel class="PlayerInfoTable">
-							<DOTAAvatarImage id="TopMmrAvatar1" steamid="" class="AvatarTopMmr" />
-							<DOTAUserName id = "NickLabelid1"  steamid = "" class = "TopMmrNick" />
-						</Panel>
-						<Panel class="MmrInfoTable">
-							<Image class = "MmrLeaderboard" src="file://{images}/custom_game/birzhapass/mmr_png.png" />
-							<Label text = "0" id = "TopMmrReatingCount1" class = "TopMmrReatingCount"/>
-						</Panel>
-					</Panel>
-					<Panel id = "TopMmrPanel2" hittest = "false" class = "TopMmrClass">
-						<Label text = "" id = "MmrTopCount2" class = "LabelTopMmrlow"/>
-						<Panel class="PlayerInfoTable">
-							<DOTAAvatarImage id="TopMmrAvatar2" steamid="" class="AvatarTopMmr" />
-							<DOTAUserName id = "NickLabelid2" steamid = "" class = "TopMmrNick" />
-						</Panel>
-						<Panel class="MmrInfoTable">
-							<Image class = "MmrLeaderboard" src="file://{images}/custom_game/birzhapass/mmr_png.png" />
-							<Label text = "0" id = "TopMmrReatingCount2" class = "TopMmrReatingCount"/>
-						</Panel>
-					</Panel>
-					<Panel id = "TopMmrPanel3" hittest = "false" class = "TopMmrClass">
-						<Label text = "" id = "MmrTopCount3" class = "LabelTopMmrlow"/>
-						<Panel class="PlayerInfoTable">
-							<DOTAAvatarImage  id="TopMmrAvatar3" steamid="" class="AvatarTopMmr" />
-							<DOTAUserName id = "NickLabelid3"  steamid = "" class = "TopMmrNick" />
-						</Panel>
-						<Panel class="MmrInfoTable">
-							<Image class = "MmrLeaderboard" src="file://{images}/custom_game/birzhapass/mmr_png.png" />
-							<Label text = "0" id = "TopMmrReatingCount3" class = "TopMmrReatingCount"/>
-						</Panel>
-					</Panel>
-					<Panel id = "TopMmrPanel4" hittest = "false" class = "TopMmrClass">
-						<Label text = "" id = "MmrTopCount4" class = "LabelTopMmrlow"/>
-						<Panel class="PlayerInfoTable">
-							<DOTAAvatarImage  id="TopMmrAvatar4" steamid="" class="AvatarTopMmr" />
-							<DOTAUserName id = "NickLabelid4"  steamid = "" class = "TopMmrNick" />
-						</Panel>
-						<Panel class="MmrInfoTable">
-							<Image class = "MmrLeaderboard" src="file://{images}/custom_game/birzhapass/mmr_png.png" />
-							<Label text = "0" id = "TopMmrReatingCount4" class = "TopMmrReatingCount"/>
-						</Panel>
-					</Panel>
-					<Panel id = "TopMmrPanel5" hittest = "false" class = "TopMmrClass">
-						<Label text = "" id = "MmrTopCount5" class = "LabelTopMmrlow"/>
-						<Panel class="PlayerInfoTable">
-							<DOTAAvatarImage  id="TopMmrAvatar5" steamid="" class="AvatarTopMmr" />
-							<DOTAUserName id = "NickLabelid5"  steamid = "" class = "TopMmrNick" />
-						</Panel>
-						<Panel class="MmrInfoTable">
-							<Image class = "MmrLeaderboard" src="file://{images}/custom_game/birzhapass/mmr_png.png" />
-							<Label text = "0" id = "TopMmrReatingCount5" class = "TopMmrReatingCount"/>
-						</Panel>
-					</Panel>
-					<Panel id = "TopMmrPanel6" hittest = "false" class = "TopMmrClass">
-						<Label text = "" id = "MmrTopCount6" class = "LabelTopMmrlow"/>
-						<Panel class="PlayerInfoTable">
-							<DOTAAvatarImage  id="TopMmrAvatar6" steamid="" class="AvatarTopMmr" />
-							<DOTAUserName id = "NickLabelid6"  steamid = "" class = "TopMmrNick" />
-						</Panel>
-						<Panel class="MmrInfoTable">
-							<Image class = "MmrLeaderboard" src="file://{images}/custom_game/birzhapass/mmr_png.png" />
-							<Label text = "0" id = "TopMmrReatingCount6" class = "TopMmrReatingCount"/>
-						</Panel>
-					</Panel>
-					<Panel id = "TopMmrPanel7" hittest = "false" class = "TopMmrClass">
-						<Label text = "" id = "MmrTopCount7" class = "LabelTopMmrlow"/>
-						<Panel class="PlayerInfoTable">
-							<DOTAAvatarImage  id="TopMmrAvatar7" steamid="" class="AvatarTopMmr" />
-							<DOTAUserName id = "NickLabelid7"  steamid = "" class = "TopMmrNick" />
-						</Panel>
-						<Panel class="MmrInfoTable">
-							<Image class = "MmrLeaderboard" src="file://{images}/custom_game/birzhapass/mmr_png.png" />
-							<Label text = "0" id = "TopMmrReatingCount7" class = "TopMmrReatingCount"/>
-						</Panel>
-					</Panel>
-					<Panel id = "TopMmrPanel8" hittest = "false" class = "TopMmrClass">
-						<Label text = "" id = "MmrTopCount8" class = "LabelTopMmrlow"/>
-						<Panel class="PlayerInfoTable">
-							<DOTAAvatarImage  id="TopMmrAvatar8" steamid="" class="AvatarTopMmr" />
-							<DOTAUserName id = "NickLabelid8"  steamid = "" class = "TopMmrNick" />
-						</Panel>
-						<Panel class="MmrInfoTable">
-							<Image class = "MmrLeaderboard" src="file://{images}/custom_game/birzhapass/mmr_png.png" />
-							<Label text = "0" id = "TopMmrReatingCount8" class = "TopMmrReatingCount"/>
-						</Panel>
-					</Panel>
-					<Panel id = "TopMmrPanel9" hittest = "false" class = "TopMmrClass">
-						<Label text = "" id = "MmrTopCount9" class = "LabelTopMmrlow"/>
-						<Panel class="PlayerInfoTable">
-							<DOTAAvatarImage  id="TopMmrAvatar9" steamid="" class="AvatarTopMmr" />
-							<DOTAUserName id = "NickLabelid9"  steamid = "" class = "TopMmrNick" />
-						</Panel>
-						<Panel class="MmrInfoTable">
-							<Image class = "MmrLeaderboard" src="file://{images}/custom_game/birzhapass/mmr_png.png" />
-							<Label text = "0" id = "TopMmrReatingCount9" class = "TopMmrReatingCount"/>
-						</Panel>
-					</Panel>
-					<Panel id = "TopMmrPanel10" hittest = "false" class = "TopMmrClass">
-						<Label text = "" id = "MmrTopCount10" class = "LabelTopMmrlow"/>
-						<Panel class="PlayerInfoTable">
-							<DOTAAvatarImage  id="TopMmrAvatar10" steamid="" class="AvatarTopMmr" />
-							<DOTAUserName id = "NickLabelid10"  steamid = "" class = "TopMmrNick" />
-						</Panel>
-						<Panel class="MmrInfoTable">
-							<Image class = "MmrLeaderboard" src="file://{images}/custom_game/birzhapass/mmr_png.png" />
-							<Label text = "0" id = "TopMmrReatingCount10" class = "TopMmrReatingCount"/>
-						</Panel>
-					</Panel>
+					<Panel id="PlayersList" />
 				</Panel>
 
 				<Panel id="DeveloperInfoContainer" hittest="true">

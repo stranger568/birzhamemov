@@ -574,6 +574,8 @@ function modifier_bukin_clubnogirls:CheckState()
     [MODIFIER_STATE_NO_HEALTH_BAR] = true,
     [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
     [MODIFIER_STATE_FLYING_FOR_PATHING_PURPOSES_ONLY] = true,
+    [MODIFIER_STATE_MAGIC_IMMUNE] = true,
+    [MODIFIER_STATE_OUT_OF_GAME] = true,
     }
 
     return state

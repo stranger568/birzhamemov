@@ -3,6 +3,7 @@
 	<styles>
 		<include src="s2r://panorama/styles/dotastyles.css" />
 		<include src="file://{resources}/styles/custom_game/donate_shop.css" />
+		<include src="file://{resources}/styles/custom_game/birzha_memepass.css" />
 	</styles>
 
 	<scripts>
@@ -10,9 +11,158 @@
 	</scripts>
 
 	<Panel hittest="false" class="DonateShopMainPanel">
+
 		<Panel id="ShopButton" onactivate="ToggleShop();">
 			<Panel class="ShopButtonIcon" />
 			<Label class="ShopButtonLabel" text="#shop_button" />
+		</Panel>
+
+		<Panel id="BirzhaPlusButton" onactivate="ToggleBattlepass();">
+			<Panel class="BirzhaPlusButtonIcon" />
+			<Label class="BirzhaPlusButtonLabel" text="#birzhaplus_button" />
+		</Panel>
+		
+		<Panel id="SmilesButton" onactivate="ToggleSmiles();" />
+
+		<Panel id="BirzhaPassWindow" hittest="false">
+			<Panel id="BirzhaPassWindowActive">
+				<Panel class="BirzhaPassLogo">
+
+					<Panel class="BirzhaPlusHeader">
+						<Label text = "BIRZHA" class = "BirzhaPassLogoText"/>	
+						<Panel id="PassIcon" class="PassIcon"/>
+						<Label text = "PLUS" class = "BirzhaPassLogoText"/>	
+					</Panel>
+
+					<Panel class="CloseBattlepass" onactivate="ToggleBattlepass();"/>
+				</Panel>
+				<Panel id="MenuPanel" >
+					<Panel class="MenuButtonsPanel" id="MenuStatistic" onactivate="BPSwitchTab('TableInfoPlayer');">
+						<Label class="MenuButtonsText" text="#Plus_Statistic" />
+					</Panel>
+					<Panel class="MenuButtonsPanel" id="MenuHeroes" onactivate="BPSwitchTab('HeroesInformation');">
+						<Label class="MenuButtonsText" text="#Plus_Heroes" />
+					</Panel>
+				</Panel>
+				<Panel id="TableInfoPlayer">
+					<Label class="PanelInfo" text="#PlayerStats" />
+					<Panel id="PlayerInfo">
+						<Panel id="PlayerCircleWinrate">
+							<Panel class="WinrateLabelPanel">
+								<Label class="WinrateLabelText" text="#PlayerWinrate" />
+								<Label id="WinrateLabel" class="WinrateLabel" text="00.0%" />
+							</Panel>
+							<Panel id="PlayerCircleWinrateBG" />
+							<Panel id="PlayerCircleWinrateFG" />
+						</Panel>
+						<Panel class="PlayerMainInfo">
+							<Panel class="InfoRow">
+								<Label class="textinfo_2" text="#info_player_tokens" />
+								<Panel class="Info_bg">
+									<Label id="PlayerTokens"  class="textinfo" text="" />
+								</Panel>
+							</Panel>
+							<Panel class="InfoRow">
+								<Label class="textinfo_2" text="#info_player_subscribe" />
+								<Panel class="Info_bg">
+									<Label id="BpStatus"  class="textinfo" text="" />
+								</Panel>
+							</Panel>
+							<Panel class="InfoRow">
+								<Label class="textinfo_2"  text="#info_player_allgames" />
+								<Panel class="Info_bg">
+									<Label id="GamePlayeds" class="textinfo"  text="" />
+								</Panel>
+							</Panel>
+							<Panel class="InfoRow">
+								<Label class="textinfo_2" text="#info_player_wimgames" />
+								<Panel class="Info_bg">
+									<Label id="GameWins"  class="textinfo" text="" />
+								</Panel>
+							</Panel>
+							<Panel class="InfoRow">
+								<Label class="textinfo_2" text="#info_player_losegames" />
+								<Panel class="Info_bg">
+									<Label id="GameLoses"  class="textinfo" text="" />
+								</Panel>
+							</Panel>
+							<Panel class="InfoRow">
+								<Label class="textinfo_2" text="#info_player_best_hero" />
+								<Panel class="Info_bg">
+									<Label id="TopHero"  class="textinfo" text="" />
+								</Panel>
+							</Panel>
+							<Panel class="InfoRow">
+								<Label class="textinfo_2" text="#info_player_kills_count_game" />
+								<Panel class="Info_bg">
+									<Label id="KillsCount"  class="textinfo" text="" />
+								</Panel>
+							</Panel>
+							<Panel class="InfoRow">
+								<Label class="textinfo_2" text="#info_player_death_count_game" />
+								<Panel class="Info_bg">
+									<Label id="DeathCount"  class="textinfo" text="" />
+								</Panel>
+							</Panel>
+						</Panel>
+					</Panel>
+					<Label class="RatingSeasonName" text="#YourRatingSeasons" />
+
+					<Panel class="ButtonsMapsBplus">
+						<Panel id="solo_plus" class="ButtonMap ButtonMapSelect" onactivate="ToggleMapBPUS('solo_plus', 'birzhamemov_solo');">
+							<Label class="ButtonMapLabel" text="Solo" />
+						</Panel>
+						<Panel id="duo_plus" class="ButtonMap" onactivate="ToggleMapBPUS('duo_plus', 'birzhamemov_duo');">
+							<Label class="ButtonMapLabel" text="Duo" />
+						</Panel>
+						<Panel id="trio_plus" class="ButtonMap" onactivate="ToggleMapBPUS('trio_plus', 'birzhamemov_trio');">
+							<Label class="ButtonMapLabel" text="Trio" />
+						</Panel>
+						<Panel id="5v5v5_plus" class="ButtonMap" onactivate="ToggleMapBPUS('5v5v5_plus', 'birzhamemov_5v5v5');">
+							<Label class="ButtonMapLabel" text="5v5v5" />
+						</Panel>
+						<Panel id="5v5_plus" class="ButtonMap" onactivate="ToggleMapBPUS('5v5_plus', 'birzhamemov_5v5');">
+							<Label class="ButtonMapLabel" text="5v5" />
+						</Panel>
+						<Panel id="zxc_plus" class="ButtonMap" onactivate="ToggleMapBPUS('zxc_plus', 'birzhamemov_zxc');">
+							<Label class="ButtonMapLabel" text="ZXC" />
+						</Panel>
+						<Panel id="wtf_plus" class="ButtonMap" onactivate="ToggleMapBPUS('wtf_plus', 'birzhamemov_wtf');">
+							<Label class="ButtonMapLabel" text="WTF" />
+						</Panel>
+					</Panel>
+
+					<Panel id="AllRatingSeasons" />
+				</Panel>
+				<Panel id="HeroesInformation" /> 
+			</Panel>
+			<Panel id="BirzhaPassWindowDeactive">
+				<Panel class="BirzhaPassLogo">
+
+					<Panel class="BirzhaPlusHeader">
+						<Label text = "BIRZHA" class = "BirzhaPassLogoText"/>	
+						<Panel id="PassIcon" class="PassIcon"/>
+						<Label text = "PLUS" class = "BirzhaPassLogoText"/>	
+					</Panel>
+
+					<Panel class="CloseBattlepass" onactivate="ToggleBattlepass();"/>
+				</Panel>
+				<Panel style="flow-children:right;">
+					<DOTAScenePanel id="PlusLogoScene" camera="shot_camera" map="scenes/plus_logo" renderdeferred="true" deferredalpha="true" antialias="true" hittest="false" particleonly="false" />
+					<Panel style="width:650px;flow-children:down;">
+						<Label class="HeaderBirzhaPlusBuy" text="#subscribe_big_name" />
+						<Label class="HeaderBirzhaPlusBuyDescription" html="true" text="#subscribe_big_name_description" />
+						<Panel id="buyplus_1" class="ButtonBuySubscribe">
+							<Label class="ButtonBuySubscribeHead" text="#ButtonBuySubscribeHead" />
+							<Label class="ButtonBuySubscribeHeadDescirption" text="#ButtonBuySubscribeHeadDescirption" />
+						</Panel>
+						<Panel id="buyplus_2" class="ButtonBuySubscribe">
+							<Label class="ButtonBuySubscribeHead" text="#ButtonBuySubscribeHead2" />
+							<Label class="ButtonBuySubscribeHeadDescirption" text="#ButtonBuySubscribeHeadDescirption2" />
+						</Panel>
+					</Panel>
+				</Panel>
+			</Panel>
 		</Panel>
 
 		<Panel id="DonateShopPanel">
@@ -60,10 +210,14 @@
 							<Label text="#shop_chatwheel" class="NewButtonText" /> 
 						</Panel>
 					</Panel>
+
+					<Panel class="DonateNewMenuButton" onactivate="SwitchTab('RuletkaBirzhaContainer', 'RuletkaBirzhaButton');" id="RuletkaBirzhaButton"> 
+						<Panel id="CenterBlockMain">
+							<Panel class="IconButton" id="RuletkaBirzhaIcon"	/>
+							<Label text="#shop_ruletka" class="NewButtonText" /> 
+						</Panel>
+					</Panel>
 				</Panel>
-
-
-
 
 				<Panel class="DonateShopTopCurrency"> 
 					<Panel class="DonateShopCurrencyMain">
@@ -90,23 +244,6 @@
 				<Panel class="CloseShop" onactivate="ToggleShop();"/>
 			</Panel>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 			<Panel id="MainContainer" class="DonateShopPanelSecond">
 				<Panel id="PopularityDonate">
 					<Panel id="AdsChests" onactivate="SwitchTab('ItemsContainer', 'DonateItemsButton');SwitchShopTab('BorderDonateItems', 'BorderButton');"/>
@@ -117,16 +254,6 @@
 					<Panel id="PopularityRecomDonateItems" />
 				</Panel>
 			</Panel>
-
-
-
-
-
-
-
-
-
-
 
 			<Panel id="ItemsContainer" class="DonateShopPanelSecond">
 				<Panel id="MenuItems">
@@ -167,11 +294,6 @@
 				<Panel id="CurrencysDonateItems" class="ItemsPanel"/>
 			</Panel>
 
-
-
-
-
-
 			<Panel id="CouriersContainer" class="DonateShopPanelSecond">
 				<Panel id="CouriersPanel" class="PlayerItemsContainer" />
 			</Panel>
@@ -181,6 +303,116 @@
 			<Panel id="BannersContainer" class="DonateShopPanelSecond">
 				<Panel id="BannersPanel" class="PlayerItemsContainer" />
 			</Panel>
+
+			<Panel id="RuletkaBirzhaContainer" class="DonateShopPanelSecondLottery">
+				<Panel class="RandomMainPanel">
+					<Panel class="ArrowIcon" />
+					<Panel id="RandomTrack">
+			    		<Panel class = "lottery_one" id = "lottery_0">
+                		    <Label id = "lottery_effect_0" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_1">
+                		    <Label id = "lottery_effect_1" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_2">
+                		    <Label id = "lottery_effect_2" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_3">
+                		    <Label id = "lottery_effect_3" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_4">
+                		    <Label id = "lottery_effect_4" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_5">
+                		    <Label id = "lottery_effect_5" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_6">
+                		    <Label id = "lottery_effect_6" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_7">
+                		    <Label id = "lottery_effect_7" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_8">
+                		    <Label id = "lottery_effect_8" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_9">
+                		    <Label id = "lottery_effect_9" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_10">
+                		    <Label id = "lottery_effect_10" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_11">
+                		    <Label id = "lottery_effect_11" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_12">
+                		    <Label id = "lottery_effect_12" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_13">
+                		    <Label id = "lottery_effect_13" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_14">
+                		    <Label id = "lottery_effect_14" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_15">
+                		    <Label id = "lottery_effect_15" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_16">
+                		    <Label id = "lottery_effect_16" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_17">
+                		    <Label id = "lottery_effect_17" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_18">
+                		    <Label id = "lottery_effect_18" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_19">
+                		    <Label id = "lottery_effect_19" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_20">
+                		    <Label id = "lottery_effect_20" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_21">
+                		    <Label id = "lottery_effect_21" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_22">
+                		    <Label id = "lottery_effect_22" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_23">
+                		    <Label id = "lottery_effect_23" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_24">
+                		    <Label id = "lottery_effect_24" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_25">
+                		    <Label id = "lottery_effect_25" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_26">
+                		    <Label id = "lottery_effect_26" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_27">
+                		    <Label id = "lottery_effect_27" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_28">
+                		    <Label id = "lottery_effect_28" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_29">
+                		    <Label id = "lottery_effect_29" class="lottery_label" text="???" />
+                		</Panel>
+                		<Panel class = "lottery_one" id = "lottery_30">
+                		    <Label id = "lottery_effect_30" class="lottery_label" text="???" />
+                		</Panel>
+					</Panel>
+				</Panel>
+				<Panel class="CoinLotteryInfo">
+					<Panel class="LotteryDogeCoin" />
+					<Label class="LotteryPriceCoin" text="100" />
+				</Panel>
+
+				<Panel class="LotteryButtonOpen" id="LotteryButtonOpen" onactivate="StartLotteryLua();">
+					<Label class="LotteryButtonOpenLabel" text="#lottery_open" />
+				</Panel> 
+			</Panel>
+
 			<Panel id="ChatWheelBirzhaContainer" class="DonateShopPanelSecond">
 				<Panel id="ChatWheelContents">
 					<Panel class="TopBottomFlow" id="ChatWheelWheelPanel">
@@ -250,10 +482,9 @@
 					</Panel>
 				</Panel>
 			</Panel>
-
-
-
 		</Panel>
+
+		<Panel class="SmilesWindow sethidden" id="SmilesWindow" hittest="false" />
 
 		<Button id="info_item_buy">
 			<Panel id="ItemInfoPanel" >
@@ -265,10 +496,6 @@
 			</Panel>
 		</Button>
 
-
-
-
-
 		<Button id="info_select_chat_wheel">
 			<Panel id="ChatWheelPanelSelect" >
 				<Panel class="ChatWheelPanelSelectTitle">
@@ -279,14 +506,32 @@
 			</Panel>
 		</Button>
 
+		<Panel id="donate_accept_window">
+			<Panel style="align:center center;flow-children:down;">
+				<Label id="donate_accept_label" text="#donate_shop_aceept" />
+			</Panel>
+		</Panel>
 
+		<Panel id="donate_error_window">
+			<Panel style="align:center center;flow-children:down;">
+				<Label id="donate_error_label" text="#donate_shop_error" />
+			</Panel>
+		</Panel>
 
-
-
-
-		<Button id="shop_error_panel">
-			<Label text="Error" id="shop_error_label"/>
+		<Button id="donate_loading_window">
+			<Panel style="align:center center;flow-children:down;">
+				<Panel id="LoadingSpinner" />
+				<Label id="donate_loading_label" text="#donate_shop_loading" />
+			</Panel>
 		</Button>
+
+		<Panel id="lottery_reward_panel">
+			<Label class="lottery_reward_panel_label1" text="#wheel_reward_panel_label1" />
+			<Label class="lottery_reward_panel_label2" id="lottery_reward_panel_label2" text="" />
+			<Panel class="lottery_reward_panel_button" onactivate="CloseRewardPanel();">
+				<Label class="lottery_reward_panel_label3" text="#lottery_reward_panel_label3" />
+			</Panel>
+		</Panel>
 
 	</Panel>
 </root>

@@ -38,6 +38,9 @@ function item_birzha_contract:CastFilterResultTarget(target)
     if target:HasModifier("modifier_item_birzha_contract_cooldown") then
         return UF_FAIL_CUSTOM
     end
+    if target:GetHealthPercent() <= 50 then
+        return UF_FAIL_CUSTOM
+    end
     if target:IsCreepHero() then
         return UF_FAIL_NOT_PLAYER_CONTROLLED
     end
@@ -61,6 +64,9 @@ function item_birzha_contract:GetCustomCastErrorTarget(target)
     if target:HasModifier("modifier_item_birzha_contract_cooldown") then
         return "#dota_hud_error_contract_cooldown"
     end
+    if target:GetHealthPercent() <= 50 then
+        return "#dota_hud_error_contract_health_percentage"
+    end
     if target:IsCreepHero() then
         return ""
     end
@@ -76,7 +82,8 @@ function item_birzha_contract:OnSpellStart()
     if not caster:IsHero() then
         caster = caster:GetOwner()
     end
-	target:AddNewModifier(caster, nil, "modifier_item_birzha_contract_use_cd", {duration = 3})
+    target:AddNewModifier(self:GetCaster(), nil, "modifier_item_birzha_contract_target", {})
+    target:AddNewModifier(self:GetCaster(), nil, "modifier_item_birzha_contract_cooldown", {})
 	self:SpendCharge()
 end
 
@@ -116,15 +123,13 @@ function modifier_item_birzha_contract_target:OnDeath( params )
         end
 
         if killer ~= self:GetParent() then
-        	if killer == self:GetCaster() then
-        		self:GetCaster():ModifyGold(BirzhaGameMode.contract_gold, false, 0)
-        	else
-        		self:GetCaster():ModifyGold(BirzhaGameMode.contract_gold, false, 0)
-        		killer:ModifyGold(BirzhaGameMode.contract_gold, false, 0)
-        	end
-        	CustomGameEventManager:Send_ServerToAllClients("contract_event_accept", {caster = self:GetCaster():GetUnitName(), target = self:GetParent():GetUnitName()} )
-            if not self:IsNull() then
-                self:Destroy()
+        	if killer:GetTeamNumber() == self:GetCaster():GetTeamNumber()  then
+        		self:GetCaster():ModifyGold(BirzhaGameMode.contract_gold[killer:GetTeamNumber()], false, 0)
+                BirzhaGameMode.contract_gold[killer:GetTeamNumber()] = BirzhaGameMode.contract_gold[killer:GetTeamNumber()] + 500
+                CustomGameEventManager:Send_ServerToAllClients("contract_event_accept", {caster = self:GetCaster():GetUnitName(), target = self:GetParent():GetUnitName()} )
+                if not self:IsNull() then
+                    self:Destroy()
+                end
             end
         end
     end
@@ -135,7 +140,7 @@ function modifier_item_birzha_contract_target:OnDeath( params )
             killer = killer:GetOwner()
         end
         if killer == self:GetParent() then
-            self:GetParent():ModifyGold(BirzhaGameMode.contract_gold * 2, false, 0)
+            self:GetParent():ModifyGold(BirzhaGameMode.contract_gold[self:GetParent():GetTeamNumber()] * 2, false, 0)
             CustomGameEventManager:Send_ServerToAllClients("contract_event_cancel", {caster = self:GetCaster():GetUnitName(), target = self:GetParent():GetUnitName()} )
             if not self:IsNull() then
                 self:Destroy()

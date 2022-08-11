@@ -61,8 +61,9 @@ var heroes = {
     };
 
 var selected_hero
-
-function PickInit(){
+ 
+function BirzhaPickInit(){
+    $.Msg("init")  
     var is_spect = Players.IsSpectator( Players.GetLocalPlayer() )
     var localTeam = Players.GetTeam(Players.GetLocalPlayer())
     if ( is_spect || localTeam != 2 && localTeam != 3 && localTeam != 6 && localTeam != 7 && localTeam != 8 && localTeam != 9 && localTeam != 10 && localTeam != 11 && localTeam != 12 && localTeam != 13 ) {
@@ -72,29 +73,29 @@ function PickInit(){
         })
         return
     }
-    GameEvents.Subscribe( 'pick_start', PickStart );
-    GameEvents.Subscribe( 'pick_load_heroes', LoadHeroes );
-    GameEvents.Subscribe( 'pick_timer_upd', TimerUpd );
-    GameEvents.Subscribe( 'pick_ban_start', BanStart );
-    GameEvents.Subscribe( 'pick_ban_heroes', BanHeroes );
-    GameEvents.Subscribe( 'pick_start_selection', StartSelection );
-    GameEvents.Subscribe( 'pick_preend_start', StartPreEnd );
-    GameEvents.Subscribe( 'pick_select_hero', HeroSelected );
-    GameEvents.Subscribe( 'pick_end', HeroSelectionEnd );
+    GameEvents.Subscribe( 'birzha_pick_start', PickStart );
+    GameEvents.Subscribe( 'birzha_pick_load_heroes', LoadHeroes );
+    GameEvents.Subscribe( 'birzha_pick_timer_upd', TimerUpd );
+    GameEvents.Subscribe( 'birzha_pick_ban_start', BanStart );
+    GameEvents.Subscribe( 'birzha_pick_ban_heroes', BanHeroes );
+    GameEvents.Subscribe( 'birzha_pick_start_selection', StartSelection );
+    GameEvents.Subscribe( 'birzha_pick_preend_start', StartPreEnd );
+    GameEvents.Subscribe( 'birzha_pick_select_hero', HeroSelected );
+    GameEvents.Subscribe( 'birzha_pick_end', HeroSelectionEnd );
     GameEvents.Subscribe( 'hero_is_picked', HeroesIsPicked );
     GameEvents.Subscribe( 'more_ban_aviable', Moreban );
-    GameEvents.Subscribe( 'pick_filter_reconnect', BirzhaShowFiltList );
+    GameEvents.Subscribe( 'birzha_pick_filter_reconnect', BirzhaShowFiltList );
     GameEvents.Subscribe( 'ban_count_changed', ban_count_changed );
     
     $.Schedule( 0.1, function(){
         GameEvents.SendCustomGameEventToServer( 'birzha_pick_player_registred', {} );
         $.Schedule( 0.1, function(){
-            HeroSelectionLoad()
+            BirzhaHeroSelectionLoad()
         })
     })
 }
 
-function HeroSelectionLoad(){
+function BirzhaHeroSelectionLoad(){
     let is_spect = Players.IsSpectator( Players.GetLocalPlayer() )
     let localTeam = Players.GetTeam(Players.GetLocalPlayer())
     if ( is_spect || localTeam != 2 && localTeam != 3 && localTeam != 6 && localTeam != 7 && localTeam != 8 && localTeam != 9 && localTeam != 10 && localTeam != 11 && localTeam != 12 && localTeam != 13 ) {
@@ -122,7 +123,7 @@ function HeroSelectionEnd(){
         return
     }
     $.GetContextPanel().AddClass('Deletion');
-    $.GetContextPanel().DeleteAsync( 0.1 );
+    //$.GetContextPanel().DeleteAsync( 0.1 );
     RestoreButtonsAndChat();
     var button_bp = $.GetContextPanel().GetParent().GetParent().GetParent().FindChild("HUDElements").FindChildTraverse("MenuButtons").FindChildTraverse("BirzhaPlusButton");
     button_bp.style.visibility = "visible"
@@ -468,6 +469,11 @@ function StartPreEnd( kv ){
     $("#PickButton").style.visibility = "collapse";
     $("#RandomButtonWithUnlock").style.visibility = "collapse";
     $("#BirzhaRandomButton").style.visibility = "collapse";
+    let repick_hero_panel = $.GetContextPanel().FindChildTraverse("repick_hero")
+    if (repick_hero_panel) 
+    {
+        repick_hero_panel.style.visibility = "collapse"
+    }
 }
 
 function BanHeroes( kv )
@@ -512,13 +518,35 @@ function HeroesIsPicked(kv) {
     $("#BirzhaRandomButton").style.visibility = "collapse";
     $("#GeneralPickPanel").style.visibility = "collapse";
     $("#hero_selection_your_hero").style.visibility = "visible";
+
+    let hero_info_model = $("#HeroPickedContainer").FindChildTraverse("hero_model")
+    let hero_info_abilities = $("#HeroPickedContainer").FindChildTraverse("BirzaAbilitiesPanel")
+    let hero_info_abilities_panel = $("#HeroPickedContainer").FindChildTraverse("abilities_picked")
+    let repick_hero = $("#HeroPickedContainer").FindChildTraverse("repick_hero")
+
+    if (hero_info_model)
+    {
+        hero_info_model.DeleteAsync(0.01)
+    }
+    if (hero_info_abilities)
+    {
+        hero_info_abilities.DeleteAsync(0.01)
+    }
+    if (hero_info_abilities_panel)
+    {
+        hero_info_abilities_panel.DeleteAsync(0.01)
+    }
+    if (repick_hero)
+    {
+        repick_hero.DeleteAsync(0.01)
+    }
+    
     if (!heroes[kv.hero])
     {
         $.CreatePanelWithProperties("DOTAScenePanel", $("#HeroPickedContainer"), "hero_model", { style: "width:600px;height:600px;", drawbackground: "0", unit:kv.hero, particleonly:"false", renderdeferred:"false", antialias:"true", renderwaterreflections:"true" });
     } else {
         $.CreatePanelWithProperties("DOTAScenePanel", $("#HeroPickedContainer"), "hero_model", { style: "width:600px;height:600px;", map: "heroes", light:"global_light", particleonly:"false", camera:kv.hero, renderdeferred:"false", antialias:"true", renderwaterreflections:"true" });
     }
-
 
     var abilities_picked_panel = $.CreatePanel("Panel", $("#HeroPickedContainer"), "BirzaAbilitiesPanel");
     abilities_picked_panel.AddClass("BirzaAbilitiesPanel")
@@ -540,6 +568,22 @@ function HeroesIsPicked(kv) {
         ability_panel.AddClass('HeroInfoAbilty');
         SetShowAbDesc(ability_panel, abilities.active_table[abilities_pick]);
     }
+
+    if (kv.is_random_hero == 1)
+    {
+        var repick_hero_panel = $.CreatePanel("Panel", $("#HeroPickedContainer"), "repick_hero");
+        repick_hero_panel.AddClass("repick_hero_panel")
+        var repick_hero_panel_label = $.CreatePanel("Label", repick_hero_panel, "");
+        repick_hero_panel_label.AddClass("repick_hero_panel_label")
+        repick_hero_panel_label.text = $.Localize("#repick_hero_panel_label")
+        repick_hero_panel.SetPanelEvent("onactivate", function() 
+        {
+            GameEvents.SendCustomGameEventToServer( "birzha_pick_rerandom", {} );    
+            Game.EmitSound("General.ButtonClick");
+            repick_hero_panel.SetPanelEvent("onactivate", function() {});
+            repick_hero_panel.style.visibility = "collapse"
+        });
+    } 
 
     $("#HeroPickedName").text = $.Localize("#" + kv.hero);
     $("#HeroInfoCont").style.width = "600px"; 
@@ -803,7 +847,7 @@ function GetAverageRating() {
             if (seasons) {
                 let info = CustomNetTables.GetTableValue('birzhainfo', String(playerId));
                 if (info && info.mmr && info.mmr[seasons.mmr_season]) {
-                    average_rating = average_rating + info.mmr[seasons.mmr_season]
+                    average_rating = average_rating + (info.mmr[seasons.mmr_season] || 2500)
                 }
             }
         }
@@ -855,7 +899,11 @@ function GetHeroExpProgress(exp)
 
 function GetHeroRankIcon(level)
 {
-    if (level >= 10) {
+    if (level >= 30) {
+        return "rank_7"
+    } else if (level >= 20) {
+        return "rank_6"
+    } else if (level >= 10) {
         return "rank_5"
     } else if (level >= 7) {
         return "rank_4"
@@ -873,7 +921,11 @@ function GetHeroRankIcon(level)
 
 function GetHeroRankName(level)
 {
-    if (level >= 10) {
+    if (level >= 30) {
+        return $.Localize("#BP_rank_7")
+    } else if (level >= 20) {
+        return $.Localize("#BP_rank_6")
+    } else if (level >= 10) {
         return $.Localize("#BP_rank_5")
     } else if (level >= 7) {
         return $.Localize("#BP_rank_4")
@@ -890,4 +942,4 @@ function GetHeroRankName(level)
 
 
 
-PickInit();
+BirzhaPickInit();

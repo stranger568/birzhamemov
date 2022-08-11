@@ -33,6 +33,11 @@
 			<Panel id="Bubble">
 				<DOTAHeroImage id="HeroImage" heroimagestyle="icon" />
 			</Panel>
+			<Panel id="ChangeWheelButtons" class="ChangeWheelButtons">
+				<Panel class="ChangeWheelButtonLeft" onactivate="LeftButton();"/>
+				<Label class="ChangeWheelButtonLabel" id="ChangeWheelButtonLabel" text="0 / 0" />
+				<Panel class="ChangeWheelButtonRight" onactivate="RightButton();"/>
+			</Panel>
 			<Panel hittest="false" id="PhrasesContainer">
 			</Panel>
 	</Panel>

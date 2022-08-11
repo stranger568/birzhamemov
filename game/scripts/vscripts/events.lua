@@ -9,6 +9,7 @@ LinkLuaModifier( "modifier_bp_effects_reward", "modifiers/birzhapass_modifiers/m
 LinkLuaModifier( "modifier_bp_ayano", "modifiers/birzhapass_modifiers/modifier_bp_ayano", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_bp_dangerous_boy", "modifiers/birzhapass_modifiers/modifier_bp_dangerous_boy", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_birzhapass_sound", "memespass/soundkill", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_gamemode_wtf", "modifiers/modifier_gamemode_wtf", LUA_MODIFIER_MOTION_NONE )
 
 _G.FountainTimer = 900
 _G.EventTimer = 900
@@ -35,9 +36,21 @@ function BirzhaGameMode:OnGameRulesStateChange(params)
 			["birzhamemov_5v5"] = 100,
 			["birzhamemov_zxc"] = 2,
 			["birzhamemov_samepick"] = 100,
+			["birzhamemov_wtf"] = 50,
 		}
 		self.ContractTimer = 180
-		self.contract_gold = 1000
+		self.contract_gold = {
+			[2] = 1000,
+			[3] = 1000,
+			[6] = 1000,
+			[7] = 1000,
+			[8] = 1000,
+			[9] = 1000,
+			[10] = 1000,
+			[11] = 1000,
+			[12] = 1000,
+			[13] = 1000,
+		}
 		CustomNetTables:SetTableValue( "game_state", "scores_to_win", { kills = maps_scores[GetMapName()] } )
 	end
 
@@ -145,11 +158,16 @@ function BirzhaGameMode:OnNPCSpawned( event )
 			end
 		end
 
-		if IsPlayerDisconnected(playerID) then
-	        player:AddNewModifier(player, nil, "modifier_birzha_disconnect", {})
-		end
+		--if IsPlayerDisconnected(playerID) then
+	    --    player:AddNewModifier(player, nil, "modifier_birzha_disconnect", {})
+		--end
 
 	   	if player.BirzhaFirstSpawned == nil then
+	   		if player:IsRealHero() then
+	   			if BirzhaData.PLAYERS_GLOBAL_INFORMATION[playerID] then
+	   				BirzhaData.PLAYERS_GLOBAL_INFORMATION[playerID].team = player:GetTeamNumber()
+	   			end
+	   		end
 	   		if player:GetUnitName() == "npc_dota_hero_wisp" then
 				local start_stun = player:FindAbilityByName("game_start")
 			   	if player:IsRealHero() then
@@ -160,8 +178,6 @@ function BirzhaGameMode:OnNPCSpawned( event )
 	   			return
 	   		end
 	   		player.BirzhaFirstSpawned = true
-
-
 
 		   	if playerSteamID == 141989146 then
 			    local buildings = FindUnitsInRadius( player:GetTeamNumber(), player:GetAbsOrigin(), nil, 5000, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BUILDING, DOTA_UNIT_TARGET_FLAG_INVULNERABLE, 0, false )
@@ -490,6 +506,10 @@ function BirzhaGameMode:OnHeroInGame(hero)
 	local playerID = hero:GetPlayerID()
 	local npcName = hero:GetUnitName()
 
+	if GetMapName() == "birzhamemov_wtf" then
+		hero:AddNewModifier(hero, nil, "modifier_gamemode_wtf", {})
+	end
+
 	if hero:IsIllusion() then
 		hero:AddNewModifier( hero, nil, "modifier_birzha_illusion_cosmetics", {} )
 	end
@@ -656,9 +676,6 @@ function BirzhaGameMode:OnHeroInGame(hero)
 			end
 			hero:SetOriginalModel("models/creeps/knoll_1/werewolf_boss.vmdl")
 			hero:SetModelScale(1.4)
-		else
-			--local head_bul = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/head_bul.vmdl"})
-			--head_bul:FollowEntity(hero, true)
 		end
 	end
 
@@ -996,9 +1013,9 @@ function BirzhaGameMode:AddedDonateStart(player,playerID)
 end
 
 function BirzhaGameMode:EndGame( victoryTeam )
-	if game_is_end then return end
+	if BirzhaGameMode.game_is_end then return end
 
-	game_is_end = true
+	BirzhaGameMode.game_is_end = true
 
 	for id, player_info in pairs(BirzhaData.PLAYERS_GLOBAL_INFORMATION) do
 		if not IsPlayerDisconnected(id) and PlayerResource:GetTeam(id) == victoryTeam then
@@ -1015,22 +1032,29 @@ function BirzhaGameMode:EndGame( victoryTeam )
 		end
 	end
 
-	if IsInToolsMode() then 
-		CustomNetTables:SetTableValue("birzha_mmr", "game_winner", {t = victoryTeam} )
-		BirzhaData.PostData()		
-		GameRules:SetGameWinner( victoryTeam )
-		return 
-	end
+	if GameRules:IsCheatMode() and not IsInToolsMode() then GameRules:SetGameWinner( victoryTeam ) return end
 
-	if GameRules:IsCheatMode() then GameRules:SetGameWinner( victoryTeam ) return end
-	if GetMapName() == "birzhamemov_zxc" then GameRules:SetGameWinner( victoryTeam ) return end
-	if GetMapName() == "birzhamemov_samepick" then GameRules:SetGameWinner( victoryTeam ) return end
-	if BirzhaData:GetPlayerCount() > 5 then
+	if GetMapName() == "birzhamemov_zxc" then
+		CustomNetTables:SetTableValue("birzha_mmr", "game_winner", {t = victoryTeam} )
+		BirzhaData.PostData()
+		GameRules:SetGameWinner( victoryTeam )
+		return
+	end
+	
+	if BirzhaData:GetPlayerCount() > 5 or IsInToolsMode() then
+		if GetMapName() == "birzhamemov_wtf" then
+			CustomNetTables:SetTableValue("birzha_mmr", "game_winner", {t = victoryTeam} )
+			BirzhaData.PostData()
+			GameRules:SetGameWinner( victoryTeam )
+			return
+		end
+
 		CustomNetTables:SetTableValue("birzha_mmr", "game_winner", {t = victoryTeam} )
 		BirzhaData.PostData()
 		BirzhaData.PostHeroesInfo()
 		BirzhaData.PostHeroPlayerHeroInfo()
 	end
+
 	GameRules:SetGameWinner( victoryTeam )
 end
 

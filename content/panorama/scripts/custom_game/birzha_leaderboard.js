@@ -39,15 +39,19 @@ if (ToggleScoreboardButton) {
 	ToggleScoreboardButton.style.height = "35px"
 }
 
-
-
-
-
-
-
-
-
-
+function ToggleMap(button, map_name)
+{
+	$("#solo").SetHasClass( "ButtonMapSelect", false );
+	$("#duo").SetHasClass( "ButtonMapSelect", false );
+	$("#trio").SetHasClass( "ButtonMapSelect", false );
+	$("#5v5v5").SetHasClass( "ButtonMapSelect", false );
+	$("#5v5").SetHasClass( "ButtonMapSelect", false );
+	$("#zxc").SetHasClass( "ButtonMapSelect", false );
+	$("#wtf").SetHasClass( "ButtonMapSelect", false );
+	Game.EmitSound("ui_topmenu_select")
+	$("#" + button).SetHasClass( "ButtonMapSelect", true );
+	GetMmrTop(map_name)
+}
 
 var toggle = false;
 var first_time = false;
@@ -57,10 +61,11 @@ function ToggleLeaderboard() {
     if (toggle === false) {
     	if (cooldown_panel == false) {
 	        toggle = true;
+	        Game.EmitSound("ui_goto_player_page")
 	        if (first_time === false) {
 	            first_time = true;
 	            $("#LeaderboardWindow").AddClass("sethidden");
-	            GetMmrTop();
+	            GetMmrTop("birzhamemov_solo");
 	        }  
 	        if ($("#LeaderboardWindow").BHasClass("sethidden")) {
 	            $("#LeaderboardWindow").RemoveClass("sethidden");
@@ -75,6 +80,7 @@ function ToggleLeaderboard() {
     } else {
     	if (cooldown_panel == false) {
 	        toggle = false;
+	        Game.EmitSound("ui_goto_player_page")
 	        if ($("#LeaderboardWindow").BHasClass("setvisible")) {
 	            $("#LeaderboardWindow").RemoveClass("setvisible");
 	        }
@@ -88,42 +94,45 @@ function ToggleLeaderboard() {
     }
 }
 
-
-
-
-
-function GetMmrTop() {
+function GetMmrTop(map_name) {
+	$("#PlayersList").RemoveAndDeleteChildren()
 	var topmmr = CustomNetTables.GetTableValue("birzha_mmr", "topmmr"); 
-
-
-	for (var i = 1; i <= 10; i++) {
-		$("#MmrTopCount" + i).text = i;        
-	}
-
-	if (!topmmr)
+	if (topmmr)
 	{
-	    $.Schedule(1, GetMmrTop)
-	    return;
-	}  
-
-	for (var i = 1; i <= 10; i++)
-	{
-	    var bp = 0;
-	    if (topmmr[i] != null)
-	    {
-	        $("#TopMmrAvatar" + i).accountid =  topmmr[i].steamid;
-	        $("#NickLabelid" + i).steamid = topmmr[i].steamid;
-	        $("#TopMmrReatingCount" + i).text = topmmr[i].mmr;
-	    }    
-	}
-
-	if (topmmr.length > 9) { return true;}
-	for (var i = topmmr.length + 1; i <= 14; i++) 
-	{ 
-	    $("#TopMmrPanel" + i).AddClass("mmrhidden");
+		if (topmmr[map_name])
+		{
+			for (var i = 1; i <= Object.keys(topmmr[map_name]).length; i++) {
+				CreatePlayer(topmmr[map_name][i], i)
+			}
+		}
 	}
 }
 
+function CreatePlayer(table, count)
+{
+	let player_panel = $.CreatePanel("Panel", $("#PlayersList"), "")
+	player_panel.AddClass("TopMmrClass")
+
+	let player_place = $.CreatePanel("Label", player_panel, "")
+	player_place.AddClass("LabelTopMmrlow")
+	player_place.text = count
+
+	let player_nickname_and_avatar = $.CreatePanel("Panel", player_panel, "")
+	player_nickname_and_avatar.AddClass("PlayerInfoTable")
+
+	$.CreatePanelWithProperties("DOTAAvatarImage", player_nickname_and_avatar, "TopMmrAvatar", { style: "width:32px;height:32px;", accountid: table.steamid });
+    $.CreatePanelWithProperties("DOTAUserName", player_nickname_and_avatar, "NickLabelid", { class: "TopMmrNick", steamid: table.steamid });
+  
+    let player_rating_panel = $.CreatePanel("Panel", player_panel, "")
+	player_rating_panel.AddClass("MmrInfoTable")
+
+	$.CreatePanelWithProperties("Image", player_rating_panel, "RatingIcon", { class: "MmrLeaderboard", src: "file://{images}/custom_game/birzhapass/mmr_png.png" });
+
+	let player_rating = $.CreatePanel("Label", player_rating_panel, "")
+	player_rating.AddClass("TopMmrReatingCount")
+	player_rating.text = (table.mmr || 0)
+
+}
 
 function GetMmrSeason()
 {

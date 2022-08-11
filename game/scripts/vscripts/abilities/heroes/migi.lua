@@ -333,7 +333,7 @@ function modifier_migi_inside_caster:OnCreated(kv)
     self:GetParent():AddNoDraw()
     self.target = EntIndexToHScript(kv.target)
     self:StartIntervalThink(FrameTime())
-    self.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_migi_inside_cooldown", {duration = 60})
+    --self.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_migi_inside_cooldown", {duration = 60})
     local ab = self:GetParent():FindAbilityByName("migi_inside")
     if ab then
         ab:SetActivated(false)

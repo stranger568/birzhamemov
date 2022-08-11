@@ -17,5 +17,7 @@
 		"ward_type",
 		"game_global",
 		"vector_targeting",
+		"tip_cooldown",
+		"birzha_plus_data",
 	]
 }

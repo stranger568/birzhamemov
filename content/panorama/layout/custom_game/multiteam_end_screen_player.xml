@@ -27,7 +27,7 @@
 			<Panel id="PlayerItemsContainer" class="ScoreCol_Items ScoreboardPanel" />
 			<Panel id="MmrContainer" class="ScoreCol_Mmr ScoreboardPanel">
 				<Panel class="MmrPanel">
-					<Label id="PlayerMmr" text="0" />
+					<Label html="true" id="PlayerMmr" text="0" />
 				</Panel>
 			</Panel>
 			<Panel id="MmrPanel" class="ScoreCol_MmrPlus ScoreboardPanel">

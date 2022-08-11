@@ -486,7 +486,7 @@ function girl_blood_of_blades:OnSpellStart()
         self:GetCaster():GetTeamNumber(),
         self:GetCaster():GetAbsOrigin(),
         nil,
-        radius,
+        radius_max+100,
         DOTA_UNIT_TARGET_TEAM_ENEMY,
         DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
         0,

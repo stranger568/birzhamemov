@@ -58,11 +58,11 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 		var info = CustomNetTables.GetTableValue('birzhainfo', String(playerId));
 		if (info)
 		{
-			_ScoreboardUpdater_SetTextSafe( playerPanel, "Mmr", (info.mmr[11] || 0) );
+			_ScoreboardUpdater_SetTextSafe( playerPanel, "Mmr", (info.mmr[12] || 0) );
 			var mmr_label = GetMmrLabel(playerPanel);
 			if (mmr_label)
 			{
-				mmr_label.text =  'MMR: ' + (info.mmr[11] || 0);
+				mmr_label.text =  'MMR: ' + (info.mmr[12] || 0);
 			}
 			var bonus_mmr = CustomNetTables.GetTableValue('bonus_rating', String(playerId));
 			if (bonus_mmr)
@@ -84,8 +84,12 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 			{
 				_ScoreboardUpdater_SetTextSafe( playerPanel, "DogePlus", bonus_dogecoin.coin );
 			}
-
-			_ScoreboardUpdater_SetTextSafe( playerPanel, "PlayerMmr", (info.mmr[11] || 0) );
+			let rat_clib = " "
+			if ((info.games_calibrating[12] || 10) != 0)
+			{
+				rat_clib = "<font color='gold'>" + "(" + (info.games_calibrating[12] || 10) + ")" + "</font>"
+			}
+			_ScoreboardUpdater_SetTextSafe( playerPanel, "PlayerMmr", (info.mmr[12] || 2500) + rat_clib);
 		}
 
 		var game_start = CustomNetTables.GetTableValue('game_state', "pickstate");
@@ -107,6 +111,8 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 		{
 			playername.text = Players.GetPlayerName(playerId) || 'noname';
 		}
+
+		AddHeroLevelRank(playerId, playerInfo.player_selected_hero, playerPanel)
 		
 		var playerPortrait = playerPanel.FindChildInLayoutFile( "HeroIcon" );
 		if ( playerPortrait )
@@ -114,7 +120,6 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 			if ( playerInfo.player_selected_hero !== "" )
 			{
 				playerPortrait.SetImage( "file://{images}/custom_game/hight_hood/heroes/" + playerInfo.player_selected_hero + ".png" );
-				AddHeroLevelRank(playerId, playerInfo.player_selected_hero, playerPortrait)
 			}
 			else
 			{
@@ -174,13 +179,61 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 		}
 	}
 
-	var report_button_player = playerPanel.FindChildInLayoutFile( "ReportButtonPlayer" );
+	var tip_cooldown_label = CustomNetTables.GetTableValue("tip_cooldown", Players.GetLocalPlayer());
 
-	if (report_button_player) {
-		report_button_player.SetPanelEvent("onactivate", function() { 
-			ReportPlayerFunction(playerId)
-		} );
+	if (tip_cooldown_label)
+	{
+		if (GameUI.IsAltDown() && (playerId != Game.GetLocalPlayerID()) ) {
+			if (!playerPanel.BHasClass("player_connection_abandoned") && !playerPanel.BHasClass("player_connection_failed") && !playerPanel.BHasClass("player_connection_disconnected"))
+			{
+				playerPanel.SetHasClass( "alt_health_check", true );
+			} else {
+				playerPanel.SetHasClass( "alt_health_check", false );
+			}
+		} else {
+			playerPanel.SetHasClass( "alt_health_check", false );
+		}  
+		if (tip_cooldown_label.cooldown > 0)
+		{
+			SetPSelectEvent(playerPanel.FindChildInLayoutFile("TipButtonCustom"), true, playerId)
+			if (playerPanel.FindChildInLayoutFile("TipButtonCustom"))
+			{
+				playerPanel.FindChildInLayoutFile("TipButtonCustom").style.saturation = "0"
+			}
+			var time = tip_cooldown_label.cooldown
+			var min = Math.trunc((time)/60) 
+			var sec_n =  (time) - 60*Math.trunc((time)/60) 
+			var hour = String( Math.trunc((min)/60) )
+			var min = String(min - 60*( Math.trunc(min/60) ))
+			var sec = String(sec_n)
+			if (sec_n < 10) 
+			{
+				sec = '0' + sec
+			} 
+			if (playerPanel.FindChildInLayoutFile("TipText"))
+			{
+				playerPanel.FindChildInLayoutFile("TipText").text = min + ':' + sec
+			}
+		} else {
+			SetPSelectEvent(playerPanel.FindChildInLayoutFile("TipButtonCustom"), false, playerId)
+			if (playerPanel.FindChildInLayoutFile("TipText"))
+			{
+				playerPanel.FindChildInLayoutFile("TipText").text = "Tip"
+			}
+			if (playerPanel.FindChildInLayoutFile("TipButtonCustom"))
+			{
+				playerPanel.FindChildInLayoutFile("TipButtonCustom").style.saturation = "1"
+			}
+		}
 	}
+
+	//var report_button_player = playerPanel.FindChildInLayoutFile( "ReportButtonPlayer" );
+
+	//if (report_button_player) {
+	//	report_button_player.SetPanelEvent("onactivate", function() { 
+	//		ReportPlayerFunction(playerId)
+	//	} );
+	//}
 	
 	var playerItemsContainer = playerPanel.FindChildInLayoutFile( "PlayerItemsContainer" );
 	if ( playerItemsContainer )
@@ -289,6 +342,8 @@ function UpdateBorderPlayer(table, key, data ) {
 						AddBorderRoflan(playerPanel);
 					} else if (data.border_id == 129) {
 						AddBorderElectric(playerPanel);
+					} else if (data.border_id == 164) {
+						AddBorderAnimationSnake(playerPanel)
 					}
 				}
 			}
@@ -355,9 +410,20 @@ function _ScoreboardUpdater_UpdateTeamPanel( scoreboardConfig, containerPanel, t
 	}
 
 
-	let table_score_team = CustomNetTables.GetTableValue("game_state", String(teamId))
-	if (table_score_team) {
-		_ScoreboardUpdater_SetTextSafe( teamPanel, "TeamScore", table_score_team.kills )
+	var game_start = CustomNetTables.GetTableValue('game_state', "pickstate");
+	if (game_start)
+	{
+		if (game_start.v == "ended")
+		{
+			let table_score_team = CustomNetTables.GetTableValue("game_state", String(teamId))
+			if (table_score_team) {
+				_ScoreboardUpdater_SetTextSafe( teamPanel, "TeamScore", table_score_team.kills )
+			}
+		} else {
+			_ScoreboardUpdater_SetTextSafe( teamPanel, "TeamScore", " " )
+		}
+	} else {
+		_ScoreboardUpdater_SetTextSafe( teamPanel, "TeamScore", " " )
 	}
 
 	_ScoreboardUpdater_SetTextSafe( teamPanel, "TeamName", $.Localize( "#" + teamDetails.team_name ) )
@@ -635,6 +701,17 @@ function AddBorderBlackHole(panel)
 	}
 }
 
+function AddBorderAnimationSnake(panel)
+{	
+	var playerPortrait = panel.FindChildInLayoutFile( "TopHero" );
+	if (playerPortrait)
+	{
+		var HeroPortrait = playerPortrait.FindChild('HeroIcon');
+		$.CreatePanelWithProperties("DOTAParticleScenePanel", HeroPortrait, "gold_particle", { style: "width:150px;height:200px;", particleName: "particles/donate/gold_icon_bp_3.vpcf", particleonly:"true", startActive:"true", cameraOrigin:"0 0 165", lookAt:"0 0 0",  fov:"55", squarePixels:"true" });
+	}
+} 
+
+
 function AddBorderRubickGreen(panel)
 {	
 	var playerPortrait = panel.FindChildInLayoutFile( "TopHero" );
@@ -681,20 +758,6 @@ function AddBorderElectric(panel)
 	}
 }
 
-
-
-
-
-
-
-
-//maps/scenes/hud/autocasting.vmap
-//maps/scenes/hud/levelupburst.vmap
-
-
-
-
-
 function AddHeroLevelRank(id, hero, panel)
 {
 	if (hero != "npc_dota_hero_wisp")
@@ -704,27 +767,19 @@ function AddHeroLevelRank(id, hero, panel)
 	    {
 	        if (player_info.bp_days > 0) {
 	            let hero_information = GetHeroInformation(player_info, hero)
-	            let has_rank = panel.FindChildTraverse("rank_player")
+	            let has_rank = panel.FindChildTraverse("PlayerRank")
 	            if (has_rank)
 	            {
-		            
-	            } else {
-					var rank_player = $.CreatePanel('Panel', panel, 'rank_player');
-					if (panel.GetParent().id == "TopHero")
-					{
-						rank_player.style.width = "22px"
-						rank_player.style.height = "22px"
-						rank_player.style.align = "right bottom"
-					} else {
-						rank_player.style.width = "16px"
-						rank_player.style.height = "16px"
-						rank_player.style.align = "left bottom"
-					}
-
-					rank_player.style.backgroundImage = 'url("file://{images}/custom_game/hero_rank/' + GetHeroRankIcon(GetHeroLevel(hero_information.experience)) + '.png")'
-					rank_player.style.backgroundSize = "100%"
-					rank_player.style.zIndex = "15"
+					has_rank.style.backgroundImage = 'url("file://{images}/custom_game/hero_rank/' + GetHeroRankIcon(GetHeroLevel(hero_information.experience)) + '.png")'
+					has_rank.style.backgroundSize = "100%"
+					has_rank.style.opacity = "1"
 	            }
+	        } else {
+	        	let has_rank = panel.FindChildTraverse("PlayerRank")
+	        	if (has_rank)
+	        	{
+	        		has_rank.style.opacity = "0"
+	        	}
 	        }
 	    }
 	}
@@ -749,7 +804,11 @@ function GetHeroLevel(exp)
 
 function GetHeroRankIcon(level)
 {
-    if (level >= 10) {
+    if (level >= 30) {
+        return "rank_7"
+    } else if (level >= 20) {
+        return "rank_6"
+    } else if (level >= 10) {
         return "rank_5"
     } else if (level >= 7) {
         return "rank_4"
@@ -764,12 +823,20 @@ function GetHeroRankIcon(level)
     }
 }
 
-
-
-
-
-
-
+function SetPSelectEvent(panel, cooldown, player_id_tip)
+{
+	if (panel)
+	{
+		if ( cooldown ) { 
+			panel.SetPanelEvent("onactivate", function() {})
+	    	return
+		}
+	    panel.SetPanelEvent("onactivate", function() { 
+	        GameEvents.SendCustomGameEventToServer("PlayerTip", {player_id_tip : player_id_tip});
+	        panel.SetPanelEvent("onactivate", function() {})
+	    })
+	}
+}
 
 function HidePreGamePanels(panel)
 {

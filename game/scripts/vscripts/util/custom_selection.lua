@@ -35,21 +35,23 @@ _G.BANNED_HEROES = {}
 _G.PICKED_HEROES = {}
 _G.IN_STATE = false
 _G.PICK_STATE = BIRZHA_PICK_STATE_PLAYERS_LOADED
-_G.DISCONNECTED = {}
+CustomPick.DISCONNECTED = {}
 
 BIRZHA_PLUS_HEROES = {
+	-- Всегда уникальные
 	"npc_dota_hero_migi",
 	"npc_dota_hero_keeper_of_the_light",
 	"npc_dota_hero_overlord",
 	"npc_dota_hero_silencer",
 	"npc_dota_hero_pudge",
+	--------------------------------------
 	"npc_dota_hero_puck",
-	"npc_dota_hero_nolik",
-	"npc_dota_hero_saitama",
-	"npc_dota_hero_freddy",
 	"npc_dota_hero_nevermore",
-	"npc_dota_hero_naga_siren",
-	"npc_dota_hero_invoker",
+	"npc_dota_hero_crystal_maiden",
+	"npc_dota_hero_rat",
+	"npc_dota_hero_alchemist",
+	"npc_dota_hero_arc_warden",
+	"npc_dota_hero_furion",
 }
 
 function CustomPick:RegisterPlayerInfo( pid )
@@ -80,13 +82,14 @@ function CustomPick:Init()
 	IN_STATE = true
 	CustomPick:RegisterHeroes()
 	CustomGameEventManager:RegisterListener( 'birzha_pick_select_hero', Dynamic_Wrap( self, 'PlayerSelect'))
+	CustomGameEventManager:RegisterListener( 'birzha_pick_rerandom', Dynamic_Wrap( self, 'PlayerRerandom'))
 	CustomGameEventManager:RegisterListener( "birzha_token_set", Dynamic_Wrap(self, 'TokenSet'))
 	CustomGameEventManager:RegisterListener( "change_effect", Dynamic_Wrap(self, 'ChangeEffect'))
 	CustomGameEventManager:RegisterListener( 'birzha_pick_player_registred', Dynamic_Wrap( self, 'PlayerRegistred' ) )
 	CustomGameEventManager:RegisterListener( 'birzha_pick_player_loaded', Dynamic_Wrap( self, 'PlayerLoaded' ) )
 	
 	--if IsInToolsMode() then
-	--	local pinfo_bot = { bRegistred = true, bLoaded = true, ban_count = 1, steamid = 5151515, partyid = 50000, picked_hero = "npc_dota_hero_pudge", token_used = false, pet = nil, border = nil, effect=nil, }
+	--	local pinfo_bot = { bRegistred = true, bLoaded = true, ban_count = 1, steamid = 5151515, partyid = 50000, picked_hero = nil, token_used = false, pet = nil, border = nil, effect=nil, }
 	--	PLAYERS[ 1 ] = pinfo_bot
 	--	PLAYERS[ 2 ] = pinfo_bot
 	--	PLAYERS[ 3 ] = pinfo_bot
@@ -145,32 +148,32 @@ function CustomPick:PlayerLoaded( kv )
 	local player = PlayerResource:GetPlayer( pid )
 	
 	if not PLAYERS[ pid ] then
-		CustomGameEventManager:Send_ServerToPlayer( player, 'pick_end', {} )
+		CustomGameEventManager:Send_ServerToPlayer( player, 'birzha_pick_end', {} )
 		return
 	end
 	
 	PLAYERS[ pid ].bLoaded = true
 	
 	if not IN_STATE then
-		CustomGameEventManager:Send_ServerToPlayer( player, 'pick_end', {} )
+		CustomGameEventManager:Send_ServerToPlayer( player, 'birzha_pick_end', {} )
 		return
 	end
 
 	if PICK_STATE ~= BIRZHA_PICK_STATE_PLAYERS_LOADED then
 		CustomPick:DrawHeroesForPlayer( pid )
 		CustomPick:DrawPickScreenForPlayer( pid )
-		CustomGameEventManager:Send_ServerToPlayer( player, 'pick_filter_reconnect', {banned = BANNED_HEROES, banned_length = #BANNED_HEROES, picked = PICKED_HEROES, picked_length = #PICKED_HEROES})
+		CustomGameEventManager:Send_ServerToPlayer( player, 'birzha_pick_filter_reconnect', {banned = BANNED_HEROES, banned_length = #BANNED_HEROES, picked = PICKED_HEROES, picked_length = #PICKED_HEROES})
 		if PLAYERS[ pid ].picked_hero ~= nil then
 			CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(pid), 'hero_is_picked', {hero = PLAYERS[ pid ].picked_hero})
 		end
 		if PICK_STATE == BIRZHA_PICK_STATE_BAN then
-			CustomGameEventManager:Send_ServerToPlayer( player, 'pick_ban_start', {})
+			CustomGameEventManager:Send_ServerToPlayer( player, 'birzha_pick_ban_start', {})
 		elseif PICK_STATE == BIRZHA_PICK_STATE_SELECT then
-			CustomGameEventManager:Send_ServerToPlayer( player, 'pick_start_selection', {} )
+			CustomGameEventManager:Send_ServerToPlayer( player, 'birzha_pick_start_selection', {} )
 		elseif PICK_STATE == BIRZHA_PICK_STATE_PRE_END then
-			CustomGameEventManager:Send_ServerToPlayer( player, 'pick_preend_start', {} )
+			CustomGameEventManager:Send_ServerToPlayer( player, 'birzha_pick_preend_start', {} )
 		elseif PICK_STATE == BIRZHA_PICK_STATE_END then
-			CustomGameEventManager:Send_ServerToPlayer( player, 'pick_end', {} )
+			CustomGameEventManager:Send_ServerToPlayer( player, 'birzha_pick_end', {} )
 		end
 	end
 end
@@ -189,11 +192,11 @@ function CustomPick:DrawPickScreenForPlayer( pid )
 	if not PlayerResource:IsValidPlayerID( pid ) then
 		return
 	end
-	CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer( pid ), 'pick_start', {} )
+	CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer( pid ), 'birzha_pick_start', {} )
 end
 
 function CustomPick:DrawHeroesForPlayer()
-	CustomGameEventManager:Send_ServerToAllClients( 'pick_load_heroes', HEROES)
+	CustomGameEventManager:Send_ServerToAllClients( 'birzha_pick_load_heroes', HEROES)
 end
 
 function CustomPick:RegisterHeroes()
@@ -268,7 +271,7 @@ end
 
 function CustomPick:StartBanningStage()
 	PICK_STATE = BIRZHA_PICK_STATE_BAN
-	CustomGameEventManager:Send_ServerToAllClients( 'pick_ban_start', {})
+	CustomGameEventManager:Send_ServerToAllClients( 'birzha_pick_ban_start', {})
 	CustomPick:StartTimers( TIME_OF_STATE[2], function()
 		CustomPick:EndBanningStage()
 	end )
@@ -328,7 +331,7 @@ function CustomPick:StartTimer( delay, fExpire )
 		local new_delay_int = math.floor( delay )
 		if delay_int ~= new_delay_int then
 			delay_int = new_delay_int
-			CustomGameEventManager:Send_ServerToAllClients( 'pick_timer_upd', { timer = delay_int })
+			CustomGameEventManager:Send_ServerToAllClients( 'birzha_pick_timer_upd', { timer = delay_int })
 		end
 		return tick_interval
 	end )
@@ -354,24 +357,22 @@ function CustomPick:PlayerSelect( kv )
 		if not pinfo or pinfo.ban_count <= 0 then
 			return
 		end
-
-		if kv.hero == "npc_dota_hero_nolik" then return end
-		if kv.hero == "npc_dota_hero_saitama" then return end
-		if kv.hero == "npc_dota_hero_freddy" then return end
-
 		if BANNED_HEROES[kv.hero] == nil then
 			BANNED_HEROES[kv.hero] = true
 			pinfo.ban_count = pinfo.ban_count - 1
 			CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(pid), 'ban_count_changed', {count = pinfo.ban_count})
 			table.insert(BANNED_HEROES, kv.hero)
-			CustomGameEventManager:Send_ServerToAllClients( 'pick_ban_heroes', { hero = kv.hero})
+			CustomGameEventManager:Send_ServerToAllClients( 'birzha_pick_ban_heroes', { hero = kv.hero})
 		end
 	elseif PICK_STATE == BIRZHA_PICK_STATE_SELECT then
+		local is_random_hero = false
+
 		if kv.random then
 			kv.hero = CustomPick:RandomHeroForPlayer()
 			if pinfo.picked_hero == nil then
 				CustomGameEventManager:Send_ServerToAllClients( 'random_hero_chat', { hero = kv.hero, id = pid })
 			end
+			is_random_hero = true
 		end
 		if IsHeroNotAvailable(kv.hero) or pinfo.picked_hero then return end
 
@@ -391,13 +392,30 @@ function CustomPick:PlayerSelect( kv )
 		pinfo.picked_hero = kv.hero
 		table.insert(PICKED_HEROES, kv.hero)
 		if GetMapName() == "birzhamemov_zxc" or GetMapName() == "birzhamemov_samepick" then
-			CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(pid), 'hero_is_picked', {hero = kv.hero})
+			CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(pid), 'hero_is_picked', {hero = kv.hero, is_random_hero = is_random_hero})
 			CustomPick:GiveHeroPlayer(pid, pinfo.picked_hero)
 			CheckPlayerHeroes()
 			return
 		end
-		CustomGameEventManager:Send_ServerToAllClients( 'pick_select_hero', { hero = kv.hero})
-		CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(pid), 'hero_is_picked', {hero = kv.hero})
+		CustomGameEventManager:Send_ServerToAllClients( 'birzha_pick_select_hero', { hero = kv.hero})
+		CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(pid), 'hero_is_picked', {hero = kv.hero, is_random_hero = is_random_hero})
+		CustomPick:GiveHeroPlayer(pid, pinfo.picked_hero)
+		CheckPlayerHeroes()
+	end
+end
+
+function CustomPick:PlayerRerandom( kv )
+	if kv.PlayerID == nil then return end
+	local pid = kv.PlayerID
+	local pinfo = PLAYERS[ pid ]
+
+	if PICK_STATE == BIRZHA_PICK_STATE_SELECT then
+		kv.hero = CustomPick:RandomHeroForPlayer()
+		CustomGameEventManager:Send_ServerToAllClients( 'random_hero_chat', { hero = kv.hero, id = pid })
+		pinfo.picked_hero = kv.hero
+		table.insert(PICKED_HEROES, kv.hero)
+		CustomGameEventManager:Send_ServerToAllClients( 'birzha_pick_select_hero', { hero = kv.hero})
+		CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(pid), 'hero_is_picked', {hero = kv.hero, is_random_hero = 0})
 		CustomPick:GiveHeroPlayer(pid, pinfo.picked_hero)
 		CheckPlayerHeroes()
 	end
@@ -479,7 +497,7 @@ end
 
 function CustomPick:StartSelectionStage()
 	PICK_STATE = BIRZHA_PICK_STATE_SELECT
-	CustomGameEventManager:Send_ServerToAllClients( 'pick_start_selection', {} )
+	CustomGameEventManager:Send_ServerToAllClients( 'birzha_pick_start_selection', {} )
 	CustomPick:StartTimers( TIME_OF_STATE[3], function()
 		CustomPick:EndSelectionStage()
 	end )	
@@ -496,7 +514,7 @@ end
 function CustomPick:StartPreEndSelection()
 	Debug:Execute( function()
 		PICK_STATE = BIRZHA_PICK_STATE_PRE_END
-		CustomGameEventManager:Send_ServerToAllClients( 'pick_preend_start', {} )
+		CustomGameEventManager:Send_ServerToAllClients( 'birzha_pick_preend_start', {} )
 		CustomPick:GiveHeroes()
 		CustomPick:StartTimers( TIME_OF_STATE[4], function()
 			CustomPick:EndSelection()
@@ -511,9 +529,9 @@ function CustomPick:GiveHeroes()
 			CustomGameEventManager:Send_ServerToAllClients( 'random_hero_chat', { hero = hero, id = pid })
 			pinfo.picked_hero = hero
 			table.insert(PICKED_HEROES, hero)
-			CustomGameEventManager:Send_ServerToAllClients( 'pick_select_hero', { hero = hero})
+			CustomGameEventManager:Send_ServerToAllClients( 'birzha_pick_select_hero', { hero = hero})
 			if IsPlayerDisconnected(pid) then
-				DISCONNECTED[pid] = hero
+				CustomPick.DISCONNECTED[pid] = hero
 			else
 				CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(pid), 'hero_is_picked', {hero = hero})
 				CustomPick:GiveHeroPlayer(pid, hero)
@@ -528,7 +546,7 @@ function CustomPick:EndSelection()
 		PICK_STATE = BIRZHA_PICK_STATE_END
 		CustomPick.pick_ended = true
 		CustomNetTables:SetTableValue('game_state', 'pickstate', {v = 'ended'})
-		CustomGameEventManager:Send_ServerToAllClients( 'pick_end', {} )
+		CustomGameEventManager:Send_ServerToAllClients( 'birzha_pick_end', {} )
 		for pid, pinfo in pairs( PLAYERS ) do
 			if not IsPlayerDisconnected(pid) then
 				local hero = PlayerResource:GetSelectedHeroEntity(pid)

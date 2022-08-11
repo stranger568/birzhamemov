@@ -643,7 +643,7 @@ end
 
 function Kudes_Fat:OnSpellStart()
     if not IsServer() then return end
-    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Kudes_Fat_shard", {duration = 6})
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Kudes_Fat_shard", {duration = 5})
     self:GetCaster():EmitSound("kudes_shard")
 end
 
@@ -735,9 +735,8 @@ end
 function modifier_Kudes_Fat:GetModifierIncomingDamage_Percentage( params )
     local multi = 1
     if self:GetCaster():HasModifier('modifier_Kudes_Fat_shard') then
-        multi = 2
+        multi = 1.5
     end
-    print(multi)
 	return self:GetStackCount() * self.damage_armor * multi
 end
 

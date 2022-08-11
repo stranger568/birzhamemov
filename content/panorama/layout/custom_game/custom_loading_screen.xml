@@ -42,7 +42,7 @@
                             <Panel id="RankedTopPlayers" class="RankedPlayers">
 		                        <Panel class="TopMmrPlayersSeasonPlayer">
 		                        	<Panel class="Player">	                    
-										<DOTAAvatarImage steamid="76561198123095106" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<DOTAAvatarImage steamid="76561198032647690" class="RankedSeasonCongratulationsPlayerAvatar" />
 										<Panel class="TrophyClass"/>	
 									</Panel>
 									<Panel class="RogaPlayer">
@@ -51,11 +51,11 @@
 										<DOTAParticleScenePanel id="PlayerModifiedParticleAegis2" hittest="false" particleName="particles/dev/library/base_fire.vpcf" particleonly="true" startActive="true" cameraOrigin="100 -300 100" lookAt="0 -90 -70" fov="60" squarePixels="true" />
 
 										<Panel class="RogaClass"/>
-										<DOTAAvatarImage steamid="76561198073635811" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<DOTAAvatarImage steamid="76561198335568734" class="RankedSeasonCongratulationsPlayerAvatar" />
 										<Panel class="TrophyClassRoga"/>
 									</Panel>
 									<Panel class="Player">	
-										<DOTAAvatarImage steamid="76561198443828204" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<DOTAAvatarImage steamid="76561198278833971" class="RankedSeasonCongratulationsPlayerAvatar" />
 										<Panel class="TrophyClass"/>
 									</Panel>
 								</Panel>
@@ -78,7 +78,7 @@
 						</Panel>
 						<Panel id="PassIcon" class="PassIcon"/>
 					</Panel>
-					<Panel id="DonateContainer_2" onactivate="ExternalBrowserGoToURL('https://bmemov.ru/updates/juneupdate/')">
+					<Panel id="DonateContainer_2" onactivate="ExternalBrowserGoToURL('https://bmemov.ru/updates/augustupdate/')">
 						<Label class="NewWidgetLabel" text="#Updatename"/>
 						<Panel id="DonateInformation_2">
 							<Label id="TipLabel" text="#Updatedescription"/>

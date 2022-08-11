@@ -8,6 +8,8 @@ function item_gamble_gold_ring:GetIntrinsicModifierName()
     return "modifier_item_gamble_gold_ring"
 end
 
+item_gamble_gold_ring.use_count = 0
+
 function item_gamble_gold_ring:OnSpellStart()
 	if self:GetCaster():HasModifier("modifier_item_gamble_gold_ring_2") then return end
 	local int_min = self:GetSpecialValueFor("int_min")
@@ -77,6 +79,22 @@ function item_gamble_gold_ring:OnSpellStart()
 		self:GetCaster():EmitSound("CasinoRandom")
 	end
 
+	if self.use_count >= 30 then
+		self.strength = int_max
+		self.agility =	str_max
+		self.intellect = agi_max
+		self.damage = dmg_max
+		self.attack_speed =	attack_speed_max
+		self.movespeed = movespeed_max
+		self.armor = armor_max
+		self.mag_resist =	magresist_max
+		self.hp_regen =	hpregen_max
+		self.mana_regen = manaregen_max
+		self.mag_damage = magdmg_max
+	end
+
+	self.use_count = self.use_count + 1
+
 	local bonuses = {
 		"lifesteal",
 		"cooldown",
@@ -127,6 +145,8 @@ function item_gamble_gold_ring:OnSpellStart()
 end
 
 item_gamble_gold_ring_2 = class({})
+
+item_gamble_gold_ring_2.use_count = 0
 
 function item_gamble_gold_ring_2:GetIntrinsicModifierName()
     return "modifier_item_gamble_gold_ring_2"
@@ -201,6 +221,22 @@ function item_gamble_gold_ring_2:OnSpellStart()
 		self.mag_damage = RandomInt(magdmg_min, magdmg_max)
 		self:GetCaster():EmitSound("CasinoRandom")
 	end
+
+	if self.use_count >= 30 then
+		self.strength = int_max
+		self.agility =	str_max
+		self.intellect = agi_max
+		self.damage = dmg_max
+		self.attack_speed =	attack_speed_max
+		self.movespeed = movespeed_max
+		self.armor = armor_max
+		self.mag_resist =	magresist_max
+		self.hp_regen =	hpregen_max
+		self.mana_regen = manaregen_max
+		self.mag_damage = magdmg_max
+	end
+
+	self.use_count = self.use_count + 1
 
 	local bonuses = {
 		"lifesteal",

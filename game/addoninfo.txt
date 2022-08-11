@@ -8,6 +8,7 @@
 		"birzhamemov_5v5v5",
 		"birzhamemov_5v5",
 		"birzhamemov_zxc",
+		"birzhamemov_wtf",
 	]
 	IsPlayable = 1
 	PenaltiesEnabled = 0
@@ -44,6 +45,9 @@
 		{
 			MaxPlayers = 2
 			map = "birzhamemov_zxc"
+		},
+		{
+			map = "birzhamemov_wtf"
 		},
 	]
 	HideInTools = false

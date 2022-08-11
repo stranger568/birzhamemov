@@ -1,14 +1,14 @@
 <root>
 	<styles>
 		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
-		<include src="s2r://panorama/styles/custom_game/custom_pick.vcss_c" />
+		<include src="s2r://panorama/styles/custom_game/bm_hero_selection.vcss_c" />
 		<include src="s2r://panorama/styles/banners/front_page_dota_plus_debut.vcss_c" />
 		<include src="s2r://panorama/styles/custom_game/debug.vcss_c" />
 		<include src="s2r://panorama/styles/custom_game/ads.vcss_c" />
 	</styles>
 
 	<scripts>
-		<include src="s2r://panorama/scripts/custom_game/custom_pick.vjs_c" />
+		<include src="s2r://panorama/scripts/custom_game/bm_hero_selection.vjs_c" />
 		<include src="s2r://panorama/scripts/custom_game/debug.vjs_c" />
 	</scripts>
 
@@ -26,7 +26,7 @@
 	</snippets>
 
 	<Panel class="CustomPick" onfocus="DropInputFocus()">
-			<DOTAScenePanel id="BGBirzhaScene" onload="HeroSelectionLoad()" class="BackgroundPick" map="maps/backgrounds/pregame_phase.vmap"/>
+			<DOTAScenePanel id="BGBirzhaScene" onload="BirzhaHeroSelectionLoad()" class="BackgroundPick" map="maps/backgrounds/pregame_phase.vmap"/>
 
 			<Panel id="StateInfoGlobal" class="StateInfoGlobalClass">
 				<Label id="PickTimer" class="PickTimerClass" text="#BIRZHA_PICK_STATE_START" />

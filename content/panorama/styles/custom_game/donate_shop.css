@@ -101,6 +101,12 @@
     margin-bottom: 10px;
 }
 
+.DonateShopPanelSecondLottery {
+    width: 100%;
+    height: 100%;
+    flow-children: down;
+}
+
 .DonateShopPanelSecond {
     width: 100%;
     height: 100%;
@@ -197,7 +203,7 @@
 
 .ItemName {
     text-align: center;
-    font-size: 18px;
+    font-size: 15px;
     color: white;
     font-weight: bold;
     align: center bottom;
@@ -205,6 +211,7 @@
     text-overflow: ellipsis;
     width: 90%;
     height: 20px;
+    font-family: Reaver;
 }
 
 .BuyItemPanel {
@@ -224,20 +231,22 @@
 
 .PriceIcongold {
     width: 25px;
-    background-size: 100% 100%;
     height: 25px;
     background-image: url("file://{images}/custom_game/shop/gold_icon.png");
+    background-size: 100%;
+    vertical-align: center;
 }
 
 .PriceIcongem {
     width: 25px;
-    background-size: 100% 100%;
     height: 25px;
     background-image: url("file://{images}/custom_game/shop/gem_icon.png");
+    background-size: 100%;
+    vertical-align: center;
 }
 
 .PriceLabel {
-    margin-top: 5px;
+    vertical-align: center;
     text-align: center;
     font-size: 15px;
     color: white;
@@ -254,14 +263,15 @@
 
 .ButtonText {
     text-align: center;
-    font-size: 23px;
+    font-size: 20px;
     color:#daebff;
     font-weight: bold;
     align:  center center;
+    font-family: Reaver;
 }
 
 .DonateShopTopCurrency {
-    margin-left: 140px;
+    margin-left: 40px;
     vertical-align: center;
     flow-children: right;
 }
@@ -401,6 +411,10 @@
     visibility: collapse;
 }
 
+#RuletkaBirzhaContainer {
+    visibility: collapse;
+}
+
 #DonateMainButton {
 
 }
@@ -443,7 +457,9 @@
     width: 200px;
     horizontal-align: center;
     height: 50px;
-    background-color: gradient( linear, 0% 0%, 0% 100%, from( hsv-transform( guildColor7, 0.0, .85, 1 ), to( hsv-transform( guildColor7, 0.0, 1, 0.3 ) ) );
+    //background-color: gradient( linear, 0% 0%, 0% 100%, from( hsv-transform( guildColor7, 0.0, .85, 1 ), to( hsv-transform( guildColor7, 0.0, 1, 0.3 ) ) );
+    background-image: url("file://{images}/custom_game/shop/button_bg.png");
+    background-size: 100% 100%;
     box-shadow: 0px 0px 1px 1px black;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -499,29 +515,49 @@
 }
 
 .CloseInfoItem {
-    align: right center;
+    align: right top;
+    margin-top: 10px;
     width: 25px;
     height: 25px;
-    margin-right: 20px;
+    margin-right: 10px;
     background-image: url("s2r://panorama/images/control_icons/x_close_grey_psd.vtex");
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    background-color: #000000bb;
-    wash-color: #888888;
     transition-property: wash-color;
     transition-duration: 0.1s;
 }
 
 .CloseInfoItem:hover {
-    background-color: #000000bb;
-    wash-color: white;
+    brightness: 2;
+    pre-transform-scale2d: 1.05;
 }
+
+.CloseInfoItem:Active {
+    pre-transform-scale2d: 0.9;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .ItemNameInfoLabel {
     text-align: center;
-    font-size: 28px;
-    color: white;
+    font-size: 22px;
+    color: #daebff;
     align: center center;
+    font-family: Reaver;
+    font-weight: bold;
+    text-shadow: 0px 0px 10px 2 black;
 }
 
 
@@ -596,22 +632,23 @@
 
 #PatreonButton {
     width: 180px;
-    height: 60px;
-    margin-top: 25px;
+    height: 64px;
+    margin-top: 10px;
     background-image: url("file://{images}/custom_game/shop/patreon.png");
-    background-color: gradient( linear, 0% 0%, 0% 100%, from( #4877c404 ), to( #4877c414 ) );
-    border: 1px solid black;
-    box-shadow: black 0px 0px 8px 0px;
+    background-size: 100%;
+    //border: 1px solid black;
+    //box-shadow: black 0px 0px 8px 0px;
 }
 
 #Qiwi {
     width: 180px;
-    height: 60px;
-    margin-top: 25px;
+    height: 64px;
+    margin-top: 10px;
     background-image: url("file://{images}/custom_game/shop/qiwi.png");
-    background-color: gradient( linear, 0% 0%, 0% 100%, from( #4877c404 ), to( #4877c414 ) );
-    border: 1px solid black;
-    box-shadow: black 0px 0px 6px 0px;
+    background-size: 100%;
+    //background-color: gradient( linear, 0% 0%, 0% 100%, from( #4877c404 ), to( #4877c414 ) );
+    //border: 1px solid black;
+    //box-shadow: black 0px 0px 6px 0px;
 }
 
 .DonateButtonLabel
@@ -622,7 +659,7 @@
     text-align: center;
     text-overflow: clip;
     font-size: 14px;
-    margin-top: 10px;
+    margin-top: 5px;
 }
 
 
@@ -649,17 +686,19 @@
     background-image: url("s2r://panorama/images/control_icons/x_close_grey_psd.vtex");
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    background-color: #000000bb;
-    wash-color: #888888;
-    transition-property: wash-color;
-    transition-duration: 0.1s;
+    transition-property: pre-transform-scale2d, brightness;
+    transition-duration: 0.2s;
+    brightness: 2;
 }
 
 .CloseShop:hover {
-    background-color: #000000bb;
-    wash-color: white;
+    brightness: 6;
+    pre-transform-scale2d: 1.05;
 }
 
+.CloseShop:Active {
+    pre-transform-scale2d: 0.9;
+}
 
 .Panel_for_desc {
     width: 400px;
@@ -678,44 +717,6 @@
     color:#daebff;
     align:  center center;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-#shop_error_panel {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.8);
-    z-index: 100;
-    visibility: collapse;
-}
-
-#shop_error_label{
-    align: center center;
-    color: red;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-size: 45px;
-    text-shadow: 0px 0px 1px 5 black;
-}
-
-.error_visible
-{
-    opacity: 0;
-}
-
-
-
-
-
 
 .DonateNewMenuButton {
     width: 90px;
@@ -797,6 +798,11 @@
 
 #ChatWheelBirzhaIcon {
     background-image: url("file://{images}/custom_game/shop/buttons/chatwheel.png");
+    background-size: 100%;
+}
+
+#RuletkaBirzhaIcon {
+    background-image: url("file://{images}/custom_game/shop/buttons/ruletka.png");
     background-size: 100%;
 }
 
@@ -2812,23 +2818,43 @@ visibility: visible;
 }
 
 .ChatWheelPanelSelectClose {
-    align: right center;
+    align: right top;
+    margin-top: 10px;
     width: 25px;
     height: 25px;
-    margin-right: 20px;
+    margin-right: 10px;
     background-image: url("s2r://panorama/images/control_icons/x_close_grey_psd.vtex");
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    background-color: #000000bb;
-    wash-color: #888888;
     transition-property: wash-color;
     transition-duration: 0.1s;
 }
 
 .ChatWheelPanelSelectClose:hover {
-    background-color: #000000bb;
-    wash-color: white;
+    brightness: 2;
+    pre-transform-scale2d: 1.05;
 }
+
+.ChatWheelPanelSelectClose:Active {
+    pre-transform-scale2d: 0.9;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .ChatWheelPanelSelectTitleName {
     text-align: center;
@@ -2879,4 +2905,330 @@ visibility: visible;
     color: white;
     vertical-align: center;
     horizontal-align: center;
+}
+
+#donate_loading_window
+{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.95);
+    visibility: collapse;
+}
+
+#donate_loading_label
+{
+    font-size: 20px;
+    color: white;
+    margin-top: 5px;
+}
+
+#LoadingSpinner
+{
+    width: 30px;
+    height: 30px;
+    align: center center;
+    background-image: url("s2r://panorama/images/status_icons/loadingthrobber_round_psd.vtex");
+    background-size: 100%;
+    animation-name: SpinnerRotate;
+    animation-duration: 1.0s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes 'SpinnerRotate'
+{
+    0%
+    {
+        transform: rotateZ( 360deg );
+    }
+    50%
+    {
+        transform: rotateZ( 180deg );
+    }
+    100%
+    {
+        transform: rotateZ( 0deg );
+    }
+}
+
+#donate_accept_window
+{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.95);
+    visibility: collapse;
+}
+
+#donate_accept_label
+{
+    font-size: 40px;
+    color: #16eb02;
+    margin-top: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: Reaver;
+}
+
+#donate_error_window
+{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.95);
+    visibility: collapse;
+}
+
+#donate_error_label
+{
+    font-size: 40px;
+    color: red;
+    margin-top: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: Reaver;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+#SmilesButton
+{
+    background-image: url("s2r://panorama/images/control_icons/emoticon_icon_psd.vtex");
+    background-position: 50% 50%;
+    width: 30px;
+    height: 100%;
+    padding-left: 5px;
+    background-size: 20px;
+    vertical-align: middle;
+    wash-color: #737f83;
+    background-repeat: no-repeat;
+}
+
+#SmilesButton:hover
+{
+    brightness: 2;
+}
+
+.SmilesWindow
+{
+    align: center center;
+    width: 250px;
+    height: 0px;
+    margin-left: 28%;
+    margin-top: 16.8%;
+    background-color: rgba(0,0,0,0.75);
+    flow-children: right-wrap;
+    overflow: squish scroll;
+    visibility: collapse;
+    transition-property: height;
+    transition-duration: 0.2s;
+}
+
+#SmilesWindow.sethidden {
+    height: 0px;
+    transition-property: height;
+    transition-duration: 0.2s;
+}
+
+#SmilesWindow.setvisible {
+    height: 250px;
+    transition-property: height;
+    transition-duration: 0.2s;
+}
+
+.SmileBlock
+{
+    width: 32px;
+    height: 32px;
+    transition-property: pre-transform-scale2d;
+    transition-duration: 0.25s;
+    margin: 9px;
+}
+
+.SmileBlock:hover
+{
+    pre-transform-scale2d: 1.05;
+}
+
+.SmileIcon
+{
+    width: 100%;
+    height: 100%;
+}
+
+.BlockSmile
+{
+    width: 100%;
+    height: 100%;
+    align: center center;
+    background-image: url("s2r://panorama/images/hero_selection/banned_overlay_psd.vtex");
+    background-size: 100% 100%;
+    wash-color: red;
+}
+
+.RandomMainPanel
+{
+    width: 1000px;
+    height: 150px;
+    align: center top;
+    margin-top: 100px;
+    background-image: url("file://{images}/custom_game/lottery/bg.png");
+    background-size: 100%;
+    overflow:clip;
+    box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.3);
+}
+
+
+
+#RandomTrack {
+    width:6000px;
+    height: 100%;
+    flow-children: right;
+    transition-property: position;
+    transition-duration: 0.8s;
+    position:0px 0px 0px;
+    transition-timing-function:ease-out;
+    overflow:clip;
+}
+
+.lottery_one
+{
+    width: 145px;
+    height: 145px;
+    background-image: url("file://{images}/custom_game/lottery/block.png");
+    background-size: 100%;
+    vertical-align: center;
+    margin-right: 3.3px;
+    margin-left: 3.3px;
+    background-position:center;
+    overflow:clip;
+    box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.6);
+}
+
+.ArrowIcon {
+    width: 24px;
+    height: 24px;
+    background-image: url("file://{images}/custom_game/lottery/arrow.png");
+    background-size: 100%;
+    align: center top;
+    z-index: 5;
+}
+
+.CoinLotteryInfo
+{
+    horizontal-align: center;
+    margin-top: 100px;
+    flow-children: right;
+}
+
+.LotteryDogeCoin
+{
+    background-image: url("file://{images}/custom_game/shop/gem_icon.png");
+    background-size: 100%;
+    width: 90px;
+    height: 90px;
+}
+
+.LotteryPriceCoin
+{
+    vertical-align: center;
+    margin-left: 20px;
+    font-size: 48px;
+    color: white;
+    font-weight: bold;
+}
+
+.LotteryButtonOpen
+{
+    width: 500px;
+    height: 100px;
+    horizontal-align: center;
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #401056 ), to( black ) );
+    box-shadow: 0px 0px 8px black;
+    border: 1px solid #ffffff;
+    border-brush: gradient( linear, 0% 0%, 0% 100%, from( #ae00ff ), to( #40035d ) );
+    margin-top: 50px;
+}
+
+.LotteryButtonOpen:hover {
+    brightness: 1.3;
+}
+
+.LotteryButtonOpen:active {
+    brightness: 0.5;
+}
+
+
+.LotteryButtonOpenLabel
+{
+    align: center center;
+    margin-left: 20px;
+    font-size: 36px;
+    color: white;
+    font-weight: bold;
+}
+
+.lottery_label
+{
+    align: center center;
+    font-weight: bold;
+    color: white;
+    width: 130px;
+    text-align: center;
+}
+
+#lottery_reward_panel
+{
+    align: center center;
+    margin-top: 5px;
+    background-color: rgba(0,0,0,0.99);
+    width: 500px;
+    height: 200px;
+    flow-children: down;
+    visibility: collapse;
+    border: 1px solid gray;
+}
+
+.lottery_reward_panel_label1
+{
+    color: white;
+    horizontal-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.lottery_reward_panel_label2
+{
+    color: white;
+    horizontal-align: center;
+    margin-top: 35px;
+    font-size: 22px;
+}
+
+.lottery_reward_panel_button
+{
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #60862d ), to( #3d5f1c ) );
+    width: 150px;
+    height: 50px;
+    vertical-align: bottom;
+    horizontal-align: center;
+    margin-bottom: 10px;
+}
+
+.lottery_reward_panel_label3
+{
+    color: white;
+    font-weight: bold;
+    font-family: Reaver;
+    horizontal-align: center;
+    vertical-align: center;
+    text-shadow: 2px 2px 8px 3.0 #333333b0;
 }

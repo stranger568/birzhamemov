@@ -216,7 +216,7 @@ function modifier_puchkov_pigs_pig_boom:OnCreated()
 end
 
 function modifier_puchkov_pigs_pig_boom:OnIntervalThink()
-    local damage = self:GetAbility():GetSpecialValueFor("damage")
+    local damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_puchkov_5")
     local radius = self:GetAbility():GetSpecialValueFor("radius")
     local enemies = FindUnitsInRadius(self:GetParent():GetTeamNumber(),
                                         self:GetParent():GetAbsOrigin(),
@@ -564,6 +564,10 @@ end
 
 function modifier_puchkov_shiza:OnCreated( kv )
     self.center = Vector( kv.coil_x, kv.coil_y, kv.coil_z )
+    self.radius = self:GetAbility():GetSpecialValueFor("radius")
+    self.damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_puchkov_7")
+    self.stun_duration = self:GetAbility():GetSpecialValueFor("stun_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_puchkov_2")
+    self.current_pos = self:GetParent():GetAbsOrigin()
     if IsServer() then
         self:PlayEffects()
         self:StartIntervalThink(FrameTime())
@@ -571,52 +575,23 @@ function modifier_puchkov_shiza:OnCreated( kv )
 end
 
 function modifier_puchkov_shiza:OnIntervalThink()
+    if not IsServer() then return end
+    
     for i=0,5 do
         for p=0,5 do
             self:GetParent():SwapItems(i, p)
         end
     end
-end
 
-function modifier_puchkov_shiza:DeclareFunctions()
-    local funcs = {
-        MODIFIER_EVENT_ON_UNIT_MOVED,
-    }
-
-    return funcs
-end
-
-function modifier_puchkov_shiza:OnUnitMoved( params )
-    if IsServer() then
-        if params.unit~=self:GetParent() then
-            return
-        end
-        local radius = self:GetAbility():GetSpecialValueFor("radius")
-        local damage = self:GetAbility():GetSpecialValueFor("damage")
-        local stun_duration = self:GetAbility():GetSpecialValueFor("stun_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_puchkov_2")
-
-        if (params.new_pos-self.center):Length2D()>radius then
-            local damageTable = {
-                victim = self:GetParent(),
-                attacker = self:GetCaster(),
-                damage = damage,
-                damage_type = DAMAGE_TYPE_MAGICAL,
-                ability = self:GetAbility(),
-            }
-            ApplyDamage(damageTable)
-
-            self:GetParent():AddNewModifier(
-                self:GetCaster(),
-                self:GetAbility(),
-                "modifier_birzha_stunned",
-                { duration = stun_duration }
-            )
-            EmitSoundOn( "Hero_Puck.Dream_Coil_Snap", self:GetParent() )
-            if not self:IsNull() then
-                self:Destroy()
-            end
-        end
+    if (self.current_pos-self.center):Length2D()>self.radius then
+        ApplyDamage({ victim = self:GetParent(), attacker = self:GetCaster(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility() })
+        self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", { duration = self.stun_duration } )
+        self:GetParent():EmitSound("Hero_Puck.Dream_Coil_Snap")
+        self:Destroy()
+        return
     end
+
+    self.current_pos = self:GetParent():GetAbsOrigin()
 end
 
 function modifier_puchkov_shiza:PlayEffects()

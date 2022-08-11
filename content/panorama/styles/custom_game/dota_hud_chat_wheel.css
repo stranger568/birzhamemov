@@ -36,7 +36,6 @@
 .Phrase
 {
 	align: center center;
-	flow-children: right;
 	pre-transform-scale2d: 1.0;
 	height: 100%;
 	width: 100%;
@@ -63,12 +62,57 @@
 .ForWheel4{transform: rotateZ( 270deg ) rotateX( 0deg ) translate3d( 0px, 0px, 0px );}
 .ForWheel5{transform: rotateZ( 315deg ) rotateX( 0deg ) translate3d( 0px, 0px, 0px );}
 
+.BlockChatWheel
+{
+	width: 50%;
+	height: 100%;
+	align: center center;
+	background-image: url("s2r://panorama/images/hero_selection/banned_overlay_psd.vtex");
+    background-size: 100% 100%;
+}
 
+.ChangeWheelButtons
+{
+	flow-children: right;
+	horizontal-align: center;vertical-align: middle;
+	margin-top: 170px;
+}
 
+.ChangeWheelButtonLeft
+{
+	background-image: url("s2r://panorama/images/control_icons/arrow_min_left_psd.vtex");
+	background-size: 100%;
+	width: 16px;
+	height: 22px;
+}
 
+.ChangeWheelButtonLabel
+{
+	font-size: 18px;
+	vertical-align: center;
+	margin-left: 15px;
+	margin-right: 15px;
+	color: white;
+	font-weight: bold;
+}
 
+.ChangeWheelButtonRight
+{
+	background-image: url("s2r://panorama/images/control_icons/arrow_min_right_psd.vtex");
+	background-size: 100%;
+	width: 16px;
+	height: 22px;
+}
 
+.ChangeWheelButtonLeft:hover
+{
+	pre-transform-scale2d: 1.05;
+}
 
+.ChangeWheelButtonRight:hover
+{
+	pre-transform-scale2d: 1.05;
+}
 
 
 

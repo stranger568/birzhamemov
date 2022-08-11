@@ -1,12 +1,6 @@
 var favourites = new Array();
 var nowrings = 8;
 var selected_sound_current = undefined;
-var rings = new Array(
-    new Array(//0 start
-        new Array("","","","","","","",""),
-        new Array(true,true,true,true,true,true,true,true),
-    ),
-);
 var nowselect = 0;
 
 var Items_sounds = [
@@ -58,6 +52,21 @@ var Items_sounds = [
     ["132", "sounds_46"], 
     ["133", "sounds_47"], 
     ["134", "sounds_48"], 
+
+    ["165", "sounds_49"], 
+    ["166", "sounds_50"], 
+    ["167", "sounds_51"], 
+    ["168", "sounds_52"], 
+    ["169", "sounds_53"], 
+    ["170", "sounds_54"], 
+    ["171", "sounds_55"], 
+    ["172", "sounds_56"], 
+    ["173", "sounds_57"], 
+    ["174", "sounds_58"], 
+    ["175", "sounds_59"], 
+    ["176", "sounds_60"], 
+    ["177", "sounds_61"], 
+    ["178", "sounds_62"], 
 ]
 
 var Items_sprays = [
@@ -92,32 +101,80 @@ var Items_toys = [
     ["125", "toys_2"], 
 ]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+var rings = new Array(
+    new Array(//0 start
+        new Array("","","","","","","",""),
+        new Array(true,true,true,true,true,true,true,true),
+    ),
+    new Array(//1 Sound list 1
+        new Array("#sounds_1","#sounds_2","#sounds_3","#sounds_4","#sounds_5","#sounds_6","#sounds_7","#sounds_8"),
+        new Array(true,true,true,true,true,true,true,true),
+        new Array(52,53,54,55,56,57,58,59)
+    ),
+    new Array(//2 Sound list 2
+        new Array("#sounds_9","#sounds_10","#sounds_11","#sounds_12","#sounds_13","#sounds_14","#sounds_15","#sounds_16"),
+        new Array(true,true,true,true,true,true,true,true),
+        new Array(60,61,62,63,64,65,66,67)
+    ),
+    new Array(//3 Sound list 3
+        new Array("#sounds_17","#sounds_18","#sounds_19","#sounds_20","#sounds_21","#sounds_22","#sounds_23","#sounds_24"),
+        new Array(true,true,true,true,true,true,true,true),
+        new Array(68,69,70,71,72,73,74,75)
+    ),
+    new Array(//4 Sound list 4
+        new Array("#sounds_25","#sounds_26","#sounds_27","#sounds_28","#sounds_29","#sounds_30","#sounds_31","#sounds_32"),
+        new Array(true,true,true,true,true,true,true,true),
+        new Array(76,77,78,79,80,81,82,83)
+    ),
+    new Array(//5 Sound list 5
+        new Array("#sounds_33","#sounds_34","#sounds_35","#sounds_36","#sounds_37","#sounds_38","#sounds_39","#sounds_40"),
+        new Array(true,true,true,true,true,true,true,true),
+        new Array(84,85,86,87,113,114,118,119)
+    ),
+    new Array(//6 Sound list 6
+        new Array("#sounds_41","#sounds_42","#sounds_43","#sounds_44","#sounds_45","#sounds_46","#sounds_47","#sounds_48"),
+        new Array(true,true,true,true,true,true,true,true),
+        new Array(120,121,122,123,131,132,133,134)
+    ),
+    new Array(//6 Sound list 6
+        new Array("#sounds_49","#sounds_50","#sounds_51","#sounds_52","#sounds_53","#sounds_54","#sounds_55","#sounds_56"),
+        new Array(true,true,true,true,true,true,true,true),
+        new Array(165,166,167,168,169,170,171,172)
+    ),
+    new Array(//6 Sound list 6
+        new Array("#sounds_57","#sounds_58","#sounds_59","#sounds_60","#sounds_61","#sounds_62","",""),
+        new Array(true,true,true,true,true,true,false,false),
+        new Array(173,174,175,176,177,178,0,0)
+    ),
+    new Array(//7 Sprays list 1
+        new Array("#spray_1","#spray_2","#spray_3","#spray_4","#spray_5","#spray_6","#spray_7","#spray_8"),
+        new Array(true,true,true,true,true,true,true,true),
+        new Array(88,89,90,91,92,93,94,95)
+    ),
+    new Array(//8 Sprays list 2
+        new Array("#spray_9","#spray_10","#spray_11","#spray_12","#spray_13","#spray_14","#spray_15","#spray_16"),
+        new Array(true,true,true,true,true,true,true,true),
+        new Array(96,97,98,99,100,101,102,103)
+    ),
+    new Array(//9 Sprays list 3
+        new Array("#spray_17","#spray_18","#spray_19","#spray_20","#spray_21","#spray_22","#spray_23","#spray_24"),
+        new Array(true,true,true,true,true,true,true,true),
+        new Array(104,105,106,107,108,109,110,111)
+    ),
+    new Array(//10 Toys list 1
+        new Array("#toys_1","#toys_2","","","","","",""),
+        new Array(true,true,false,false,false,false,false,false),
+        new Array(124,125,0,0,0,0,0,0)
+    ),
+);
 
 function StartWheel() {
     selected_sound_current = undefined;
     $("#Wheel").visible = true;
     $("#Bubble").visible = true;
     $("#PhrasesContainer").visible = true;
-
+    $("#ChangeWheelButtons").visible = true;
+    $("#ChangeWheelButtonLabel").text = (nowselect + 1) + " / " + rings.length 
     $("#PhrasesContainer").RemoveAndDeleteChildren();
     for ( var i = 0; i < 8; i++ )
     {
@@ -129,34 +186,240 @@ function StartWheel() {
         $("#Phrase"+i).BLoadLayoutSnippet("Phrase");
         $("#Phrase"+i).GetChild(0).GetChild(0).visible = rings[0][1][i];
 
-        let name = $.Localize("#chatwheel_birzha_null")
-        var player_table = CustomNetTables.GetTableValue("birzhainfo", String(Players.GetLocalPlayer()))
-        if (player_table)
+        if (nowselect != 0)
         {
-            if (player_table.chat_wheel)
+             var player_table = CustomNetTables.GetTableValue("birzhashop", String(Players.GetLocalPlayer()))
+             var player_table_js = []
+            
+             for (var d = 1; d < 300; d++) {
+                 player_table_js.push(player_table.player_items[d])
+             }
+            
+             var phase_deactive = true
+            
+             for ( var item of player_table_js )
+             {
+                 if (item == rings[nowselect][2][i]) {
+                     phase_deactive = false
+                     break
+                 }
+             }
+
+             if (rings[nowselect][1][i] == false)
+             {
+                $("#Phrase"+i).style.visibility = "collapse"
+             } else {
+                $("#Phrase"+i).style.visibility = "visible"
+             }
+
+            $("#Phrase"+i).GetChild(0).GetChild(0).text = $.Localize(rings[nowselect][0][i]);
+
+            if (phase_deactive) {   
+                var blocked = $.CreatePanel("Panel", $("#Phrase"+i).GetChild(0), "" );
+                blocked.AddClass("BlockChatWheel");
+                $("#Phrase"+i).GetChild(0).style.washColor = "red"
+            }
+        } else {
+            let name = $.Localize("#chatwheel_birzha_null")
+            var player_table = CustomNetTables.GetTableValue("birzhainfo", String(Players.GetLocalPlayer()))
+            if (player_table)
             {
-                for ( var item of Items_sounds )
+                if (player_table.chat_wheel)
                 {
-                    if (item[0] == String(player_table.chat_wheel[i+1])) {
-                        name = $.Localize("#" + item[1])
+                    for ( var item of Items_sounds )
+                    {
+                        if (item[0] == String(player_table.chat_wheel[i+1])) {
+                            name = $.Localize("#" + item[1])
+                        }
                     }
-                }
-                for ( var item of Items_sprays )
-                {
-                    if (item[0] == String(player_table.chat_wheel[i+1])) {
-                        name = $.Localize("#" + item[1])
+                    for ( var item of Items_sprays )
+                    {
+                        if (item[0] == String(player_table.chat_wheel[i+1])) {
+                            name = $.Localize("#" + item[1])
+                        }
                     }
-                }
-                for ( var item of Items_toys )
-                {
-                    if (item[0] == String(player_table.chat_wheel[i+1])) {
-                        name = $.Localize("#" + item[1])
+                    for ( var item of Items_toys )
+                    {
+                        if (item[0] == String(player_table.chat_wheel[i+1])) {
+                            name = $.Localize("#" + item[1])
+                        }
                     }
                 }
             }
+            $("#Phrase"+i).GetChild(0).GetChild(0).text = name;
         }
+    }
+}
 
-        $("#Phrase"+i).GetChild(0).GetChild(0).text = name;
+function LeftButton()
+{
+    if (nowselect - 1 < 0)
+    {
+        nowselect = rings.length - 1
+    } else {
+        nowselect = nowselect - 1
+    }
+    $("#ChangeWheelButtonLabel").text = (nowselect + 1) + " / " + rings.length
+    $("#PhrasesContainer").RemoveAndDeleteChildren();
+    for ( var i = 0; i < 8; i++ )
+    {
+        let properities_for_panel = {
+            class: `MyPhrases`,
+            onmouseover: `OnMouseOver(${i})`,
+            onmouseout: `OnMouseOut(${i})`,
+        };
+
+        $.CreatePanelWithProperties(`Button`, $("#PhrasesContainer"), `Phrase${i}`, properities_for_panel);
+        $("#Phrase"+i).BLoadLayoutSnippet("Phrase");
+
+        if (nowselect != 0)
+        {
+             var player_table = CustomNetTables.GetTableValue("birzhashop", String(Players.GetLocalPlayer()))
+             var player_table_js = []
+            
+             for (var d = 1; d < 300; d++) {
+                 player_table_js.push(player_table.player_items[d])
+             }
+            
+             var phase_deactive = true
+            
+             for ( var item of player_table_js )
+             {
+                 if (item == rings[nowselect][2][i]) {
+                     phase_deactive = false
+                     break
+                 }
+             }
+
+             if (rings[nowselect][1][i] == false)
+             {
+                $("#Phrase"+i).style.visibility = "collapse"
+             } else {
+                $("#Phrase"+i).style.visibility = "visible"
+             }
+
+            $("#Phrase"+i).GetChild(0).GetChild(0).text = $.Localize(rings[nowselect][0][i]);
+
+            if (phase_deactive) {   
+                var blocked = $.CreatePanel("Panel", $("#Phrase"+i).GetChild(0), "" );
+                blocked.AddClass("BlockChatWheel");
+                $("#Phrase"+i).GetChild(0).style.washColor = "red"
+            }
+        } else {
+            let name = $.Localize("#chatwheel_birzha_null")
+            var player_table = CustomNetTables.GetTableValue("birzhainfo", String(Players.GetLocalPlayer()))
+            if (player_table)
+            {
+                if (player_table.chat_wheel)
+                {
+                    for ( var item of Items_sounds )
+                    {
+                        if (item[0] == String(player_table.chat_wheel[i+1])) {
+                            name = $.Localize("#" + item[1])
+                        }
+                    }
+                    for ( var item of Items_sprays )
+                    {
+                        if (item[0] == String(player_table.chat_wheel[i+1])) {
+                            name = $.Localize("#" + item[1])
+                        }
+                    }
+                    for ( var item of Items_toys )
+                    {
+                        if (item[0] == String(player_table.chat_wheel[i+1])) {
+                            name = $.Localize("#" + item[1])
+                        }
+                    }
+                }
+            }
+            $("#Phrase"+i).GetChild(0).GetChild(0).text = name;
+        }
+    }
+}
+
+function RightButton()
+{
+    if (nowselect + 1 > (rings.length - 1))
+    {
+        nowselect = 0
+    } else {
+        nowselect = nowselect + 1
+    }
+    $("#ChangeWheelButtonLabel").text = (nowselect + 1) + " / " + rings.length
+    $("#PhrasesContainer").RemoveAndDeleteChildren();
+    for ( var i = 0; i < 8; i++ )
+    {
+        let properities_for_panel = {
+            class: `MyPhrases`,
+            onmouseover: `OnMouseOver(${i})`,
+            onmouseout: `OnMouseOut(${i})`,
+        };
+
+        $.CreatePanelWithProperties(`Button`, $("#PhrasesContainer"), `Phrase${i}`, properities_for_panel);
+        $("#Phrase"+i).BLoadLayoutSnippet("Phrase");
+
+        if (nowselect != 0)
+        {
+             var player_table = CustomNetTables.GetTableValue("birzhashop", String(Players.GetLocalPlayer()))
+             var player_table_js = []
+            
+             for (var d = 1; d < 300; d++) {
+                 player_table_js.push(player_table.player_items[d])
+             }
+            
+             var phase_deactive = true
+            
+             for ( var item of player_table_js )
+             {
+                 if (item == rings[nowselect][2][i]) {
+                     phase_deactive = false
+                     break
+                 }
+             }
+
+             if (rings[nowselect][1][i] == false)
+             {
+                $("#Phrase"+i).style.visibility = "collapse"
+             } else {
+                $("#Phrase"+i).style.visibility = "visible"
+             }
+
+            $("#Phrase"+i).GetChild(0).GetChild(0).text = $.Localize(rings[nowselect][0][i]);
+
+            if (phase_deactive) {   
+                var blocked = $.CreatePanel("Panel", $("#Phrase"+i).GetChild(0), "" );
+                blocked.AddClass("BlockChatWheel");
+                $("#Phrase"+i).GetChild(0).style.washColor = "red"
+            }
+        } else {
+            let name = $.Localize("#chatwheel_birzha_null")
+            var player_table = CustomNetTables.GetTableValue("birzhainfo", String(Players.GetLocalPlayer()))
+            if (player_table)
+            {
+                if (player_table.chat_wheel)
+                {
+                    for ( var item of Items_sounds )
+                    {
+                        if (item[0] == String(player_table.chat_wheel[i+1])) {
+                            name = $.Localize("#" + item[1])
+                        }
+                    }
+                    for ( var item of Items_sprays )
+                    {
+                        if (item[0] == String(player_table.chat_wheel[i+1])) {
+                            name = $.Localize("#" + item[1])
+                        }
+                    }
+                    for ( var item of Items_toys )
+                    {
+                        if (item[0] == String(player_table.chat_wheel[i+1])) {
+                            name = $.Localize("#" + item[1])
+                        }
+                    }
+                }
+            }
+            $("#Phrase"+i).GetChild(0).GetChild(0).text = name;
+        }
     }
 }
 
@@ -164,6 +427,25 @@ function StopWheel() {
     $("#Wheel").visible = false;
     $("#Bubble").visible = false;
     $("#PhrasesContainer").visible = false;
+    $("#ChangeWheelButtons").visible = false;
+
+    if (nowselect == 0)
+    {
+        var player_table = CustomNetTables.GetTableValue("birzhainfo", String(Players.GetLocalPlayer()))
+        if (player_table)
+        {
+            if (player_table.chat_wheel)
+            {
+                GameEvents.SendCustomGameEventToServer("SelectVO", {num: Number(player_table.chat_wheel[selected_sound_current+1])});
+            }
+        }
+    } else {
+        var newnum = rings[nowselect][2][selected_sound_current];
+        if (rings[nowselect][1][selected_sound_current])
+        {
+            GameEvents.SendCustomGameEventToServer("SelectVO", {num: Number(newnum)});
+        }
+    }
 
     if (nowselect != 0)
     {
@@ -207,90 +489,8 @@ function StopWheel() {
 
             $("#Phrase"+i).GetChild(0).GetChild(0).text = name;
         }
-        nowselect = 0;
-    }
-    var player_table = CustomNetTables.GetTableValue("birzhainfo", String(Players.GetLocalPlayer()))
-    if (player_table)
-    {
-        if (player_table.chat_wheel)
-        {
-            if (selected_sound_current != undefined)
-            {
-                GameEvents.SendCustomGameEventToServer("SelectVO", {num: Number(player_table.chat_wheel[selected_sound_current+1])});
-            }
-        }
     }
     selected_sound_current = undefined;
-}
-
-function OnSelect(num) {
-    var player_table = CustomNetTables.GetTableValue("birzhainfo", String(Players.GetLocalPlayer()))
-    if (player_table)
-    {
-        if (player_table.chat_wheel)
-        {
-            GameEvents.SendCustomGameEventToServer("SelectVO", {num: Number(player_table.chat_wheel[num+1])});
-        }
-    }
-}
-
-function AddOnFavourites(num) {
-    if (nowselect != 8)
-    {
-        favourites.unshift(rings[nowselect][2][num]);
-        if (favourites.length > 8)
-            favourites[8] = null;
-        favourites = favourites.filter(function (el) {
-            return el != null;
-        });
-        Game.EmitSound( "ui.crafting_gem_create" )
-        UpdateFavourites();
-    }
-    else
-    {
-        favourites[num] = null;
-        favourites = favourites.filter(function (el) {
-            return el != null;
-        });
-        UpdateFavourites();
-        nowselect = 0;
-        OnSelect(2);
-    }
-}
-
-function UpdateFavourites() {
-    var msg = new Array();
-    var numsb = new Array();
-    var numsi = new Array();
-    for ( var i = 0; i < 8; i++ )
-    {
-        if (favourites[i])
-        {
-            msg[i] = FindLabelByNum(favourites[i]);
-            numsi[i] = favourites[i];
-            numsb[i] = true;
-        }
-        else
-        {
-            msg[i] = "";
-            numsi[i] = 0;
-            numsb[i] = false;
-        }
-    }
-    rings[7] = new Array(msg,numsb,numsi);
-}
-
-function FindLabelByNum(num) {
-    for (var key in rings) {
-        var element = rings[key];
-        for ( var i = 0; i < 8; i++ )
-        {
-            if (element[1][i] == true && element[2][i] == num)
-            {
-                return element[0][i];
-            }
-        }
-    }
 }
 
 function OnMouseOver(num) {
@@ -351,14 +551,17 @@ function OnMouseOut(num) {
                         name = $.Localize("#" + item[1])
                     }
                 }
-            }
-        }
-
+            } 
+        } 
+ 
         $("#Phrase"+i).GetChild(0).GetChild(0).text = name;
     }
+
     Game.AddCommand("+WheelButton", StartWheel, "", 0);
     Game.AddCommand("-WheelButton", StopWheel, "", 0);
+
     $("#Wheel").visible = false;
     $("#Bubble").visible = false;
     $("#PhrasesContainer").visible = false;
+    $("#ChangeWheelButtons").visible = false;
 })();

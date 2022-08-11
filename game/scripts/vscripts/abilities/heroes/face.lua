@@ -528,11 +528,16 @@ function modifier_face_esketit:GetModifierConstantHealthRegen()
 end
 
 LinkLuaModifier("modifier_face_newsong", "abilities/heroes/face.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_face_newsong_shard", "abilities/heroes/face.lua", LUA_MODIFIER_MOTION_NONE)
 
 Face_NewSong = class({})
 
 function Face_NewSong:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
+end
+
+function Face_NewSong:GetIntrinsicModifierName()
+    return "modifier_face_newsong_shard"
 end
 
 function Face_NewSong:GetCastRange(location, target)
@@ -549,6 +554,89 @@ function Face_NewSong:OnSpellStart()
     self:GetCaster():EmitSound("faceult")
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_face_newsong", {duration = duration}) 
 end
+
+modifier_face_newsong_shard = class({})
+
+function modifier_face_newsong_shard:IsPurgable() return false end
+function modifier_face_newsong_shard:IsHidden() return true end
+
+function modifier_face_newsong_shard:OnCreated()
+    if not IsServer() then return end
+    self.prevLoc = self:GetParent():GetAbsOrigin()
+    self.move_range = 0
+    self:StartIntervalThink( FrameTime() )
+end
+
+function modifier_face_newsong_shard:OnIntervalThink()
+    if not IsServer() then return end
+    if self:GetCaster():HasShard() then
+        self.move_range = self.move_range + CalculateDistance(self.prevLoc, self:GetParent())
+        if self.move_range >= 700 then
+            self:Knock()
+            self.move_range = 0
+        end
+        self.prevLoc = self:GetParent():GetAbsOrigin()
+    end
+end
+
+function modifier_face_newsong_shard:Knock()
+    local damage = self:GetAbility():GetSpecialValueFor("damage")
+    damage = damage + (self:GetCaster():GetStrength() * self:GetAbility():GetSpecialValueFor("str_multi"))
+    if self:GetParent():HasScepter() then self.radius = 900 else self.radius = 700 end
+    if not IsServer() then return end
+    local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_sandking/sandking_epicenter.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+    ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
+    ParticleManager:SetParticleControl(particle, 1, Vector(self.radius, self.radius, 1))
+    ParticleManager:ReleaseParticleIndex(particle)
+
+    local targets = FindUnitsInRadius(self:GetParent():GetTeamNumber(),
+        self:GetParent():GetAbsOrigin(),
+        nil,
+        self.radius,
+        DOTA_UNIT_TARGET_TEAM_ENEMY,
+        DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO,
+        DOTA_UNIT_TARGET_FLAG_NONE,
+        FIND_ANY_ORDER,
+        false)
+
+    for _,unit in pairs(targets) do
+        ApplyDamage({victim = unit, attacker = self:GetParent(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
+
+        local distance = (unit:GetAbsOrigin() - self:GetParent():GetAbsOrigin()):Length2D()
+        local direction = (unit:GetAbsOrigin() - self:GetParent():GetAbsOrigin()):Normalized()
+        local bump_point = self:GetParent():GetAbsOrigin() + direction * (distance + 150)
+
+        local knockbackProperties =
+        {
+             center_x = bump_point.x,
+             center_y = bump_point.y,
+             center_z = bump_point.z,
+             duration = 0.1,
+             knockback_duration = 0.1,
+             knockback_distance = 0,
+             knockback_height = 50
+        }
+     
+        if unit:HasModifier("modifier_knockback") then
+            unit:RemoveModifierByName("modifier_knockback")
+        end
+        unit:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_knockback", knockbackProperties)
+    end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 modifier_face_newsong = class({})
 
@@ -570,14 +658,6 @@ end
 
 function modifier_face_newsong:OnIntervalThink()
     if not IsServer() then return end
-    if self:GetCaster():HasShard() then
-        self.move_range = self.move_range + CalculateDistance(self.prevLoc, self:GetParent())
-        if self.move_range >= 700 then
-            self:Knock()
-            self.move_range = 0
-        end
-        self.prevLoc = self:GetParent():GetAbsOrigin()
-    end
     self:Knock()
 end
 

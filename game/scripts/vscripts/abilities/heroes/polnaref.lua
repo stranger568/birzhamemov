@@ -210,14 +210,16 @@ function modifier_polnaref_stand:OnCreated(keys)
     self.mana = self:GetParent():GetOwner():GetMaxMana()
     self:GetParent():SetMaxMana(self.mana)
     self:GetParent():SetMana(self.mana)
-    self:SetStackCount(self.attack_speed)
+    if not self:GetCaster():HasModifier("modifier_item_echo_sabre") then
+        self:SetStackCount(self.attack_speed)
+    end
     self:GetParent():SetBaseDamageMin(self.b_damage)
     self:GetParent():SetBaseDamageMax(self.b_damage)
     self:GetParent():SetBaseMaxHealth(self.b_health)
     self:GetParent():SetMaxHealth(self.b_health)
     self:GetParent():SetHealth(self:GetParent():GetMaxHealth())
     self:GetParent():SetPhysicalArmorBaseValue(self.b_armor)
-
+    self:GetCaster():RemoveModifierByName("modifier_item_echo_sabre")
     self:GetParent():FindAbilityByName("polnaref_rapier"):SetLevel(self:GetParent():GetOwner():FindAbilityByName("polnaref_stand"):GetLevel())
     self:GetParent():FindAbilityByName("polnaref_chariotarmor"):SetLevel(self:GetParent():GetOwner():FindAbilityByName("polnaref_battle_exp"):GetLevel())
     self:GetParent():FindAbilityByName("polnaref_shoot"):SetLevel(self:GetParent():GetOwner():FindAbilityByName("polnaref_ragess"):GetLevel())
@@ -249,6 +251,7 @@ function modifier_polnaref_stand:OnRefresh(keys)
     self.mana = self:GetParent():GetOwner():GetMaxMana()
     self:GetParent():SetMaxMana(self.mana)
     self:SetStackCount(self.attack_speed)
+    self:GetCaster():RemoveModifierByName("modifier_item_echo_sabre")
     self:GetParent():SetBaseDamageMin(self.b_damage)
     self:GetParent():SetBaseDamageMax(self.b_damage)
     self:GetParent():SetBaseMaxHealth(self.b_health)
@@ -985,13 +988,20 @@ function modifier_polnaref_chariotarmor_active:IsPurgable() return false end
 
 function modifier_polnaref_chariotarmor_active:OnCreated(table)
     if not IsServer() then return end
+
     local minus_health = self:GetAbility():GetSpecialValueFor("minus_health_regen") / 100
-    local minus_health_really = self:GetParent():GetHealth() * minus_health
+
+    local minus_health_really = self:GetParent():GetHealth() * ( 1 - minus_health)
     self:GetParent():SetHealth(minus_health_really)
-    local bonus_health = (self:GetAbility():GetSpecialValueFor("bonus_health_regen") / self:GetAbility():GetSpecialValueFor("duration")) / 100
-    self.tick_health = self:GetParent():GetMaxHealth() * bonus_health
-    print(1/self:GetAbility():GetSpecialValueFor("duration"))
-    self:StartIntervalThink(1/self:GetAbility():GetSpecialValueFor("duration"))
+
+
+    local bonus_health = (self:GetAbility():GetSpecialValueFor("bonus_health_regen") / 100) / self:GetAbility():GetSpecialValueFor("duration")
+
+
+
+
+    self.tick_health = self:GetParent():GetMaxHealth() * 0.01
+    self:StartIntervalThink(0.16)
 end
 
 function modifier_polnaref_chariotarmor_active:OnIntervalThink()

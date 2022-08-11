@@ -386,7 +386,7 @@
 	"item_recipe_ultimate_scepter"
 	{
 		"ID"							"107"
-		"ItemCost"						"800"	
+		"ItemCost"						"0"	
 
 		"ItemRecipe"					"1"
 		"ItemResult"					"item_ultimate_scepter"
@@ -875,7 +875,7 @@
 		"ScriptFile"				"items/abakan"
   		"AbilityTextureName"        "Items/Abakan"
   		"ItemCost"					"200"
-		"AbilityCooldown"			"5"
+		"AbilityCooldown"			"3"
   		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
   		"ItemStackable"				"0"
 		"ItemPermanent"				"0"
@@ -1151,7 +1151,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_movement_speed"	"45"
+				"bonus_movement_speed"	"55"
 			}
 			"02"
 			{
@@ -1176,12 +1176,12 @@
 			"05"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"bonus_armor"			"4"
+				"bonus_armor"			"6"
 			}
 			"06"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"bonus_str"				"7"
+				"bonus_str"				"9"
 			}
 			"07"
 			{
@@ -1689,7 +1689,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_attack_speed"	"150"
+				"bonus_attack_speed"	"185"
 			}
 			"02"
 			{
@@ -1706,7 +1706,7 @@
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"chance"				"75"
+				"chance"				"80"
 			}
 			"05"
 			{
@@ -1794,12 +1794,12 @@
 		    "03"
 		    {
 		    	"var_type"			"FIELD_INTEGER"
-		    	"coruprion_armor"	"6"
+		    	"coruprion_armor"	"7"
 		    }
 		    "04"
 		    {
 		    	"var_type"			"FIELD_INTEGER"
-		    	"base_coruprion_armor"	"4"
+		    	"base_coruprion_armor"	"3"
 		    }
 		}
   	}
@@ -1836,12 +1836,12 @@
 		    "03"
 		    {
 		    	"var_type"			"FIELD_INTEGER"
-		    	"coruprion_armor"	"7"
+		    	"coruprion_armor"	"12"
 		    }
 		    "04"
 		    {
 		    	"var_type"			"FIELD_INTEGER"
-		    	"base_coruprion_armor"	"8"
+		    	"base_coruprion_armor"	"6"
 		    }
 		}
   	}
@@ -1880,12 +1880,12 @@
 		    "03"
 		    {
 		    	"var_type"			"FIELD_INTEGER"
-		    	"coruprion_armor"	"10"
+		    	"coruprion_armor"	"15"
 		    }
 		    "04"
 		    {
 		    	"var_type"				"FIELD_INTEGER"
-		    	"base_coruprion_armor"	"10"
+		    	"base_coruprion_armor"	"8"
 		    }
 		    "05"
 			{
@@ -2092,12 +2092,12 @@
   		"BaseClass"                 "item_datadriven"
   		"AbilityTextureName"        "recipe"
   		"Model"						"models/props_gameplay/recipe.vmdl"
-  		"ItemCost"					"1500"
+  		"ItemCost"					"500"
 		"ItemRecipe"				"1"
 		"ItemResult"				"item_butter2"
 		"ItemRequirements"
 		{
-			"01" "item_butterfly"
+			"01" 					"item_butterfly;item_butterfly"
 		}
   	}
 	
@@ -2173,32 +2173,27 @@
 		    "01"
 		    {
 		        "var_type"          "FIELD_INTEGER"
-		        "agi"             	"40"
+		        "agi"             	"70"
 		    }
 		    "02"
 		    {
 		        "var_type"          "FIELD_FLOAT"
-		        "dmg"          		"25"
+		        "dmg"          		"50"
 		    }
 		    "03"
 		    {
 		    	"var_type"			"FIELD_FLOAT"
-		    	"ev"				"35"
+		    	"ev"				"50"
 			}	
 		    "04"
 		    {
 		    	"var_type"			"FIELD_FLOAT"
-		    	"attack"			"30"
+		    	"attack"			"60"
 		    }
 		    "05"
 		    {
 		    	"var_type"			"FIELD_FLOAT"
 		    	"duration"			"3"
-		    }
-		    "06"
-		    {
-		    	"var_type"			"FIELD_FLOAT"
-		    	"bonus_evasion"		"100"
 		    }
 		}
   	}
@@ -3186,7 +3181,7 @@
 		"BaseClass"						"item_datadriven"
 		"AbilityTextureName" 			"recipe"
 		"Model"							"models/props_gameplay/recipe.vmdl"
-		"ItemCost"						"1000"
+		"ItemCost"						"1650"
 		"ItemRecipe"					"1"
 		"ItemResult"					"item_nimbus_lapteva_2"
 		"ItemRequirements"
@@ -3222,7 +3217,7 @@
 			"02"
 			{
 				"var_type"					"FIELD_FLOAT"
-				"stun_duration"				"3"
+				"stun_duration"				"1.25"
 			}
 			"03"
 			{
@@ -3284,7 +3279,7 @@
 			"02"
 			{
 				"var_type"					"FIELD_FLOAT"
-				"stun_duration"				"3"
+				"stun_duration"				"2.5"
 			}
 			"03"
 			{
@@ -3998,7 +3993,7 @@
 			"06"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"chance"			"20"
+				"chance"			"25"
 			}
 			"07"
 			{
@@ -4187,7 +4182,7 @@
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
 		"AbilityTextureName"			"items/gamble_gold_ring"
 		"ItemCost"						"6200"
-		"AbilityCooldown"				"60"
+		"AbilityCooldown"				"30"
 		"AbilityManaCost"				"77"
 		"ItemQuality"					"component"
 		"ItemIsNeutralDrop"				"0"
@@ -4381,7 +4376,7 @@
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
 		"AbilityTextureName"			"items/gamble_gold_ring_2"
 		"ItemCost"						"6200"
-		"AbilityCooldown"				"60"
+		"AbilityCooldown"				"30"
 		"AbilityManaCost"				"77"
 		"ItemQuality"					"component"
 		"ItemIsNeutralDrop"				"0"
@@ -5857,7 +5852,7 @@
 		"AbilityManaCost" 				"250"
 		"AbilityCastRange"				"1100"
 		"AbilityManaCost"				"250"
-		"ItemSellable"					"0"
+		"ItemSellable"					"1"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
@@ -5971,7 +5966,7 @@
 		"AbilityCooldown"				"4"
 		"ItemInitialCharges"			"0"
 		"ItemDisplayCharges"			"1"
-		"ItemSellable"					"0"
+		"ItemSellable"					"1"
 
 		"AbilitySpecial"
 		{

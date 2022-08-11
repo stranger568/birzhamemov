@@ -866,6 +866,10 @@ function Overlord_spell_6:GetManaCost(level)
     return self.BaseClass.GetManaCost(self, level)
 end
 
+function Overlord_spell_6:GetAOERadius(level)
+    return self:GetSpecialValueFor("radius")
+end
+
 LinkLuaModifier( "modifier_generic_ring_lua", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_NONE )
 
 function Overlord_spell_6:OnSpellStart()
@@ -873,15 +877,16 @@ function Overlord_spell_6:OnSpellStart()
     local delay = self:GetSpecialValueFor("delay")
     local radius = self:GetSpecialValueFor("radius")
     local base_damage = self:GetSpecialValueFor("base_damage") + GetOverlordPassiveValue(self:GetCaster(), 75)
-
-    local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_brewmaster/brewmaster_void_pulse.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
-    ParticleManager:SetParticleControl( effect_cast, 0, self:GetCaster():GetAbsOrigin() )
+    local point = self:GetCursorPosition()
+    local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_brewmaster/brewmaster_void_pulse.vpcf", PATTACH_WORLDORIGIN, nil )
+    ParticleManager:SetParticleControl( effect_cast, 0, point )
     ParticleManager:SetParticleControl( effect_cast, 1, Vector( radius*2, radius*2, radius*2 ) )
     ParticleManager:ReleaseParticleIndex( effect_cast )
 
     self:GetCaster():EmitSound("overlord_spell6")
 
-    local pulse = self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_generic_ring_lua", { end_radius = radius, speed = 1200, target_team = DOTA_UNIT_TARGET_TEAM_ENEMY, target_type = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,})
+    local pulse = CreateModifierThinker( self:GetCaster(), self, "modifier_generic_ring_lua", { end_radius = radius, speed = 1200, target_team = DOTA_UNIT_TARGET_TEAM_ENEMY, target_type = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, }, point, self:GetCaster():GetTeamNumber(), false )
+    pulse = pulse:FindModifierByName( "modifier_generic_ring_lua" )
 
     pulse:SetCallback( function( enemy )
         local damageTable = {victim = enemy, attacker = self:GetCaster(), damage = base_damage, ability = self, damage_type = DAMAGE_TYPE_MAGICAL}
@@ -1069,7 +1074,7 @@ end
 
 function modifier_Overlord_spell_7_buff:OnDestroy()
     if not IsServer() then return end
-    local units = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self:GetAbility():GetSpecialValueFor("radius") + GetOverlordPassiveValue(self:GetCaster(), 100), DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_HERO+DOTA_UNIT_TARGET_BASIC, 0, FIND_CLOSEST, false )
+    local units = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self:GetAbility():GetSpecialValueFor("radius") + GetOverlordPassiveValue(self:GetCaster(), 100), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO+DOTA_UNIT_TARGET_BASIC, 0, FIND_CLOSEST, false )
     for i = #units, 1, -1 do
         if units[i] ~= nil and (units[i] == self:GetParent()) then
             table.remove(units, i)
@@ -1164,6 +1169,7 @@ end
 
 function modifier_Overlord_spell_8_debuff:OnIntervalThink()
     if not IsServer() then return end
+    AddPassiveStack(self:GetCaster())
     local damage = self:GetAbility():GetSpecialValueFor("base_damage") + GetOverlordPassiveValue(self:GetCaster(), 20)
     local damageTable = {victim = self:GetParent(), attacker = self:GetCaster(), damage = damage, ability = self:GetAbility(), damage_type = DAMAGE_TYPE_MAGICAL}
     ApplyDamage(damageTable)
@@ -1247,14 +1253,14 @@ function modifier_Overlord_spell_9_metka:OnDeath( params )
         self:GetParent():GetAbsOrigin(),
         nil,
         self:GetAbility():GetSpecialValueFor("radius"),
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
+        DOTA_UNIT_TARGET_TEAM_BOTH,
         DOTA_UNIT_TARGET_HERO,
         DOTA_UNIT_TARGET_FLAG_NONE,
         FIND_ANY_ORDER,
         false)
 
         for _, hero in pairs(units) do
-            if hero ~= self:GetCaster() then
+            if hero:GetTeamNumber() ~= self:GetCaster():GetTeamNumber() then
                 hero:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_nevermore_requiem_fear", {duration = self:GetAbility():GetSpecialValueFor("fear_duration")})
             end
         end
@@ -1401,6 +1407,7 @@ end
 
 function modifier_Overlord_spell_10_buff:OnTakeDamage(keys)
     if keys.unit == self:GetParent() then
+        AddPassiveStack(self:GetCaster())
         self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_Overlord_spell_10_invul", {duration = self:GetAbility():GetSpecialValueFor("duration_invul")})
         if not self:IsNull() then
             self:Destroy()
@@ -1480,6 +1487,7 @@ function modifier_Overlord_spell_11:OnCreated()
         damage_type = DAMAGE_TYPE_PURE,
         ability = self:GetAbility(),
     }
+    self.bonus_damage = 0
     self:SetStackCount(1)
     self.nfx = ParticleManager:CreateParticle("particles/overlord_anime/overlord_flame.vpcf", PATTACH_ABSORIGIN, self:GetParent())
     ParticleManager:SetParticleControlEnt(self.nfx, 0, self:GetParent(), PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
@@ -1499,6 +1507,8 @@ function modifier_Overlord_spell_11:OnIntervalThink()
         return
     end
 
+    self.bonus_damage = self.bonus_damage + self:GetAbility():GetSpecialValueFor("damage_increase")
+
     local flag = 0
     if self:GetCaster():HasTalent("special_bonus_birzha_overlord_anime_5") then
         flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
@@ -1517,7 +1527,7 @@ function modifier_Overlord_spell_11:OnIntervalThink()
     )
 
     for _,enemy in pairs(enemies) do
-        self.damageTable.damage = (self:GetAbility():GetSpecialValueFor("base_damage") +GetOverlordPassiveValue(self:GetCaster(), 5))
+        self.damageTable.damage = (self:GetAbility():GetSpecialValueFor("base_damage") +GetOverlordPassiveValue(self:GetCaster(), 5)) + self.bonus_damage
         self.damageTable.victim = enemy
         if GetTargetHealthCheck(enemy) or GetOverlordPassiveGetStacks(self:GetCaster()) then
             ApplyDamage( self.damageTable )
@@ -1550,7 +1560,7 @@ end
 
 function Overlord_spell_12:OnSpellStart()
     if IsServer() then
-        local radius = 450 + GetOverlordPassiveValue(self:GetCaster(), 50)
+        local radius = 450
         local range = 1400 + GetOverlordPassiveValue(self:GetCaster(), 100)
 
         local flag = 0
@@ -1681,6 +1691,10 @@ end
 
 Overlord_spell_13 = class({})
 
+function Overlord_spell_13:GetCooldown(level)
+    return self.BaseClass.GetCooldown( self, level ) / self:GetCaster():GetCooldownReduction()
+end
+
 function Overlord_spell_13:GetManaCost(level)
     return self:GetCaster():GetMaxMana()*0.20
 end
@@ -1710,9 +1724,11 @@ function Overlord_spell_13:OnSpellStart()
     if not IsServer() then return end
     local target = self:GetCursorTarget()
 
+    if target:TriggerSpellAbsorb(self) then return end
+
     local mana = self:GetCaster():GetMaxMana() - target:GetMaxMana()
 
-    local damage = self:GetSpecialValueFor("damage") + (math.abs(mana) * (0.08 + GetOverlordPassiveValue(self:GetCaster(), 0.5)))
+    local damage = self:GetSpecialValueFor("damage") + (math.abs(mana) * (0.08 + GetOverlordPassiveValue(self:GetCaster(), 0.4)))
 
     Timers:CreateTimer(0.4, function()
         local damageTable = {
@@ -1761,7 +1777,7 @@ end
 
 function Overlord_spell_14:GetManaCost(level)
     if self:GetCaster():HasModifier("modifier_Overlord_spell_14_use") then return 0 end
-    return self.BaseClass.GetManaCost(self, level)
+    return self:GetCaster():GetMana() / 100 * self:GetSpecialValueFor("manacost")
 end
 
 function Overlord_spell_14:GetAOERadius()
@@ -1834,6 +1850,7 @@ function modifier_Overlord_spell_14:OnCreated()
     self.range_pfx = ParticleManager:CreateParticleForTeam(name, PATTACH_ABSORIGIN_FOLLOW, self:GetParent(), self:GetCaster():GetTeamNumber())
     ParticleManager:SetParticleControl(self.range_pfx, 1, Vector(255,255,255))
     ParticleManager:SetParticleControl(self.range_pfx, 0, self:GetParent():GetAbsOrigin())
+    ParticleManager:SetParticleControl(self.range_pfx, 5, Vector(self.radius,self.radius,self.radius))
     self:AddParticle( self.range_pfx, false, false, -1, false, false )
 end
 

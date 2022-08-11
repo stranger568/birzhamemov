@@ -40,8 +40,32 @@
 "DOTA_Tooltip_Ability_special_bonus_all_stats_4" 					"+40 all attributes"
 
 "birzha_random_hero"		" Select random hero "
+"tipped_0"					"lucky"
+"tipped_1"					"Steep"
+"tipped_2"					"Nice Play, Retard"
+"tipped_3"					"Knockout"
+"tipped_4"					"Fuck off"
+"tipped_5"					"SOLO!!"
+"tipped_6"					"Ливни с игры плиз"
+"tipped_7" 					"Keep fucking!"
+"tipped_8" 					"What are you the worst"
+"tipped_9" 					"Man, good"
+"tipped_10" 				"Best brother"
+"tipped_11" 				"Ultra-fucked"
+"tipped_12" 				"How is it in the tavern?"
+"tipped_13" 				"Thanks for playing!"
+"tipped_14" 				"Please don't play"
+"tipped_15" 				"Haaa well, you're a monster"
+"tipped_16" 				"Will you suck for a long time?"
 
-"contracttargets" "Purpose of contracts"
+"dota_hud_error_contract_health_percentage"	"Target is below 50% health"
+
+
+"contracttargets" 			"Purpose of contracts"
+"bm_smile_cooldown"			"Smile can be used after: "
+"wheel_reward_panel_label1"		"Lottery drop"
+"lottery_reward_panel_label3"		"Claim"
+"repick_hero_panel_label"			"Random Again"
 
 "Refresh_Msg"								"Hero Refreshed"
 "LevelUp_Msg"								"Hero Levelled Up"
@@ -159,6 +183,61 @@
 
 "chatwheel_birzha_null"						"Select Sound / Spray"
 
+"birzha_sound_error"						"Sound can be used after: "
+"birzha_spray_error"						"Spray can be used after: "
+"birzha_toy_error"							"Toy can be used after: "
+"donate_shop_aceept"						"Success"		
+"donate_shop_error"							"Error"	
+"donate_shop_loading"						"Loading"	
+
+"item_0"        "+50 DogeCoin"	
+"item_161"		"[Smile] StrangerBan"
+"item_136"		"[Smile] 4elik"
+"item_137"		"[Smile] BirzhaMertva"
+"item_138"		"[Smile] Blin"
+"item_139"		"[Smile] Cat"
+"item_140"		"[Smile] CatSad"
+"item_141"		"[Smile] Clown"
+"item_142"		"[Smile] CoolStory"
+"item_143"		"[Smile] DwayneWut"
+"item_144"		"[Smile] Gachi"
+"item_145"		"[Smile] Head"
+"item_146"		"[Smile] insane"
+"item_147"		"[Smile] KekW"
+"item_148"		"[Smile] Like"
+"item_149"		"[Smile] Micro4el"
+"item_150"		"[Smile] Omegalul"
+"item_151"		"[Smile] Oreh"
+"item_152"		"[Smile] OrehDaun"
+"item_153"		"[Smile] PapichRetard"
+"item_154"		"[Smile] PenguinSuck"
+"item_155"		"[Smile] Pepega"
+"item_156"		"[Smile] PepegaClown"
+"item_157"		"[Smile] RoflanEbalo"
+"item_158"		"[Smile] RoflanPominki"
+"item_159"		"[Smile] Wut"
+"item_160"		"[Smile] WutMeme"
+"item_162"		"[Smile] Stray"
+"item_163"		"[Smile] Mini cat"
+"item_165"      "[Sound] Вот и все долбоеб"
+"item_166"      "[Sound] Действительно, блять"
+"item_167"      "[Sound] Ты убил моего клоуна"
+"item_168"      "[Sound] Это ничего не значит"
+"item_169"      "[Sound] Жестко наебал"
+"item_170"      "[Sound] Welcome to the CUMzone"
+"item_171"      "[Sound] Пошел нахуй гамбургер"
+"item_172"      "[Sound] Вот и встретились дебилы"
+"item_173"      "[Sound] Отдай шмотку"
+"item_174"      "[Sound] Ну не надо, не стукай"
+"item_175"      "[Sound] Okay, lets dance"
+"item_176"      "[Sound] Алло, дайте покачаться"
+"item_177"      "[Sound] Это моя команда"
+"item_178"      "[Sound] Еврейский смех"
+"item_87" 		"[Sound] Балаанс"
+"item_131" 		"[Sound] Дядя не надо"
+"item_132" 		"[Sound] Нет, долбоеб"
+"item_133" 		"[Sound] Похуй, нет, не похуй"
+
 //=================================================================================================================
 // Фонтан и Круг
 //=================================================================================================================
@@ -248,6 +327,8 @@
 "BP_rank_3"						"Gold"
 "BP_rank_4"						"Platinum"
 "BP_rank_5"						"Master"
+"BP_rank_6"						"GrandMaster"
+"BP_rank_7"						"Monster"
 
 "HeroProgressBirzha"			"Level Progress:"
 "HeroProgressBirzhaLevel"		"Level:"
@@ -263,8 +344,8 @@
 
 "Sovetsforyou"												"Important tips for you"
 "Contributepanel"											"Developer support"
-"Updatename"												"New update - June update 20.06.2022"
-"Updatedescription"											"Added 3 new heroes. Click to read | Use google translate"
+"Updatename"												"New update - August update 10.08.2022"
+"Updatedescription"											"Click to read | Use google translate"
 
 "bppanelfsub"	"Rewards for subscribers"
 "bppanelffree"	"Free rewards"
@@ -352,11 +433,13 @@
 "info_player_wimgames"		"Wins"
 "info_player_losegames"		"Loses"
 "info_player_best_hero"		"Best Hero"
+"info_player_kills_count_game"		"Kills all time"
+"info_player_death_count_game"		"Deaths all time"
 
 "PlayerWinrate"			"Winrate"
 "Plus_Statistic"		"Statistics"
 "Plus_Heroes"			"Heroes"
-"YourRatingSeasons"     "MMR Seasons"
+"YourRatingSeasons"     "Your rating in past seasons"
 "Season"				"Season"
 
 "info_player_subscribe" "Subscribe"
@@ -415,10 +498,16 @@
 "pet_19_description"									"Your pet will follow you throughout the game"
 
 "subscribe_1"	"Subscription 30 days"
-"subscribe_1_description"	 "With a subscription you get: Selection of some heroes, statistics on heroes, hero levels, rating doubling tokens and 2 times more Dogecoin. The purchase will be counted in next game!"
+"subscribe_1_description"	 "With a subscription you get: Selection of some heroes, statistics on heroes, hero levels, rating doubling tokens and 2 times more Dogecoin"
 
 "subscribe_2"	"Subscription 180 days"
-"subscribe_2_description"	 "With a subscription you get: Selection of some heroes, statistics on heroes, hero levels, rating doubling tokens and 2 times more Dogecoin. The purchase will be counted in next game!"
+"subscribe_2_description"	 "With a subscription you get: Selection of some heroes, statistics on heroes, hero levels, rating doubling tokens and 2 times more Dogecoin"
+
+"subscribe_big_name" "Subscription includes:"
+"subscribe_big_name_description" "• Selection of some heroes<br><br>• Statistics on heroes<br><br>• Hero levels<br><br>• Rating doubling tokens<br><br>• 2 times more Dogecoin<br><br>• Tip players"
+
+"ButtonBuySubscribeHead"		"Buy ( 30 days )"
+"ButtonBuySubscribeHead2"		"Buy ( 180 days )"
 
 "particle_1"  "Effect Start Game"
 "particle_2"  "Effect Baldezh"
@@ -555,6 +644,21 @@
 "sounds_47"		"Похуй нет не похуй"
 "sounds_48"		"Смех.. DAMAGE!!"
 
+"sounds_49"      "Вот и все долбоеб"
+"sounds_50"      "Действительно, блять"
+"sounds_51"      "Ты убил моего клоуна"
+"sounds_52"      "Это ничего не значит"
+"sounds_53"      "Жестко наебал"
+"sounds_54"      "Welcome to the CUMzone"
+"sounds_55"      "Пошел нахуй гамбургер"
+"sounds_56"      "Вот и встретились дебилы"
+"sounds_57"      "Отдай шмотку"
+"sounds_58"      "Ну не надо, не стукай"
+"sounds_59"      "Okay, lets dance"
+"sounds_60"      "Алло, дайте покачаться"
+"sounds_61"      "Это моя команда"
+"sounds_62"      "Еврейский смех"
+
 
 "sounds_1_description"		"Open chat wheel to Y and use sound - Уху минус три"						
 "sounds_2_description"		"Open chat wheel to Y and use sound - Heelp"	
@@ -662,6 +766,8 @@
 "shop_dogecoinsitems" "Item for DC"
 "shop_banners"		  "Borders"
 "shop_chatwheel"		"Wheel"
+"shop_ruletka"			"Lottery"
+"lottery_open"			"Roll"
 
 "border_2"	"Ice Frame"
 "border_2_description"	"Your hero on top leaderboard has an ice frame with snowflake effect"
@@ -680,6 +786,9 @@
 
 "border_7"	"Electric Frame"
 "border_7_description"	"Your hero on top leaderboard has an frame with electric effect"
+
+"border_8"	"Fire snake Frame"
+"border_8_description"	"Your hero on top leaderboard has an frame with Fire Snake"
 
 
 "donate_bitcoin_1"	"500 Bitcoin"
@@ -761,7 +870,7 @@
 
 
 "MainInformationBP"							"BIRZHA PLUS - This is analogue of Dota 2 BattlePass (Compendium). Playing you get special rewards this season (Pets, items, Sprays, Sounds, Effects). The more you play, faster you reach maximum BP level"
-"BestFreeBP"								"Top 3 players of season have BIRZHA PLUS"
+"BestFreeBP"								"Top 3 Solo players of season have BIRZHA PLUS"
 "ChatWheelInformation"						"We have our own chat wheel on [Y] button. Through it you can use Sounds, Sprays, Toys"
 "Top100players"								"Top 100 players of season"
 "MainInformationFull"						"You can learn more about BP on website"
@@ -816,18 +925,18 @@
 "DOTA_Tooltip_ability_Bukin_HatTrickLeatherBall_scepter_description" 	"Ball leaves behind a fire that deals %damage% damage per second. Duration of fire is 3 seconds"
 "DOTA_Tooltip_ability_BigRussianBoss_test_scepter_description" 			"Damage reduction is 2 times weaker on enemy"
 "DOTA_Tooltip_ability_scp682_rage_scepter_description"					"Unlimited range of use"
-"DOTA_Tooltip_ability_Versuta_pudge_scepter_description"				"Increases duration of ability to Eat for 2 seconds"
+"DOTA_Tooltip_ability_Versuta_pudge_scepter_description"				"Increases duration of ability to Eat for 1 seconds"
 "DOTA_Tooltip_ability_Kirill_ShakeTheGround_scepter_description"		"Teleports hero to place of end of strike"
 "DOTA_Tooltip_ability_Ayano_Tranquilizer_scepter_description"			"Becomes an AOE with a radius of 200"
 "DOTA_Tooltip_ability_kaneki_feeling_scepter_description"				"Gives bonuses as a percentage"
 "DOTA_Tooltip_ability_klichko_charge_of_darkness_scepter_description"	"Deals 50% magic damage from speed of movement"
 "DOTA_Tooltip_ability_Vernon_pogonya_scepter_description"				"Vernon jumps between opponents within a radius of 600"
-"DOTA_Tooltip_ability_Kudes_Fat_scepter_description"					"Becomes active. Increases effect of ability by 2 times for 6 seconds"
+"DOTA_Tooltip_ability_Kudes_Fat_scepter_description"					"Becomes active. Increases effect of ability by 2 times for 5 seconds"
 "DOTA_Tooltip_ability_Hovan_GanstaBooms_scepter_description"			"Passes through immunity to magic"
 "DOTA_Tooltip_ability_Abdulov_TripToHell_scepter_description"			"Ability creates a barrier that blocks movement"
 "DOTA_Tooltip_ability_Ruby_Fade_scepter_description"					"Illusions gets effect of Rose Strike ability"
 "DOTA_Tooltip_ability_poroshenko_donbass_scepter_description"			"Stuns opponents for 3 seconds"
-"DOTA_Tooltip_ability_Pistoletov_TrahTibidoh_scepter_description"		"Reduces recharge to 1 second"
+"DOTA_Tooltip_ability_Pistoletov_TrahTibidoh_scepter_description"		"Reduces recharge to 2 second"
 "DOTA_Tooltip_ability_Garold_HidePain_scepter_description"				"Increases maximum number of charges to 8"
 "DOTA_Tooltip_ability_JohnCena_Grab_scepter_description"				"Ability does not slow down hero"
 "DOTA_Tooltip_ability_Azazin_Spinner_scepter_description"				"Increases radius to 500"
@@ -850,7 +959,7 @@
 "DOTA_Tooltip_ability_Illidan_KidsHit_scepter_description"				"Becomes active. Illidan rushes forward, if there is an enemy on way, then Illidan moves behind his back"
 "DOTA_Tooltip_ability_rin_satana_explosion_scepter_description"			"Increases range of ability by 1500"
 "DOTA_Tooltip_ability_Gorin_rabies_scepter_description"					"Creates an ability on all illusions, and then kills them"
-"DOTA_Tooltip_ability_Gachi_armor_scepter_description"					"Becomes active. Creates a shield that absorbs 300 physical damage"
+"DOTA_Tooltip_ability_Gachi_armor_scepter_description"					"Becomes active. Creates a shield that absorbs 700 physical damage"
 "DOTA_Tooltip_ability_rat_passive_scepter_description"					"Increases damage of ability by 100"
 "DOTA_Tooltip_ability_bogdan_aids_scepter_description"					"Reduces target's armor by 1 for each effect"
 "DOTA_Tooltip_ability_Olyasha_love_scepter_description"					"Attracts target to Olyasha"
@@ -981,7 +1090,7 @@
 "DOTA_Tooltip_ability_Gorin_TwinBrother_shard_description"				"Reduces cooldown to 15 seconds"
 "DOTA_Tooltip_ability_stray_kill_stealer_shard_description"				"Triggers 2 times"
 "DOTA_Tooltip_ability_Gachi_Binding_shard_description"					"Passes through immunity to magic"
-"DOTA_Tooltip_ability_rat_courier_infection_shard_description"			"Reduces cooldown to 8 seconds and increases Number of attacks for killing rats to 5"
+"DOTA_Tooltip_ability_rat_courier_infection_shard_description"			"Reduces cooldown to 6 seconds and increases Number of attacks for killing rats to 5"
 "DOTA_Tooltip_ability_Bogdan_Cower_shard_description"					"Increases duration by 4 seconds"
 "DOTA_Tooltip_ability_olyasha_gasm_shard_description"					"No longer worth mana"
 "DOTA_Tooltip_ability_robbie_timeinvis_shard_description"				"Works on illusions"
@@ -1183,19 +1292,19 @@
 "DOTA_Tooltip_modifier_item_memolator_debuff_3_Description" 					"Armor reduced by %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%"
 
 "DOTA_Tooltip_Ability_item_baldezh"								"Real Baldezh"
-"DOTA_Tooltip_ability_item_baldezh_Description"					"<h1>Active: Baldezh</h1> Grants Spell Immunity and 100%% Magic Damage Resistance. <br><br>Duration: %duration% seconds"
+"DOTA_Tooltip_ability_item_baldezh_Description"					"<h1>Active: Baldezh</h1> Dispels negative effects and grants Spell Immunity <br><br>Duration: %duration% seconds"
 "DOTA_Tooltip_ability_item_baldezh_Lore"						"Some people says, that it was invented by Ruslan Getelman"
 "DOTA_Tooltip_ability_item_baldezh_bonus_strength"				"+$str"
 "DOTA_Tooltip_ability_item_baldezh_bonus_damage"				"+$damage"
 
 "DOTA_Tooltip_Ability_item_cosmobaldezh"						"Cosmic Baldezh"
-"DOTA_Tooltip_ability_item_cosmobaldezh_Description"			"<h1>Active: Baldezh</h1> Grants Spell Immunity and 100%% Magic Damage Resistance. <br><br>Duration: %duration% seconds"
+"DOTA_Tooltip_ability_item_cosmobaldezh_Description"			"<h1>Active: Baldezh</h1> Dispels negative effects and grants Spell Immunity <br><br>Duration: %duration% seconds"
 "DOTA_Tooltip_ability_item_cosmobaldezh_Lore"					"Some people says, that it was invented by Ruslan Getelman"
 "DOTA_Tooltip_ability_item_cosmobaldezh_bonus_strength"			"+$str"
 "DOTA_Tooltip_ability_item_cosmobaldezh_bonus_damage"			"+$damage"
 
 "DOTA_Tooltip_Ability_item_superbaldezh"						"Steam super-Baldezh"
-"DOTA_Tooltip_ability_item_superbaldezh_Description"			"<h1>Active: Baldezh</h1> Grants Spell Immunity and 100%% Magic Damage Resistance. <br><br>duration: %duration% seconds"
+"DOTA_Tooltip_ability_item_superbaldezh_Description"			"<h1>Active: Baldezh</h1> Dispels negative effects and grants Spell Immunity <br><br>duration: %duration% seconds"
 "DOTA_Tooltip_ability_item_superbaldezh_Lore"					"Some people says, that it was invented by Ruslan Getelman"
 "DOTA_Tooltip_ability_item_superbaldezh_bonus_strength"			"+$str"
 "DOTA_Tooltip_ability_item_superbaldezh_bonus_damage"			"+$damage"
@@ -1212,14 +1321,14 @@
 "DOTA_Tooltip_ability_item_tar2_hp"	"+$health"
 
 "DOTA_Tooltip_ability_item_butter2"	"Gay butterfly"
-"DOTA_Tooltip_ability_item_butter2_Description"	"<h1>Active: Ride your rainbow</h1> Gives hero ability to pass through obstacles and increases evasion to %bonus_evasion%%% <br><br>Duration %duration% seconds"
+"DOTA_Tooltip_ability_item_butter2_Description"	"<h1>Active: Ride your rainbow</h1> Gives hero ability to pass through obstacles and also cannot be selected. Effect will be interrupted if a specific hit <br><br>Duration %duration% seconds"
 "DOTA_Tooltip_ability_item_butter2_agi"	"+$agi"
 "DOTA_Tooltip_ability_item_butter2_dmg"	"+$damage"
 "DOTA_Tooltip_ability_item_butter2_attack"	"+$attack"
 "DOTA_Tooltip_ability_item_butter2_ev"	"%+$evasion"
 
 "DOTA_Tooltip_modifier_item_butter2_active"								"Gay butterfly"
-"DOTA_Tooltip_modifier_item_butter2_active_Description"					"Evasion increased to 100%"
+"DOTA_Tooltip_modifier_item_butter2_active_Description"					"Passes through obstacles and cannot be targeted"
 
 "DOTA_Tooltip_ability_item_recipe_frostmorn"	"Recipe: Frostmourne"
 "DOTA_Tooltip_ability_item_frostmorn"	"Frostmourne"
@@ -1705,7 +1814,7 @@
 "DOTA_Tooltip_modifier_item_birzha_ward_Description"	"At the moment, you have participated in %dMODIFIER_PROPERTY_TOOLTIP% kills"
 
 "DOTA_Tooltip_Ability_item_birzha_contract"									"Assassins Guild Contract"
-"DOTA_Tooltip_ability_item_birzha_contract_Description"						"<h1>Active: Order Purpose</h1> Selects the target of the contract, the contract is confirmed within 3 seconds, if the target dies earlier, the contract will be canceled<br><br>If the chosen target dies, then the killer and the customer receive a reward for the completed contract<br><br>If the chosen target kills the customer, then she receives a double reward for the violated contract"
+"DOTA_Tooltip_ability_item_birzha_contract_Description"						"<h1>Active: Order Purpose</h1> Selects a contract target that has more than 50% health<br><br>If the chosen target dies, then the killer and the customer receive a reward for the completed contract<br><br>If the chosen target kills the customer, then she receives a double reward for the violated contract"
 "DOTA_Tooltip_Ability_item_birzha_contract_Note0"	"Contract objectives are displayed in the Game Info panel"
 "DOTA_Tooltip_Ability_item_birzha_contract_Note1"	"After the end of the contract, the hero can no longer be the target for 4 minutes"
 "DOTA_Tooltip_Ability_item_birzha_contract_Note2"	"The reward for a completed contract increases every 3 minutes by 100 gold"
@@ -3774,7 +3883,7 @@
 
 "DOTA_Tooltip_Ability_special_bonus_birzha_jew_3" "+50 damage from Fire power"
 "DOTA_Tooltip_Ability_special_bonus_birzha_jew_1" "+500 damage absorbation from Fire power"
-"DOTA_Tooltip_Ability_special_bonus_birzha_jew_2" "+1000 gold from Get some cash"
+"DOTA_Tooltip_Ability_special_bonus_birzha_jew_2" "+900 gold from Get some cash"
 "DOTA_Tooltip_Ability_special_bonus_birzha_jew_4" "Triple damage steal from Greed"
 
 //=================================================================================================================
@@ -4177,7 +4286,7 @@
 "Dota_Tooltip_modifier_Akame_slice_debuff_Description"	"Armor reduced"
 
 "DOTA_Tooltip_ability_Akame_Obraz"	"Afterimage"
-"DOTA_Tooltip_ability_Akame_Obraz_Description"	"Akame leaves an illusion on her place and blinks behind the target's back. First illusion's attack deal %damage_one% +  %damage_one_attack%%  from her damage"
+"DOTA_Tooltip_ability_Akame_Obraz_Description"	"Akame leaves an illusion on her place and blinks behind the target's back. First illusion's attack deal %damage_one%"
 "DOTA_Tooltip_ability_Akame_Obraz_illusion_damage_tooltip"	"%ILLUSION DAMAGE:"
 "DOTA_Tooltip_ability_Akame_Obraz_illusion_damage_in_tooltip"	"%DAMAGE TO ILLUSION:"
 "DOTA_Tooltip_ability_Akame_Obraz_duration"	"DURATION:"
@@ -5411,9 +5520,9 @@
 
 "DOTA_Tooltip_Ability_special_bonus_birzha_dio_2" 					"Stand loss does not kill you"
 "DOTA_Tooltip_Ability_special_bonus_birzha_dio_1" 					"+1 to Wryyyyyy multiplier"
-"DOTA_Tooltip_Ability_special_bonus_birzha_dio_3" 					"+300 Blink range"
+"DOTA_Tooltip_Ability_special_bonus_birzha_dio_3" 					"+200 Blink range"
 "DOTA_Tooltip_Ability_special_bonus_birzha_dio_4" 					"-60 cooldown Stand"
-"DOTA_Tooltip_Ability_special_bonus_birzha_dio_5" 					"-2.5 cooldown Blink"
+"DOTA_Tooltip_Ability_special_bonus_birzha_dio_5" 					"-1.5 cooldown Blink"
 
 //=================================================================================================================
 // Enchantress | Hatsune Miku | Hatsune Miku
@@ -6642,7 +6751,7 @@ Allies in area gain %health_regeneration% health regeneration"
 "DOTA_Tooltip_ability_kakashi_raikiri"								"Raikiri"
 "DOTA_Tooltip_ability_kakashi_raikiri_Description"					"Kakashi moves to the specified point, attacking all enemies on the way <br><br>Recharge depends on the sphere <font color='#7998b5'>Suiton</font> 16 / 15 / 14 / 13 / 12 / 11 / 10"
 "DOTA_Tooltip_ability_kakashi_raikiri_damage"						"DAMAGE (<font color=`#7998b5`>Suiton</font>):"
-"DOTA_Tooltip_ability_kakashi_range"								"RANGE (<font color=`#7998b5`>Suiton</font>):"
+"DOTA_Tooltip_ability_kakashi_raikiri_range"								"RANGE (<font color=`#7998b5`>Suiton</font>):"
 "DOTA_Tooltip_ability_kakashi_raikiri_lore"							"This hero was created with <font color='#fffc00'>INSANE и daertc</font>"
 
 "DOTA_Tooltip_ability_kakashi_lightning_hit"										"Water stroke"
@@ -7148,7 +7257,7 @@ Allies in area gain %health_regeneration% health regeneration"
 
 
 "DOTA_Tooltip_ability_Overlord_spell_11"								"Hell fire"
-"DOTA_Tooltip_ability_Overlord_spell_11_Description"					"Overlord turns on flame that deals damage. Every %interval% seconds mana cost are doubled<br><br><font color='#ff9900'>Ability damage is added %perc_damage%%  from charges Not knowing defeat</font>"
+"DOTA_Tooltip_ability_Overlord_spell_11_Description"					"Overlord turns on flame that deals damage. Every %interval% seconds mana cost are doubled, and damage to %damage_increase%<br><br><font color='#ff9900'>Ability damage is added %perc_damage%%  from charges Not knowing defeat</font>"
 "DOTA_Tooltip_ability_Overlord_spell_11_base_damage"					"DAMAGE:"
 "DOTA_Tooltip_ability_Overlord_spell_11_radius"							"RADIUS:"
 "DOTA_Tooltip_ability_Overlord_spell_11_manacost"						"MANACOST PER TICK:"
@@ -7156,7 +7265,7 @@ Allies in area gain %health_regeneration% health regeneration"
 
 
 "DOTA_Tooltip_ability_Overlord_spell_12"								"Slitting reality"
-"DOTA_Tooltip_ability_Overlord_spell_12_Description"					"Releases a stream of energy that slices through reality. Targets hit get bleed and lose health while moving<br><br><font color='#ff9900'>Ability bleed damage is added 25% from charges Not knowing defeat</font><br><br><font color='#ff9900'>Added to the radius of the ability 50% from charges Not knowing defeat</font><br><br><font color='#ff9900'>Added to the range of the ability 100% from charges Not knowing defeat</font>"
+"DOTA_Tooltip_ability_Overlord_spell_12_Description"					"Releases a stream of energy that slices through reality. Targets hit get bleed and lose health while moving<br><br><font color='#ff9900'>Ability bleed damage is added 25% from charges Not knowing defeat</font><br><br><font color='#ff9900'>Added to the range of the ability 100% from charges Not knowing defeat</font>"
 "DOTA_Tooltip_ability_Overlord_spell_12_damage"							"DAMAGE:"
 "DOTA_Tooltip_ability_Overlord_spell_12_blood_duration"					"BLEEDING DURATION:"
 "DOTA_Tooltip_ability_Overlord_spell_12_blood_damage"					"%DAMAGE BLEEDING:"
@@ -7164,7 +7273,7 @@ Allies in area gain %health_regeneration% health regeneration"
 
 
 "DOTA_Tooltip_ability_Overlord_spell_13"								"True death"
-"DOTA_Tooltip_ability_Overlord_spell_13_Description"					"Deals damage to target enemy by mana difference multiplied by (0.1 + 1% from charges Not knowing defeat)"
+"DOTA_Tooltip_ability_Overlord_spell_13_Description"					"Deals damage to target enemy by mana difference multiplied by (0.1 + 0.4% from charges Not knowing defeat)"
 "DOTA_Tooltip_ability_Overlord_spell_13_damage"							"BASE DAMAGE:"
 "DOTA_Tooltip_ability_Overlord_spell_13_lore"							"This hero was created with <font color='#fffc00'>ForeverBlin4ik</font>"
 
@@ -7250,7 +7359,7 @@ Allies in area gain %health_regeneration% health regeneration"
 		
 "DOTA_Tooltip_Ability_special_bonus_birzha_overlord_anime_5" 							"Over-level magic through magic immunity"
 "DOTA_Tooltip_Ability_special_bonus_birzha_overlord_anime_5_Description" 				"All abilities from the book work through magic immunity"
-"DOTA_Tooltip_Ability_special_bonus_birzha_overlord_anime_6" 							"-120 cooldown and +300 radius The fall"
+"DOTA_Tooltip_Ability_special_bonus_birzha_overlord_anime_6" 							"-30 cooldown and +300 radius The fall"
 		
 "DOTA_Tooltip_Ability_special_bonus_birzha_overlord_anime_7" 							"-5 books cooldown"
 "DOTA_Tooltip_Ability_special_bonus_birzha_overlord_anime_8" 							"Lifetime Purpose Through Magic Immunity"
@@ -7585,7 +7694,7 @@ Allies in area gain %health_regeneration% health regeneration"
 "DOTA_Tooltip_ability_pump_sugar_lore"													"This hero was created with <font color='#fffc00'>Клоун Паппуски</font>"
 
 "DOTA_Tooltip_ability_pump_skid"														"Skid"
-"DOTA_Tooltip_ability_pump_skid_Description"											"Skid is very brave and courageous, which always gets into trouble, but comes out victorious. Using this ability casts a shield on you and a nearby ally within a radius of 1000, increasing resistance to effects and magic. Shield on your hero also reflects directed abilities"
+"DOTA_Tooltip_ability_pump_skid_Description"											"Skid is very brave and courageous, which always gets into trouble, but comes out victorious. Using this ability casts a shield on you and a nearby ally within a radius of 600, increasing resistance to effects and magic. Shield on your hero also reflects directed abilities"
 "DOTA_Tooltip_ability_pump_skid_spell_resist"											"%BONUS MAGICAL RESISTANCE:"
 "DOTA_Tooltip_ability_pump_skid_effect_resist"											"%BONUS EFFECT RESISTANCE:"
 "DOTA_Tooltip_ability_pump_skid_duration"												"DURATION:"
@@ -7758,7 +7867,7 @@ Allies in area gain %health_regeneration% health regeneration"
 "DOTA_Tooltip_Ability_special_bonus_birzha_sonic_5"										"+0.8 stun duration Leap forward"
 "DOTA_Tooltip_Ability_special_bonus_birzha_sonic_6"										"2 charges Stealing speed"
 
-"DOTA_Tooltip_Ability_special_bonus_birzha_sonic_7"										"+1500 movespeed limit Faster than light"
+"DOTA_Tooltip_Ability_special_bonus_birzha_sonic_7"										"+500 movespeed limit Faster than light"
 "DOTA_Tooltip_Ability_special_bonus_birzha_sonic_8"										"During Gotta go fast, you can pass through obstacles"
 
 
@@ -7784,16 +7893,19 @@ Allies in area gain %health_regeneration% health regeneration"
 "DOTA_Tooltip_ability_metagame_mmr_lore"												"This hero was created with <font color='#fffc00'>ЕДРИТЬ ЕГО В КОРЕНЬ</font>"
 
 "DOTA_Tooltip_ability_metagame_passive"													"Fucked your mouth"
-"DOTA_Tooltip_ability_metagame_passive_Description"										"Anyone who attacks metagame gets a tree in face. Tree deals damage within %radius% and slows down opponents by %slow%%%. Damage is equal to attack damage"
+"DOTA_Tooltip_ability_metagame_passive_Description"										"Anyone who attacks metagame gets a tree in face. Tree deals damage within %radius%, stuns and slows down opponents by %slow%%%. Damage is equal to attack damage"
 "DOTA_Tooltip_ability_metagame_passive_bonus_damage"									"%BONUS DAMAGE:"
 "DOTA_Tooltip_ability_metagame_passive_duration"										"SLOW DURATION:"
+"DOTA_Tooltip_ability_metagame_passive_stun_duration"									"STUN DURATION:"
 "DOTA_Tooltip_ability_metagame_passive_lore"											"This hero was created with <font color='#fffc00'>ЕДРИТЬ ЕГО В КОРЕНЬ</font>"
 
 "DOTA_Tooltip_ability_metagame_furion"													"Champion in farming"
-"DOTA_Tooltip_ability_metagame_furion_Description"										"Metagame starts singing his best hit and strikes rapidly. Having made a combination of attacks, hero cannot attack for 1.75 seconds. When applying this ability, hero applies a simple dispelling to himself. Any kill during ability, gives extra gold"
+"DOTA_Tooltip_ability_metagame_furion_Description"										"Metagame starts singing his best hit and strikes rapidly. Having made a combination of attacks, hero cannot attack for 1.75 seconds. When applying this ability, hero applies a simple dispelling to himself. 
+Every 3rd attack generates a pulse that deals damage to enemies within a 800 radius. Any kill during ability, gives extra gold"
 "DOTA_Tooltip_ability_metagame_furion_duration"											"DURATION:"
 "DOTA_Tooltip_ability_metagame_furion_charges_per_flurry"								"ATTACK COUNT:"
 "DOTA_Tooltip_ability_metagame_furion_bonus_gold"										"BONUS GOLD:"
+"DOTA_Tooltip_ability_metagame_furion_impulse_damage"									"IMPULSE DAMAGE:"
 "DOTA_Tooltip_ability_metagame_furion_lore"												"This hero was created with <font color='#fffc00'>ЕДРИТЬ ЕГО В КОРЕНЬ</font>"
 
 "DOTA_Tooltip_ability_metagame_shadow_blade"											"Best Item"
@@ -7944,7 +8056,7 @@ Allies in area gain %health_regeneration% health regeneration"
 "DOTA_Tooltip_ability_jull_choronostasis_lore"											"This hero was created with <font color='#fffc00'>daertc</font>"
 
 "DOTA_Tooltip_ability_jull_in_time"														"Walking through Time"
-"DOTA_Tooltip_ability_jull_in_time_Description"											"Teleports to selected point and before teleportation reduces movement speed and resistance to magic to all opponents within radius of %radius%\n<h1>If ability level is 3+</h1>After teleportation, it reduces movement speed and resistance to magic to all opponents within radius of %radius%\n<h1>If ability level is 4</h1>Ability can be applied without turning around"
+"DOTA_Tooltip_ability_jull_in_time_Description"											"Teleports to selected point and before teleportation reduces movement speed and resistance to magic to all opponents within radius of %radius% <br>Manacost is increased by 1.5 times per use\n<h1>If ability level is 3+</h1>After teleportation, it reduces movement speed and resistance to magic to all opponents within radius of %radius%\n<h1>If ability level is 4</h1>Ability can be applied without turning around"
 "DOTA_Tooltip_ability_jull_in_time_blink_range"											"RANGE:"
 "DOTA_Tooltip_ability_jull_in_time_slow"												"%SLOW MOVESPEED:"
 "DOTA_Tooltip_ability_jull_in_time_magic_resistance"									"%REDUCING MAGIC RESISTANCE:"
@@ -8015,7 +8127,7 @@ Allies in area gain %health_regeneration% health regeneration"
 "DOTA_Tooltip_ability_special_bonus_mana_reduction_8"									"+20% Manacost/Manaloss Reduction"
 "DOTA_Tooltip_ability_special_bonus_mana_reduction_11"									"+11% Manacost/Manaloss Reduction"
 
-"DOTA_Tooltip_ability_jull_portal_backend_scepter_description"							"Killing with this ability resets cooldown of basic abilities"
+"DOTA_Tooltip_ability_jull_portal_backend_scepter_description"							"Killing with this ability resets cooldown of basic abilities<br>through immunity to Magic"
 "DOTA_Tooltip_ability_jull_choronostasis_shard_description"								"Increases damage resistance by 20%"
 
 
@@ -8221,7 +8333,7 @@ Allies in area gain %health_regeneration% health regeneration"
 "DOTA_Tooltip_ability_saitama_punch_limeter_range"								"WAVE RANGE PER CHARGE LIMITER:"
 "DOTA_Tooltip_ability_saitama_punch_lore"										"This hero was created with <font color='#fffc00'>Александр Чумаров</font>"
 
-"DOTA_Tooltip_ability_saitama_punch_shard_description"							"Reduces cast time to 1 second"
+"DOTA_Tooltip_ability_saitama_punch_shard_description"							"Reduces cast time to 0.5 second"
 
 "DOTA_Tooltip_ability_special_bonus_birzha_saitama_1"							"+20% damage from attack Series of ordinary punches"
 "DOTA_Tooltip_ability_special_bonus_birzha_saitama_2"							"-7 cooldown Jump"

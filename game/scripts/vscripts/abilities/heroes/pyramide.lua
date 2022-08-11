@@ -88,7 +88,7 @@ end
 
 modifier_pyramide_wires_damage = class({})
 
-function modifier_pyramide_wires_damage:IsPurgable()   return false end
+function modifier_pyramide_wires_damage:IsPurgable()   return true end
 function modifier_pyramide_wires_damage:IsPurgeException() return false end
 
 function modifier_pyramide_wires_damage:OnCreated()
@@ -361,7 +361,7 @@ end
 
 function pyramide_passive:OnSpellStart()
     if not IsServer() then return end
-    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_pyramide_aghanim_thinker", {duration = 30})
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_pyramide_aghanim_thinker", {duration = 15})
 end
 
 modifier_pyramide_passive = class({})
@@ -547,7 +547,7 @@ end
 
 function modifier_pyramide_aghanim_fog:OnCreated()
     if not IsServer() then return end
-    self.vision = (self:GetParent():GetCurrentVisionRange() - 100 ) * -1
+    self.vision = (self:GetParent():GetCurrentVisionRange() - 500 ) * -1
     self:StartIntervalThink(FrameTime())
 end
 

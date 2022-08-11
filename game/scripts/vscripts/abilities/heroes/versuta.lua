@@ -444,7 +444,7 @@ end
 function versuta_dismember:GetChannelTime()
     self.duration = self:GetSpecialValueFor( "duration" )
     if self:GetCaster():HasModifier("modifier_Versuta_pudge_scepter") then
-        self.duration  = self.duration + 2 
+        self.duration  = self.duration + 1 
     end
     return self.duration
 end
