@@ -296,7 +296,7 @@ function nolik_energizer:OnSpellStart()
 
     local modifier_nolik_energy = self:GetCaster():FindModifierByName("modifier_nolik_energy")
     if modifier_nolik_energy then
-    	local damage = modifier_nolik_energy:GetStackCount() * energy_cost
+    	local damage = (modifier_nolik_energy:GetStackCount() * energy_cost) * 2
     	if self:GetCaster():HasShard() then
     		damage = damage * 2
     	end
@@ -436,24 +436,20 @@ nolik_helper = class({})
 function nolik_helper:OnSpellStart()
 	if not IsServer() then return end
 	self:GetCaster():EmitSound("nolik_pomogator")
-	local duration = self:GetSpecialValueFor("duration")
+	local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_nolik_6")
 	self:GetCaster():RemoveModifierByName("modifier_nolik_helper_1")
 	self:GetCaster():RemoveModifierByName("modifier_nolik_helper_2")
 	self:GetCaster():RemoveModifierByName("modifier_nolik_helper_3")
 	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_nolik_helper_energy", {duration = duration})
 
-	if self:GetCaster():HasTalent("special_bonus_birzha_nolik_6") then
-		self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_nolik_helper_1", {duration = duration})
-		self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_nolik_helper_2", {duration = duration})
-		self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_nolik_helper_3", {duration = duration})
-		return
-	end
-
 	if self:GetLevel() == 1 then
 		self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_nolik_helper_1", {duration = duration})
 	elseif self:GetLevel() == 2 then
+		self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_nolik_helper_1", {duration = duration})
 		self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_nolik_helper_2", {duration = duration})
 	elseif self:GetLevel() == 3 then
+		self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_nolik_helper_1", {duration = duration})
+		self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_nolik_helper_2", {duration = duration})
 		self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_nolik_helper_3", {duration = duration})
 	end
 end

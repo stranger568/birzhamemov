@@ -75,6 +75,12 @@ function VectorTarget:OnAbilityLearned(event)
 	if bit.band(behavior, DOTA_ABILITY_BEHAVIOR_VECTOR_TARGETING) ~= 0 then
 		VectorTarget:UpdateNettable(ability)
 	end
+
+	if event.abilityname == "special_bonus_birzha_shelby_4" then
+		if hero and hero:IsRealHero() then
+			PlayerResource:ModifyGold( playerID, ability:GetSpecialValueFor("value"), true, 0 )
+		end
+	end
 end
 
 function VectorTarget:OnItemPickup(event)

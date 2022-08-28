@@ -161,7 +161,7 @@
 		"AbilityCastRange"				"500"
 		"AbilityCastPoint"				"0.0"
 		"AbilityCooldown"				"1.0"
-		"ItemCost"						"200"
+		"ItemCost"						"125"
 		"ItemShopTags"					"consumable"
 		"ItemQuality"					"consumable"
 		"ItemAliases"					"observer ward"
@@ -179,7 +179,7 @@
 
 		"AbilityValues"
 		{
-			"lifetime"				"120"
+			"lifetime"				"60"
 			"vision_range_tooltip"	"1000"
 			"health"				"200"
 			"duration_minutes_tooltip"				"2"
@@ -206,9 +206,9 @@
 		"AbilityValues"
 		{
 				"bonus_health"			"100"
-				"observer_cost"			"200"
+				"observer_cost"			"125"
 				"sentry_cost"			"75"
-				"lifetime_observer"				"120"
+				"lifetime_observer"				"60"
 				"lifetime_sentry"				"480"
 				"creation_delay"		"0"
 				"observer_vision_range_tooltip"		"1000"
@@ -440,7 +440,7 @@
 		"ItemStockTime"					"1"			  
 		"ItemStockInitial"				"0"
 		"ItemStockMax"					"1"
-		"ItemInitialStockTime"			"720.0"
+		"ItemInitialStockTime"			"360.0"
 		"ItemInitialStockTimeTurbo"		"0.0"
 		"ShouldBeSuggested"				"1"
 	}

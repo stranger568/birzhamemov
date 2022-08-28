@@ -1317,25 +1317,7 @@ function Init() {
 	radial_number = 360 * winrate_percent
 	$("#PlayerCircleWinrateFG").style.clip = 'radial( 50.0% 50.0%, 0.0deg, ' + radial_number + 'deg);'
 
-	for (var i = 1; i <= Object.keys(table.mmr).length; i++) {
-
-		var MmrSeasonBlock = $.CreatePanel('Panel', $("#AllRatingSeasons"), "");
-	    MmrSeasonBlock.AddClass('MmrSeasonBlock');
-
-	    var MmrBlockPanel = $.CreatePanel('Panel', MmrSeasonBlock, "");
-	    MmrBlockPanel.AddClass('MmrBlockPanelSeason');
-
-	    var label_block_rating = $.CreatePanel('Label', MmrBlockPanel, "");
-	    label_block_rating.AddClass('label_block_rating_count');
-	    label_block_rating.text = i
-
-	    var MmrBlockPanel_2 = $.CreatePanel('Panel', MmrSeasonBlock, "");
-	    MmrBlockPanel_2.AddClass('MmrBlockPanel');
-
-	    var label_block_rating_2 = $.CreatePanel('Label', MmrBlockPanel_2, "");
-	    label_block_rating_2.AddClass('label_block_rating');
-	    label_block_rating_2.text = String(table.mmr[i])
-	}
+	ToggleMapBPUS("solo_plus", "birzhamemov_solo")
 
 	$("#BpStatus").text = bp_days + " " + $.Localize("#day")
 	$("#PlayerTokens").text = String((10 - Number(token_used)))

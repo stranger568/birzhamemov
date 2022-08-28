@@ -2217,7 +2217,7 @@ LinkLuaModifier( "modifier_Overlord_spell_ultimate_aura", "abilities/heroes/over
 Overlord_spell_ultimate = class({})
 
 function Overlord_spell_ultimate:GetCooldown(level)
-    return 180 / self:GetCaster():GetCooldownReduction()
+    return 90 / self:GetCaster():GetCooldownReduction()
 end
 
 function Overlord_spell_ultimate:IsRefreshable()

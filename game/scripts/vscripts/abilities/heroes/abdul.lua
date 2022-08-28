@@ -380,10 +380,13 @@ function modifier_Abdulov_CutMushrooms:OnAttack( params )
     local damage = self:GetAbility():GetSpecialValueFor( "damage" )
     local kill_threshold = self:GetAbility():GetSpecialValueFor( "kill_threshold" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_abdul_4")
     local chance = self:GetAbility():GetSpecialValueFor( "chance" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_abdul_3")
+
     local damagetype = DAMAGE_TYPE_PHYSICAL
+
     if self:GetCaster():HasTalent("special_bonus_birzha_abdul_5") then
         damagetype = DAMAGE_TYPE_PURE
     end
+
     if parent == params.attacker and target:GetTeamNumber() ~= parent:GetTeamNumber() then
         if not target:IsHero() then return end
         if self:GetParent():IsIllusion() or self:GetParent():PassivesDisabled() then return end
@@ -400,13 +403,7 @@ function modifier_Abdulov_CutMushrooms:OnAttack( params )
             ParticleManager:SetParticleControlEnt(particle, 8, target, PATTACH_POINT_FOLLOW, "attach_hitloc", target:GetAbsOrigin(), true)
             ParticleManager:ReleaseParticleIndex(particle)
             parent:EmitSound("abdulult")
-            local damage_table = {}
-            damage_table.victim = target
-            damage_table.attacker = parent
-            damage_table.ability = self:GetAbility()
-            damage_table.damage_type = DAMAGE_TYPE_PURE
-            damage_table.damage = 999999
-            ApplyDamage(damage_table)
+            target:BirzhaTrueKill(self:GetAbility(), self:GetCaster())
             return
         end
         if RandomInt(1, 100) <= chance then                 

@@ -916,10 +916,10 @@
 		"DisableWearables"				"1"
 		"ModelScale"					"0.5"
 		"model"				"models/heroes/anime/rwby/ruby/ruby_basic.vmdl"
-		"Ability1"			"kaneki_ghoul"
+		"Ability1"			"kaneki_pull"
 		"Ability2"			"kaneki_coffee"
-		"Ability3"			"kaneki_feeling"
-		"Ability4"			"kaneki_pull"
+		"Ability3"			"kaneki_ghoul"
+		"Ability4"			"kaneki_feeling"
 		"Ability5"			"generic_hidden"
 		"Ability6"			"kaneki_rage"
 		"Ability25"		""
@@ -1829,7 +1829,7 @@
 		"Ability13"		"special_bonus_birzha_kurumi_2"
 		"Ability14"		"special_bonus_birzha_kurumi_1"
 		"Ability15"		"special_bonus_birzha_kurumi_5"
-		"Ability16"		"special_bonus_unique_phantom_lancer_4"
+		"Ability16"		"special_bonus_unique_phantom_lancer_doppel_illusion2_amt"
 		"Ability17"		"special_bonus_birzha_kurumi_4"
 	}
 
@@ -4407,6 +4407,120 @@
 		"VoiceFile"						"soundevents/voscripts/game_sounds_vo_bristleback.vsndevts"
 	}
 
+
+	"npc_dota_hero_tailer"
+	{
+		"BaseClass"						"npc_dota_hero_phoenix"
+		"HeroID"						"181"
+		"ModelScale"					"1"
+		"Model"							"models/heroes/undying/undying.vmdl"
+		"DisableWearables"				"1"
+		"SoundSet"						"Hero_Undying"
+	
+	    "Ability1"						"tailer_burger"
+	    "Ability2"						"tailer_burgerking"
+	    "Ability3"						"tailer_damageblock"
+	    "Ability4"						"generic_hidden"
+	    "Ability5"						"generic_hidden"
+	    "Ability6"						"tailer_doubleform"
+	
+		"Ability10"						"special_bonus_birzha_tailer_7"
+		"Ability11"						"special_bonus_birzha_tailer_1"
+				
+		"Ability12"						"special_bonus_birzha_tailer_2"
+		"Ability13"						"special_bonus_birzha_tailer_3"
+				
+		"Ability14"						"special_bonus_birzha_tailer_4"
+		"Ability15"						"special_bonus_cooldown_reduction_20"
+				
+		"Ability16"						"special_bonus_birzha_tailer_5"
+		"Ability17"						"special_bonus_birzha_tailer_6"
+				
+		"Ability25"						""
+	
+		"difficulty"					"Pick_easy"
+		"role_hero"						"Pick_Carry"
+
+		"ArmorPhysical"					"0"
+		"AttackCapabilities"			"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackRate"					"1.700000"
+		"BaseAttackSpeed"				"110"
+		"AttackAnimationPoint"			"0.330000"
+		"AttackRange"					"150"
+
+		"AttackDamageMin"				"55"
+		"AttackDamageMax"				"60"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_STRENGTH"
+		"AttributeBaseStrength"			"20"
+		"AttributeStrengthGain"			"2"
+		"AttributeBaseAgility"			"20"
+		"AttributeAgilityGain"			"2"
+		"AttributeBaseIntelligence"		"20"
+		"AttributeIntelligenceGain"		"2"
+		"MovementSpeed"					"270"
+
+		"particle_folder"				"particles/units/heroes/hero_undying"
+		"GameSoundsFile"				"soundevents/game_sounds_heroes/game_sounds_undying.vsndevts"
+		"VoiceFile"						"soundevents/voscripts/game_sounds_vo_undying.vsndevts"
+	}
+
+	"npc_dota_hero_thomas_bebra"
+	{
+		"BaseClass"						"npc_dota_hero_razor"
+		"HeroID"						"182"
+		"ModelScale"					"1"
+		"Model"							"models/tailer/shelby.vmdl"
+		"DisableWearables"				"1"
+		"SoundSet"						"Hero_Marci"
+		"ModelScale"					"1"
+	
+	    "Ability1"						"thomas_ability_one"
+	    "Ability2"						"thomas_ability_two_one"
+	    "Ability3"						"thomas_ability_three"
+	    "Ability4"						"shelby_shard"
+	    "Ability5"						"generic_hidden"
+	    "Ability6"						"shelby_ultimate"
+	    "Ability7"						"thomas_ability_two_two"
+	
+		"Ability10"						"special_bonus_birzha_shelby_1"
+		"Ability11"						"special_bonus_birzha_shelby_2"
+				
+		"Ability12"						"special_bonus_birzha_shelby_3"
+		"Ability13"						"special_bonus_birzha_shelby_4"
+				
+		"Ability14"						"special_bonus_birzha_shelby_5"
+		"Ability15"						"special_bonus_birzha_shelby_6"
+				
+		"Ability16"						"special_bonus_birzha_shelby_7"
+		"Ability17"						"special_bonus_birzha_shelby_8"
+				
+		"Ability25"						""
+	
+		"difficulty"					"Pick_hard"
+		"role_hero"						"Pick_Carry"
+
+		"ArmorPhysical"					"0"
+		"AttackCapabilities"			"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackRate"					"1.700000"
+		"BaseAttackSpeed"				"130"
+		"AttackAnimationPoint"			"0.330000"
+		"AttackRange"					"150"
+
+		"AttackDamageMin"				"55"
+		"AttackDamageMax"				"55"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
+		"AttributeBaseStrength"			"21"
+		"AttributeStrengthGain"			"2.8"
+		"AttributeBaseAgility"			"21"
+		"AttributeAgilityGain"			"3.3"
+		"AttributeBaseIntelligence"		"21"
+		"AttributeIntelligenceGain"		"2"
+		"MovementSpeed"					"330"
+
+		"particle_folder"				"particles/units/heroes/hero_razor"
+		"GameSoundsFile"				"soundevents/game_sounds_heroes/game_sounds_marci.vsndevts"
+		"VoiceFile"						"soundevents/voscripts/game_sounds_vo_razor.vsndevts"
+	}
 
 }
 

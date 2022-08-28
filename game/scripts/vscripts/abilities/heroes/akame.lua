@@ -926,7 +926,7 @@ end
 
 function modifier_Akame_jump_stack:CalculateCharge()
     self:GetAbility():EndCooldown()
-    self.max_charges = 1 + self:GetCaster():FindTalentValue("special_bonus_birzha_akame_6") + self:GetCaster():FindTalentValue("special_bonus_birzha_akame_8")
+    self.max_charges = 1
     if self:GetStackCount()>=self.max_charges then
         self:SetDuration( -1, false )
         self:StartIntervalThink( -1 )

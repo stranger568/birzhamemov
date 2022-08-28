@@ -2,11 +2,17 @@ GameEvents.Subscribe( 'set_camera_target', SetCamera );
 GameEvents.Subscribe( 'chat_birzha_sound', ChatSound );
 GameEvents.Subscribe( 'random_hero_chat', RandomHeroChat );
 GameEvents.Subscribe( 'chat_bm_smile', ChatSmile );
+GameEvents.Subscribe( 'set_player_icon', set_player_icon);
 
 function SetCamera( data )
 {
 	GameUI.SetCameraTargetPosition(Entities.GetAbsOrigin( data.id ), 0.1);
 } 
+
+function set_player_icon(data)
+{	
+	Entities.SetMinimapIcon( data.entity, data.icon );
+}
 
 function ChatSound( data )
 {
@@ -123,4 +129,27 @@ function ChatSmile( data )
             ChatPanelSound.AddClass('ChatLine');  
         }
     })
+}
+
+let table_visible = CustomNetTables.GetTableValue("playernetworths", "visibleicon")
+
+if (player_networths) {
+    if (player_networths[1] && player_networths[2]) {
+        if (player_networths[1]["id"] == playerId) {
+        	if (table_visible && table_visible.visible == "true")
+        	{
+        		playerPanel.SetHasClass("player_duel", true);
+        	} else {
+        		playerPanel.SetHasClass("player_duel", false);
+        	}
+        } 
+        else if (player_networths[2]["id"] == playerId)
+        {
+            playerPanel.SetHasClass("player_duel", true);
+        } 
+        else
+        {
+            playerPanel.SetHasClass("player_duel", false);
+        }
+    }
 }

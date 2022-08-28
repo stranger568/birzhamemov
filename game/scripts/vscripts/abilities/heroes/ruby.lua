@@ -154,7 +154,7 @@ function modifier_Ruby_SilverEyes_debuff:OnIntervalThink()
     local facing_angle = VectorToAngles( self.parent:GetForwardVector() ).y
     local distance = vector:Length2D()
     local prev_facing = self.facing
-    local damage = (self:GetAbility():GetSpecialValueFor( "damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_ruby_1")) * 0.03
+    local damage = self:GetAbility():GetSpecialValueFor( "damage" ) * 0.03
     self.facing = ( math.abs( AngleDiff(center_angle,facing_angle) ) < self.stone_angle ) and (distance < self.radius )
     if self.facing~=prev_facing then
         self:ChangeEffects( self.facing )
@@ -281,7 +281,7 @@ function modifier_Ruby_RoseStrike:OnAttackLanded( params )
     if params.target~=self:GetCaster() then return end
     if self:GetCaster():PassivesDisabled() then return end
     if params.attacker:GetTeamNumber()==params.target:GetTeamNumber() then return end
-    self.chance = self:GetAbility():GetSpecialValueFor( "trigger_chance2" )
+    self.chance = self:GetAbility():GetSpecialValueFor( "trigger_chance2" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_ruby_1")
     self.radius = self:GetAbility():GetSpecialValueFor( "radius" )
     local damage = self:GetAbility():GetSpecialValueFor( "damage" )
 
@@ -324,7 +324,7 @@ function modifier_Ruby_RoseStrike:OnAttacked( params )
     if not IsServer() then return end
     if params.attacker == self:GetParent() then
         if self:GetCaster():PassivesDisabled() then return end
-        self.chance = self:GetAbility():GetSpecialValueFor( "trigger_chance" )
+        self.chance = self:GetAbility():GetSpecialValueFor( "trigger_chance" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_ruby_1")
         self.radius = self:GetAbility():GetSpecialValueFor( "radius" )
         local damage = self:GetAbility():GetSpecialValueFor( "damage" )
 

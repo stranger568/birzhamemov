@@ -154,7 +154,7 @@ function BirzhaData.PostHeroesInfo()
                 deaths = PlayerResource:GetDeaths(id)
                 kills = PlayerResource:GetKills(id)
             end
-            if PLAYERS[ id ].picked_hero ~= nil then
+            if PLAYERS[ id ].picked_hero ~= nil and (player_info.games_calibrating[12] or 10) <= 0 then
                 local name = tostring(PLAYERS[ id ].picked_hero)
                 local win = ((function(id) if BirzhaData.GetMmrByTeamPlace(id) >= 0 then return 1 end return 0 end)(id))
                 local lose = ((function(id) if BirzhaData.GetMmrByTeamPlace(id) >= 0 then return 0 end return 1 end)(id))
@@ -181,7 +181,7 @@ function BirzhaData.PostHeroPlayerHeroInfo()
 
     for id, player_info in pairs(BirzhaData.PLAYERS_GLOBAL_INFORMATION) do
         if PLAYERS[ id ] then
-            if PLAYERS[ id ].picked_hero ~= nil then
+            if PLAYERS[ id ].picked_hero ~= nil and (player_info.games_calibrating[12] or 10) <= 0 then
                 local steamid = player_info.steamid
                 local name = tostring(PLAYERS[ id ].picked_hero)
                 local deaths = 1

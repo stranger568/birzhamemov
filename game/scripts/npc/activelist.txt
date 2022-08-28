@@ -105,4 +105,6 @@
 	"npc_dota_hero_freddy"				"1"
 	"npc_dota_hero_nolik"				"1"
 	"npc_dota_hero_saitama"				"1"
+	"npc_dota_hero_tailer"				"1"
+	"npc_dota_hero_thomas_bebra"		"1"
 }

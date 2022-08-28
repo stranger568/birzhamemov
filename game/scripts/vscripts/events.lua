@@ -455,8 +455,8 @@ function BirzhaGameMode:OnItemPickUp( event )
 		owner = owner:GetOwner()
 	end
 	if event.itemname == "item_bag_of_gold" then
-		PlayerResource:ModifyGold( owner:GetPlayerID(), 300, true, 0 )
-		SendOverheadEventMessage( owner, OVERHEAD_ALERT_GOLD, owner, 300, nil )
+		PlayerResource:ModifyGold( owner:GetPlayerID(), 150, true, 0 )
+		SendOverheadEventMessage( owner, OVERHEAD_ALERT_GOLD, owner, 150, nil )
 		UTIL_Remove( item )
 	end
 	if event.itemname == "item_bag_of_gold_van" then

@@ -5,12 +5,10 @@ function UpdateHeroHudBuffs()
 	let hero_id = Players.GetLocalPlayerPortraitUnit()
 	let hero = Entities.GetUnitName(hero_id)
 
-   let default_energy_max = 300;
-   let default_energy_level = 5;
+   let default_energy_max = 500;
+   let default_energy_level = 30;
    let maximum_energy = default_energy_max + (default_energy_level * Entities.GetLevel(hero_id))
    let current_energy = GetCurrentStacks(hero_id, "modifier_nolik_energy")
-
-
 
 	if ((hero === "npc_dota_hero_nolik")) {
          $("#Energy").text = current_energy + " / " + maximum_energy

@@ -218,6 +218,21 @@ LinkLuaModifier("modifier_kaneki_feeling_debuff_vision", "abilities/heroes/kanek
 
 kaneki_feeling = class({})
 
+function kaneki_feeling:OnInventoryContentsChanged()
+    if self:GetCaster():HasShard() then
+        self:SetHidden(false)       
+        if not self:IsTrained() then
+            self:SetLevel(1)
+        end
+    else
+        self:SetHidden(true)
+    end
+end
+
+function kaneki_feeling:OnHeroCalculateStatBonus()
+    self:OnInventoryContentsChanged()
+end
+
 function kaneki_feeling:GetIntrinsicModifierName()
 	return "modifier_kaneki_feeling_aura"
 end
@@ -246,22 +261,10 @@ function modifier_kaneki_feeling_aura:DeclareFunctions()
 end
 
 function modifier_kaneki_feeling_aura:GetModifierPreAttack_BonusDamage( params )
-	if self:GetCaster():HasScepter() then return end
 	return self:GetAbility():GetSpecialValueFor("bonus_damage") * self:GetStackCount()
 end
 
 function modifier_kaneki_feeling_aura:GetModifierMoveSpeedBonus_Constant( params )
-	if self:GetCaster():HasScepter() then return end
-	return self:GetAbility():GetSpecialValueFor("movespeed_bonus") * self:GetStackCount()
-end
-
-function modifier_kaneki_feeling_aura:GetModifierDamageOutgoing_Percentage( params )
-	if not self:GetCaster():HasScepter() then return end
-	return self:GetAbility():GetSpecialValueFor("bonus_damage") * self:GetStackCount()
-end
-
-function modifier_kaneki_feeling_aura:GetModifierMoveSpeedBonus_Percentage( params )
-	if not self:GetCaster():HasScepter() then return end
 	return self:GetAbility():GetSpecialValueFor("movespeed_bonus") * self:GetStackCount()
 end
 
@@ -447,21 +450,6 @@ kaneki_pull.projectiles = {}
 LinkLuaModifier("modifier_kaneki_pull_debuff", "abilities/heroes/kaneki", LUA_MODIFIER_MOTION_BOTH)
 LinkLuaModifier("modifier_kaneki_pull_movespeed", "abilities/heroes/kaneki", LUA_MODIFIER_MOTION_BOTH)
 
-function kaneki_pull:OnInventoryContentsChanged()
-    if self:GetCaster():HasShard() then
-        self:SetHidden(false)       
-        if not self:IsTrained() then
-            self:SetLevel(1)
-        end
-    else
-        self:SetHidden(true)
-    end
-end
-
-function kaneki_pull:OnHeroCalculateStatBonus()
-    self:OnInventoryContentsChanged()
-end
-
 function kaneki_pull:OnSpellStart()
 	if not IsServer() then return end
 	local target = self:GetCursorTarget()
@@ -497,9 +485,11 @@ function kaneki_pull:OnProjectileHitHandle( target, location, handle )
 	ParticleManager:ReleaseParticleIndex( ExtraData )
 	local damage = self:GetSpecialValueFor("damage")
 	target:EmitSound("kaneki_shard_target")
-	ParticleManager:CreateParticle("particles/items2_fx/soul_ring_blood.vpcf", PATTACH_ABSORIGIN_FOLLOW, target)
-	ApplyDamage({attacker = self:GetCaster(), victim = target, ability = self, damage = damage, damage_type = DAMAGE_TYPE_PURE})
-	target:AddNewModifier(self:GetCaster(), self, "modifier_kaneki_pull_debuff", {})
+	if not target:IsMagicImmune() then
+		ParticleManager:CreateParticle("particles/items2_fx/soul_ring_blood.vpcf", PATTACH_ABSORIGIN_FOLLOW, target)
+		ApplyDamage({attacker = self:GetCaster(), victim = target, ability = self, damage = damage, damage_type = DAMAGE_TYPE_PURE})
+		target:AddNewModifier(self:GetCaster(), self, "modifier_kaneki_pull_debuff", {})
+	end
 	self.projectiles[ handle ] = nil
 end
 
@@ -547,6 +537,14 @@ function modifier_kaneki_pull_debuff:OnIntervalThink()
         self:GetParent():SetAbsOrigin(unit_location + direction * pull)
     else
         self:Destroy()
+
+        local duration = self:GetAbility():GetSpecialValueFor("duration")
+
+        if self:GetCaster():HasScepter() then
+        	duration = duration + 1.5
+        	self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = 1.5})
+        end
+
         self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_kaneki_pull_movespeed", {duration = self:GetAbility():GetSpecialValueFor("duration")})
     end
 end

@@ -224,7 +224,7 @@ function Slidan_SuckDick:OnChannelFinish( bInterrupted )
         end
     end
     self.modifiers = {}
-    StopSoundOn( self.sound_cast, self:GetCaster() )
+    StopSoundOn( "Hero_Lion.ManaDrain", self:GetCaster() )
 end
 
 function Slidan_SuckDick:Unregister( modifier )
@@ -378,13 +378,6 @@ function modifier_slidan_NetherDroch:OnCreated( kv )
     if not IsServer() then return end
     self:PlayEffects()
     self:GetParent():Purge( true, false, false, false, false)
-    self:StartIntervalThink(1)
-    self:OnIntervalThink()
-end
-
-function modifier_slidan_NetherDroch:OnDestroy()
-    if not IsServer() then return end
-    StopSoundOn( "slidandroch", self:GetCaster() )
 end
 
 function modifier_slidan_NetherDroch:CheckState()
@@ -412,12 +405,6 @@ end
 
 function modifier_slidan_NetherDroch:GetModifierMiss_Percentage()
     return 100
-end
-
-function modifier_slidan_NetherDroch:OnIntervalThink()
-    if not IsServer() then return end
-    local damage = self:GetAbility():GetSpecialValueFor("per_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_slidan_2")
-    ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
 end
 
 function modifier_slidan_NetherDroch:GetStatusEffectName()

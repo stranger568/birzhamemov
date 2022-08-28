@@ -1,8 +1,7 @@
 LinkLuaModifier( "modifier_birzha_map_center_vision", "modifiers/modifier_birzha_map_center_vision.lua", LUA_MODIFIER_MOTION_NONE )
 
 function BirzhaGameMode:ThinkGoldDrop()
-	local r = RandomInt( 1, 100 )
-	if r > ( 100 - self.m_GoldDropPercent ) then
+	if RollPercentage(self.m_GoldDropPercent) then
 		self:SpawnGoldEntity( Vector( 0, 0, 0 ) )
 	end
 end

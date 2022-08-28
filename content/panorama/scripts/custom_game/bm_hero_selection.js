@@ -57,6 +57,8 @@ var heroes = {
         "npc_dota_hero_nolik": true,
         "npc_dota_hero_freddy": true,
         "npc_dota_hero_saitama": true,
+        "npc_dota_hero_tailer": true,
+        "npc_dota_hero_thomas_bebra": true,
         //
     };
 
@@ -69,7 +71,6 @@ function BirzhaPickInit(){
     if ( is_spect || localTeam != 2 && localTeam != 3 && localTeam != 6 && localTeam != 7 && localTeam != 8 && localTeam != 9 && localTeam != 10 && localTeam != 11 && localTeam != 12 && localTeam != 13 ) {
         $.Schedule( 1, function(){
             $.GetContextPanel().AddClass('Deletion');
-            $.GetContextPanel().DeleteAsync( 0.1 );
         })
         return
     }
@@ -101,15 +102,25 @@ function BirzhaHeroSelectionLoad(){
     if ( is_spect || localTeam != 2 && localTeam != 3 && localTeam != 6 && localTeam != 7 && localTeam != 8 && localTeam != 9 && localTeam != 10 && localTeam != 11 && localTeam != 12 && localTeam != 13 ) {
         $.Schedule( 1, function(){
             $.GetContextPanel().AddClass('Deletion');
-            $.GetContextPanel().DeleteAsync( 0.1 );
         })
         return
     }
+    var game_start = CustomNetTables.GetTableValue('game_state', "pickstate");
+    if (game_start)
+    {
+        if (game_start.v == "ended")
+        {
+            $.Schedule( 1, function(){
+                $.GetContextPanel().AddClass('Deletion');
+            })
+            return
+        }
+    }
     StealButtonsAndChat();
-    CreateTokenPanel();
-    $.Schedule( 0.1, function(){
+    $.Schedule( 0.2, function(){
         GameEvents.SendCustomGameEventToServer( 'birzha_pick_player_loaded', {} );
     });
+    CreateTokenPanel();
 }
 
 function HeroSelectionEnd(){
@@ -118,7 +129,6 @@ function HeroSelectionEnd(){
     if ( is_spect || localTeam != 2 && localTeam != 3 && localTeam != 6 && localTeam != 7 && localTeam != 8 && localTeam != 9 && localTeam != 10 && localTeam != 11 && localTeam != 12 && localTeam != 13 ) {
         $.Schedule( 1, function(){
             $.GetContextPanel().AddClass('Deletion');
-            $.GetContextPanel().DeleteAsync( 0.1 );
         })
         return
     }
@@ -615,10 +625,15 @@ function CreateTokenPanel()
     {
         if ( getTokens() - p_info.token_used == 0 ) {return;}
         GameEvents.SendCustomGameEventToServer('birzha_token_set', {});
-        $("#token_label").text = String(( getTokens()   - p_info.token_used - 1) );
+        if ($("#token_label"))
+        {
+            $("#token_label").text = String(( getTokens()   - p_info.token_used - 1) );
+        }
         Game.EmitSound("ui_hero_transition");
-        $("#token_panel").style.backgroundColor = "gradient( linear, 0% 0%, 0% 100%, from( #373d45 ), to( #4d5860 ) )";
-
+        if ($("#token_panel"))
+        {
+            $("#token_panel").style.backgroundColor = "gradient( linear, 0% 0%, 0% 100%, from( #373d45 ), to( #4d5860 ) )";
+        }
     }
 
     var p_info = CustomNetTables.GetTableValue('birzhainfo', String(player));
@@ -628,18 +643,30 @@ function CreateTokenPanel()
         return;
     }
     if (p_info.bp_days <= 0) {
-        $("#token_panel").style.backgroundColor = "gradient( linear, 0% 0%, 0% 100%, from( #373d45 ), to( #4d5860 ) )";
+        if ($("#token_panel"))
+        {
+            $("#token_panel").style.backgroundColor = "gradient( linear, 0% 0%, 0% 100%, from( #373d45 ), to( #4d5860 ) )";
+        }
     }
 
-    SetShowText($("#TokenInfo"), $.Localize("#Token_Info_Descr"))
+    if ($("#TokenInfo"))
+    {
+        SetShowText($("#TokenInfo"), $.Localize("#Token_Info_Descr"))
+    } 
 
     if (double_rating) {
-        $("#token_label").text = String(( getTokens() - p_info.token_used) );
+        if ($("#token_label"))
+        {
+            $("#token_label").text = String(( getTokens() - p_info.token_used) );
+        }
         if (p_info.bp_days > 0) {
             double_rating = false
-            $("#token_panel").SetPanelEvent('onactivate', event);  
+            if ($("#token_panel"))
+            {
+                $("#token_panel").SetPanelEvent('onactivate', event);  
+            }
         } 
-    } 
+    }
 }
 
 function getTokens()     

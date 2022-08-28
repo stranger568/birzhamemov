@@ -579,22 +579,25 @@ end
 
 function modifier_pyramide_aghanim_pyramide_1:OnIntervalThink()
     if not IsServer() then return end
-    local targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self:GetCaster():Script_GetAttackRange(), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, 0, FIND_ANY_ORDER, false)
+    local targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self:GetCaster():Script_GetAttackRange() + 200, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, 0, FIND_ANY_ORDER, false)
     for _,unit in pairs(targets) do
         local ability = self:GetCaster():FindAbilityByName("pyramide_fault")
-        if ability then
+        if ability and ability:GetLevel() > 0 then
             local damage = self:GetCaster():GetAverageTrueAttackDamage(nil) * 0.1
             local modifier_damage = unit:FindModifierByName("modifier_pyramide_fault_stack")
             if modifier_damage then
                 damage = damage * modifier_damage:GetStackCount()
             end
             ApplyDamage({ victim = unit, damage = damage, ability = ability, damage_type = DAMAGE_TYPE_PHYSICAL, damage_flags= DOTA_DAMAGE_FLAG_NONE, attacker = self:GetCaster() })
+
+            local duration = ability:GetSpecialValueFor("duration")
+            unit:AddNewModifier(self:GetCaster(), ability, "modifier_pyramide_fault_stack", {duration = duration})
         end
     end
     self:GetParent():StartGesture(ACT_DOTA_ATTACK)
     local particle = ParticleManager:CreateParticle("particles/pyramide/explosion_aghanim.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
     ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
-    ParticleManager:SetParticleControl(particle, 1, Vector(self:GetCaster():Script_GetAttackRange(),self:GetCaster():Script_GetAttackRange(),self:GetCaster():Script_GetAttackRange()))
+    ParticleManager:SetParticleControl(particle, 1, Vector(self:GetCaster():Script_GetAttackRange() + 200,self:GetCaster():Script_GetAttackRange() + 200,self:GetCaster():Script_GetAttackRange() + 200))
     if self:GetParent():GetForceAttackTarget() == nil or (self:GetParent():GetForceAttackTarget() and not self:GetParent():GetForceAttackTarget():IsNull() and not self:GetParent():GetForceAttackTarget():IsAlive()) then
         UpdateTarget(self:GetParent())
     end
@@ -606,6 +609,7 @@ function modifier_pyramide_aghanim_pyramide_1:CheckState()
         [MODIFIER_STATE_INVULNERABLE] = true,
         [MODIFIER_STATE_UNSELECTABLE] = true,
         [MODIFIER_STATE_DISARMED] = true,
+        [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
     }
 
     return state
@@ -622,7 +626,7 @@ end
 
 function modifier_pyramide_aghanim_pyramide_2:OnIntervalThink()
     if not IsServer() then return end
-    local targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self:GetCaster():Script_GetAttackRange(), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, 0, FIND_ANY_ORDER, false)
+    local targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self:GetCaster():Script_GetAttackRange() + 200, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, 0, FIND_ANY_ORDER, false)
     self:GetParent():StartGesture(ACT_DOTA_ATTACK)
     for _,unit in pairs(targets) do
         local damage = self:GetCaster():GetAverageTrueAttackDamage(nil) * 2
@@ -630,7 +634,7 @@ function modifier_pyramide_aghanim_pyramide_2:OnIntervalThink()
     end
     local particle = ParticleManager:CreateParticle("particles/pyramide/explosion_aghanim.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
     ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
-    ParticleManager:SetParticleControl(particle, 1, Vector(self:GetCaster():Script_GetAttackRange(),self:GetCaster():Script_GetAttackRange(),self:GetCaster():Script_GetAttackRange()))
+    ParticleManager:SetParticleControl(particle, 1, Vector(self:GetCaster():Script_GetAttackRange()+200,self:GetCaster():Script_GetAttackRange()+200,self:GetCaster():Script_GetAttackRange()+200))
     if self:GetParent():GetForceAttackTarget() == nil or (self:GetParent():GetForceAttackTarget() and not self:GetParent():GetForceAttackTarget():IsNull() and not self:GetParent():GetForceAttackTarget():IsAlive()) then
         UpdateTarget(self:GetParent())
     end
@@ -642,6 +646,7 @@ function modifier_pyramide_aghanim_pyramide_2:CheckState()
         [MODIFIER_STATE_INVULNERABLE] = true,
         [MODIFIER_STATE_UNSELECTABLE] = true,
         [MODIFIER_STATE_DISARMED] = true,
+        [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
     }
 
     return state
@@ -667,6 +672,7 @@ function modifier_pyramide_aghanim_pyramide_3:CheckState()
         [MODIFIER_STATE_NO_HEALTH_BAR] = true,
         [MODIFIER_STATE_INVULNERABLE] = true,
         [MODIFIER_STATE_UNSELECTABLE] = true,
+        [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
     }
 
     return state
@@ -710,6 +716,7 @@ function modifier_pyramide_aghanim_pyramide_4:CheckState()
         [MODIFIER_STATE_NO_HEALTH_BAR] = true,
         [MODIFIER_STATE_INVULNERABLE] = true,
         [MODIFIER_STATE_UNSELECTABLE] = true,
+        [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
     }
 
     return state

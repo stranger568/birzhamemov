@@ -11,7 +11,7 @@
 "addon_game_name"	"BIRZHA MEMOV"
 "DOTA_GameMode_15"	"BIRZHA MEMOV"
 "DOTA_Tooltip_ability_item_bag_of_gold"	"BitCoin"
-"DOTA_Tooltip_ability_item_bag_of_gold_Description"	"Gives 300 gold"
+"DOTA_Tooltip_ability_item_bag_of_gold_Description"	"Gives 200 gold"
 "DOTA_Tooltip_ability_item_treasure_chest"	"Treasure chest"
 "DOTA_Tooltip_ability_item_treasure_chest_Description"	"Grants a random item based on your position on leaderboard"
 "PointsToWin"	"{d:points_to_win} more"
@@ -928,14 +928,14 @@
 "DOTA_Tooltip_ability_Versuta_pudge_scepter_description"				"Increases duration of ability to Eat for 1 seconds"
 "DOTA_Tooltip_ability_Kirill_ShakeTheGround_scepter_description"		"Teleports hero to place of end of strike"
 "DOTA_Tooltip_ability_Ayano_Tranquilizer_scepter_description"			"Becomes an AOE with a radius of 200"
-"DOTA_Tooltip_ability_kaneki_feeling_scepter_description"				"Gives bonuses as a percentage"
+"DOTA_Tooltip_ability_kaneki_pull_scepter_description"					"Stuns target 1.5 seconds"
 "DOTA_Tooltip_ability_klichko_charge_of_darkness_scepter_description"	"Deals 50% magic damage from speed of movement"
 "DOTA_Tooltip_ability_Vernon_pogonya_scepter_description"				"Vernon jumps between opponents within a radius of 600"
 "DOTA_Tooltip_ability_Kudes_Fat_scepter_description"					"Becomes active. Increases effect of ability by 2 times for 5 seconds"
 "DOTA_Tooltip_ability_Hovan_GanstaBooms_scepter_description"			"Passes through immunity to magic"
 "DOTA_Tooltip_ability_Abdulov_TripToHell_scepter_description"			"Ability creates a barrier that blocks movement"
 "DOTA_Tooltip_ability_Ruby_Fade_scepter_description"					"Illusions gets effect of Rose Strike ability"
-"DOTA_Tooltip_ability_poroshenko_donbass_scepter_description"			"Stuns opponents for 3 seconds"
+"DOTA_Tooltip_ability_poroshenko_donbass_scepter_description"			"Stuns opponents"
 "DOTA_Tooltip_ability_Pistoletov_TrahTibidoh_scepter_description"		"Reduces recharge to 2 second"
 "DOTA_Tooltip_ability_Garold_HidePain_scepter_description"				"Increases maximum number of charges to 8"
 "DOTA_Tooltip_ability_JohnCena_Grab_scepter_description"				"Ability does not slow down hero"
@@ -957,7 +957,7 @@
 "DOTA_Tooltip_ability_Gitelman_PhysicalCulture_scepter_description"		"Passes through immunity to magic, but duration of stun is reduced by 2 times"
 "DOTA_Tooltip_ability_Pocik_penek_scepter_description"					"Stump attracts more"
 "DOTA_Tooltip_ability_Illidan_KidsHit_scepter_description"				"Becomes active. Illidan rushes forward, if there is an enemy on way, then Illidan moves behind his back"
-"DOTA_Tooltip_ability_rin_satana_explosion_scepter_description"			"Increases range of ability by 1500"
+"DOTA_Tooltip_ability_rin_satana_explosion_shard_description"			"Increases range of ability by 1500"
 "DOTA_Tooltip_ability_Gorin_rabies_scepter_description"					"Creates an ability on all illusions, and then kills them"
 "DOTA_Tooltip_ability_Gachi_armor_scepter_description"					"Becomes active. Creates a shield that absorbs 700 physical damage"
 "DOTA_Tooltip_ability_rat_passive_scepter_description"					"Increases damage of ability by 100"
@@ -1084,7 +1084,7 @@
 "DOTA_Tooltip_ability_Gitelman_Kaif_shard_description"					"Increases radius by 200"
 "DOTA_Tooltip_ability_Pocik_pizda_shard_description"					"Triggering adds an effect from ability What fuck is so little"
 "DOTA_Tooltip_ability_Illidan_Brutality_shard_description"				"Attacks during ability impose a curse for 5 seconds. Curse deals 25 net damage per second"
-"DOTA_Tooltip_ability_rin_satana_explosion_shard_description"			"Gives immunity to magic"
+"DOTA_Tooltip_ability_rin_satana_explosion_scepter_description"			"Gives invulnerability"
 "DOTA_Tooltip_ability_Rem_StrikeJump_shard_description"					"Deals attack damage"
 "DOTA_Tooltip_ability_Knuckles_GetInTheTank_shard_description"			"Works on illusions<br><br>Additional damage: 50<br>Additional attack range 400<br>Additional Armor 7"
 "DOTA_Tooltip_ability_Gorin_TwinBrother_shard_description"				"Reduces cooldown to 15 seconds"
@@ -3307,7 +3307,7 @@
 "DOTA_Tooltip_ability_Ruby_RoseStrike_radius"	"RADIUS:"
 "DOTA_Tooltip_ability_Ruby_RoseStrike_lore"	"This hero was created with <font color='#fffc00'>Sion_Atlasia's</font> and <font color='#fffc00'>Dim4ik's</font> support"
 
-"DOTA_Tooltip_ability_special_bonus_birzha_ruby_1"					"+50 Damage of Silver eyes"
+"DOTA_Tooltip_ability_special_bonus_birzha_ruby_1"					"+7 chance Rose Strike"
 "DOTA_Tooltip_ability_special_bonus_birzha_ruby_2"					"-1 second Rose Strike cooldown"
 "DOTA_Tooltip_ability_special_bonus_unique_pangolier_3"				"+40 damage from Ranged mode"
 "DOTA_Tooltip_ability_special_bonus_unique_pangolier_4"				"-3 seconds Ranged mode cooldown"
@@ -4438,6 +4438,7 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_kurumi_4" 				"7-th bullet, Zayin works only on enemies"
 "DOTA_Tooltip_Ability_special_bonus_birzha_kurumi_5" 				"Invulnerability gives magic immunity"
 "DOTA_Tooltip_ability_special_bonus_birzha_kurumi_4_Description"	"Your teamates can move in 7-th bullet, Zayin"
+"DOTA_Tooltip_ability_special_bonus_unique_phantom_lancer_doppel_illusion2_amt"			"+{s:bonus_illusion_2_amount} clone from 8-th bullet: Het"
 
 //=================================================================================================================
 // Willow | Monika | Моника
@@ -4582,6 +4583,7 @@
 "DOTA_Tooltip_ability_Yuno_sharpness_axe_Description"	"Deals bonus pure attack damage"
 "DOTA_Tooltip_ability_Yuno_sharpness_axe_damage"	"%BONUS DAMAGE FROM ATTACK:"
 "DOTA_Tooltip_ability_Yuno_sharpness_axe_base_damage"	"BASE BONUS DAMAGE:"
+"DOTA_Tooltip_ability_Yuno_sharpness_axe_shard_description"	"Each subsequent hit on same target increases base damage of ability. If you change target, damage will become normal"
 "DOTA_Tooltip_ability_Yuno_sharpness_axe_lore"	"This hero was created with <font color='#fffc00'>Dim4ik's</font> support"
 
 "DOTA_Tooltip_ability_yuno_omnipresence"	"I am everywhere"
@@ -4885,7 +4887,6 @@
 "DOTA_Tooltip_ability_Slidan_NetherDroch"	"Hell masturbation"
 "DOTA_Tooltip_ability_Slidan_NetherDroch_Description"	"Slidan uses his new grease on his enemies, enemies affected by it are getting silenced and taking damage each second"
 "DOTA_Tooltip_ability_Slidan_NetherDroch_damage"	"DAMAGE:"
-"DOTA_Tooltip_ability_Slidan_NetherDroch_per_damage"	"DAMAGE PER SECOND:"
 "DOTA_Tooltip_ability_Slidan_NetherDroch_duration"	"DURATION:"
 "DOTA_Tooltip_ability_Slidan_NetherDroch_radius"	"RADIUS:"
 
@@ -4897,7 +4898,7 @@
 "DOTA_Tooltip_ability_Slidan_ReallyClassic_channel"	"CHANNELING TIME:"
 
 "DOTA_Tooltip_Ability_special_bonus_birzha_slidan_1" 					"Real classic spends half the mana"
-"DOTA_Tooltip_Ability_special_bonus_birzha_slidan_2" 					"+40 to damage from Hell masturbation"
+"DOTA_Tooltip_Ability_special_bonus_birzha_slidan_2" 					"+150 to damage from Hell masturbation"
 "DOTA_Tooltip_Ability_special_bonus_birzha_slidan_3"					"+100 to suck from Suck some dicks"
 "DOTA_Tooltip_Ability_special_bonus_birzha_slidan_4"					"Hell masturbation muted items"
 
@@ -8281,7 +8282,7 @@ Every 3rd attack generates a pulse that deals damage to enemies within a 800 rad
 "DOTA_Tooltip_ability_special_bonus_birzha_nolik_3"									"+200 radius Relax"
 "DOTA_Tooltip_ability_special_bonus_birzha_nolik_4"									"+0.1 strength per energy"
 "DOTA_Tooltip_ability_special_bonus_birzha_nolik_5"									"+5 energy per attack"
-"DOTA_Tooltip_ability_special_bonus_birzha_nolik_6"									"All tools from Helper Dispenser"
+"DOTA_Tooltip_ability_special_bonus_birzha_nolik_6"									"+14 duration Helper Dispenser"
 "DOTA_Tooltip_ability_special_bonus_birzha_nolik_7"									"Fixiki technology works on Refresher orb"
 
 //=================================================================================================================
@@ -8349,6 +8350,152 @@ Every 3rd attack generates a pulse that deals damage to enemies within a 800 rad
 
 "DOTA_Tooltip_modifier_saitama_buff"											"Are you bullying?"
 "DOTA_Tooltip_modifier_saitama_buff_Description"								"Hero attacking you will get a kick in ass"
+
+//=================================================================================================================
+// Тайлер
+//=================================================================================================================
+
+"npc_dota_tailer_burger_king"	"Бургер Кинг"
+"npc_dota_hero_tailer"			"Тайлер Жирден"
+
+"DOTA_Tooltip_ability_tailer_burger"								"Съесть бургер"
+"DOTA_Tooltip_ability_tailer_burger_Description"					"Тайлер создает быстренький бургер для себя или же бросает его выбранному союзнику. Съедая бургер герой теряет скорость передвижения и атаки, но получает атрибуты"
+"DOTA_Tooltip_ability_tailer_burger_bonus_str"						"ДОП. СИЛА:"
+"DOTA_Tooltip_ability_tailer_burger_bonus_agi"						"ДОП. ЛОВКОСТЬ:"
+"DOTA_Tooltip_ability_tailer_burger_bonus_int"						"ДОП. ИНТЕЛЛЕКТ:"
+"DOTA_Tooltip_ability_tailer_burger_duration"						"ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_tailer_burger_movespeed"						"%ЗАМЕДЛЕНИЕ СКОРОСТИ ПЕРЕДВИЖЕНИЯ:"
+"DOTA_Tooltip_ability_tailer_burger_attackspeed"					"ЗАМЕДЛЕНИЕ СКОРОСТИ АТАКИ:"
+"DOTA_Tooltip_ability_tailer_burger_lore"							"Данный герой создан благодаря <font color='#fffc00'>1nemOne, Ando_Rey, Morir merda</font>"
+
+"DOTA_Tooltip_ability_tailer_burgerking"							"Бургер Кинг"
+"DOTA_Tooltip_ability_tailer_burgerking_Description"				"Тайлер открывает Бургер кинг в выбранной точке. Если в радиусе %radius% возле него находится Тайлер и вражеский герой, то Бургер кинг высасывает здоровье из противника и передает Тайлеру"
+"DOTA_Tooltip_ability_tailer_burgerking_damage"						"%УРОН ОТ МАКС. ЗДОРОВЬЯ ЦЕЛИ:"
+"DOTA_Tooltip_ability_tailer_burgerking_attack_destroy"				"АТАК ДЛЯ УНИЧТОЖЕНИЯ БУРГЕР КИНГА:"
+"DOTA_Tooltip_ability_tailer_burgerking_duration"					"ДЛИТЕЛЬНОСТЬ БУРГЕР КИНГА:"
+"DOTA_Tooltip_ability_tailer_burgerking_scepter_description"		"Способность работает сквозь иммунитет к магии"
+"DOTA_Tooltip_ability_tailer_burgerking_lore"						"Данный герой создан благодаря <font color='#fffc00'>1nemOne, Ando_Rey, Morir merda</font>"
+
+"DOTA_Tooltip_ability_tailer_damageblock"							"Уплотнение"
+"DOTA_Tooltip_ability_tailer_damageblock_Description"				"Жир помогает заблокировать часть полученного урона. Когда полученный урон достигает определенного предела, способность сбрасывает все отрицательные эффекты и навсегда увеличивает броню на %bonus_armor%"
+"DOTA_Tooltip_ability_tailer_damageblock_damage_reduction"			"БЛОКИРОВАНИЕ УРОНА:"
+"DOTA_Tooltip_ability_tailer_damageblock_damage_cleanse"			"ПРЕДЕЛ УРОНА:"
+"DOTA_Tooltip_ability_tailer_damageblock_damage_reset_interval"		"ПЕРЕЗАРЯДКА:"
+"DOTA_Tooltip_ability_tailer_damageblock_lore"						"Данный герой создан благодаря <font color='#fffc00'>1nemOne, Ando_Rey, Morir merda</font>"
+
+"DOTA_Tooltip_ability_tailer_doubleform"							"Вторая личность"
+"DOTA_Tooltip_ability_tailer_doubleform_Description"				"Рассказчик превращается в Тайлера и впадает в безумие потребления. Тайлер может проходить сквозь препятствия, получает больше силы, но лишний вес его замедляет. За каждые %range% пройденных единиц враги в радиусе %radius% вокруг героя получают урон от множителя силы"
+"DOTA_Tooltip_ability_tailer_doubleform_duration"					"ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_tailer_doubleform_bonus_strength"				"%ДОП. СИЛА:"
+"DOTA_Tooltip_ability_tailer_doubleform_movespeed_slow"				"%ЗАМЕДЛЕНИЕ СКОРОСТИ ПЕРЕДВИЖЕНИЯ:"
+"DOTA_Tooltip_ability_tailer_doubleform_strength_multiplier"		"МНОЖИТЕЛЬ СИЛЫ:"
+"DOTA_Tooltip_ability_tailer_doubleform_shard_description"			"Задетые противники толкаются в сторону вашего героя"
+"DOTA_Tooltip_ability_tailer_doubleform_lore"						"Данный герой создан благодаря <font color='#fffc00'>1nemOne, Ando_Rey, Morir merda</font>"
+
+"DOTA_Tooltip_ability_special_bonus_birzha_tailer_1"				"+0.1 брони от Уплотнение"
+
+"DOTA_Tooltip_ability_special_bonus_birzha_tailer_2"				"-100 пределу урона Уплотнение"
+"DOTA_Tooltip_ability_special_bonus_birzha_tailer_3"				"+30 к блокированию урона Уплотнение"
+
+"DOTA_Tooltip_ability_special_bonus_birzha_tailer_4"				"+5 атак для уничтожения Бургер Кинг"
+
+"DOTA_Tooltip_ability_special_bonus_birzha_tailer_5"				"+10 к длительности Вторая личность"
+"DOTA_Tooltip_ability_special_bonus_birzha_tailer_6"				"Удвоение брони от Уплотнение"
+
+"DOTA_Tooltip_ability_special_bonus_birzha_tailer_7"				"-1 перезарядки Уплотнение"
+
+"DOTA_Tooltip_modifier_tailer_burger_buff_counter"					"Жирность после Бургера"
+"DOTA_Tooltip_modifier_tailer_burger_buff_counter_Description"		"Вас накормил Тайлер, атрибуты увеличены, но скорость передвижения и атаки уменьшена"
+
+"DOTA_Tooltip_modifier_tailer_burgerking_debuff"					"Бургер Кинг"
+"DOTA_Tooltip_modifier_tailer_burgerking_debuff_Description"		"Бургер Кинг высасывает из вас здоровье"
+
+"DOTA_Tooltip_modifier_tailer_burgerking_buff_hero"					"Бургер Кинг"
+"DOTA_Tooltip_modifier_tailer_burgerking_buff_hero_Description"		"Вы получаете регенерацию здоровья от Бургер Кинг"
+
+"DOTA_Tooltip_modifier_tailer_damageblock"							"Уплотнение"
+"DOTA_Tooltip_modifier_tailer_damageblock_Description"				"Броня навсегда увеличена на %fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%"
+
+"DOTA_Tooltip_modifier_tailer_doubleform"							"Вторая личность"
+"DOTA_Tooltip_modifier_tailer_doubleform_Description"				"Сила увеличена. При ходьбе наносит урон всем вокруг себя"
+
+//=================================================================================================================
+// Томас Шелби
+//=================================================================================================================
+
+"npc_dota_hero_thomas_bebra"	"Томас Шелби"
+"npc_shelby_gypsy"				"Цыган"
+
+"DOTA_Tooltip_ability_thomas_ability_one"									"Напрячь"
+"DOTA_Tooltip_ability_thomas_ability_one_Description"						"Напрягает противников в выбранном радиусе. Напряжение снижает броню и сопротивление к магии\n<h1>Уникальная перезарядка</h1> Перезарядка способности зависит от скорости атаки. Каждые %attack_speed_cooldown% скорости атаки уменьшают перезарядку способности на 1 секунду"	
+"DOTA_Tooltip_ability_thomas_ability_one_radius"							"РАДИУС:"
+"DOTA_Tooltip_ability_thomas_ability_one_damage"							"УРОН:"
+"DOTA_Tooltip_ability_thomas_ability_one_duration"							"ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_thomas_ability_one_armor_reduction"					"%УМЕНЬШЕНИЕ БРОНИ:"
+"DOTA_Tooltip_ability_thomas_ability_one_magic_reduction"					"%УМЕНЬШЕНИЕ СОПРОТИВЛЕНИЯ К МАГИИ:"
+"DOTA_Tooltip_ability_thomas_ability_one_lore"								"Данный герой создан благодаря <font color='#fffc00'>ForeverBlin4ik</font>"
+
+"DOTA_Tooltip_ability_thomas_ability_two_one"								"Цыганская помощь: Ли"
+"DOTA_Tooltip_ability_thomas_ability_two_one_Description"					"Призывает на помощь цыган. Количество цыган зависит от суммы убийств и помощи деленной на %math_cel%. Минимальное количество цыган 1, максимальное %max_count%.<br>Скорость атаки цыган зависит от скорости атаки Шелби деленной на %attack_speed_mult%<br>Урон цыган зависит от %damage%%% урона Шелби\n<h1>Цыган: Выбивание долгов</h1>Каждая атака Цыгана навешивает долг на противника, который равен %gold_steal%%% от общей ценности Шелби. Шелби забирает золото противника себе до момента пока долг не будет полностью выплачен"
+"DOTA_Tooltip_ability_thomas_ability_two_one_abilitygoldcost"				"СТОИМОСТЬ ЗОЛОТА:"
+"DOTA_Tooltip_ability_thomas_ability_two_one_lore"							"Данный герой создан благодаря <font color='#fffc00'>ForeverBlin4ik</font>"
+
+"DOTA_Tooltip_ability_thomas_ability_two_two"								"Цыганская помощь: Голдмана"
+"DOTA_Tooltip_ability_thomas_ability_two_two_Description"					"Создает глубокий лес. Противники внутри леса теряют обзор и при минимальном количестве здоровья моментально погибают. Каждые 3 секунды в случайном месте леса падает телега, которая оглушает и наносит урон противникам рядом"
+"DOTA_Tooltip_ability_thomas_ability_two_two_radius"						"РАДИУС:"
+"DOTA_Tooltip_ability_thomas_ability_two_two_damage"						"УРОН ТЕЛЕГИ:"
+"DOTA_Tooltip_ability_thomas_ability_two_two_stun_duration"					"ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
+"DOTA_Tooltip_ability_thomas_ability_two_two_health_threshold"				"%КОЛ-ВО ЗДОРОВЬЯ ДЛЯ СМЕРТИ:"
+"DOTA_Tooltip_ability_thomas_ability_two_two_duration_debuff"				"ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_thomas_ability_two_two_abilitygoldcost"				"СТОИМОСТЬ ЗОЛОТА:"
+"DOTA_Tooltip_ability_thomas_ability_two_two_lore"							"Данный герой создан благодаря <font color='#fffc00'>ForeverBlin4ik</font>"
+
+"DOTA_Tooltip_ability_thomas_ability_three"									"Скачки"
+"DOTA_Tooltip_ability_thomas_ability_three_Description"						"Предлагает выбранному противнику поставить ставку на лошадь. Шелби выбирает лошадь + сумму ставки, после противник выбирает лошадь и начинаются скачки. Проигравший выплачивает золото победившему до момента пока долг не будет полностью выплачен. За победу сумма ставки возвращается моментально. Сумма ставки не может привышать текущее золото игрока"	
+"DOTA_Tooltip_ability_thomas_ability_three_money_bet"						"МАКС. СТАВКА:"
+"DOTA_Tooltip_ability_thomas_ability_three_lore"							"Данный герой создан благодаря <font color='#fffc00'>ForeverBlin4ik</font>"
+
+"DOTA_Tooltip_ability_shelby_ultimate"										"Хорош как Шелби"
+"DOTA_Tooltip_ability_shelby_ultimate_Description"							"Каждое уникальное нанесение урона от разных способностей / предметов / атак дает заряд хорошиста, который дает бонусы. При %stack_for_active% зарядах можно использовать способность. После использования способности Шелби расстреливает всех противников в радиусе %attack_radius% ( Важно чтоб противник находился спереди от взгляда Шелби ), нанося %damage%%% урона и получает %lifesteal%%% вампиризма. После окончания действия способности все заряды хорошиста пропадают"
+"DOTA_Tooltip_ability_shelby_ultimate_duration"								"ДЛИТЕЛЬНОСТЬ СТРЕЛЬБЫ:"
+"DOTA_Tooltip_ability_shelby_ultimate_attackspeed_stack"					"ДОП. СКОРОСТЬ АТАКИ ЗА ЗАРЯД:"
+"DOTA_Tooltip_ability_shelby_ultimate_damage_stack"							"ДОП. УРОН ЗА ЗАРЯД:"
+"DOTA_Tooltip_ability_shelby_ultimate_movespeed_stack"						"%ДОП. СКОРОСТЬ ПЕРЕДВИЖЕНИЯ ЗА ЗАРЯД"
+"DOTA_Tooltip_ability_shelby_ultimate_vision_stack"							"ДОП. ОБЗОР ЗА ЗАРЯД:"
+"DOTA_Tooltip_ability_shelby_ultimate_lore"									"Данный герой создан благодаря <font color='#fffc00'>ForeverBlin4ik</font>"
+
+"DOTA_Tooltip_ability_shelby_shard"											"Хладнокровность"
+"DOTA_Tooltip_ability_shelby_shard_Description"								"Каждое уникальное нанесение урона от разных способностей / предметов / атак дает заряд на %duration% секунд, который уменьшает входящий урон на %resist%%%. Использование предмета Бонд с кнопкой также дает 2 заряда способности"	
+
+"DOTA_Tooltip_ability_special_bonus_birzha_shelby_1"						"+5% к уменьшению брони от Напрячь"
+"DOTA_Tooltip_ability_special_bonus_birzha_shelby_2"						"-0.75 перезарядки Напрячь"
+
+"DOTA_Tooltip_ability_special_bonus_birzha_shelby_3"						"+25% к любому полученному золоту"
+"DOTA_Tooltip_ability_special_bonus_birzha_shelby_4"						"+2500 золота единоразово"
+
+"DOTA_Tooltip_ability_special_bonus_birzha_shelby_5"						"+15% к бонусам от Хорош как Шелби"
+"DOTA_Tooltip_ability_special_bonus_birzha_shelby_6"						"+2000 к макс. ставке"
+
+"DOTA_Tooltip_ability_special_bonus_birzha_shelby_7"						"+500 к радиусу Хорош как Шелби"
+"DOTA_Tooltip_ability_special_bonus_birzha_shelby_8"						"+15 к длительности Помощь Голдмана"
+
+"DOTA_Tooltip_modifier_thomas_ability_one_debuff"							"Напряжение"
+"DOTA_Tooltip_modifier_thomas_ability_one_debuff_Description"				"Броня уменьшена на %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS% и магическое сопротивление уменьшено на %dMODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS%%% "
+
+"DOTA_Tooltip_modifier_thomas_shelby_debuff_dolgi"							"Время платить за долги"
+"DOTA_Tooltip_modifier_thomas_shelby_debuff_dolgi_Description"				"Вы задолжаете текущую сумму, она автоматически списывается с вашего счета"
+
+"DOTA_Tooltip_modifier_shelby_ultimate"										"Хорош как Шелби"
+"DOTA_Tooltip_modifier_shelby_ultimate_Description"							"Шелби стреляет по противникам"
+
+"DOTA_Tooltip_modifier_shelby_shard"										"Хладнокровность"
+"DOTA_Tooltip_modifier_shelby_shard_Description"							"Каждый заряд уменьшает входящий урон на 8%% "
+
+"DOTA_Tooltip_modifier_shelby_ultimate_passive"								"Хорош как Шелби"
+"DOTA_Tooltip_modifier_shelby_ultimate_passive_Description"					"Каждый уникальный урон, дает заряд способности, который дарует Шелби бонусы"
+
+"shelby_caster_notification"												"Вы вызвали врага поставить ставку на скачки. Укажите нужную сумму ставки и выберите на кого поставить. После принятия с вас снимается золото и вы будете ждать принятия решения противника"
+"shelby_target_notification"												"Томас Шелби вызвал вас поставить ставку на скачки. Он уже указал сумму ставки и вам нужно выбрать на кого поставить золото. После принятия ставки с вас спишется золото. Если не поставить ставку, вы автоматически проигрываете. Если вы проиграете, то должны выплатить победное золото Шелби или уйдете в долги"
 
 }	
 }

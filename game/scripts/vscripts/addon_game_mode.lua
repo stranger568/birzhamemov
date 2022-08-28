@@ -49,6 +49,7 @@ function Precache( context )
   	local heroes = LoadKeyValues("scripts/npc/dota_heroes.txt")
   	for k,v in pairs(heroes) do
   		PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_" .. k:gsub('npc_dota_hero_','') ..".vsndevts", context )  
+  		PrecacheResource( "soundfile", "soundevents/voscripts/game_sounds_vo_" .. k:gsub('npc_dota_hero_','') ..".vsndevts", context ) 
   	end
   	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_batrider.vsndevts", context )  
   	PrecacheResource( "soundfile", "soundevents/game_sounds_creeps.vsndevts", context )  
@@ -132,7 +133,7 @@ function BirzhaGameMode:InitGameMode()
 	self.m_GatheredShuffledTeams = {}
 	self.numSpawnCamps = 5
 	self.specialItem = ""
-	self.spawnTime = 120
+	self.spawnTime = 90
 	self.nNextSpawnItemNumber = 1
 	self.hasWarnedSpawn = false
 	self.allSpawned = false
@@ -156,22 +157,22 @@ function BirzhaGameMode:InitGameMode()
 	if GetMapName() == "birzhamemov_5v5v5" then
 		self.m_GoldRadiusMin = 100
 		self.m_GoldRadiusMax = 1400
-		self.m_GoldDropPercent = 8
+		self.m_GoldDropPercent = 10
 		self.effectradius = 1400
 	elseif GetMapName() == "birzhamemov_5v5" then
 		self.m_GoldRadiusMin = 100
 		self.m_GoldRadiusMax = 1400
-		self.m_GoldDropPercent = 8
+		self.m_GoldDropPercent = 10
 		self.effectradius = 1400
 	elseif GetMapName() == "birzhamemov_zxc" then
 		self.m_GoldRadiusMin = 100
 		self.m_GoldRadiusMax = 1400
-		self.m_GoldDropPercent = 8
+		self.m_GoldDropPercent = 10
 		self.effectradius = 1400
 	else
 		self.m_GoldRadiusMin = 100
 		self.m_GoldRadiusMax = 550
-		self.m_GoldDropPercent = 4
+		self.m_GoldDropPercent = 10
 		self.effectradius = 900
 	end
 
@@ -222,6 +223,7 @@ function BirzhaGameMode:InitGameMode()
 	GameRules:SetPreGameTime( 0 )
 	GameRules:SetStrategyTime( 0 )
 	GameRules:SetShowcaseTime( 0 )
+	GameRules:SetFilterMoreGold ( true )
 	GameRules:GetGameModeEntity():SetTopBarTeamValuesOverride( true )
 	GameRules:GetGameModeEntity():SetTopBarTeamValuesVisible( false )
 	GameRules:SetHideKillMessageHeaders( true )
@@ -239,6 +241,9 @@ function BirzhaGameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetFountainConstantManaRegen( 0 )
 	GameRules:GetGameModeEntity():SetDaynightCycleDisabled(false)
 	GameRules:GetGameModeEntity():SetCustomGameForceHero("npc_dota_hero_wisp")
+	GameRules:GetGameModeEntity():SetModifyGoldFilter(Dynamic_Wrap(self, "ModifyGoldFilter"), self)
+
+
 	ListenToGameEvent( "game_rules_state_change", Dynamic_Wrap( self, 'OnGameRulesStateChange' ), self )
 	ListenToGameEvent( "npc_spawned", Dynamic_Wrap( self, "OnNPCSpawned" ), self )
 	ListenToGameEvent( "dota_team_kill_credit", Dynamic_Wrap( self, 'OnTeamKillCredit' ), self )
@@ -246,6 +251,7 @@ function BirzhaGameMode:InitGameMode()
 	ListenToGameEvent( "dota_item_picked_up", Dynamic_Wrap( self, "OnItemPickUp"), self )
 	ListenToGameEvent( "dota_npc_goal_reached", Dynamic_Wrap( self, "OnNpcGoalReached" ), self )
 	ListenToGameEvent( "player_chat", Dynamic_Wrap(ChatListener, 'OnPlayerChat'), ChatListener)
+
 	CustomGameEventManager:RegisterListener( "change_premium_pet", Dynamic_Wrap(donate_shop, "ChangePetPremium"))
 	CustomGameEventManager:RegisterListener( "change_border_effect", Dynamic_Wrap(donate_shop, "change_border_effect"))
 	CustomGameEventManager:RegisterListener( "donate_shop_buy_item", Dynamic_Wrap(donate_shop, "BuyItem"))
@@ -256,12 +262,29 @@ function BirzhaGameMode:InitGameMode()
 	CustomGameEventManager:RegisterListener( "select_chatwheel_player", Dynamic_Wrap(donate_shop,'SelectChatWheel'))
 	CustomGameEventManager:RegisterListener( "report_player", Dynamic_Wrap(report_system,'ReportPlayer'))
 	CustomGameEventManager:RegisterListener( "SpawnHeroDemo", Dynamic_Wrap(HeroDemo,'SpawnHeroDemo'))
+	CustomGameEventManager:RegisterListener( "BebraBetCaster", Dynamic_Wrap(self, 'BebraBetCaster'))
+	CustomGameEventManager:RegisterListener( "BebraBetTarget", Dynamic_Wrap(self, 'BebraBetTarget'))
 
     local fix_pos_timer = SpawnEntityFromTableSynchronous("info_target", { targetname = "Fix_position" })
     fix_pos_timer:SetThink( FixPosition, FrameTime() )
 
 	ListenToGameEvent('player_connect_full', Dynamic_Wrap(self, 'OnConnectFull'), self)
 	GameRules:GetGameModeEntity():SetThink( "OnThink", self, 1 )   
+end
+
+function BirzhaGameMode:ModifyGoldFilter(params)
+	local player_id = params.player_id_const
+	local Player = PlayerResource:GetPlayer(player_id)
+	if Player then
+		local hero = PlayerResource:GetSelectedHeroEntity(player_id)  
+		local ability_modifier_shelby = hero:FindAbilityByName("special_bonus_birzha_shelby_3")
+		if ability_modifier_shelby and ability_modifier_shelby:GetLevel() > 0 and hero:IsRealHero() then
+			if params.reason_const ~= DOTA_ModifyGold_SellItem and params.gold > 0 then
+				params.gold = params.gold * (1 + (ability_modifier_shelby:GetSpecialValueFor("value") / 100))
+			end
+		end
+	end
+	return true
 end
 
 function FixPosition()
@@ -300,6 +323,7 @@ function FixPosition()
 		"modifier_sonic_dash",
 		"modifier_sonic_crash_generic_arc_lua",
 		"modifier_sonic_gottagofast",
+		"modifier_kaneki_pull_debuff",
 	}
 
 	local allHeroes = HeroList:GetAllHeroes()
@@ -549,5 +573,201 @@ function BirzhaGameMode:SpawnContracts()
 				GameRules:ExecuteTeamPing( team, origin.x, origin.y, nil, 0 )
 			end
 		end)
+	end
+end
+
+function BirzhaGameMode:BebraBetCaster( data )
+	local player_id = data.PlayerID
+	local hero_shelby = PlayerResource:GetSelectedHeroEntity(player_id)
+	local bet = 0
+	if hero_shelby then
+		local modifier = hero_shelby:FindModifierByName("modifier_thomas_ability_three_bet_caster")
+		if modifier then
+			bet = math.min(data.bet, hero_shelby:GetGold())
+			modifier.bet_current = bet
+			modifier.bet_pick = data.pick
+			PlayerResource:ModifyGold( hero_shelby:GetPlayerID(), (bet * -1), true, 0 )
+
+			local hero_target = modifier:GetCaster()
+			local modifier_target = hero_target:FindModifierByName("modifier_thomas_ability_three_bet_target")
+			if modifier_target then
+				modifier_target.bet_current = bet
+				local player = PlayerResource:GetPlayer( hero_target:GetPlayerID() )
+				local time = 10
+				if player then
+					CustomGameEventManager:Send_ServerToPlayer( player, 'bebra_event_time_coint', {time = time} )
+					CustomGameEventManager:Send_ServerToPlayer( player, 'bebra_event_activate_target', {bet = bet} )
+
+					modifier_target.bebra_timer = Timers:CreateTimer(1, function()
+						time = time - 1
+						if player then
+							CustomGameEventManager:Send_ServerToPlayer( player, 'bebra_event_time_coint', {time = time} )
+						end
+						if time <= 0 then 
+							modifier.win = true
+							modifier_target.win = false
+							return 
+						end
+						return 1
+					end)
+				end
+			end
+		end
+	end
+end
+
+function BirzhaGameMode:BebraBetTarget( data )
+	local player_id = data.PlayerID
+	local hero_target = PlayerResource:GetSelectedHeroEntity(player_id)
+
+	if hero_target then
+		local modifier = hero_target:FindModifierByName("modifier_thomas_ability_three_bet_target")
+
+		if modifier then
+			modifier.bet_pick = data.pick
+			PlayerResource:ModifyGold( hero_target:GetPlayerID(), (math.min(modifier.bet_current, hero_target:GetGold()) * - 1), true, 0 )
+		end
+
+		if hero_target.bebra_timer then
+			Timers:RemoveTimer(hero_target.bebra_timer)
+		end
+
+		local player = PlayerResource:GetPlayer( hero_target:GetPlayerID() )
+		if player then
+			CustomGameEventManager:Send_ServerToPlayer( player, 'bebra_event_time_coint', {time = " "} )
+		end
+	end
+
+	BirzhaGameMode:BebraHorseStarted()
+end
+
+function BirzhaGameMode:BebraHorseStarted()
+	local kotl = {0,0}
+	local mirana = {0,0}
+	local chaos = {0,0}
+	local number = 1
+
+	local random_gigachad_1 = RandomInt(1, 3)
+
+	Timers:CreateTimer(0.03, function()
+
+		local kotl_bonus_run = RandomInt(0, 1)
+		local mirana_bonus_run = RandomInt(0, 1)
+		local chaos_bonus_run = RandomInt(0, 1)
+
+		if random_gigachad_1 == 1 then
+			kotl_bonus_run = RandomInt(2, 3)
+			mirana_bonus_run = RandomInt(1, 1)
+			chaos_bonus_run = RandomInt(2, 3)
+		elseif random_gigachad_1 == 2 then
+			kotl_bonus_run = RandomInt(1, 1)
+			mirana_bonus_run = RandomInt(2, 3)
+			chaos_bonus_run = RandomInt(2, 3)
+		elseif random_gigachad_1 == 3 then
+			kotl_bonus_run = RandomInt(2, 3)
+			mirana_bonus_run = RandomInt(2, 3)
+			chaos_bonus_run = RandomInt(1, 1)
+		end
+
+		if kotl[1] < 100 then
+			kotl[1] = kotl[1] + kotl_bonus_run
+		end
+		if mirana[1] < 100 then
+			mirana[1] = mirana[1] + mirana_bonus_run
+		end
+		if chaos[1] < 100 then
+			chaos[1] = chaos[1] + chaos_bonus_run
+		end
+
+		if kotl[1] >= 100 and kotl[2] == 0 then
+			kotl[2] = number
+			number = number + 1
+		end
+
+		if mirana[1] >= 100 and mirana[2] == 0 then
+			mirana[2] = number
+			number = number + 1
+		end
+
+		if chaos[1] >= 100 and chaos[2] == 0 then
+			chaos[2] = number
+			number = number + 1
+		end
+
+		CustomGameEventManager:Send_ServerToAllClients( "bebra_event_run", {kotl = kotl[1], mirana = mirana[1], chaos = chaos[1], kotl_number = kotl[2], mirana_number = mirana[2], chaos_number = chaos[2]} )
+
+		if kotl[1] >= 100 and mirana[1] >= 100 and chaos[1] >= 100 then
+			Timers:CreateTimer(1, function()
+
+				local winner1 = nil
+				local winner2 = nil
+
+				if kotl[2] == 1 or kotl[2] == 2 then
+					if winner1 == nil then
+						winner1 = "kotl"
+					end
+					if winner2 == nil then
+						winner2 = "kotl"
+					end
+				end
+				if mirana[2] == 1 or mirana[2] == 2 then
+					if winner1 == nil then
+						winner1 = "mirana"
+					end
+					if winner2 == nil then
+						winner2 = "mirana"
+					end
+				end
+				if chaos[2] == 1 or chaos[2] == 2 then
+					if winner1 == nil then
+						winner1 = "chaos"
+					end
+					if winner2 == nil then
+						winner2 = "chaos"
+					end
+				end
+
+				BirzhaGameMode:RunEnd( winner1, winner2 )
+			end)
+			return nil
+		end
+
+		return 0.03
+	end)
+end
+
+function BirzhaGameMode:RunEnd( winner1, winner2 )
+	local allHeroes = HeroList:GetAllHeroes()
+	for _, hero in pairs(allHeroes) do
+		if hero:IsRealHero() then
+			if hero:HasModifier("modifier_thomas_ability_three_bet_target") then
+				local modifier = hero:FindModifierByName("modifier_thomas_ability_three_bet_target")
+				if modifier then
+					if modifier.bet_pick == winner1 or modifier.bet_pick == winner2 then
+						modifier:Win()
+					else
+						modifier:Lose()
+					end
+				end
+				local player = PlayerResource:GetPlayer( hero:GetPlayerID() )
+				if player then
+					CustomGameEventManager:Send_ServerToPlayer( player, 'bebra_event_close', {} )
+				end
+			end
+			if hero:HasModifier("modifier_thomas_ability_three_bet_caster") then
+				local modifier = hero:FindModifierByName("modifier_thomas_ability_three_bet_caster")
+				if modifier then
+					if modifier.bet_pick == winner1 or modifier.bet_pick == winner2 then
+						modifier:Win()
+					else
+						modifier:Lose()
+					end
+				end
+				local player = PlayerResource:GetPlayer( hero:GetPlayerID() )
+				if player then
+					CustomGameEventManager:Send_ServerToPlayer( player, 'bebra_event_close', {} )
+				end
+			end
+		end
 	end
 end

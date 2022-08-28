@@ -27,6 +27,15 @@ function item_bond:OnChannelFinish( bInterrupted )
     ParticleManager:SetParticleControl(particle, 0, self:GetCaster():GetAbsOrigin())
     ParticleManager:SetParticleControl(particle, 1, Vector(200, 0, 200))
 
+    if self:GetCaster():HasAbility("shelby_shard") then
+        if self:GetCaster():HasShard() then
+            local modifier_shelby = self:GetCaster():FindModifierByName("modifier_shelby_shard")
+            if modifier_shelby then
+                modifier_shelby:AddCharge(self:GetName())
+            end
+        end
+    end
+
     Timers:CreateTimer(1, function()
         if particle then
             ParticleManager:DestroyParticle(particle, false)

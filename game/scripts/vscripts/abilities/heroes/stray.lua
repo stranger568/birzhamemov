@@ -728,7 +728,7 @@ function modifier_stray_shveps_debuff:OnCreated( kv )
     self.damageTable = {
         victim = self:GetParent(),
         attacker = self:GetCaster(),
-        damage = damage,
+        damage = damage * 0.5,
         damage_type = self:GetAbility():GetAbilityDamageType(),
         ability = self:GetAbility(),
     }

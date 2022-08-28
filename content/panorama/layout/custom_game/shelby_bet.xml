@@ -1,0 +1,68 @@
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="s2r://panorama/styles/custom_game/shelby_bet.vcss_c" />
+	</styles>
+
+	<scripts>
+		<include src="s2r://panorama/scripts/custom_game/shelby_bet.vjs_c" />
+	</scripts>
+
+	<Panel style="width:100%;height:100%;" hittest="false">
+		<Panel class="ShelbyPanel" id="ShelbyPanel">
+
+			<Panel class="EventDescription">
+				<Label text="Скачки Шелби" class="EventLabel"/>
+				<Label text="Осталось времени" id="EventLabelTwo" class="EventLabelTwo"/>
+				<Label text="0" class="timer" id="RunTimer"/>
+				<Panel id="EventRunInfo"/>
+			</Panel>
+
+			<Panel id="kotlrunner" class="RunnerPanel">
+				<Panel id="SelectedArrow" />
+				<Panel id="kotl" class="UnitRunnerIcon" />
+				<Panel class="RunnerPercent">
+					<Panel class="RunnerBackBackground"/>
+					<Panel id="KotlRunnerBackground" class="RunnerBackground"/>
+				</Panel>
+				<Panel id="Tier">
+					<Label text="1" id="Number"/>
+				</Panel>
+			</Panel>
+
+			<Panel id="miranarunner" class="RunnerPanel">
+				<Panel id="SelectedArrow" />
+				<Panel id="mirana" class="UnitRunnerIcon" />
+				<Panel class="RunnerPercent">
+					<Panel class="RunnerBackBackground"/>
+					<Panel id="MiranaRunnerBackground" class="RunnerBackground"/>
+				</Panel>
+				<Panel id="Tier">
+					<Label text="2" id="Number"/>
+				</Panel>
+			</Panel>
+
+			<Panel id="chaosrunner" class="RunnerPanel">
+				<Panel id="SelectedArrow" />
+				<Panel id="chaos" class="UnitRunnerIcon" />
+				<Panel class="RunnerPercent">
+					<Panel class="RunnerBackBackground"/>
+					<Panel id="ChaosRunnerBackground" class="RunnerBackground"/>
+				</Panel>
+				<Panel id="Tier">
+					<Label text="3" id="Number"/>
+				</Panel>
+			</Panel>
+			
+			<Panel id="SelectRunnerPanel">
+				<Slider class="HorizontalSlider" onvaluechanged="SliderValueCheck();" direction="horizontal" id="EventRun_Slider" />
+				<Panel id="BetPanel" >
+					<Panel id="selectbutton" class="SelectButton">
+						<Label text="Принять" class="select_button_label"/>
+					</Panel>
+					<Label class="BetLabel"	id="BetALabel" text="0" />
+				</Panel>
+			</Panel>
+		</Panel>
+	</Panel>
+</root>

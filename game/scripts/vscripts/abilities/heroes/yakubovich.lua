@@ -705,10 +705,10 @@ function yakubovich_roll_scepter:OnInventoryContentsChanged()
         local item = self:GetCaster():GetItemInSlot(i)
         if item then
             if item.scepter then return end
-            if self:GetCaster():HasScepter() then
-                self:SetHidden(false)       
+            if self:GetCaster():HasScepter() then     
                 if not self:IsTrained() then
                     self:SetLevel(1)
+                    self:SetHidden(false)
                 end
             else
                 self:SetHidden(true)

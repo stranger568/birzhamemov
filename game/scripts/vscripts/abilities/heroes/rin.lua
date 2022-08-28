@@ -382,7 +382,7 @@ LinkLuaModifier( "modifier_rin_satana_explosion", "abilities/heroes/rin.lua", LU
 rin_satana_explosion = class({})
 
 function rin_satana_explosion:GetChannelTime()
-    return self:GetSpecialValueFor( "duration" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_rin_4")
+    return (self:GetSpecialValueFor( "duration" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_rin_4")) + 0.1
 end
 
 function rin_satana_explosion:OnAbilityPhaseStart()
@@ -523,11 +523,14 @@ function modifier_rin_satana_explosion:OnCreated( kv )
             self:GetAbility().nCastCount = self:GetAbility().nCastCount + 1 
         end
         self.damage = self:GetAbility():GetSpecialValueFor( "damage" )
-        self.interval = 0.75
+        self.interval = 0.5
         self.pulse_width = 110
         self.pulse_end_width = 110
         self.pulse_speed = math.min( 1550 + 100 * self:GetAbility().nCastCount, 2000 )
-        self.pulse_distance = 5000
+        self.pulse_distance = 2000
+        if self:GetCaster():HasShard() then
+            self.pulse_distance = self.pulse_distance + 1500
+        end
         self.random_pulses_step = 3
         self.random_pulses = math.min( 3 + ( self:GetAbility().nCastCount * self.random_pulses_step ), 15 )
         self:StartIntervalThink( self.interval )
@@ -541,9 +544,9 @@ function modifier_rin_satana_explosion:OnDestroy()
 end
 
 function modifier_rin_satana_explosion:CheckState()
-    if not self:GetCaster():HasShard() then return end
+    if not self:GetCaster():HasScepter() then return end
     local state = {
-    [MODIFIER_STATE_MAGIC_IMMUNE] = true}
+    [MODIFIER_STATE_INVULNERABLE] = true}
     
     return state
 end
@@ -554,7 +557,7 @@ function modifier_rin_satana_explosion:OnIntervalThink()
         ParticleManager:SetParticleControl(particle_caster_ground_fx2, 0, self:GetCaster():GetAbsOrigin())
         ParticleManager:ReleaseParticleIndex(particle_caster_ground_fx2)
         local radius = self:GetAbility():GetSpecialValueFor("radius")
-        if self:GetCaster():HasScepter() then
+        if self:GetCaster():HasShard() then
             radius = radius + 1500
         end
         local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetOrigin(), self:GetCaster(), radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false )

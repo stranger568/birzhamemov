@@ -76,6 +76,7 @@ function modifier_yuno_rage:OnAttackLanded(kv)
 end
 
 LinkLuaModifier("modifier_yuno_sharpness_axe", "abilities/heroes/yuno", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_yuno_sharpness_axe_effect", "abilities/heroes/yuno", LUA_MODIFIER_MOTION_NONE)
 
 Yuno_sharpness_axe = class({}) 
 
@@ -86,7 +87,7 @@ end
 modifier_yuno_sharpness_axe = class({})
 
 function modifier_yuno_sharpness_axe:IsHidden()
-    return true
+    return (not self:GetCaster():HasShard() or self:GetStackCount() == 0)
 end
 
 function modifier_yuno_sharpness_axe:IsPurgable()
@@ -101,6 +102,12 @@ function modifier_yuno_sharpness_axe:DeclareFunctions()
     return funcs
 end
 
+function modifier_yuno_sharpness_axe:OnCreated()
+    if not IsServer() then return end
+    self.current_target = nil
+    self.particle = nil
+end
+
 function modifier_yuno_sharpness_axe:OnAttackLanded( params )
     if not IsServer() then return end
     local parent = self:GetParent()
@@ -111,8 +118,32 @@ function modifier_yuno_sharpness_axe:OnAttackLanded( params )
             return nil
         end
         if target:IsBoss() then return end
+
+        local shard_damage = 0
+
+        if self:GetParent():HasShard() then
+            if self.current_target ~= nil and self.current_target ~= params.target then
+                self:SetStackCount(0)
+                if self.particle then
+                    self.particle:Destroy()
+                    self.particle = nil
+                end
+            end
+
+            if self.current_target == params.target then
+                self:SetStackCount(self:GetStackCount() + 1)
+                if self.particle == nil and self:GetStackCount() >= 5 then
+                    self.particle = self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_yuno_sharpness_axe_effect", {})
+                end
+            end
+
+            self.current_target = params.target
+
+            shard_damage = self:GetStackCount()
+        end
+
         local damage_bonus = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_yuno_3")
-        local base_damage = self:GetAbility():GetSpecialValueFor("base_damage")
+        local base_damage = self:GetAbility():GetSpecialValueFor("base_damage") + (self:GetAbility():GetSpecialValueFor("base_damage") * shard_damage)
         local damage = damage_bonus / 100 * params.original_damage
         damage = damage + base_damage
         target:EmitSound("Hero_PhantomAssassin.CoupDeGrace")
@@ -124,6 +155,19 @@ function modifier_yuno_sharpness_axe:OnAttackLanded( params )
         ParticleManager:ReleaseParticleIndex( nFXIndex )
         ApplyDamage({ victim = target, attacker = self:GetParent(), damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility() })
     end
+end
+
+modifier_yuno_sharpness_axe_effect = class({})
+
+function modifier_yuno_sharpness_axe_effect:IsHidden() return true end
+function modifier_yuno_sharpness_axe_effect:IsPurgable() return false end
+
+function modifier_yuno_sharpness_axe_effect:GetStatusEffectName()
+    return "particles/status_fx/status_effect_life_stealer_rage.vpcf"
+end
+
+function modifier_yuno_sharpness_axe_effect:StatusEffectPriority()
+    return 10
 end
 
 yuno_omnipresence = class({})

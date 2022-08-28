@@ -52,6 +52,7 @@ BIRZHA_PLUS_HEROES = {
 	"npc_dota_hero_alchemist",
 	"npc_dota_hero_arc_warden",
 	"npc_dota_hero_furion",
+	--"npc_dota_hero_thomas_bebra",
 }
 
 function CustomPick:RegisterPlayerInfo( pid )

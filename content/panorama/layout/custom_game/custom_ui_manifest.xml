@@ -101,6 +101,7 @@
 		<CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/saitama_punch.xml" />
 		<CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/freddy_screamer.xml" />
 		<CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/tip_block.xml" />
+		<CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/shelby_bet.xml" />
 	</Panel>
 </root>
 

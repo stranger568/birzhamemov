@@ -10,5 +10,13 @@
 			"width"		"64"
 			"height"		"64"
 		}
+		"minimap_heroicon_npc_dota_hero_tailer"
+        {
+            "file"     "materials/vgui/hud/minimap_heroicon_npc_dota_hero_tailer.vmat"
+            "x"        "0"
+            "y"        "0"
+            "width"    "64"
+            "height"   "64"
+        }
 	}
 }

@@ -1015,6 +1015,9 @@ function gypsy_steal_hidden:OnAbilityFullyCast( params )
 			"gypsy_debosh",
 			"gypsy_steal_slot1",
 			"gypsy_steal",
+			"thomas_ability_two_one",
+			"thomas_ability_three",
+			"thomas_ability_two_two",
 		}
 
 		local stop_please = false
