@@ -166,7 +166,8 @@ function modifier_thomas_ability_two_one_gypsy:OnAttackLanded(params)
     if params.attacker ~= self:GetParent() then return end
     if params.attacker == params.target then return end
     local self_networth = PlayerResource:GetNetWorth(self:GetParent():GetPlayerOwnerID())
-    local money_steal = self_networth / 100 * self.networth_steal
+    local money_steal = self.networth_steal
+    print(money_steal)
     local modifier_dolgi = params.target:FindModifierByName("modifier_thomas_shelby_debuff_dolgi")
     if modifier_dolgi then
         modifier_dolgi:SetStackCount(modifier_dolgi:GetStackCount() + money_steal)
@@ -369,17 +370,27 @@ function modifier_thomas_shelby_debuff_dolgi:RemoveOnDeath() return false end
 
 function modifier_thomas_shelby_debuff_dolgi:OnCreated()
     if not IsServer() then return end
-    self:StartIntervalThink(1)
+
+    if not self:GetParent():IsRealHero() then
+        self:Destroy()
+        return
+    end
+
+    self:StartIntervalThink(0.1)
 end
 
 function modifier_thomas_shelby_debuff_dolgi:OnIntervalThink()
     if not IsServer() then return end
-    if self:GetParent():GetGold() > 0 then
-        local steal_gold = math.min(self:GetStackCount(), self:GetParent():GetGold())
-        self:SetStackCount(self:GetStackCount() - steal_gold)
-        self:GetParent():ModifyGold(-steal_gold, true, 0)
-        self:GetCaster():ModifyGold(steal_gold, true, 0)
+
+    local steal_gold = self:GetStackCount()
+
+    local minus_dolg = self:GetParent():ModifyGold(-steal_gold, false, 0)
+
+    if minus_dolg ~= 0 then
+        self:GetCaster():ModifyGold(minus_dolg, false, 0)
+        self:SetStackCount(self:GetStackCount() + minus_dolg)
     end
+    
     if self:GetStackCount() <= 0 then
         self:Destroy()
     end

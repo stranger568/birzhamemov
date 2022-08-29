@@ -8436,7 +8436,7 @@ Every 3rd attack generates a pulse that deals damage to enemies within a 800 rad
 "DOTA_Tooltip_ability_thomas_ability_one_lore"								"Данный герой создан благодаря <font color='#fffc00'>ForeverBlin4ik</font>"
 
 "DOTA_Tooltip_ability_thomas_ability_two_one"								"Цыганская помощь: Ли"
-"DOTA_Tooltip_ability_thomas_ability_two_one_Description"					"Призывает на помощь цыган. Количество цыган зависит от суммы убийств и помощи деленной на %math_cel%. Минимальное количество цыган 1, максимальное %max_count%.<br>Скорость атаки цыган зависит от скорости атаки Шелби деленной на %attack_speed_mult%<br>Урон цыган зависит от %damage%%% урона Шелби\n<h1>Цыган: Выбивание долгов</h1>Каждая атака Цыгана навешивает долг на противника, который равен %gold_steal%%% от общей ценности Шелби. Шелби забирает золото противника себе до момента пока долг не будет полностью выплачен"
+"DOTA_Tooltip_ability_thomas_ability_two_one_Description"					"Призывает на помощь цыган. Количество цыган зависит от суммы убийств и помощи деленной на %math_cel%. Минимальное количество цыган 1, максимальное %max_count%.<br>Скорость атаки цыган зависит от скорости атаки Шелби деленной на %attack_speed_mult%<br>Урон цыган зависит от %damage%%% урона Шелби\n<h1>Цыган: Выбивание долгов</h1>Каждая атака Цыгана навешивает долг на противника, который равен %gold_steal%%% золота. Шелби забирает золото противника себе до момента пока долг не будет полностью выплачен"
 "DOTA_Tooltip_ability_thomas_ability_two_one_abilitygoldcost"				"СТОИМОСТЬ ЗОЛОТА:"
 "DOTA_Tooltip_ability_thomas_ability_two_one_lore"							"Данный герой создан благодаря <font color='#fffc00'>ForeverBlin4ik</font>"
 
@@ -8483,7 +8483,7 @@ Every 3rd attack generates a pulse that deals damage to enemies within a 800 rad
 "DOTA_Tooltip_modifier_thomas_ability_one_debuff_Description"				"Броня уменьшена на %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS% и магическое сопротивление уменьшено на %dMODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS%%% "
 
 "DOTA_Tooltip_modifier_thomas_shelby_debuff_dolgi"							"Время платить за долги"
-"DOTA_Tooltip_modifier_thomas_shelby_debuff_dolgi_Description"				"Вы задолжаете текущую сумму, она автоматически списывается с вашего счета"
+"DOTA_Tooltip_modifier_thomas_shelby_debuff_dolgi_Description"				"Вы задолжаете текущую сумму, она автоматически списывается с вашего счета ( ненадежное золото )"
 
 "DOTA_Tooltip_modifier_shelby_ultimate"										"Хорош как Шелби"
 "DOTA_Tooltip_modifier_shelby_ultimate_Description"							"Шелби стреляет по противникам"

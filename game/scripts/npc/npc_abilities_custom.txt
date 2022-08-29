@@ -32146,7 +32146,7 @@
 			"06"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"gold_steal"				"1"
+				"gold_steal"				"5 10 15 20"
 			}	
 			"07"
 			{

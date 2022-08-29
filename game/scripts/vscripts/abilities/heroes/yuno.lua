@@ -124,7 +124,7 @@ function modifier_yuno_sharpness_axe:OnAttackLanded( params )
         if self:GetParent():HasShard() then
             if self.current_target ~= nil and self.current_target ~= params.target then
                 self:SetStackCount(0)
-                if self.particle then
+                if self.particle and not self.particle:IsNull() then
                     self.particle:Destroy()
                     self.particle = nil
                 end
@@ -132,7 +132,7 @@ function modifier_yuno_sharpness_axe:OnAttackLanded( params )
 
             if self.current_target == params.target then
                 self:SetStackCount(self:GetStackCount() + 1)
-                if self.particle == nil and self:GetStackCount() >= 5 then
+                if (self.particle == nil or self.particle:IsNull()) and self:GetStackCount() >= 5 then
                     self.particle = self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_yuno_sharpness_axe_effect", {})
                 end
             end
