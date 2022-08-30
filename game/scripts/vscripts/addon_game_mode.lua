@@ -586,7 +586,7 @@ function BirzhaGameMode:BebraBetCaster( data )
 			bet = math.min(data.bet, hero_shelby:GetGold())
 			modifier.bet_current = bet
 			modifier.bet_pick = data.pick
-			PlayerResource:ModifyGold( hero_shelby:GetPlayerID(), (bet * -1), true, 0 )
+			hero_shelby:SpendGold(bet, 0)
 
 			local hero_target = modifier:GetCaster()
 			local modifier_target = hero_target:FindModifierByName("modifier_thomas_ability_three_bet_target")
@@ -625,7 +625,7 @@ function BirzhaGameMode:BebraBetTarget( data )
 
 		if modifier then
 			modifier.bet_pick = data.pick
-			PlayerResource:ModifyGold( hero_target:GetPlayerID(), (math.min(modifier.bet_current, hero_target:GetGold()) * - 1), true, 0 )
+			hero_target:SpendGold( (math.min(modifier.bet_current, hero_target:GetGold())), 0 )
 		end
 
 		if hero_target.bebra_timer then

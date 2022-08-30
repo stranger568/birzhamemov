@@ -26,6 +26,8 @@ function thomas_ability_one:OnSpellStart()
     local damage = self:GetSpecialValueFor("damage")
     local duration = self:GetSpecialValueFor("duration")
 
+    self:GetCaster():RemoveModifierByName("modifier_item_echo_sabre")
+
     local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), point, nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false)
 
     local particle = ParticleManager:CreateParticle("particles/shelby/one.vpcf", PATTACH_WORLDORIGIN, nil)
@@ -99,6 +101,8 @@ function thomas_ability_two_one:OnSpellStart()
     local assists = self:GetCaster():GetAssists()
     local point = self:GetCursorPosition()
     self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_3)
+
+    self:GetCaster():RemoveModifierByName("modifier_item_echo_sabre")
 
     self:GetCaster():EmitSound("shelby_2_1")
 
@@ -387,7 +391,7 @@ function modifier_thomas_shelby_debuff_dolgi:OnIntervalThink()
     local minus_dolg = self:GetParent():ModifyGold(-steal_gold, false, 0)
 
     if minus_dolg ~= 0 then
-        self:GetCaster():ModifyGold(minus_dolg, false, 0)
+        self:GetCaster():ModifyGold(math.abs(minus_dolg), false, 0)
         self:SetStackCount(self:GetStackCount() + minus_dolg)
     end
     
@@ -419,6 +423,7 @@ function modifier_shelby_ultimate:IsPurgable() return false end
 
 function modifier_shelby_ultimate:OnCreated()
     if not IsServer() then return end
+    self:GetCaster():RemoveModifierByName("modifier_item_echo_sabre")
     self:GetCaster():EmitSound("shelby_4")
     self.radius = self:GetAbility():GetSpecialValueFor("attack_radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_shelby_7")
     self.weapon = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/tailer/weapon_test.vmdl"})
@@ -657,8 +662,9 @@ function modifier_thomas_ability_three_bet_caster:OnCreated()
     if not IsServer() then return end
     self:GetAbility():SetActivated(false)
     self:GetAbility():EndCooldown()
-    local bet = self:GetAbility():GetSpecialValueFor("money_bet") + self:GetCaster():FindTalentValue("special_bonus_birzha_shelby_6")
+    local bet = self:GetAbility():GetSpecialValueFor("money_bet") + self:GetParent():FindTalentValue("special_bonus_birzha_shelby_6")
     bet = math.min(bet, self:GetParent():GetGold())
+    print(bet)
     CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer( self:GetParent():GetPlayerID() ), 'bebra_event_activate_caster', {max = bet})
     self.bet_current = nil
     self.bet_pick = nil
