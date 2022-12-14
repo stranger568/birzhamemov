@@ -4,7 +4,7 @@ LinkLuaModifier( "modifier_dwayne_throw_stone", "abilities/heroes/dwayne.lua", L
 dwayne_throw_stone = class({})
 
 function dwayne_throw_stone:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_dwayne_4")
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_dwayne_1")
 end
 
 function dwayne_throw_stone:GetManaCost(level)
@@ -16,14 +16,15 @@ function dwayne_throw_stone:GetCastRange(location, target)
 end
 
 function dwayne_throw_stone:GetChannelTime()
-    return self.BaseClass.GetChannelTime(self)
+    return self.BaseClass.GetChannelTime(self) + self:GetCaster():FindTalentValue("special_bonus_birzha_dwayne_4")
 end
 
 function dwayne_throw_stone:OnSpellStart()
     if not IsServer() then return end
+    self:GetCaster():RemoveModifierByName("modifier_dwayne_fight_of_death")
     local target = self:GetCursorTarget()
     local duration = self:GetChannelTime()
-    self.modifier = self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_dwayne_throw_stone",  { duration = duration, target = target:entindex() } )
+    self.modifier = self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_dwayne_throw_stone", { duration = duration, target = target:entindex() } )
 end
 
 function dwayne_throw_stone:OnChannelFinish( bInterrupted )
@@ -52,7 +53,7 @@ end
 
 function modifier_dwayne_throw_stone:OnCreated( kv )
     if not IsServer() then return end
-    self.max_count = self:GetAbility():GetSpecialValueFor( "max_count" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_dwayne_1")
+    self.max_count = self:GetAbility():GetSpecialValueFor( "max_count" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_dwayne_3")
     self.min_count = self:GetAbility():GetSpecialValueFor( "min_count" )
     self.target =   EntIndexToHScript(kv.target)
     self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_4)
@@ -70,21 +71,34 @@ function modifier_dwayne_throw_stone:OnDestroy()
         count = self.min_count
     end
 
-    local info = {
-        EffectName = "particles/dwayne/attack_proj.vpcf",
-        Ability = self:GetAbility(),
-        iMoveSpeed = 1950,
-        Source = self:GetCaster(),
-        Target = self.target,
-        iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1,
-        ExtraData = {},
-    }
     self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_4)
     self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_3)
 
-    for i=1,count do
+    self:GetAbility():ThrowStone(self.target, count)
+end
+
+function dwayne_throw_stone:ThrowStone(target, count)
+    if not IsServer() then return end
+
+    local damage_from_attack = false
+    if self:GetCaster():HasTalent("special_bonus_birzha_dwayne_7") then
+        damage_from_attack = true
+    end
+
+    local info = 
+    {
+        EffectName = "particles/dwayne/attack_proj.vpcf",
+        Ability = self,
+        iMoveSpeed = 1950,
+        Source = self:GetCaster(),
+        Target = target,
+        iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1,
+        ExtraData = {damage_from_attack = damage_from_attack, count = i},
+    }
+
+    for i=1, count do
         info.iMoveSpeed = 1950 - (i * 150)
-        info.ExtraData = { count = i, }
+        info.ExtraData.count = i
         ProjectileManager:CreateTrackingProjectile( info )
         self:GetCaster():EmitSound("Brewmaster_Earth.Boulder.Cast")
     end
@@ -93,32 +107,30 @@ end
 function dwayne_throw_stone:OnProjectileHit_ExtraData( target, location, ExtraData )
     if not IsServer() then return end
     if target ~= nil then
+
         if ExtraData.count == 1 then
             if target:TriggerSpellAbsorb( self ) then
                 return
             end
         end
+
         local stun_duration = self:GetSpecialValueFor( "stun_duration" )
         local stun_damage = self:GetSpecialValueFor( "damage" )
-        if self:GetCaster():HasTalent("special_bonus_birzha_dwayne_2") then
-            stun_damage = stun_damage + ( self:GetCaster():GetStrength() * self:GetCaster():FindTalentValue("special_bonus_birzha_dwayne_2") )
-        end
         local chance = self:GetSpecialValueFor( "chance" )
-        local damage = {
-            victim = target,
-            attacker = self:GetCaster(),
-            damage = stun_damage,
-            damage_type = DAMAGE_TYPE_MAGICAL,
-            ability = self
-        }
-        if not target:IsMagicImmune() or self:GetCaster():HasTalent("special_bonus_birzha_dwayne_3") then
-            ApplyDamage( damage )
-        end
+
         if not target:IsMagicImmune() then
+
+            if ExtraData.damage_from_attack == 1 then
+                self:GetCaster():PerformAttack(target, true, true, true, false, false, false, true)
+            end
+
+            ApplyDamage( { victim = target, attacker = self:GetCaster(), damage = stun_damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self } )
+
             if RollPercentage(chance) then
-                target:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = stun_duration})
+                target:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = stun_duration * (1-target:GetStatusResistance()) })
             end
         end
+
         target:EmitSound("Brewmaster_Earth.Boulder.Target")
     end
 end
@@ -136,11 +148,6 @@ function modifier_dwayne_throw_stone:DeclareFunctions()
     return decFuncs
 end
 
-
-
-
-
-
 dwayne_stone_strength = class({})
 
 LinkLuaModifier( "modifier_dwayne_stone_strength", "abilities/heroes/dwayne.lua", LUA_MODIFIER_MOTION_HORIZONTAL )
@@ -150,9 +157,13 @@ function dwayne_stone_strength:GetAOERadius()
     return self:GetSpecialValueFor( "radius" )
 end
 
+function dwayne_stone_strength:GetCooldown(level)
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_dwayne_6")
+end
+
 function dwayne_stone_strength:OnSpellStart()
     if not IsServer() then return end
-
+    self:GetCaster():RemoveModifierByName("modifier_dwayne_fight_of_death")
     local caster = self:GetCaster()
 
     local target = self:GetCursorTarget()
@@ -160,7 +171,6 @@ function dwayne_stone_strength:OnSpellStart()
     if target:TriggerSpellAbsorb( self ) then return end
 
     target:AddNewModifier(caster, self, "modifier_dwayne_stone_strength", {} )
-
 
     local vPos = self:GetCursorPosition()
     local delay = 0.03
@@ -184,7 +194,9 @@ function dwayne_stone_strength:OnSpellStart()
         iUnitTargetType = 0,
         ExtraData = {ticks = ticks, tick_count = 5}
     }
+
     ProjectileManager:CreateLinearProjectile( info )
+
     EmitSoundOnLocationWithCaster(vPos, "Ability.Avalanche", caster)
 end
 
@@ -205,9 +217,8 @@ function dwayne_stone_strength:OnProjectileHit_ExtraData(hTarget, vLocation, ext
         local enemies_tick = FindUnitsInRadius(caster:GetTeamNumber(), hitLoc, nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false)
         for _,enemy in pairs(enemies_tick) do
             ApplyDamage({victim = enemy, attacker = caster, damage = damage, damage_type = self:GetAbilityDamageType(), ability = self})
-            
             if enemy:IsAlive() then
-                enemy:AddNewModifier(caster, self, "modifier_birzha_stunned", {duration = duration})
+                enemy:AddNewModifier(caster, self, "modifier_birzha_stunned", {duration = duration * (1-enemy:GetStatusResistance()) })
             end
         end
         hitLoc = hitLoc + offset / ticks
@@ -224,19 +235,15 @@ function dwayne_stone_strength:OnProjectileHit_ExtraData(hTarget, vLocation, ext
 end
 
 modifier_dwayne_stone_strength = class({})
-
 function modifier_dwayne_stone_strength:IsHidden()
     return true
 end
-
 function modifier_dwayne_stone_strength:IsStunDebuff()
     return true
 end
-
 function modifier_dwayne_stone_strength:IsPurgable()
     return true
 end
-
 function modifier_dwayne_stone_strength:OnCreated( kv )
     self.caster = self:GetCaster()
     self.parent = self:GetParent()
@@ -245,96 +252,58 @@ function modifier_dwayne_stone_strength:OnCreated( kv )
     if not IsServer() then return end
     local duration = self:GetAbility():GetSpecialValueFor( "duration" )
     if self:GetCaster():HasShard() then
-        duration = duration + 2
+        duration = duration + self:GetAbility():GetSpecialValueFor("shard_duration")
     end
     local height = 400
     self.target = self.parent
-
-    -- add arc modifier for vertical only
-    self.arc = self.parent:AddNewModifier(
-        self.caster, -- player source
-        self:GetAbility(), -- ability source
-        "modifier_dwayne_stone_strength_arc_lua", -- modifier name
-        {
-            duration = duration,
-            distance = 0,
-            height = height,
-            -- fix_end = true,
-            fix_duration = false,
-            isStun = true,
-            activity = ACT_DOTA_FLAIL,
-        } -- kv
-    )
+    self.arc = self.parent:AddNewModifier( self.caster, self:GetAbility(), "modifier_dwayne_stone_strength_arc_lua", { duration = duration * (1-self.parent:GetStatusResistance()), distance = 0, height = height, fix_duration = false, isStun = true, activity = ACT_DOTA_FLAIL })
     self.arc:SetEndCallback(function( interrupted )
         if not self:IsNull() then
             self:Destroy()
         end
         if interrupted then return end
-
-        local damageTable = {
-            victim = self.parent,
-            attacker = self.caster,
-            damage = self.damage,
-            damage_type = self:GetAbility():GetAbilityDamageType(),
-            ability = self:GetAbility(), --Optional.
-        }
+        local damageTable = { victim = self.parent, attacker = self.caster, damage = self.damage, damage_type = self:GetAbility():GetAbilityDamageType(), ability = self:GetAbility()}
         ApplyDamage(damageTable)
-        EmitSoundOn( "Ability.TossImpact", self.parent )
+        self.parent:EmitSound("Ability.TossImpact")
     end)
-
     local origin = self.target:GetOrigin()
     local direction = origin-self.parent:GetOrigin()
     local distance = direction:Length2D()
     direction.z = 0
     direction = direction:Normalized()
-
-    -- init speed
     self.distance = distance
     if self.distance==0 then self.distance = 1 end
     self.duration = duration
     self.speed = distance/duration
     self.accel = 100
     self.max_speed = 3000
-
-    -- apply motion
     if not self:ApplyHorizontalMotionController() then
         if not self:IsNull() then
             self:Destroy()
         end
     end
-
-    -- emit sound
-    local sound_cast = "Ability.TossThrow"
-    local sound_target = "Hero_Tiny.Toss.Target"
-    EmitSoundOn( sound_cast, self.caster )
-    EmitSoundOn( sound_target, self.parent )
+    self.caster:EmitSound("Ability.TossThrow")
+    self.parent:EmitSound("Hero_Tiny.Toss.Target")
 end
-
 function modifier_dwayne_stone_strength:OnDestroy()
     if not IsServer() then return end
     self:GetParent():RemoveHorizontalMotionController( self )
 end
-
 function modifier_dwayne_stone_strength:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_STUNNED] = true,
     }
-
     return state
 end
-
 function modifier_dwayne_stone_strength:UpdateHorizontalMotion( me, dt )
     local target = self.target:GetOrigin()
     local parent = self.parent:GetOrigin()
-
-    -- get current states
     local duration = self:GetElapsedTime()
     local direction = target-parent
     local distance = direction:Length2D()
     direction.z = 0
     direction = direction:Normalized()
-
-    -- change speed if target farther/closer
     local original_distance = duration/self.duration * self.distance
     local expected_speed
     if self:GetElapsedTime()>=self.duration then
@@ -342,29 +311,22 @@ function modifier_dwayne_stone_strength:UpdateHorizontalMotion( me, dt )
     else
         expected_speed = distance/(self.duration-self:GetElapsedTime())
     end
-
-    -- accel/deccel speed
     if self.speed<expected_speed then
         self.speed = math.min(self.speed + self.accel, self.max_speed)
     elseif self.speed>expected_speed then
         self.speed = math.max(self.speed - self.accel, 0)
     end
-
-    -- set relative position
     local pos = parent + direction * self.speed * dt
     me:SetOrigin( pos )
 end
-
 function modifier_dwayne_stone_strength:OnHorizontalMotionInterrupted()
     if not self:IsNull() then
         self:Destroy()
     end
 end
-
 function modifier_dwayne_stone_strength:GetEffectName()
     return "particles/units/heroes/hero_tiny/tiny_toss_blur.vpcf"
 end
-
 function modifier_dwayne_stone_strength:GetEffectAttachType()
     return PATTACH_ABSORIGIN_FOLLOW
 end
@@ -372,8 +334,6 @@ end
 
 modifier_dwayne_stone_strength_arc_lua = class({})
 
---------------------------------------------------------------------------------
--- Classifications
 function modifier_dwayne_stone_strength_arc_lua:IsHidden()
     return true
 end
@@ -608,13 +568,10 @@ function modifier_dwayne_stone_strength_arc_lua:SetJumpParameters( kv )
     else
         self:SetDuration( self.duration, true )
     end
-
-    -- calculate arc
     self:InitVerticalArc( height_start, height_max, height_end, self.duration )
 end
 
 function modifier_dwayne_stone_strength_arc_lua:Jump()
-    -- apply horizontal motion
     if self.distance>0 then
         if not self:ApplyHorizontalMotionController() then
             self.interrupted = true
@@ -623,8 +580,6 @@ function modifier_dwayne_stone_strength_arc_lua:Jump()
             end
         end
     end
-
-    -- apply vertical motion
     if self.height>0 then
         if not self:ApplyVerticalMotionController() then
             self.interrupted = true
@@ -639,17 +594,14 @@ function modifier_dwayne_stone_strength_arc_lua:InitVerticalArc( height_start, h
     local height_end = height_end - height_start
     local height_max = height_max - height_start
 
-    -- fail-safe1: height_max cannot be smaller than height delta
     if height_max<height_end then
         height_max = height_end+0.01
     end
 
-    -- fail-safe2: height-max must be positive
     if height_max<=0 then
         height_max = 0.01
     end
 
-    -- math magic
     local duration_end = ( 1 + math.sqrt( 1 - height_end/height_max ) )/2
     self.const1 = 4*height_max*duration_end/duration
     self.const2 = 4*height_max*duration_end*duration_end/(duration*duration)
@@ -663,267 +615,16 @@ function modifier_dwayne_stone_strength_arc_lua:GetVerticalSpeed( time )
     return self.const1 - 2*self.const2*time
 end
 
---------------------------------------------------------------------------------
--- Helper
 function modifier_dwayne_stone_strength_arc_lua:SetEndCallback( func )
     self.endCallback = func
 end
-
-
-
-
-LinkLuaModifier( "modifier_dwayne_fight_of_death", "abilities/heroes/dwayne.lua", LUA_MODIFIER_MOTION_HORIZONTAL )
-
-dwayne_fight_of_death = class({})
-
-
-
-function dwayne_fight_of_death:OnInventoryContentsChanged()
-    print(self:GetCaster():GetAbilityByIndex(5):GetAbilityName())
-    if self:GetCaster():HasScepter() then
-        if self:GetCaster():GetAbilityByIndex(5) then
-            if self:GetCaster():GetAbilityByIndex(5):GetAbilityName() == "dwayne_fight_of_death" then
-                self:GetCaster():SwapAbilities("dwayne_fight_of_death", "dwayne_fight_of_death_charge", false, true)
-            end
-        end
-    else
-        if self:GetCaster():GetAbilityByIndex(5) then
-            if self:GetCaster():GetAbilityByIndex(5):GetAbilityName() == "dwayne_fight_of_death_charge" then
-                self:GetCaster():SwapAbilities("dwayne_fight_of_death_charge", "dwayne_fight_of_death", false, true)
-            end
-        end
-    end
-end
-
-function dwayne_fight_of_death:GetBehavior()
-    local caster = self:GetCaster()
-    if caster:HasTalent("special_bonus_birzha_dwayne_6") then
-        return DOTA_ABILITY_BEHAVIOR_NO_TARGET + DOTA_ABILITY_BEHAVIOR_IMMEDIATE
-    end
-    return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET + DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING
-end
-
-function dwayne_fight_of_death:OnSpellStart()
-    if not IsServer() then return end
-
-
-    local duration = self:GetSpecialValueFor("duration")
-
-    local charge_ability = self:GetCaster():FindAbilityByName("dwayne_fight_of_death_charge")
-
-    if self:GetAbilityName() == "dwayne_fight_of_death_charge" then
-        charge_ability = self:GetCaster():FindAbilityByName("dwayne_fight_of_death")
-    end
-
-    if charge_ability then
-        local charges = charge_ability:GetCurrentAbilityCharges()
-        if charges > 0 then
-            charge_ability:SetCurrentAbilityCharges(charges - 1)
-        end 
-    end
-
-    if self:GetCaster():HasTalent("special_bonus_birzha_dwayne_6") then
-        local enemies_tick = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, 800, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false)
-        for _,enemy in pairs(enemies_tick) do
-            self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_dwayne_fight_of_death",  { duration = duration, target = enemy:entindex(), } )
-        end
-        return
-    end
-
-    local target = self:GetCursorTarget()
-    if target:TriggerSpellAbsorb( self ) then return end
-    self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_dwayne_fight_of_death",  { duration = duration, target = target:entindex(), } )
-end
-
-modifier_dwayne_fight_of_death = class({})
-
-function modifier_dwayne_fight_of_death:IsHidden()
-    return false
-end
-
-function modifier_dwayne_fight_of_death:IsDebuff()
-    return false
-end
-
-function modifier_dwayne_fight_of_death:IsPurgable()
-    return false
-end
-
-function modifier_dwayne_fight_of_death:GetAttributes()
-    return MODIFIER_ATTRIBUTE_MULTIPLE
-end
-
-function modifier_dwayne_fight_of_death:OnCreated( kv )
-    if not IsServer() then return end
-    self.target = EntIndexToHScript( kv.target )
-    self.count = self:GetAbility():GetSpecialValueFor("stoun_count")
-    self.kills = 0
-    self.info = {
-        EffectName = "particles/dwayne/attack_proj.vpcf",
-        Ability = self:GetAbility(),
-        iMoveSpeed = 1950,
-        Source = self:GetCaster(),
-        Target = self.target,
-        iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1,
-        ExtraData = {},
-    }
-    self:StartIntervalThink( self:GetAbility():GetSpecialValueFor("interval") )
-    self:OnIntervalThink()
-end
-
-function modifier_dwayne_fight_of_death:OnIntervalThink()
-    if not IsServer() then return end
-    local distance = (self.target:GetOrigin()-self:GetParent():GetOrigin()):Length2D()
-    local range = self:GetAbility():GetSpecialValueFor( "range" )
-
-    self.inRange = distance<=range
-
-    local ability_one = self:GetParent():FindAbilityByName("dwayne_throw_stone")
-    if ability_one and ability_one:GetLevel() < 1 then
-        if not self:IsNull() then
-            self:Destroy()
-        end
-        return
-    end
-
-    if self.inRange and self:GetParent():CanEntityBeSeenByMyTeam(self.target) and self.target:IsAlive() then
-        self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_3)
-        local stone_ability = self:GetParent():FindAbilityByName("dwayne_throw_stone")
-        if stone_ability and stone_ability:GetLevel() > 0 then
-            local info = {
-                EffectName = "particles/dwayne/attack_proj.vpcf",
-                Ability = stone_ability,
-                iMoveSpeed = 1950,
-                Source = self:GetCaster(),
-                Target = self.target,
-                iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1,
-                ExtraData = {},
-            }
-            for i=1,self:GetAbility():GetSpecialValueFor("stoun_count") do
-                info.iMoveSpeed = 1950 - (i * 150)
-                info.ExtraData = { count = i, }
-                ProjectileManager:CreateTrackingProjectile( info )
-                self:GetCaster():EmitSound("Brewmaster_Earth.Boulder.Cast")
-            end
-        end
-    end
-    if not self.target:IsAlive() then
-        self.kills = self.kills + 1
-        if self:GetCaster():HasTalent("special_bonus_birzha_dwayne_7") then
-            print(self.kills)
-            if self.kills >= 2 then
-                print("dada")
-                self:GetAbility():RefreshCharges()
-                self:GetAbility():EndCooldown()
-                self.kills = 0
-            end
-        end
-        if not self:IsNull() then
-            self:Destroy()
-        end
-    end
-end
-
-function modifier_dwayne_fight_of_death:DeclareFunctions()
-    local funcs = {
-        MODIFIER_EVENT_ON_DEATH,
-    }
-
-    return funcs
-end
-
-function modifier_dwayne_fight_of_death:OnDeath( params )
-    if not IsServer() then return end
-    if params.unit == self.target and params.attacker == self:GetParent() then
-        self.kills = self.kills + 1
-        if self:GetCaster():HasTalent("special_bonus_birzha_dwayne_7") then
-            print(self.kills)
-            if self.kills >= 2 then
-                print("dada")
-                self:GetAbility():RefreshCharges()
-                self:GetAbility():EndCooldown()
-                self.kills = 0
-            end
-        end
-    end
-end
-
-
-
-
-
-
-
-
-
-
-
-
-dwayne_fight_of_death_charge = class({})
-
-function dwayne_fight_of_death_charge:GetBehavior()
-    local caster = self:GetCaster()
-    if caster:HasTalent("special_bonus_birzha_dwayne_6") then
-        return DOTA_ABILITY_BEHAVIOR_NO_TARGET + DOTA_ABILITY_BEHAVIOR_IMMEDIATE
-    end
-    return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET + DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING
-end
-
-function dwayne_fight_of_death_charge:OnSpellStart()
-    if not IsServer() then return end
-
-
-    local duration = self:GetSpecialValueFor("duration")
-
-    local charge_ability = self:GetCaster():FindAbilityByName("dwayne_fight_of_death_charge")
-
-    if self:GetAbilityName() == "dwayne_fight_of_death_charge" then
-        charge_ability = self:GetCaster():FindAbilityByName("dwayne_fight_of_death")
-    end
-
-    if charge_ability then
-        local charges = charge_ability:GetCurrentAbilityCharges()
-        if charges > 0 then
-            charge_ability:SetCurrentAbilityCharges(charges - 1)
-        end 
-    end
-
-    if self:GetCaster():HasTalent("special_bonus_birzha_dwayne_6") then
-        local enemies_tick = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, 800, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false)
-        for _,enemy in pairs(enemies_tick) do
-            self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_dwayne_fight_of_death",  { duration = duration, target = enemy:entindex(), } )
-        end
-        return
-    end
-
-    local target = self:GetCursorTarget()
-    if target:TriggerSpellAbsorb( self ) then return end
-    self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_dwayne_fight_of_death",  { duration = duration, target = target:entindex(), } )
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 LinkLuaModifier( "modifier_dwayne_stone_passive", "abilities/heroes/dwayne.lua", LUA_MODIFIER_MOTION_NONE )
 
 dwayne_stone_passive = class({})
 
 function dwayne_stone_passive:GetCooldown(level)
-    return (self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_dwayne_5")) / self:GetCaster():GetCooldownReduction()
+    return (self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_dwayne_2")) / self:GetCaster():GetCooldownReduction()
 end
 
 function dwayne_stone_passive:GetIntrinsicModifierName()
@@ -937,71 +638,275 @@ function modifier_dwayne_stone_passive:IsHidden()
 end
 
 function modifier_dwayne_stone_passive:DeclareFunctions()
-    local funcs = {
-        MODIFIER_EVENT_ON_ATTACK_LANDED,
-        MODIFIER_EVENT_ON_ATTACK,
+    local funcs = 
+    {
+        MODIFIER_EVENT_ON_ATTACK_LANDED
     }
-
     return funcs
-end
-
-function modifier_dwayne_stone_passive:OnAttack( params )
-    if not IsServer() then return end
-    if params.attacker == self:GetParent() then
-        if params.attacker:IsIllusion() then return end
-        if params.target:IsOther() then return end
-        if self:GetParent():PassivesDisabled() then return end
-        local stone_ability = self:GetParent():FindAbilityByName("dwayne_throw_stone")
-        if stone_ability and stone_ability:GetLevel() > 0 then
-            if self:GetAbility():IsFullyCastable() then
-                local info = {
-                    EffectName = "particles/dwayne/attack_proj.vpcf",
-                    Ability = stone_ability,
-                    iMoveSpeed = 1950,
-                    Source = self:GetCaster(),
-                    Target = params.target,
-                    iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1,
-                    ExtraData = {},
-                }
-                for i=1,self:GetAbility():GetSpecialValueFor("stone_count") do
-                    info.iMoveSpeed = 1950 - (i * 150)
-                    info.ExtraData = { count = i, }
-                    ProjectileManager:CreateTrackingProjectile( info )
-                    self:GetCaster():EmitSound("Brewmaster_Earth.Boulder.Cast")
-                end
-                self:GetAbility():UseResources(false, false, true)
-            end
-        end
-    end
 end
 
 function modifier_dwayne_stone_passive:OnAttackLanded( params )
     if not IsServer() then return end
+
     if params.target == self:GetParent() then
         if self:GetParent():IsIllusion() then return end
         if self:GetParent():PassivesDisabled() then return end
+        if params.target:IsWard() then return end
+        if params.no_attack_cooldown then return end
+        local count = self:GetAbility():GetSpecialValueFor("stone_count")
         local stone_ability = self:GetParent():FindAbilityByName("dwayne_throw_stone")
         if stone_ability and stone_ability:GetLevel() > 0 then
-            if self:GetAbility():IsFullyCastable() then
-                local info = {
-                    EffectName = "particles/dwayne/attack_proj.vpcf",
-                    Ability = stone_ability,
-                    iMoveSpeed = 1950,
-                    Source = self:GetCaster(),
-                    Target = params.attacker,
-                    iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1,
-                    ExtraData = {},
-                }
-                self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_4)
-                self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_3)
-                for i=1,self:GetAbility():GetSpecialValueFor("stone_count") do
-                    info.iMoveSpeed = 1950 - (i * 150)
-                    info.ExtraData = { count = i, }
-                    ProjectileManager:CreateTrackingProjectile( info )
-                    self:GetCaster():EmitSound("Brewmaster_Earth.Boulder.Cast")
-                end
-                self:GetAbility():UseResources(false, false, true)
-            end
+            stone_ability:ThrowStone(params.attacker, count)
         end
+        self:GetAbility():UseResources(false, false, true)
+    end
+
+    if params.attacker == self:GetParent() then
+        if self:GetParent():IsIllusion() then return end
+        if self:GetParent():PassivesDisabled() then return end
+        if params.target:IsWard() then return end
+        if params.no_attack_cooldown then return end
+        local count = self:GetAbility():GetSpecialValueFor("stone_count")
+        local stone_ability = self:GetParent():FindAbilityByName("dwayne_throw_stone")
+        if stone_ability and stone_ability:GetLevel() > 0 then
+            stone_ability:ThrowStone(params.target, count)
+        end
+        self:GetAbility():UseResources(false, false, true)
     end
 end
+
+LinkLuaModifier( "modifier_dwayne_fight_of_death", "abilities/heroes/dwayne.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_dwayne_fight_of_death_thinker", "abilities/heroes/dwayne.lua", LUA_MODIFIER_MOTION_NONE )
+
+dwayne_fight_of_death = class({})
+
+function dwayne_fight_of_death:GetAOERadius()
+    return self:GetSpecialValueFor( "impact_radius" )
+end
+
+function dwayne_fight_of_death:OnSpellStart()
+    if not IsServer() then return end
+    local point = self:GetCursorPosition()
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = point + self:GetCaster():GetForwardVector()
+    end
+    local duration = self:GetSpecialValueFor("duration_tooltip")
+    self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_dwayne_fight_of_death", { duration = duration, pos_x = point.x, pos_y = point.y })
+end
+
+function dwayne_fight_of_death:OnProjectileHit( target, location )
+    if not IsServer() then return end
+    if not target then return end
+    local damage = self:GetSpecialValueFor( "damage_per_impact" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_dwayne_5")
+    local duration = self:GetSpecialValueFor( "burn_ground_duration" )
+    local impact_radius = self:GetSpecialValueFor( "impact_radius" )
+    local vision = self:GetSpecialValueFor( "projectile_vision" )
+
+    local damageTable = { attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self }
+
+    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), location, nil, impact_radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
+
+    for _,enemy in pairs(enemies) do
+        damageTable.victim = enemy
+        ApplyDamage(damageTable)
+        if self:GetCaster():HasScepter() then
+            enemy:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = self:GetSpecialValueFor("stun_duration_scepter") * (1-enemy:GetStatusResistance()) })
+        end
+    end
+
+    target:EmitSound("Visage_Familar.StoneForm.Cast")
+
+    target:AddNewModifier( self:GetCaster(), self, "modifier_dwayne_fight_of_death_thinker", { duration = duration } )
+    GridNav:DestroyTreesAroundPoint( location, impact_radius, true )
+    AddFOWViewer( self:GetCaster():GetTeamNumber(), location, vision, duration, false )
+    self:PlayEffects( target:GetOrigin() )
+end
+
+function dwayne_fight_of_death:PlayEffects( loc )
+    local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_tiny/tiny_toss_impact.vpcf", PATTACH_WORLDORIGIN, nil )
+    ParticleManager:SetParticleControl( effect_cast, 0, loc )
+    ParticleManager:ReleaseParticleIndex( effect_cast )
+
+    local nFXIndex = ParticleManager:CreateParticle( "particles/neutral_fx/ogre_bruiser_smash.vpcf", PATTACH_WORLDORIGIN,  nil  )
+    ParticleManager:SetParticleControl( nFXIndex, 0, loc )
+    ParticleManager:SetParticleControl( nFXIndex, 1, Vector(self:GetSpecialValueFor( "impact_radius" ), self:GetSpecialValueFor( "impact_radius" ), self:GetSpecialValueFor( "impact_radius" ) ) )
+    ParticleManager:ReleaseParticleIndex( nFXIndex )
+end
+
+modifier_dwayne_fight_of_death = class({})
+
+function modifier_dwayne_fight_of_death:IsHidden()
+    return false
+end
+
+function modifier_dwayne_fight_of_death:IsDebuff()
+    return false
+end
+
+function modifier_dwayne_fight_of_death:IsStunDebuff()
+    return false
+end
+
+function modifier_dwayne_fight_of_death:IsPurgable()
+    return false
+end
+
+function modifier_dwayne_fight_of_death:OnCreated( kv )
+    self.min_range = self:GetAbility():GetSpecialValueFor( "min_range" )
+    self.max_range = self:GetAbility():GetCastRange( Vector(0,0,0), nil )
+    self.range = self.max_range-self.min_range
+    self.min_travel = self:GetAbility():GetSpecialValueFor( "min_lob_travel_time" )
+    self.max_travel = self:GetAbility():GetSpecialValueFor( "max_lob_travel_time" )
+    self.travel_range = self.max_travel-self.min_travel
+    self.projectile_speed = self:GetAbility():GetSpecialValueFor( "projectile_speed" )
+    local projectile_vision = self:GetAbility():GetSpecialValueFor( "projectile_vision" )
+    self.turn_rate = self:GetAbility():GetSpecialValueFor( "turn_rate" )
+    self.interval = self:GetAbility():GetSpecialValueFor("duration_tooltip")/ (self:GetAbility():GetSpecialValueFor( "projectile_count" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_dwayne_8") ) + 0.01
+    if not IsServer() then return end
+    local interval = self:GetAbility():GetSpecialValueFor("duration_tooltip")/ (self:GetAbility():GetSpecialValueFor( "projectile_count" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_dwayne_8") ) + 0.01
+
+    self:SetValidTarget( Vector( kv.pos_x, kv.pos_y, 0 ) )
+    
+    local projectile_name = "particles/dwayne/ultimate_proj_particle.vpcf"
+    local projectile_start_radius = 0
+    local projectile_end_radius = 0
+
+    self.info = 
+    {
+        Source = self:GetCaster(),
+        Ability = self:GetAbility(),    
+        EffectName = projectile_name,
+        iMoveSpeed = self.projectile_speed,
+        bDodgeable = false,
+        vSourceLoc = self:GetCaster():GetOrigin(),
+        bDrawsOnMinimap = false,
+        bVisibleToEnemies = true,
+        bProvidesVision = true,
+        iVisionRadius = projectile_vision,
+        iVisionTeamNumber = self:GetCaster():GetTeamNumber()
+    }
+
+    self:StartIntervalThink( interval )
+    self:OnIntervalThink()
+end
+
+function modifier_dwayne_fight_of_death:DeclareFunctions()
+    local funcs = 
+    {
+        MODIFIER_EVENT_ON_ORDER,
+        MODIFIER_PROPERTY_MOVESPEED_LIMIT,
+        MODIFIER_PROPERTY_TURN_RATE_PERCENTAGE,
+        MODIFIER_PROPERTY_OVERRIDE_ANIMATION,
+        MODIFIER_PROPERTY_OVERRIDE_ANIMATION_RATE 
+    }
+    return funcs
+end
+
+function modifier_dwayne_fight_of_death:GetOverrideAnimation()
+    return ACT_DOTA_VICTORY
+end
+
+function modifier_dwayne_fight_of_death:GetOverrideAnimationRate()
+    if not self.interval then return 1 end
+    return self.interval * 3.1
+end
+
+function modifier_dwayne_fight_of_death:OnOrder( params )
+    if params.unit~=self:GetParent() then return end
+    if  params.order_type==DOTA_UNIT_ORDER_MOVE_TO_POSITION then
+        self:SetValidTarget( params.new_pos )
+    elseif 
+        params.order_type==DOTA_UNIT_ORDER_MOVE_TO_TARGET or
+        params.order_type==DOTA_UNIT_ORDER_ATTACK_TARGET
+    then
+        self:SetValidTarget( params.target:GetOrigin() )
+    elseif 
+        params.order_type==DOTA_UNIT_ORDER_STOP or
+        params.order_type==DOTA_UNIT_ORDER_HOLD_POSITION
+    then
+        self:Destroy()
+    end
+end
+
+function modifier_dwayne_fight_of_death:GetModifierMoveSpeed_Limit()
+    if IsClient() then return end
+    return 0.1
+end
+
+function modifier_dwayne_fight_of_death:GetModifierTurnRate_Percentage()
+    return -self.turn_rate
+end
+
+function modifier_dwayne_fight_of_death:CheckState()
+    local state = 
+    {
+        [MODIFIER_STATE_DISARMED] = true,
+    }
+    return state
+end
+
+function modifier_dwayne_fight_of_death:OnIntervalThink()
+    local thinker = CreateModifierThinker( self:GetParent(), self:GetAbility(), "modifier_dwayne_fight_of_death_thinker", { travel_time = self.travel_time }, self.target, self:GetParent():GetTeamNumber(), false )
+    self.info.iMoveSpeed = self.vector:Length2D()/self.travel_time
+    self.info.Target = thinker
+    ProjectileManager:CreateTrackingProjectile( self.info )
+    self:GetCaster():EmitSound("Ability.TossThrow")
+    AddFOWViewer( self:GetParent():GetTeamNumber(), thinker:GetOrigin(), 100, 1, false )
+end
+
+function modifier_dwayne_fight_of_death:SetValidTarget( location )
+    local origin = self:GetParent():GetOrigin()
+    local vec = location-origin
+    local direction = vec
+    direction.z = 0
+    direction = direction:Normalized()
+
+    if vec:Length2D()<self.min_range then
+        vec = direction * self.min_range
+    elseif vec:Length2D()>self.max_range then
+        vec = direction * self.max_range
+    end
+
+    self.target = GetGroundPosition( origin + vec, nil )
+    self.vector = vec
+    self.travel_time = (vec:Length2D()-self.min_range)/self.range * self.travel_range + self.min_travel
+end
+
+modifier_dwayne_fight_of_death_thinker = class({})
+
+function modifier_dwayne_fight_of_death_thinker:OnCreated( kv )
+    self.max_travel = self:GetAbility():GetSpecialValueFor( "max_lob_travel_time" )
+    self.radius = self:GetAbility():GetSpecialValueFor( "impact_radius" )
+    if not IsServer() then return end
+    self.start = false
+    self:PlayEffects( kv.travel_time )
+end
+
+function modifier_dwayne_fight_of_death_thinker:OnRefresh( kv )
+    self.max_travel = self:GetAbility():GetSpecialValueFor( "max_lob_travel_time" )
+    self.radius = self:GetAbility():GetSpecialValueFor( "impact_radius" )
+    if not IsServer() then return end
+    self.start = true
+    self:StopEffects()
+end
+
+function modifier_dwayne_fight_of_death_thinker:OnDestroy()
+    if not IsServer() then return end
+    UTIL_Remove( self:GetParent() )
+end
+
+function modifier_dwayne_fight_of_death_thinker:PlayEffects( time )
+    self.effect_cast = ParticleManager:CreateParticleForTeam( "particles/units/heroes/hero_snapfire/hero_snapfire_ultimate_calldown.vpcf", PATTACH_CUSTOMORIGIN, self:GetCaster(), self:GetCaster():GetTeamNumber() )
+    ParticleManager:SetParticleControl( self.effect_cast, 0, self:GetParent():GetOrigin() )
+    ParticleManager:SetParticleControl( self.effect_cast, 1, Vector( self.radius, 0, -self.radius*(self.max_travel/time) ) )
+    ParticleManager:SetParticleControl( self.effect_cast, 2, Vector( time, 0, 0 ) )
+end
+
+function modifier_dwayne_fight_of_death_thinker:StopEffects()
+    ParticleManager:DestroyParticle( self.effect_cast, true )
+    ParticleManager:ReleaseParticleIndex( self.effect_cast )
+end
+
+-- 1 ПРАВИЛЬНО
+-- ОСТАЛЬНЫЕ НЕТ
+-- ТАЛАНТЫ

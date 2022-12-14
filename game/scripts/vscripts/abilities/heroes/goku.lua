@@ -19,52 +19,61 @@ end
 function goku_kamehame:GetChannelTime()
     local cast = 1.5
     if self:GetCaster():HasShard() then
-        cast = cast - 0.5
-    end
-    if self:GetCaster():HasTalent("special_bonus_birzha_goku_4") then
-        cast = cast - 0.99
+        cast = self:GetSpecialValueFor("shard_cast_point")
     end
     return cast
 end
 
- --function goku_kamehame:GetBehavior()
- --    local caster = self:GetCaster()
- --    if self:GetCaster():HasTalent("special_bonus_birzha_goku_4") and self:GetCaster():HasScepter() then
- --        return DOTA_ABILITY_BEHAVIOR_POINT
- --    end
- --    return DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR_CHANNELLED
- --end
-
-
---THANKS STAR BATTLE ANIME ♥♥♥
 function goku_kamehame:OnSpellStart()
     if not IsServer() then return end
+
     self:GetCaster():EmitSound("GokuKamestart")
+
     self.point = self:GetCursorPosition()
+
     self.radius = self:GetSpecialValueFor( "radius" )
-    self.cast_direction = (self.point - self:GetCaster():GetAbsOrigin()):Normalized()
+
+    self.cast_direction = (self.point - self:GetCaster():GetAbsOrigin())
+    self.cast_direction.z = 0
+    self.cast_direction = self.cast_direction:Normalized()
+
     if self.point == self:GetCaster():GetAbsOrigin() then
         self.cast_direction = self:GetCaster():GetForwardVector()
     end
+
     self.particle = ParticleManager:CreateParticle("particles/goku_kamehameha.vpcf", PATTACH_CUSTOMORIGIN_FOLLOW, self:GetCaster())
     ParticleManager:SetParticleControlEnt(self.particle, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetCaster():GetAbsOrigin(), true)
 end
 
 function goku_kamehame:OnChannelFinish( bInterrupted )
+
     self:GetCaster():StopSound("GokuKamestart")
+
     if bInterrupted then
         if self.particle then
             ParticleManager:DestroyParticle(self.particle, false)
             ParticleManager:ReleaseParticleIndex(self.particle)
+            local cooldown = self:GetCooldownTimeRemaining()
+            if cooldown > 0 then
+                self:EndCooldown()
+                self:StartCooldown(cooldown / 2)
+            end
         end
         return
     end
+
     self:GetCaster():EmitSound("GokuKameend")
+
     self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_7)
-    local width = self:GetSpecialValueFor( "radius" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_goku_5", "value2")
-    local distance = self:GetSpecialValueFor( "range" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_goku_5")
+
+    local width = self:GetSpecialValueFor( "radius" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_goku_6", "value2")
+
+    local distance = self:GetSpecialValueFor( "range" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_goku_6")
+
     local speed = 1800
-    local info = {
+
+    local info = 
+    {
         Source = self:GetCaster(),
         Ability = self,
         vSpawnOrigin = self:GetCaster():GetAbsOrigin(),
@@ -80,7 +89,9 @@ function goku_kamehame:OnChannelFinish( bInterrupted )
         iVisionRadius = width,
         iVisionTeamNumber = self:GetCaster():GetTeamNumber(),
     }
+
     local projectile = ProjectileManager:CreateLinearProjectile(info)
+
     if self.particle then
         ParticleManager:DestroyParticle(self.particle, false)
         ParticleManager:ReleaseParticleIndex(self.particle)
@@ -90,12 +101,16 @@ end
 function goku_kamehame:OnProjectileHit( target, vLocation )
     if not IsServer() then return end
     if target ~= nil then
+
         local damage = self:GetSpecialValueFor( "damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_goku_1")
+
         if self:GetCaster():HasModifier("modifier_goku_saiyan") then
             local bonus_damage = self:GetCaster():FindModifierByName("modifier_goku_saiyan"):GetAbility():GetSpecialValueFor("kame_bonus_damage")
             damage = damage + bonus_damage
         end
-        local damageTable = {
+
+        local damageTable = 
+        {
             victim = target,
             attacker = self:GetCaster(),
             damage = damage,
@@ -103,9 +118,31 @@ function goku_kamehame:OnProjectileHit( target, vLocation )
             damage_flags = DOTA_DAMAGE_FLAG_NONE,
             ability = self,
         }
+
         ApplyDamage(damageTable)
     end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 LinkLuaModifier( "modifier_goku_merni_attacks", "abilities/heroes/goku.lua", LUA_MODIFIER_MOTION_NONE )
 
@@ -123,7 +160,7 @@ function goku_merni_attacks:OnSpellStart()
     if not IsServer() then return end
     local duration = self:GetSpecialValueFor( "phase_duration" )
     self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_goku_merni_attacks", { duration = duration } )
-    EmitSoundOn( "GokuTwo", self:GetCaster() )
+    self:GetCaster():EmitSound("GokuTwo")
 end
 
 modifier_goku_merni_attacks = class({})
@@ -164,7 +201,7 @@ function modifier_goku_merni_attacks:OnCreated( kv )
         table.insert( self.effects, self:PlayEffects1( point, false ) )
     end
 
-    if self:GetCaster():HasTalent("special_bonus_birzha_goku_2") then
+    if self:GetCaster():HasTalent("special_bonus_birzha_goku_7") then
         for i=1,self.portals do
             local new_direction = RotatePosition( zero, QAngle( 0, self.angle*i, 0 ), direction )
             local point = GetGroundPosition( origin + new_direction * self.distance*2, nil )
@@ -181,49 +218,50 @@ end
 function modifier_goku_merni_attacks:OnDestroy()
     if not IsServer() then return end
     local point = self.points[self.selected]
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_goku_4") then
+        local heal = self:GetCaster():GetMaxHealth() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_goku_4")
+        self:GetCaster():Heal(heal, self:GetAbility())
+    end
+
     FindClearSpaceForUnit( self:GetParent(), point, true )
 
-    local enemies = FindUnitsInRadius(
-        self:GetCaster():GetTeamNumber(), 
-        point,
-        nil,  
-        self.radius,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-        0,
-        0,
-        false  
-    )
-    local damageTable = {
-
+    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(),  point, nil,   self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false  )
+    
+    local damageTable = 
+    {
         attacker = self:GetCaster(),
         damage_type = DAMAGE_TYPE_MAGICAL,
         ability = self:GetAbility(),
         damage_flags = DOTA_UNIT_TARGET_FLAG_NONE,
     }
 
+    local damage = self.damage
+
+    if self:GetParent():HasModifier("modifier_goku_saiyan") then
+        local bonus_damage = self:GetParent():FindModifierByName("modifier_goku_saiyan"):GetAbility():GetSpecialValueFor("merni_attacks_damage")
+        damage = damage + bonus_damage
+    end
+
     for _,enemy in pairs(enemies) do
-        damageTable.damage = self.damage
+        damageTable.damage = damage
         damageTable.victim = enemy
-        if self:GetParent():HasModifier("modifier_goku_saiyan") then
-            local bonus_damage = self:GetParent():FindModifierByName("modifier_goku_saiyan"):GetAbility():GetSpecialValueFor("merni_attacks_damage")
-            damageTable.damage = self.damage + bonus_damage
-        end
-        ApplyDamage(damageTable)  
-        if self:GetCaster():HasTalent("special_bonus_birzha_goku_2") then
-            enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_goku_2")})
+        ApplyDamage(damageTable) 
+        if self:GetCaster():HasTalent("special_bonus_birzha_goku_7") then
+            enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_goku_7") * (1 - enemy:GetStatusResistance())})
         end
     end
+
     self:GetParent():RemoveNoDraw()
     self:PlayEffects2( point, #enemies )
 end
 
 function modifier_goku_merni_attacks:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_EVENT_ON_ORDER,
         MODIFIER_PROPERTY_MOVESPEED_LIMIT,
     }
-
     return funcs
 end
 
@@ -250,14 +288,14 @@ function modifier_goku_merni_attacks:GetModifierMoveSpeed_Limit()
 end
 
 function modifier_goku_merni_attacks:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_DISARMED] = true,
         [MODIFIER_STATE_SILENCED] = true,
         [MODIFIER_STATE_MUTED] = true,
         [MODIFIER_STATE_OUT_OF_GAME] = true,
         [MODIFIER_STATE_INVULNERABLE] = true,
     }
-
     return state
 end
 
@@ -289,8 +327,10 @@ function modifier_goku_merni_attacks:PlayEffects1( point, main )
     if self:GetCaster():FindAbilityByName("goku_saiyan"):GetLevel() == 5 then
         effect_cast = ParticleManager:CreateParticleForTeam( "particles/blue/goku_attacks.vpcf", PATTACH_WORLDORIGIN, self:GetParent(), self:GetParent():GetTeamNumber() )
     end
+
     ParticleManager:SetParticleControl( effect_cast, 0, point )
     ParticleManager:SetParticleControl( effect_cast, 1, Vector( radius, 0, 1 ) )
+
     if main then
         ParticleManager:SetParticleControl( effect_cast, 2, Vector( 1, 0, 0 ) )
     end
@@ -298,31 +338,20 @@ function modifier_goku_merni_attacks:PlayEffects1( point, main )
     if self:GetCaster():FindAbilityByName("goku_saiyan"):GetLevel() < 4 then
         effect_cast2 = ParticleManager:CreateParticle( "particles/goku_attacks.vpcf", PATTACH_WORLDORIGIN, self:GetParent())
     end
+
     if self:GetCaster():FindAbilityByName("goku_saiyan"):GetLevel() == 4 then
         effect_cast2 = ParticleManager:CreateParticle( "particles/red/goku_attacks.vpcf", PATTACH_WORLDORIGIN, self:GetParent())
     end
+
     if self:GetCaster():FindAbilityByName("goku_saiyan"):GetLevel() == 5 then
         effect_cast2 = ParticleManager:CreateParticle( "particles/blue/goku_attacks.vpcf", PATTACH_WORLDORIGIN, self:GetParent())
     end
+
     ParticleManager:SetParticleControl( effect_cast2, 0, point )
     ParticleManager:SetParticleControl( effect_cast2, 1, Vector( radius, 0, 1 ) )
 
-    self:AddParticle(
-        effect_cast,
-        false,
-        false,
-        -1,
-        false,
-        false 
-    )
-    self:AddParticle(
-        effect_cast2,
-        false,
-        false,
-        -1,
-        false,
-        false 
-    )
+    self:AddParticle( effect_cast, false, false, -1, false, false  )
+    self:AddParticle( effect_cast2, false, false, -1, false, false  )
 
     EmitSoundOnLocationWithCaster( point, "Hero_VoidSpirit.Dissimilate.Portals", self:GetCaster() )
 
@@ -349,162 +378,83 @@ function modifier_goku_merni_attacks:PlayEffects2( point, hit )
     ParticleManager:SetParticleControl( effect_cast, 1, Vector( self.target_radius, 0, 0 ) )
     ParticleManager:ReleaseParticleIndex( effect_cast )
 
-    EmitSoundOn( "Hero_VoidSpirit.Dissimilate.TeleportIn", self:GetParent() )
+    self:GetParent():EmitSound("Hero_VoidSpirit.Dissimilate.TeleportIn")
     if hit>0 then
-        EmitSoundOn( "Hero_VoidSpirit.Dissimilate.Stun", self:GetParent() )
+        self:GetParent():EmitSound("Hero_VoidSpirit.Dissimilate.Stun")
     end
 end
 
-LinkLuaModifier( "modifier_goku_dragon_punch", "abilities/heroes/goku.lua", LUA_MODIFIER_MOTION_HORIZONTAL )
+LinkLuaModifier( "modifier_goku_ki_blast", "abilities/heroes/goku", LUA_MODIFIER_MOTION_NONE)
 
-goku_dragon_punch = class({})
+goku_ki_blast = class({})
 
-function goku_dragon_punch:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+function goku_ki_blast:GetAOERadius()
+    return self:GetSpecialValueFor("radius")
 end
 
-function goku_dragon_punch:GetManaCost(level)
-    return self.BaseClass.GetManaCost(self, level)
+function goku_ki_blast:GetBehavior()
+    return DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK + DOTA_ABILITY_BEHAVIOR_AOE
 end
 
-function goku_dragon_punch:GetCastRange(location, target)
-    return self.BaseClass.GetCastRange(self, location, target)
-end
-
-function goku_dragon_punch:OnSpellStart()
-    self.target = self:GetCursorTarget()
-    if self.target:TriggerSpellAbsorb(self) then return end
-    self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_goku_dragon_punch", { target = self.target } )
-    self:GetCaster():EmitSound("GokuThree")
-end
-
-modifier_goku_dragon_punch = class({})
-
-function modifier_goku_dragon_punch:IsPurgable() return false end
-function modifier_goku_dragon_punch:IsHidden() return true end
-
-function modifier_goku_dragon_punch:OnCreated( kv )
-    self.target = self:GetAbility().target
-    self.close_distance = 80
-    self.far_distance = 900
-    self.speed = 1000
-    self.damage = self:GetAbility():GetSpecialValueFor( "damage" )
-    self.stun_duration = self:GetAbility():GetSpecialValueFor( "stun_duration" )
-
+function goku_ki_blast:OnSpellStart()
     if not IsServer() then return end
-    if self:ApplyHorizontalMotionController() == false then
-        if not self:IsNull() then
-            self:Destroy()
-        end
-    end
-end
+    local point = self:GetCursorPosition()
 
-function modifier_goku_dragon_punch:OnDestroy()
-    if not IsServer() then return end
-    self:GetParent():InterruptMotionControllers( true )
-    if not self.success then return end
+    point = point + Vector(0,0,120)
 
-    local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_huskar/huskar_life_break.vpcf", PATTACH_ABSORIGIN_FOLLOW, self.target )
-    ParticleManager:SetParticleControl( particle, 1, self.target:GetOrigin() )
-    ParticleManager:ReleaseParticleIndex( particle )
+    local target = CreateModifierThinker(self:GetCaster(), self, "modifier_goku_ki_blast", nil, point, self:GetCaster():GetTeamNumber(), false)
 
-    local damageTable = {
-        victim = self.target,
-        attacker = self:GetCaster(),
-        damage = self.damage,
-        damage_type = DAMAGE_TYPE_MAGICAL,
-        ability = self:GetAbility(),
-        damage_flags = DOTA_UNIT_TARGET_FLAG_NONE,
-    }
-    local radius = 0
-    if self:GetCaster():HasModifier("modifier_goku_saiyan") and self:GetCaster():FindModifierByName("modifier_goku_saiyan"):GetAbility():GetLevel() == 3 then
-        radius = 200
-    end
-    if self:GetCaster():HasModifier("modifier_goku_saiyan") and self:GetCaster():FindModifierByName("modifier_goku_saiyan"):GetAbility():GetLevel() == 4 then
-        radius = 300
-    end
-    if self:GetCaster():HasModifier("modifier_goku_saiyan") and self:GetCaster():FindModifierByName("modifier_goku_saiyan"):GetAbility():GetLevel() == 5 then
-        radius = 400
-    end
-
-    local enemies = FindUnitsInRadius(
-        self:GetCaster():GetTeamNumber(), 
-        self.target:GetAbsOrigin(),
-        nil,  
-        radius,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-        0,
-        0,
-        false  
-    )
-
-    if self:GetCaster():HasModifier("modifier_goku_saiyan") and self:GetCaster():FindModifierByName("modifier_goku_saiyan"):GetAbility():GetLevel() > 2 then
-        for _,enemy in pairs(enemies) do
-            damageTable.victim = enemy
-            ApplyDamage(damageTable)
-            enemy:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned_purge", { duration = self.stun_duration } )
-        end
-    else
-        ApplyDamage(damageTable)
-        self.target:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned_purge", { duration = self.stun_duration } )
-    end
-    local particle = ParticleManager:CreateParticle( "particles/goku_dragon.vpcf", PATTACH_CUSTOMORIGIN, self:GetCaster() )
-    ParticleManager:SetParticleControlEnt( particle, 0, self.target, PATTACH_ABSORIGIN_FOLLOW, nil, self.target:GetOrigin(), true  );
-    ParticleManager:SetParticleControl( particle, 1, Vector( 200, 200, 200 ) );
-    ParticleManager:ReleaseParticleIndex( particle );
-end
-
-function modifier_goku_dragon_punch:CheckState()
-    local state = {
-        [MODIFIER_STATE_MAGIC_IMMUNE] = true,
-        [MODIFIER_STATE_DISARMED] = true,
-        [MODIFIER_STATE_INVULNERABLE] = true,
+    local info = 
+    {
+        EffectName = "particles/ki_blast.vpcf",
+        Ability = self,
+        iMoveSpeed = 1200,
+        Source = self:GetCaster(),
+        Target = target,
+        iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_HITLOCATION
     }
 
-    return state
+    ProjectileManager:CreateTrackingProjectile( info )
+
+    self:GetCaster():EmitSound("GokuKi")
 end
 
-function modifier_goku_dragon_punch:UpdateHorizontalMotion( me, dt )
-    local origin = self:GetParent():GetOrigin()
-    if not self.target:IsAlive() or self.target:IsMagicImmune() then
-        self:EndCharge( false )
-    end
-    local direction = self.target:GetOrigin() - origin
-    direction.z = 0
-    local distance = direction:Length2D()
-    direction = direction:Normalized()
+function goku_ki_blast:OnProjectileHit( target, vLocation )
+    if not IsServer() then return end
 
-    if distance<self.close_distance then
-        self:EndCharge( true )
-    elseif distance>self.far_distance then
-        self:EndCharge( false )
+    if target == nil then return end
+
+    local effect_fx = ParticleManager:CreateParticle("particles/ki_blast_exp.vpcf", PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(effect_fx, 0, vLocation + Vector(0,0,120))
+    ParticleManager:SetParticleControl(effect_fx, 1, vLocation + Vector(0,0,120))
+    ParticleManager:SetParticleControl(effect_fx, 2, vLocation + Vector(0,0,120))
+    ParticleManager:SetParticleControl(effect_fx, 3, vLocation + Vector(0,0,120))
+    ParticleManager:SetParticleControl(effect_fx, 4, vLocation + Vector(0,0,120))
+
+    local nearby_targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), vLocation, nil, self:GetSpecialValueFor("radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
+
+    for i, target in pairs(nearby_targets) do
+        local damage = self:GetSpecialValueFor("damage") 
+        local stun_duration = self:GetSpecialValueFor("stun_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_goku_2")
+        target:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = stun_duration * (1 - target:GetStatusResistance()) })
+        ApplyDamage({ victim = target, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self })  
     end
 
-    local target = origin + direction * self.speed * dt
-    self:GetParent():SetOrigin( target )
-    self:GetParent():FaceTowards( self.target:GetOrigin() )
+    UTIL_Remove(target)
+
+    return true
 end
 
-function modifier_goku_dragon_punch:OnHorizontalMotionInterrupted()
-    if not self:IsNull() then
-        self:Destroy()
-    end
-end
+modifier_goku_ki_blast = class ({})
 
-function modifier_goku_dragon_punch:EndCharge( success )
-    if success then
-        self.success = true
-    end
-    if not self:IsNull() then
-        self:Destroy()
-    end
+function modifier_goku_ki_blast:IsHidden()
+    return true
 end
 
 goku_blink_one = class({})
 
 function goku_blink_one:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_goku_3")
 end
 
 function goku_blink_one:GetCastRange(location, target)
@@ -515,9 +465,12 @@ function goku_blink_one:GetManaCost(level)
     return self.BaseClass.GetManaCost(self, level)
 end
 
-function goku_blink_one:OnAbilityPhaseStart()
-    self.vTargetPosition = self:GetCursorPosition()
-    return true;
+function goku_blink_one:GetAOERadius()
+    local goku_saiyan = self:GetCaster():FindAbilityByName("goku_saiyan")
+    if goku_saiyan and goku_saiyan:GetLevel() > 0 then
+        return goku_saiyan:GetSpecialValueFor("shunkan_radius")
+    end
+    return 0
 end
 
 function goku_blink_one:OnSpellStart()
@@ -525,40 +478,32 @@ function goku_blink_one:OnSpellStart()
     local point = self:GetCursorPosition()
     local origin = self:GetCaster():GetOrigin()
     local range = self:GetSpecialValueFor("blink_range")
+
     local direction = (point - origin)
+
     if direction:Length2D() > range then
         direction = direction:Normalized() * range
     end
-    FindClearSpaceForUnit( self:GetCaster(), origin + direction, true )
-    ProjectileManager:ProjectileDodge(self:GetCaster())
+
     self:PlayEffects( origin, direction )
 
-    local enemies = FindUnitsInRadius(
-        self:GetCaster():GetTeamNumber(), 
-        origin + direction,
-        nil,  
-        250,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-        0,
-        0,
-        false  
-    )
+    FindClearSpaceForUnit( self:GetCaster(), origin + direction, true )
 
-    local damageTable = {
-        attacker = self:GetCaster(),
-        damage_type = DAMAGE_TYPE_MAGICAL,
-        ability = self,
-        damage_flags = DOTA_UNIT_TARGET_FLAG_NONE,
-    }
+    ProjectileManager:ProjectileDodge(self:GetCaster())
 
-    for _,enemy in pairs(enemies) do
-        if self:GetCaster():HasModifier("modifier_goku_saiyan") then
-            local bonus_damage = self:GetCaster():FindModifierByName("modifier_goku_saiyan"):GetAbility():GetSpecialValueFor("ability_ido_damage")
-            damageTable.damage = bonus_damage
+    local goku_saiyan = self:GetCaster():FindAbilityByName("goku_saiyan")
+    if goku_saiyan and goku_saiyan:GetLevel() > 0 then
+
+        local particle = ParticleManager:CreateParticle( "particles/goku_effect_blink_burst.vpcf", PATTACH_WORLDORIGIN, self:GetCaster() )
+        ParticleManager:SetParticleControl( particle, 0, origin + direction )
+        ParticleManager:SetParticleControl( particle, 1, Vector(goku_saiyan:GetSpecialValueFor("shunkan_radius"),goku_saiyan:GetSpecialValueFor("shunkan_radius"),goku_saiyan:GetSpecialValueFor("shunkan_radius")) )
+
+        local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), origin + direction, nil, goku_saiyan:GetSpecialValueFor("shunkan_radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
+        local damageTable = { attacker = self:GetCaster(), damage_type = DAMAGE_TYPE_MAGICAL, damage=goku_saiyan:GetSpecialValueFor("shunkan_damage"), ability = self, damage_flags = DOTA_UNIT_TARGET_FLAG_NONE }
+        for _,enemy in pairs(enemies) do
             damageTable.victim = enemy
             ApplyDamage(damageTable)
-        end  
+        end
     end
 end
 
@@ -604,6 +549,7 @@ function goku_blink_two:OnSpellStart()
     local caster = self:GetCaster()
     local target = self:GetCursorTarget()
     local origin = caster:GetOrigin()
+
     if target == nil then
         target = self:GetCursorPosition()
         caster:SetOrigin( target )
@@ -611,22 +557,31 @@ function goku_blink_two:OnSpellStart()
         self:PlayEffects( origin )
         return
     end
+
     if target:GetTeamNumber()~=caster:GetTeamNumber() then
         if target:TriggerSpellAbsorb( self ) then
             return
         end
     end
+
     local blinkDistance = 50
+
+
     local blinkDirection = (caster:GetOrigin() - target:GetOrigin()):Normalized() * blinkDistance
     local blinkPosition = target:GetOrigin() + blinkDirection
+
     local duration = self:GetSpecialValueFor("stun_duration")
+
     caster:SetOrigin( blinkPosition )
+
     FindClearSpaceForUnit( caster, blinkPosition, true )
 
     if target:GetTeamNumber()~=caster:GetTeamNumber() then
         target:AddNewModifier( caster, self, "modifier_birzha_stunned", { duration = duration } )
         caster:MoveToTargetToAttack(target)
-        if self:GetCaster():FindAbilityByName("goku_kamehame"):GetLevel() >= 1 then
+
+        local goku_kamehame = self:GetCaster():FindAbilityByName("goku_kamehame")
+        if goku_kamehame and goku_kamehame:GetLevel() > 0 then
             if self:GetCaster():HasScepter() then
                 self:GetCaster():StartGestureWithPlaybackRate( ACT_DOTA_CAST_ABILITY_7, 1 )
                 self:UseKameHameHame(blinkPosition)
@@ -671,12 +626,16 @@ end
 function goku_blink_two:OnProjectileHit( target, vLocation )
     if not IsServer() then return end
     if target ~= nil then
+
         local damage = self:GetCaster():FindAbilityByName("goku_kamehame"):GetSpecialValueFor( "damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_goku_1")
+
         if self:GetCaster():HasModifier("modifier_goku_saiyan") then
             local bonus_damage = self:GetCaster():FindModifierByName("modifier_goku_saiyan"):GetAbility():GetSpecialValueFor("kame_bonus_damage")
             damage = damage + bonus_damage
         end
-        local damageTable = {
+
+        local damageTable = 
+        {
             victim = target,
             attacker = self:GetCaster(),
             damage = damage,
@@ -684,6 +643,7 @@ function goku_blink_two:OnProjectileHit( target, vLocation )
             damage_flags = DOTA_DAMAGE_FLAG_NONE,
             ability = self:GetCaster():FindAbilityByName("goku_kamehame"),
         }
+
         ApplyDamage(damageTable)
     end
 end
@@ -693,9 +653,11 @@ function goku_blink_two:PlayEffects( origin )
     local effect_cast_start = ParticleManager:CreateParticle( "particles/econ/items/phantom_assassin/phantom_assassin_arcana_elder_smith/pa_arcana_phantom_strike_start.vpcf", PATTACH_WORLDORIGIN, self:GetCaster() )
     ParticleManager:SetParticleControl( effect_cast_start, 0, origin )
     ParticleManager:ReleaseParticleIndex( effect_cast_start )
+
     local effect_cast_end = ParticleManager:CreateParticle( "particles/econ/items/phantom_assassin/phantom_assassin_arcana_elder_smith/pa_arcana_phantom_strike_end.vpcf", PATTACH_WORLDORIGIN, self:GetCaster() )
     ParticleManager:SetParticleControl( effect_cast_end, 0, self:GetCaster():GetOrigin() )
     ParticleManager:ReleaseParticleIndex( effect_cast_end )
+
     EmitSoundOnLocationWithCaster( origin, "GokuBlink", self:GetCaster() )
 end
 
@@ -704,7 +666,7 @@ LinkLuaModifier("modifier_goku_saiyan", "abilities/heroes/goku", LUA_MODIFIER_MO
 goku_saiyan = class({})
 
 function goku_saiyan:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_goku_3")
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_goku_5")
 end
 
 function goku_saiyan:GetManaCost(level)
@@ -729,24 +691,33 @@ end
 
 function goku_saiyan:OnSpellStart()
     if not IsServer() then return end
+
     local duration = self:GetSpecialValueFor("duration")
+
     if self:GetCaster():HasModifier("modifier_goku_saiyan") then
         self:GetCaster():RemoveModifierByName("modifier_goku_saiyan")
     end
+
     self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_goku_saiyan", { duration = duration } )  
+
     self:GetCaster():EmitSound("GokuLoop")
+
     if self:GetLevel() == 1 then
         self:GetCaster():EmitSound("GokuUltimateOne")
     end
+
     if self:GetLevel() == 2 then
         self:GetCaster():EmitSound("GokuUltimateTwo")
     end
+
     if self:GetLevel() == 3 then
         self:GetCaster():EmitSound("GokuUltimateThree")
     end
+
     if self:GetLevel() == 4 then
         self:GetCaster():EmitSound("GokuUltimateFour")
     end
+
     if self:GetLevel() == 5 then
         self:GetCaster():EmitSound("GokuUltimateFive")
     end
@@ -763,12 +734,12 @@ function modifier_goku_saiyan:IsPurgable()
 end
 
 function modifier_goku_saiyan:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE,
         MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
         MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
         MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
-        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
         MODIFIER_PROPERTY_MODEL_CHANGE,
         MODIFIER_EVENT_ON_ABILITY_EXECUTED,
     }
@@ -787,87 +758,77 @@ function modifier_goku_saiyan:OnAbilityExecuted( params )
             return 0
         end
 
-        local chance = 0
-
-        if self:GetAbility():GetLevel() == 3 then
-            chance = 15
-        end
-        if self:GetAbility():GetLevel() == 4 then
-            chance = 20
-        end
-        if self:GetAbility():GetLevel() == 5 then
-            chance = 25
-        end
-
-        if IsInToolsMode() then
-            chance = 100
-        end
+        local chance = self:GetAbility():GetSpecialValueFor("chance_refresh")
 
         if hAbility:GetAbilityName() == "goku_kamehame" or hAbility:GetAbilityName() == "goku_merni_attacks" or hAbility:GetAbilityName() == "goku_ki_blast" then
-            if RollPseudoRandomPercentage(chance, 3, self:GetParent()) then
-                local abilities = {
+            if RollPercentage(chance) then
+                local abilities = 
+                {
                     "goku_kamehame",
                     "goku_merni_attacks",
                     "goku_ki_blast",
+                    "goku_blink_one",
+                    "goku_blink_two",
                 }
                 local parent = self:GetParent()
                 Timers:CreateTimer(0.25, function() parent:FindAbilityByName(abilities[RandomInt(1, #abilities)]):EndCooldown() end)
             end
         end
-    end
-        
+    end 
 end
 
 function modifier_goku_saiyan:OnCreated()
     self.amp = self:GetAbility():GetSpecialValueFor("spell_amplify")
-    self.speed = self:GetAbility():GetSpecialValueFor("bonus_movespeed")
+
+
     if not IsServer() then return end
-    local bonus = (self:GetAbility():GetSpecialValueFor("bonus_attribute") + self:GetCaster():FindTalentValue("special_bonus_birzha_goku_6") ) / 100
+    local bonus = (self:GetAbility():GetSpecialValueFor("bonus_attribute") + self:GetCaster():FindTalentValue("special_bonus_birzha_goku_8") ) / 100
+
     self.str = self:GetParent():GetStrength() * bonus
     self.agi = self:GetParent():GetAgility() * bonus
     self.int = self:GetParent():GetIntellect() * bonus
+
     self.swapab = false
+
     local particle_name
+
     if self:GetAbility():GetLevel() > 2 then
         self.swapab = true
         self:GetParent():SwapAbilities("goku_blink_one", "goku_blink_two", false, true)
         self:GetParent():FindAbilityByName("goku_blink_two"):SetLevel(self:GetParent():FindAbilityByName("goku_saiyan"):GetLevel())
     end
+
     if self:GetAbility():GetLevel() == 3 or self:GetAbility():GetLevel() == 2 or self:GetAbility():GetLevel() == 1 then
         particle_name = "particles/donate_effect/dragon_ball_effect/dragon_ball_effect_1.vpcf"
     end
+
     if self:GetAbility():GetLevel() == 4 then
         particle_name = "particles/donate_effect/dragon_ball_effect/dragon_ball_effect_2.vpcf"
     end
+
     if self:GetAbility():GetLevel() == 5 then
         particle_name = "particles/donate_effect/dragon_ball_effect/dragon_ball_effect_3.vpcf"
     end
+
     self.particle = ParticleManager:CreateParticle(particle_name, PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
     ParticleManager:SetParticleControl(self.particle, 0, self:GetParent():GetAbsOrigin())
 
-    local units = FindUnitsInRadius(
-        self:GetCaster():GetTeamNumber(), 
-        self:GetParent():GetAbsOrigin(),
-        nil,  
-        FIND_UNITS_EVERYWHERE,
-        DOTA_UNIT_TARGET_TEAM_BOTH,
-        DOTA_UNIT_TARGET_BASIC,
-        DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD + DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-        0,
-        false  
-    )
+    local units = FindUnitsInRadius( self:GetCaster():GetTeamNumber(),  self:GetParent():GetAbsOrigin(), nil,   FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD + DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false   )
    
     for _,unit in pairs(units) do
+
         if unit:GetUnitName() == "donater_top6" then
             self.particle_pet = ParticleManager:CreateParticle(particle_name, PATTACH_ABSORIGIN_FOLLOW, unit)
             ParticleManager:SetParticleControl(self.particle, 0, unit:GetAbsOrigin())
         end
+
         if PlayerResource:GetSteamAccountID( self:GetParent():GetPlayerID() ) == 113370083 then
             if unit:GetUnitName() == "unit_premium_pet" then
                 self.particle_insane = ParticleManager:CreateParticle(particle_name, PATTACH_ABSORIGIN_FOLLOW, unit)
                 ParticleManager:SetParticleControl(self.particle_insane, 0, unit:GetAbsOrigin())
             end
         end
+
     end
 end
 
@@ -875,7 +836,7 @@ function modifier_goku_saiyan:OnRefresh()
     self.amp = self:GetAbility():GetSpecialValueFor("spell_amplify")
     self.speed = self:GetAbility():GetSpecialValueFor("bonus_movespeed")
     if not IsServer() then return end
-    local bonus = (self:GetAbility():GetSpecialValueFor("bonus_attribute") + self:GetCaster():FindTalentValue("special_bonus_birzha_goku_6")) / 100
+    local bonus = (self:GetAbility():GetSpecialValueFor("bonus_attribute") + self:GetCaster():FindTalentValue("special_bonus_birzha_goku_8")) / 100
     self.str = self:GetParent():GetStrength() * bonus
     self.agi = self:GetParent():GetAgility() * bonus
     self.int = self:GetParent():GetIntellect() * bonus
@@ -883,22 +844,27 @@ end
 
 function modifier_goku_saiyan:OnDestroy()
     if not IsServer() then return end
+
     if self:GetAbility():GetLevel() > 2 and self.swapab then
         self:GetParent():SwapAbilities("goku_blink_two", "goku_blink_one", false, true)
         self:GetParent():FindAbilityByName("goku_blink_one"):SetLevel(1)
     end
+
     if self.particle then
         ParticleManager:DestroyParticle(self.particle,true)
         ParticleManager:ReleaseParticleIndex(self.particle)
     end
+
     if self.particle_pet then
         ParticleManager:DestroyParticle(self.particle_pet,true)
         ParticleManager:ReleaseParticleIndex(self.particle_pet)
     end
+
     if self.particle_insane then
         ParticleManager:DestroyParticle(self.particle_insane,true)
         ParticleManager:ReleaseParticleIndex(self.particle_insane)
     end
+
     self:GetCaster():StopSound("GokuLoop")
     StopSoundEvent( "GokuLoop", self:GetCaster() )
 end
@@ -917,10 +883,6 @@ end
 
 function modifier_goku_saiyan:GetModifierBonusStats_Intellect()
     return self.int
-end
-
-function modifier_goku_saiyan:GetModifierMoveSpeedBonus_Percentage()
-    return self.speed
 end
 
 function modifier_goku_saiyan:GetEffectName()
@@ -970,69 +932,6 @@ end
 
 
 
-
-goku_ki_blast = class({})
-
-LinkLuaModifier( "modifier_goku_ki_blast", "abilities/heroes/goku", LUA_MODIFIER_MOTION_NONE)
-
-function goku_ki_blast:GetAOERadius()
-    return self:GetSpecialValueFor("radius")
-end
-
-function goku_ki_blast:GetBehavior()
-    return DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK + DOTA_ABILITY_BEHAVIOR_AOE
-end
-
-function goku_ki_blast:OnSpellStart()
-    if IsServer() then
-        local target = CreateModifierThinker(self:GetCaster(), self, "modifier_goku_ki_blast", nil, self:GetCursorPosition(), self:GetCaster():GetTeamNumber(), false)
-        local info = {
-            EffectName = "particles/ki_blast.vpcf",
-            Ability = self,
-            iMoveSpeed = 1200,
-            Source = self:GetCaster(),
-            Target = target,
-            iSourceAttachment = self:GetCaster():ScriptLookupAttachment("attach_hitloc")
-        }
-        ProjectileManager:CreateTrackingProjectile( info )
-        EmitSoundOn( "GokuKi", self:GetCaster() )
-    end
-end
-
-function goku_ki_blast:OnProjectileHit( hTarget, vLocation )
-    local caster = self:GetCaster()
-    if hTarget ~= nil then
-        if IsServer() then
-            local effect_fx = ParticleManager:CreateParticle("particles/ki_blast_exp.vpcf", PATTACH_WORLDORIGIN, caster)
-            ParticleManager:SetParticleControl(effect_fx, 0, vLocation)
-            ParticleManager:SetParticleControl(effect_fx, 1, vLocation)
-            ParticleManager:SetParticleControl(effect_fx, 2, vLocation)
-            ParticleManager:SetParticleControl(effect_fx, 3, vLocation)
-            ParticleManager:SetParticleControl(effect_fx, 4, vLocation)
-            local nearby_targets = FindUnitsInRadius(caster:GetTeam(), vLocation, nil, self:GetSpecialValueFor("radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
-            for i, target in pairs(nearby_targets) do
-                local damage = self:GetSpecialValueFor("damage") 
-                local damage = {
-                    victim = target,
-                    attacker = caster,
-                    damage = damage,
-                    damage_type = DAMAGE_TYPE_MAGICAL,
-                    ability = self
-                }
-                target:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = self:GetSpecialValueFor("stun_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_goku_7")})
-                ApplyDamage(damage)  
-            end
-        end
-        UTIL_Remove(hTarget)
-    end
-    return true
-end
-
-modifier_goku_ki_blast = class ({})
-
-function modifier_goku_ki_blast:IsHidden()
-    return true
-end
 
 
 

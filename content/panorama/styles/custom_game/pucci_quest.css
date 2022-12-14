@@ -14,7 +14,8 @@
     opacity: 0;
 }
 
-.QuestIcon {
+.QuestIcon 
+{
     width: 32px;
     height: 32px;
     margin-right: 5px;
@@ -24,7 +25,8 @@
     vertical-align: center;
 }
 
-.QuestProgress {
+.QuestProgress 
+{
     vertical-align: center;
     flow-children: down;
 }
@@ -35,10 +37,11 @@
     font-weight: bold;
 }
 
-#QuestProgress {
+#QuestProgress 
+{
     width: 200px;
     height: 15px;
-border: 1px solid black;
+    border: 1px solid black;
 }
 
 #QuestProgressBack {

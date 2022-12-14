@@ -10,8 +10,9 @@ end
 function item_ghoul:OnToggle()
     local caster = self:GetCaster()
     local toggle = self:GetToggleState()
+
     if not IsServer() then return end
-    caster:EmitSound("")
+
     if toggle then
         self:EndCooldown()
         self.modifier = caster:AddNewModifier( caster, self, "modifier_item_ghoul_buff", {} )
@@ -43,19 +44,20 @@ function modifier_item_ghoul:OnDestroy()
 end
 
 function modifier_item_ghoul:DeclareFunctions()
-	return {
-    MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
-    MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-    MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
-    MODIFIER_EVENT_ON_HERO_KILLED,
-    MODIFIER_EVENT_ON_ATTACK_LANDED,
+	return 
+    {
+        MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
+        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+        MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
+        MODIFIER_EVENT_ON_HERO_KILLED,
+        MODIFIER_EVENT_ON_TAKEDAMAGE
     }
 end
 
 function modifier_item_ghoul:OnHeroKilled(params)
     if params.attacker == self:GetParent() then
         if params.target == self:GetParent() then return end
-        if params.target:HasModifier("modifier_item_ghoul") or params.target:GetUnitName() == "npc_dota_hero_life_stealer" then
+        if params.attacker:HasModifier("modifier_item_ghoul_buff") then
             self:GetAbility():SetCurrentCharges(self:GetAbility():GetCurrentCharges() + 1)
         end
     end
@@ -73,12 +75,17 @@ function modifier_item_ghoul:GetModifierConstantHealthRegen()
     return self:GetAbility():GetSpecialValueFor("bonus_hp_regen")
 end
 
-function modifier_item_ghoul:OnAttackLanded(params)
-    if IsServer() then
-        if params.attacker == self:GetParent() then
-            local lifesteal = (self:GetAbility():GetSpecialValueFor("lifesteal_active")) / 100
-            self:GetParent():Heal(params.damage * lifesteal, self:GetAbility())
-        end
+function modifier_item_ghoul:OnTakeDamage(params)
+    if not IsServer() then return end
+    if self:GetParent() ~= params.attacker then return end
+    if self:GetParent() == params.unit then return end
+    if params.unit:IsBuilding() then return end
+    if params.unit:IsWard() then return end
+    if params.inflictor == nil and not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then 
+        local heal = self:GetAbility():GetSpecialValueFor("lifesteal") / 100 * params.damage
+        self:GetParent():Heal(heal, nil)
+        local effect_cast = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.attacker )
+        ParticleManager:ReleaseParticleIndex( effect_cast )
     end
 end
 
@@ -90,14 +97,13 @@ end
 
 function modifier_item_ghoul_buff:OnCreated()
     if not IsServer() then return end
-    self:StartIntervalThink(1)
+    self:StartIntervalThink(0.1)
     self:OnIntervalThink()
 end
 
 function modifier_item_ghoul_buff:OnIntervalThink()
     if not IsServer() then return end
-    --ApplyDamage({victim = self:GetParent(), attacker = self:GetParent(), damage = self:GetAbility():GetSpecialValueFor("damage_per_second_active"), damage_type = DAMAGE_TYPE_PURE, flag = DOTA_DAMAGE_FLAG_NON_LETHAL + DOTA_DAMAGE_FLAG_NO_DAMAGE_MULTIPLIERS, ability = self:GetAbility()})
-    self:GetParent():SetHealth(math.max( self:GetParent():GetHealth() - 100, 1))
+    self:GetParent():SetHealth(math.max( self:GetParent():GetHealth() - (100 * 0.1), 1))
 end
 
 function modifier_item_ghoul_buff:DeclareFunctions()
@@ -108,7 +114,6 @@ function modifier_item_ghoul_buff:DeclareFunctions()
         MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
         MODIFIER_PROPERTY_CASTTIME_PERCENTAGE,
         MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
-        MODIFIER_EVENT_ON_ATTACK_LANDED,
         MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
         MODIFIER_EVENT_ON_TAKEDAMAGE,
         MODIFIER_EVENT_ON_HERO_KILLED,
@@ -146,47 +151,37 @@ function modifier_item_ghoul_buff:GetModifierAttackSpeedBonus_Constant()
     return self:GetAbility():GetSpecialValueFor("bonus_attack_speed_active")
 end
 
-function modifier_item_ghoul_buff:OnAttackLanded(params)
-    if IsServer() then
-        if params.attacker == self:GetParent() then
+function modifier_item_ghoul_buff:OnTakeDamage(params)
+    if not IsServer() then return end
+    if self:GetParent() ~= params.attacker then return end
+    if self:GetParent() == params.unit then return end
+    if params.unit:IsBuilding() then return end
+    if params.unit:IsWard() then return end
+
+    if params.inflictor == nil then
+        if not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then
             local stacks = self:GetAbility():GetSpecialValueFor("lifesteal_per_charge") * self:GetAbility():GetCurrentCharges()
             local lifesteal = (self:GetAbility():GetSpecialValueFor("lifesteal_active")+stacks) / 100
-            print(lifesteal, "no_spell")
-            self:GetParent():Heal(params.damage * lifesteal, self:GetAbility())
+            self:GetParent():Heal(params.damage * lifesteal, nil)
+            local effect_cast = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.attacker )
+            ParticleManager:ReleaseParticleIndex( effect_cast )
         end
-    end
-end
-
-function modifier_item_ghoul_buff:OnTakeDamage(params)
-    if params.attacker == self:GetParent() then
-        if params.unit == self:GetParent() then return end
-        if not self:GetParent():IsHero() then return end
-        if params.inflictor == nil then return end
-
-        local no_magic_heal = {
-            "azazin_gayaura",
-            "Dio_Za_Warudo",
-            "Felix_WaterShield",
-            "haku_help",
-            "Kurumi_Zafkiel",
-            "item_birzha_blade_mail",
-            "item_nimbus_lapteva",
-            "polnaref_return",
-            "polnaref_stand",
-            "item_cuirass_2"
-        }
-
-        for _, ability_no in pairs(no_magic_heal) do
-            if params.inflictor:GetAbilityName() == ability_no then
-                return
+    else
+        if not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then
+            local bonus_percentage = 0
+            for _, mod in pairs(self:GetParent():FindAllModifiers()) do
+                if mod.GetModifierSpellLifestealRegenAmplify_Percentage and mod:GetModifierSpellLifestealRegenAmplify_Percentage() then
+                    bonus_percentage = bonus_percentage + mod:GetModifierSpellLifestealRegenAmplify_Percentage()
+                end
             end
+            local stacks = self:GetAbility():GetSpecialValueFor("spell_lifesteal_per_charge") * self:GetAbility():GetCurrentCharges()
+            local lifesteal = (self:GetAbility():GetSpecialValueFor("magic_lifesteal_active")+stacks) / 100
+            local heal = params.damage * lifesteal
+            heal = heal * (bonus_percentage / 100 + 1)
+            self:GetParent():Heal(heal, params.inflictor)
+            local octarine = ParticleManager:CreateParticle( "particles/items3_fx/octarine_core_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.attacker )
+            ParticleManager:ReleaseParticleIndex( octarine )
         end
-
-        local stacks = self:GetAbility():GetSpecialValueFor("spell_lifesteal_per_charge") * self:GetAbility():GetCurrentCharges()
-        local lifesteal = (self:GetAbility():GetSpecialValueFor("magic_lifesteal_active")+stacks) / 100
-        self:GetParent():Heal(params.damage * lifesteal, self:GetAbility())
-        local octarine = ParticleManager:CreateParticle( "particles/items3_fx/octarine_core_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
-        ParticleManager:ReleaseParticleIndex( octarine )
     end
 end
 

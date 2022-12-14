@@ -11,6 +11,11 @@ LinkLuaModifier( "modifier_bp_dangerous_boy", "modifiers/birzhapass_modifiers/mo
 LinkLuaModifier( "modifier_birzhapass_sound", "memespass/soundkill", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_gamemode_wtf", "modifiers/modifier_gamemode_wtf", LUA_MODIFIER_MOTION_NONE )
 
+LinkLuaModifier( "modifier_bp_sobolev", "modifiers/birzhapass_modifiers/modifier_bp_sobolev", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_bp_mum_arcana", "modifiers/birzhapass_modifiers/modifier_bp_mum_arcana", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_bp_mum_mask", "modifiers/birzhapass_modifiers/modifier_bp_mum_mask", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_bp_johncena", "modifiers/birzhapass_modifiers/modifier_bp_johncena", LUA_MODIFIER_MOTION_NONE )
+
 _G.FountainTimer = 900
 _G.EventTimer = 900
 _G.GameEndTimer = 300
@@ -23,6 +28,7 @@ function BirzhaGameMode:OnGameRulesStateChange(params)
 
 	if nNewState == DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP then
 		BirzhaData:RegisterSeasonInfo()
+		CustomPick:Init()
 	end
 
 	if nNewState == DOTA_GAMERULES_STATE_PRE_GAME then
@@ -59,7 +65,6 @@ function BirzhaGameMode:OnGameRulesStateChange(params)
 		CustomGameEventManager:Send_ServerToAllClients( "show_timer", {} )
 		DoEntFire( "center_experience_ring_particles", "Start", "0", 0, self, self  )
 		BirzhaGameMode:SpawnDonaters()
-		CustomPick:Init()
 	end
 end
 
@@ -119,6 +124,12 @@ function BirzhaGameMode:OnNPCSpawned( event )
 		if player:GetUnitName() == "npc_dota_hero_treant" then
 			if player.BirzhaFirstSpawned then
 	   			player:EmitSound("OverlordRein")
+	   		end
+	   	end
+
+	   	if player:GetUnitName() == "npc_dota_hero_venom" then
+			if player.BirzhaFirstSpawned == nil then
+	   			player:EmitSound("venom_start")
 	   		end
 	   	end
 
@@ -219,6 +230,7 @@ function BirzhaGameMode:OnNPCSpawned( event )
 
 	if player:IsHero() and player.AddedCustomModels == nil then
 		player.AddedCustomModels = true
+		player.overlord_kill = nil
 		BirzhaGameMode:OnHeroInGame(player)
 	end
 end
@@ -227,9 +239,7 @@ function BirzhaGameMode:OnTeamKillCredit( event )
 	if FountainTimer <= 0 then
 		GameEndTimer = 300
 	end
-	if Convars:GetFloat("host_timescale") < 3 then
-		BirzhaGameMode:AddScoreToTeam( event.teamnumber, 1 )
-	end
+	BirzhaGameMode:AddScoreToTeam( event.teamnumber, 1 )
 end
 
 function BirzhaGameMode:OnEntityKilled( event )
@@ -535,6 +545,12 @@ function BirzhaGameMode:OnHeroInGame(hero)
 			hero.NevermoreArms:FollowEntity(hero, true)
 			hero.NevermoreRocks = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/heroes/shadow_fiend/fx_rocks.vmdl"})
 			hero.NevermoreRocks:FollowEntity(hero, true)
+
+			Timers:CreateTimer(0.25, function()
+				local desolator = ParticleManager:CreateParticle("particles/never_arcana/desolationhadow_fiend_desolation_ambient.vpcf", PATTACH_CUSTOMORIGIN, hero)
+				ParticleManager:SetParticleControlEnt( desolator, 0, hero, PATTACH_POINT_FOLLOW, "attach_arm_L", Vector(0,0,0), true )
+				ParticleManager:SetParticleControlEnt( desolator, 1, hero, PATTACH_POINT_FOLLOW, "attach_arm_R", Vector(0,0,0), true )
+			end)
 			
 			hero:AddNewModifier( hero, nil, "modifier_bp_never_reward", {})
 		end
@@ -651,6 +667,29 @@ function BirzhaGameMode:OnHeroInGame(hero)
 		hero.JugSword_particle = ParticleManager:CreateParticle("particles/econ/items/juggernaut/jugg_ti8_sword/jugg_ti8_crimson_sword_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.JugSword)
 	end
 
+	if npcName == "npc_dota_hero_serega_pirat" then
+		hero.pirat_item_weapon = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_weapon/god_eater_weapon.vmdl" })
+		hero.pirat_item_weapon:FollowEntity(hero, true)
+
+		hero.pirat_item_offhand = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_off_hand/god_eater_off_hand.vmdl" })
+		hero.pirat_item_offhand:FollowEntity(hero, true)
+		
+		hero.pirat_item_shoulder = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_shoulder/god_eater_shoulder.vmdl" })
+		hero.pirat_item_shoulder:FollowEntity(hero, true)
+		
+		hero.pirat_item_head = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_head/god_eater_head.vmdl" })
+		hero.pirat_item_head:FollowEntity(hero, true)
+		
+		hero.pirat_item_belt = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_belt/god_eater_belt.vmdl" })
+		hero.pirat_item_belt:FollowEntity(hero, true)
+		
+		hero.pirat_item_arms = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_arms/god_eater_arms.vmdl" })
+		hero.pirat_item_arms:FollowEntity(hero, true)
+		
+		hero.pirat_item_armor = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_armor/god_eater_armor.vmdl" })
+		hero.pirat_item_armor:FollowEntity(hero, true)
+	end
+
 	if npcName == "npc_dota_hero_travoman" then
 		hero.TravomanCostume = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/techies/bigshot/bigshot_squee_costume.vmdl"})
 		hero.TravomanCostume:FollowEntity(hero, true)
@@ -707,10 +746,12 @@ function BirzhaGameMode:OnHeroInGame(hero)
 			hero.PudgeBack = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/pudge/arcana/pudge_arcana_back.vmdl"})
 			hero.PudgeBack:FollowEntity(hero, true)
 			hero.PudgeEffect = ParticleManager:CreateParticle("particles/econ/items/pudge/pudge_arcana/pudge_arcana_red_back_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.PudgeBack)
+			hero:AddNewModifier( hero, nil, "modifier_bp_mum_arcana", {})
 		end
 		if DonateShopIsItemBought(playerID, 39) then
 			hero.pudge_mask = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/birzhapass/pudge_kaneki_mask.vmdl"})
 			hero.pudge_mask:FollowEntity(hero, true)
+			hero:AddNewModifier( hero, nil, "modifier_bp_mum_mask", {})
 		end
 	end
 
@@ -761,10 +802,13 @@ function BirzhaGameMode:OnHeroInGame(hero)
 	if hero:GetUnitName() == "npc_dota_hero_tiny" then
 		if DonateShopIsItemBought(playerID, 30) then
 			hero:SetOriginalModel("models/items/tiny/tiny_prestige/tiny_prestige_lvl_01.vmdl")
+			hero:AddNewModifier( hero, nil, "modifier_bp_johncena", {})
 		end
 	end
 
 	if hero:GetUnitName() == "npc_dota_hero_terrorblade" then
+		hero:AddActivityModifier("arcana")
+		hero:AddActivityModifier("abysm")
 		if DonateShopIsItemBought(playerID, 34) then
 			local TerrorbladeWeapons = {
 				"models/heroes/terrorblade/weapon.vmdl",
@@ -792,6 +836,7 @@ function BirzhaGameMode:OnHeroInGame(hero)
 			hero.BookLeft:FollowEntity(hero, true)
 			hero.BookRight = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/birzhapass/terrorblade_sobolev_book_right.vmdl"})
 			hero.BookRight:FollowEntity(hero, true)
+			hero:AddNewModifier( hero, nil, "modifier_bp_sobolev", {})
 		end
 	end
 
@@ -1017,6 +1062,8 @@ function BirzhaGameMode:EndGame( victoryTeam )
 
 	BirzhaGameMode.game_is_end = true
 
+	CustomPick:RegisterEndGameItems()
+
 	for id, player_info in pairs(BirzhaData.PLAYERS_GLOBAL_INFORMATION) do
 		if not IsPlayerDisconnected(id) and PlayerResource:GetTeam(id) == victoryTeam then
 			if PlayerResource:GetSelectedHeroEntity(id) and PlayerResource:GetSelectedHeroEntity(id):GetUnitName() == "npc_dota_hero_skeleton_king" then
@@ -1076,6 +1123,63 @@ function BirzhaGameMode:AddScoreToTeam( Team, AddScore )
 			GameRules:SetCustomVictoryMessage( self.m_VictoryMessages[Team] )
 		end
 	end
+end
+
+function BirzhaGameMode:PlayerLeaveUpdateMaxScore()
+	local current_max_kills = CustomNetTables:GetTableValue("game_state", "scores_to_win").kills
+	local leader_max_kills = BirzhaGameMode:GetMaxKillLeader()
+
+	local maps_scores_change = 
+	{
+		["birzhamemov_solo"] = 5,
+		["birzhamemov_duo"] = 5,
+		["birzhamemov_trio"] = 5,
+		["birzhamemov_5v5v5"] = 7,
+		["birzhamemov_5v5"] = 7,
+		["birzhamemov_zxc"] = 0,
+		["birzhamemov_samepick"] = 7,
+		["birzhamemov_wtf"] = 5,
+	}
+
+	local maps_scores = 
+	{
+		["birzhamemov_solo"] = 50,
+		["birzhamemov_duo"] = 60,
+		["birzhamemov_trio"] = 90,
+		["birzhamemov_5v5v5"] = 150,
+		["birzhamemov_5v5"] = 100,
+		["birzhamemov_zxc"] = 2,
+		["birzhamemov_samepick"] = 100,
+		["birzhamemov_wtf"] = 50,
+	}
+
+	local new_kills = current_max_kills - maps_scores_change[GetMapName()]
+
+	if leader_max_kills >= new_kills then
+		new_kills = new_kills + ( maps_scores_change[GetMapName()] / 2 )
+	end
+
+	if new_kills > maps_scores[GetMapName()] then
+		new_kills = maps_scores[GetMapName()]
+	end
+
+	CustomNetTables:SetTableValue( "game_state", "scores_to_win", { kills = new_kills } )
+end
+
+function BirzhaGameMode:GetMaxKillLeader()
+	local team = {}
+
+    local teams_table = {2,3,6,7,8,9,10,11,12,13}
+    for _, i in ipairs(teams_table) do
+        local table_team_score = CustomNetTables:GetTableValue("game_state", tostring(i))
+        if table_team_score then
+            table.insert(team, {id = i, kills = table_team_score.kills} )
+        end
+    end 
+
+    table.sort( team, function(x,y) return y.kills < x.kills end )
+
+    return team[1].kills
 end
 
 function BirzhaGameMode:OverlordKillSound( hero, killedUnit )

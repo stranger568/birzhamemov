@@ -32,4 +32,7 @@ function NetTableDebugErrors() {
 		i++
 	}
 }
-$( "#DebugPanel" ).visible = false
+if ($( "#DebugPanel" ))
+{
+	$( "#DebugPanel" ).visible = false
+}

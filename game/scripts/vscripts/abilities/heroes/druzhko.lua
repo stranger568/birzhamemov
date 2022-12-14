@@ -14,6 +14,13 @@ function druzhko_unstable_magic:GetManaCost(level)
     return self.BaseClass.GetManaCost(self, level)
 end
 
+function druzhko_unstable_magic:GetBehavior()
+    if self:GetCaster():HasTalent("special_bonus_birzha_druzhko_7") then
+        return DOTA_ABILITY_BEHAVIOR_POINT
+    end
+    return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
+end
+
 function druzhko_unstable_magic:CastFilterResultTarget( hTarget )
     if hTarget:IsMagicImmune() and (not self:GetCaster():HasScepter()) then
         return UF_FAIL_MAGIC_IMMUNE_ENEMY
@@ -36,28 +43,90 @@ function druzhko_unstable_magic:CastFilterResultTarget( hTarget )
 end
 
 function druzhko_unstable_magic:OnSpellStart()
+    if not IsServer() then return end
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_druzhko_7") then
+        local point = self:GetCursorPosition()
+        local direction = point-self:GetCaster():GetAbsOrigin()
+        direction.z = 0
+        local projectile_normalized = direction:Normalized()
+        local range = 600 + self:GetCaster():GetCastRangeBonus()
+
+        local end_point = self:GetCaster():GetAbsOrigin() + projectile_normalized * range
+        end_point = GetGroundPosition(end_point, nil)
+
+        local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_lina/lina_spell_laguna_blade.vpcf", PATTACH_CUSTOMORIGIN, nil )
+        ParticleManager:SetParticleControlEnt( particle, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", Vector(0,0,0), true )
+        ParticleManager:SetParticleControl(particle, 1, end_point)
+        ParticleManager:ReleaseParticleIndex( particle )
+
+        local particle_smoke = ParticleManager:CreateParticle( "particles/units/heroes/hero_lina/lina_spell_laguna_blade_shard_scorch.vpcf", PATTACH_CUSTOMORIGIN, self:GetCaster() )
+        ParticleManager:SetParticleControlEnt( particle_smoke, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", Vector(0,0,0), true )
+        ParticleManager:SetParticleControl(particle_smoke, 1, end_point)
+        ParticleManager:ReleaseParticleIndex( particle_smoke )
+
+        self:GetCaster():EmitSound("Ability.LagunaBlade")
+
+        local flag_type = 0
+        local damage_type = DAMAGE_TYPE_MAGICAL
+        local damage = self:GetSpecialValueFor( "damage" )
+
+        if self:GetCaster():HasScepter() then
+            flag_type = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
+        end
+
+        if self:GetCaster():HasScepter() then
+            damage_type = DAMAGE_TYPE_PURE
+        end
+
+        local units = FindUnitsInLine(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(),end_point, nil, 125, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, flag_type)
+        for _, unit in pairs(units) do
+            unit:EmitSound("Ability.LagunaBladeImpact")
+            local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_lina/lina_spell_laguna_blade_shard_units_hit.vpcf", PATTACH_ABSORIGIN_FOLLOW, unit )
+            ParticleManager:SetParticleControlEnt( particle, 0, unit, PATTACH_POINT_FOLLOW, "attach_hitloc", unit:GetAbsOrigin(), true)
+            Timers:CreateTimer(0.25, function()
+                if not unit:IsMagicImmune() or self:GetCaster():HasScepter() then
+                    local damageTable = 
+                    {
+                        victim = unit,
+                        attacker = self:GetCaster(),
+                        damage = damage,
+                        damage_type = damage_type,
+                        ability = self,
+                    }
+                    ApplyDamage(damageTable)
+                end
+            end)
+        end
+        return
+    end
+
     local target = self:GetCursorTarget()
     local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_lina/lina_spell_laguna_blade.vpcf", PATTACH_CUSTOMORIGIN, nil )
     ParticleManager:SetParticleControlEnt( effect_cast, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", Vector(0,0,0), true )
     ParticleManager:SetParticleControlEnt( effect_cast, 1, target, PATTACH_POINT_FOLLOW, "attach_hitloc", Vector(0,0,0), true )
     ParticleManager:ReleaseParticleIndex( effect_cast )
-    EmitSoundOn( "Ability.LagunaBladeImpact", self:GetCaster() )
-    self.damage = self:GetSpecialValueFor( "damage" )
+    target:EmitSound("Ability.LagunaBladeImpact")
+    local damage = self:GetSpecialValueFor( "damage" )
+    local damage_type = DAMAGE_TYPE_MAGICAL
+    local ability = self
+    local caster = self:GetCaster()
     if self:GetCaster():HasScepter() then
-        self.type = DAMAGE_TYPE_PURE
-    else
-        self.type = DAMAGE_TYPE_MAGICAL
+        damage_type = DAMAGE_TYPE_PURE
     end
-    if target:IsMagicImmune() and (not self:GetCaster():HasScepter()) then return end 
-    if target:TriggerSpellAbsorb( self) then return end
-    local damageTable = {
-        victim = target,
-        attacker = self:GetCaster(),
-        damage = self.damage,
-        damage_type = self.type,
-        ability = self,
-    }
-    ApplyDamage(damageTable)
+    Timers:CreateTimer(0.25, function()
+        if target:IsMagicImmune() and (not self:GetCaster():HasScepter()) then return end 
+        if target:TriggerSpellAbsorb( self) then return end
+        local damageTable = 
+        {
+            victim = target,
+            attacker = caster,
+            damage = damage,
+            damage_type = damage_type,
+            ability = ability,
+        }
+        ApplyDamage(damageTable)
+    end)
 end
 
 druzhko_dark_magic = class({})
@@ -80,62 +149,63 @@ function druzhko_dark_magic:GetAOERadius()
 end
 
 function druzhko_dark_magic:GetCooldown( level )
-    if self:GetCaster():HasScepter() then
-        return self:GetSpecialValueFor( "cooldown_scepter" )
-    end
-
     return self.BaseClass.GetCooldown( self, level )
 end
 
 function druzhko_dark_magic:GetManaCost( level )
-    if self:GetCaster():HasScepter() then
-        return self:GetSpecialValueFor( "mana_cost_scepter" )
-    end
-
     return self.BaseClass.GetManaCost( self, level )
 end
 
 function druzhko_dark_magic:OnSpellStart()
+    if not IsServer() then return end
+
     local target = self:GetCursorTarget()
-    EmitSoundOn( "Hero_Lion.FingerOfDeath", self:GetCaster() )
-    if target:TriggerSpellAbsorb(self) then
-        self:PlayEffects( target )
-        return 
-    end
+
+    self:GetCaster():EmitSound("Hero_Lion.FingerOfDeath")
+
     local radius = self:GetSpecialValueFor("radius")
-    if self:GetCaster():HasScepter() then
-        self.damage = self:GetSpecialValueFor( "damage_scepter" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_druzhko_2")
-    else
-        self.damage = self:GetSpecialValueFor( "damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_druzhko_2")
-    end
-    if self:GetCaster():GetUnitName() == "npc_dota_hero_invoker" then
-        local modifier_bonus = self:GetCaster():FindModifierByName("modifier_druzhko_dark_magic_count")
+    local damage = self:GetSpecialValueFor("damage")
+    local damage_per_kill = self:GetSpecialValueFor( "damage_per_kill" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_druzhko_4")
+    local ability = self
+    local caster = self:GetCaster()
+
+    local modifier_bonus = self:GetCaster():FindModifierByName("modifier_druzhko_dark_magic_count")
+    if modifier_bonus then
         local bonus = modifier_bonus:GetStackCount()
-        self.damage = self.damage + bonus
+        damage = damage + (bonus * damage_per_kill)
     end
-    local damageTable = {
-        attacker = self:GetCaster(),
-        damage = self.damage,
-        damage_type = DAMAGE_TYPE_MAGICAL,
-        ability = self,
-    }
+
+    local damageTable = { attacker = caster, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = ability }
+
     if self:GetCaster():HasScepter() then
         local targets = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), target:GetOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
         for _,enemy in pairs(targets) do
-            if enemy:IsRealHero() then
-                enemy:AddNewModifier( self:GetCaster(), self, "modifier_druzhko_dark_magic_debuff", { duration = 3 } )
-            end
-            damageTable.victim = enemy
-            ApplyDamage(damageTable)
             self:PlayEffects( enemy )
+            Timers:CreateTimer(0.25, function()
+                if enemy:TriggerSpellAbsorb(self) then return end
+                if enemy:IsRealHero() then
+                    enemy:AddNewModifier( self:GetCaster(), self, "modifier_druzhko_dark_magic_debuff", { duration = 3 } )
+                end
+                damageTable.victim = enemy
+                ApplyDamage(damageTable)
+                if self:GetCaster():HasTalent("special_bonus_birzha_druzhko_2") then
+                    enemy:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", { duration = self:GetCaster():FindTalentValue("special_bonus_birzha_druzhko_2") * (1-enemy:GetStatusResistance()) } )
+                end
+            end)
         end
     else
-        if target:IsRealHero() then
-            target:AddNewModifier( self:GetCaster(), self, "modifier_druzhko_dark_magic_debuff", { duration = 3 } )
-        end
-        damageTable.victim = target
-        ApplyDamage(damageTable)
         self:PlayEffects( target )
+        Timers:CreateTimer(0.25, function()
+            if target:TriggerSpellAbsorb(self) then return end
+            if target:IsRealHero() then
+                target:AddNewModifier( self:GetCaster(), self, "modifier_druzhko_dark_magic_debuff", { duration = 3 } )
+            end
+            damageTable.victim = target
+            ApplyDamage(damageTable)
+            if self:GetCaster():HasTalent("special_bonus_birzha_druzhko_2") then
+                target:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", { duration = self:GetCaster():FindTalentValue("special_bonus_birzha_druzhko_2") * (1-target:GetStatusResistance()) } )
+            end
+        end)
     end
 end
 
@@ -149,7 +219,7 @@ function druzhko_dark_magic:PlayEffects( target )
     ParticleManager:SetParticleControl( effect_cast, 3, target:GetOrigin() + direction )
     ParticleManager:SetParticleControlForward( effect_cast, 3, -direction )
     ParticleManager:ReleaseParticleIndex( effect_cast )
-    EmitSoundOn( "Hero_Lion.FingerOfDeathImpact", target )
+    target:EmitSound("Hero_Lion.FingerOfDeathImpact")
 end
 
 modifier_druzhko_dark_magic_count = class({})
@@ -157,6 +227,25 @@ modifier_druzhko_dark_magic_count = class({})
 function modifier_druzhko_dark_magic_count:IsPurgable()
     return false
 end
+
+function modifier_druzhko_dark_magic_count:IsHidden() return self:GetStackCount() == 0 end
+
+function modifier_druzhko_dark_magic_count:DeclareFunctions()
+    return {
+        MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE,
+        MODIFIER_PROPERTY_TOOLTIP
+    }
+end
+
+function modifier_druzhko_dark_magic_count:GetModifierSpellAmplify_Percentage()
+    return self:GetStackCount() * self:GetCaster():FindTalentValue("special_bonus_birzha_druzhko_1")
+end
+
+function modifier_druzhko_dark_magic_count:OnTooltip()
+    return self:GetStackCount() * (self:GetAbility():GetSpecialValueFor( "damage_per_kill" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_druzhko_4"))
+end
+
+
 
 modifier_druzhko_dark_magic_debuff = class({})
 
@@ -169,25 +258,28 @@ function modifier_druzhko_dark_magic_debuff:IsHidden()
 end
 
 function modifier_druzhko_dark_magic_debuff:DeclareFunctions()
-    local decfuncs = {
+    local decfuncs = 
+    {
         MODIFIER_EVENT_ON_DEATH
     }
 
     return decfuncs
 end
+
 function modifier_druzhko_dark_magic_debuff:OnDeath(params)
     local caster = self:GetCaster()
     local target = params.unit
-
     if target:IsRealHero() and caster:GetTeamNumber() ~= target:GetTeamNumber() and caster:IsAlive() and target == self:GetParent() then     
         local modifier_bonus = self:GetCaster():FindModifierByName("modifier_druzhko_dark_magic_count")
-        local bonus = modifier_bonus:GetStackCount()
-        local bonus_damage = self:GetAbility():GetSpecialValueFor( "damage_per_kill" )
-        modifier_bonus:SetStackCount(bonus + bonus_damage)
+        if modifier_bonus then
+            modifier_bonus:IncrementStackCount()
+        end
     end
 end
 
 LinkLuaModifier( "modifier_druzhko_ice_armor", "abilities/heroes/druzhko.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_druzhko_ice_armor_rooted", "abilities/heroes/druzhko.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_druzhko_ice_armor_cooldown", "abilities/heroes/druzhko.lua", LUA_MODIFIER_MOTION_NONE )
 
 druzhko_ice_armor = class({})
 
@@ -195,7 +287,6 @@ function druzhko_ice_armor:GetCooldown( level )
     if self:GetCaster():HasShard() then
         return self:GetSpecialValueFor( "scepter_cooldown" )
     end
-
     return self.BaseClass.GetCooldown( self, level )
 end
 
@@ -233,14 +324,34 @@ function modifier_druzhko_ice_armor:DeclareFunctions()
     local funcs = {
         MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,
         MODIFIER_PROPERTY_REFLECT_SPELL,
+        MODIFIER_EVENT_ON_TAKEDAMAGE
     }
 
     return funcs
 end
 
+function modifier_druzhko_ice_armor:OnTakeDamage(params)
+    if not IsServer() then return end
+    if params.unit ~= self:GetParent() then return end
+    if params.damage_type ~= DAMAGE_TYPE_MAGICAL then return end
+    if not self:GetParent():HasTalent("special_bonus_birzha_druzhko_5") then return end
+    if self:GetParent():HasModifier("modifier_druzhko_ice_armor_cooldown") then return end
+    if (params.attacker:GetAbsOrigin() - self:GetParent():GetAbsOrigin()):Length2D() > 800 then return end
+    self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_druzhko_ice_armor_cooldown", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_druzhko_5", "value2")})
+    params.attacker:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_druzhko_ice_armor_rooted", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_druzhko_5")})
+    self:PlayEffects2( self:GetParent(), params.attacker )
+end
+
+function modifier_druzhko_ice_armor:PlayEffects2( caster, target )
+    local projectile_name = "particles/units/heroes/hero_crystalmaiden/maiden_frostbite.vpcf"
+    local projectile_speed = 1000
+    local info = {Target = target,Source = caster,Ability = self,EffectName = projectile_name,iMoveSpeed = projectile_speed,vSourceLoc= caster:GetAbsOrigin(),bDodgeable = false}
+    ProjectileManager:CreateTrackingProjectile(info)
+end
+
 function modifier_druzhko_ice_armor:GetModifierMagicalResistanceBonus( params )
     if not self:GetParent():PassivesDisabled() then
-        return self:GetAbility():GetSpecialValueFor("spell_shield_resistance") + self:GetCaster():FindTalentValue("special_bonus_birzha_druzhko_3")
+        return self:GetAbility():GetSpecialValueFor("spell_shield_resistance") + self:GetCaster():FindTalentValue("special_bonus_birzha_druzhko_6")
     end
 end
 
@@ -328,7 +439,38 @@ function modifier_druzhko_ice_armor:PlayEffects( bBlock )
     local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
     ParticleManager:SetParticleControlEnt( effect_cast, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetOrigin(), true )
     ParticleManager:ReleaseParticleIndex( effect_cast )
-    EmitSoundOn( sound_cast, self:GetParent() )
+    self:GetParent():EmitSound(sound_cast)
+end
+
+modifier_druzhko_ice_armor_cooldown = class({})
+function modifier_druzhko_ice_armor_cooldown:IsDebuff() return true end
+function modifier_druzhko_ice_armor_cooldown:IsPurgable() return false end
+function modifier_druzhko_ice_armor_cooldown:RemoveOnDeath() return false end
+
+modifier_druzhko_ice_armor_rooted = class({})
+
+function modifier_druzhko_ice_armor_rooted:OnCreated( kv )
+    if IsServer() then
+        self:GetParent():EmitSound("hero_Crystal.frostbite")
+    end
+end
+
+function modifier_druzhko_ice_armor_rooted:OnDestroy()
+    if not IsServer() then return end
+    self:GetParent():StopSound("hero_Crystal.frostbite")
+end
+
+function modifier_druzhko_ice_armor_rooted:CheckState()
+    local state = {[MODIFIER_STATE_DISARMED] = true,[MODIFIER_STATE_ROOTED] = true,[MODIFIER_STATE_INVISIBLE] = false}
+    return state
+end
+
+function modifier_druzhko_ice_armor_rooted:GetEffectName()
+    return "particles/units/heroes/hero_crystalmaiden/maiden_frostbite_buff.vpcf"
+end
+
+function modifier_druzhko_ice_armor_rooted:GetEffectAttachType()
+    return PATTACH_ABSORIGIN_FOLLOW
 end
 
 LinkLuaModifier( "modifier_druzhko_hype", "abilities/heroes/druzhko.lua", LUA_MODIFIER_MOTION_NONE )
@@ -397,9 +539,28 @@ function modifier_druzhko_hype:DeclareFunctions()
         MODIFIER_PROPERTY_EXTRA_STRENGTH_BONUS,
         MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
         MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
+        MODIFIER_EVENT_ON_ATTACK_LANDED
     }
 
     return funcs
+end
+
+function modifier_druzhko_hype:OnAttackLanded( params )
+    if not IsServer() then return end
+    if params.attacker ~= self:GetParent() then return end
+    if params.attacker:IsIllusion() then return end
+    if params.target:IsWard() then return end
+    if not self:GetParent():HasTalent("special_bonus_birzha_druzhko_8") then return end
+    local druzhko_dark_magic = self:GetCaster():FindAbilityByName("druzhko_dark_magic")
+    if druzhko_dark_magic then
+        local cooldown = druzhko_dark_magic:GetCooldownTimeRemaining()
+        if cooldown - self:GetCaster():FindTalentValue("special_bonus_birzha_druzhko_8") <= 0 then
+            druzhko_dark_magic:EndCooldown()
+        else
+            druzhko_dark_magic:EndCooldown()
+            druzhko_dark_magic:StartCooldown(cooldown - self:GetCaster():FindTalentValue("special_bonus_birzha_druzhko_8"))
+        end
+    end
 end
 
 function modifier_druzhko_hype:GetModifierModelScale( params )
@@ -415,5 +576,5 @@ function modifier_druzhko_hype:GetModifierBonusStats_Intellect( params )
 end
 
 function modifier_druzhko_hype:GetModifierBonusStats_Agility( params )
-    return self:GetCaster():FindTalentValue("special_bonus_birzha_druzhko_1")
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_druzhko_3")
 end

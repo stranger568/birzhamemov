@@ -8,13 +8,10 @@ end
 
 modifier_item_pt_stats = class({})
 
-function modifier_item_pt_stats:IsHidden()
-    return true
-end
-
-function modifier_item_pt_stats:IsPurgable()
-    return false
-end
+function modifier_item_pt_stats:IsHidden() return true end
+function modifier_item_pt_stats:IsPurgable() return false end
+function modifier_item_pt_stats:IsPurgeException() return false end
+function modifier_item_pt_stats:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_pt_stats:DeclareFunctions()
     local funcs = {

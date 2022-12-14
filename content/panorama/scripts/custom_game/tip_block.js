@@ -28,7 +28,7 @@ function TipPlayerNotification(data)
 
 	let label_tip = $.CreatePanel("Label", notification, "")
 	label_tip.AddClass("label_tip")
-	label_tip.text = $.Localize("#tipped_" + getRandomInt(17))
+	label_tip.text = $.Localize("#tipped_" + data.type)
      
 
 	let two_player = $.CreatePanel("Panel", notification, "")

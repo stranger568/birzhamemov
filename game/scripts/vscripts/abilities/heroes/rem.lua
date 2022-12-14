@@ -1,6 +1,7 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_jump_strike_buff", "abilities/heroes/rem.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_jump_strike", "abilities/heroes/rem.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_jump_strike_buff_speed", "abilities/heroes/rem.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 
 Rem_StrikeJump = class({})
@@ -10,7 +11,7 @@ function Rem_StrikeJump:GetAOERadius()
 end
 
 function Rem_StrikeJump:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_rem_2")
 end
 
 function Rem_StrikeJump:GetManaCost(level)
@@ -59,7 +60,8 @@ function modifier_jump_strike_buff:OnIntervalThink()
 end
 
 function modifier_jump_strike_buff:CheckState()
-    local funcs = {
+    local funcs = 
+    {
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
     }
     return funcs
@@ -78,13 +80,24 @@ end
 
 function modifier_jump_strike:OnDestroy()
     if not IsServer() then return end
+
     FindClearSpaceForUnit( self:GetParent(), self:GetParent():GetAbsOrigin(), true )
+
     self:GetCaster():EmitSound("Hero_EarthShaker.EchoSlam")
-    local stun_duration = self:GetAbility():GetSpecialValueFor("stun_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_rem_2")
+
+    local stun_duration = self:GetAbility():GetSpecialValueFor("stun_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_rem_3")
+
     local radius = self:GetAbility():GetSpecialValueFor("radius")
+
     local damage = self:GetAbility():GetSpecialValueFor("damage")
+
     local bashpoint = self:GetCaster():GetAbsOrigin() + self:GetCaster():GetForwardVector() * 450
+
     bashpoint = GetGroundPosition(bashpoint, self:GetCaster())
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_rem_4") then
+        self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_jump_strike_buff_speed", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_rem_4", "value2")})
+    end
 
     local particle = ParticleManager:CreateParticle("particles/econ/items/earthshaker/egteam_set/hero_earthshaker_egset/earthshaker_echoslam_start_egset.vpcf", PATTACH_WORLDORIGIN, self:GetCaster())
     ParticleManager:SetParticleControl(particle, 0, Vector(bashpoint.x,bashpoint.y,bashpoint.z))
@@ -92,17 +105,29 @@ function modifier_jump_strike:OnDestroy()
     ParticleManager:SetParticleControl(particle, 2, Vector(bashpoint.x,bashpoint.y,bashpoint.z))
     local units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), bashpoint, nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false)
 
-    if self:GetCaster():HasTalent("special_bonus_birzha_rem_1") then
+    if self:GetCaster():HasTalent("special_bonus_birzha_rem_7") then
         units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), bashpoint, nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false)
     end
 
     for i,enemy in ipairs(units) do
         if self:GetCaster():HasShard() then
-            damage = self:GetCaster():GetAverageTrueAttackDamage(nil)
+            self:GetCaster():PerformAttack(enemy, true, true, true, true, false, false, true)
         end
         ApplyDamage({victim = enemy, attacker = self:GetCaster(), ability = self:GetAbility(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
-        enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned_purge", {duration = stun_duration})
+        enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned_purge", {duration = stun_duration * (1-enemy:GetStatusResistance()) })
     end 
+end
+
+modifier_jump_strike_buff_speed = class({})
+
+function modifier_jump_strike_buff_speed:DeclareFunctions()
+    return {
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
+    }
+end
+
+function modifier_jump_strike_buff_speed:GetModifierMoveSpeedBonus_Percentage()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_rem_4")
 end
 
 LinkLuaModifier( "modifier_rem_morgenshtern", "abilities/heroes/rem.lua", LUA_MODIFIER_MOTION_HORIZONTAL )
@@ -300,7 +325,7 @@ function modifier_rem_morgenshtern:OnDestroy()
     for _, unit in pairs(units) do
         if not unit:IsCourier() then
             if unit:GetTeamNumber() ~= self:GetCaster():GetTeamNumber() then
-                unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned_purge", {duration = self.stun_duration})
+                unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned_purge", {duration = self.stun_duration * (1-unit:GetStatusResistance()) })
                 if not unit:IsMagicImmune() then
                     local damageTable = {
                         victim          = unit,
@@ -322,7 +347,8 @@ end
 function modifier_rem_morgenshtern:CheckState()
     local state = {}
     if self:GetParent():GetTeamNumber() ~= self:GetCaster():GetTeamNumber() or self:GetParent() == self:GetCaster() then
-        state = {
+        state = 
+        {
             [MODIFIER_STATE_SILENCED] = true,
             [MODIFIER_STATE_DISARMED] = true,
         }
@@ -331,7 +357,8 @@ function modifier_rem_morgenshtern:CheckState()
 end
 
 function modifier_rem_morgenshtern:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_OVERRIDE_ANIMATION
     }
     return funcs
@@ -360,16 +387,16 @@ function modifier_rem_bigboobs:IsPurgable()
 end
 
 function modifier_rem_bigboobs:DeclareFunctions()
-    local decFuncs = {
+    local decFuncs = 
+    {
         MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE,
     }
-
     return decFuncs
 end
 
 function modifier_rem_bigboobs:GetModifierBaseDamageOutgoing_Percentage()
     if self:GetParent():PassivesDisabled() then return end
-    return self:GetAbility():GetSpecialValueFor('bonus_damage_pct')
+    return self:GetAbility():GetSpecialValueFor('bonus_damage_pct') + self:GetCaster():FindTalentValue("special_bonus_birzha_rem_1")
 end
 
 LinkLuaModifier( "modifier_DemonicForm", "abilities/heroes/rem.lua", LUA_MODIFIER_MOTION_NONE )
@@ -377,7 +404,7 @@ LinkLuaModifier( "modifier_DemonicForm", "abilities/heroes/rem.lua", LUA_MODIFIE
 Rem_DemonicForm = class({})
 
 function Rem_DemonicForm:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_rem_8")
 end
 
 function Rem_DemonicForm:GetManaCost(level)
@@ -398,31 +425,28 @@ function modifier_DemonicForm:AllowIllusionDuplicate() return true end
 
 function modifier_DemonicForm:OnCreated()
     if not IsServer() then return end
-    self:GetAbility():SetActivated(false)
+    self:GetParent():SwapAbilities("Rem_StrikeJump", "Rem_el_huma", false, true)
+    self:GetParent():SwapAbilities("rem_morgenshtern", "Rem_ul_huma", false, true)
     self:GetParent():SetAttackCapability(DOTA_UNIT_CAP_RANGED_ATTACK)
 end
 
 function modifier_DemonicForm:OnDestroy()
     if not IsServer() then return end 
     self:GetCaster():StopSound("animerem")
-    self:GetAbility():SetActivated(true)
+    self:GetParent():SwapAbilities("Rem_el_huma", "Rem_StrikeJump", false, true)
+    self:GetParent():SwapAbilities("Rem_ul_huma", "rem_morgenshtern", false, true)
     self:GetParent():SetAttackCapability(DOTA_UNIT_CAP_MELEE_ATTACK)
 end
 
-
-function modifier_DemonicForm:CheckState()
-    return {[MODIFIER_STATE_SILENCED] = true,}
-end
-
 function modifier_DemonicForm:DeclareFunctions()
-    local decFuncs = {
+    local decFuncs = 
+    {
         MODIFIER_PROPERTY_HEALTH_BONUS,
         MODIFIER_PROPERTY_BASE_ATTACK_TIME_CONSTANT,
         MODIFIER_PROPERTY_ATTACK_RANGE_BONUS,
         MODIFIER_PROPERTY_MODEL_CHANGE,
         MODIFIER_PROPERTY_PROJECTILE_NAME,
     }
-
     return decFuncs
 end
 
@@ -435,7 +459,7 @@ function modifier_DemonicForm:GetModifierBaseAttackTimeConstant()
 end
 
 function modifier_DemonicForm:GetModifierAttackRangeBonus()
-    return self:GetAbility():GetSpecialValueFor('bonus_range')
+    return self:GetAbility():GetSpecialValueFor('bonus_range') + self:GetCaster():FindTalentValue("special_bonus_birzha_rem_5")
 end
 
 function modifier_DemonicForm:GetModifierModelChange()
@@ -444,4 +468,131 @@ end
 
 function modifier_DemonicForm:GetModifierProjectileName()
     return "particles/units/heroes/hero_visage/visage_familiar_base_attack.vpcf"
+end
+
+Rem_el_huma = class({})
+
+function Rem_el_huma:GetAOERadius()
+    return self:GetSpecialValueFor("radius")
+end
+
+function Rem_el_huma:OnSpellStart()
+    if not IsServer() then return end
+    local point = self:GetCursorPosition()
+    local radius = self:GetSpecialValueFor("radius")
+    local stun_duration = self:GetSpecialValueFor("stun_duration")
+    local damage = self:GetSpecialValueFor("damage")
+    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), point, nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
+
+    for _,enemy in pairs(enemies) do
+        enemy:AddNewModifier( self:GetCaster(), self, "modifier_stunned", { duration = stun_duration * (1 - enemy:GetStatusResistance()) } )
+        ApplyDamage({victim = enemy, attacker = self:GetCaster(), ability = self, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
+    end
+
+    local effect_cast = ParticleManager:CreateParticle( "particles/rem_frost_humaeshrac_split_earth.vpcf", PATTACH_WORLDORIGIN, self:GetCaster() )
+    ParticleManager:SetParticleControl( effect_cast, 0, point )
+    ParticleManager:SetParticleControl( effect_cast, 1, Vector( radius, 0, 0 ) )
+    ParticleManager:ReleaseParticleIndex( effect_cast )
+
+    EmitSoundOnLocationWithCaster( point, "Hero_Leshrac.Split_Earth", self:GetCaster() )
+end
+
+Rem_ul_huma = class({})
+
+function Rem_ul_huma:GetCooldown(level)
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_rem_6")
+end
+
+function Rem_ul_huma:OnSpellStart()
+    if not IsServer() then return end
+    local point = self:GetCursorPosition()
+
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = self:GetCaster():GetAbsOrigin() + self:GetCaster():GetForwardVector()
+    end
+
+    self:GetCaster():EmitSound("Hero_Tusk.IceShards.Cast")
+
+    local direction = (point - self:GetCaster():GetAbsOrigin())
+    direction.z = 0
+    direction = direction:Normalized()
+
+    local info = 
+    {
+        Ability = self,
+        EffectName = "particles/units/heroes/hero_tusk/tusk_ice_shards_projectile.vpcf",
+        vSpawnOrigin = self:GetCaster():GetAbsOrigin(),
+        fDistance = 600,
+        fStartRadius = 200,
+        fEndRadius = 200,
+        Source = self:GetCaster(),
+        bHasFrontalCone = false,
+        bReplaceExisting = false,
+        iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+        iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
+        iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+        fExpireTime = GameRules:GetGameTime() + 10.0,
+        bDeleteOnHit = false,
+        vVelocity = direction * self:GetSpecialValueFor("shard_speed"),
+        bProvidesVision = true,
+        iVisionRadius = 250,
+        iVisionTeamNumber = self:GetCaster():GetTeamNumber(),
+    }
+
+    ProjectileManager:CreateLinearProjectile(info)
+end
+
+function Rem_ul_huma:OnProjectileHit(target, vLocation)
+    if not IsServer() then return end
+    if target == nil then
+        local deleteTable = {}
+        local direction = (vLocation - self:GetCaster():GetAbsOrigin())
+        direction.z = 0
+        direction = direction:Normalized()
+
+        local shard_duration = self:GetSpecialValueFor("shard_duration")
+        local shard = 7
+        local radius = 200
+        local nfx = ParticleManager:CreateParticle("particles/units/heroes/hero_tusk/tusk_shards.vpcf", PATTACH_POINT, self:GetCaster())
+
+        ParticleManager:SetParticleControl(nfx, 0, Vector(shard_duration, 0, 0))
+            
+        EmitSoundOnLocationWithCaster(vLocation, "Hero_Tusk.IceShards", self:GetCaster())
+
+        local position = vLocation + direction * radius
+        ParticleManager:SetParticleControl(nfx, 1, position)
+        local pso = SpawnEntityFromTableSynchronous('point_simple_obstruction', {origin = position})
+        table.insert(deleteTable, pso)
+
+        local angle = 35
+
+        local left_QAngle = QAngle(0, angle, 0)
+        for i=2,4 do
+            local left_spawn_point = RotatePosition(vLocation, left_QAngle, position)
+            ParticleManager:SetParticleControl(nfx, i, left_spawn_point)
+            local pso = SpawnEntityFromTableSynchronous('point_simple_obstruction', {origin = left_spawn_point})
+            table.insert(deleteTable, pso)
+            left_QAngle = left_QAngle + QAngle(0, angle, 0)
+        end
+                  
+        local right_QAngle = QAngle(0, -angle, 0)
+
+        for i=5,7 do
+            local right_spawn_point = RotatePosition(vLocation, right_QAngle, position)
+            ParticleManager:SetParticleControl(nfx, i, right_spawn_point)
+            local pso = SpawnEntityFromTableSynchronous('point_simple_obstruction', {origin = right_spawn_point})
+            table.insert(deleteTable, pso)
+            right_QAngle = right_QAngle + QAngle(0, -angle, 0)
+        end
+
+        Timers:CreateTimer(self:GetSpecialValueFor("shard_duration"), function()
+            for _,entity in pairs(deleteTable) do
+                if not entity:IsNull() then UTIL_Remove(entity) end
+            end
+        end)
+    end
+    if target then
+        local damage = self:GetSpecialValueFor("shard_damage")
+        ApplyDamage({victim = target, attacker = self:GetCaster(), ability = self, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
+    end
 end

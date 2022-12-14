@@ -8,7 +8,7 @@ klichko_charge_of_darkness = class({})
 
 function klichko_charge_of_darkness:GetCooldown(level)
     if self:GetCaster():HasShard() then
-        return 10
+        return self:GetSpecialValueFor("scepter_cooldown")
     end
     return self.BaseClass.GetCooldown( self, level )
 end
@@ -107,18 +107,19 @@ function modifier_klichko_charge_of_darkness:UpdateHorizontalMotion( me, dt )
         self:GetParent():EmitSound("Hero_Spirit_Breaker.Charge.Impact")
 
         if not self.target:IsMagicImmune() and self:GetAbility() then
-            local stun_modifier = self.target:AddNewModifier(me, self:GetAbility(), "modifier_birzha_stunned_purge", {duration = self.stun_duration})
+            local stun_modifier = self.target:AddNewModifier(me, self:GetAbility(), "modifier_birzha_stunned_purge", {duration = self.stun_duration * (1 - self.target:GetStatusResistance()) })
             if self:GetCaster():HasScepter() then
                 local damage = self:GetCaster():GetMoveSpeedModifier(self:GetCaster():GetBaseMoveSpeed(), true)
-                ApplyDamage({victim = self.target, attacker = self:GetCaster(), damage = damage * 0.5, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
+                ApplyDamage({victim = self.target, attacker = self:GetCaster(), damage = damage / 100 * self:GetAbility():GetSpecialValueFor("scepter_damage"), damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
             end
         end
 
         if self.target:IsAlive() then
             me:SetAggroTarget(self.target)
-            if not self:IsNull() then
-                self:Destroy()
-            end
+            self:Destroy()
+        end
+        if not self.target:IsAlive() then
+            self:Destroy()
         end
         return        
     elseif me:IsStunned() or me:IsOutOfGame() or me:IsHexed() or me:IsRooted() then
@@ -130,7 +131,9 @@ function modifier_klichko_charge_of_darkness:UpdateHorizontalMotion( me, dt )
 
     me:FaceTowards(self.target:GetOrigin())
     local distance = (GetGroundPosition(self.target:GetOrigin(), nil) - GetGroundPosition(me:GetOrigin(), nil)):Normalized()
-    me:SetOrigin( me:GetOrigin() + distance * me:GetIdealSpeed() * dt )
+    local origin = me:GetOrigin() + distance * me:GetIdealSpeed() * dt
+    origin = GetGroundPosition(origin, self:GetParent())
+    me:SetOrigin( origin )
 end
 
 function modifier_klichko_charge_of_darkness:OnHorizontalMotionInterrupted()
@@ -262,10 +265,6 @@ function Klichko_BoxingPunchSeries:GetManaCost(level)
     return self.BaseClass.GetManaCost(self, level)
 end
 
-function Klichko_BoxingPunchSeries:GetIntrinsicModifierName()
-    return "modifier_kilchko_boxingPunchSeries_passive"
-end
-
 function Klichko_BoxingPunchSeries:OnSpellStart()
     if not IsServer() then return end  
     local caster = self:GetCaster()
@@ -308,8 +307,13 @@ function modifier_kilchko_boxingPunchSeries:GetStatusEffectName()
 end
 
 function modifier_kilchko_boxingPunchSeries:DeclareFunctions()
-    local decFuncs = {MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-        MODIFIER_EVENT_ON_ATTACK,}
+    local decFuncs = 
+    {
+        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+        MODIFIER_EVENT_ON_ATTACK,
+        MODIFIER_PROPERTY_PROCATTACK_BONUS_DAMAGE_PHYSICAL,
+        MODIFIER_PROPERTY_PROCATTACK_BONUS_DAMAGE_MAGICAL,
+    }
     return decFuncs
 end
 
@@ -323,38 +327,31 @@ function modifier_kilchko_boxingPunchSeries:OnAttack( keys )
         if current_stacks > 1 then
             self:DecrementStackCount()
         else
-            if not self:IsNull() then
-                self:Destroy()
-            end
+            self:Destroy()
         end
     end
 end
 
-modifier_kilchko_boxingPunchSeries_passive = class({})
-
-function modifier_kilchko_boxingPunchSeries_passive:IsHidden() return true end
-function modifier_kilchko_boxingPunchSeries_passive:IsPurgable() return false end
-
-function modifier_kilchko_boxingPunchSeries_passive:DeclareFunctions()
-    local decFuncs = {MODIFIER_PROPERTY_PROCATTACK_BONUS_DAMAGE_PHYSICAL}
-    return decFuncs
+function modifier_kilchko_boxingPunchSeries:GetModifierProcAttack_BonusDamage_Physical( params )
+    if not IsServer() then return end
+    if params.target:IsWard() then return end
+    if self:GetCaster():HasTalent("special_bonus_birzha_klichko_3") then return end
+    params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_kilchko_boxingPunchSeries_debuff", {duration = 0.5 * (1 - params.target:GetStatusResistance()) }) 
+    local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_spirit_breaker/spirit_breaker_greater_bash.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.target)
+    ParticleManager:ReleaseParticleIndex(particle)  
+    params.target:EmitSound("Hero_Spirit_Breaker.GreaterBash")     
+    return self:GetAbility():GetSpecialValueFor( "damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_klichko_6")
 end
 
-function modifier_kilchko_boxingPunchSeries_passive:GetModifierProcAttack_BonusDamage_Physical( params )
-    self.damage = self:GetAbility():GetSpecialValueFor( "damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_klichko_1")
-    self.chance = self:GetAbility():GetSpecialValueFor( "proc_chance" )
+function modifier_kilchko_boxingPunchSeries:GetModifierProcAttack_BonusDamage_Magical( params )
     if not IsServer() then return end
-    if self:GetParent():HasModifier("modifier_kilchko_boxingPunchSeries") then
-        self.chance = 100
-    end
-    if RandomInt(1, 100) <= self.chance then
-        params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_kilchko_boxingPunchSeries_debuff", {duration = 0.5}) 
-        local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_spirit_breaker/spirit_breaker_greater_bash.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.target)
-        ParticleManager:ReleaseParticleIndex(particle)  
-        params.target:EmitSound("Hero_Spirit_Breaker.GreaterBash")     
-        return self.damage
-    end
-    return nil
+    if params.target:IsWard() then return end
+    if not self:GetCaster():HasTalent("special_bonus_birzha_klichko_3") then return end
+    params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_kilchko_boxingPunchSeries_debuff", {duration = 0.5 * (1 - params.target:GetStatusResistance()) }) 
+    local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_spirit_breaker/spirit_breaker_greater_bash.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.target)
+    ParticleManager:ReleaseParticleIndex(particle)  
+    params.target:EmitSound("Hero_Spirit_Breaker.GreaterBash")     
+    return self:GetAbility():GetSpecialValueFor( "damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_klichko_6")
 end
 
 modifier_kilchko_boxingPunchSeries_debuff = class({})
@@ -362,7 +359,7 @@ modifier_kilchko_boxingPunchSeries_debuff = class({})
 function modifier_kilchko_boxingPunchSeries_debuff:IsPurgable() return true end
 
 function modifier_kilchko_boxingPunchSeries_debuff:DeclareFunctions()
-    local decFuncs = {MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,}
+    local decFuncs = {MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE}
     return decFuncs
 end
 
@@ -390,21 +387,18 @@ function Klichko_SayBullshit:OnSpellStart()
     local radius = self:GetSpecialValueFor("radius")
     local duration = self:GetSpecialValueFor("duration")
     if not IsServer() then return end
-    local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(),
-      self:GetCaster():GetAbsOrigin(),
-      nil,
-      radius,
-      DOTA_UNIT_TARGET_TEAM_ENEMY,
-      DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-      DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-      FIND_ANY_ORDER,
-      false)
+    local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_ANY_ORDER, false)
 
     local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_lone_druid/lone_druid_savage_roar.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
     ParticleManager:SetParticleControl(particle, 0, self:GetCaster():GetAbsOrigin())
+
     self:GetCaster():EmitSound("KlichkoBullshit")
+
     for _,enemy in pairs(enemies) do
         enemy:AddNewModifier(self:GetCaster(), self, "modifier_klichko_saybullshit_debuff", {duration = duration * (1 - enemy:GetStatusResistance())}) 
+        if self:GetCaster():HasTalent("special_bonus_birzha_klichko_5") then
+            ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = self:GetCaster():GetAverageTrueAttackDamage(nil), damage_type = DAMAGE_TYPE_MAGICAL, ability = self})
+        end
     end
 end
 
@@ -414,7 +408,12 @@ function modifier_klichko_saybullshit_debuff:IsPurgable() return false end
 function modifier_klichko_saybullshit_debuff:IsPurgeException() return true end
 
 function modifier_klichko_saybullshit_debuff:DeclareFunctions()
-    local decFuncs = {MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,}
+    local decFuncs = 
+    {
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+        MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,
+        MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
+    }
     return decFuncs
 end
 
@@ -422,37 +421,46 @@ function modifier_klichko_saybullshit_debuff:GetModifierMoveSpeedBonus_Percentag
     return self:GetAbility():GetSpecialValueFor("bonus_speed")
 end
 
+function modifier_klichko_saybullshit_debuff:GetModifierMagicalResistanceBonus()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_klichko_1")
+end
+
+function modifier_klichko_saybullshit_debuff:GetModifierPhysicalArmorBonus()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_klichko_2")
+end
+
 function modifier_klichko_saybullshit_debuff:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_COMMAND_RESTRICTED] = true,
         [MODIFIER_STATE_FEARED] = true,
     }
-
     return state
 end
 
 function modifier_klichko_saybullshit_debuff:OnCreated()
     if not IsServer() then return end
-    local buildings = FindUnitsInRadius(
-        self:GetParent():GetTeamNumber(),
-        Vector(0,0,0),
-        nil,
-        FIND_UNITS_EVERYWHERE,
-        DOTA_UNIT_TARGET_TEAM_FRIENDLY,
-        DOTA_UNIT_TARGET_BUILDING,
-        DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
-        0,
-        false
-    )
-    local fountain = nil
-    for _,building in pairs(buildings) do
-        if building:GetClassname()=="ent_dota_fountain" then
-            fountain = building
-            break
-        end
+    local pos = (self:GetParent():GetAbsOrigin() - self:GetCaster():GetAbsOrigin())
+    pos.z = 0
+    pos = pos:Normalized()
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_klichko_4") then
+        self:GetParent():MoveToPosition( self:GetCaster():GetAbsOrigin() )
+        self:StartIntervalThink(FrameTime())
+        return
     end
-    if not fountain then return end
-    self:GetParent():MoveToPosition( fountain:GetOrigin() )
+
+    self.position = self:GetParent():GetAbsOrigin() + pos * 3000
+    self:GetParent():MoveToPosition( self.position )
+end
+
+function modifier_klichko_saybullshit_debuff:OnIntervalThink()
+    if not IsServer() then return end
+    if self:GetCaster():HasTalent("special_bonus_birzha_klichko_4") then
+        self:GetParent():MoveToPosition( self:GetCaster():GetAbsOrigin() )
+        return
+    end
+    self:GetParent():MoveToPosition( self.position )
 end
 
 function modifier_klichko_saybullshit_debuff:OnDestroy()
@@ -490,12 +498,10 @@ end
 
 function Klichko_BecomeMayor:OnSpellStart()
     if not IsServer() then return end  
-    local caster = self:GetCaster()
-    local ability = self
-    local duration = ability:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_klichko_2")
-    caster:EmitSound("Hero_Invoker.Alacrity")
-    caster:StartGesture(ACT_DOTA_OVERRIDE_ABILITY_2)
-    caster:AddNewModifier(caster, ability, "modifier_klichko_BecomeMayor", {duration = duration})
+    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_klichko_2")
+    self:GetCaster():EmitSound("Hero_Invoker.Alacrity")
+    self:GetCaster():StartGesture(ACT_DOTA_OVERRIDE_ABILITY_2)
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_klichko_BecomeMayor", {duration = duration})
 end
 
 modifier_klichko_BecomeMayor = class({})
@@ -503,22 +509,35 @@ modifier_klichko_BecomeMayor = class({})
 function modifier_klichko_BecomeMayor:IsPurgable() return false end
 
 function modifier_klichko_BecomeMayor:DeclareFunctions()
-    local decFuncs = {MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
-    MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
-MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE}
+    local decFuncs = 
+    {
+        MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+        MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE,
+        MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING,
+        MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE,
+    }
     return decFuncs
 end
 
-function modifier_klichko_BecomeMayor:GetModifierBonusStats_Strength( params )
+function modifier_klichko_BecomeMayor:GetModifierBonusStats_Strength()
     return self:GetAbility():GetSpecialValueFor("bonus_strength")
 end
 
-function modifier_klichko_BecomeMayor:GetModifierMoveSpeedBonus_Percentage( params )
+function modifier_klichko_BecomeMayor:GetModifierMoveSpeedBonus_Percentage()
     return self:GetAbility():GetSpecialValueFor("bonus_movespeed")
 end
 
-function modifier_klichko_BecomeMayor:GetModifierIncomingDamage_Percentage( params )
+function modifier_klichko_BecomeMayor:GetModifierIncomingDamage_Percentage()
     return self:GetAbility():GetSpecialValueFor("outdamage")
+end
+
+function modifier_klichko_BecomeMayor:GetModifierSpellAmplify_Percentage()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_klichko_7")
+end
+
+function modifier_klichko_BecomeMayor:GetModifierStatusResistanceStacking()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_klichko_8")
 end
 
 function modifier_klichko_BecomeMayor:OnCreated()

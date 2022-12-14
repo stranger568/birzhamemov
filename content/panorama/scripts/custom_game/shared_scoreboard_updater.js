@@ -34,7 +34,7 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 	var ultStateOrTime = PlayerUltimateStateOrTime_t.PLAYER_ULTIMATE_STATE_HIDDEN;
 	var goldValue = -1;
 	var isTeammate = false;
-
+ 
 	var playerInfo = Game.GetPlayerInfo( playerId );
 	if ( playerInfo )
 	{
@@ -56,13 +56,14 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 		_ScoreboardUpdater_SetTextSafe( playerPanel, "Assists", playerInfo.player_assists );
 
 		var info = CustomNetTables.GetTableValue('birzhainfo', String(playerId));
+
 		if (info)
 		{
-			_ScoreboardUpdater_SetTextSafe( playerPanel, "Mmr", (info.mmr[12] || 0) );
+			_ScoreboardUpdater_SetTextSafe( playerPanel, "Mmr", (info.mmr[13] || 0) );
 			var mmr_label = GetMmrLabel(playerPanel);
 			if (mmr_label)
 			{
-				mmr_label.text =  'MMR: ' + (info.mmr[12] || 0);
+				mmr_label.text =  'MMR: ' + (info.mmr[13] || 0);
 			}
 			var bonus_mmr = CustomNetTables.GetTableValue('bonus_rating', String(playerId));
 			if (bonus_mmr)
@@ -85,11 +86,19 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 				_ScoreboardUpdater_SetTextSafe( playerPanel, "DogePlus", bonus_dogecoin.coin );
 			}
 			let rat_clib = " "
-			if ((info.games_calibrating[12] || 10) != 0)
+			let calibrating_check = String(info.games_calibrating[13])
+
+			if (calibrating_check == "undefined")
 			{
-				rat_clib = "<font color='gold'>" + "(" + (info.games_calibrating[12] || 10) + ")" + "</font>"
+				rat_clib = "<font color='gold'>" + "(" + 10 + ")" + "</font>"
+			} else if (calibrating_check == "0")
+			{
+				rat_clib = " "
+			} else {
+				rat_clib = "<font color='gold'>" + "(" + calibrating_check + ")" + "</font>"
 			}
-			_ScoreboardUpdater_SetTextSafe( playerPanel, "PlayerMmr", (info.mmr[12] || 2500) + rat_clib);
+
+			_ScoreboardUpdater_SetTextSafe( playerPanel, "PlayerMmr", (info.mmr[13] || 2500) + rat_clib);
 		}
 
 		var game_start = CustomNetTables.GetTableValue('game_state', "pickstate");
@@ -218,7 +227,7 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 			SetPSelectEvent(playerPanel.FindChildInLayoutFile("TipButtonCustom"), false, playerId)
 			if (playerPanel.FindChildInLayoutFile("TipText"))
 			{
-				playerPanel.FindChildInLayoutFile("TipText").text = "Tip"
+				playerPanel.FindChildInLayoutFile("TipText").text = $.Localize("#tip_player")
 			}
 			if (playerPanel.FindChildInLayoutFile("TipButtonCustom"))
 			{
@@ -234,38 +243,28 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 	//		ReportPlayerFunction(playerId)
 	//	} );
 	//}
-	
+		
 	var playerItemsContainer = playerPanel.FindChildInLayoutFile( "PlayerItemsContainer" );
-	if ( playerItemsContainer )
-	{
-		var playerItems = Game.GetPlayerItems( playerId );
-		if ( playerItems )
-		{
-	//		$.Msg( "playerItems = ", playerItems );
-			for ( var i = playerItems.inventory_slot_min; i < playerItems.inventory_slot_max; ++i )
-			{
-				var itemPanelName = "_dynamic_item_" + i;
-				var itemPanel = playerItemsContainer.FindChild( itemPanelName );
-				if ( itemPanel === null )
-				{
-					itemPanel = $.CreatePanel( "DOTAItemImage", playerItemsContainer, itemPanelName );
-					itemPanel.AddClass( "PlayerItem" );
-				}
+    if ( playerItemsContainer )
+    {
+    	
+        var item_table = CustomNetTables.GetTableValue('end_game_items', String(playerId));
+        if ( item_table )
+        {
 
-				var itemInfo = playerItems.inventory[i];
-				if ( itemInfo )
-				{
-					itemPanel.itemname = itemInfo.item_name;
-					//var item_image_name = "file://{images}/items/" + itemInfo.item_name.replace( "item_", "" ) + ".png"
-					//if ( itemInfo.item_name.indexOf( "recipe" ) >= 0 )
-					//{
-					//	item_image_name = "file://{images}/items/recipe.png"
-					//}
-					//itemPanel.SetImage( item_image_name );
-				}
-			}
-		}
-	}
+            for ( var i = 0; i < 6; ++i )
+            {
+                var itemPanelName = "_dynamic_item_" + i;
+                var itemPanel = playerItemsContainer.FindChild( itemPanelName );
+                if ( itemPanel === null )
+                {
+                    itemPanel = $.CreatePanel( "DOTAItemImage", playerItemsContainer, itemPanelName );
+                    itemPanel.AddClass( "PlayerItem" );
+                }
+                itemPanel.itemname = item_table[i];
+            }
+        }
+    }
 
 	if ( isTeammate )
 	{

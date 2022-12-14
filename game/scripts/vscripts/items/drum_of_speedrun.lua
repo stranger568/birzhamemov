@@ -1,4 +1,3 @@
-LinkLuaModifier( "modifier_drum_of_speedrun_aura", "items/drum_of_speedrun", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_drum_of_speedrun_aura_buff", "items/drum_of_speedrun", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_drum_of_speedrun", "items/drum_of_speedrun", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_rune_haste_birzha", "items/drum_of_speedrun", LUA_MODIFIER_MOTION_NONE )
@@ -20,96 +19,75 @@ end
 
 modifier_drum_of_speedrun = class({})
 
-function modifier_drum_of_speedrun:IsHidden()
-    return true
-end
-
-function modifier_drum_of_speedrun:IsPurgable()
-    return false
-end
-
-function modifier_drum_of_speedrun:OnCreated()
-	self.ag = self:GetAbility():GetSpecialValueFor("bonus_agility")
-	self.str = self:GetAbility():GetSpecialValueFor("bonus_str")
-	self.int = self:GetAbility():GetSpecialValueFor("bonus_int")
-	self.resist = self:GetAbility():GetSpecialValueFor("mag_resist")
-	if not IsServer() then return end
-	if not self:GetCaster():HasModifier("modifier_drum_of_speedrun_aura") then
-		self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_drum_of_speedrun_aura", {})
-	end
-end
-
-function modifier_drum_of_speedrun:OnDestroy()
-	if IsServer() then
-		if not self:GetCaster():HasModifier("modifier_drum_of_speedrun") then
-			self:GetCaster():RemoveModifierByName("modifier_drum_of_speedrun_aura")
-		end
-	end
-end
+function modifier_drum_of_speedrun:IsHidden() return true end
+function modifier_drum_of_speedrun:IsPurgable() return false end
+function modifier_drum_of_speedrun:IsPurgeException() return false end
+function modifier_drum_of_speedrun:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_drum_of_speedrun:DeclareFunctions()
-	return {MODIFIER_PROPERTY_STATS_AGILITY_BONUS, MODIFIER_PROPERTY_STATS_STRENGTH_BONUS, MODIFIER_PROPERTY_STATS_INTELLECT_BONUS, MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS  }
+	return {
+		MODIFIER_PROPERTY_STATS_AGILITY_BONUS, 
+		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS, 
+		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS, 
+		MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
+		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
+	}
 end
 
 function modifier_drum_of_speedrun:GetModifierBonusStats_Agility()
-	return self.ag
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("bonus_agility")
 end
 
-function modifier_drum_of_speedrun:GetModifierMagicalResistanceBonus()
-	return self.resist
+function modifier_drum_of_speedrun:GetModifierPreAttack_BonusDamage()
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("bonus_damage")
+end
+
+function modifier_drum_of_speedrun:GetModifierConstantHealthRegen()
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("bonus_health_regen")
 end
 
 function modifier_drum_of_speedrun:GetModifierBonusStats_Intellect()
-	return self.int
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("bonus_int")
 end
 
 function modifier_drum_of_speedrun:GetModifierBonusStats_Strength()
-	return self.str
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("bonus_str")
 end
 
-modifier_drum_of_speedrun_aura = class({})
-
-function modifier_drum_of_speedrun_aura:IsAura()
-	return true
-end
-
-function modifier_drum_of_speedrun_aura:GetAuraRadius()
+function modifier_drum_of_speedrun:GetAuraRadius()
 	return self:GetAbility():GetSpecialValueFor("radius")
 end
 
-function modifier_drum_of_speedrun_aura:GetAuraSearchTeam()
+function modifier_drum_of_speedrun:GetAuraSearchTeam()
 	return DOTA_UNIT_TARGET_TEAM_FRIENDLY
 end
 
-function modifier_drum_of_speedrun_aura:GetAuraSearchType()
+function modifier_drum_of_speedrun:GetAuraSearchType()
 	return DOTA_UNIT_TARGET_HERO
 end
 
-function modifier_drum_of_speedrun_aura:IsHidden()
+function modifier_drum_of_speedrun:IsHidden()
 	return true
 end
 
-function modifier_drum_of_speedrun_aura:GetModifierAura()
+function modifier_drum_of_speedrun:GetModifierAura()
 	return "modifier_drum_of_speedrun_aura_buff"
 end
 
 modifier_drum_of_speedrun_aura_buff = class({})
 
-function modifier_drum_of_speedrun_aura_buff:OnCreated()
-	self.mv = self:GetAbility():GetSpecialValueFor("movespeed")
-	self.mg = self:GetAbility():GetSpecialValueFor("mana_regen")
-end
-
 function modifier_drum_of_speedrun_aura_buff:DeclareFunctions()
-	return {MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT }
-end
-
-function modifier_drum_of_speedrun_aura_buff:GetModifierConstantManaRegen()
-	return self.mg
+	return {MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT}
 end
 
 function modifier_drum_of_speedrun_aura_buff:GetModifierMoveSpeedBonus_Constant()
-	return self.mv 
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("movespeed")
 end
 
 modifier_rune_haste_birzha = class({})
@@ -123,13 +101,13 @@ function modifier_rune_haste_birzha:DeclareFunctions()
 end
 
 function modifier_rune_haste_birzha:GetModifierMoveSpeedBonus_Constant()
+	if self:GetParent():HasModifier("modifier_klichko_charge_of_darkness") then return end
 	return 99999999
 end
 
 function modifier_rune_haste_birzha:GetModifierAttackSpeedBonus_Constant()
-	if self:GetAbility() then
-		return self:GetAbility():GetSpecialValueFor("attack_speed_active")
-	end
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("attack_speed_active")
 end
 
 function modifier_rune_haste_birzha:GetTexture()

@@ -1,150 +1,88 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 
+LinkLuaModifier("modifier_girl_blood_controll_debuff", "abilities/heroes/girl.lua", LUA_MODIFIER_MOTION_NONE)
 
+girl_blood_controll = class({})
 
-
-LinkLuaModifier("modifier_girl_blood_wall_shield_thinker", "abilities/heroes/girl.lua", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_girl_blood_wall_shield_debuff", "abilities/heroes/girl.lua", LUA_MODIFIER_MOTION_NONE)
-
-
-
-
-girl_blood_wall_shield = class({})
-
-function girl_blood_wall_shield:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+function girl_blood_controll:GetCastRange(location, target)
+    if IsClient() then
+        return self:GetSpecialValueFor("range") + self:GetCaster():FindTalentValue("special_bonus_birzha_girl_1")
+    end
 end
 
-function girl_blood_wall_shield:GetManaCost(level)
-    return self.BaseClass.GetManaCost(self, level)
-end
-
-function girl_blood_wall_shield:OnSpellStart()
+function girl_blood_controll:OnSpellStart()
     if not IsServer() then return end
-    local damageTable = {
+    local point = self:GetCursorPosition()
+    local distance = self:GetSpecialValueFor("range") + self:GetCaster():FindTalentValue("special_bonus_birzha_girl_1")
+
+    local spawnPos = self:GetCaster():GetOrigin()
+
+    local direction = point-spawnPos
+    direction.z = 0
+    direction = direction:Normalized()
+
+    local info = 
+    {
+        Source = self:GetCaster(),
+        Ability = self,
+        vSpawnOrigin = spawnPos,
+        bDeleteOnHit = false,
+        iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+        iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
+        iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+        EffectName = "particles/units/heroes/hero_grimstroke/grimstroke_darkartistry_proj.vpcf",
+        fDistance = distance,
+        fStartRadius = 120,
+        fEndRadius = 160,
+        vVelocity = direction * 2000,
+        bHasFrontalCone = false,
+        bReplaceExisting = false,
+        bProvidesVision = false,
+    }
+
+    ProjectileManager:CreateLinearProjectile(info)
+
+    local damageTable = 
+    {
         victim = self:GetCaster(),
         attacker = self:GetCaster(),
-        damage = (self:GetSpecialValueFor("health_cost") / 100) * self:GetCaster():GetMaxHealth() ,
+        damage = ((self:GetSpecialValueFor("health_cost") + self:GetCaster():FindTalentValue("special_bonus_birzha_girl_5")) / 100) * self:GetCaster():GetMaxHealth() ,
         damage_type = DAMAGE_TYPE_PURE,
         ability = self,
         damage_flags = DOTA_DAMAGE_FLAG_NON_LETHAL + DOTA_DAMAGE_FLAG_HPLOSS + DOTA_DAMAGE_FLAG_NO_DAMAGE_MULTIPLIERS,
     }
     ApplyDamage(damageTable)
 
-    self:GetCaster():EmitSound("girl_shield_cast")
+    self:GetCaster():EmitSound("Hero_Grimstroke.DarkArtistry.Cast")
+    self:GetCaster():EmitSound("Hero_Grimstroke.DarkArtistry.Cast.Layer")
+end
+
+function girl_blood_controll:OnProjectileHit( target, location )
+    if not IsServer() then return end
+    if target == nil then return true end
+    local damage_type = DAMAGE_TYPE_MAGICAL
     if self:GetCaster():HasTalent("special_bonus_birzha_girl_6") then
-        CreateModifierThinker( self:GetCaster(), self, "modifier_girl_blood_wall_shield_thinker", { duration = self:GetSpecialValueFor("duration"), talent = true }, self:GetCaster():GetAbsOrigin()-self:GetCaster():GetForwardVector()*150, self:GetCaster():GetTeamNumber(), false )
+        damage_type = DAMAGE_TYPE_PURE
     end
-    CreateModifierThinker( self:GetCaster(), self, "modifier_girl_blood_wall_shield_thinker", { duration = self:GetSpecialValueFor("duration"), talent = false }, self:GetCaster():GetAbsOrigin()+self:GetCaster():GetForwardVector()*150, self:GetCaster():GetTeamNumber(), false )
+    local debuff_duration = self:GetSpecialValueFor("debuff_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_girl_4")
+    local damage = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_girl_3")
+    ApplyDamage({ victim = target, attacker = self:GetCaster(), damage = damage, damage_type = damage_type, ability = self })
+    target:AddNewModifier( self:GetCaster(), self, "modifier_girl_blood_controll_debuff", {duration = debuff_duration * (1-target:GetStatusResistance()) })
+    local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_grimstroke/grimstroke_darkartistry_dmg.vpcf", PATTACH_ABSORIGIN_FOLLOW, target )
+    ParticleManager:ReleaseParticleIndex( effect_cast )
+    target:EmitSound("Hero_Grimstroke.DarkArtistry.Damage")
 end
 
-modifier_girl_blood_wall_shield_thinker = class({})
+modifier_girl_blood_controll_debuff = class({})
 
-function modifier_girl_blood_wall_shield_thinker:OnCreated( kv )
-    local length = 100
-    if not IsServer() then return end
-    self.talent = kv.talent
-    local vector_1 = RotatePosition(self:GetParent():GetAbsOrigin(), QAngle(0,-90,0), self:GetParent():GetAbsOrigin() + self:GetCaster():GetForwardVector() * length)
-    local vector_2 = RotatePosition(self:GetParent():GetAbsOrigin(), QAngle(0,90,0), self:GetParent():GetAbsOrigin() + self:GetCaster():GetForwardVector() * length)
-    local direction = Vector( self:GetCaster():GetForwardVector().x, self:GetCaster():GetForwardVector().y, 0 ):Normalized()
-
-    self.heroes = {}
-
-    if self.talent == 1 then
-        Vector( self:GetCaster():GetForwardVector().x * -1, self:GetCaster():GetForwardVector().y * -1, 0 ):Normalized()
-    end
-    self.origin = vector_1
-    self.target = vector_2
-
-    self.effect_cast = ParticleManager:CreateParticle( "particles/girl/shield_wall_of_replica.vpcf", PATTACH_WORLDORIGIN, nil )
-    ParticleManager:SetParticleControl( self.effect_cast, 0, self.origin )
-    ParticleManager:SetParticleControl( self.effect_cast, 1, self.target )
-    ParticleManager:SetParticleControl( self.effect_cast, 60, Vector(21, 0, 255) )
-    ParticleManager:SetParticleControl( self.effect_cast, 61, Vector(1,1,1) )
-    self:StartIntervalThink(FrameTime())
-end
-
-function modifier_girl_blood_wall_shield_thinker:OnIntervalThink( kv )
-    if not IsServer() then return end
-
-    if self.effect_cast then
-        ParticleManager:DestroyParticle(self.effect_cast, false)
-    end
-
-    print(self.talent)
-
-    if self.talent == 1 then
-        self:GetParent():SetAbsOrigin(self:GetCaster():GetAbsOrigin()-self:GetCaster():GetForwardVector()*100)
-    else
-        self:GetParent():SetAbsOrigin(self:GetCaster():GetAbsOrigin()+self:GetCaster():GetForwardVector()*100)
-    end
-
-    local vector_1 = RotatePosition(self:GetParent():GetAbsOrigin(), QAngle(0,-90,0), self:GetParent():GetAbsOrigin() + self:GetCaster():GetForwardVector() * 100)
-    local vector_2 = RotatePosition(self:GetParent():GetAbsOrigin(), QAngle(0,90,0), self:GetParent():GetAbsOrigin() + self:GetCaster():GetForwardVector() * 100)
-    local direction = Vector( self:GetCaster():GetForwardVector().x, self:GetCaster():GetForwardVector().y, 0 ):Normalized()
-    if self.talent == 1 then
-        Vector( self:GetCaster():GetForwardVector().x * -1, self:GetCaster():GetForwardVector().y * -1, 0 ):Normalized()
-    end
-    self.origin = vector_1
-    self.target = vector_2
-
-    self.effect_cast = ParticleManager:CreateParticle( "particles/girl/shield_wall_of_replica.vpcf", PATTACH_WORLDORIGIN, nil )
-    ParticleManager:SetParticleControl( self.effect_cast, 0, self.origin )
-    ParticleManager:SetParticleControl( self.effect_cast, 1, self.target )
-    ParticleManager:SetParticleControl( self.effect_cast, 60, Vector(21, 0, 255) )
-    ParticleManager:SetParticleControl( self.effect_cast, 61, Vector(1,1,1) )
-
-    local flag = 0
-    if self:GetCaster():HasTalent("special_bonus_birzha_girl_4") then
-        flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
-    end
-    local enemies = FindUnitsInLine(
-        self:GetParent():GetTeamNumber(),
-        self.origin,
-        self.target,
-        nil,
-        50,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO,
-        flag
-    )
-    for _,enemy in pairs(enemies) do
-        if not enemy:HasModifier("modifier_girl_blood_wall_shield_debuff") and not self.heroes[enemy:entindex()] then
-            enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_girl_blood_wall_shield_debuff", {duration = self:GetAbility():GetSpecialValueFor("debuff_duration")})
-            enemy:EmitSound("girl_shield_target")
-            self.heroes[enemy:entindex()] = true
-        end
-    end
-end
-
-function modifier_girl_blood_wall_shield_thinker:OnDestroy( kv )
-    if not IsServer() then return end
-    if self.effect_cast then
-        ParticleManager:DestroyParticle(self.effect_cast, true)
-    end
-end
-
-
-
-
-modifier_girl_blood_wall_shield_debuff = class({})
-
-function modifier_girl_blood_wall_shield_debuff:OnCreated( kv )
+function modifier_girl_blood_controll_debuff:OnCreated( kv )
     self.movespeed = self:GetAbility():GetSpecialValueFor("movespeed")
     self.damage_reduced = self:GetAbility():GetSpecialValueFor("damage_reduced")
-    if not IsServer() then return end
-    local damageTable = {
-        victim = self:GetParent(),
-        attacker = self:GetCaster(),
-        damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_girl_2"),
-        damage_type = DAMAGE_TYPE_MAGICAL,
-        ability = self:GetAbility(),
-    }
-    ApplyDamage(damageTable)
 end
 
-function modifier_girl_blood_wall_shield_debuff:DeclareFunctions()
-    local funcs = {
+function modifier_girl_blood_controll_debuff:DeclareFunctions()
+    local funcs = 
+    {
         MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
         MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE
     }
@@ -152,22 +90,13 @@ function modifier_girl_blood_wall_shield_debuff:DeclareFunctions()
     return funcs
 end
 
-function modifier_girl_blood_wall_shield_debuff:GetModifierMoveSpeedBonus_Percentage()
+function modifier_girl_blood_controll_debuff:GetModifierMoveSpeedBonus_Percentage()
     return self.movespeed
 end
 
-function modifier_girl_blood_wall_shield_debuff:GetModifierDamageOutgoing_Percentage()
+function modifier_girl_blood_controll_debuff:GetModifierDamageOutgoing_Percentage()
     return self.damage_reduced
 end
-
-
-
-
-
-
-
-
-
 
 LinkLuaModifier("modifier_girl_charge_of_attack", "abilities/heroes/girl.lua", LUA_MODIFIER_MOTION_HORIZONTAL)
 LinkLuaModifier("modifier_girl_charge_of_attack_caster", "abilities/heroes/girl.lua", LUA_MODIFIER_MOTION_NONE)
@@ -180,7 +109,9 @@ function girl_charge_of_attack:GetCooldown(level)
 end
 
 function girl_charge_of_attack:GetCastRange(location, target)
-    return self:GetSpecialValueFor("range") + self:GetCaster():FindTalentValue("special_bonus_birzha_girl_1")
+    if IsClient() then
+        return self:GetSpecialValueFor("range") + self:GetCaster():FindTalentValue("special_bonus_birzha_girl_2")
+    end
 end
 
 function girl_charge_of_attack:GetManaCost(level)
@@ -195,33 +126,32 @@ function girl_charge_of_attack:OnSpellStart()
         point = point + self:GetCaster():GetForwardVector() * 80
     end
 
-    local damageTable = {
+    local distance = (self:GetCaster():GetAbsOrigin() - point):Length2D()
+    local direction = (point - self:GetCaster():GetAbsOrigin())
+    direction.z = 0
+    direction = direction:Normalized()
+
+    if distance > self:GetSpecialValueFor("range") + self:GetCaster():FindTalentValue("special_bonus_birzha_girl_2") then
+        point = self:GetCaster():GetAbsOrigin() + (direction * (self:GetSpecialValueFor("range") + self:GetCaster():FindTalentValue("special_bonus_birzha_girl_2")))
+    end
+
+    local damageTable = 
+    {
         victim = self:GetCaster(),
         attacker = self:GetCaster(),
-        damage = (self:GetSpecialValueFor("health_cost") / 100) * self:GetCaster():GetMaxHealth() ,
+        damage = ((self:GetSpecialValueFor("health_cost") + self:GetCaster():FindTalentValue("special_bonus_birzha_girl_5")) / 100) * self:GetCaster():GetMaxHealth() ,
         damage_type = DAMAGE_TYPE_PURE,
         ability = self,
         damage_flags = DOTA_DAMAGE_FLAG_NON_LETHAL + DOTA_DAMAGE_FLAG_HPLOSS + DOTA_DAMAGE_FLAG_NO_DAMAGE_MULTIPLIERS,
     }
+
     ApplyDamage(damageTable)
+
     self:GetCaster():EmitSound("girl_vtorii")
-    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_girl_charge_of_attack", {
-        x           = point.x,
-        y           = point.y,
-        z           = point.z
-    })
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_girl_charge_of_attack", { x = point.x, y = point.y, z = point.z})
 
 
-    local enemies = FindUnitsInLine(
-        self:GetCaster():GetTeamNumber(),
-        self:GetCaster():GetAbsOrigin(),
-        point,
-        nil,
-        (self:GetCaster():Script_GetAttackRange() / 2),
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO,
-        DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
-    )
+    local enemies = FindUnitsInLine( self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), point, nil, (self:GetCaster():Script_GetAttackRange() / 2), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES )
     for _,enemy in pairs(enemies) do
         point = enemy:GetAbsOrigin()
         break
@@ -229,17 +159,10 @@ function girl_charge_of_attack:OnSpellStart()
 
     local effect_cast = ParticleManager:CreateParticle(  "particles/units/heroes/hero_void_spirit/astral_step/void_spirit_astral_step.vpcf", PATTACH_POINT_FOLLOW, self:GetCaster() )
     ParticleManager:SetParticleControl( effect_cast, 1, self:GetCaster():GetAbsOrigin() )
-    ParticleManager:SetParticleControlEnt(
-        effect_cast,
-        0,
-        self:GetCaster(),
-        PATTACH_POINT_FOLLOW,
-        "attach_attack1",
-        self:GetCaster():GetAbsOrigin(),
-        true
-    )
+    ParticleManager:SetParticleControlEnt( effect_cast, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetCaster():GetAbsOrigin(), true)
     ParticleManager:SetParticleControl( effect_cast, 1, point )
     ParticleManager:ReleaseParticleIndex( effect_cast )
+
     self:GetCaster():StartGestureWithPlaybackRate( ACT_DOTA_CAST_ABILITY_2, 2 )
 end
 
@@ -254,7 +177,8 @@ function modifier_girl_charge_of_attack:IsMotionController() return true end
 function modifier_girl_charge_of_attack:GetMotionControllerPriority() return DOTA_MOTION_CONTROLLER_PRIORITY_MEDIUM end
 
 function modifier_girl_charge_of_attack:CheckState()
-    return {
+    return 
+    {
         [MODIFIER_STATE_STUNNED]            = true,
         [MODIFIER_STATE_INVULNERABLE]       = true,
         [MODIFIER_STATE_NO_UNIT_COLLISION]  = true
@@ -266,7 +190,7 @@ function modifier_girl_charge_of_attack:OnCreated(params)
         local caster = self:GetCaster()
         local ability = self:GetAbility()
         local position = GetGroundPosition(Vector(params.x, params.y, params.z), nil)
-        local max_distance = self:GetAbility():GetCastRange( self:GetCaster():GetOrigin(), self:GetCaster() )
+        local max_distance = self:GetAbility():GetSpecialValueFor("range") + self:GetCaster():FindTalentValue("special_bonus_birzha_girl_2")
         local distance = (caster:GetAbsOrigin() - position):Length2D()
         if distance > max_distance then distance = max_distance end
         self.velocity = 2500
@@ -298,7 +222,7 @@ function modifier_girl_charge_of_attack:OnIntervalThink()
     )
     for _,enemy in pairs(enemies) do
         self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_girl_charge_of_attack_caster", {target = enemy:entindex()})
-        enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_girl_charge_of_attack_debuff", {duration = self:GetAbility():GetSpecialValueFor("duration")})
+        enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_girl_charge_of_attack_debuff", {duration = self:GetAbility():GetSpecialValueFor("duration") * (1 - enemy:GetStatusResistance())})
         if not self:IsNull() then
             self:Destroy()
         end
@@ -332,7 +256,7 @@ end
 function modifier_girl_charge_of_attack_caster:OnCreated(table)
     if not IsServer() then return end
     self.attack = 0
-    self.max_attack = self:GetAbility():GetSpecialValueFor("attack_count") + self:GetCaster():FindTalentValue("special_bonus_birzha_girl_3")
+    self.max_attack = self:GetAbility():GetSpecialValueFor("attack_count")
     self.target = EntIndexToHScript(table.target)
     self:CritAttack()
 end
@@ -362,34 +286,31 @@ end
 
 function modifier_girl_charge_of_attack_caster:CheckState()
     if self:GetCaster():HasScepter() then
-         return {[MODIFIER_STATE_INVULNERABLE]       = true,
-        [MODIFIER_STATE_STUNNED] = true,
-        [MODIFIER_STATE_DISARMED] = true,}
+        return
+        {
+            [MODIFIER_STATE_STUNNED] = true,
+            [MODIFIER_STATE_DISARMED] = true,
+            [MODIFIER_STATE_INVULNERABLE] = true,
+        }
     end
-    return {
+    return
+    {
         [MODIFIER_STATE_STUNNED] = true,
         [MODIFIER_STATE_DISARMED] = true,
     }
 end
 
-
-
-
 modifier_girl_charge_of_attack_debuff = class({})
-
-function modifier_girl_charge_of_attack_debuff:IsPurgable()
-    return false
-end
 
 function modifier_girl_charge_of_attack_debuff:OnCreated( kv )
     self.slow = self:GetAbility():GetSpecialValueFor("slow")
 end
 
 function modifier_girl_charge_of_attack_debuff:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
     }
-
     return funcs
 end
 
@@ -397,49 +318,15 @@ function modifier_girl_charge_of_attack_debuff:GetModifierMoveSpeedBonus_Percent
     return self.slow
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 LinkLuaModifier("modifier_girl_blood_of_blades", "abilities/heroes/girl.lua", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_girl_blood_of_blades_movespeed", "abilities/heroes/girl.lua", LUA_MODIFIER_MOTION_NONE)
 
 girl_blood_of_blades = class({}) 
 
 function girl_blood_of_blades:GetCooldown(level)
-    local cooldwn = 0
     if self:GetCaster():HasShard() then
-        cooldwn = -4
+        return self.BaseClass.GetCooldown( self, level ) + self:GetSpecialValueFor("cooldown_shard")
     end
-    return self.BaseClass.GetCooldown( self, level ) + cooldwn
+    return self.BaseClass.GetCooldown( self, level )
 end
 
 function girl_blood_of_blades:GetManaCost(level)
@@ -453,48 +340,43 @@ end
 function girl_blood_of_blades:OnSpellStart()
     if not IsServer() then return end
 
-    local radius_max = self:GetSpecialValueFor("radius_max")
     local radius = self:GetSpecialValueFor("radius")
     if self:GetCaster():HasShard() then
-        radius = 600
-        radius_max = 600
+        radius = self:GetSpecialValueFor("radius_shard")
     end
+    local duration = self:GetSpecialValueFor("duration")
+
     self.particle = ParticleManager:CreateParticle("particles/girl/girl_blades_of_blood.vpcf", PATTACH_ABSORIGIN, self:GetCaster())
     ParticleManager:SetParticleControl(self.particle, 0, self:GetCaster():GetAbsOrigin())
     ParticleManager:SetParticleControl(self.particle, 3, self:GetCaster():GetAbsOrigin())
+    ParticleManager:ReleaseParticleIndex(self.particle)
 
     local particle = ParticleManager:CreateParticle("particles/girl/girl_three_sphere1.vpcf", PATTACH_WORLDORIGIN, nil)
     ParticleManager:SetParticleControl(particle, 0, self:GetCaster():GetAbsOrigin())
-    ParticleManager:SetParticleControl(particle, 1, Vector(radius_max, radius_max, 1))
-    Timers:CreateTimer(4, function ()
+    ParticleManager:SetParticleControl(particle, 1, Vector(radius, radius, 1))
+
+    Timers:CreateTimer(duration, function ()
         ParticleManager:DestroyParticle(particle, true)
     end)
 
     self:GetCaster():EmitSound("girl_blades")
 
-    local damageTable = {
+    local damageTable = 
+    {
         victim = self:GetCaster(),
         attacker = self:GetCaster(),
-        damage = (self:GetSpecialValueFor("health_cost") / 100) * self:GetCaster():GetMaxHealth() ,
+        damage = ((self:GetSpecialValueFor("health_cost") + self:GetCaster():FindTalentValue("special_bonus_birzha_girl_5")) / 100) * self:GetCaster():GetMaxHealth() ,
         damage_type = DAMAGE_TYPE_PURE,
         ability = self,
         damage_flags = DOTA_DAMAGE_FLAG_NON_LETHAL + DOTA_DAMAGE_FLAG_HPLOSS + DOTA_DAMAGE_FLAG_NO_DAMAGE_MULTIPLIERS,
     }
+
     ApplyDamage(damageTable)
 
-    local enemies = FindUnitsInRadius(
-        self:GetCaster():GetTeamNumber(),
-        self:GetCaster():GetAbsOrigin(),
-        nil,
-        radius_max+100,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-        0,
-        0,
-        false
-    )
+    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
 
-    local info = {
+    local info =
+    {
         Source = self:GetCaster(),
         Ability = self, 
         EffectName = "",
@@ -504,12 +386,14 @@ function girl_blood_of_blades:OnSpellStart()
         bVisibleToEnemies = true,                       
         bReplaceExisting = false,                   
         bProvidesVision = false,   
-        ExtraData = {
+        ExtraData =
+        {
             x = self:GetCaster():GetAbsOrigin().x,
             y = self:GetCaster():GetAbsOrigin().y,
             z = self:GetCaster():GetAbsOrigin().z,
         }                     
     }
+
     for _,enemy in pairs(enemies) do
         info.Target = enemy
         ProjectileManager:CreateTrackingProjectile(info)
@@ -519,9 +403,8 @@ end
 function girl_blood_of_blades:OnProjectileHit_ExtraData( target, location, extraData )
     if not target then return end
     local duration = self:GetSpecialValueFor("duration")
-    target:AddNewModifier(self:GetCaster(), self, "modifier_girl_blood_of_blades", {duration = 3, x = extraData.x, y = extraData.y, z = extraData.z,})
+    target:AddNewModifier(self:GetCaster(), self, "modifier_girl_blood_of_blades", {duration = duration, x = extraData.x, y = extraData.y, z = extraData.z})
 end
-
 
 modifier_girl_blood_of_blades = class({})
 
@@ -530,19 +413,22 @@ function modifier_girl_blood_of_blades:IsPurgable()
 end
 
 function modifier_girl_blood_of_blades:OnCreated( kv )
-    self.slow = self:GetAbility():GetSpecialValueFor("slow")
     if not IsServer() then return end
     self.max_damage = self:GetAbility():GetSpecialValueFor("damage")
-    self.max_tick_count = 3
-    self.damage_tick = self:GetAbility():GetSpecialValueFor("damage") / self.max_tick_count
+
+    self.damage_tick = self:GetAbility():GetSpecialValueFor("damage") / 3
+
     self.tick_time = 0
-    self.damageTable = {
+
+    self.damageTable = 
+    {
         victim = self:GetParent(),
         attacker = self:GetCaster(),
         damage = self.damage_tick,
         damage_type = DAMAGE_TYPE_PURE,
         ability = self:GetAbility(),
     }
+
     self:GetParent():EmitSound("girl_blades_target")
     self.origin = Vector(kv.x,kv.y,kv.z)
     self:StartIntervalThink(FrameTime())
@@ -552,81 +438,36 @@ function modifier_girl_blood_of_blades:OnCreated( kv )
 end
 
 function modifier_girl_blood_of_blades:OnIntervalThink()
-    self.tick_time = self.tick_time + FrameTime()
+    if not IsServer() then return end
 
-    if self.tick_time >= 1 then
-        if self.max_tick_count > 0 then
-            self.tick_time = 0
-            self.max_tick_count = self.max_tick_count - 1
-            self.max_damage = self.max_damage - self.damage_tick
-            ApplyDamage( self.damageTable )
-        end
-    end
-
-    local radius = 500
+    local radius = self:GetAbility():GetSpecialValueFor("radius")
     if self:GetCaster():HasShard() then
-        radius = 600
+        radius = self:GetAbility():GetSpecialValueFor("radius_shard")
     end
 
     if (self.origin - self:GetParent():GetAbsOrigin()):Length2D() >= radius then
-        self.damageTable.damage = self.max_damage / 2
+        self.damageTable.damage = self.max_damage
         ApplyDamage( self.damageTable )
-        local duration = self:GetAbility():GetSpecialValueFor("duration")
-        self:GetCaster():Heal(self.max_damage / 2, self:GetAbility())
-        self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_girl_blood_of_blades_movespeed", {duration = duration})
-        if not self:IsNull() then
-            self:Destroy()
-        end
+        self:GetCaster():Heal(self.max_damage, self:GetAbility())
+        self:Destroy()
+        return
+    end
+
+    self.tick_time = self.tick_time + FrameTime()
+
+    if self.tick_time >= 1 then
+        self.tick_time = 0
+        self.max_damage = self.max_damage - self.damage_tick
+        ApplyDamage( self.damageTable )
     end
 end
 
-modifier_girl_blood_of_blades_movespeed = class({})
-
-function modifier_girl_blood_of_blades_movespeed:IsPurgable()
-    return false
-end
-
-function modifier_girl_blood_of_blades_movespeed:OnCreated( kv )
-    self.slow = self:GetAbility():GetSpecialValueFor("slow")
-end
-
-function modifier_girl_blood_of_blades_movespeed:DeclareFunctions()
-    local funcs = {
-        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+function modifier_girl_blood_of_blades:CheckState()
+    return 
+    {
+        [MODIFIER_STATE_PASSIVES_DISABLED] = true
     }
-
-    return funcs
 end
-
-function modifier_girl_blood_of_blades_movespeed:GetModifierMoveSpeedBonus_Percentage()
-    return self.slow
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 LinkLuaModifier("modifier_girl_berserkers_mod", "abilities/heroes/girl.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_girl_berserkers_mod_passive", "abilities/heroes/girl.lua", LUA_MODIFIER_MOTION_NONE)
@@ -648,7 +489,7 @@ end
 modifier_girl_berserkers_mod_passive = class({})
 
 function modifier_girl_berserkers_mod_passive:IsHidden()
-    return false
+    return self:GetStackCount() == 0
 end
 
 function modifier_girl_berserkers_mod_passive:IsPurgable()
@@ -669,28 +510,12 @@ function modifier_girl_berserkers_mod_passive:DeclareFunctions()
 end
 
 function modifier_girl_berserkers_mod_passive:GetModifierPreAttack_BonusDamage()
-    local modifier_damage = self:GetStackCount() * ( self:GetAbility():GetSpecialValueFor("bonus_damage_stack") + self:GetCaster():FindTalentValue("special_bonus_birzha_girl_5") )
-    return modifier_damage
+    local multiple = 1
+    if self:GetCaster():HasTalent("special_bonus_birzha_girl_8") then
+        multiple = self:GetCaster():FindTalentValue("special_bonus_birzha_girl_8")
+    end
+    return self:GetStackCount() * self:GetAbility():GetSpecialValueFor("bonus_damage_stack") * multiple
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function girl_berserkers_mod:OnSpellStart()
     if not IsServer() then return end
@@ -709,38 +534,29 @@ function modifier_girl_berserkers_mod:OnCreated()
     self.movespeed = self:GetAbility():GetSpecialValueFor("bonus_movespeed")
     self.health_damage_bonus = self:GetAbility():GetSpecialValueFor("health_damage_bonus")
     if not IsServer() then return end
-    self.damageTable = {
+    self.damageTable =
+    {
         victim = self:GetCaster(),
         attacker = self:GetCaster(),
-        damage = ((self:GetAbility():GetSpecialValueFor("health_cost") / 100) * self:GetCaster():GetMaxHealth()) * 0.2,
+        damage = (((self:GetAbility():GetSpecialValueFor("health_cost") + self:GetCaster():FindTalentValue("special_bonus_birzha_girl_5")) / 100) * self:GetCaster():GetMaxHealth()) * 0.2,
         damage_type = DAMAGE_TYPE_PURE,
-        ability = self,
+        ability = self:GetAbility(),
         damage_flags = DOTA_DAMAGE_FLAG_NON_LETHAL + DOTA_DAMAGE_FLAG_HPLOSS + DOTA_DAMAGE_FLAG_NO_DAMAGE_MULTIPLIERS,
     }
-    EmitSoundOn("girl_ultimate", self:GetParent())
+    self:GetParent():EmitSound("girl_ultimate")
     self:StartIntervalThink(0.2)
 end
 
 function modifier_girl_berserkers_mod:OnDestroy()
     if not IsServer() then return end
-    StopSoundOn("girl_ultimate", self:GetParent())
+    self:GetParent():StopSound("girl_ultimate")
 end
 
 function modifier_girl_berserkers_mod:OnIntervalThink()
     if not IsServer() then return end
     ApplyDamage(self.damageTable)
 end
-    
 
-function modifier_girl_berserkers_mod:CheckState()
-    if self:GetCaster():HasTalent("special_bonus_birzha_girl_8") then
-        return {}
-    end
-    return {
-        [MODIFIER_STATE_SILENCED] = true,
-    }
-end
-    
 function modifier_girl_berserkers_mod:DeclareFunctions()
     local decFuncs =
     {
@@ -757,7 +573,7 @@ function modifier_girl_berserkers_mod:OnHeroKilled( params )
     if not IsServer() then return end
     local parent = self:GetParent()
     local target = params.target
-    if parent == params.attacker and target:GetTeamNumber() ~= parent:GetTeamNumber() then
+    if parent == params.attacker and target:GetTeamNumber() ~= parent:GetTeamNumber() and params.target:IsRealHero() then
         local mod = self:GetParent():FindModifierByName("modifier_girl_berserkers_mod_passive")
         if mod then
             mod:IncrementStackCount()
@@ -784,10 +600,9 @@ function modifier_girl_berserkers_mod:GetEffectAttachType()
     return PATTACH_ABSORIGIN_FOLLOW
 end
 
-
 function modifier_girl_berserkers_mod:GetModifierAttackSpeedBonus_Constant()
     if self:GetCaster():HasTalent("special_bonus_birzha_girl_7") then
-        local bonus_attackspeed = (math.ceil((100 - self:GetParent():GetHealthPercent()) / self:GetAbility():GetSpecialValueFor("health_perc_bonus"))) * 10
+        local bonus_attackspeed = (math.ceil((100 - self:GetParent():GetHealthPercent()) / self:GetCaster():FindTalentValue("special_bonus_birzha_girl_7", "value2"))) * self:GetCaster():FindTalentValue("special_bonus_birzha_girl_7")
         return bonus_attackspeed
     end
     return 0

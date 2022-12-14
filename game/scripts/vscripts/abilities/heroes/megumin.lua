@@ -23,14 +23,12 @@ end
 function Megumin_armageddon:OnAbilityPhaseStart()
 	if not IsServer() then return end
 	self.point = self:GetCursorPosition()
-
 	return true
 end
 
 function Megumin_armageddon:OnSpellStart()
 	if not IsServer() then return end
 	self.modifier = self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_armageddon_casting", {duration = self:GetChannelTime()})
-	self.modifier = self:GetCaster():FindModifierByName("modifier_armageddon_casting")
 end
 
 function Megumin_armageddon:OnChannelFinish(bInterrupted)
@@ -41,7 +39,6 @@ function Megumin_armageddon:OnChannelFinish(bInterrupted)
 end
 
 modifier_armageddon_casting = class ({})
-
 function modifier_armageddon_casting:IsPurgable() return false end
 function modifier_armageddon_casting:IsHidden() return true end
 
@@ -63,8 +60,9 @@ function modifier_armageddon_casting:OnIntervalThink()
 	self.target_radius = self:GetAbility():GetSpecialValueFor("target_radius")
 	self.radius = self:GetAbility():GetSpecialValueFor("radius")
 	self.damage = self:GetAbility():GetSpecialValueFor("damage")
-	self.multi = self:GetAbility():GetSpecialValueFor("int_multi") + self:GetCaster():FindTalentValue("special_bonus_birzha_megumin_6")
-	self.interval = self:GetAbility():GetChannelTime() / (self:GetAbility():GetSpecialValueFor("blasts") + self:GetCaster():FindTalentValue("special_bonus_birzha_megumin_1"))
+	self.multi = self:GetAbility():GetSpecialValueFor("int_multi") + self:GetCaster():FindTalentValue("special_bonus_birzha_megumin_2")
+	self.blasts = self:GetAbility():GetSpecialValueFor("blasts") + self:GetCaster():FindTalentValue("special_bonus_birzha_megumin_6")
+	self.interval = self:GetAbility():GetChannelTime() / self.blasts
 	self.max_offset = self.target_radius - self.radius
 	local _x = RandomInt(-self.max_offset, self.max_offset)
 	local _y = RandomInt(-self.max_offset, self.max_offset)
@@ -74,26 +72,13 @@ function modifier_armageddon_casting:OnIntervalThink()
 	ParticleManager:SetParticleControl(particle, 0, point)
 	ParticleManager:SetParticleControl(particle, 1, Vector(self.radius, self.radius, self.radius))
 	
-	local units = FindUnitsInRadius(self.caster:GetTeamNumber(),
-		point,
-		nil,
-		self.radius,
-		DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-		DOTA_UNIT_TARGET_FLAG_NONE,
-		FIND_ANY_ORDER,
-		false)
+	local units = FindUnitsInRadius(self.caster:GetTeamNumber(), point, nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
 				
 	for _,unit in pairs(units) do
-		local damageTable = {
-			victim = unit,
-			attacker = self.caster,
-			damage = self.damage + self.caster:GetIntellect() * self.multi,
-			damage_type = DAMAGE_TYPE_MAGICAL,
-			ability = self:GetAbility()
-		}
+		local damageTable = { victim = unit, attacker = self.caster, damage = self.damage + (self.caster:GetIntellect() / 100 * self.multi), damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()}
 		ApplyDamage(damageTable)
 	end
+
 	EmitSoundOnLocationWithCaster(point, "Hero_Invoker.SunStrike.Ignite.Apex", self.caster)	
 end
 
@@ -115,6 +100,7 @@ function megumin_meteor:OnSpellStart()
     local target_loc = self:GetCursorPosition()
     local caster_loc = caster:GetAbsOrigin()
     local direction = (target_loc - caster_loc):Normalized()
+
     if target_loc == caster_loc then
         direction = caster:GetForwardVector()
     else
@@ -140,20 +126,22 @@ function megumin_meteor:OnSpellStart()
 		iVisionRadius		= 200,
 		iVisionTeamNumber	= caster:GetTeamNumber(),
     }
+
     ProjectileManager:CreateLinearProjectile(projectile)
+
     caster:EmitSound("Hero_Invoker.ChaosMeteor.Impact")
 end
 
 function megumin_meteor:OnProjectileHit(target, location)
     if not IsServer() then return end
     local caster = self:GetCaster()
-    local damage = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_megumin_2")
-    local stun_duration = self:GetSpecialValueFor("stun_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_megumin_4")
+    local damage = self:GetSpecialValueFor("damage")
+    local stun_duration = self:GetSpecialValueFor("stun_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_megumin_5")
 	local fire_duration = self:GetSpecialValueFor("fire_duration")
 	
     if target then
 		target:EmitSound("Hero_WarlockGolem.Attack")
-		target:AddNewModifier(caster, self, "modifier_birzha_stunned_purge", {duration = stun_duration})
+		target:AddNewModifier(caster, self, "modifier_birzha_stunned_purge", {duration = stun_duration * (1-target:GetStatusResistance())})
         ApplyDamage({victim = target, attacker = caster, ability = self, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
         target:AddNewModifier(caster, self, "modifier_meteor_fire", {duration = fire_duration * (1 - target:GetStatusResistance())})
     end
@@ -166,20 +154,13 @@ function modifier_meteor_fire:IsPurgeException() return true end
 
 function modifier_meteor_fire:OnCreated( kv )
 	if not IsServer() then return end
-    self:StartIntervalThink(1)
+    self:StartIntervalThink(0.5)
 end
 
 function modifier_meteor_fire:OnIntervalThink()
     if not IsServer() then return end
-    local fire_damage = self:GetAbility():GetSpecialValueFor("fire_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_megumin_5")
-    local damage = {
-        victim = self:GetParent(),
-        attacker = self:GetCaster(),
-        damage = fire_damage,
-        damage_type = DAMAGE_TYPE_MAGICAL,
-        ability = self:GetAbility()
-    }
-    ApplyDamage(damage)
+    local fire_damage = self:GetAbility():GetSpecialValueFor("fire_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_megumin_1")
+    ApplyDamage({ victim = self:GetParent(), attacker = self:GetCaster(), damage = fire_damage * 0.5, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
 end
 
 function modifier_meteor_fire:GetEffectName()
@@ -218,19 +199,12 @@ function Megumin_mana_aura:OnSpellStart()
 	local caster_loc = caster:GetAbsOrigin()
 	local caster_team = caster:GetTeamNumber()
 	local radius = self:GetSpecialValueFor("radius")
-	local targets = FindUnitsInRadius(
-			caster_team,
-			caster_loc,
-			nil, 
-			radius, 
-			DOTA_UNIT_TARGET_TEAM_FRIENDLY, 
-			DOTA_UNIT_TARGET_HERO,
-			DOTA_UNIT_TARGET_FLAG_NONE,
-			FIND_ANY_ORDER, 
-			false)
-	self:GetCaster():EmitSound("meguminheal")		
+	local targets = FindUnitsInRadius( caster_team, caster_loc, nil, radius, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_ANY_ORDER, false)
+
+	self:GetCaster():EmitSound("meguminheal")	
+
 	for _, unit in ipairs(targets) do
-		unit:AddNewModifier(caster, self, "modifier_mana_aura_active_regeneration", {duration = 1})
+		unit:AddNewModifier(caster, self, "modifier_mana_aura_active_regeneration", {duration = self:GetSpecialValueFor("duration")})
 	end
 end
 
@@ -239,7 +213,8 @@ modifier_mana_aura_active_regeneration = class ({})
 function modifier_mana_aura_active_regeneration:IsPurgable() return false end
 
 function modifier_mana_aura_active_regeneration:DeclareFunctions()
-	local funcs = {
+	local funcs = 
+	{
 		MODIFIER_PROPERTY_MANA_REGEN_TOTAL_PERCENTAGE
 	}
 	return funcs
@@ -252,13 +227,7 @@ end
 function modifier_mana_aura_active_regeneration:OnCreated()
 	if not IsServer() then return end
 	self.particle = ParticleManager:CreateParticle("particles/econ/events/winter_major_2016/radiant_fountain_regen_wm_lvl3.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
-end
-
-function modifier_mana_aura_active_regeneration:OnDestroy()
-	if not IsServer() then return end
-	if self.particle then 
-		ParticleManager:DestroyParticle(self.particle, false) 
-	end
+	self:AddParticle(self.particle, false, false, -1, false, false)
 end
 
 modifier_megumin_mana_aura = class ({})
@@ -296,7 +265,8 @@ function modifier_megumin_aura_2:IsHidden() return false end
 function modifier_megumin_aura_2:IsPurgable() return false end
 
 function modifier_megumin_aura_2:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,
 		MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE
     }
@@ -304,27 +274,29 @@ function modifier_megumin_aura_2:DeclareFunctions()
 end
 
 function modifier_megumin_aura_2:GetModifierConstantManaRegen()
+	local multi = 1
 	if self:GetCaster():HasTalent("special_bonus_birzha_megumin_3") then
-		return self:GetAbility():GetSpecialValueFor("mana_regen_passive") * 2
+		multi = self:GetCaster():FindTalentValue("special_bonus_birzha_megumin_3")
 	end
-	return self:GetAbility():GetSpecialValueFor("mana_regen_passive")
+	return self:GetAbility():GetSpecialValueFor("mana_regen_passive") * multi
 end
 
 function modifier_megumin_aura_2:GetModifierSpellAmplify_Percentage()
+	local multi = 1
 	if self:GetCaster():HasTalent("special_bonus_birzha_megumin_3") then
-		return self:GetAbility():GetSpecialValueFor("spell_damage") * 2
+		multi = self:GetCaster():FindTalentValue("special_bonus_birzha_megumin_3")
 	end
-	return self:GetAbility():GetSpecialValueFor("spell_damage")
+	return self:GetAbility():GetSpecialValueFor("spell_damage") * multi
 end
 
 LinkLuaModifier("modifier_ExplosionMagic", "abilities/heroes/megumin.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_ExplosionMagic_immunity", "abilities/heroes/megumin.lua", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_ExplosionMagic_debuff", "abilities/heroes/megumin.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_generic_knockback_lua", "modifiers/modifier_generic_knockback_lua.lua", LUA_MODIFIER_MOTION_BOTH )
 
 Megumin_ExplosionMagic = class({})
 
 function Megumin_ExplosionMagic:GetCooldown(level)
-    return self.BaseClass.GetCooldown(self, level)
+    return self.BaseClass.GetCooldown(self, level) + self:GetCaster():FindTalentValue("special_bonus_birzha_megumin_4")
 end
 
 function Megumin_ExplosionMagic:GetCastRange(location, target)
@@ -339,84 +311,74 @@ function Megumin_ExplosionMagic:GetChannelAnimation()
 	return ACT_DOTA_CHANNEL_ABILITY_4
 end
 
+function Megumin_ExplosionMagic:GetChannelTime()
+    return self.BaseClass.GetChannelTime(self) + self:GetCaster():FindTalentValue("special_bonus_birzha_megumin_8")
+end
+
 function Megumin_ExplosionMagic:OnAbilityPhaseStart()
 	if not IsServer() then return end
-	self.channel_duration = self:GetChannelTime()
-	local fImmuneDuration = self.channel_duration
-	self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_ExplosionMagic_immunity", { duration = fImmuneDuration } )
-	self.nPreviewFX = ParticleManager:CreateParticle( "particles/booom/1.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
-	ParticleManager:SetParticleControlEnt( self.nPreviewFX, 0, self:GetCaster(), PATTACH_ABSORIGIN_FOLLOW, nil, self:GetCaster():GetOrigin(), true )
-	ParticleManager:SetParticleControl( self.nPreviewFX, 1, Vector( 250, 250, 250 ) )
-	ParticleManager:SetParticleControl( self.nPreviewFX, 15, Vector( 176, 224, 230 ) )
+	self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_ExplosionMagic_immunity", { duration = self:GetChannelTime() } )
+	local particle = ParticleManager:CreateParticle( "particles/booom/1.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
+	ParticleManager:SetParticleControlEnt( particle, 0, self:GetCaster(), PATTACH_ABSORIGIN_FOLLOW, nil, self:GetCaster():GetOrigin(), true )
+	ParticleManager:SetParticleControl( particle, 1, Vector( 250, 250, 250 ) )
+	ParticleManager:SetParticleControl( particle, 15, Vector( 176, 224, 230 ) )
+	ParticleManager:ReleaseParticleIndex(particle)
 	return true
 end
 
 function Megumin_ExplosionMagic:OnSpellStart()
 	if not IsServer() then return end	
-	if self.nPreviewFX then
-		ParticleManager:DestroyParticle( self.nPreviewFX, false )
-	end
 	self.effect_radius = self:GetSpecialValueFor("effect_radius")
 	self.interval = self:GetSpecialValueFor("interval")
-	self.mana = self:GetCaster():GetMana() * 0.8
-	self.mana_damage = self.mana / 5
+	self.mana = self:GetCaster():GetMana() / 100 * self:GetSpecialValueFor("scepter_manacost")
+	self.mana_damage = self.mana / self:GetSpecialValueFor("scepter_damage")
 	self.flNextCast = 0.0
 	if self:GetCaster():HasScepter() then
 		self:GetCaster():SetMana(self:GetCaster():GetMana() - self.mana)
 	end
-	EmitSoundOn("megumin", self:GetCaster())
+	self:GetCaster():EmitSound("megumin")
 end
 
 function Megumin_ExplosionMagic:OnChannelFinish(bInterrupted)
     if not IsServer() then return end
-    if self.nPreviewFX then
-		ParticleManager:DestroyParticle( self.nPreviewFX, false )
-	end
 	self:GetCaster():StopSound("megumin")
 	self:GetCaster():RemoveModifierByName("modifier_ExplosionMagic_immunity")
 	if not self:GetCaster():HasShard() then
-		self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", { duration = 3 } )
+		self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", { duration = self:GetSpecialValueFor("stun_duration") } )
 	end 
 end
 
 function Megumin_ExplosionMagic:OnChannelThink( flInterval )
 	if not IsServer() then return end
-	
-	local targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(),self:GetCaster():GetAbsOrigin(),nil,300,DOTA_UNIT_TARGET_TEAM_ENEMY,DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO,DOTA_UNIT_TARGET_FLAG_NONE,FIND_ANY_ORDER,false)
+
+	local targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, self:GetSpecialValueFor("radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
+
 	if #targets >= 1 then	
 		for _,unit in pairs(targets) do
-				
+
+			local debuff_duration = self:GetSpecialValueFor("debuff_duration")
 			local distance = (unit:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Length2D()
 			local direction = (unit:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Normalized()
-			local bump_point = self:GetCaster():GetAbsOrigin() - direction * (distance + 250)
-			local knockbackProperties =
-			{
-				center_x = bump_point.x,
-				center_y = bump_point.y,
-				center_z = bump_point.z,
-				duration = 0.5,
-				knockback_duration = 0.5,
-				knockback_distance = 300,
-				knockback_height = 0
-			}
-				
-			if not unit:HasModifier("modifier_knockback") then
-				unit:AddNewModifier( unit, self, "modifier_knockback", knockbackProperties )
-				unit:AddNewModifier( self:GetCaster(), self, "modifier_disarmed", { duration = 3 } )
-				local nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_huskar/huskar_inner_fire.vpcf", PATTACH_CUSTOMORIGIN, nil )
+			local distance_knockback = (self:GetSpecialValueFor("radius") - distance) + 150
+
+			if not unit:HasModifier("modifier_generic_knockback_lua") then
+				unit:AddNewModifier( self:GetCaster(), self, "modifier_generic_knockback_lua", { duration = 0.3, distance = distance_knockback, height = 0, direction_x = direction.x, direction_y = direction.y})
+				unit:AddNewModifier( self:GetCaster(), self, "modifier_disarmed", { duration = debuff_duration * (1-unit:GetStatusResistance()) } )
+				local nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_huskar/huskar_inner_fire.vpcf", PATTACH_CUSTOMORIGIN, self:GetCaster() )
 				ParticleManager:SetParticleControl( nFXIndex, 0, self:GetCaster():GetOrigin() )
-				ParticleManager:SetParticleControl( nFXIndex, 1, Vector ( 500, 500, 500 ) )
+				ParticleManager:SetParticleControl( nFXIndex, 1, Vector ( self:GetSpecialValueFor("radius")+100, self:GetSpecialValueFor("radius")+100, self:GetSpecialValueFor("radius")+100 ) )
 			end
 		end
 	end
 	
 	self.flNextCast = self.flNextCast + flInterval
+
 	if self.flNextCast >= self.interval  then
 		local nMaxAttempts = 7
 		local nAttempts = 0
 		local vPos = nil
 		repeat
-			vPos = self:GetCaster():GetOrigin() + RandomVector( RandomInt( 50, self.effect_radius ) )
+			vPos = self:GetCaster():GetOrigin() + RandomVector( RandomInt( self:GetSpecialValueFor("radius"), self.effect_radius ) )
 			local hThinkersNearby = Entities:FindAllByClassnameWithin( "npc_dota_thinker", vPos, 600 )
 			local hOverlappingWrathThinkers = {}
 
@@ -450,9 +412,8 @@ function modifier_ExplosionMagic:OnCreated(kv)
 	if not IsServer() then return end
 	self.delay = self:GetAbility():GetSpecialValueFor( "delay" )
 	self.radius = self:GetAbility():GetSpecialValueFor( "radius" )
-	local ability = self:GetCaster():FindAbilityByName("Megumin_ExplosionMagic")
 	if self:GetCaster():HasScepter() then
-		self.blast_damage = self:GetAbility():GetSpecialValueFor( "blast_damage" ) + ability.mana_damage
+		self.blast_damage = self:GetAbility():GetSpecialValueFor( "blast_damage" ) + self:GetAbility().mana_damage
 	else
 		self.blast_damage = self:GetAbility():GetSpecialValueFor( "blast_damage" )
 	end
@@ -467,27 +428,24 @@ end
 
 function modifier_ExplosionMagic:OnIntervalThink()
 	if not IsServer() then return end
+
 	local nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_techies/techies_blast_off.vpcf", PATTACH_CUSTOMORIGIN, nil )
 	ParticleManager:SetParticleControl( nFXIndex, 0, self:GetParent():GetOrigin() )
 	ParticleManager:SetParticleControl( nFXIndex, 1, Vector ( self.radius, self.radius, self.radius ) )
 	ParticleManager:SetParticleControl( nFXIndex, 15, Vector( 175, 238, 238 ) )
 	ParticleManager:SetParticleControl( nFXIndex, 16, Vector( 1, 0, 0 ) )
 	ParticleManager:ReleaseParticleIndex( nFXIndex )
-	EmitSoundOn( "Hero_Techies.Suicide", self:GetParent() )
-	local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, 0, FIND_CLOSEST, false )
+
+	self:GetParent():EmitSound("Hero_Techies.Suicide")
+
+	local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, FIND_CLOSEST, false )
 	for _,enemy in pairs( enemies ) do
-		if enemy ~= nil and enemy:IsInvulnerable() == false then
-			local damageInfo =
-			{
-				victim = enemy,
-				attacker = self:GetCaster(),
-				damage = self.blast_damage,
-				damage_type = DAMAGE_TYPE_MAGICAL,
-				ability = self:GetAbility(),
-			}
+		if enemy ~= nil then
+			local damageInfo = { victim = enemy, attacker = self:GetCaster(), damage = self.blast_damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility() }
 			ApplyDamage( damageInfo )
 		end
 	end
+
 	UTIL_Remove( self:GetParent() )
 end
 
@@ -506,7 +464,8 @@ function modifier_ExplosionMagic_immunity:GetPriority()
 end
 
 function modifier_ExplosionMagic_immunity:CheckState()
-	local state = {
+	local state = 
+	{
 		[MODIFIER_STATE_MAGIC_IMMUNE] = true
 	}
 	return state

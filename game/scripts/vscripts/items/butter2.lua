@@ -16,13 +16,10 @@ end
 
 modifier_item_butter2 = class({})
 
-function modifier_item_butter2:IsHidden()
-	return true
-end
-
-function modifier_item_butter2:IsPurgable()
-    return false
-end
+function modifier_item_butter2:IsHidden() return true end
+function modifier_item_butter2:IsPurgable() return false end
+function modifier_item_butter2:IsPurgeException() return false end
+function modifier_item_butter2:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_butter2:DeclareFunctions()
     local funcs = {
@@ -36,27 +33,23 @@ function modifier_item_butter2:DeclareFunctions()
 end
 
 function modifier_item_butter2:GetModifierBonusStats_Agility()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor('agi')
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('agi')
 end
 
 function modifier_item_butter2:GetModifierPreAttack_BonusDamage()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor('dmg')
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('dmg')
 end
 
 function modifier_item_butter2:GetModifierEvasion_Constant()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor('ev')
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('ev')
 end
 
 function modifier_item_butter2:GetModifierAttackSpeedBonus_Constant()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor('attack')
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('attack')
 end
 
 modifier_item_butter2_active = class({})
@@ -84,7 +77,8 @@ function modifier_item_butter2_active:GetTexture()
 end
 
 function modifier_item_butter2_active:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_FLYING] = true,
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
         [MODIFIER_STATE_UNTARGETABLE] = true,
@@ -109,7 +103,6 @@ end
 function modifier_item_butter2_active:OnAttack( params )
     if not IsServer() then return end
     if params.attacker~=self:GetParent() then return end
-    if not self:IsNull() then
-        self:Destroy()
-    end
+    if params.target:IsWard() then return end
+    self:Destroy()
 end

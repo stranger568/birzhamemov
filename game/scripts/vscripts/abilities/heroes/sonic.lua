@@ -14,12 +14,7 @@ function sonic_dash:OnSpellStart()
     local point = self:GetCaster():GetAbsOrigin() + self:GetCaster():GetForwardVector() * self:GetSpecialValueFor("range")
     local speed = self:GetCaster():GetMoveSpeedModifier(self:GetCaster():GetBaseMoveSpeed(), false) + self:GetSpecialValueFor("bonus_movespeed_dash")
 
-    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_sonic_dash", {
-        x           = point.x,
-        y           = point.y,
-        z           = point.z,
-        speed       = speed,
-    })
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_sonic_dash", { x = point.x, y = point.y, z = point.z, speed = speed, })
     local vDirection = point - self:GetCaster():GetOrigin()
     vDirection.z = 0.0
     vDirection = vDirection:Normalized()
@@ -29,18 +24,19 @@ function sonic_dash:OnSpellStart()
     local flag = 0
 
     if self:GetCaster():HasShard() then
-        if RollPercentage(50) then
+        if RollPercentage(self:GetAbility():GetSpecialValueFor("shard_chance")) then
             flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
         end
     end
 
-    local info = {
+    local info = 
+    {
         EffectName = "particles/sonic/one_skill.vpcf",
         Ability = self,
         vSpawnOrigin = self:GetCaster():GetOrigin(), 
         fStartRadius = 100,
         fEndRadius = 100,
-        vVelocity = vDirection * speed,
+        vVelocity = vDirection * (speed - 200),
         fDistance = #(point - self:GetCaster():GetOrigin()),
         Source = self:GetCaster(),
         iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
@@ -58,7 +54,7 @@ function sonic_dash:OnProjectileHit(hTarget, vLocation)
         local duration = self:GetSpecialValueFor("stun_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_sonic_5")
         local damage = self:GetCaster():GetMoveSpeedModifier(self:GetCaster():GetBaseMoveSpeed(), false) * damage_speed
         ApplyDamage({victim = hTarget, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self})
-        hTarget:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = duration})
+        hTarget:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = duration * ( 1 - hTarget:GetStatusResistance())})
     end
 end 
 
@@ -72,8 +68,11 @@ function modifier_sonic_dash:IsMotionController() return true end
 function modifier_sonic_dash:GetMotionControllerPriority() return DOTA_MOTION_CONTROLLER_PRIORITY_MEDIUM end
 
 function modifier_sonic_dash:CheckState()
-    return {
-        [MODIFIER_STATE_STUNNED]       = true,
+    return 
+    {
+        [MODIFIER_STATE_ROOTED] = true,
+        [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+        [MODIFIER_STATE_IGNORING_MOVE_AND_ATTACK_ORDERS] = true,
     }
 end
 
@@ -94,7 +93,7 @@ function modifier_sonic_dash:OnCreated(params)
 end
 
 function modifier_sonic_dash:OnIntervalThink()
-    if not self:CheckMotionControllers() then
+    if not self:CheckMotionControllers() or self:GetParent():IsStunned() then
         if not self:IsNull() then
             FindClearSpaceForUnit(self:GetParent(), self:GetParent():GetAbsOrigin(), true)
             self:Destroy()
@@ -123,7 +122,6 @@ function modifier_sonic_dash:OnDestroy()
     if not IsServer() then return end
     self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
 end
-
 
 LinkLuaModifier( "modifier_sonic_crash_generic_arc_lua", "abilities/heroes/sonic", LUA_MODIFIER_MOTION_BOTH )
 
@@ -156,6 +154,7 @@ function sonic_crash:OnSpellStart()
             ApplyDamage(damageTable)
             self:PlayEffects4( enemy )
         end
+
         self:PlayEffects2()
         FindClearSpaceForUnit(caster, caster:GetAbsOrigin(), true)
         Timers:CreateTimer(0.1, function()
@@ -515,14 +514,15 @@ function modifier_sonic_gottagofast:OnCreated()
 end
 
 function modifier_sonic_gottagofast:DeclareFunctions()
-    return {
+    return 
+    {
         MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT
     }
 end
 
 function modifier_sonic_gottagofast:GetModifierMoveSpeedBonus_Constant()
     if self:GetCaster():HasTalent("special_bonus_birzha_sonic_4") then
-        return self:GetAbility():GetSpecialValueFor("bonus_movespeed") * 1.5
+        return self:GetAbility():GetSpecialValueFor("bonus_movespeed") * self:GetCaster():FindTalentValue("special_bonus_birzha_sonic_4")
     end
     return self:GetAbility():GetSpecialValueFor("bonus_movespeed")
 end
@@ -538,59 +538,55 @@ end
 function modifier_sonic_gottagofast:CheckState()
     if not self:GetCaster():HasTalent("special_bonus_birzha_sonic_8") then return end
     
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_FLYING_FOR_PATHING_PURPOSES_ONLY] = true,
     }
 
     return state
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 LinkLuaModifier("modifier_sonic_passive", "abilities/heroes/sonic", LUA_MODIFIER_MOTION_NONE)
 
 sonic_passive = class({})
 
+function TangoCastFilterResult(ability, target)
+    if not IsServer() then return end    
+
+    if target:IsWard() then
+        return UF_SUCCESS
+    else
+        return UF_FAIL_CUSTOM
+    end
+
+    local unitFilter = UnitFilter(target, ability:GetAbilityTargetTeam(), ability:GetAbilityTargetType(), ability:GetAbilityTargetFlags(), ability:GetCaster():GetTeamNumber())
+    return unitFilter
+end
+
+function sonic_passive:GetCustomCastErrorTarget(target)    
+    return CastErrorTarget(self, target)
+end
+
+function CastErrorTarget(self, target)
+    if not target:IsWard() then
+        return "#sonic_no_ward"
+    end
+end
+
+function sonic_passive:CastFilterResultTarget(target)    
+    return TangoCastFilterResult(self, target)
+end
+
 function sonic_passive:GetIntrinsicModifierName()
     return "modifier_sonic_passive"
+end
+
+function sonic_passive:OnSpellStart()
+    if not IsServer() then return end
+    local target = self:GetCursorTarget()
+    if target:IsWard() then
+        self:GetCaster():PerformAttack(target, true, true, true, false, false, false, true)
+    end
 end
 
 modifier_sonic_passive = class({})
@@ -635,7 +631,7 @@ end
 
 modifier_sonic_steal_speed = class({})
 
-function modifier_sonic_steal_speed:IsHidden() return false end
+function modifier_sonic_steal_speed:IsHidden() return self:GetStackCount() == 0 end
 function modifier_sonic_steal_speed:IsPurgable() return false end
 
 function modifier_sonic_steal_speed:OnCreated()
@@ -674,12 +670,12 @@ function modifier_sonic_steal_speed:OnTakeDamage(params)
 
     if params.attacker == self:GetParent() then
         if params.unit:IsMagicImmune() then return end
-        self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_sonic_steal_speed_buff", {duration = self.duration})
-        params.unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_sonic_steal_speed_enemy", {})
-        params.unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_sonic_steal_speed_debuff", {duration = self.duration})
+        self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_sonic_steal_speed_buff", {duration = self.duration * (1 - params.unit:GetStatusResistance())})
+        params.unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_sonic_steal_speed_debuff", {duration = self.duration * (1 - params.unit:GetStatusResistance())})
+        params.unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_sonic_steal_speed_enemy", {duration = self.duration * (1 - params.unit:GetStatusResistance())})
         if self:GetCaster():HasTalent("special_bonus_birzha_sonic_6") then
-            self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_sonic_steal_speed_buff", {duration = self.duration})
-            params.unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_sonic_steal_speed_debuff", {duration = self.duration})
+            self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_sonic_steal_speed_buff", {duration = self.duration * (1 - params.unit:GetStatusResistance())})
+            params.unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_sonic_steal_speed_debuff", {duration = self.duration * (1 - params.unit:GetStatusResistance())})
         end
     end
 end
@@ -706,11 +702,6 @@ modifier_sonic_steal_speed_debuff = class({})
 function modifier_sonic_steal_speed_debuff:IsHidden() return true end
 function modifier_sonic_steal_speed_debuff:IsPurgable() return true end
 function modifier_sonic_steal_speed_debuff:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
-
-
-
-
-
 
 modifier_sonic_steal_speed_enemy = class({})
 
@@ -768,18 +759,18 @@ end
 function sonic_fast_sound:OnSpellStart()
     if not IsServer() then return end
     self.target = self:GetCursorTarget()
-    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_sonic_fast_sound_active_scepter", {duration = 10})
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_sonic_fast_sound_active_scepter", {duration = self:GetSpecialValueFor("scepter_duration")})
 end
 
 function sonic_fast_sound:GetCooldown(iLevel)
     if self:GetCaster():HasScepter() then
-        return 60
+        return self:GetSpecialValueFor("cooldown_scepter")
     end
 end
 
 function sonic_fast_sound:GetManaCost(iLevel)
     if self:GetCaster():HasScepter() then
-        return 200
+        return self:GetSpecialValueFor("manacost_scepter")
     end
 end
 
@@ -872,7 +863,8 @@ function modifier_sonic_fast_sound_active_scepter:OnDestroy()
 end
 
 function modifier_sonic_fast_sound_active_scepter:CheckState()
-    local funcs = {
+    local funcs = 
+    {
         [MODIFIER_STATE_NO_HEALTH_BAR] = true,
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
         [MODIFIER_STATE_COMMAND_RESTRICTED] = true,
@@ -940,13 +932,6 @@ end
 function modifier_sonic_fast_sound_active_scepter:GetAbsoluteNoDamagePure()
     return 1
 end
-
-
-
-
-
-
-
 
 modifier_sonic_fast_sound = class({})
 
@@ -1019,7 +1004,7 @@ function modifier_sonic_fast_sound_active:OnCreated()
     self.radius = self:GetAbility():GetSpecialValueFor("radius")
     self.damage_units = {}
     self:StartIntervalThink(0.1)
-    EmitSoundOn("Hero_Pangolier.Gyroshell.Loop", self:GetParent())
+    self:GetParent():EmitSound("Hero_Pangolier.Gyroshell.Loop")
 end
 
 function modifier_sonic_fast_sound_active:OnIntervalThink()

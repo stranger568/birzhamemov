@@ -48,13 +48,10 @@ end
 
 modifier_item_baldezh = class({})
 
-function modifier_item_baldezh:IsHidden()
-	return true
-end
-
-function modifier_item_baldezh:IsPurgable()
-    return false
-end
+function modifier_item_baldezh:IsHidden() return true end
+function modifier_item_baldezh:IsPurgable() return false end
+function modifier_item_baldezh:IsPurgeException() return false end
+function modifier_item_baldezh:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_baldezh:DeclareFunctions()
     local funcs = {
@@ -66,15 +63,13 @@ function modifier_item_baldezh:DeclareFunctions()
 end
 
 function modifier_item_baldezh:GetModifierBonusStats_Strength()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor('duration')
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('duration')
 end
 
 function modifier_item_baldezh:GetModifierPreAttack_BonusDamage()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor('bonus_damage')
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('bonus_damage')
 end
 
 modifier_item_baldezh_active = class({})
@@ -100,6 +95,7 @@ function modifier_item_baldezh_active:OnCreated()
 			self.effect = "particles/items_fx/black_king_bar_avatar.vpcf"
 		end
 	end
+
 	if self:GetAbility():GetName() == "item_cosmobaldezh" then
 		if DonateShopIsItemBought(player, 42) then
 			self.effect = "particles/birzhapass/baldezh2_donate.vpcf"
@@ -107,6 +103,7 @@ function modifier_item_baldezh_active:OnCreated()
 			self.effect = "particles/cosmo/1.vpcf"
 		end
 	end
+
 	if self:GetAbility():GetName() == "item_superbaldezh" then
 		if DonateShopIsItemBought(player, 43) then
 			self.effect = "particles/birzhapass/baldezh3_donate.vpcf"
@@ -114,6 +111,7 @@ function modifier_item_baldezh_active:OnCreated()
 			self.effect = "particles/baldezhvape/bkb1.1.vpcf"
 		end
 	end
+    
 	local particle = ParticleManager:CreateParticle(self.effect, PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
     ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
     self:AddParticle(particle, false, false, -1, false, false)

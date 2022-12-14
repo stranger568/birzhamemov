@@ -32,43 +32,43 @@ function modifier_boss_drop:OnDeath(params)
 	if params.unit == self:GetParent() then
 		if self:GetParent():GetUnitName() == "npc_dota_bristlekek" then
 			local spawnPointChest = self:GetParent():GetAbsOrigin()
-			local BossDrop = CreateItem( "item_bristback", nil, nil )
-			local DropItem = CreateItemOnPositionForLaunch( spawnPointChest, BossDrop )
+			--local BossDrop = CreateItem( "item_bristback", nil, nil )
+			--local DropItem = CreateItemOnPositionForLaunch( spawnPointChest, BossDrop )
 			local dropRadiusChest = RandomFloat( 100, 200 )
 			local attacker = params.attacker
 			local team = attacker:GetTeam()
 			local AllHeroes = HeroList:GetAllHeroes()
-			for count, hero in ipairs(AllHeroes) do
-				if hero:GetTeam() == team and hero:IsRealHero() then
-					hero:ModifyGold( 500, true, 0 )
-				end
-			end
+			--for count, hero in ipairs(AllHeroes) do
+			--	if hero:GetTeam() == team and hero:IsRealHero() then
+			--		hero:ModifyGold( 500, true, 0 )
+			--	end
+			--end
 			EmitGlobalSound("conquest.stinger.capture_radiant")
-			BossDrop:LaunchLootInitialHeight( false, 0, 300, 0.75, spawnPointChest + RandomVector( dropRadiusChest ) )
+			--BossDrop:LaunchLootInitialHeight( false, 0, 300, 0.75, spawnPointChest + RandomVector( dropRadiusChest ) )
 			CustomGameEventManager:Send_ServerToAllClients("bristlekek_killed_true", {} )
-			BirzhaGameMode:AddScoreToTeam( team, 5 )
-			Timers:CreateTimer(180, function()
+			BirzhaGameMode:AddScoreToTeam( team, 10 )
+			Timers:CreateTimer(300, function()
 				local RoshanSpawnPoint = Entities:FindByName( nil, "RoshanSpawn" ):GetAbsOrigin()
 				local Boss = CreateUnitByName("npc_dota_bristlekek", RoshanSpawnPoint, false, nil, nil, DOTA_TEAM_NEUTRALS)
 			end)
 		elseif self:GetParent():GetUnitName() == "npc_dota_LolBlade" then
 			local spawnPointChest = self:GetParent():GetAbsOrigin()
-			local BossDrop = CreateItem( "item_crysdalus", nil, nil )
-			local DropItem = CreateItemOnPositionForLaunch( spawnPointChest, BossDrop )
+			--local BossDrop = CreateItem( "item_crysdalus", nil, nil )
+			--local DropItem = CreateItemOnPositionForLaunch( spawnPointChest, BossDrop )
 			local dropRadiusChest = RandomFloat( 100, 200 )
 			local attacker = params.attacker
 			local team = attacker:GetTeam()
 			local AllHeroes = HeroList:GetAllHeroes()
-			for count, hero in ipairs(AllHeroes) do
-				if hero:GetTeam() == team and hero:IsRealHero() then
-					hero:ModifyGold( 500, true, 0 )
-				end
-			end
+			--for count, hero in ipairs(AllHeroes) do
+			--	if hero:GetTeam() == team and hero:IsRealHero() then
+			--		hero:ModifyGold( 500, true, 0 )
+			--	end
+			--end
 			EmitGlobalSound("conquest.stinger.capture_radiant")
-			BossDrop:LaunchLootInitialHeight( false, 0, 300, 0.75, spawnPointChest + RandomVector( dropRadiusChest ) )
+			--BossDrop:LaunchLootInitialHeight( false, 0, 300, 0.75, spawnPointChest + RandomVector( dropRadiusChest ) )
 			CustomGameEventManager:Send_ServerToAllClients("lolblade_killed_true", {} )
-			BirzhaGameMode:AddScoreToTeam( team, 5 )
-			Timers:CreateTimer(180, function()
+			BirzhaGameMode:AddScoreToTeam( team, 20 )
+			Timers:CreateTimer(300, function()
 				local RoshanSpawnPoint = Entities:FindByName( nil, "RoshanSpawn2" ):GetAbsOrigin()
 				local Boss = CreateUnitByName("npc_dota_LolBlade", RoshanSpawnPoint, false, nil, nil, DOTA_TEAM_NEUTRALS)
 			end)
@@ -115,7 +115,7 @@ function modifier_lolblade_Reflection:OnIntervalThink()
 	if self:GetAbility():IsFullyCastable() then
 		self:GetAbility():UseResources(false, false, true)
 		for _,hero in pairs(heroes) do
-			local illusions = CreateIllusions( self:GetCaster(), hero, {duration=3,outgoing_damage=0,incoming_damage=0}, 1, 1, true, true ) 
+			local illusions = BirzhaCreateIllusion( self:GetCaster(), hero, {duration=3,outgoing_damage=0,incoming_damage=0}, 1, 1, true, true ) 
 			for k, illusion in pairs(illusions) do
 				illusion:AddNewModifier(caster, ability, "modifier_reflection_invulnerability", {})
 				illusion:MoveToTargetToAttack(hero)

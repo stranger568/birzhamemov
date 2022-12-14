@@ -6,8 +6,11 @@ metagame_shield = class({})
 
 function metagame_shield:OnSpellStart()
     if not IsServer() then return end
+
     local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_metagame_1")
+
     self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_metagame_shield", { duration = duration } )
+
     local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_omniknight/omniknight_repel_cast.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
     ParticleManager:SetParticleControlEnt( particle, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack2", self:GetCaster():GetOrigin(), true )
     ParticleManager:ReleaseParticleIndex( particle )
@@ -25,37 +28,80 @@ end
 
 function modifier_metagame_shield:OnCreated( kv )
     if not IsServer() then return end
-    EmitSoundOn( "metagame_repel", self:GetParent() )
+    self.agility = self:GetAbility():GetSpecialValueFor("bonus_agility")
+    self.status_resistance = self:GetAbility():GetSpecialValueFor("bonus_resist")
+
+    local count_modifiers_old = 0
+    local count_modifiers_new = 0
+    local stack = 0
+
+    for _, modifier in pairs(self:GetParent():FindAllModifiers()) do
+        if modifier and modifier:IsDebuff() then
+            count_modifiers_old = count_modifiers_old + 1
+        end
+    end
+
+    self:GetParent():Purge(false, true, false, true, true)
+
+    for _, modifier in pairs(self:GetParent():FindAllModifiers()) do
+        if modifier and modifier:IsDebuff() then
+            count_modifiers_new = count_modifiers_new + 1
+        end
+    end
+
+    stack = count_modifiers_old - count_modifiers_new
+
+    if stack > 0 then
+        self.agility = self.agility + (stack * (self:GetAbility():GetSpecialValueFor("bonus_agility_per_effect") + self:GetCaster():FindTalentValue("special_bonus_birzha_metagame_5")))
+        self.status_resistance = self.status_resistance + (stack * self:GetAbility():GetSpecialValueFor("bonus_resist_per_effect"))
+    end
+
+    self:GetParent():EmitSound("metagame_repel")
+
+    self:SetHasCustomTransmitterData(true)
+    self:StartIntervalThink(0.1)
+    self:OnIntervalThink()
+end
+
+function modifier_metagame_shield:AddCustomTransmitterData()
+    return 
+    {
+        agility = self.agility,
+        status_resistance = self.status_resistance,
+    }
+end
+
+function modifier_metagame_shield:HandleCustomTransmitterData( data )
+    self.agility = data.agility
+    self.status_resistance = data.status_resistance
+end
+
+function modifier_metagame_shield:OnIntervalThink()
+    if not IsServer() then return end
+    self:SendBuffRefreshToClients()
 end
 
 function modifier_metagame_shield:OnDestroy( kv )
     if not IsServer() then return end
-    StopSoundOn( "metagame_repel", self:GetParent() )
+    self:GetParent():StopSound("metagame_repel")
 end
 
 function modifier_metagame_shield:DeclareFunctions()
-    local funcs = {
-        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
-        MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING
+    local funcs = 
+    {
+        MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING,
+        MODIFIER_PROPERTY_STATS_AGILITY_BONUS
     }
 
     return funcs
 end
 
-function modifier_metagame_shield:GetAbsoluteNoDamageMagical()
-    return 1
-end
-
 function modifier_metagame_shield:GetModifierStatusResistanceStacking()
-    return self:GetCaster():FindTalentValue("special_bonus_birzha_metagame_3")
+    return self.status_resistance
 end
 
-function modifier_metagame_shield:CheckState()
-    local state = {
-        [MODIFIER_STATE_MAGIC_IMMUNE] = true,
-    }
-
-    return state
+function modifier_metagame_shield:GetModifierBonusStats_Agility()
+    return self.agility
 end
 
 function modifier_metagame_shield:GetEffectName()
@@ -66,10 +112,13 @@ function modifier_metagame_shield:GetEffectAttachType()
     return PATTACH_ABSORIGIN_FOLLOW
 end
 
-
 LinkLuaModifier( "modifier_metagame_mmr", "abilities/heroes/metagame.lua", LUA_MODIFIER_MOTION_NONE )
 
 metagame_mmr = class({})
+
+function metagame_mmr:GetCooldown(level)
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_metagame_3")
+end
 
 function metagame_mmr:OnSpellStart()
     if not IsServer() then return end
@@ -83,7 +132,8 @@ function modifier_metagame_mmr:IsPurgable() return false end
 function modifier_metagame_mmr:IsPurgeException() return true end
 
 function modifier_metagame_mmr:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_PROCATTACK_BONUS_DAMAGE_MAGICAL,
         MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
     }
@@ -92,15 +142,8 @@ end
 
 function modifier_metagame_mmr:GetModifierProcAttack_BonusDamage_Magical(params)
     if not IsServer() then return end
-    if params.target and params.target:IsHero() then
-        local enemy_networth = PlayerResource:GetNetWorth(params.target:GetPlayerID())
-        local friendly_networth = PlayerResource:GetNetWorth(self:GetParent():GetPlayerID())
-        if enemy_networth and friendly_networth then
-            if friendly_networth > enemy_networth then
-                return self:GetAbility():GetSpecialValueFor("bonus_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_metagame_6")
-            end
-        end
-    end
+    if params.target:IsWard() then return end
+    return self:GetAbility():GetSpecialValueFor("bonus_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_metagame_4")
 end
 
 function modifier_metagame_mmr:GetModifierMoveSpeedBonus_Percentage()
@@ -111,7 +154,7 @@ function modifier_metagame_mmr:OnCreated( kv )
     if not IsServer() then return end
     self:GetParent():EmitSound("metagame_mmr")
     self.stun = self:GetAbility():GetSpecialValueFor( "stun_duration" )
-    self.radius = self:GetAbility():GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_metagame_5")
+    self.radius = self:GetAbility():GetSpecialValueFor("radius")
     self:PlayEffects1()
     self:PlayEffects2()
     self:StartIntervalThink(1)
@@ -132,14 +175,18 @@ end
 
 function modifier_metagame_mmr:Stun( shard )
     if not IsServer() then return end
+
     local radius = self.radius
+
     if self:GetCaster():HasShard() then
-        radius = radius / 2
+        radius = self:GetAbility():GetSpecialValueFor("radius_shard")
     end
+
     local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetParent():GetOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
     for _,enemy in pairs(enemies) do
-        enemy:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", { duration = self.stun } )
+        enemy:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", { duration = self.stun * (1 - enemy:GetStatusResistance()) } )
     end
+
     self:PlayEffects3(radius)
 end
 
@@ -148,8 +195,8 @@ function modifier_metagame_mmr:PlayEffects1()
     ParticleManager:SetParticleControlEnt( effect_cast, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", Vector( 0, 0, 0 ), true )
     ParticleManager:SetParticleControlEnt( effect_cast, 1, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", Vector( 0, 0, 0 ), true )
     ParticleManager:ReleaseParticleIndex( effect_cast )
-    EmitSoundOn( "Hero_DarkWillow.Ley.Cast", self:GetCaster() )
-    EmitSoundOn( "Hero_DarkWillow.Ley.Target", self:GetParent() )
+    self:GetCaster():EmitSound("Hero_DarkWillow.Ley.Cast")
+    self:GetCaster():EmitSound("Hero_DarkWillow.Ley.Target")
 end
 
 function modifier_metagame_mmr:PlayEffects2()
@@ -165,25 +212,8 @@ function modifier_metagame_mmr:PlayEffects3(radius)
     EmitSoundOnLocationWithCaster( self:GetParent():GetOrigin(), "Hero_DarkWillow.Ley.Stun", self:GetCaster() )
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 LinkLuaModifier( "modifier_metagame_passive", "abilities/heroes/metagame.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_metagame_passive_debuff", "abilities/heroes/metagame.lua", LUA_MODIFIER_MOTION_NONE )
-
 
 metagame_passive = class({})
 
@@ -203,13 +233,12 @@ function metagame_passive:OnProjectileHit( target, vLocation )
         local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), target:GetOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false )
         target:EmitSound("Hero_Tiny_Tree.Impact")
         for _,enemy in pairs(enemies) do
-            if self:GetCaster():HasTalent("special_bonus_birzha_metagame_4") then
-                enemy:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_metagame_4")})
-            end
             local duration = self:GetSpecialValueFor("duration")
             local stun_duration = self:GetSpecialValueFor("stun_duration")
-            enemy:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = stun_duration})
-            enemy:AddNewModifier(self:GetCaster(), self, "modifier_metagame_passive_debuff", {duration = duration + stun_duration})
+            enemy:AddNewModifier(self:GetCaster(), self, "modifier_metagame_passive_debuff", {duration = duration * (1-enemy:GetStatusResistance())})
+            if self:GetCaster():HasTalent("special_bonus_birzha_metagame_6") then
+               enemy:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_metagame_6") * (1-enemy:GetStatusResistance())}) 
+            end
             ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_PHYSICAL, ability = self})
         end
     end
@@ -223,42 +252,40 @@ function modifier_metagame_passive:IsHidden()
 end
 
 function modifier_metagame_passive:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_EVENT_ON_ATTACK_LANDED,
     }
-
     return funcs
 end
 
 function modifier_metagame_passive:OnAttackLanded( params )
     if not IsServer() then return end
-    if params.target == self:GetParent() then
-        if self:GetParent():IsIllusion() then return end
-        if self:GetParent():PassivesDisabled() then return end
-        if self:GetAbility():IsFullyCastable() then
-            local info = {
-                EffectName = "particles/metagame_tree.vpcf",
-                Ability = self:GetAbility(),
-                iMoveSpeed = 1950,
-                Source = self:GetCaster(),
-                Target = params.attacker,
-                iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1,
-                ExtraData = {},
-            }
-            ProjectileManager:CreateTrackingProjectile(info)
-            self:GetCaster():EmitSound("metagame_passive")
-            self:GetAbility():UseResources(false, false, true)
-        end
-    end
+    if params.target ~= self:GetParent() then return end
+    if self:GetParent():PassivesDisabled() then return end
+    if not self:GetAbility():IsFullyCastable() then return end
+    if self:GetParent():IsIllusion() then return end
+
+    local info = 
+    {
+        EffectName = "particles/metagame_tree.vpcf",
+        Ability = self:GetAbility(),
+        iMoveSpeed = 1950,
+        Source = self:GetCaster(),
+        Target = params.attacker,
+        iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1,
+    }
+
+    ProjectileManager:CreateTrackingProjectile(info)
+    self:GetCaster():EmitSound("metagame_passive")
+    self:GetAbility():UseResources(false, false, true)
 end
 
 modifier_metagame_passive_debuff = class({})
 
-function modifier_metagame_passive_debuff:IsPurgable() return false end
-function modifier_metagame_passive_debuff:IsPurgeException() return true end
-
 function modifier_metagame_passive_debuff:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
     }
     return funcs
@@ -271,7 +298,7 @@ end
 LinkLuaModifier( "modifier_metagame_furion", "abilities/heroes/metagame.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_metagame_furion_fury", "abilities/heroes/metagame.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_metagame_furion_recovery", "abilities/heroes/metagame.lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_metagame_furion_slow", "abilities/heroes/metagame.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_metagame_furion_silence", "abilities/heroes/metagame.lua", LUA_MODIFIER_MOTION_NONE )
 
 metagame_furion = class({})
 
@@ -300,7 +327,7 @@ function modifier_metagame_furion:OnCreated( kv )
     local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_marci/marci_unleash_cast.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
     ParticleManager:ReleaseParticleIndex( effect_cast )
     self.pulse = 0
-    EmitSoundOn( "Hero_Marci.Unleash.Cast", self:GetParent() )
+    self:GetParent():EmitSound("Hero_Marci.Unleash.Cast")
 end
 
 function modifier_metagame_furion:OnRefresh( kv )
@@ -308,7 +335,7 @@ function modifier_metagame_furion:OnRefresh( kv )
     self.parent:Purge( false, true, false, false, false )
     local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_marci/marci_unleash_cast.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
     ParticleManager:ReleaseParticleIndex( effect_cast )
-    EmitSoundOn( "Hero_Marci.Unleash.Cast", self:GetParent() )
+    self:GetParent():EmitSound("Hero_Marci.Unleash.Cast")
 end
 
 function modifier_metagame_furion:OnDestroy()
@@ -326,7 +353,8 @@ function modifier_metagame_furion:OnDestroy()
 end
 
 function modifier_metagame_furion:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_EVENT_ON_ATTACK_LANDED
     }
     return funcs
@@ -335,23 +363,23 @@ end
 function modifier_metagame_furion:OnAttackLanded( params )
     if params.attacker ~= self:GetParent() then return end
     self.pulse = self.pulse + 1
-    if self.pulse >= 3 then
+    if self.pulse >= self:GetAbility():GetSpecialValueFor("attack_per_impulse") then
         self.pulse = 0
         self:Pulse( params.target:GetAbsOrigin() )
-    end
-    if self:GetCaster():HasTalent("special_bonus_birzha_metagame_8") then
-        params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_metagame_furion_slow", {duration = 0.5})
     end
 end
 
 function modifier_metagame_furion:Pulse( center )
-    local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), center, nil, 800, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
+    local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), center, nil, self:GetAbility():GetSpecialValueFor("radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
     local damageTable = { attacker = self:GetParent(), damage = self:GetAbility():GetSpecialValueFor("impulse_damage"), damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility(), }
     for _,enemy in pairs(enemies) do
         damageTable.victim = enemy
         ApplyDamage(damageTable)
+        if self:GetCaster():HasTalent("special_bonus_birzha_metagame_8") then
+           enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_metagame_furion_silence", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_metagame_8") * (1-enemy:GetStatusResistance())}) 
+        end
     end
-    self:PlayEffects4( center, 800 )
+    self:PlayEffects4( center, self:GetAbility():GetSpecialValueFor("radius") )
 end
 
 function modifier_metagame_furion:PlayEffects4( point, radius )
@@ -362,29 +390,21 @@ function modifier_metagame_furion:PlayEffects4( point, radius )
     EmitSoundOnLocationWithCaster( point, "Hero_Marci.Unleash.Pulse", self:GetParent() )
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
 modifier_metagame_furion_fury = class({})
 
 function modifier_metagame_furion_fury:IsPurgable()
     return false
 end
 
+function modifier_metagame_furion_fury:IsHidden()
+    return true
+end
+
 function modifier_metagame_furion_fury:OnCreated( kv )
     self.parent = self:GetParent()
     self.ability = self:GetAbility()
     self.bonus_as = self:GetAbility():GetSpecialValueFor( "flurry_bonus_attack_speed" )
-    self.recovery = 1.75 + self:GetCaster():FindTalentValue("special_bonus_birzha_metagame_7")
+    self.recovery = self:GetAbility():GetSpecialValueFor("attack_cooldown") + self:GetCaster():FindTalentValue("special_bonus_birzha_metagame_7")
     self.charges = self:GetAbility():GetSpecialValueFor( "charges_per_flurry" )
     self.timer = 1
     if not IsServer() then return end
@@ -405,15 +425,14 @@ function modifier_metagame_furion_fury:OnDestroy()
 end
 
 function modifier_metagame_furion_fury:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_IGNORE_ATTACKSPEED_LIMIT,
         MODIFIER_EVENT_ON_ATTACK,
         MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
         MODIFIER_PROPERTY_TRANSLATE_ACTIVITY_MODIFIERS,
         MODIFIER_EVENT_ON_HERO_KILLED,
-        MODIFIER_EVENT_ON_ATTACK_LANDED
     }
-
     return funcs
 end
 
@@ -421,9 +440,9 @@ function modifier_metagame_furion_fury:GetModifierAttackSpeed_Limit()
     return 1
 end
 
-function modifier_metagame_furion_fury:OnHeroKilled(table)
+function modifier_metagame_furion_fury:OnHeroKilled(params)
     if not IsServer() then return end
-    if self:GetParent() == table.attacker and self:GetParent() ~= table.target then
+    if self:GetParent() == params.attacker and self:GetParent() ~= params.target then
         self:GetParent():ModifyGold(self:GetAbility():GetSpecialValueFor("bonus_gold"), false, 0)  
     end
 end
@@ -441,17 +460,9 @@ function modifier_metagame_furion_fury:OnAttack( params )
     end
 end
 
-function modifier_metagame_furion_fury:OnAttackLanded( params )
-    if params.attacker ~= self:GetParent() then return end
-    if self:GetCaster():HasTalent("special_bonus_birzha_metagame_8") then
-        params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_metagame_furion_slow", {duration = 0.5})
-    end
-end
-
 function modifier_metagame_furion_fury:GetModifierAttackSpeedBonus_Constant()
     return self.bonus_as
 end
-
 
 function modifier_metagame_furion_fury:OnIntervalThink()
     self:Destroy()
@@ -475,7 +486,7 @@ function modifier_metagame_furion_fury:PlayEffects1()
     ParticleManager:SetParticleControlEnt( effect_cast, 5, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_attack1", Vector(0,0,0), true )
     ParticleManager:SetParticleControlEnt( effect_cast, 6, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_attack2", Vector(0,0,0), true )
     self:AddParticle( effect_cast, false, false, -1, false, false  )
-    EmitSoundOn( "Hero_Marci.Unleash.Charged", self:GetParent() )
+    self:GetParent():EmitSound("Hero_Marci.Unleash.Charged")
     EmitSoundOnClient( "Hero_Marci.Unleash.Charged.2D", self:GetParent():GetPlayerOwner() )
 end
 
@@ -496,11 +507,14 @@ function modifier_metagame_furion_fury:PlayEffects3( caster, target )
     ParticleManager:ReleaseParticleIndex( effect_cast )
 end
 
-
 modifier_metagame_furion_recovery = class({})
 
 function modifier_metagame_furion_recovery:IsPurgable()
     return false
+end
+
+function modifier_metagame_furion_recovery:IsHidden()
+    return true
 end
 
 function modifier_metagame_furion_recovery:OnCreated( kv )
@@ -538,26 +552,21 @@ function modifier_metagame_furion_recovery:ForceDestroy()
     self:Destroy()
 end
 
-modifier_metagame_furion_slow = class({})
+modifier_metagame_furion_silence = class({})
 
-function modifier_metagame_furion_slow:IsPurgable() return true end
-
-function modifier_metagame_furion_slow:DeclareFunctions()
-    return {
-        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
+function modifier_metagame_furion_silence:CheckState()
+    return 
+    {
+        [MODIFIER_STATE_SILENCED] = true
     }
 end
 
-function modifier_metagame_furion_slow:GetModifierMoveSpeedBonus_Percentage()
-    return self:GetCaster():FindTalentValue("special_bonus_birzha_metagame_8")
+function modifier_metagame_furion_silence:GetEffectName()
+    return "particles/generic_gameplay/generic_silenced.vpcf"
 end
 
-function modifier_metagame_furion_slow:GetEffectName()
-    return "particles/econ/items/omniknight/omni_crimson_witness_2021/omniknight_crimson_witness_2021_degen_aura_debuff.vpcf"
-end
-
-function modifier_metagame_furion_slow:GetEffectAttachType()
-    return PATTACH_ABSORIGIN_FOLLOW
+function modifier_metagame_furion_silence:GetEffectAttachType()
+    return PATTACH_OVERHEAD_FOLLOW
 end
 
 LinkLuaModifier( "modifier_metagame_shadow_blade", "abilities/heroes/metagame.lua", LUA_MODIFIER_MOTION_NONE )
@@ -602,7 +611,8 @@ function modifier_metagame_shadow_blade:OnIntervalThink()
 end
 
 function modifier_metagame_shadow_blade:DeclareFunctions()
-    return {
+    return 
+    {
         MODIFIER_PROPERTY_INVISIBILITY_LEVEL,
         MODIFIER_PROPERTY_PROCATTACK_BONUS_DAMAGE_PHYSICAL,
         MODIFIER_EVENT_ON_ABILITY_EXECUTED
@@ -614,7 +624,8 @@ function modifier_metagame_shadow_blade:GetModifierInvisibilityLevel()
 end
 
 function modifier_metagame_shadow_blade:CheckState()
-    return {
+    return 
+    {
         [MODIFIER_STATE_INVISIBLE] = true,
         [MODIFIER_STATE_TRUESIGHT_IMMUNE] = true,
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true

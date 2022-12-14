@@ -58,6 +58,8 @@ function CDOTA_BaseNPC:BirzhaTrueKill(ability, killer)
         "modifier_item_aeon_disk_buff",
         "modifier_papich_reincarnation_wraith_form",
         "modifier_pucci_passive_wave_immortality",
+        "modifier_polnaref_requeim",
+        "modifier_homunculus_iborn_immortality_active",
     }
     for k, v in pairs(modifiers_to_remove) do
         if self:HasModifier(v) then
@@ -589,7 +591,45 @@ function IsNearEntity(entities, location, distance, owner)
     return false
 end
 
+LinkLuaModifier("modifier_burger_strength", "items/items_burgers", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_burger_agility", "items/items_burgers", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_burger_intellect", "items/items_burgers", LUA_MODIFIER_MOTION_NONE)
 
+function BirzhaCreateIllusion(v1,v2,v3,v4,v5,v6,v7)
+    local illusions = CreateIllusions(v1, v2, v3, v4, v5, v6, v7)
+    
+    for _, illusion in pairs(illusions) do
+        if v2 and v2:HasModifier("modifier_burger_strength") then
+            local modifier = v2:FindModifierByName("modifier_burger_strength")
+            if modifier then
+                local modifier_illusion = illusion:AddNewModifier(v2, nil, "modifier_burger_strength", {})
+                if modifier_illusion then
+                    modifier_illusion:SetStackCount(modifier:GetStackCount())
+                end
+            end
+        end
+        if v2 and v2:HasModifier("modifier_burger_agility") then
+            local modifier = v2:FindModifierByName("modifier_burger_agility")
+            if modifier then
+                local modifier_illusion = illusion:AddNewModifier(v2, nil, "modifier_burger_agility", {})
+                if modifier_illusion then
+                    modifier_illusion:SetStackCount(modifier:GetStackCount())
+                end
+            end
+        end
+        if v2 and v2:HasModifier("modifier_burger_intellect") then
+            local modifier = v2:FindModifierByName("modifier_burger_intellect")
+            if modifier then
+                local modifier_illusion = illusion:AddNewModifier(v2, nil, "modifier_burger_intellect", {})
+                if modifier_illusion then
+                    modifier_illusion:SetStackCount(modifier:GetStackCount())
+                end
+            end
+        end
+    end
+
+    return illusions
+end
 
 function CountdownContractTimer(t)
     local minutes = math.floor(t / 60)

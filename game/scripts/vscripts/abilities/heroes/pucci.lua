@@ -1,14 +1,13 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 
-pucci_time_acceleration = class({})
-
 LinkLuaModifier("modifier_pucci_time_acceleration_thinker", "abilities/heroes/pucci", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_pucci_time_acceleration_debuff", "abilities/heroes/pucci", LUA_MODIFIER_MOTION_NONE)
 
-function pucci_time_acceleration:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_pucci_1")
-end
+pucci_time_acceleration = class({})
 
+function pucci_time_acceleration:GetCooldown(level)
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_pucci_3")
+end
 
 function pucci_time_acceleration:OnUpgrade()
     local mod = self:GetCaster():FindModifierByName("modifier_pucci_restart_world")
@@ -30,11 +29,11 @@ function pucci_time_acceleration:OnSpellStart()
     local mod = self:GetCaster():FindModifierByName("modifier_pucci_restart_world")
     if mod then
         if mod:GetStackCount() >= 10 then
-            increase = 3
+            increase = 2.2
         elseif mod:GetStackCount() >= 5 then
-            increase = 2.5
+            increase = 1.8
         elseif mod:GetStackCount() >= 2 then
-            increase = 2
+            increase = 1.4
         end
     end
 
@@ -46,11 +45,13 @@ function pucci_time_acceleration:OnSpellStart()
 
     self:SetActivated(false)
     self:EndCooldown()
+
     EmitGlobalSound("pucci_word_timescale")
+
     local ability = self
     Convars:SetFloat("host_timescale", increase)
 
-    if self:GetCaster():HasTalent("special_bonus_birzha_pucci_2") then
+    if self:GetCaster():HasTalent("special_bonus_birzha_pucci_4") then
         CreateModifierThinker( self:GetCaster(), self, "modifier_pucci_time_acceleration_thinker", {duration = duration * Convars:GetFloat("host_timescale")}, Vector(0,0,0), self:GetCaster():GetTeamNumber(), false )
     end
 
@@ -99,19 +100,19 @@ function modifier_pucci_time_acceleration_debuff:IsHidden() return true end
 function modifier_pucci_time_acceleration_debuff:OnCreated()
     self.vision_day = 0
     self.vision_night = 0
-    self.vision_day = -1 * (self:GetParent():GetDayTimeVisionRange() * 0.7)
-    self.vision_night = -1 * (self:GetParent():GetNightTimeVisionRange() * 0.7)
+    self.vision_day = -1 * (self:GetParent():GetDayTimeVisionRange() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_pucci_4"))
+    self.vision_night = -1 * (self:GetParent():GetNightTimeVisionRange() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_pucci_4"))
 end
 
-
 function modifier_pucci_time_acceleration_debuff:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_BONUS_DAY_VISION,
         MODIFIER_PROPERTY_BONUS_NIGHT_VISION,
     }
-
     return funcs
 end
+
 function modifier_pucci_time_acceleration_debuff:GetBonusDayVision( params )
     return self.vision_day
 end
@@ -120,19 +121,14 @@ function modifier_pucci_time_acceleration_debuff:GetBonusNightVision( params )
     return self.vision_night
 end
 
-
-
-
-
-
-
-
+LinkLuaModifier("modifier_pucci_erace_disk", "abilities/heroes/pucci", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_pucci_erace_disk_visual", "abilities/heroes/pucci", LUA_MODIFIER_MOTION_NONE)
 
 pucci_erace_disk = class({})
 
-LinkLuaModifier("modifier_pucci_erace_disk", "abilities/heroes/pucci", LUA_MODIFIER_MOTION_NONE)
-
-pucci_erace_disk.duration_use = 1
+function pucci_erace_disk:GetIntrinsicModifierName()
+    return "modifier_pucci_erace_disk_visual"
+end
 
 function pucci_erace_disk:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
@@ -140,24 +136,51 @@ end
 
 function pucci_erace_disk:OnSpellStart()
     if not IsServer() then return end
+
     local target = self:GetCursorTarget()
+
     local base_duration = self:GetSpecialValueFor("duration")
-    local base_dmg_heal =  self:GetSpecialValueFor("damage_heal")
+
+    local base_dmg_heal =  self:GetSpecialValueFor("damage_heal") + self:GetCaster():FindTalentValue("special_bonus_birzha_pucci_2")
+
     local max_duration = self:GetSpecialValueFor("max_duration")
+
     local bonus_duration = self:GetSpecialValueFor("duration_per_use")
+
+    local current_duration = base_duration
+
+    if target:GetTeamNumber() ~= self:GetCaster():GetTeamNumber() then
+        if target:TriggerSpellAbsorb(self) then return end
+    end
+
     self:GetCaster():EmitSound("pucci_erase_disk")
+
+    local modifier_pucci_erace_disk_visual = self:GetCaster():FindModifierByName("modifier_pucci_erace_disk_visual")
+    if modifier_pucci_erace_disk_visual then
+        current_duration = current_duration + (bonus_duration * modifier_pucci_erace_disk_visual:GetStackCount())
+        if not self:GetCaster():HasTalent("special_bonus_birzha_pucci_6") then
+            if modifier_pucci_erace_disk_visual:GetStackCount() < 12 then
+                modifier_pucci_erace_disk_visual:IncrementStackCount()
+            end
+        else
+            if modifier_pucci_erace_disk_visual:GetStackCount() < 16 then
+                modifier_pucci_erace_disk_visual:IncrementStackCount()
+            end
+        end
+    end
+
     if target:GetTeamNumber() == self:GetCaster():GetTeamNumber() then
         target:Heal(base_dmg_heal, self)
         target:GiveMana(base_dmg_heal)
     else
         ApplyDamage({victim = target, attacker = self:GetCaster(), damage = base_dmg_heal, damage_type = self:GetAbilityDamageType(), ability = self})
-        target:AddNewModifier(self:GetCaster(), self, "modifier_pucci_erace_disk", {duration = self.duration_use})
-        if self.duration_use < max_duration then
-            self.duration_use = self.duration_use + bonus_duration
-        end
+        target:AddNewModifier(self:GetCaster(), self, "modifier_pucci_erace_disk", {duration = current_duration * (1-target:GetStatusResistance())})
     end
+
     local particle = ParticleManager:CreateParticle("particles/pucci/erace_disk_loadout.vpcf", PATTACH_ABSORIGIN_FOLLOW, target)
     ParticleManager:SetParticleControl(particle, 0, target:GetAbsOrigin())
+    ParticleManager:ReleaseParticleIndex(particle)
+
     local ability_pucci = self:GetCaster():FindAbilityByName("pucci_restart_world")
     if ability_pucci and ability_pucci:GetLevel() > 0 then
         if ability_pucci.current_quest[4] == false and ability_pucci.current_quest[1] == "pucci_quest_use_erase_disk" then
@@ -177,25 +200,31 @@ end
 
 modifier_pucci_erace_disk = class({})
 
-function modifier_pucci_erace_disk:IsPurgable() return false end
-
 function modifier_pucci_erace_disk:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_SILENCED] = true,
         [MODIFIER_STATE_MUTED] = true,
     }
-
     return state
 end
 
+function modifier_pucci_erace_disk:GetEffectName() return "particles/generic_gameplay/generic_silenced.vpcf" end
+function modifier_pucci_erace_disk:GetEffectAttachType() return PATTACH_OVERHEAD_FOLLOW end
+
+modifier_pucci_erace_disk_visual = class({})
+
+function modifier_pucci_erace_disk_visual:IsHidden() return self:GetStackCount() == 0 end
+function modifier_pucci_erace_disk_visual:IsPurgable() return false end
+
+LinkLuaModifier("modifier_generic_knockback_lua", "modifiers/modifier_generic_knockback_lua.lua", LUA_MODIFIER_MOTION_BOTH )
+LinkLuaModifier("modifier_pucci_cmoon", "abilities/heroes/pucci", LUA_MODIFIER_MOTION_NONE)
 
 pucci_cmoon = class({})
 
-LinkLuaModifier("modifier_pucci_cmoon", "abilities/heroes/pucci", LUA_MODIFIER_MOTION_NONE)
-
 function pucci_cmoon:GetBehavior()
     local behavior = DOTA_ABILITY_BEHAVIOR_NO_TARGET + DOTA_ABILITY_BEHAVIOR_IMMEDIATE
-    if self:GetCaster():HasTalent("special_bonus_birzha_pucci_3") then
+    if self:GetCaster():HasTalent("special_bonus_birzha_pucci_5") then
         behavior = behavior + DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE
     end
     return behavior
@@ -204,7 +233,7 @@ end
 function pucci_cmoon:OnSpellStart()
     if not IsServer() then return end
     local caster = self:GetCaster()
-    local duration = self:GetSpecialValueFor("duration")
+    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_pucci_1")
     self:GetCaster():EmitSound("pucci_word_cmoon")
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_pucci_cmoon", {duration = duration})
 end
@@ -223,45 +252,26 @@ end
 
 function modifier_pucci_cmoon:OnDestroy()
     if not IsServer() then return end
-    local units = FindUnitsInRadius(
-        self:GetCaster():GetTeamNumber(),
-        self:GetCaster():GetAbsOrigin(),
-        nil,
-        self:GetAbility():GetSpecialValueFor("radius"),
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-        DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-        FIND_ANY_ORDER,
-        false
-    )
+    local radius = self:GetAbility():GetSpecialValueFor("radius")
+
+    local units = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_ANY_ORDER, false )
+
     local particle = ParticleManager:CreateParticle("particles/pucci/c_moon_knockback.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
     ParticleManager:SetParticleControl(particle, 0, self:GetCaster():GetAbsOrigin())
-    ParticleManager:SetParticleControl(particle, 1, Vector(self:GetAbility():GetSpecialValueFor("radius"),self:GetAbility():GetSpecialValueFor("radius"),self:GetAbility():GetSpecialValueFor("radius")))
-    for _,unit in pairs(units) do
+    ParticleManager:SetParticleControl(particle, 1, Vector( radius, radius, radius))
 
-        if not unit:IsMagicImmune() or self:GetCaster():HasTalent("special_bonus_birzha_pucci_5") then
-            local distance = (unit:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Length2D()
+    for _,unit in pairs(units) do
+        if not unit:IsMagicImmune() then
+            local distance = self:GetAbility():GetSpecialValueFor("movespeed_range") * self:GetCaster():GetIdealSpeed()
             local direction = (unit:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Normalized()
-            local bump_point = self:GetCaster():GetAbsOrigin() - direction * (distance + self:GetAbility():GetSpecialValueFor("movespeed_range") * self:GetCaster():GetIdealSpeed())
-            local knockbackProperties =
-            {
-                center_x = bump_point.x,
-                center_y = bump_point.y,
-                center_z = bump_point.z,
-                duration = 0.5,
-                knockback_duration = 0.5,
-                knockback_distance = self:GetAbility():GetSpecialValueFor("movespeed_range") * self:GetCaster():GetIdealSpeed(),
-                knockback_height = 300,
-                should_stun = true,
-            }
-            unit:RemoveModifierByName("modifier_knockback")
-            unit:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_knockback", knockbackProperties )
+            unit:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_generic_knockback_lua", { duration = 0.5, distance = distance, height = 200, direction_x = direction.x, direction_y = direction.y, IsStun = true})
         end
     end
 end
 
 function modifier_pucci_cmoon:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_TOTAL_CONSTANT_BLOCK
     }
     return funcs
@@ -272,7 +282,9 @@ function modifier_pucci_cmoon:GetModifierTotal_ConstantBlock(kv)
         local target                    = self:GetParent()
         if kv.damage > 0 and bit.band(kv.damage_flags, DOTA_DAMAGE_FLAG_HPLOSS) ~= DOTA_DAMAGE_FLAG_HPLOSS and bit.band(kv.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then
             if not self.attackers_list[ kv.attacker:entindex() ] then
-                local damageTable = {
+                
+                local damageTable = 
+                {
                     victim          = kv.attacker,
                     damage          = kv.original_damage * (self:GetAbility():GetSpecialValueFor("return_damage") / 100 ),
                     damage_type     = kv.damage_type,
@@ -280,11 +292,14 @@ function modifier_pucci_cmoon:GetModifierTotal_ConstantBlock(kv)
                     attacker        = self:GetParent(),
                     ability         = self:GetAbility()
                 }
-                if not kv.attacker:IsMagicImmune() or self:GetCaster():HasTalent("special_bonus_birzha_pucci_5") then
+
+                if not kv.attacker:IsMagicImmune() then
                     ApplyDamage(damageTable)
                     kv.attacker:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = self:GetAbility():GetSpecialValueFor("stun_duration")} )
                 end
+
                 self.attackers_list[ kv.attacker:entindex() ] = kv.attacker
+
                 local ability_pucci = self:GetCaster():FindAbilityByName("pucci_restart_world")
                 if ability_pucci and ability_pucci:GetLevel() > 0 then
                     if ability_pucci.current_quest[4] == false and ability_pucci.current_quest[1] == "pucci_quest_use_cmoon" then
@@ -300,24 +315,26 @@ function modifier_pucci_cmoon:GetModifierTotal_ConstantBlock(kv)
                         end
                     end
                 end
+
                 return kv.damage
             end
         end
     end
 end
 
-
-
-pucci_passive_wave = class({})
-
 LinkLuaModifier("modifier_pucci_passive_wave", "abilities/heroes/pucci", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_pucci_passive_wave_immortality", "abilities/heroes/pucci", LUA_MODIFIER_MOTION_NONE)
+
+pucci_passive_wave = class({})
 
 function pucci_passive_wave:GetIntrinsicModifierName()
     return "modifier_pucci_passive_wave"
 end
 
 modifier_pucci_passive_wave = class({})
+
+function modifier_pucci_passive_wave:IsHidden() return self:GetStackCount() == 0 end
+function modifier_pucci_passive_wave:IsPurgable() return false end
 
 function modifier_pucci_passive_wave:OnCreated()
     if not IsServer() then return end
@@ -326,12 +343,12 @@ function modifier_pucci_passive_wave:OnCreated()
 end
 
 function modifier_pucci_passive_wave:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_EVENT_ON_TAKEDAMAGE,
         MODIFIER_PROPERTY_TOOLTIP,
         MODIFIER_PROPERTY_MIN_HEALTH
     }
-
     return funcs
 end
 
@@ -342,6 +359,7 @@ end
 function modifier_pucci_passive_wave:OnTakeDamage( params )
     local max_stacks = self:GetAbility():GetSpecialValueFor("damage_need")
     if not IsServer() then return end
+
     if params.unit == self:GetParent() and params.attacker ~= self:GetParent() then
         if params.attacker:GetUnitName() ~= "dota_fountain" then
             if self:GetParent():HasModifier("modifier_pucci_passive_wave_immortality") then return end
@@ -369,6 +387,7 @@ function modifier_pucci_passive_wave:OnTakeDamage( params )
 end
 
 function modifier_pucci_passive_wave:GetMinHealth()
+    if self:GetParent():PassivesDisabled() then return end
     if not self:GetAbility():IsFullyCastable() then return end
     if self:GetStackCount() <= 0 then return end
     return 1
@@ -403,7 +422,8 @@ function modifier_pucci_passive_wave_immortality:OnDestroy()
 end
 
 function modifier_pucci_passive_wave_immortality:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_MIN_HEALTH,
     }
 
@@ -422,88 +442,15 @@ function modifier_pucci_passive_wave_immortality:GetEffectAttachType()
     return PATTACH_ABSORIGIN_FOLLOW
 end
 
-
-
-pucci_passive_dio = class({})
-
-LinkLuaModifier("modifier_pucci_passive_dio", "abilities/heroes/pucci", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_pucci_passive_dio_aura", "abilities/heroes/pucci", LUA_MODIFIER_MOTION_NONE)
-
-function pucci_passive_dio:GetIntrinsicModifierName()
-    return "modifier_pucci_passive_dio"
-end
-
-modifier_pucci_passive_dio = class({})
-
-function modifier_pucci_passive_dio:RemoveOnDeath() return false end
-
-function modifier_pucci_passive_dio:IsHidden() 
-    return true
-end
-
-function modifier_pucci_passive_dio:IsPurgable() return false end
-function modifier_pucci_passive_dio:IsDebuff() return false end
-
-function modifier_pucci_passive_dio:GetAuraRadius()
-    return -1
-end
-
-function modifier_pucci_passive_dio:GetAuraSearchFlags()
-    return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
-end
-
-function modifier_pucci_passive_dio:GetAuraSearchTeam()
-    return DOTA_UNIT_TARGET_TEAM_FRIENDLY
-end
-
-function modifier_pucci_passive_dio:GetAuraEntityReject(target)
-    if target:GetUnitName() == "npc_dota_hero_faceless_void" then
-        return false
-    else
-        return true
-    end
-end
-
-function modifier_pucci_passive_dio:GetAuraSearchType()
-    return DOTA_UNIT_TARGET_HERO
-end
-
-function modifier_pucci_passive_dio:GetModifierAura()
-    return "modifier_pucci_passive_dio_aura"
-end
-
-function modifier_pucci_passive_dio:IsAura()
-    return true
-end
-
-modifier_pucci_passive_dio_aura = class({})
-
-function modifier_pucci_passive_dio_aura:DeclareFunctions()
-    local funcs = {
-        MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE,
-        MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE
-    }
-
-    return funcs
-end
-
-function modifier_pucci_passive_dio_aura:GetModifierIncomingDamage_Percentage()
-    return self:GetAbility():GetSpecialValueFor("damage_in")
-end
-
-function modifier_pucci_passive_dio_aura:GetModifierDamageOutgoing_Percentage()
-    return self:GetAbility():GetSpecialValueFor("damage_out")
-end
-
-
-
-pucci_restart_world = class({})
-
 LinkLuaModifier("modifier_pucci_restart_world", "abilities/heroes/pucci", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_pucci_restart_world_thinker", "abilities/heroes/pucci", LUA_MODIFIER_MOTION_NONE)
 
-pucci_restart_world.quests = {
-    ["birzhamemov_solo"] = {
+pucci_restart_world = class({})
+
+pucci_restart_world.quests = 
+{
+    ["birzhamemov_solo"] = 
+    {
         ["pucci_quest_run"] = { "pucci_quest_run", 0, 20000, false},
         ["pucci_quest_use_nimb"] = { "pucci_quest_use_nimb", 0, 4, false},
         ["pucci_quest_use_erase_disk"] = { "pucci_quest_use_erase_disk", 0, 6, false},
@@ -519,7 +466,8 @@ pucci_restart_world.quests = {
         ["pucci_quest_time_acceleration"] = { "pucci_quest_time_acceleration", 0, 10, false},
         ["pucci_quest_stand_point"] = { "pucci_quest_stand_point", 0, 2, false},
     },
-    ["birzhamemov_wtf"] = {
+    ["birzhamemov_wtf"] = 
+    {
         ["pucci_quest_run"] = { "pucci_quest_run", 0, 20000, false},
         ["pucci_quest_use_nimb"] = { "pucci_quest_use_nimb", 0, 4, false},
         ["pucci_quest_use_erase_disk"] = { "pucci_quest_use_erase_disk", 0, 6, false},
@@ -535,7 +483,8 @@ pucci_restart_world.quests = {
         ["pucci_quest_time_acceleration"] = { "pucci_quest_time_acceleration", 0, 10, false},
         ["pucci_quest_stand_point"] = { "pucci_quest_stand_point", 0, 2, false},
     },
-    ["birzhamemov_duo"] = {
+    ["birzhamemov_duo"] = 
+    {
         ["pucci_quest_run"] = { "pucci_quest_run", 0, 25000, false},
         ["pucci_quest_use_nimb"] = { "pucci_quest_use_nimb", 0, 4, false},
         ["pucci_quest_use_erase_disk"] = { "pucci_quest_use_erase_disk", 0, 6, false},
@@ -551,7 +500,8 @@ pucci_restart_world.quests = {
         ["pucci_quest_time_acceleration"] = { "pucci_quest_time_acceleration", 0, 15, false},
         ["pucci_quest_stand_point"] = { "pucci_quest_stand_point", 0, 2, false},
     },
-    ["birzhamemov_trio"] = {
+    ["birzhamemov_trio"] = 
+    {
         ["pucci_quest_run"] = { "pucci_quest_run", 0, 30000, false},
         ["pucci_quest_use_nimb"] = { "pucci_quest_use_nimb", 0, 5, false},
         ["pucci_quest_use_erase_disk"] = { "pucci_quest_use_erase_disk", 0, 6, false},
@@ -567,7 +517,8 @@ pucci_restart_world.quests = {
         ["pucci_quest_time_acceleration"] = { "pucci_quest_time_acceleration", 0, 20, false},
         ["pucci_quest_stand_point"] = { "pucci_quest_stand_point", 0, 2, false},
     },
-    ["birzhamemov_5v5"] = {
+    ["birzhamemov_5v5"] = 
+    {
         ["pucci_quest_run"] = { "pucci_quest_run", 0, 35000, false},
         ["pucci_quest_use_nimb"] = { "pucci_quest_use_nimb", 0, 6, false},
         ["pucci_quest_use_erase_disk"] = { "pucci_quest_use_erase_disk", 0, 8, false},
@@ -583,7 +534,8 @@ pucci_restart_world.quests = {
         ["pucci_quest_time_acceleration"] = { "pucci_quest_time_acceleration", 0, 25, false},
         ["pucci_quest_stand_point"] = { "pucci_quest_stand_point", 0, 2, false},
     },
-    ["birzhamemov_5v5v5"] = {
+    ["birzhamemov_5v5v5"] = 
+    {
         ["pucci_quest_run"] = { "pucci_quest_run", 0, 50000, false},
         ["pucci_quest_use_nimb"] = { "pucci_quest_use_nimb", 0, 7, false},
         ["pucci_quest_use_erase_disk"] = { "pucci_quest_use_erase_disk", 0, 10, false},
@@ -599,7 +551,8 @@ pucci_restart_world.quests = {
         ["pucci_quest_time_acceleration"] = { "pucci_quest_time_acceleration", 0, 30, false},
         ["pucci_quest_stand_point"] = { "pucci_quest_stand_point", 0, 2, false},
     },
-    ["birzhamemov_zxc"] = {
+    ["birzhamemov_zxc"] = 
+    {
         ["pucci_quest_run"] = { "pucci_quest_run", 0, 20000, false},
         ["pucci_quest_use_nimb"] = { "pucci_quest_use_nimb", 0, 4, false},
         ["pucci_quest_use_erase_disk"] = { "pucci_quest_use_erase_disk", 0, 6, false},
@@ -619,7 +572,6 @@ pucci_restart_world.quests = {
 
 pucci_restart_world.current_quest = nil
 pucci_restart_world.word_count = 0
-
 pucci_restart_world.word_count_to_win = 0
 
 function pucci_restart_world:GetIntrinsicModifierName()
@@ -638,10 +590,6 @@ function pucci_restart_world:OnUpgrade()
     CustomGameEventManager:Send_ServerToPlayer(Player, "pucci_quest_event_activate", {} )
     if self:GetLevel() == 1 then
         self.current_quest = self.quests[GetMapName()]["pucci_quest_run"]
-        if IsInToolsMode() then
-            --self.current_quest = self.quests[GetMapName()]["pucci_quest_time_acceleration"]
-            --self.word_count = 14
-        end
         CustomGameEventManager:Send_ServerToPlayer(Player, "pucci_quest_event_set_quest", {quest_name = self.current_quest[1], min = self.current_quest[2], max = self.current_quest[3]} )
     end
     if self.word_count == 0 then
@@ -651,20 +599,12 @@ end
 
 function pucci_restart_world:OnSpellStart()
     if not IsServer() then return end
-    local units = FindUnitsInRadius(
-        self:GetCaster():GetTeamNumber(),
-        self:GetCaster():GetAbsOrigin(),
-        nil,
-        self:GetSpecialValueFor("radius"),
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-        0,
-        FIND_ANY_ORDER,
-        false
-    )
+    local units = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, self:GetSpecialValueFor("radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, FIND_ANY_ORDER, false )
+
+    local stun = self:GetSpecialValueFor("stun_duration")
 
     for _,unit in pairs(units) do
-        unit:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", {duration = self:GetSpecialValueFor("stun_duration")} )
+        unit:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", {duration = stun * (1-unit:GetStatusResistance())} )
     end
 
     self.word_count = self.word_count - 1
@@ -677,6 +617,7 @@ function pucci_restart_world:OnSpellStart()
     local mod = self:GetCaster():FindModifierByName("modifier_pucci_restart_world")
     if mod then
         mod:IncrementStackCount()
+        CustomGameEventManager:Send_ServerToAllClients("pucci_accept_quest", {count = mod:GetStackCount()} )
     end
 
     local particle = ParticleManager:CreateParticle("particles/pucci/ultimate.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
@@ -704,27 +645,31 @@ function modifier_pucci_restart_world:IsPurgable() return false end
 function modifier_pucci_restart_world:IsPurgeException() return false end
 function modifier_pucci_restart_world:RemoveOnDeath() return false end
 
+function modifier_pucci_restart_world:OnCreated()
+    if not IsServer() then return end
+    self:StartIntervalThink(1)
+end
+
+function modifier_pucci_restart_world:OnIntervalThink()
+    if not IsServer() then return end
+    local Player = PlayerResource:GetPlayer(self:GetCaster():GetPlayerID())
+    if Player then
+        if self:GetAbility().current_quest ~= nil then
+            CustomGameEventManager:Send_ServerToPlayer(Player, "pucci_quest_event_activate", {} )
+            CustomGameEventManager:Send_ServerToPlayer(Player, "pucci_quest_event_set_quest", {quest_name = self:GetAbility().current_quest[1], min = self:GetAbility().current_quest[2], max = self:GetAbility().current_quest[3]} )
+        end
+    end
+end
+
 function modifier_pucci_restart_world:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_EVENT_ON_ABILITY_EXECUTED,
         MODIFIER_EVENT_ON_DEATH,
         MODIFIER_PROPERTY_TOOLTIP,
         MODIFIER_EVENT_ON_UNIT_MOVED,
-        MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT,
-        MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE
     }
-
     return funcs
-end
-
-function modifier_pucci_restart_world:GetModifierMoveSpeedBonus_Constant()
-    if not self:GetParent():HasTalent("special_bonus_birzha_pucci_4") then return end
-    return 550
-end
-
-function modifier_pucci_restart_world:GetModifierIncomingDamage_Percentage()
-    if not self:GetParent():HasTalent("special_bonus_birzha_pucci_6") then return end
-    return -20
 end
 
 function modifier_pucci_restart_world:OnUnitMoved( params )

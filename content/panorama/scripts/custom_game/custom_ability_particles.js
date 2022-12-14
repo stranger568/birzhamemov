@@ -24,7 +24,7 @@ function Think()
 			vectorTargetParticle = Particles.CreateParticle("particles/ui_mouseactions/range_finder_ward_aoe.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, Players.GetLocalPlayerPortraitUnit() );
 		}
 		if ( (Abilities.GetLocalPlayerActiveAbility() != -1) && (Abilities.GetAbilityName(Abilities.GetLocalPlayerActiveAbility()) == "puchkov_pigs") ) {
-			vectorTargetParticle = Particles.CreateParticle("particles/ui_mouseactions/range_finder_cone.vpcf", ParticleAttachment_t.PATTACH_WORLDORIGIN, Players.GetLocalPlayerPortraitUnit() );
+			vectorTargetParticle = Particles.CreateParticle("particles/ui_mouseactions/custom_range_finder_cone.vpcf", ParticleAttachment_t.PATTACH_WORLDORIGIN, Players.GetLocalPlayerPortraitUnit() );
 		}
 
 	}
@@ -122,7 +122,7 @@ function Think()
 
 	    	Particles.SetParticleControl( vectorTargetParticle, 0, origin );
 			Particles.SetParticleControl( vectorTargetParticle, 1, origin );
-			Particles.SetParticleControl( vectorTargetParticle, 3, [125, 125, 125] );
+			Particles.SetParticleControl( vectorTargetParticle, 3, [125, 125, 1] );
 			Particles.SetParticleControl( vectorTargetParticle, 4, [0, 255, 0] );
 			Particles.SetParticleControl( vectorTargetParticle, 6, [1, 0, 0] );
 

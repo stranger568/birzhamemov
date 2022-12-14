@@ -39,13 +39,10 @@ end
 
 modifier_item_bristback = class({})
 
-function modifier_item_bristback:IsHidden()
-    return true
-end
-
-function modifier_item_bristback:IsPurgable()
-    return false
-end
+function modifier_item_bristback:IsHidden() return true end
+function modifier_item_bristback:IsPurgable() return false end
+function modifier_item_bristback:IsPurgeException() return false end
+function modifier_item_bristback:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_bristback:OnCreated()
 	self.armor = self:GetAbility():GetSpecialValueFor("bonus_armor")
@@ -64,7 +61,7 @@ function modifier_item_bristback:OnDestroy()
 end
 
 function modifier_item_bristback:DeclareFunctions()
-	return {MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS  }
+	return {MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS}
 end
 
 function modifier_item_bristback:GetModifierPhysicalArmorBonus()
@@ -78,34 +75,23 @@ function modifier_item_bristback_ship:IsHidden()
 end
 
 function modifier_item_bristback_ship:DeclareFunctions()
-	return {MODIFIER_EVENT_ON_ATTACK_LANDED  }
+	return {MODIFIER_EVENT_ON_ATTACK_LANDED}
 end
 
-function modifier_item_bristback_ship:OnAttackLanded( keys )
-    local chance = 25
-    local damage = 250
+function modifier_item_bristback_ship:OnAttackLanded( params )
     if not IsServer() then return end
-    if keys.target == self:GetParent() then
-        if self:GetParent():IsIllusion() then return end
-        if self:GetAbility():IsFullyCastable() then
-            if RandomInt(1, 100) <= chance then
-                self:GetParent():EmitSound("Hero_Bristleback.QuillSpray.Cast")
-                local spray = ParticleManager:CreateParticle("particles/econ/items/bristleback/bristle_spikey_spray/bristle_spikey_quill_spray.vpcf", PATTACH_ABSORIGIN, self:GetParent())
-				ParticleManager:SetParticleControl(spray, 0, self:GetParent():GetAbsOrigin())
-				ParticleManager:SetParticleControl(spray, 60, Vector(RandomInt(0, 255), RandomInt(0, 255), RandomInt(0, 255)))
-				ParticleManager:SetParticleControl(spray, 61, Vector(1, 0, 0))
-                local heroes = FindUnitsInRadius(self:GetCaster():GetTeamNumber(),self:GetParent():GetAbsOrigin(), nil, 625, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NONE,FIND_ANY_ORDER, false)
-                for _,hero in pairs(heroes) do
-                	hero:EmitSound("Hero_Bristleback.QuillSpray.Target")
-        		    local damageTable = {victim = hero,
-                    attacker = self:GetCaster(),
-                    damage = damage,
-                    ability = self:GetAbility(),
-                    damage_type = DAMAGE_TYPE_MAGICAL,
-                    }
-		 			ApplyDamage(damageTable)
-                end
-            end
+    if params.target ~= self:GetParent() then return end
+    if self:GetParent():IsIllusion() then return end
+
+    if RollPercentage(self:GetAbility():GetSpecialValueFor("chance_ship")) then
+        self:GetParent():EmitSound("Hero_Bristleback.QuillSpray.Cast")
+        local spray = ParticleManager:CreateParticle("particles/econ/items/bristleback/bristle_spikey_spray/bristle_spikey_quill_spray.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+        ParticleManager:SetParticleControl(spray, 0, self:GetParent():GetAbsOrigin())
+
+        local heroes = FindUnitsInRadius(self:GetCaster():GetTeamNumber(),self:GetParent():GetAbsOrigin(), nil, self:GetAbility():GetSpecialValueFor("radius_ship"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE,FIND_ANY_ORDER, false)
+        for _,hero in pairs(heroes) do
+            hero:EmitSound("Hero_Bristleback.QuillSpray.Target")
+            ApplyDamage({victim = hero, attacker = self:GetCaster(), damage = self:GetAbility():GetSpecialValueFor("damage_ship"), ability = self:GetAbility(), damage_type = DAMAGE_TYPE_MAGICAL})
         end
     end
 end

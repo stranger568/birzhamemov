@@ -1,6 +1,8 @@
 function RequestData(url, callback)
     local req = CreateHTTPRequestScriptVM("GET", url)
+
     req:Send(function(res)
+
         if res.StatusCode ~= 200 then
             print("[Birzha Request] Не удалось подключится к серверу")   
             return
@@ -14,7 +16,7 @@ function RequestData(url, callback)
 end
 
 function SendData(url, data, callback)
-		AUTH_KEY = GetDedicatedServerKeyV2('birzhamemov')
+		AUTH_KEY = GetDedicatedServerKeyV3('birzhamemov')
 		local token = AUTH_KEY
 		local req = CreateHTTPRequestScriptVM("POST", url)
 		local encoded = json.encode(data)

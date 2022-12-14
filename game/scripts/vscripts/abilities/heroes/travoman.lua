@@ -8,11 +8,10 @@ function travoman_land_mines:GetAOERadius()
 end
 
 function travoman_land_mines:GetCastRange(location, target)
-    local bonus_range = 0
     if self:GetCaster():HasScepter() then
-        bonus_range = 300
+        return self.BaseClass.GetCastRange(self, location, target) + self:GetSpecialValueFor("cast_range_scepter_bonus")
     end
-    return self.BaseClass.GetCastRange(self, location, target) + bonus_range
+    return self.BaseClass.GetCastRange(self, location, target)
 end
 
 function travoman_land_mines:OnSpellStart()
@@ -73,9 +72,7 @@ function modifier_travoman_land_mines:OnIntervalThink()
         self.gogo_damage = self.gogo_damage + FrameTime()
     end
 
-    print(self.gogo_damage, self.activation_delay, self.activation_delay + self:GetCaster():FindTalentValue("special_bonus_birzha_travoman_6"))
-
-    if self.gogo_damage >= self.activation_delay + self:GetCaster():FindTalentValue("special_bonus_birzha_travoman_6") then
+    if self.gogo_damage >= self.activation_delay + self:GetCaster():FindTalentValue("special_bonus_birzha_travoman_8") then
         self:Explosion()
     end
 end
@@ -91,10 +88,18 @@ function modifier_travoman_land_mines:Explosion()
     ParticleManager:SetParticleControl(particle_explosion_fx, 2, Vector(self.radius, 1, 1))
     ParticleManager:ReleaseParticleIndex(particle_explosion_fx)
 
-    local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_ANY_ORDER, false)
+    local flag = 0
+    local damage_type = DAMAGE_TYPE_MAGICAL
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_travoman_2") then
+        flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
+        damage_type = DAMAGE_TYPE_PHYSICAL
+    end
+
+    local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, FIND_ANY_ORDER, false)
 
     for _,enemy in pairs(enemies) do
-        ApplyDamage({ victim = enemy, attacker = self:GetCaster(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility(), damage_flags = DOTA_DAMAGE_FLAG_REFLECTION, })
+        ApplyDamage({ victim = enemy, attacker = self:GetCaster(), damage = self.damage, damage_type = damage_type, ability = self:GetAbility(), damage_flags = DOTA_DAMAGE_FLAG_REFLECTION, })
     end
 
     AddFOWViewer(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), self.radius, 1, false)
@@ -104,22 +109,22 @@ function modifier_travoman_land_mines:Explosion()
 end
 
 function modifier_travoman_land_mines:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_INVISIBLE] = true,
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
         [MODIFIER_STATE_MAGIC_IMMUNE] = true,
         [MODIFIER_STATE_ROOTED] = true,
     }
-
     return state
 end
 
 function modifier_travoman_land_mines:DeclareFunctions()
-    local decFuncs = {
+    local decFuncs = 
+    {
         MODIFIER_EVENT_ON_TAKEDAMAGE,
         MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE
     }
-
     return decFuncs
 end
 
@@ -130,9 +135,7 @@ end
 function modifier_travoman_land_mines:OnTakeDamage(keys)
     local unit = keys.unit
     local attacker = keys.attacker
-
     if keys.inflictor ~= nil then return end
-
     if unit == self:GetParent() then
         self:GetParent():Kill(self:GetAbility(), attacker)
     end
@@ -148,11 +151,10 @@ LinkLuaModifier( "modifier_travoman_stasis_trap_debuff", "abilities/heroes/travo
 travoman_stasis_trap = class({})
 
 function travoman_stasis_trap:GetCastRange(location, target)
-    local bonus_range = 0
     if self:GetCaster():HasScepter() then
-        bonus_range = 300
+        return self.BaseClass.GetCastRange(self, location, target) + self:GetSpecialValueFor("cast_range_scepter_bonus")
     end
-    return self.BaseClass.GetCastRange(self, location, target) + bonus_range
+    return self.BaseClass.GetCastRange(self, location, target)
 end
 
 function travoman_stasis_trap:GetAOERadius()
@@ -185,7 +187,6 @@ function travoman_stasis_trap:OnSpellStart()
     mine:AddNewModifier(self:GetCaster(), self, "modifier_travoman_stasis_trap", {})
     mine:AddNewModifier(self:GetCaster(), self, "modifier_kill", {duration = self:GetSpecialValueFor("duration")})
 end
-
 
 modifier_travoman_stasis_trap = class({})
 
@@ -239,22 +240,22 @@ function modifier_travoman_stasis_trap:Explosion()
 end
 
 function modifier_travoman_stasis_trap:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_INVISIBLE] = true,
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
         [MODIFIER_STATE_MAGIC_IMMUNE] = true,
         [MODIFIER_STATE_ROOTED] = true,
     }
-
     return state
 end
 
 function modifier_travoman_stasis_trap:DeclareFunctions()
-    local decFuncs = {
+    local decFuncs = 
+    {
         MODIFIER_EVENT_ON_TAKEDAMAGE,
         MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE
     }
-
     return decFuncs
 end
 
@@ -265,9 +266,7 @@ end
 function modifier_travoman_stasis_trap:OnTakeDamage(keys)
     local unit = keys.unit
     local attacker = keys.attacker
-
     if keys.inflictor ~= nil then return end
-
     if unit == self:GetParent() then
         self:GetParent():Kill(self:GetAbility(), attacker)
     end
@@ -281,9 +280,12 @@ modifier_travoman_stasis_trap_debuff = class({})
 
 function modifier_travoman_stasis_trap_debuff:CheckState()
     local state = {[MODIFIER_STATE_ROOTED] = true}
-    if self:GetCaster():HasTalent("special_bonus_birzha_travoman_5") then
-        state = {[MODIFIER_STATE_ROOTED] = true,
-        [MODIFIER_STATE_MUTED] = true}
+    if self:GetCaster():HasTalent("special_bonus_birzha_travoman_6") then
+        state = 
+        {
+            [MODIFIER_STATE_ROOTED] = true,
+            [MODIFIER_STATE_MUTED] = true
+        }
     end
     return state
 end
@@ -307,7 +309,7 @@ function travoman_suicide:GetAOERadius()
 end
 
 function travoman_suicide:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_travoman_2")
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_travoman_1")
 end
 
 function travoman_suicide:GetCastRange(location, target)
@@ -325,9 +327,11 @@ end
 modifier_travoman_suicide_buff = class({})
 
 function modifier_travoman_suicide_buff:IsPurgable() return false end
+function modifier_travoman_suicide_buff:IsHidden() return self:GetStackCount() == 0 end
 
 function modifier_travoman_suicide_buff:DeclareFunctions()
-    return {
+    return 
+    {
         MODIFIER_EVENT_ON_DEATH
     }
 end
@@ -425,7 +429,7 @@ function modifier_travoman_suicide:OnDestroy()
         self.radius  = self:GetAbility():GetSpecialValueFor("radius")
         self.damage  = self:GetAbility():GetSpecialValueFor("damage")
         self.duration  = self:GetAbility():GetSpecialValueFor("silence_duration")
-        EmitSoundOn("Hero_Techies.Suicide", self:GetCaster())
+        self:GetCaster():EmitSound("Hero_Techies.Suicide")
 
         local particle_explosion_fx = ParticleManager:CreateParticle("particles/econ/items/techies/techies_arcana/techies_suicide_arcana.vpcf", PATTACH_WORLDORIGIN, self:GetParent())
         ParticleManager:SetParticleControl(particle_explosion_fx, 0, self:GetParent():GetAbsOrigin())
@@ -447,11 +451,13 @@ function modifier_travoman_suicide:OnDestroy()
         for i,unit in ipairs(units) do
             ApplyDamage({ victim = unit, attacker = self:GetCaster(), ability = self:GetAbility(), damage = self.damage + self:GetAbility():GetSpecialValueFor("damage_per_charge") * stack, damage_type = DAMAGE_TYPE_MAGICAL })
             unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_travoman_suicide_debuff", {duration = self.duration * (1 - unit:GetStatusResistance())})
-            if self:GetCaster():HasTalent("special_bonus_birzha_travoman_4") then
-                unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_travoman_4")})
+            if self:GetCaster():HasTalent("special_bonus_birzha_travoman_5") then
+                unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_travoman_5") * (1-unit:GetStatusResistance())})
             end
         end
-        self:GetParent():SetHealth(math.max( self:GetParent():GetHealth() * 0.5, 1))
+        if not self:GetCaster():HasTalent("special_bonus_birzha_travoman_4") then
+            self:GetParent():SetHealth(math.max( self:GetParent():GetHealth() * 0.5, 1))
+        end
     end
 end
 
@@ -566,11 +572,10 @@ LinkLuaModifier("modifier_travoman_remote_mines", "abilities/heroes/travoman.lua
 travoman_remote_mines = class({})
 
 function travoman_remote_mines:GetCastRange(location, target)
-    local bonus_range = 0
     if self:GetCaster():HasScepter() then
-        bonus_range = 300
+        return self.BaseClass.GetCastRange(self, location, target) + self:GetSpecialValueFor("cast_range_scepter_bonus")
     end
-    return self.BaseClass.GetCastRange(self, location, target) + bonus_range
+    return self.BaseClass.GetCastRange(self, location, target)
 end
 
 function travoman_remote_mines:GetAOERadius()
@@ -584,12 +589,11 @@ function travoman_remote_mines:OnAbilityPhaseStart()
     ParticleManager:SetParticleControlEnt(self.particle_plant_fx, 3, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetCaster():GetAbsOrigin(), true)
     ParticleManager:SetParticleControl(self.particle_plant_fx, 1, point)
     ParticleManager:SetParticleControl(self.particle_plant_fx, 4, point)
-    ParticleManager:ReleaseParticleIndex(self.particle_plant_fx)
     return true
 end
 
 function travoman_remote_mines:OnAbilityPhaseInterrupted()
-    if self.particle_cast_fx then
+    if self.particle_plant_fx then
         ParticleManager:DestroyParticle(self.particle_plant_fx, true)
         ParticleManager:ReleaseParticleIndex(self.particle_plant_fx)
     end
@@ -633,16 +637,19 @@ function modifier_travoman_remote_mines:OnCreated()
 end
 
 function modifier_travoman_remote_mines:CheckState()
-    local state = {[MODIFIER_STATE_INVISIBLE] = true,
-                   [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
-                    [MODIFIER_STATE_MAGIC_IMMUNE] = true,
-                    [MODIFIER_STATE_ROOTED] = true,
-       }
+    local state = 
+    {
+        [MODIFIER_STATE_INVISIBLE] = true,
+        [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+        [MODIFIER_STATE_MAGIC_IMMUNE] = true,
+        [MODIFIER_STATE_ROOTED] = true,
+    }
     return state
 end
 
 function modifier_travoman_remote_mines:DeclareFunctions()
-    local decFuncs = {
+    local decFuncs = 
+    {
         MODIFIER_EVENT_ON_TAKEDAMAGE,
         MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE
     }
@@ -665,19 +672,6 @@ function modifier_travoman_remote_mines:OnTakeDamage(keys)
     end
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 LinkLuaModifier("modifier_travoman_focused_detonate_debuff", "abilities/heroes/travoman.lua", LUA_MODIFIER_MOTION_NONE)
 
 travoman_focused_detonate = class({})
@@ -690,7 +684,8 @@ modifier_travoman_focused_detonate_debuff = class({})
 
 function modifier_travoman_focused_detonate_debuff:IsPurgable() return false end
 function modifier_travoman_focused_detonate_debuff:DeclareFunctions()
-    return {
+    return 
+    {
         MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,
         MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
         MODIFIER_EVENT_ON_HERO_KILLED
@@ -715,35 +710,16 @@ function modifier_travoman_focused_detonate_debuff:OnHeroKilled( params )
     end
 end
 
-function modifier_travoman_focused_detonate_debuff:OnCreated()
-    if not IsServer() then return end
-    self:StartIntervalThink(FrameTime())
-    self.buff_mana_time = 0
-end
-
-function modifier_travoman_focused_detonate_debuff:OnIntervalThink()
-    if not IsServer() then return end
-    if self:GetCaster():HasTalent("special_bonus_birzha_travoman_3") then
-        self.buff_mana_time = self.buff_mana_time + FrameTime()
-        if self.buff_mana_time >= 5 then
-            self:GetCaster():GiveMana(self:GetCaster():GetMaxMana() * 0.075)
-            local particle = ParticleManager:CreateParticle("particles/econ/items/crystal_maiden/crystal_maiden_maiden_of_icewrack/cm_arcana_pup_lvlup.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
-            ParticleManager:SetParticleControl(particle, 0, self:GetCaster():GetAbsOrigin())
-            self.buff_mana_time = 0
-        end
-    end
-end
-
 function travoman_focused_detonate:GetAOERadius()
     return self:GetSpecialValueFor("radius")
 end
 
 function travoman_focused_detonate:OnSpellStart()
+    if not IsServer() then return end
     local point = self:GetCursorPosition()
     local detonate_ability = "travoman_remote_mines_self_detonate"
     local radius = self:GetSpecialValueFor("radius")
     local remote_mines = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), point, nil, radius, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_OTHER, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
-
     for i = 1, #remote_mines do
         Timers:CreateTimer(FrameTime()*(i-1), function()
             local detonate_ability_handler = remote_mines[i]:FindAbilityByName("travoman_remote_mines_self_detonate")
@@ -765,11 +741,13 @@ function travoman_remote_mines_self_detonate:Spawn()
 end
 
 function travoman_remote_mines_self_detonate:OnSpellStart()
+    if not IsServer() then return end
     local owner = self:GetCaster():GetOwner()
     local ability = owner:FindAbilityByName("travoman_remote_mines")
     local scepter = owner:HasShard()
     local damage = ability:GetSpecialValueFor("damage")
     local radius = ability:GetSpecialValueFor("radius")
+
     if scepter then
         damage = ability:GetSpecialValueFor("damage_scepter")
     end
@@ -784,10 +762,24 @@ function travoman_remote_mines_self_detonate:OnSpellStart()
     ParticleManager:SetParticleControl(particle_explosion_fx, 3, self:GetCaster():GetAbsOrigin())
     ParticleManager:ReleaseParticleIndex(particle_explosion_fx)
 
-    local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
+    local flag = 0
+
+    if owner:HasTalent("special_bonus_birzha_travoman_7") then
+        flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
+    end
+
+    print(flag)
+
+    local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, FIND_ANY_ORDER, false)
 
     for _,enemy in pairs(enemies) do
-        ApplyDamage({victim = enemy, attacker = owner, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = ability, damage_flags = DOTA_DAMAGE_FLAG_REFLECTION, })
+        local damage_type = DAMAGE_TYPE_MAGICAL
+        if owner:HasTalent("special_bonus_birzha_travoman_7") then
+            if enemy:IsMagicImmune() then
+                damage_type = DAMAGE_TYPE_PURE
+            end
+        end
+        ApplyDamage({victim = enemy, attacker = owner, damage = damage, damage_type = damage_type, ability = ability, damage_flags = DOTA_DAMAGE_FLAG_REFLECTION, })
     end
 
     self:GetCaster():ForceKill(true)
@@ -809,23 +801,15 @@ end
 function travoman_minefield_sign:IsRefreshable() return false end
 
 function travoman_minefield_sign:OnSpellStart()
+    if not IsServer() then return end
+
     local point = self:GetCursorPosition()
     self:GetCaster():EmitSound("Hero_Techies.Sign")
 
     local sign = CreateUnitByName("npc_dota_travoman_minefield_sign", point, false, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
     sign:AddNewModifier(self:GetCaster(), self, "modifier_travoman_minefield_sign", {})
-
-    if not self:GetCaster():HasTalent("special_bonus_birzha_travoman_7") then
-        sign:AddNewModifier(self:GetCaster(), self, "modifier_kill", {duration = self:GetSpecialValueFor("lifetime")})
-    end
-
+    sign:AddNewModifier(self:GetCaster(), self, "modifier_kill", {duration = self:GetSpecialValueFor("lifetime")})
     sign:SetForwardVector(self:GetCaster():GetForwardVector() * -1)
-
-    if not self:GetCaster():HasTalent("special_bonus_birzha_travoman_7") then
-        if self.assigned_sign and not self.assigned_sign:IsNull() then
-            self.assigned_sign:Destroy()
-        end
-    end
 
     self.assigned_sign = sign
 end
@@ -841,11 +825,13 @@ function modifier_travoman_minefield_sign:IsPurgable() return false end
 function modifier_travoman_minefield_sign:IsDebuff() return false end
 
 function modifier_travoman_minefield_sign:CheckState()
-    local state = {[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
-                   [MODIFIER_STATE_NO_HEALTH_BAR] = true,
-                   [MODIFIER_STATE_INVULNERABLE] = true,
-                   [MODIFIER_STATE_UNSELECTABLE] = true}
-
+    local state = 
+    {
+        [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+        [MODIFIER_STATE_NO_HEALTH_BAR] = true,
+        [MODIFIER_STATE_INVULNERABLE] = true,
+        [MODIFIER_STATE_UNSELECTABLE] = true
+    }
     return state
 end
 

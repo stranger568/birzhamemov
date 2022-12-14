@@ -115,6 +115,8 @@
 	{
 		"Ability1"					"ability_fountain"
 		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"VisionDaytimeRange"		"900"
+		"VisionNighttimeRange"		"900"
 	}
 
 	"npc_dota_courier"
@@ -588,6 +590,71 @@
 		"VisionDaytimeRange"		"1400"
 		"VisionNighttimeRange"		"1400"
 		"HasInventory"				"1"
+	}
+
+	"npc_dota_flag_ukraine_unit"
+	{										
+		"Model"						"models/flag_ukraine.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Pugna_NetherWard"			// Name of sound set.
+		"Level"						"0"
+		"ModelScale"				"1.5"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					""			// Ability 1
+		"Ability2"					""			// Ability 2
+		"Ability3"					""			// Ability 3
+		"Ability4"					""			// Ability 4
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			// Physical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"0"			// Damage range min.
+		"AttackDamageMax"			"0"			// Damage range max.	
+		"AttackRate"				"1.0"		// Speed of attack.
+		"AttackAnimationPoint"		"0.0"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"0"			// Range within a target can be acquired.
+		"AttackRange"				"0"			// Range within a target can be attacked.
+		"ProjectileModel"			""			// Particle system model for projectile.
+		"ProjectileSpeed"			"0"			// Speed of projectile.		   
+
+		// Bounds
+		//----------------------------------------------------------------
+		"HealthBarOffset"			"245"							 		
+		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"			// Hull type used for navigation/locomotion.
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"			// Experience earn.
+		"BountyGoldMin"				"100"		// Gold earned min.
+		"BountyGoldMax"				"100"		// Gold earned max.
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"				"150"		// Speed.
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"3"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"600"		// Range of vision during day light.
+		"VisionNighttimeRange"		"600"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_NEUTRALS"							// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_HERO"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_HERO"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_WARD"
 	}
 
 	//=================================================================================
@@ -2150,10 +2217,13 @@
         "BaseClass"             "npc_dota_creature"
         "Model"                 "models/items/lycan/ultimate/blood_moon_hunter_shapeshift_form/blood_moon_hunter_shapeshift_form.vmdl"
         "ModelScale"            "0.4"
+        "SoundSet"				"Lycan_Wolf"
         "Level"                 "55"
 		"IsSummoned"			"1"
         "HealthBarOffset"       "140"
         "HasInventory"          "0"
+        "Ability1"				"rin_blackish_Mayta"
+        "Ability2"				"rin_blackish_critical"
         "AttackCapabilities"    "DOTA_UNIT_CAP_MELEE_ATTACK"
         "AttackDamageType"      "DAMAGE_TYPE_ArmorPhysical"
         "AttackDamageMin"       "0"
@@ -2322,14 +2392,14 @@
 		"VisionDaytimeRange"		"1900"
 		"VisionNighttimeRange"		"800"
 	}
-		//=================================================================================
+	//=================================================================================
 	// Dread | 1 Уровень
 	//=================================================================================
 	
 	"npc_dota_dread_1"
 	{										
 		"Model"						"models/items/courier/nexon_turtle_01_grey/nexon_turtle_01_grey.vmdl"
-		"BaseClass"					"npc_dota_brewmaster_earth"
+		"BaseClass"					"npc_dota_creature"
 		"IdleExpression"			"scenes/brewmaster/brewmaster_spirits_exp_idle_01.vcd"		// custom facial animation idle
 		"SoundSet"					"Brewmaster_Earth"			// Name of sound set.
 		"Level"						"7"
@@ -2370,7 +2440,7 @@
 	"npc_dota_dread_2"
 	{										
 		"Model"						"models/items/courier/nexon_turtle_09_blue/nexon_turtle_09_blue.vmdl"
-		"BaseClass"					"npc_dota_brewmaster_earth"
+		"BaseClass"					"npc_dota_creature"
 		"IdleExpression"			"scenes/brewmaster/brewmaster_spirits_exp_idle_01.vcd"		// custom facial animation idle
 		"SoundSet"					"Brewmaster_Earth"			// Name of sound set.
 		"Level"						"7"
@@ -2411,7 +2481,7 @@
 	"npc_dota_dread_3"
 	{										
 		"Model"						"models/items/courier/nexon_turtle_15_red/nexon_turtle_15_red.vmdl"
-		"BaseClass"					"npc_dota_brewmaster_earth"
+		"BaseClass"					"npc_dota_creature"
 		"IdleExpression"			"scenes/brewmaster/brewmaster_spirits_exp_idle_01.vcd"
 		"SoundSet"					"Brewmaster_Earth"
 		"Level"						"7"
@@ -2466,10 +2536,11 @@
 		"Ability2"					"Xbost_two_rapier"
 		"ArmorPhysical"				"0"			
 		"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
-		"AttackDamageMin"			"3"		
+		"AttackDamageMin"			"0"
+		"AttackDamageMax"			"0"	
 		"ProjectileModel"			"particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_base_attack.vpcf"
 		"AttackDamageMax"			"5"			
-		"AttackRate"				"1.35"		
+		"AttackRate"				"1.4"		
 		"AttackAnimationPoint"		"0.3"		
 		"AttackAcquisitionRange"	"600"		
 		"AttackRange"				"500"		
@@ -2521,9 +2592,9 @@
 		"Ability2"					"Xbost_two_rapier"	
 		"ArmorPhysical"				"0"			
 		"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
-		"AttackDamageMin"			"3"		
-		"AttackDamageMax"			"5"			
-		"AttackRate"				"0.85"		
+		"AttackDamageMin"			"0"
+		"AttackDamageMax"			"0"			
+		"AttackRate"				"1.4"		
 		"ProjectileModel"			"particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_base_attack.vpcf"
 		"AttackAnimationPoint"		"0.3"		
 		"AttackAcquisitionRange"	"600"		
@@ -2577,8 +2648,9 @@
 		"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
 		"AttackDamageMin"			"3"		
 		"ProjectileModel"			"particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_base_attack.vpcf"
-		"AttackDamageMax"			"5"			
-		"AttackRate"				"0.1"		
+		"AttackDamageMin"			"0"
+		"AttackDamageMax"			"0"			
+		"AttackRate"				"1.4"		
 		"AttackAnimationPoint"		"0.3"		
 		"AttackAcquisitionRange"	"600"		
 		"AttackRange"				"500"		
@@ -2628,13 +2700,13 @@
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttackDamageMin"			"50"		
 		"AttackDamageMax"			"50"			
-		"AttackRate"				"0.1"		
-		"AttackAnimationPoint"		"0.1"		
+		"AttackRate"				"0.5"		
+		"AttackAnimationPoint"		"0.5"		
 		"AttackAcquisitionRange"	"600"		
 		"AttackRange"				"128"		
 		"HealthBarOffset"			"160"
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
-		"MovementSpeed"				"1000"		
+		"MovementSpeed"				"550"		
 		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"			
 		"StatusHealth"				"1500"		
 		"StatusHealthRegen"			"2"		
@@ -2674,13 +2746,13 @@
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttackDamageMin"			"100"		
 		"AttackDamageMax"			"100"			
-		"AttackRate"				"0.1"		
-		"AttackAnimationPoint"		"0.1"		
+		"AttackRate"				"0.4"		
+		"AttackAnimationPoint"		"0.4"		
 		"AttackAcquisitionRange"	"600"		
 		"AttackRange"				"128"		
 		"HealthBarOffset"			"160"
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
-		"MovementSpeed"				"1000"		
+		"MovementSpeed"				"650"		
 		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"			
 		"StatusHealth"				"1700"		
 		"StatusHealthRegen"			"2"		
@@ -2720,13 +2792,13 @@
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttackDamageMin"			"150"		
 		"AttackDamageMax"			"150"			
-		"AttackRate"				"0.1"		
-		"AttackAnimationPoint"		"0.1"		
+		"AttackRate"				"0.3"		
+		"AttackAnimationPoint"		"0.3"		
 		"AttackAcquisitionRange"	"600"		
 		"AttackRange"				"128"		
 		"HealthBarOffset"			"160"
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
-		"MovementSpeed"				"1000"		
+		"MovementSpeed"				"750"		
 		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"			
 		"StatusHealth"				"1900"		
 		"StatusHealthRegen"			"2"		
@@ -2757,31 +2829,23 @@
 		"Model"						"models/heroes/polnaref/chariot.vmdl"
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"Hero_Pangolier"
-		"HasInventory"          	"1"
+		"HasInventory"          	"0"
 		"Level"						"15"
 		"ModelScale"				"1.2"
 		"IsSummoned"				"1"
 		"IsAncient"					"1"
 		"ConsideredHero"			"1"
-
 		"Ability1"					"polnaref_rapier"
 		"Ability2"					"polnaref_shoot"
 		"Ability3"					"polnaref_silver_rage"
 		"Ability4"					"polnaref_chariotarmor"
 		"Ability5"					"generic_hidden"
 		"Ability6"					"polnaref_afterimage"
-		"Ability7"					"polnaref_sleep"
-		"Ability8"					"polnaref_regeneration"
-		"Ability9"					"polnaref_return"
-		"Ability10"					"polnaref_darkheart"
-
-
-
 		"ArmorPhysical"				"0"
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttackDamageMin"			"0"
 		"AttackDamageMax"			"0"
-		"BaseAttackSpeed"			"0"
+		"BaseAttackSpeed"			"200"
 		"AttackRate"				"1.7"
 		"AttackAnimationPoint"		"0.5"
 		"AttackAcquisitionRange"	"190"
@@ -2797,7 +2861,8 @@
 		"MovementTurnRate"			"0.6"
 		"StatusHealth"				"1"
 		"StatusHealthRegen"			"1"
-		"StatusMana"            	"0"
+		"StatusMana"            	"700"
+		"StatusManaRegen"			"7"	
 		"VisionDaytimeRange"		"1400"
 		"VisionNighttimeRange"		"800"
 		"HealthBarOffset"			"300"
@@ -2805,7 +2870,7 @@
 		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
 		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_HERO"
 		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
-		"MagicalResistance"			"0"
+		"MagicalResistance"			"25"
 	}
 
 	"npc_palnoref_chariot_illusion"
@@ -3054,10 +3119,11 @@
 	
 	"npc_dio_theworld_1"
 	{										
-		"Model"						"models/heroes/the_world/the_world.vmdl"
+		"Model"						"models/heroes/anime/jojo/the_world/the_world.vmdl"
 		"BaseClass"					"npc_dota_creature"
 		"Level"						"15"
-		"ModelScale"				"2"
+		"SoundSet"					"Hero_Marci"
+		"ModelScale"				"1.2"
 		"ConsideredHero"			"1"
 		"IsSummoned"				"1"
 		"IsAncient"					"1"
@@ -3065,7 +3131,6 @@
 		"UnitLabel"					"theworld"
 		"Ability1"					"Dio_MudaMudaMuda"
 		"Ability2"					"Dio_Za_Warudo"
-		"Ability3"					"neutral_spell_immunity"
 		"ArmorPhysical"				"10"
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttackDamageMin"			"150"
@@ -3073,7 +3138,7 @@
 		"AttackRate"				"1.25"
 		"AttackAnimationPoint"		"0.5"
 		"AttackAcquisitionRange"	"600"
-		"AttackRange"				"550"
+		"AttackRange"				"150"
 		"ProjectileModel"			"particles/units/heroes/hero_beastmaster/beastmaster_boar_attack.vpcf"
 		"ProjectileSpeed"			"1500"
 		"HealthBarOffset"			"125"
@@ -3107,10 +3172,11 @@
 	
 	"npc_dio_theworld_2"
 	{										
-		"Model"						"models/heroes/the_world/the_world.vmdl"
+		"Model"						"models/heroes/anime/jojo/the_world/the_world.vmdl"
 		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Marci"
 		"Level"						"15"
-		"ModelScale"				"3"
+		"ModelScale"				"1.2"
 		"IsSummoned"				"1"
 		"IsAncient"					"1"
 		"ConsideredHero"			"1"
@@ -3118,7 +3184,6 @@
 		"UnitLabel"					"theworld"
 		"Ability1"					"Dio_MudaMudaMuda"
 		"Ability2"					"Dio_Za_Warudo"
-		"Ability3"					"neutral_spell_immunity"
 		"ArmorPhysical"				"20"
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttackDamageMin"			"300"
@@ -3126,7 +3191,7 @@
 		"AttackRate"				"1.25"
 		"AttackAnimationPoint"		"0.5"
 		"AttackAcquisitionRange"	"600"
-		"AttackRange"				"550"
+		"AttackRange"				"150"
 		"ProjectileModel"			"particles/units/heroes/hero_beastmaster/beastmaster_boar_attack.vpcf"
 		"ProjectileSpeed"			"1500"
 		"HealthBarOffset"			"125"
@@ -3160,10 +3225,11 @@
 	
 	"npc_dio_theworld_3"
 	{										
-		"Model"						"models/heroes/the_world/the_world.vmdl"
+		"Model"						"models/heroes/anime/jojo/the_world/the_world.vmdl"
 		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Marci"
 		"Level"						"15"
-		"ModelScale"				"4"
+		"ModelScale"				"1.2"
 		"IsSummoned"				"1"
 		"IsAncient"					"1"
 		"ConsideredHero"			"1"
@@ -3171,7 +3237,6 @@
 		"UnitLabel"					"theworld"
 		"Ability1"					"Dio_MudaMudaMuda"
 		"Ability2"					"Dio_Za_Warudo"
-		"Ability3"					"neutral_spell_immunity"
 		"ArmorPhysical"				"30"
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttackDamageMin"			"600"
@@ -3179,7 +3244,7 @@
 		"AttackRate"				"1.25"
 		"AttackAnimationPoint"		"0.5"
 		"AttackAcquisitionRange"	"600"
-		"AttackRange"				"550"
+		"AttackRange"				"150"
 		"ProjectileModel"			"particles/units/heroes/hero_beastmaster/beastmaster_boar_attack.vpcf"
 		"ProjectileSpeed"			"1500"  
 		"HealthBarOffset"			"125"

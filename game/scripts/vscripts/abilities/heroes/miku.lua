@@ -1,5 +1,6 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_miku_MusicWave", "abilities/heroes/miku.lua", LUA_MODIFIER_MOTION_NONE )
+
 LinkLuaModifier( "modifier_Miku_ritmic_song", "abilities/heroes/miku.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_Miku_ritmic_song_buff", "abilities/heroes/miku.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_Miku_ritmic_song_debuff", "abilities/heroes/miku.lua", LUA_MODIFIER_MOTION_NONE )
@@ -44,22 +45,17 @@ function modifier_miku_MusicWave:GetAttributes()	return MODIFIER_ATTRIBUTE_MULTI
 
 function modifier_miku_MusicWave:OnCreated(keys)
 	if not IsServer() or not self:GetAbility() then return end
-	self.int = self:GetCaster():GetIntellect() * self:GetAbility():GetSpecialValueFor("int_mult")
-	self.arc_damage			= self:GetAbility():GetSpecialValueFor("damage") + self.int + self:GetCaster():FindTalentValue("special_bonus_birzha_miku_2")
-	self.radius				= 550
+	self.int = self:GetCaster():GetIntellect() * (self:GetAbility():GetSpecialValueFor("int_mult") + self:GetCaster():FindTalentValue("special_bonus_birzha_miku_4"))
+	self.arc_damage			= self:GetAbility():GetSpecialValueFor("damage") + self.int + self:GetCaster():FindTalentValue("special_bonus_birzha_miku_1")
+	self.radius				= self:GetAbility():GetSpecialValueFor("radius") 
 	self.jump_delay			= 0.25
 	self.jump_count			= 10
+	self.silence_duration = self:GetAbility():GetSpecialValueFor("silence_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_miku_2")
 	self.buff_skill = false
 	self.damage_type = DAMAGE_TYPE_MAGICAL
-
-	if self:GetCaster():HasTalent("special_bonus_birzha_miku_5") then
-		self.damage_type = DAMAGE_TYPE_PURE
-	end
-
-	
 	self.starting_unit_entindex	= keys.starting_unit_entindex
 	self.units_affected			= {}
-	
+
 	if self.starting_unit_entindex and EntIndexToHScript(self.starting_unit_entindex) then
 		self.current_unit						= EntIndexToHScript(self.starting_unit_entindex)
 		self.units_affected[self.current_unit]	= 1
@@ -72,7 +68,7 @@ function modifier_miku_MusicWave:OnCreated(keys)
 				attacker 		= self:GetCaster(),
 				ability 		= self:GetAbility()
 			})
-			self.current_unit:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_silence", { duration = 0.5 } )
+			self.current_unit:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_silence", { duration = self.silence_duration * (1-self.current_unit:GetStatusResistance()) } )
 		else
 			self.current_unit:Heal(self.arc_damage, self:GetAbility())
 		end
@@ -87,7 +83,7 @@ function modifier_miku_MusicWave:OnCreated(keys)
 		return
 	end
 	
-	self.unit_counter			= 0
+	self.unit_counter = 0
 	self:StartIntervalThink(self.jump_delay)
 end
 
@@ -123,15 +119,21 @@ function modifier_miku_MusicWave:OnIntervalThink()
 						attacker 		= self:GetCaster(),
 						ability 		= self:GetAbility()
 					})
-					enemy:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_silence", { duration = 0.5 } )
+					enemy:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_silence", { duration = self.silence_duration * (1-enemy:GetStatusResistance()) } )
 					if self.buff_skill then
-						enemy:AddNewModifier(self:GetCaster(), self:GetCaster():FindAbilityByName("Miku_ritmic_song"), "modifier_Miku_ritmic_song_debuff", { duration =  self:GetCaster():FindAbilityByName("Miku_ritmic_song"):GetSpecialValueFor("debuff_duration") })
+						local Miku_ritmic_song = self:GetCaster():FindAbilityByName("Miku_ritmic_song")
+						if Miku_ritmic_song and Miku_ritmic_song:GetLevel() > 0 then
+							enemy:AddNewModifier(self:GetCaster(), self:GetCaster():FindAbilityByName("Miku_ritmic_song"), "modifier_Miku_ritmic_song_debuff", { duration =  self:GetCaster():FindAbilityByName("Miku_ritmic_song"):GetSpecialValueFor("debuff_duration") * (1 - enemy:GetStatusResistance()) })
+						end
 					end
 					break
 				else
 					enemy:Heal(self.arc_damage, self:GetAbility())
 					if self.buff_skill then
-						enemy:AddNewModifier(self:GetCaster(), self:GetCaster():FindAbilityByName("Miku_ritmic_song"), "modifier_Miku_ritmic_song_buff", {duration =  self:GetCaster():FindAbilityByName("Miku_ritmic_song"):GetSpecialValueFor("buff_duration")})
+						local Miku_ritmic_song = self:GetCaster():FindAbilityByName("Miku_ritmic_song")
+						if Miku_ritmic_song and Miku_ritmic_song:GetLevel() > 0 then
+							enemy:AddNewModifier(self:GetCaster(), self:GetCaster():FindAbilityByName("Miku_ritmic_song"), "modifier_Miku_ritmic_song_buff", {duration =  self:GetCaster():FindAbilityByName("Miku_ritmic_song"):GetSpecialValueFor("buff_duration")})
+						end
 					end
 					break
 				end
@@ -165,22 +167,22 @@ function Miku_MusicBarrier:GetManaCost(level)
 end
 
 function Miku_MusicBarrier:GetAOERadius()
-	return self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_miku_7")
+	return self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_miku_3")
 end
 
 function Miku_MusicBarrier:OnSpellStart()
+	if not IsServer() then return end
 	local duration = self:GetSpecialValueFor("duration")
-	CreateModifierThinker(self:GetCaster(), self, "modifier_miku_MusicBarrier", {
-		duration = duration
-	}, self:GetCursorPosition(), self:GetCaster():GetTeamNumber(), false)
+	CreateModifierThinker(self:GetCaster(), self, "modifier_miku_MusicBarrier", {duration = duration}, self:GetCursorPosition(), self:GetCaster():GetTeamNumber(), false)
 end
 
 modifier_miku_MusicBarrier = class({})
 modifier_miku_MusicBarrier.units = {}
+
 function modifier_miku_MusicBarrier:OnCreated()
-	self.units = {}
-	self.radius = self:GetAbility():GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_miku_7")
+	self.radius = self:GetAbility():GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_miku_3")
 	if not IsServer() then return end
+	self.units = {}
 	self:GetCaster():EmitSound("MikuBarrier")
 	self.particle = ParticleManager:CreateParticle("particles/miku/miku_musicbarrier.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
 	ParticleManager:SetParticleControl(self.particle, 1, Vector(self.radius, self.radius, 1))
@@ -203,6 +205,8 @@ function modifier_miku_MusicBarrier:GetModifierAura()			return "modifier_miku_Mu
 
 modifier_miku_MusicBarrier_buff = class({})
 
+function modifier_miku_MusicBarrier_buff:IsHidden() return self:GetCaster():GetTeamNumber() ~= self:GetParent():GetTeamNumber() end
+
 function modifier_miku_MusicBarrier_buff:OnCreated()
 	if not IsServer() then return end
 	if self:GetCaster():GetTeamNumber() == self:GetParent():GetTeamNumber() then return end
@@ -212,8 +216,6 @@ function modifier_miku_MusicBarrier_buff:OnCreated()
 		self:GetAuraOwner():FindModifierByName("modifier_miku_MusicBarrier").units[self:GetParent():entindex()] = self:GetParent()
 	end
 end
-
-
 
 function modifier_miku_MusicBarrier_buff:DeclareFunctions()
 	return {MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT}
@@ -229,7 +231,7 @@ LinkLuaModifier("modifier_Miku_HealSound", "abilities/heroes/miku", LUA_MODIFIER
 Miku_HealSound = class({}) 
 
 function Miku_HealSound:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_miku_1")
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_miku_7")
 end
 
 function Miku_HealSound:GetCastRange(location, target)
@@ -246,49 +248,27 @@ function modifier_Miku_HealSound:IsHidden()      return true end
 function modifier_Miku_HealSound:IsPurgable()    return false end
 
 function modifier_Miku_HealSound:DeclareFunctions()
-    return {
+    return 
+    {
         MODIFIER_EVENT_ON_ATTACK_LANDED,
     }
 end
 
-function modifier_Miku_HealSound:OnAttackLanded( keys )
+function modifier_Miku_HealSound:OnAttackLanded( params )
     if not IsServer() then return end
-    local attacker = self:GetParent()
+	if params.attacker ~= self:GetParent() then return end
+	if params.attacker:IsIllusion() then return end
+	if params.attacker:PassivesDisabled() then return end
+	if params.target:IsWard() then return end
 
-    if attacker ~= keys.attacker then
-        return
-    end
-
-    if attacker:PassivesDisabled() or attacker:IsIllusion() then
-        return
-    end
-
-    local target = keys.target
-
-    if attacker:GetTeam() == target:GetTeam() then
-        return
-    end 
-
-	if target:IsOther() then
-		return nil
-	end
-
+	local target = params.target
     local heal = self:GetAbility():GetSpecialValueFor("heal")
-	local heal_percent = (self:GetAbility():GetSpecialValueFor("heal_percent") + self:GetCaster():FindTalentValue("special_bonus_birzha_miku_3")) / 100
+	local heal_percent = (self:GetAbility():GetSpecialValueFor("heal_percent") + self:GetCaster():FindTalentValue("special_bonus_birzha_miku_5")) / 100
 	local radius = self:GetAbility():GetSpecialValueFor("radius")
 
     if self:GetAbility():IsFullyCastable() then        
     	local particle = ParticleManager:CreateParticle("particles/miku/miku_healsound.vpcf",  PATTACH_ABSORIGIN, self:GetParent())   
-		local targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(),
-			self:GetParent():GetAbsOrigin(),
-			nil,
-			radius,
-			DOTA_UNIT_TARGET_TEAM_FRIENDLY,
-			DOTA_UNIT_TARGET_HERO,
-			DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-			FIND_ANY_ORDER,
-			false)
-
+		local targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_ANY_ORDER, false)
 		for _,unit in pairs(targets) do
 			local fullheal = heal + (unit:GetMaxHealth() * heal_percent)
 			unit:Heal(fullheal, self:GetAbility())
@@ -297,7 +277,6 @@ function modifier_Miku_HealSound:OnAttackLanded( keys )
         self:GetParent():EmitSound("MikuUhh")
     end
 end
-
 
 LinkLuaModifier("modifier_Miku_DanceSong_aura", "abilities/heroes/miku", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_Miku_DanceSong_debuff", "abilities/heroes/miku", LUA_MODIFIER_MOTION_NONE)
@@ -333,7 +312,7 @@ end
 
 function Miku_DanceSong:OnSpellStart()
 	if not IsServer() then return end
-	local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_miku_4")
+	local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_miku_8")
 	local pfx = ParticleManager:CreateParticle("particles/units/heroes/hero_siren/naga_siren_siren_song_cast.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
 	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Miku_DanceSong_aura", {duration = duration})
 	self:GetCaster():EmitSound("MikuUltimate")
@@ -376,18 +355,23 @@ function modifier_Miku_DanceSong_debuff:IsPurgeException() return false end
 
 function modifier_Miku_DanceSong_debuff:OnCreated()
 	if not IsServer() then return end
-	self:StartIntervalThink(1)
+	self:StartIntervalThink(FrameTime())
 	self:OnIntervalThink()
 	self.pfx = ParticleManager:CreateParticle("particles/units/heroes/hero_siren/naga_siren_song_debuff.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
 end
 
 function modifier_Miku_DanceSong_debuff:OnIntervalThink()
 	if not IsServer() then return end
+
 	if self:GetParent():IsMagicImmune() then return end
+
 	local mana = self:GetAbility():GetSpecialValueFor("mana_spend") / 100
-	local reduce_mana = self:GetParent():GetMana() * mana
+	local reduce_mana = (self:GetParent():GetMana() * mana) * FrameTime()
+
 	if ( self:GetParent():GetMana() >= reduce_mana ) then
+
 		self:GetParent():ReduceMana(reduce_mana)
+
 		if self:GetCaster():GetMana() < self:GetCaster():GetMaxMana() then
 			self:GetCaster():GiveMana(reduce_mana)
 		else
@@ -415,14 +399,17 @@ end
 
 function modifier_Miku_DanceSong_debuff:CheckState()
 	if self:GetParent():IsMagicImmune() then return end
-    local state = {
+
+    local state = 
+    {
 		[MODIFIER_STATE_INVULNERABLE] = true,
 		[MODIFIER_STATE_NIGHTMARED] = true,
 		[MODIFIER_STATE_STUNNED] = true,
     }
 
     if self:GetCaster():HasScepter() then
-		state = {
+		state = 
+		{
 			[MODIFIER_STATE_NIGHTMARED] = true,
 			[MODIFIER_STATE_STUNNED] = true,
 	    }
@@ -432,25 +419,21 @@ function modifier_Miku_DanceSong_debuff:CheckState()
 end
 
 function modifier_Miku_DanceSong_debuff:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE,
     }
-
     return funcs
 end
 
 function modifier_Miku_DanceSong_debuff:GetModifierIncomingDamage_Percentage()
-	if not self:GetParent():IsMagicImmune() then return 0 end
-    return self:GetAbility():GetSpecialValueFor("bonus_damage")
+	if self:GetParent():IsMagicImmune() then
+   		return self:GetAbility():GetSpecialValueFor("bonus_damage")
+   	end
+   	if self:GetCaster():HasScepter() then
+   		return self:GetAbility():GetSpecialValueFor("scepter_damage")
+   	end
 end
-
-
-
-
-
-
-
-
 
 Miku_DanceSong_cancel = class({})
 
@@ -479,28 +462,33 @@ function Miku_ritmic_song:OnSpellStart()
 		local base_mana = self:GetSpecialValueFor("base_mana")
 		local perc_mana = self:GetSpecialValueFor("perc_mana")
 		local mana = base_mana + (self:GetCaster():GetMaxMana() / 100 * perc_mana)
+
 		if self:GetCaster():GetTeamNumber() ~= target:GetTeamNumber() then
 			if target:TriggerSpellAbsorb(self) then return end
 		end
+
 		self:GetCaster():EmitSound("MikuStart")
+
 		if target:IsIllusion() then
         	target:Kill( self, self:GetCaster() )
     	end
+
 		if self:GetCaster():GetTeamNumber() == target:GetTeamNumber() then
 			target:GiveMana(mana)
 			target:AddNewModifier(self:GetCaster(), self, "modifier_Miku_ritmic_song_buff", {duration =  self:GetSpecialValueFor("debuff_duration")})
 		else 
 			target:SpendMana( mana, self )
-			target:AddNewModifier(self:GetCaster(), self, "modifier_Miku_ritmic_song_debuff", { duration =  self:GetSpecialValueFor("debuff_duration") })
+			target:AddNewModifier(self:GetCaster(), self, "modifier_Miku_ritmic_song_debuff", { duration =  self:GetSpecialValueFor("debuff_duration") * (1-target:GetStatusResistance()) })
 		end
+
 		target:AddNewModifier(self:GetCaster(), self, "modifier_Miku_ritmic_song", {duration = self:GetSpecialValueFor("duration")}) 
 	end
 end
 
 modifier_Miku_ritmic_song = class({})
 
-function modifier_Miku_ritmic_song:IsPurgable() return false end
-function modifier_Miku_ritmic_song:IsPurgeException() return false end
+function modifier_Miku_ritmic_song:IsPurgable() return true end
+function modifier_Miku_ritmic_song:IsPurgeException() return true end
 
 function modifier_Miku_ritmic_song:OnCreated()
 	if not IsServer() then return end
@@ -509,7 +497,6 @@ end
 
 function modifier_Miku_ritmic_song:OnDestroy()
 	if not IsServer() then return end
-
 	if self.pfx then
 		ParticleManager:DestroyParticle(self.pfx, false)
 		ParticleManager:ReleaseParticleIndex(self.pfx)
@@ -547,32 +534,15 @@ end
 function modifier_Miku_ritmic_song_buff:OnAttackLanded( keys )
 	if not IsServer() then return end
 	local attacker = self:GetParent()
-
 	if attacker ~= keys.attacker then
 		return
 	end
-
-	if attacker:IsIllusion() or attacker:PassivesDisabled() then
-		return
-	end
-
-	local target = keys.target
-	if attacker:GetTeam() == target:GetTeam() then
-		return
-	end	
-
-	if target:IsOther() then
-		return nil
-	end
-
+	keys.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_Miku_ritmic_song_movespeed", {duration = self:GetAbility():GetSpecialValueFor("buff_duration")}) 
 	self:SetStackCount(self:GetStackCount() - 1)
 	if self:GetStackCount() <= 0 then
-		if not self:IsNull() then
-            self:Destroy()
-        end
+        self:Destroy()
 		return
 	end
-	target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_Miku_ritmic_song_movespeed", {duration = self:GetAbility():GetSpecialValueFor("buff_duration")}) 
 end
 
 modifier_Miku_ritmic_song_movespeed = class({})
@@ -594,6 +564,7 @@ function modifier_Miku_ritmic_song_movespeed:DeclareFunctions()
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
 	}
 end
+
 function modifier_Miku_ritmic_song_movespeed:GetModifierMoveSpeedBonus_Percentage()
 	return self.mv
 end
@@ -630,29 +601,12 @@ end
 function modifier_Miku_ritmic_song_debuff:OnAttackLanded( keys )
 	if not IsServer() then return end
 	local attacker = self:GetParent()
-
 	if attacker ~= keys.attacker then
 		return
 	end
-
-	if attacker:IsIllusion() or attacker:PassivesDisabled() then
-		return
-	end
-
-	local target = keys.target
-	if attacker:GetTeam() == target:GetTeam() then
-		return
-	end	
-
-	if target:IsOther() then
-		return nil
-	end
-
 	self:SetStackCount(self:GetStackCount() - 1)
 	if self:GetStackCount() <= 0 then
-		if not self:IsNull() then
-            self:Destroy()
-        end
+        self:Destroy()
 		return
 	end
 end
@@ -703,8 +657,6 @@ function Miku_BattleSong:OnSpellStart()
 	self:GetCaster():EmitSound("MikuScepter")
 end
 
-
-
 modifier_Miku_BattleSong_aura = class({})
 
 function modifier_Miku_BattleSong_aura:IsPurgable() return false end
@@ -746,7 +698,7 @@ function modifier_Miku_BattleSong_aura:OnAbilityExecuted( params )
 		local friendly = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetOrigin(), self:GetParent(), radius, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO, 0, 0, false )
 		if #friendly > 0 then
 			for _,hero in pairs( friendly ) do
-				local fullheal = (hero:GetMaxHealth() / 100 * heal) + (self:GetCaster():GetIntellect() * self:GetAbility():GetSpecialValueFor("int_scale"))
+				local fullheal = hero:GetMaxHealth() / 100 * heal
 				hero:Heal(fullheal, self:GetAbility())
 			end
 		end

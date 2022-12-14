@@ -27,29 +27,4 @@
 		$.Schedule( delay, callback )
 		delay += delay_per_panel;
 	}
-	
-	var winningTeamId = Game.GetGameWinner();
-	var winningTeamDetails = Game.GetTeamDetails( winningTeamId );
-	var endScreenVictory = $( "#EndScreenVictory" );
-	if ( endScreenVictory )
-	{
-		endScreenVictory.SetDialogVariable( "winning_team_name", $.Localize( "#" + winningTeamDetails.team_name ) );
-		if ( GameUI.CustomUIConfig().team_colors )
-		{
-			var teamColor = GameUI.CustomUIConfig().team_colors[ winningTeamId ];
-			teamColor = teamColor.replace( ";", "" );
-			endScreenVictory.style.color = teamColor + ";";
-		}
-	}
-
-	var winningTeamLogo = $( "#WinningTeamLogo" );
-	if ( winningTeamLogo )
-	{
-		var logo_xml = GameUI.CustomUIConfig().team_logo_large_xml;
-		if ( logo_xml )
-		{
-			winningTeamLogo.SetAttributeInt( "team_id", winningTeamId );
-			winningTeamLogo.BLoadLayout( logo_xml, false, false );
-		}
-	}
 })();

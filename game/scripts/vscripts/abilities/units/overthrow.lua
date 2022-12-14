@@ -27,6 +27,7 @@ end
 function modifier_dota_ability_treasure_courier:CheckState()
 return {[MODIFIER_STATE_UNSELECTABLE] = true,
 	[MODIFIER_STATE_NO_HEALTH_BAR] = true,
+	[MODIFIER_STATE_NOT_ON_MINIMAP] = true,
 	[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
 	[MODIFIER_STATE_INVULNERABLE] = true,
 	[MODIFIER_STATE_ATTACK_IMMUNE] = true,
@@ -52,6 +53,7 @@ end
 function modifier_dota_ability_vision_revealer:CheckState()
 return {[MODIFIER_STATE_PROVIDES_VISION] = true,
 	[MODIFIER_STATE_UNSELECTABLE] = true,
+	[MODIFIER_STATE_NOT_ON_MINIMAP] = true,
 	[MODIFIER_STATE_NO_HEALTH_BAR] = true,
 	[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
 	[MODIFIER_STATE_INVULNERABLE] = true,
@@ -66,22 +68,9 @@ function dota_ability_reveal_invis:GetIntrinsicModifierName()
 end
 
 function modifier_dota_ability_reveal_invis:CheckState()
-	local units = FindUnitsInRadius(
-	    self:GetParent():GetTeamNumber(),
-	    self:GetParent():GetAbsOrigin(),
-	    nil,
-	    100,
-	    DOTA_UNIT_TARGET_TEAM_BOTH,
-	    DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-	    DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-	    FIND_ANY_ORDER,
-	    false
-	)
-	for _,unit in pairs(units) do
-		--unit:AddNewModifier(unit, nil, "modifier_phased", {duration = 0.5})
-	end
 return {[MODIFIER_STATE_UNSELECTABLE] = true,
 	[MODIFIER_STATE_NO_HEALTH_BAR] = true,
+	[MODIFIER_STATE_NOT_ON_MINIMAP] = true,
 	[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
 	[MODIFIER_STATE_INVULNERABLE] = true,
 	[MODIFIER_STATE_OUT_OF_GAME] = true,}
@@ -171,6 +160,7 @@ function modifier_dota_ability_xp_granter:CheckState()
 		[MODIFIER_STATE_INVULNERABLE] = true,
 		[MODIFIER_STATE_OUT_OF_GAME] = true,
 		[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+		[MODIFIER_STATE_NOT_ON_MINIMAP] = true,
 	}
 end
 
@@ -219,6 +209,7 @@ function modifier_dota_ability_xp_global:CheckState()
 		[MODIFIER_STATE_INVULNERABLE] = true,
 		[MODIFIER_STATE_OUT_OF_GAME] = true,
 		[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+		[MODIFIER_STATE_NOT_ON_MINIMAP] = true,
 	}
 end
 

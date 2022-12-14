@@ -5,15 +5,15 @@ LinkLuaModifier( "modifier_radiance_2_burn", "items/item_radiance_2.lua", LUA_MO
 item_radiance_2 = class({})
 
 function item_radiance_2:GetIntrinsicModifierName()
-	return "modifier_radiance_2_stats" end
+	return "modifier_radiance_2_stats" 
+end
 
 function item_radiance_2:OnSpellStart()
-	if IsServer() then
-		if self:GetCaster():HasModifier("modifier_radiance_2_aura") then
-			self:GetCaster():RemoveModifierByName("modifier_radiance_2_aura")
-		else
-			self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_radiance_2_aura", {})
-		end
+	if not IsServer() then return end
+	if self:GetCaster():HasModifier("modifier_radiance_2_aura") then
+		self:GetCaster():RemoveModifierByName("modifier_radiance_2_aura")
+	else
+		self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_radiance_2_aura", {})
 	end
 end
 
@@ -28,94 +28,69 @@ end
 modifier_radiance_2_stats = class({})
 
 function modifier_radiance_2_stats:IsHidden() return true end
-function modifier_radiance_2_stats:IsDebuff() return false end
 function modifier_radiance_2_stats:IsPurgable() return false end
-function modifier_radiance_2_stats:IsPermanent() return true end
+function modifier_radiance_2_stats:IsPurgeException() return false end
+function modifier_radiance_2_stats:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_radiance_2_stats:OnCreated(keys)
-	if IsServer() then
-		if not self:GetParent():HasModifier("modifier_radiance_2_aura") then
-			self:GetParent():AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_radiance_2_aura", {})
-		end
-	end
-	self:StartIntervalThink(1)
-end
-
-function modifier_radiance_2_stats:OnIntervalThink()
-
-	if IsServer() then
-		if self:GetParent():GetOwnerEntity().radiance_icon then
-			self:SetStackCount(self:GetParent():GetOwnerEntity().radiance_icon)
-		elseif self:GetCaster().radiance_icon then
-			self:SetStackCount(self:GetCaster().radiance_icon)
-		end
-	end
-
-	if IsClient() then
-		local icon = self:GetStackCount()
-		if icon == 0 then
-			self:GetCaster().radiance_icon_client = nil
-		else
-			self:GetCaster().radiance_icon_client = icon
-		end
+	if not IsServer() then return end
+	if not self:GetParent():HasModifier("modifier_radiance_2_aura") then
+		self:GetParent():AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_radiance_2_aura", {})
 	end
 end
 
 function modifier_radiance_2_stats:OnDestroy(keys)
-	if IsServer() then
-		if not self:GetParent():HasModifier("modifier_radiance_2_stats") then
-			self:GetParent():RemoveModifierByName("modifier_radiance_2_aura")
-		end
+	if not IsServer() then return end
+	if not self:GetParent():HasModifier("modifier_radiance_2_stats") then
+		self:GetParent():RemoveModifierByName("modifier_radiance_2_aura")
 	end
 end
 
 function modifier_radiance_2_stats:DeclareFunctions()
-	return { 
-				MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
-				MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
-				MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
-				MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
-			 }
+	return 
+	{ 
+		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
+		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
+		MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
+		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
+		MODIFIER_PROPERTY_EVASION_CONSTANT,
+	}
 end
 
 function modifier_radiance_2_stats:GetModifierPreAttack_BonusDamage()
-	if self:GetAbility() then
-		return self:GetAbility():GetSpecialValueFor("bonus_damage")
-	end
-end
-
-function modifier_radiance_2_stats:GetModifierPhysicalArmorBonus()
-	if self:GetAbility() then
-		return self:GetAbility():GetSpecialValueFor("bonus_armor")
-	end
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("bonus_damage")
 end
 
 function modifier_radiance_2_stats:GetModifierBonusStats_Strength()
-	if self:GetAbility() then
-		return self:GetAbility():GetSpecialValueFor("bonus_strength")
-	end
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("bonus_strength")
 end
 
 function modifier_radiance_2_stats:GetModifierBonusStats_Agility()
-	if self:GetAbility() then
-		return self:GetAbility():GetSpecialValueFor("bonus_agility")
-	end
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("bonus_agility")
 end
 
 function modifier_radiance_2_stats:GetModifierBonusStats_Intellect()
-	if self:GetAbility() then
-		return self:GetAbility():GetSpecialValueFor("bonus_intellect")
-	end
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("bonus_intellect")
 end
 
-if modifier_radiance_2_aura == nil then modifier_radiance_2_aura = class({}) end
+function modifier_radiance_2_stats:GetModifierEvasion_Constant()
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("evasion")
+end
+
+modifier_radiance_2_aura = class({})
+
 function modifier_radiance_2_aura:IsAura() return true end
 function modifier_radiance_2_aura:IsHidden() return true end
-function modifier_radiance_2_aura:IsDebuff() return false end
 function modifier_radiance_2_aura:IsPurgable() return false end
 
 function modifier_radiance_2_aura:GetAuraSearchTeam()
-	return DOTA_UNIT_TARGET_TEAM_ENEMY end
+	return DOTA_UNIT_TARGET_TEAM_ENEMY 
+end
 
 function modifier_radiance_2_aura:GetAuraSearchType()
 	return DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO
@@ -130,67 +105,40 @@ function modifier_radiance_2_aura:GetAuraRadius()
 end
 
 function modifier_radiance_2_aura:OnCreated()
-	if IsServer() then
-		self.particle = ParticleManager:CreateParticle("particles/econ/events/ti6/radiance_owner_ti6.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
-	end
+	if not IsServer() then return end
+	local particle = ParticleManager:CreateParticle("particles/econ/events/ti6/radiance_owner_ti6.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+	self:AddParticle(particle, false, false, -1, false, false)
 end
 
-function modifier_radiance_2_aura:OnDestroy()
-	if IsServer() then
-		if self.particle then
-			ParticleManager:DestroyParticle(self.particle, false)
-			ParticleManager:ReleaseParticleIndex(self.particle)
-		end
-	end
-end
+modifier_radiance_2_burn = class({})
 
-if modifier_radiance_2_burn == nil then modifier_radiance_2_burn = class({}) end
-function modifier_radiance_2_burn:IsHidden() return false end
-function modifier_radiance_2_burn:IsDebuff() return true end
 function modifier_radiance_2_burn:IsPurgable() return false end
 
 function modifier_radiance_2_burn:DeclareFunctions()
-	return { MODIFIER_PROPERTY_MISS_PERCENTAGE,
-			MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS, } end
-
-function modifier_radiance_2_burn:OnCreated()
-	if IsServer() then
-		if not self:GetCaster():HasItemInInventory("item_radiance") then 
-			self.particle = ParticleManager:CreateParticle("particles/radiance_2.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
-		end
-		self:StartIntervalThink(self:GetAbility():GetSpecialValueFor("think_interval"))
-
-		local ability = self:GetAbility()
-		self.base_damage = ability:GetSpecialValueFor("base_damage")
-		self.aura_radius = ability:GetSpecialValueFor("aura_radius")
-		self.miss_chance = ability:GetSpecialValueFor("miss_chance")
-	end
-	self.magical_armor = self:GetAbility():GetSpecialValueFor("magic_armor")
+	return 
+	{ 
+		MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE
+	} 
 end
 
-function modifier_radiance_2_burn:OnDestroy()
-	if IsServer() then
-		if self.particle then
-			ParticleManager:DestroyParticle(self.particle, false)
-			ParticleManager:ReleaseParticleIndex(self.particle)
-		end
+function modifier_radiance_2_burn:GetModifierIncomingDamage_Percentage(keys)
+	if keys.damage_category == DOTA_DAMAGE_CATEGORY_SPELL then
+		return self:GetAbility():GetSpecialValueFor("bonus_damage_magical")
 	end
+end
+
+function modifier_radiance_2_burn:OnCreated()
+	if not IsServer() then return end
+	local particle = ParticleManager:CreateParticle("particles/radiance_2.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+	self:AddParticle(particle, false, false, -1, false, false)
+	self:StartIntervalThink(self:GetAbility():GetSpecialValueFor("think_interval"))
 end
 
 function modifier_radiance_2_burn:OnIntervalThink()
-	if IsServer() then
-		local ability = self:GetAbility()
-		local caster = self:GetCaster()
-		local damage = self.base_damage
-		if self:GetCaster():HasItemInInventory("item_radiance") then return end
-		ApplyDamage({victim = self:GetParent(), attacker = caster, ability = ability, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
+	if not IsServer() then return end
+	local damage = self:GetAbility():GetSpecialValueFor("base_damage")
+	if self:GetCaster():IsIllusion() then
+		damage = self:GetAbility():GetSpecialValueFor("base_damage_illsuion")
 	end
+	ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), ability = self:GetAbility(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
 end
-
-function modifier_radiance_2_burn:GetModifierMiss_Percentage()
-	return self.miss_chance
-end
-
-function modifier_radiance_2_burn:GetModifierMagicalResistanceBonus()
-	return self.magical_armor
- end

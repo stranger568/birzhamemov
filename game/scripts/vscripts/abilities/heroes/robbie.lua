@@ -6,7 +6,7 @@ LinkLuaModifier( "modifier_robbie_trap", "abilities/heroes/robbie", LUA_MODIFIER
 robbie_trap = class({})
 
 function robbie_trap:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_robbie_1")
 end
 
 function robbie_trap:GetManaCost(level)
@@ -30,12 +30,12 @@ function robbie_trap:OnSpellStart(new_caster, new_target)
         target = new_target
     end
 
-
     if target:TriggerSpellAbsorb( self ) then
         return
     end
 
-    local info = {
+    local info = 
+    {
         EffectName = "particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf",
         Ability = self,
         iMoveSpeed = 1500,
@@ -43,7 +43,9 @@ function robbie_trap:OnSpellStart(new_caster, new_target)
         Target = target,
         iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_2
     }
+
     ProjectileManager:CreateTrackingProjectile( info )
+
     caster:EmitSound("Hero_NagaSiren.Ensnare.Cast")
 end
 
@@ -63,9 +65,19 @@ function modifier_robbie_trap:IsPurgable() return true end
 function modifier_robbie_trap:GetEffectName() return "particles/units/heroes/hero_meepo/meepo_earthbind.vpcf" end
 function modifier_robbie_trap:GetEffectAttachType() return PATTACH_ABSORIGIN end
 
-function modifier_robbie_trap:CheckState() return {
-    [MODIFIER_STATE_ROOTED] = true,
-} end
+function modifier_robbie_trap:CheckState()
+    if self:GetCaster():HasTalent("special_bonus_birzha_robbie_3") then
+        return 
+        {
+            [MODIFIER_STATE_ROOTED] = true,
+            [MODIFIER_STATE_PASSIVES_DISABLED] = true,
+        } 
+    end
+    return 
+    {
+        [MODIFIER_STATE_ROOTED] = true,
+    } 
+end
 
 function modifier_robbie_trap:OnCreated( kv )
     if IsServer() then
@@ -100,13 +112,18 @@ function modifier_roby_agility:OnCreated()
 end
 
 function modifier_roby_agility:DeclareFunctions()
-    local declfuncs = {MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT,}
+    local declfuncs = {MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT,MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT}
     return declfuncs
 end
 
 function modifier_roby_agility:GetModifierMoveSpeedBonus_Constant()
     if self:GetParent():PassivesDisabled() then return end
     return self:GetAbility():GetSpecialValueFor("bonus_speed")
+end
+
+function modifier_roby_agility:GetModifierConstantHealthRegen()
+    if self:GetParent():PassivesDisabled() then return end
+    return self:GetAbility():GetSpecialValueFor("hp_regen") + self:GetCaster():FindTalentValue("special_bonus_birzha_robbie_2")
 end
 
 LinkLuaModifier("modifier_robbie_timeinvis", "abilities/heroes/robbie.lua", LUA_MODIFIER_MOTION_NONE)
@@ -145,53 +162,40 @@ function modifier_robbie_timeinvis:OnIntervalThink()
 end
 
 function modifier_robbie_timeinvis:DeclareFunctions()
-    local declfuncs = {MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
-    MODIFIER_EVENT_ON_ATTACK_LANDED,}
+    local declfuncs = {MODIFIER_PROPERTY_PROCATTACK_BONUS_DAMAGE_PHYSICAL}
     return declfuncs
 end
 
-function modifier_robbie_timeinvis:OnAttackLanded( keys )
+function modifier_robbie_timeinvis:GetModifierProcAttack_BonusDamage_Physical(params)
     if not IsServer() then return end
-    local target = keys.target
-    local attacker = keys.attacker
-    local parent = self:GetParent()
-    if parent == attacker then
-	    if attacker:GetTeam() == target:GetTeam() then
-			return
-		end 
-        if target:IsOther() then
-            return nil
-        end
-        if not self:GetCaster():HasShard() then
-            if self:GetParent():IsIllusion() then return end
-        end
-        if self:GetParent():PassivesDisabled() then return end
-        if not self:GetCaster():HasTalent("special_bonus_birzha_robbie_4") then
-            self:GetAbility():UseResources(false,false,true)
-        end
-        local agility_damage_multiplier = self:GetAbility():GetSpecialValueFor("damage_multiplier") + self:GetCaster():FindTalentValue("special_bonus_birzha_robbie_1")
-        local victim_angle = target:GetAnglesAsVector().y
-        local origin_difference = target:GetAbsOrigin() - attacker:GetAbsOrigin()
-        local origin_difference_radian = math.atan2(origin_difference.y, origin_difference.x)
-        origin_difference_radian = origin_difference_radian * 180
-        local attacker_angle = origin_difference_radian / math.pi
-        attacker_angle = attacker_angle + 180.0
-        local result_angle = attacker_angle - victim_angle
-        result_angle = math.abs(result_angle)
-        if result_angle >= (180 - (self:GetAbility():GetSpecialValueFor("backstab_angle") / 2)) and result_angle <= (180 + (self:GetAbility():GetSpecialValueFor("backstab_angle") / 2)) then 
-            EmitSoundOn("Hero_Riki.Backstab", target)
-            local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_riki/riki_backstab.vpcf", PATTACH_ABSORIGIN_FOLLOW, target) 
-            ParticleManager:SetParticleControlEnt(particle, 1, target, PATTACH_POINT_FOLLOW, "attach_hitloc", target:GetAbsOrigin(), true) 
-            ApplyDamage({victim = target, attacker = attacker, damage = attacker:GetAgility() * agility_damage_multiplier, damage_type = DAMAGE_TYPE_PHYSICAL})
-        end
+    if self:GetParent():PassivesDisabled() then return end
+    if params.target:IsWard() then return end
+    if params.no_attack_cooldown then return end
+
+    if not self:GetCaster():HasShard() then
+        if self:GetParent():IsIllusion() then return end
+    end
+
+    if not self:GetCaster():HasTalent("special_bonus_birzha_robbie_7") then
+        self:GetAbility():UseResources(false,false,true)
+    end
+
+    local agility_damage_multiplier = self:GetAbility():GetSpecialValueFor("damage_multiplier") + self:GetCaster():FindTalentValue("special_bonus_birzha_robbie_6")
+    local victim_angle = params.target:GetAnglesAsVector().y
+    local origin_difference = params.target:GetAbsOrigin() - params.attacker:GetAbsOrigin()
+    local origin_difference_radian = math.atan2(origin_difference.y, origin_difference.x)
+    origin_difference_radian = origin_difference_radian * 180
+    local attacker_angle = origin_difference_radian / math.pi
+    attacker_angle = attacker_angle + 180.0
+    local result_angle = attacker_angle - victim_angle
+    result_angle = math.abs(result_angle)
+    if result_angle >= (180 - (self:GetAbility():GetSpecialValueFor("backstab_angle") / 2)) and result_angle <= (180 + (self:GetAbility():GetSpecialValueFor("backstab_angle") / 2)) then 
+        params.target:EmitSound("Hero_Riki.Backstab")
+        local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_riki/riki_backstab.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.target) 
+        ParticleManager:SetParticleControlEnt(particle, 1, params.target, PATTACH_POINT_FOLLOW, "attach_hitloc", params.target:GetAbsOrigin(), true) 
+        return params.attacker:GetAgility() * agility_damage_multiplier
     end
 end
-
-function modifier_robbie_timeinvis:GetModifierConstantHealthRegen()
-    if self:GetParent():PassivesDisabled() then return end
-    return self:GetAbility():GetSpecialValueFor("hp_regen")
-end
-
 
 modifier_robbie_timeinvis_invis = class({})
 
@@ -200,6 +204,7 @@ function modifier_robbie_timeinvis_invis:IsHidden()
 end
 
 function modifier_robbie_timeinvis_invis:OnCreated()
+    if not IsServer() then return end
     local particle = ParticleManager:CreateParticle("particles/generic_hero_status/status_invisibility_start.vpcf", PATTACH_ABSORIGIN, self:GetParent())
     ParticleManager:ReleaseParticleIndex(particle)
 end
@@ -219,7 +224,7 @@ end
 
 LinkLuaModifier("modifier_robi_WeAreNumberOne", "abilities/heroes/robbie", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_robi_WeAreNumberOne_buff", "abilities/heroes/robbie", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_robi_WeAreNumberOne_illusion_debuff", "abilities/heroes/robbie", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_robi_WeAreNumberOne_ability", "abilities/heroes/robbie", LUA_MODIFIER_MOTION_NONE)
 
 Robi_WeAreNumberOne = class({}) 
 
@@ -234,37 +239,21 @@ end
 function Robi_WeAreNumberOne:OnSpellStart()
     if not IsServer() then return end
     local caster = self:GetCaster()
-    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_robbie_3")
-    local outgoingDamage = self:GetSpecialValueFor("illusion_damage_outgoing") + self:GetCaster():FindTalentValue("special_bonus_birzha_robbie_2")
+    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_robbie_5")
+    local outgoingDamage = self:GetSpecialValueFor("illusion_damage_outgoing") + self:GetCaster():FindTalentValue("special_bonus_birzha_robbie_8")
     local incomingDamage = self:GetSpecialValueFor("illusion_damage_incoming")
+    outgoingDamage = outgoingDamage - 100
+    incomingDamage = incomingDamage - 100
 
-    local ability_reality = caster:FindAbilityByName("Robi_WeAreNumberOneTeleport")
-    if ability_reality ~= nil then
-        ability_reality:SetLevel(1)
-    end
-
-    Timers:CreateTimer(duration, function()
-        if ability_reality then
-            ability_reality:SetLevel(0)
-        end
-    end)
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_robi_WeAreNumberOne_ability", {duration = duration})
 
     EmitGlobalSound("WeAreNumberOne")
 
-    local all = FindUnitsInRadius(caster:GetTeam(), 
-    caster:GetOrigin(), 
-    nil, 
-    99999,
-    DOTA_UNIT_TARGET_TEAM_ENEMY, 
-    DOTA_UNIT_TARGET_HERO, 
-    DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS,
-    FIND_ANY_ORDER, 
-    false)
-
+    local all = FindUnitsInRadius(caster:GetTeam(),  caster:GetOrigin(),  nil,  99999, DOTA_UNIT_TARGET_TEAM_ENEMY,  DOTA_UNIT_TARGET_HERO,  DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS, FIND_ANY_ORDER,  false)
     local ability_trap = self:GetCaster():FindAbilityByName("robbie_trap")
 
     for _, unit in ipairs(all) do
-        local illusions = CreateIllusions(caster, caster, { duration = duration, outgoing_damage = outgoingDamage, incoming_damage = incomingDamage }, 1, 0, false, true )
+        local illusions = BirzhaCreateIllusion(caster, caster, { duration = duration, outgoing_damage = outgoingDamage, incoming_damage = incomingDamage }, 1, 0, false, true )
         for k,v in ipairs(illusions) do
             v:SetAbsOrigin(unit:GetAbsOrigin() + RandomVector(100))
             FindClearSpaceForUnit(v, v:GetAbsOrigin(), false)
@@ -286,6 +275,29 @@ function Robi_WeAreNumberOne:OnSpellStart()
             v:AddNewModifier(caster, self, "modifier_robi_WeAreNumberOne_buff", {})
             v.ISSPECTRE_ILLUSION_HAUNT = true
         end
+    end
+end
+
+modifier_robi_WeAreNumberOne_ability = class({})
+function modifier_robi_WeAreNumberOne_ability:IsPurgable() return false end
+function modifier_robi_WeAreNumberOne_ability:RemoveOnDeath() return false end
+function modifier_robi_WeAreNumberOne_ability:IsPurgeException() return false end
+function modifier_robi_WeAreNumberOne_ability:IsHidden() return true end
+
+function modifier_robi_WeAreNumberOne_ability:OnCreated()
+    if not IsServer() then return end
+    local ability_reality = self:GetParent():FindAbilityByName("Robi_WeAreNumberOneTeleport")
+    if ability_reality ~= nil then
+        ability_reality:SetLevel(1)
+        ability_reality:SetActivated(true)
+    end
+end
+
+function modifier_robi_WeAreNumberOne_ability:OnDestroy()
+    if not IsServer() then return end
+    local ability_reality = self:GetParent():FindAbilityByName("Robi_WeAreNumberOneTeleport")
+    if ability_reality ~= nil then
+        ability_reality:SetActivated(false)
     end
 end
 
@@ -328,17 +340,13 @@ function modifier_robi_WeAreNumberOne_buff:CheckState()
     return state
 end
 
-
-
-
-
 Robi_WeAreNumberOneTeleport = class({})
 
 function Robi_WeAreNumberOneTeleport:OnSpellStart()
     if not IsServer() then return end
     local vPoint = self:GetCursorPosition()
     local target = Entities:FindByNameNearest(self:GetCaster():GetUnitName(), vPoint, 0)
-    if target:IsIllusion() and target.ISSPECTRE_ILLUSION_HAUNT then
+    if target:IsIllusion() and target.ISSPECTRE_ILLUSION_HAUNT and target:IsAlive() then
         local caster_forward_vector = self:GetCaster():GetForwardVector()
         local target_forward_vector = target:GetForwardVector()
         self:GetCaster():SetForwardVector(target_forward_vector)
@@ -348,6 +356,9 @@ function Robi_WeAreNumberOneTeleport:OnSpellStart()
         target:SetAbsOrigin(caster_current_position)    
         self:GetCaster():SetAbsOrigin(target_current_position)
         FindClearSpaceForUnit( self:GetCaster(), target_current_position, true )
-        EmitSoundOn("Hero_Spectre.Reality", self:GetCaster())
+        self:GetCaster():EmitSound("Hero_Spectre.Reality")
+        if self:GetCaster():HasTalent("special_bonus_birzha_robbie_4") then
+            self:GetCaster():Purge(false, true, false, false, false)
+        end
     end
 end

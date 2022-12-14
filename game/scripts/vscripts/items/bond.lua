@@ -18,11 +18,15 @@ end
 function item_bond:OnChannelFinish( bInterrupted )
 	if not IsServer() then return end
 	if bInterrupted then self:GetCaster():StopSound("bondt") return end
-	local mana_regen = self:GetSpecialValueFor('reg')
-	local manafromintellect = self:GetCaster():GetIntellect() * 0.5
-	local mana = self:GetCaster():GetMana() + mana_regen + manafromintellect
-	self:GetCaster():SetMana(mana)
+	local mana_regen = self:GetSpecialValueFor("reg")
+    local intellect_reg = self:GetSpecialValueFor("intellect_reg") / 100
+
+	local manafromintellect = self:GetCaster():GetIntellect() * intellect_reg
+	local mana = mana_regen + manafromintellect
+
+	self:GetCaster():GiveMana(mana)
 	self:GetCaster():EmitSound("Hero_Riki.Smoke_Screen")
+
     local particle = ParticleManager:CreateParticle("particles/boss/riki_smokebomb.vpcf", PATTACH_WORLDORIGIN, self:GetCaster())
     ParticleManager:SetParticleControl(particle, 0, self:GetCaster():GetAbsOrigin())
     ParticleManager:SetParticleControl(particle, 1, Vector(200, 0, 200))
@@ -42,6 +46,7 @@ function item_bond:OnChannelFinish( bInterrupted )
             ParticleManager:ReleaseParticleIndex(particle)
         end
     end)
+
 	self:SpendCharge()
 end
 
@@ -65,10 +70,13 @@ end
 function item_vape:OnChannelFinish( bInterrupted )
 	if not IsServer() then return end
 	if bInterrupted then self:GetCaster():StopSound("vapenat") return end
-	local mana_regen = self:GetSpecialValueFor('reg')
-	local manafromintellect = self:GetCaster():GetIntellect() * 1
-	local mana = self:GetCaster():GetMana() + mana_regen + manafromintellect
-	self:GetCaster():SetMana(mana)
+    local mana_regen = self:GetSpecialValueFor("reg")
+    local intellect_reg = self:GetSpecialValueFor("intellect_reg") / 100
+
+    local manafromintellect = self:GetCaster():GetIntellect() * intellect_reg
+    local mana = mana_regen + manafromintellect
+
+    self:GetCaster():GiveMana(mana)
 	self:GetCaster():EmitSound("Hero_Riki.Smoke_Screen")
     local particle = ParticleManager:CreateParticle("particles/vape/vape.vpcf", PATTACH_WORLDORIGIN, self:GetCaster())
     ParticleManager:SetParticleControl(particle, 0, self:GetCaster():GetAbsOrigin())
@@ -84,13 +92,10 @@ end
 
 modifier_item_liquid = class({})
 
-function modifier_item_liquid:IsHidden()
-	return true
-end
-
-function modifier_item_liquid:IsPurgable()
-    return false
-end
+function modifier_item_liquid:IsHidden() return true end
+function modifier_item_liquid:IsPurgable() return false end
+function modifier_item_liquid:IsPurgeException() return false end
+function modifier_item_liquid:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_liquid:DeclareFunctions()
     local funcs = {
@@ -110,13 +115,11 @@ end
 
 function modifier_item_liquid:GetModifierBonusStats_Strength()
     if not self:GetAbility() then return end
-    if self:GetAbility():GetName() ~= "item_vape" then return end
     return self:GetAbility():GetSpecialValueFor('str')
 end
 
 function modifier_item_liquid:GetModifierBonusStats_Agility()
     if not self:GetAbility() then return end
-    if self:GetAbility():GetName() ~= "item_vape" then return end
     return self:GetAbility():GetSpecialValueFor('agi')
 end
 

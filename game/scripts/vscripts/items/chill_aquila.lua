@@ -1,7 +1,5 @@
-LinkLuaModifier( "modifier_chill_aquila_aura", "items/chill_aquila", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_chill_aquila_aura_buff", "items/chill_aquila", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_chill_aquila", "items/chill_aquila", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_chill_aquila_dd", "items/chill_aquila", LUA_MODIFIER_MOTION_NONE )
 
 item_chill_aquila = class({})
 
@@ -11,137 +9,91 @@ end
 
 function item_chill_aquila:OnSpellStart()
 	if not IsServer() then return end
-	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_rune_doubledamage", {duration = 15})
+	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_rune_doubledamage", {duration = self:GetSpecialValueFor("duration")})
 	self:GetCaster():EmitSound("Rune.DD")
 end
 
-
 modifier_chill_aquila = class({})
 
-function modifier_chill_aquila:IsHidden()
-    return true
-end
-
-function modifier_chill_aquila:IsPurgable()
-    return false
-end
-
-function modifier_chill_aquila:OnCreated()
-	self.ag = self:GetAbility():GetSpecialValueFor("bonus_agility")
-	self.str = self:GetAbility():GetSpecialValueFor("bonus_str")
-	self.int = self:GetAbility():GetSpecialValueFor("bonus_int")
-	self.damage = self:GetAbility():GetSpecialValueFor("bonus_damage")
-	self.at = self:GetAbility():GetSpecialValueFor("bonus_at")
-	self.bonus_armor = self:GetAbility():GetSpecialValueFor("bonus_armor")
-	if not IsServer() then return end
-	if not self:GetCaster():HasModifier("modifier_chill_aquila_aura") then
-		self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_chill_aquila_aura", {})
-	end
-end
-
-function modifier_chill_aquila:OnDestroy()
-	if IsServer() then
-		if not self:GetCaster():HasModifier("modifier_chill_aquila") then
-			self:GetCaster():RemoveModifierByName("modifier_chill_aquila_aura")
-		end
-	end
-end
+function modifier_chill_aquila:IsHidden() return true end
+function modifier_chill_aquila:IsPurgable() return false end
+function modifier_chill_aquila:IsPurgeException() return false end
+function modifier_chill_aquila:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_chill_aquila:DeclareFunctions()
 	return {MODIFIER_PROPERTY_STATS_AGILITY_BONUS, MODIFIER_PROPERTY_STATS_STRENGTH_BONUS, MODIFIER_PROPERTY_STATS_INTELLECT_BONUS, MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT, MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS  }
 end
 
 function modifier_chill_aquila:GetModifierBonusStats_Agility()
-	return self.ag
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("bonus_agility")
 end
 
 function modifier_chill_aquila:GetModifierPreAttack_BonusDamage()
-	return self.damage
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("bonus_damage")
 end
 
 function modifier_chill_aquila:GetModifierAttackSpeedBonus_Constant()
-	return self.at
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("bonus_at")
 end
 
 function modifier_chill_aquila:GetModifierBonusStats_Intellect()
-	return self.int
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("bonus_int")
 end
 
 function modifier_chill_aquila:GetModifierBonusStats_Strength()
-	return self.str
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("bonus_str")
 end
 
 function modifier_chill_aquila:GetModifierPhysicalArmorBonus()
-	return self.bonus_armor
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("bonus_armor")
 end
 
-modifier_chill_aquila_aura = class({})
-
-function modifier_chill_aquila_aura:IsAura()
+function modifier_chill_aquila:IsAura()
 	return true
 end
 
-function modifier_chill_aquila_aura:GetAuraRadius()
+function modifier_chill_aquila:GetAuraRadius()
 	if self:GetAbility() then
 		return self:GetAbility():GetSpecialValueFor("radius")
 	end
 end
 
-function modifier_chill_aquila_aura:GetAuraSearchTeam()
+function modifier_chill_aquila:GetAuraSearchTeam()
 	return DOTA_UNIT_TARGET_TEAM_FRIENDLY
 end
 
-function modifier_chill_aquila_aura:GetAuraSearchType()
+function modifier_chill_aquila:GetAuraSearchType()
 	return DOTA_UNIT_TARGET_HERO
 end
 
-function modifier_chill_aquila_aura:IsHidden()
+function modifier_chill_aquila:IsHidden()
 	return true
 end
 
-function modifier_chill_aquila_aura:GetModifierAura()
+function modifier_chill_aquila:GetModifierAura()
 	return "modifier_chill_aquila_aura_buff"
 end
 
 modifier_chill_aquila_aura_buff = class({})
-
-function modifier_chill_aquila_aura_buff:OnCreated()
-	self.ar = self:GetAbility():GetSpecialValueFor("armor")
-	self.mg = self:GetAbility():GetSpecialValueFor("mana_regen")
-end
 
 function modifier_chill_aquila_aura_buff:DeclareFunctions()
 	return {MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS }
 end
 
 function modifier_chill_aquila_aura_buff:GetModifierConstantManaRegen()
-	return self.mg
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("mana_regen")
 end
 
 function modifier_chill_aquila_aura_buff:GetModifierPhysicalArmorBonus()
-	return self.ar 
-end
-
-modifier_chill_aquila_dd = class({})
-
-function modifier_chill_aquila_dd:DeclareFunctions()
-	return {MODIFIER_PROPERTY_BASEATTACK_BONUSDAMAGE}
-end
-
-function modifier_chill_aquila_dd:OnCreated()
-	self.dmax = self:GetParent():GetBaseDamageMax()
-end
-
-function modifier_chill_aquila_dd:GetModifierBaseAttack_BonusDamage()
-	return self.dmax
-end
-
-function modifier_chill_aquila_dd:GetEffectName()
-	return "particles/generic_gameplay/rune_doubledamage_owner.vpcf"
-end
-
-function modifier_chill_aquila_dd:GetTexture()
-  	return "items/AetherLupa"
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("armor")
 end
 
 

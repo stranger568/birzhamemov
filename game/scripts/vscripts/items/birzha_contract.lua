@@ -115,18 +115,26 @@ function modifier_item_birzha_contract_target:OnDeath( params )
     if params.unit == self:GetParent() then
         local killer = params.attacker
 
+        local caster = self:GetCaster()
+
         if killer:GetUnitName() == "npc_palnoref_chariot_illusion" then return end
         if killer:GetUnitName() == "npc_palnoref_chariot_illusion_2" then return end
 
-        if not killer:IsHero() then
+        if not killer:IsHero() or killer:GetUnitName() == "npc_palnoref_chariot" or killer:GetUnitName() == "npc_dio_theworld_1" or killer:GetUnitName() == "npc_dio_theworld_2" or killer:GetUnitName() == "npc_dio_theworld_3" then
             killer = killer:GetOwner()
         end
 
+        if not caster:IsHero() or caster:GetUnitName() == "npc_palnoref_chariot" or caster:GetUnitName() == "npc_dio_theworld_1" or caster:GetUnitName() == "npc_dio_theworld_2" or caster:GetUnitName() == "npc_dio_theworld_3" then
+            caster = caster:GetOwner()
+        end
+
+
+
         if killer ~= self:GetParent() then
-        	if killer:GetTeamNumber() == self:GetCaster():GetTeamNumber()  then
-        		self:GetCaster():ModifyGold(BirzhaGameMode.contract_gold[killer:GetTeamNumber()], false, 0)
+        	if killer:GetTeamNumber() == caster:GetTeamNumber()  then
+        		caster:ModifyGold(BirzhaGameMode.contract_gold[killer:GetTeamNumber()], false, 0)
                 BirzhaGameMode.contract_gold[killer:GetTeamNumber()] = BirzhaGameMode.contract_gold[killer:GetTeamNumber()] + 500
-                CustomGameEventManager:Send_ServerToAllClients("contract_event_accept", {caster = self:GetCaster():GetUnitName(), target = self:GetParent():GetUnitName()} )
+                CustomGameEventManager:Send_ServerToAllClients("contract_event_accept", {caster = caster:GetUnitName(), target = self:GetParent():GetUnitName()} )
                 if not self:IsNull() then
                     self:Destroy()
                 end
@@ -134,14 +142,14 @@ function modifier_item_birzha_contract_target:OnDeath( params )
         end
     end
     
-    if params.unit == self:GetCaster() then
+    if params.unit == caster then
         local killer = params.attacker
         if not killer:IsHero() then
             killer = killer:GetOwner()
         end
         if killer == self:GetParent() then
             self:GetParent():ModifyGold(BirzhaGameMode.contract_gold[self:GetParent():GetTeamNumber()] * 2, false, 0)
-            CustomGameEventManager:Send_ServerToAllClients("contract_event_cancel", {caster = self:GetCaster():GetUnitName(), target = self:GetParent():GetUnitName()} )
+            CustomGameEventManager:Send_ServerToAllClients("contract_event_cancel", {caster = caster:GetUnitName(), target = self:GetParent():GetUnitName()} )
             if not self:IsNull() then
                 self:Destroy()
             end

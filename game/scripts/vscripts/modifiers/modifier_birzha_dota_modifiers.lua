@@ -1,20 +1,26 @@
 modifier_birzha_stunned = class({})
 
 function modifier_birzha_stunned:OnCreated()
-	self.stun = false
 	if IsServer() then
-		if self:IsNull() then return end
+
+		-- Удаляем самый быстрый стан в мире
+		local modifiers_old = {}
 		for _, mod in pairs(self:GetParent():FindAllModifiers()) do
 			local ability = mod:GetAbility()
 			if ability then
-				if self:GetAbility() == ability and self ~= mod and mod:GetName() == self:GetName() then
+				if self:GetAbility() == ability and mod:GetName() == self:GetName() then
 					if not mod:IsNull() then
-						mod:Destroy()
+						table.insert(modifiers_old, mod)
 					end
 				end
 			end
 		end
-		self:SetDuration(self:GetDuration()*(1 - self:GetParent():GetStatusResistance()), true)
+		table.sort( modifiers_old, function(x,y) return y:GetRemainingTime() < x:GetRemainingTime() end )
+		if #modifiers_old > 1 and modifiers_old[#modifiers_old] and not modifiers_old[#modifiers_old]:IsNull() then
+			modifiers_old[#modifiers_old]:Destroy()
+		end
+		----------------------------------------------------------------------------------------------------------------
+
 		if self:GetParent() ~= self:GetCaster() then
 			local ability_pucci = self:GetCaster():FindAbilityByName("pucci_restart_world")
 			if ability_pucci and ability_pucci:GetLevel() > 0 then
@@ -33,7 +39,6 @@ function modifier_birzha_stunned:OnCreated()
 			end
 		end
 	end
-	self.stun = true
 end
 
 function modifier_birzha_stunned:IsDebuff()
@@ -56,7 +61,7 @@ function modifier_birzha_stunned:GetAttributes() return MODIFIER_ATTRIBUTE_MULTI
 
 function modifier_birzha_stunned:CheckState()
 	local state = {
-		[MODIFIER_STATE_STUNNED] = self.stun,
+		[MODIFIER_STATE_STUNNED] = true,
 	}
 
 	return state
@@ -86,7 +91,6 @@ modifier_birzha_bashed = class({})
 
 function modifier_birzha_bashed:OnCreated()
 	if not IsServer() then return end
-	self:SetDuration(self:GetDuration()*(1 - self:GetParent():GetStatusResistance()), true)
 	if self:GetParent() ~= self:GetCaster() then
 		local ability_pucci = self:GetCaster():FindAbilityByName("pucci_restart_world")
 		if ability_pucci and ability_pucci:GetLevel() > 0 then
@@ -153,20 +157,26 @@ end
 modifier_birzha_stunned_purge = class({})
 
 function modifier_birzha_stunned_purge:OnCreated()
-	self.stun = false
 	if IsServer() then
-		if self:IsNull() then return end
+		
+		-- Удаляем самый быстрый стан в мире
+		local modifiers_old = {}
 		for _, mod in pairs(self:GetParent():FindAllModifiers()) do
 			local ability = mod:GetAbility()
 			if ability then
-				if self:GetAbility() == ability and self ~= mod and mod:GetName() == self:GetName() then
+				if self:GetAbility() == ability and mod:GetName() == self:GetName() then
 					if not mod:IsNull() then
-						mod:Destroy()
+						table.insert(modifiers_old, mod)
 					end
 				end
 			end
 		end
-		self:SetDuration(self:GetDuration()*(1 - self:GetParent():GetStatusResistance()), true)
+		table.sort( modifiers_old, function(x,y) return y:GetRemainingTime() < x:GetRemainingTime() end )
+		if #modifiers_old > 1 and modifiers_old[#modifiers_old] and not modifiers_old[#modifiers_old]:IsNull() then
+			modifiers_old[#modifiers_old]:Destroy()
+		end
+		----------------------------------------------------------------------------------------------------------------
+
 		if self:GetParent() ~= self:GetCaster() then
 			local ability_pucci = self:GetCaster():FindAbilityByName("pucci_restart_world")
 			if ability_pucci and ability_pucci:GetLevel() > 0 then
@@ -185,7 +195,6 @@ function modifier_birzha_stunned_purge:OnCreated()
 			end
 		end
 	end
-	self.stun = true
 end
 
 function modifier_birzha_stunned_purge:IsDebuff()
@@ -208,7 +217,7 @@ function modifier_birzha_stunned_purge:GetAttributes() return MODIFIER_ATTRIBUTE
 
 function modifier_birzha_stunned_purge:CheckState()
 	local state = {
-		[MODIFIER_STATE_STUNNED] = self.stun,
+		[MODIFIER_STATE_STUNNED] = true,
 	}
 
 	return state
@@ -506,6 +515,21 @@ function modifier_birzha_illusion_cosmetics:OnDestroy()
 		self:GetParent().NevermoreRocks:Destroy()
 	end
 
+	local edward_gopnik = self:GetParent():FindAbilityByName("edward_gopnik")
+	if edward_gopnik then
+		if edward_gopnik.Wmotka1 then
+			edward_gopnik.Wmotka1:Destroy()
+		end
+		if edward_gopnik.Wmotka2 then
+			edward_gopnik.Wmotka2:Destroy()
+		end
+		if edward_gopnik.Wmotka3 then
+			edward_gopnik.Wmotka3:Destroy()
+		end
+		if edward_gopnik.Wmotka4 then
+			edward_gopnik.Wmotka4:Destroy()
+		end
+	end
 
 	if self:GetParent().pudge_mask then
 		self:GetParent().pudge_mask:Destroy()
@@ -594,8 +618,15 @@ function modifier_birzha_illusion_cosmetics:OnDestroy()
 	end
 	
 	
-	
-
+	if self:GetParent().pirat_item_weapon and self:GetParent().pirat_item_offhand and self:GetParent().pirat_item_shoulder and self:GetParent().pirat_item_head and self:GetParent().pirat_item_belt and self:GetParent().pirat_item_arms and self:GetParent().pirat_item_armor then
+		self:GetParent().pirat_item_weapon:Destroy()
+		self:GetParent().pirat_item_offhand:Destroy()
+		self:GetParent().pirat_item_shoulder:Destroy()
+		self:GetParent().pirat_item_head:Destroy()
+		self:GetParent().pirat_item_belt:Destroy()
+		self:GetParent().pirat_item_arms:Destroy()
+		self:GetParent().pirat_item_armor:Destroy()
+	end
 
 
 
@@ -728,3 +759,6 @@ end
 function modifier_birzha_illusion_cosmetics:IsPurgeException()
 	return false
 end
+
+
+

@@ -436,7 +436,10 @@ function StopWheel() {
         {
             if (player_table.chat_wheel)
             {
-                GameEvents.SendCustomGameEventToServer("SelectVO", {num: Number(player_table.chat_wheel[selected_sound_current+1])});
+                if (player_table.chat_wheel[selected_sound_current+1])
+                {
+                    GameEvents.SendCustomGameEventToServer("SelectVO", {num: Number(player_table.chat_wheel[selected_sound_current+1])});
+                }
             }
         }
     } else {
@@ -444,50 +447,6 @@ function StopWheel() {
         if (rings[nowselect][1][selected_sound_current])
         {
             GameEvents.SendCustomGameEventToServer("SelectVO", {num: Number(newnum)});
-        }
-    }
-
-    if (nowselect != 0)
-    {
-        $("#PhrasesContainer").RemoveAndDeleteChildren();
-        for ( var i = 0; i < 8; i++ )
-        {
-            $.CreatePanelWithProperties(`Button`, $("#PhrasesContainer"), `Phrase${i}`, {
-                class: `MyPhrases`,
-                onmouseover: `OnMouseOver(${i})`,
-                onmouseout: `OnMouseOut(${i})`,
-            });
-            $("#Phrase"+i).BLoadLayoutSnippet("Phrase");
-            $("#Phrase"+i).GetChild(0).GetChild(0).visible = rings[0][1][i];
-
-            let name = $.Localize("#chatwheel_birzha_null")
-            var player_table = CustomNetTables.GetTableValue("birzhainfo", String(Players.GetLocalPlayer()))
-            if (player_table)
-            {
-                if (player_table.chat_wheel)
-                {
-                    for ( var item of Items_sounds )
-                    {
-                        if (item[0] == String(player_table.chat_wheel[i+1])) {
-                            name = $.Localize("#" + item[1])
-                        }
-                    }
-                    for ( var item of Items_sprays )
-                    {
-                        if (item[0] == String(player_table.chat_wheel[i+1])) {
-                            name = $.Localize("#" + item[1])
-                        }
-                    }
-                    for ( var item of Items_toys )
-                    {
-                        if (item[0] == String(player_table.chat_wheel[i+1])) {
-                            name = $.Localize("#" + item[1])
-                        }
-                    }
-                }
-            }
-
-            $("#Phrase"+i).GetChild(0).GetChild(0).text = name;
         }
     }
     selected_sound_current = undefined;
@@ -514,54 +473,17 @@ function OnMouseOut(num) {
 (function() {
 	GameUI.CustomUIConfig().chatWheelLoaded = true;
 
-    for ( var i = 0; i < 8; i++ )
-    {
-        $.CreatePanelWithProperties(`Button`, $("#PhrasesContainer"), `Phrase${i}`, {
-            class: `MyPhrases`,
-            onmouseover: `OnMouseOver(${i})`,
-            onmouseout: `OnMouseOut(${i})`,
-        });
-        $("#Phrase"+i).BLoadLayoutSnippet("Phrase");
-        $("#Phrase"+i).GetChild(0).GetChild(0).visible = rings[0][1][i];
-
-
- 
-        let name = $.Localize("#chatwheel_birzha_null")
-
-        var player_table = CustomNetTables.GetTableValue("birzhainfo", String(Players.GetLocalPlayer()))
-        if (player_table)
-        {
-            if (player_table.chat_wheel)
-            {
-                for ( var item of Items_sounds )
-                {
-                    if (item[0] == String(player_table.chat_wheel[i+1])) {
-                        name = $.Localize("#" + item[1])
-                    }
-                }
-                for ( var item of Items_sprays )
-                {
-                    if (item[0] == String(player_table.chat_wheel[i+1])) {
-                        name = $.Localize("#" + item[1])
-                    }
-                }
-                for ( var item of Items_toys )
-                {
-                    if (item[0] == String(player_table.chat_wheel[i+1])) {
-                        name = $.Localize("#" + item[1])
-                    }
-                }
-            } 
-        } 
- 
-        $("#Phrase"+i).GetChild(0).GetChild(0).text = name;
-    }
-
-    Game.AddCommand("+WheelButton", StartWheel, "", 0);
-    Game.AddCommand("-WheelButton", StopWheel, "", 0);
+    const name_bind = "WheelButton" + Math.floor(Math.random() * 99999999);
+    Game.AddCommand("+" + name_bind, StartWheel, "", 0);
+    Game.AddCommand("-" + name_bind, StopWheel, "", 0);
+    Game.CreateCustomKeyBind(GetGameKeybind(DOTAKeybindCommand_t.DOTA_KEYBIND_CHAT_WHEEL), "+" + name_bind);
 
     $("#Wheel").visible = false;
     $("#Bubble").visible = false;
     $("#PhrasesContainer").visible = false;
     $("#ChangeWheelButtons").visible = false;
 })();
+
+function GetGameKeybind(command) {
+    return Game.GetKeybindForCommand(command);
+}

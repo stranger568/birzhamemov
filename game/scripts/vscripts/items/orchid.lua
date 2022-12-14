@@ -6,7 +6,8 @@ function item_orchid_custom:OnSpellStart()
 	if not IsServer() then return end
 	local duration = self:GetSpecialValueFor("silence_duration")
 	local target = self:GetCursorTarget()
-	target:AddNewModifier(self:GetCaster(), self, "modifier_orchid_malevolence_debuff", {duration = duration})
+    if target:TriggerSpellAbsorb(self) then return end
+	target:AddNewModifier(self:GetCaster(), self, "modifier_orchid_malevolence_debuff", {duration = duration * (1 - target:GetStatusResistance())})
 end
 
 function item_orchid_custom:GetIntrinsicModifierName() 
@@ -15,13 +16,10 @@ end
 
 modifier_item_orchid_custom = class({})
 
-function modifier_item_orchid_custom:IsHidden()
-    return true
-end
-
-function modifier_item_orchid_custom:IsPurgable()
-    return false
-end
+function modifier_item_orchid_custom:IsHidden() return true end
+function modifier_item_orchid_custom:IsPurgable() return false end
+function modifier_item_orchid_custom:IsPurgeException() return false end
+function modifier_item_orchid_custom:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_orchid_custom:DeclareFunctions()
 return  {
@@ -64,7 +62,8 @@ function item_bloodthorn_custom:OnSpellStart()
 	if not IsServer() then return end
 	local duration = self:GetSpecialValueFor("silence_duration")
 	local target = self:GetCursorTarget()
-	target:AddNewModifier(self:GetCaster(), self, "modifier_bloodthorn_debuff", {duration = duration})
+    if target:TriggerSpellAbsorb(self) then return end
+	target:AddNewModifier(self:GetCaster(), self, "modifier_bloodthorn_debuff", {duration = duration * (1 - target:GetStatusResistance())})
 end
 
 function item_bloodthorn_custom:GetIntrinsicModifierName() 
@@ -73,21 +72,19 @@ end
 
 modifier_item_bloodthorn_custom = class({})
 
-function modifier_item_bloodthorn_custom:IsHidden()
-    return true
-end
-
-function modifier_item_bloodthorn_custom:IsPurgable()
-    return false
-end
+function modifier_item_bloodthorn_custom:IsHidden() return true end
+function modifier_item_bloodthorn_custom:IsPurgable() return false end
+function modifier_item_bloodthorn_custom:IsPurgeException() return false end
+function modifier_item_bloodthorn_custom:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_bloodthorn_custom:DeclareFunctions()
-return  {
-            MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
-            MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-            MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
-            MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,
-        }
+    return  
+    {
+        MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
+        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+        MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
+        MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,
+    }
 end
 
 function modifier_item_bloodthorn_custom:GetModifierPreAttack_BonusDamage()

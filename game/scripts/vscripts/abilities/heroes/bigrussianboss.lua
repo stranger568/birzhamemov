@@ -29,7 +29,8 @@ function BigRussianBoss_Vape:OnSpellStart()
     local duration = self:GetSpecialValueFor("duration")
     local radius = self:GetSpecialValueFor("radius")
     local thinker = CreateModifierThinker(caster, self, "modifier_vape_smoke", {duration = duration, target_point_x = point.x , target_point_y = point.y}, point, caster:GetTeamNumber(), false)
-    caster:EmitSound("Hero_Riki.Smoke_Screen")
+    thinker:EmitSound("Hero_Riki.Smoke_Screen")
+    thinker:EmitSound("brb_vaper")
 end
 
 modifier_vape_smoke = class({})
@@ -43,7 +44,7 @@ function modifier_vape_smoke:OnCreated()
     self.radius = self:GetAbility():GetSpecialValueFor("radius")
     self.particle = ParticleManager:CreateParticle("particles/boss/riki_smokebomb.vpcf", PATTACH_WORLDORIGIN, self:GetParent())
     ParticleManager:SetParticleControl(self.particle, 0, self:GetParent():GetAbsOrigin())
-    ParticleManager:SetParticleControl(self.particle, 1, Vector(self.radius, 0, self.radius))
+    ParticleManager:SetParticleControl(self.particle, 1, Vector(self.radius, self.radius, self.radius))
     self:AddParticle(self.particle, false, false, -1, false, false)
 end
 
@@ -70,7 +71,7 @@ function modifier_vape_smoke_debuff:IsPurgable() return false end
 function modifier_vape_smoke_debuff:IsDebuff() return true end
 
 function modifier_vape_smoke_debuff:OnCreated()
-    self.miss_chance = self:GetAbility():GetSpecialValueFor("miss_chance")
+    self.miss_chance = self:GetAbility():GetSpecialValueFor("miss_chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_3")
     self.slow = self:GetAbility():GetSpecialValueFor("move_slow")
 end
 
@@ -110,7 +111,7 @@ function BigRussianBoss_prank:GetCastRange(location, target)
 end
 
 function BigRussianBoss_prank:GetAOERadius()
-    return 200
+    return self:GetSpecialValueFor("radius")
 end
 
 function BigRussianBoss_prank:GetAbilityTextureName()
@@ -155,7 +156,7 @@ function BigRussianBoss_prank:OnSpellStart()
     local caster = self:GetCaster()
     if caster:HasModifier("modifier_bigrussianboss_prank") then
         local target = self:GetCursorTarget()
-        local max_brew = self:GetSpecialValueFor( "brew_time" )
+        local max_brew = self:GetSpecialValueFor( "brew_time" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_5")
         local brew_time
 
         local modifier = caster:FindModifierByName( "modifier_bigrussianboss_prank" )
@@ -191,7 +192,7 @@ function BigRussianBoss_prank:OnSpellStart()
         return
     end
     if caster:GetUnitName() == "npc_dota_hero_alchemist" then
-        caster:AddNewModifier( caster, self, "modifier_bigrussianboss_prank", { duration = 5.5 } )
+        caster:AddNewModifier( caster, self, "modifier_bigrussianboss_prank", { duration = 5.5 + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_5") } )
         self:EndCooldown()
     end
 end
@@ -202,11 +203,11 @@ function BigRussianBoss_prank:OnProjectileHit_ExtraData( target, location, Extra
     local brew_time = ExtraData.brew_time
     self.reflected_brew_time = brew_time
     self.reflected_brew_time = nil
-    local max_brew = self:GetSpecialValueFor( "brew_time" )
-    local min_stun = self:GetSpecialValueFor( "min_stun" )
+    local max_brew = self:GetSpecialValueFor( "brew_time" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_5")
+    local min_stun = self:GetSpecialValueFor( "min_stun" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_6")
     local max_stun = self:GetSpecialValueFor( "max_stun" )
-    local min_damage = self:GetSpecialValueFor( "min_damage" )
-    local max_damage = self:GetSpecialValueFor( "max_damage" )
+    local min_damage = self:GetSpecialValueFor( "min_damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_2")
+    local max_damage = self:GetSpecialValueFor( "max_damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_2")
     local radius = self:GetSpecialValueFor( "radius" )
 
     local stun = (brew_time/max_brew)*(max_stun-min_stun) + min_stun
@@ -234,7 +235,7 @@ function BigRussianBoss_prank:OnProjectileHit_ExtraData( target, location, Extra
     for _,enemy in pairs(enemies) do
         damageTable.victim = enemy
         ApplyDamage( damageTable )
-        enemy:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned_purge", {duration = stun})
+        enemy:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = stun * (1 - enemy:GetStatusResistance())})
     end
 
     local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_alchemist/alchemist_unstable_concoction_explosion.vpcf", PATTACH_ABSORIGIN_FOLLOW, target )
@@ -255,7 +256,7 @@ end
 
 function modifier_bigrussianboss_prank:OnCreated(kv)
     self.max_stun = self:GetAbility():GetSpecialValueFor( "max_stun" )
-    self.max_damage = self:GetAbility():GetSpecialValueFor( "max_damage" )
+    self.max_damage = self:GetAbility():GetSpecialValueFor( "max_damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_2")
     self.radius = self:GetAbility():GetSpecialValueFor( "radius" )
 
     if not IsServer() then return end
@@ -296,14 +297,14 @@ function modifier_bigrussianboss_prank:OnIntervalThink()
     for _,enemy in pairs(enemies) do
         damageTable.victim = enemy
         ApplyDamage( damageTable )
-        enemy:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", { duration = self.max_stun } )
+        enemy:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", { duration = self.max_stun * (1 - enemy:GetStatusResistance()) } )
     end
 
     if not self:GetParent():IsInvulnerable() then
         damageTable.victim = self:GetParent()
         if not self:GetParent():IsMagicImmune() then
             ApplyDamage( damageTable )
-            self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", { duration = self.max_stun } )
+            self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", { duration = self.max_stun * (1 - self:GetParent():GetStatusResistance()) } )
         end
     end
 
@@ -348,6 +349,7 @@ end
 LinkLuaModifier( "modifier_steb_passive", "abilities/heroes/bigrussianboss.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_steb_debuff", "abilities/heroes/bigrussianboss.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_steb_buff", "abilities/heroes/bigrussianboss.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_steb_debuff_silenced", "abilities/heroes/bigrussianboss.lua", LUA_MODIFIER_MOTION_NONE )
 
 BigRussianBoss_Steb = class({})
 
@@ -358,7 +360,7 @@ function BigRussianBoss_Steb:GetIntrinsicModifierName()
 end
 
 function modifier_steb_passive:IsHidden()
-    return true
+    return self:GetStackCount() == 0
 end
 
 function modifier_steb_passive:DeclareFunctions()
@@ -372,16 +374,19 @@ end
 
 function modifier_steb_passive:OnAttackLanded( params )
     if not IsServer() then return end
-    local parent = self:GetParent()
-    local target = params.target
+    if params.attacker ~= self:GetParent() then return end
+    if params.target:IsWard() then return end
+    if params.attacker:PassivesDisabled() then return end
     local duration = self:GetAbility():GetSpecialValueFor("duration")
-    if parent == params.attacker and target:GetTeamNumber() ~= parent:GetTeamNumber() then
-        if target:IsOther() then
-            return nil
+    params.attacker:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_steb_buff", { duration = duration } )
+    params.target:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_steb_debuff", { duration = duration * (1 - params.target:GetStatusResistance()) } )
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_brb_8") then
+        self:SetStackCount(self:GetStackCount() + 1)
+        if self:GetStackCount() >= self:GetAbility():GetSpecialValueFor("talent_silence_attack") then
+            params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_silence", {duration = self:GetAbility():GetSpecialValueFor("talent_silence_duration") * (1 - params.target:GetStatusResistance())})
+            self:SetStackCount(0)
         end
-        if self:GetParent():PassivesDisabled() then return end
-        parent:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_steb_buff", { duration = duration } )
-        target:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_steb_debuff", { duration = duration } )
     end
 end
 
@@ -458,6 +463,7 @@ end
 LinkLuaModifier( "modifier_brb_test", "abilities/heroes/bigrussianboss.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_brb_test_damage", "abilities/heroes/bigrussianboss.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_test_damage", "abilities/heroes/bigrussianboss.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_brb_test_magical_immune", "abilities/heroes/bigrussianboss.lua", LUA_MODIFIER_MOTION_NONE )
 
 BigRussianBoss_test = class({})
 
@@ -483,7 +489,7 @@ function BigRussianBoss_test:GetCooldown(level)
 end
 
 function BigRussianBoss_test:GetCastRange(location, target)
-    return self.BaseClass.GetCastRange(self, location, target)
+    return self.BaseClass.GetCastRange(self, location, target) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_4")
 end
 
 function BigRussianBoss_test:GetManaCost(level)
@@ -514,6 +520,48 @@ function BigRussianBoss_test:OnSpellStart()
     self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_brb_test", { duration = duration, target = target:entindex() } )
     target:AddNewModifier( self:GetCaster(), self, "modifier_brb_test_damage", { duration = duration } )
     self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_brb_test_damage", { duration = duration } )
+    if self:GetCaster():HasTalent("special_bonus_birzha_brb_7") then
+        self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_brb_test_magical_immune", { duration = duration })
+    end
+end
+
+modifier_brb_test_magical_immune = class({})
+
+function modifier_brb_test_magical_immune:IsPurgable() return false end
+function modifier_brb_test_magical_immune:IsHidden() return true end
+
+function modifier_brb_test_magical_immune:GetEffectName()
+    return "particles/items_fx/black_king_bar_avatar.vpcf"
+end
+
+function modifier_brb_test_magical_immune:GetEffectAttachType()
+    return PATTACH_ABSORIGIN_FOLLOW
+end
+
+function modifier_brb_test_magical_immune:CheckState()
+    return {
+        [MODIFIER_STATE_MAGIC_IMMUNE] = true
+    }
+end
+
+function modifier_brb_test_magical_immune:DeclareFunctions()
+    local decFuncs = {
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
+    }
+
+    return decFuncs
+end
+
+function modifier_brb_test_magical_immune:GetAbsoluteNoDamageMagical()
+    return 1
+end
+
+function modifier_brb_test_magical_immune:GetStatusEffectName()
+    return "particles/status_fx/status_effect_avatar.vpcf"
+end
+
+function modifier_brb_test_magical_immune:StatusEffectPriority()
+    return 99999
 end
 
 modifier_brb_test = class({})
@@ -571,7 +619,6 @@ local state =
     {
         [MODIFIER_STATE_SILENCED] = true,
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
-        [MODIFIER_STATE_MAGIC_IMMUNE] = true,
         [MODIFIER_STATE_MUTED] = true,
         [MODIFIER_STATE_COMMAND_RESTRICTED] = true,
         [MODIFIER_STATE_INVISIBLE] = false,
@@ -583,8 +630,6 @@ end
 function modifier_brb_test:DeclareFunctions()
     local decFuncs =
     {
-        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
-        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
         MODIFIER_PROPERTY_DISABLE_HEALING,
         MODIFIER_EVENT_ON_DEATH,
         MODIFIER_PROPERTY_TRANSLATE_ACTIVITY_MODIFIERS,
@@ -593,14 +638,6 @@ function modifier_brb_test:DeclareFunctions()
     }
 
     return decFuncs
-end
-
-function modifier_brb_test:GetAbsoluteNoDamageMagical()
-    return 1
-end
-
-function modifier_brb_test:GetAbsoluteNoDamagePure()
-    return 1
 end
 
 function modifier_brb_test:GetDisableHealing()
@@ -618,6 +655,7 @@ function modifier_brb_test:OnDeath( params )
             self.target:SetModifierStackCount("modifier_test_damage", self:GetAbility(), duel_stacks)
             self.target:RemoveModifierByName("modifier_brb_test_damage")
             self.target:RemoveModifierByName("modifier_brb_test")
+            self.target:RemoveModifierByName("modifier_brb_test_magical_immune")
             self.target:EmitSound("Hero_LegionCommander.Duel.Victory")
             local duel_victory_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_legion_commander/legion_commander_duel_victory.vpcf", PATTACH_OVERHEAD_FOLLOW, self.target)
         else
@@ -628,6 +666,7 @@ function modifier_brb_test:OnDeath( params )
             self:GetCaster():SetModifierStackCount("modifier_test_damage", self:GetAbility(), duel_stacks)
             self:GetCaster():RemoveModifierByName("modifier_brb_test_damage")
             self:GetCaster():RemoveModifierByName("modifier_brb_test")
+            self:GetCaster():RemoveModifierByName("modifier_brb_test_magical_immune")
             self:GetCaster():EmitSound("Hero_LegionCommander.Duel.Victory")
             local duel_victory_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_legion_commander/legion_commander_duel_victory.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetCaster())
         end
@@ -688,7 +727,6 @@ function modifier_brb_test_damage:GetModifierIncomingDamage_Percentage()
     end
     return self.damage
 end
-
 
 LinkLuaModifier( "modifier_brb_spice_buff", "abilities/heroes/bigrussianboss.lua", LUA_MODIFIER_MOTION_NONE )
 

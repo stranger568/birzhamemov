@@ -10,9 +10,6 @@ function Yakubovich_GiftsInTheStudio:GetCooldown(level)
 end
 
 function Yakubovich_GiftsInTheStudio:GetCastRange(location, target)
-    if self:GetCaster():HasShard() then
-        return 750
-    end
     return self.BaseClass.GetCastRange(self, location, target)
 end
 
@@ -21,30 +18,34 @@ function Yakubovich_GiftsInTheStudio:GetManaCost(level)
 end
 
 function Yakubovich_GiftsInTheStudio:GetAOERadius()
-    return self:GetSpecialValueFor("aoe_radius")
+    return self:GetSpecialValueFor("aoe_radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_yakubovich_1")
 end
 
 function Yakubovich_GiftsInTheStudio:OnSpellStart()
     if not IsServer() then return end
+    
     EmitSoundOnLocationWithCaster(self:GetCursorPosition(), "Hero_Dark_Seer.Vacuum", self:GetCaster())
+    
     local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_dark_seer/dark_seer_vacuum.vpcf", PATTACH_POINT, self:GetCaster())
     ParticleManager:SetParticleControl(particle, 0, self:GetCursorPosition())
-    ParticleManager:SetParticleControl(particle, 1, Vector(self:GetSpecialValueFor("aoe_radius"), 1, 1))
+    ParticleManager:SetParticleControl(particle, 1, Vector(self:GetSpecialValueFor("aoe_radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_yakubovich_1"), 1, 1))
     ParticleManager:ReleaseParticleIndex(particle)
-    local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCursorPosition(), nil, self:GetSpecialValueFor("aoe_radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, FIND_ANY_ORDER, false)   
+
+    local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCursorPosition(), nil, self:GetSpecialValueFor("aoe_radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_yakubovich_1"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, FIND_ANY_ORDER, false)   
     for _, enemy in pairs(enemies) do
         enemy:AddNewModifier(self:GetCaster(), self, "modifier_Yakubovich_GiftsInTheStudio_vacuum", { duration = 0.5, x = self:GetCursorPosition().x, y = self:GetCursorPosition().y })
     end
+
     CreateModifierThinker( self:GetCaster(), self, "modifier_Yakubovich_GiftsInTheStudio_barier", {}, self:GetCursorPosition(), self:GetCaster():GetTeamNumber(), false )
     GridNav:DestroyTreesAroundPoint( self:GetCursorPosition(), self:GetSpecialValueFor("radius_barier"), true )
 end
 
 modifier_Yakubovich_GiftsInTheStudio_vacuum = class({})
 
-function modifier_Yakubovich_GiftsInTheStudio_vacuum:IsDebuff()          return true end
+function modifier_Yakubovich_GiftsInTheStudio_vacuum:IsDebuff() return true end
 
 function modifier_Yakubovich_GiftsInTheStudio_vacuum:OnCreated(params)
-    self.damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_yakubovich_1")
+    self.damage = self:GetAbility():GetSpecialValueFor("damage")
     if not IsServer() then return end
     self.caster = self:GetCaster()
     self.duration   = params.duration
@@ -78,7 +79,8 @@ function modifier_Yakubovich_GiftsInTheStudio_vacuum:OnDestroy()
     self:GetParent():SetAbsOrigin(self.vacuum_pos)
     ResolveNPCPositions(self.vacuum_pos, 128)
     
-    local damageTable = {
+    local damageTable = 
+    {
         victim          = self:GetParent(),
         damage          = self.damage,
         damage_type     = DAMAGE_TYPE_MAGICAL,
@@ -94,7 +96,8 @@ function modifier_Yakubovich_GiftsInTheStudio_vacuum:CheckState()
 end
 
 function modifier_Yakubovich_GiftsInTheStudio_vacuum:DeclareFunctions()
-    return {
+    return 
+    {
         MODIFIER_PROPERTY_OVERRIDE_ANIMATION
     }
 end
@@ -119,7 +122,7 @@ function modifier_Yakubovich_GiftsInTheStudio_barier:OnCreated( kv )
     self.owner = kv.isProvidedByAura~=1
     if self.owner then
         self.delay = 0.5
-        self.duration = self:GetAbility():GetSpecialValueFor( "duration" )
+        self.duration = self:GetAbility():GetSpecialValueFor( "duration" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_yakubovich_3")
         self:SetDuration( self.delay + self.duration, false )
         self.formed = false
         self:StartIntervalThink( self.delay )
@@ -146,11 +149,17 @@ function modifier_Yakubovich_GiftsInTheStudio_barier:OnDestroy()
 end
 
 function modifier_Yakubovich_GiftsInTheStudio_barier:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_MOVESPEED_LIMIT,
+        MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE,
     }
 
     return funcs
+end
+
+function modifier_Yakubovich_GiftsInTheStudio_barier:GetModifierIncomingDamage_Percentage()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_yakubovich_6")
 end
 
 function modifier_Yakubovich_GiftsInTheStudio_barier:GetModifierMoveSpeed_Limit( params )
@@ -260,7 +269,7 @@ function yakubovich_roll:GetCastRange(location, target)
 end
 
 function yakubovich_roll:GetManaCost(level)
-    return self.BaseClass.GetManaCost(self, level)
+    return self.BaseClass.GetManaCost(self, level) + self:GetCaster():FindTalentValue("special_bonus_birzha_yakubovich_5")
 end
 
 function yakubovich_roll:GetAOERadius()
@@ -285,7 +294,7 @@ function yakubovich_roll:OnSpellStart()
     self.sub = sub
     sub.modifier = modifier
     modifier.sub = sub
-    EmitSoundOn( "Hero_Shredder.Chakram.Cast", caster )
+    caster:EmitSound("Hero_Shredder.Chakram.Cast")
 end
 
 yakubovich_roll_return = class({})
@@ -328,11 +337,15 @@ function modifier_yakubovich_roll_thinker:OnCreated( kv )
     self.move_interval = FrameTime()
     self.proximity = 50
     self.caught_enemies = {}
-    self.damageTable = {
+
+    self.damageTable = 
+    {
         attacker = self.caster,
         damage_type = self:GetAbility():GetAbilityDamageType(),
         ability = self:GetAbility(),
     }
+
+    self.bonus_damage = 0
 
     self.parent:SetDayTimeVisionRange( 500 )
     self.parent:SetNightTimeVisionRange( 500 )
@@ -400,9 +413,14 @@ function modifier_yakubovich_roll_thinker:StayThink()
         0,
         false
     )
+    local damage = self.bonus_damage + self.damage_stay
+    self.damageTable.damage = damage * self.interval
     for _,enemy in pairs(enemies) do
         self.damageTable.victim = enemy
         ApplyDamage( self.damageTable )
+    end
+    if #enemies>0 then
+        self.bonus_damage = self.bonus_damage + self:GetCaster():FindTalentValue("special_bonus_birzha_yakubovich_8")
     end
     local sound_tree = "Hero_Shredder.Chakram.Tree"
     local trees = GridNav:GetAllTreesAroundPoint( origin, self.radius, true )
@@ -587,6 +605,11 @@ function Yakubovich_Really:GetIntrinsicModifierName()
     return "modifier_yakubich_stun"
 end
 
+function Yakubovich_Really:GetCooldown(level)
+    if self:GetCaster():HasShard() then return 0 end
+    return self.BaseClass.GetCooldown( self, level )
+end
+
 modifier_yakubich_stun = class({}) 
 
 function modifier_yakubich_stun:IsPurgable()
@@ -610,13 +633,18 @@ function modifier_yakubich_stun:OnAttackLanded( keys )
     if keys.target == self:GetParent() then
         local chance = self:GetAbility():GetSpecialValueFor("chance")
         local damage = self:GetAbility():GetSpecialValueFor("damage")
-        local duration = self:GetAbility():GetSpecialValueFor("duration")
+        local duration = self:GetAbility():GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_yakubovich_2")
+        if not self:GetAbility():IsFullyCastable() then return end
         if self:GetParent():IsIllusion() or self:GetParent():PassivesDisabled() then return end
-        if RandomInt(1, 100) <= chance then
+        if RollPercentage(chance) then
             if keys.attacker:IsMagicImmune() then return end
+            self:GetAbility():UseResources(false, false, true)
             self:GetParent():EmitSound("daladno")
-            keys.attacker:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_birzha_stunned_purge", {duration = duration})
+            keys.attacker:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_birzha_stunned_purge", {duration = duration * (1-keys.attacker:GetStatusResistance()) })
             ApplyDamage({ victim = keys.attacker, attacker = self:GetParent(), damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility() })
+            if self:GetCaster():HasTalent("special_bonus_birzha_yakubovich_4") then
+                self:GetCaster():Purge(false, true, false, true, true)
+            end
         end
     end
 end
@@ -635,7 +663,7 @@ end
 
 function Yakubovich_Car:OnSpellStart()
     if not IsServer() then return end
-    local duration = self:GetSpecialValueFor('duration') + self:GetCaster():FindTalentValue("special_bonus_birzha_yakubovich_2")
+    local duration = self:GetSpecialValueFor('duration')
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_yakubovich_car", {duration = duration})
     self:GetCaster():EmitSound("zuuscar")
 end
@@ -656,6 +684,7 @@ function modifier_yakubovich_car:DeclareFunctions()
         MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE,
         MODIFIER_PROPERTY_MODEL_CHANGE,
         MODIFIER_PROPERTY_MODEL_SCALE,
+        MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE,
     }
 
     return decFuncs
@@ -663,6 +692,10 @@ end
 
 function modifier_yakubovich_car:GetModifierMoveSpeed_Absolute()
     return self:GetAbility():GetSpecialValueFor('speed')
+end
+
+function modifier_yakubovich_car:GetModifierPercentageCooldown()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_yakubovich_7")
 end
 
 function modifier_yakubovich_car:GetModifierBonusStats_Intellect()
@@ -680,19 +713,6 @@ end
 function modifier_yakubovich_car:GetModifierModelScale( params )
     return 10
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 LinkLuaModifier( "modifier_yakubovich_roll_debuff_scepter", "abilities/heroes/yakubovich", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_yakubovich_roll_thinker_scepter", "abilities/heroes/yakubovich", LUA_MODIFIER_MOTION_NONE )

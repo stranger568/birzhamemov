@@ -325,7 +325,11 @@ function GetHeroLevel(exp)
 
 function GetHeroRankIcon(level)
 {
-    if (level >= 10) {
+    if (level >= 30) {
+        return "rank_7"
+    } else if (level >= 20) {
+        return "rank_6"
+    } else if (level >= 10) {
         return "rank_5"
     } else if (level >= 7) {
         return "rank_4"

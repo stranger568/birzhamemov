@@ -1,4 +1,3 @@
-LinkLuaModifier("modifier_kaneki_ghoul", "abilities/heroes/kaneki", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_kaneki_ghoul_stacks", "abilities/heroes/kaneki", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_kaneki_ghoul_slow", "abilities/heroes/kaneki", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
@@ -7,43 +6,14 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 kaneki_ghoul = class({})
 
 function kaneki_ghoul:GetCooldown(level)
-	if self:GetCaster():HasTalent("special_bonus_birzha_kaneki_3") then
+	if self:GetCaster():HasTalent("special_bonus_birzha_kaneki_7") then
 		return 0
 	end
-    return self.BaseClass.GetCooldown( self, level )
-end
-
-kaneki_ghoul = class({})
-
-function kaneki_ghoul:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level ) / ( self:GetCaster():GetCooldownReduction())
 end
 
 function kaneki_ghoul:GetIntrinsicModifierName()
-	if not self:GetCaster():IsIllusion() then
-		return "modifier_kaneki_ghoul"
-	end
-end
-
-modifier_kaneki_ghoul = class({})
-
-function modifier_kaneki_ghoul:IsHidden()
-	return true
-end
-
-function modifier_kaneki_ghoul:IsPurgable()
-	return false
-end
-
-function modifier_kaneki_ghoul:OnCreated()
-	if not IsServer() then return end
-	self:StartIntervalThink(0.1)
-end
-
-function modifier_kaneki_ghoul:OnIntervalThink()
-	if self:GetAbility():IsFullyCastable() and not self:GetCaster():HasModifier("modifier_kaneki_ghoul_stacks") then
-		self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_kaneki_ghoul_stacks", {})
-	end
+	return "modifier_kaneki_ghoul_stacks"
 end
 
 modifier_kaneki_ghoul_stacks = class({})
@@ -52,52 +22,70 @@ function modifier_kaneki_ghoul_stacks:IsPurgable()
 	return false
 end
 
+function modifier_kaneki_ghoul_stacks:IsHidden() return self:GetStackCount() == 0 end
+
 function modifier_kaneki_ghoul_stacks:DeclareFunctions()
-return {
-	MODIFIER_EVENT_ON_ATTACK_LANDED,
-	MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
-	MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-}
+	return 
+	{
+		MODIFIER_EVENT_ON_ATTACK_LANDED,
+		MODIFIER_EVENT_ON_TAKEDAMAGE,
+		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
+		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+	}
 end
 
 function modifier_kaneki_ghoul_stacks:OnAttackLanded(params)
 	if not IsServer() then return end
-	local target = params.target
-	if self:GetParent() == params.attacker and target:GetTeamNumber() ~= self:GetParent():GetTeamNumber() then
-		if target:IsOther() then
-			return nil
+	if params.attacker ~= self:GetParent() then return end
+	if params.target:IsWard() then return end
+	if params.target:IsBuilding() then return end
+	if params.target == params.attacker then return end
+	if params.attacker:IsIllusion() then return end
+	if not self:GetAbility():IsFullyCastable() then return end
+
+	local max_stack = self:GetAbility():GetSpecialValueFor("max_stack")
+	local duration = self:GetAbility():GetSpecialValueFor("duration")
+
+	params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_kaneki_ghoul_slow", { duration = duration * (1 - params.target:GetStatusResistance()) })
+
+	local particle = ParticleManager:CreateParticle( "particles/econ/items/ogre_magi/ogre_ti8_immortal_weapon/ogre_ti8_immortal_bloodlust_buff_ground.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.target )
+	ParticleManager:SetParticleControlEnt( particle, 1, params.target, PATTACH_ABSORIGIN_FOLLOW, nil, params.target:GetOrigin(), false )
+	ParticleManager:ReleaseParticleIndex( particle )
+
+	if self:GetStackCount() < max_stack then
+		self:SetStackCount(self:GetStackCount() + 1)
+	end
+
+	if self:GetStackCount() == max_stack then
+		if not self:GetCaster():HasTalent("special_bonus_birzha_kaneki_7") then
+			self:GetAbility():UseResources(false, false, true)
 		end
-		local max_stack = self:GetAbility():GetSpecialValueFor("max_stack")
-		local heal = self:GetAbility():GetSpecialValueFor("heal")
-		local duration = self:GetAbility():GetSpecialValueFor("duration")
-		heal = target:GetHealth()/100*heal
-		if self:GetParent():IsIllusion() or self:GetParent():PassivesDisabled() then return end
-		self:GetParent():Heal(heal, self:GetAbility())
-		target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_kaneki_ghoul_slow", { duration = duration})
-		local particle = ParticleManager:CreateParticle( "particles/econ/items/ogre_magi/ogre_ti8_immortal_weapon/ogre_ti8_immortal_bloodlust_buff_ground.vpcf", PATTACH_ABSORIGIN_FOLLOW, target )
-		ParticleManager:SetParticleControlEnt( particle, 1, target, PATTACH_ABSORIGIN_FOLLOW, nil, target:GetOrigin(), false )
-		ParticleManager:ReleaseParticleIndex( particle )
-		if self:GetStackCount() < max_stack then
-			self:SetStackCount(self:GetStackCount() + 1)
-		end
-		if self:GetStackCount() == max_stack then
-			if not self:GetCaster():HasTalent("special_bonus_birzha_kaneki_3") then
-				self:GetAbility():UseResources(false, false, true)
-			end
-			if not self:IsNull() then
-				self:Destroy()
-			end
-		end
+		self:SetStackCount(0)
 	end
 end
 
+function modifier_kaneki_ghoul_stacks:OnTakeDamage(params)
+    if not IsServer() then return end
+    if self:GetParent() ~= params.attacker then return end
+    if self:GetParent() == params.unit then return end
+    if params.unit:IsBuilding() then return end
+    if params.unit:IsWard() then return end
+    if not self:GetAbility():IsFullyCastable() then return end
+    if params.inflictor == nil and not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then 
+        local heal = (self:GetAbility():GetSpecialValueFor("heal") + self:GetCaster():FindTalentValue("special_bonus_birzha_kaneki_2")) / 100 * params.damage
+        self:GetParent():Heal(heal, nil)
+        local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_bloodseeker/bloodseeker_bloodbath.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
+    	ParticleManager:ReleaseParticleIndex( effect_cast )
+    end
+end
+
 function modifier_kaneki_ghoul_stacks:GetModifierPreAttack_BonusDamage()
-	if self:GetParent():IsIllusion() or self:GetParent():PassivesDisabled() then return end
+	if self:GetParent():PassivesDisabled() then return end
 	return self:GetAbility():GetSpecialValueFor("bonus_damage") * self:GetStackCount()
 end
 
 function modifier_kaneki_ghoul_stacks:GetModifierAttackSpeedBonus_Constant()
-	if self:GetParent():IsIllusion() or self:GetParent():PassivesDisabled() then return end
+	if self:GetParent():PassivesDisabled() then return end
 	return self:GetAbility():GetSpecialValueFor("bonus_attack_speed") * self:GetStackCount()
 end
 
@@ -114,14 +102,6 @@ function modifier_kaneki_ghoul_slow:OnCreated()
 	self.particle = ParticleManager:CreateParticle("particles/units/heroes/hero_visage/visage_grave_chill_tgt.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
 	ParticleManager:SetParticleControlEnt(self.particle, 2, self:GetParent(), PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
 	self:AddParticle(self.particle, false, false, -1, false, false)
-end
-
-function modifier_kaneki_ghoul_slow:OnDestroy()
-    if not IsServer() then return end
-    if self.particle then
-    	ParticleManager:DestroyParticle(self.particle, false)
-    	ParticleManager:ReleaseParticleIndex( self.particle )
-    end
 end
 
 function modifier_kaneki_ghoul_slow:DeclareFunctions()
@@ -154,39 +134,49 @@ end
 
 function kaneki_coffee:OnSpellStart()
 	if not IsServer() then return end
+
 	local radius = self:GetSpecialValueFor("radius")
 	local duration = self:GetSpecialValueFor("duration")
 	local target = nil
-	local units = FindUnitsInRadius( self:GetCaster():GetTeam(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NO_INVIS, FIND_ANY_ORDER, false )
+
+	local units = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NO_INVIS + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE, FIND_ANY_ORDER, false )
+
 	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_cup_buff", {duration = duration})
+
 	self:GetCaster():EmitSound("kanekidrink")
+
 	local point = self:GetCaster():GetAttachmentOrigin(self:GetCaster():ScriptLookupAttachment("ATTACH_hEAD"))
+
 	if #units == 0 then return end
+
 	target = units[1]
-	local info = {
-	EffectName = "particles/kaneki_cup2.vpcf",
-	Dodgeable = true,
-	Ability = self,
-	ProvidesVision = true,
-	VisionRadius = 600,
-	bVisibleToEnemies = true,
-	iMoveSpeed = 1000,
-	Source = self:GetCaster(),
-	iVisionTeamNumber = self:GetCaster():GetTeamNumber(),
-	Target = target,
-	bReplaceExisting = false,
-	vSpawnOrigin = point
+
+	local info = 
+	{
+		EffectName = "particles/kaneki_cup2.vpcf",
+		Dodgeable = true,
+		Ability = self,
+		ProvidesVision = true,
+		VisionRadius = 0,
+		bVisibleToEnemies = true,
+		iMoveSpeed = 1000,
+		Source = self:GetCaster(),
+		iVisionTeamNumber = self:GetCaster():GetTeamNumber(),
+		Target = target,
+		bReplaceExisting = false,
+		vSpawnOrigin = point
 	}
+
 	local cup = ProjectileManager:CreateTrackingProjectile(info)
 end
 
 function kaneki_coffee:OnProjectileHit(target,_)
 	if not IsServer() then return end
-	local damage = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_kaneki_1")
-	local stun_duration = self:GetSpecialValueFor("stun_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_kaneki_2")
+
+	local damage = self:GetSpecialValueFor("damage")
+
 	if target ~= nil and ( not target:IsMagicImmune() ) then
-		target:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned_purge", {duration = stun_duration})
-		ApplyDamage({attacker = self:GetCaster(), victim = target, ability = self, damage = damage, damage_type = DAMAGE_TYPE_PURE})
+		ApplyDamage({attacker = self:GetCaster(), victim = target, ability = self, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
 	end
 end
 
@@ -197,14 +187,14 @@ function modifier_cup_buff:IsPurgable()
 end
 
 function modifier_cup_buff:OnCreated()
-	self.resist = self:GetAbility():GetSpecialValueFor("magical_resist")
+	self.resist = self:GetAbility():GetSpecialValueFor("damage_resist") + self:GetCaster():FindTalentValue("special_bonus_birzha_kaneki_4")
 end
 
 function modifier_cup_buff:DeclareFunctions()
-return {MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,}
+return {MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE}
 end
 
-function modifier_cup_buff:GetModifierMagicalResistanceBonus()
+function modifier_cup_buff:GetModifierIncomingDamage_Percentage()
 	return self.resist
 end
 
@@ -244,7 +234,7 @@ function modifier_kaneki_feeling_aura:IsPurgable()
 end
 
 function modifier_kaneki_feeling_aura:IsAura()
-	return true
+	return not self:GetParent():IsIllusion()
 end
 
 function modifier_kaneki_feeling_aura:GetModifierAura()
@@ -257,27 +247,32 @@ function modifier_kaneki_feeling_aura:OnCreated()
 end
 
 function modifier_kaneki_feeling_aura:DeclareFunctions()
-	return {MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT, MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE, MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE, MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE }
+	return 
+	{
+		MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE, 
+		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE 
+	}
 end
 
-function modifier_kaneki_feeling_aura:GetModifierPreAttack_BonusDamage( params )
+function modifier_kaneki_feeling_aura:GetModifierDamageOutgoing_Percentage()
 	return self:GetAbility():GetSpecialValueFor("bonus_damage") * self:GetStackCount()
 end
 
-function modifier_kaneki_feeling_aura:GetModifierMoveSpeedBonus_Constant( params )
+function modifier_kaneki_feeling_aura:GetModifierMoveSpeedBonus_Percentage()
 	return self:GetAbility():GetSpecialValueFor("movespeed_bonus") * self:GetStackCount()
 end
 
 function modifier_kaneki_feeling_aura:OnIntervalThink()
 	local stack = 0
 	for _,hero in pairs (HeroList:GetAllHeroes()) do
-		if hero:HasModifier("modifier_kaneki_feeling_debuff_vision") then
-			stack = stack + 1
+		if hero:IsRealHero() then
+			if hero:HasModifier("modifier_kaneki_feeling_debuff_vision") then
+				stack = stack + 1
+			end
 		end
 	end
 	self:SetStackCount(stack)
 end
-
 
 function modifier_kaneki_feeling_aura:GetAuraRadius()
 	return 999999
@@ -289,6 +284,10 @@ end
 
 function modifier_kaneki_feeling_aura:GetAuraSearchType()
 	return DOTA_UNIT_TARGET_HERO
+end
+
+function modifier_kaneki_feeling_aura:GetAuraSearchFlags()
+	return DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
 end
 
 modifier_kaneki_feeling_debuff = class({})
@@ -307,6 +306,7 @@ function modifier_kaneki_feeling_debuff:OnCreated()
 end
 
 function modifier_kaneki_feeling_debuff:OnIntervalThink()
+	if not IsServer() then return end
 	local hp_need = self:GetAbility():GetSpecialValueFor("hp_need")
 	if self:GetParent():HasModifier("modifier_fountain_passive_invul") then self:GetParent():RemoveModifierByName("modifier_kaneki_feeling_debuff_vision") end
 	if self:GetParent():GetHealth() <= self:GetParent():GetMaxHealth() / 100 * hp_need then
@@ -336,11 +336,9 @@ function modifier_kaneki_feeling_debuff_vision:OnCreated()
 end
 
 function modifier_kaneki_feeling_debuff_vision:OnIntervalThink()
+	if not IsServer() then return end
+	self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_truesight", {duration = 0.1})
 	AddFOWViewer(self:GetCaster():GetTeam(), self:GetParent():GetAbsOrigin(), 50, FrameTime(), false)
-end
-
-function modifier_kaneki_feeling_debuff_vision:CheckState()
-	return {[MODIFIER_STATE_INVISIBLE] = false,}
 end
 
 function modifier_kaneki_feeling_debuff_vision:GetEffectName()
@@ -352,7 +350,7 @@ LinkLuaModifier("modifier_kaneki_rage", "abilities/heroes/kaneki", LUA_MODIFIER_
 kaneki_rage = class({})
 
 function kaneki_rage:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_kaneki_1")
 end
 
 function kaneki_rage:GetManaCost(level)
@@ -383,6 +381,8 @@ end
 
 modifier_kaneki_rage = class({})
 
+function modifier_kaneki_rage:AllowIllusionDuplicate() return true end
+
 function modifier_kaneki_rage:OnCreated()
 	self.bonus_armor = self:GetAbility():GetSpecialValueFor("bonus_armor")
 	self.bonus_attack_speed = self:GetAbility():GetSpecialValueFor("bonus_attack_speed")
@@ -395,42 +395,53 @@ function modifier_kaneki_rage:IsPurgable()
 end
 
 function modifier_kaneki_rage:OnIntervalThink()
+	if not IsServer() then return end
 	local stack = 100 - ( self:GetParent():GetHealth() / self:GetParent():GetMaxHealth() * 100 )
 	self:SetStackCount(stack)
 end
 
 function modifier_kaneki_rage:DeclareFunctions()
-	return {MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT, MODIFIER_EVENT_ON_ATTACK_LANDED, MODIFIER_PROPERTY_MODEL_CHANGE }
+	return {MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT, MODIFIER_EVENT_ON_ATTACK_LANDED, MODIFIER_PROPERTY_MODEL_CHANGE, MODIFIER_PROPERTY_ATTACK_RANGE_BONUS }
 end
 
 function modifier_kaneki_rage:GetModifierPhysicalArmorBonus()
+	if self:GetParent():IsIllusion() then return end
 	return self.bonus_armor * self:GetStackCount()
 end
 
 function modifier_kaneki_rage:GetModifierAttackSpeedBonus_Constant()
+	if self:GetParent():IsIllusion() then return end
 	return self.bonus_attack_speed * self:GetStackCount()
+end
+
+function modifier_kaneki_rage:GetModifierAttackRangeBonus()
+	return self:GetCaster():FindTalentValue("special_bonus_birzha_kaneki_5")
 end
 
 function modifier_kaneki_rage:OnAttackLanded(params)
 	if not IsServer() then return end
 	if params.attacker ~= self:GetParent() then return end
-	if params.attacker:GetTeam() == params.target:GetTeam() then
-        return
-    end 
-	local chance = self:GetAbility():GetSpecialValueFor("chance")
+	if params.target:IsWard() then return end
+	if params.target:IsBuilding() then return end
+	if params.target == params.attacker then return end
+	if params.attacker:IsIllusion() then return end
+
+	local chance = self:GetAbility():GetSpecialValueFor("chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_kaneki_6")
 	local multiplier = self:GetAbility():GetSpecialValueFor("multi_str")
 	local radius = self:GetAbility():GetSpecialValueFor("radius")
-	local damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_kaneki_4")
-	local multiplier_damage = damage + self:GetParent():GetStrength() * multiplier
-	if RandomInt(1,100) <= chance then
-		self:GetParent():Stop()
+	local damage = self:GetAbility():GetSpecialValueFor("damage")
+	local multiplier_damage = damage + (self:GetParent():GetStrength() * multiplier)
+
+	if RollPercentage(chance) then
 		self:GetParent():StartGesture(ACT_DOTA_CAST_ABILITY_1)
+
 		local particle = ParticleManager:CreateParticle( "particles/kaneki_helix.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
 		ParticleManager:SetParticleControlEnt( particle, 1, self:GetParent(), PATTACH_ABSORIGIN_FOLLOW, nil, self:GetParent():GetOrigin(), false )
 		ParticleManager:ReleaseParticleIndex( particle )
+
 		local units = FindUnitsInRadius( self:GetParent():GetTeam(), self:GetParent():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_ANY_ORDER, false )
 		for _,target in pairs (units) do
-			ApplyDamage({attacker = self:GetParent(), victim = target, damage = damage, ability = self:GetAbility(), damage_type = DAMAGE_TYPE_PURE})
+			ApplyDamage({attacker = self:GetParent(), victim = target, damage = multiplier_damage, ability = self:GetAbility(), damage_type = DAMAGE_TYPE_PURE})
 		end
 	end
 end
@@ -455,19 +466,21 @@ function kaneki_pull:OnSpellStart()
 	local target = self:GetCursorTarget()
 	local point = target:GetAbsOrigin()
 
+	if target:TriggerSpellAbsorb(self) then return end
+
 	local projectile_direction = point-self:GetCaster():GetOrigin()
 	projectile_direction.z = 0
 	local length = projectile_direction:Length2D()
 	projectile_direction = projectile_direction:Normalized()
 
-	local effect = self:PlayEffects( target, length*3, length/length*3 )
+	local effect = self:PlayEffects( target, 1200, length/1200 )
 
     local info = {
         Target = target,
         Source = self:GetCaster(),
         Ability = self, 
         EffectName = "",
-        iMoveSpeed = length*3,
+        iMoveSpeed = 1200,
         bReplaceExisting = false,
         bProvidesVision = true,
         iVisionRadius = 25,
@@ -483,13 +496,19 @@ function kaneki_pull:OnProjectileHitHandle( target, location, handle )
 	if not ExtraData then return end
 	ParticleManager:DestroyParticle( ExtraData, false )
 	ParticleManager:ReleaseParticleIndex( ExtraData )
+	if target == nil then return end
 	local damage = self:GetSpecialValueFor("damage")
 	target:EmitSound("kaneki_shard_target")
+
 	if not target:IsMagicImmune() then
 		ParticleManager:CreateParticle("particles/items2_fx/soul_ring_blood.vpcf", PATTACH_ABSORIGIN_FOLLOW, target)
-		ApplyDamage({attacker = self:GetCaster(), victim = target, ability = self, damage = damage, damage_type = DAMAGE_TYPE_PURE})
+		ApplyDamage({attacker = self:GetCaster(), victim = target, ability = self, damage = damage, damage_type = DAMAGE_TYPE_PHYSICAL})
 		target:AddNewModifier(self:GetCaster(), self, "modifier_kaneki_pull_debuff", {})
+		if self:GetCaster():HasTalent("special_bonus_birzha_kaneki_3") then
+			self:GetCaster():PerformAttack(target, false, true, true, false, false, false, true)
+		end
 	end
+
 	self.projectiles[ handle ] = nil
 end
 
@@ -533,6 +552,11 @@ function modifier_kaneki_pull_debuff:OnIntervalThink()
 
     local pull = 100
 
+    if distance >= 1000 then
+    	self:Destroy()
+    	return
+    end
+
     if distance >= 150 then
         self:GetParent():SetAbsOrigin(unit_location + direction * pull)
     else
@@ -541,11 +565,12 @@ function modifier_kaneki_pull_debuff:OnIntervalThink()
         local duration = self:GetAbility():GetSpecialValueFor("duration")
 
         if self:GetCaster():HasScepter() then
-        	duration = duration + 1.5
-        	self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = 1.5})
+        	local shard_stun_duration = self:GetAbility():GetSpecialValueFor("shard_stun_duration")
+        	duration = duration + shard_stun_duration
+        	self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = shard_stun_duration * (1 - self:GetParent():GetStatusResistance()) })
         end
 
-        self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_kaneki_pull_movespeed", {duration = self:GetAbility():GetSpecialValueFor("duration")})
+        self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_kaneki_pull_movespeed", {duration = self:GetAbility():GetSpecialValueFor("duration") * (1 - self:GetParent():GetStatusResistance()) })
     end
 end
 
@@ -555,7 +580,8 @@ modifier_kaneki_pull_movespeed = class({})
 function modifier_kaneki_pull_movespeed:IsPurgable() return true end
 
 function modifier_kaneki_pull_movespeed:DeclareFunctions()
-	return {
+	return 
+	{
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
 	}
 end

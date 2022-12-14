@@ -1,11 +1,11 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier("modifier_V1lat_Crab", "abilities/heroes/v1lat", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier( "modifier_V1lat_Crab", "abilities/heroes/v1lat", LUA_MODIFIER_MOTION_NONE)
 
 V1lat_Crab = class({})
 
 function V1lat_Crab:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_v1lat_3")
 end
 
 function V1lat_Crab:GetManaCost(level)
@@ -20,7 +20,7 @@ function V1lat_Crab:CastFilterResultTarget(target)
     if IsServer() then
         local caster = self:GetCaster()
 
-        if not caster:HasTalent("special_bonus_birzha_v1lat_1") then
+        if not caster:HasTalent("special_bonus_birzha_v1lat_7") then
             if target:IsMagicImmune() then
                 return UF_FAIL_MAGIC_IMMUNE_ENEMY
             end
@@ -34,17 +34,19 @@ end
 function V1lat_Crab:OnSpellStart()
     if not IsServer() then return end
     local target = self:GetCursorTarget()
+
     if target:TriggerSpellAbsorb( self ) then
         return
     end
-    local duration = self:GetSpecialValueFor("duration")  
-    if self:GetCaster():HasTalent("special_bonus_birzha_v1lat_1") then
-        duration = duration - 1
-    end  
-    EmitSoundOn("V1latRak", target)   
+
+    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_v1lat_4")
+
+    target:EmitSound("V1latRak")   
+
     local particle_hex_fx = ParticleManager:CreateParticle( "particles/units/heroes/hero_lion/lion_spell_voodoo.vpcf", PATTACH_CUSTOMORIGIN, target)     
     ParticleManager:SetParticleControl(particle_hex_fx, 0, target:GetAbsOrigin())      
     ParticleManager:ReleaseParticleIndex(particle_hex_fx)
+
     target:AddNewModifier(self:GetCaster(), self, "modifier_V1lat_Crab", {duration = duration * (1 - target:GetStatusResistance())})
 end
 
@@ -66,17 +68,22 @@ function modifier_V1lat_Crab:IsPurgeException() return true end
 function modifier_V1lat_Crab:IsDebuff() return true end
 
 function modifier_V1lat_Crab:CheckState()
-    local state
-    state = {[MODIFIER_STATE_HEXED] = true,
-             [MODIFIER_STATE_DISARMED] = true,
-             [MODIFIER_STATE_SILENCED] = true,
-             [MODIFIER_STATE_MUTED] = true}            
+    local state = 
+    {
+        [MODIFIER_STATE_HEXED] = true,
+        [MODIFIER_STATE_DISARMED] = true,
+        [MODIFIER_STATE_SILENCED] = true,
+        [MODIFIER_STATE_MUTED] = true
+    }            
     return state
 end
 
 function modifier_V1lat_Crab:DeclareFunctions()
-    local decFuncs = {MODIFIER_PROPERTY_MODEL_CHANGE,
-                      MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE,}
+    local decFuncs = 
+    {
+        MODIFIER_PROPERTY_MODEL_CHANGE,
+        MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE
+    }
     return decFuncs
 end
 
@@ -259,8 +266,8 @@ function V1lat_AiAiAi_slam:OnProjectileThink_ExtraData(location, data)
     if self.ice_blast_ability then
         AddFOWViewer(self:GetCaster():GetTeamNumber(), location, 500, 3, false)
         local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), location, nil, 300, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_ANY_ORDER, false)
-        local duration      = self.ice_blast_ability:GetSpecialValueFor("frostbite_duration")
-        local stun_duration      = self.ice_blast_ability:GetSpecialValueFor("duration")
+        local duration      = self.ice_blast_ability:GetSpecialValueFor("frostbite_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_v1lat_2")
+        local stun_duration      = self.ice_blast_ability:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_v1lat_5")
         for _, enemy in pairs(enemies) do
             local ice_blast_modifier = nil
             
@@ -307,7 +314,7 @@ function V1lat_AiAiAi_slam:OnProjectileHit_ExtraData(target, location, data)
         }
         
         local duration      = self.ice_blast_ability:GetSpecialValueFor("frostbite_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_v1lat_2")
-        local stun_duration      = self.ice_blast_ability:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_v1lat_4")
+        local stun_duration      = self.ice_blast_ability:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_v1lat_5")
     
         for _, enemy in pairs(enemies) do
             local ice_blast_modifier = nil
@@ -330,7 +337,7 @@ function V1lat_AiAiAi_slam:OnProjectileHit_ExtraData(target, location, data)
             if not enemy:IsMagicImmune() then
                 damageTable.victim = enemy
                 ApplyDamage(damageTable)
-                enemy:AddNewModifier( self:GetCaster(), self.ice_blast_ability, "modifier_birzha_stunned_purge", { duration = stun_duration } )
+                enemy:AddNewModifier( self:GetCaster(), self.ice_blast_ability, "modifier_birzha_stunned_purge", { duration = stun_duration * (1-enemy:GetStatusResistance()) } )
             end
         end
     end
@@ -359,7 +366,8 @@ function modifier_V1lat_AiAiAi_debuff:OnCreated(params)
         self.caster = self:GetCaster()
     end
     
-    self.damage_table   = {
+    self.damage_table   = 
+    {
         victim          = self:GetParent(),
         damage          = self.dot_damage,
         damage_type     = DAMAGE_TYPE_MAGICAL,
@@ -376,9 +384,15 @@ function modifier_V1lat_AiAiAi_debuff:OnRefresh(params)
 end
 
 function modifier_V1lat_AiAiAi_debuff:OnIntervalThink()
+    if not IsServer() then return end
     self:GetParent():EmitSound("Hero_Ancient_Apparition.IceBlastRelease.Tick")
     ApplyDamage(self.damage_table)
     SendOverheadEventMessage(nil, OVERHEAD_ALERT_BONUS_SPELL_DAMAGE, self:GetParent(), self.dot_damage, nil)
+    if self:GetCaster():HasTalent("special_bonus_birzha_v1lat_8") then
+        if self:GetParent():GetHealthPercent() <= self:GetCaster():FindTalentValue("special_bonus_birzha_v1lat_8") then
+            self:GetParent():BirzhaTrueKill(self:GetAbility(), self:GetCaster())
+        end
+    end
 end
 
 function modifier_V1lat_AiAiAi_debuff:DeclareFunctions()
@@ -391,13 +405,11 @@ function modifier_V1lat_AiAiAi_debuff:GetDisableHealing()
     return 1
 end
 
-
-
-
-
 LinkLuaModifier("modifier_V1lat_ItsNotNormal", "abilities/heroes/v1lat", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_V1lat_ItsNotNormal_target", "abilities/heroes/v1lat", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_V1lat_ItsNotNormal_caster", "abilities/heroes/v1lat", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_V1lat_ItsNotNormal_target_buff", "abilities/heroes/v1lat", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_V1lat_ItsNotNormal_caster_buff", "abilities/heroes/v1lat", LUA_MODIFIER_MOTION_NONE)
 
 V1lat_ItsNotNormal = class({})
 
@@ -416,22 +428,14 @@ end
 function V1lat_ItsNotNormal:OnSpellStart()
     if not IsServer() then return end
     local flag = 0
-    if self:GetCaster():HasTalent("special_bonus_birzha_v1lat_5") then
-        flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
-    end
-    local targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(),
-    self:GetCaster():GetAbsOrigin(),
-    nil,
-    600,
-    DOTA_UNIT_TARGET_TEAM_ENEMY,
-    DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO,
-    flag,
-    FIND_ANY_ORDER,
-    false)
+    local radius = self:GetSpecialValueFor("radius")
+    local targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, flag, FIND_ANY_ORDER, false)
     local duration = self:GetSpecialValueFor("duration")
+
     for _,unit in pairs(targets) do
-        unit:AddNewModifier( self:GetCaster(), self, "modifier_V1lat_ItsNotNormal", { duration = duration } )
+        unit:AddNewModifier( self:GetCaster(), self, "modifier_V1lat_ItsNotNormal", { duration = duration * (1-unit:GetStatusResistance()) } )
     end
+
     self:GetCaster():EmitSound("V1latNo")
 end
 
@@ -440,21 +444,23 @@ modifier_V1lat_ItsNotNormal = class({})
 function modifier_V1lat_ItsNotNormal:IsPurgable()    return false end
 
 function modifier_V1lat_ItsNotNormal:CheckState()
-    local state
-    state = {[MODIFIER_STATE_STUNNED] = true,
-             [MODIFIER_STATE_OUT_OF_GAME] = true,
-             [MODIFIER_STATE_INVULNERABLE] = true,
-             [MODIFIER_STATE_NO_HEALTH_BAR] = true,
-         [MODIFIER_STATE_UNSELECTABLE] = true,
-          [MODIFIER_STATE_ATTACK_IMMUNE] = true,
-           [MODIFIER_STATE_DISARMED] = true,
-           [MODIFIER_STATE_ROOTED] = true,
+    local state = 
+    {
+        [MODIFIER_STATE_STUNNED] = true,
+        [MODIFIER_STATE_OUT_OF_GAME] = true,
+        [MODIFIER_STATE_INVULNERABLE] = true,
+        [MODIFIER_STATE_NO_HEALTH_BAR] = true,
+        [MODIFIER_STATE_UNSELECTABLE] = true,
+        [MODIFIER_STATE_ATTACK_IMMUNE] = true,
+        [MODIFIER_STATE_DISARMED] = true,
+        [MODIFIER_STATE_ROOTED] = true,
      }            
     return state
 end
 
 function modifier_V1lat_ItsNotNormal:DeclareFunctions()
-	local funcs = {
+	local funcs = 
+    {
 		MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
 		MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
 		MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
@@ -478,42 +484,34 @@ end
 function modifier_V1lat_ItsNotNormal:OnCreated()
     if not IsServer() then return end
     self.damage = self:GetAbility():GetSpecialValueFor("damage")
-    self.particle = ParticleManager:CreateParticle("particles/units/heroes/hero_obsidian_destroyer/obsidian_destroyer_prison.vpcf", PATTACH_WORLDORIGIN, self:GetParent())
-    ParticleManager:SetParticleControl(self.particle, 0, self:GetParent():GetAbsOrigin())
-    ParticleManager:SetParticleControl(self.particle, 2, self:GetParent():GetAbsOrigin())
-    ParticleManager:SetParticleControl(self.particle, 3, self:GetParent():GetAbsOrigin())
+    local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_obsidian_destroyer/obsidian_destroyer_prison.vpcf", PATTACH_WORLDORIGIN, self:GetParent())
+    ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
+    ParticleManager:SetParticleControl(particle, 2, self:GetParent():GetAbsOrigin())
+    ParticleManager:SetParticleControl(particle, 3, self:GetParent():GetAbsOrigin())
+    self:AddParticle(particle, false, false, -1, false, false)
     self:GetParent():AddNoDraw()
 end
 
 function modifier_V1lat_ItsNotNormal:OnDestroy()
     if not IsServer() then return end
-    self.duration = self:GetAbility():GetSpecialValueFor("duration_stack")
-    self.bonus_int = self:GetAbility():GetSpecialValueFor("bonus_int")
+
+    local duration = self:GetAbility():GetSpecialValueFor("duration_stack") + self:GetCaster():FindTalentValue("special_bonus_birzha_v1lat_6")
+
     self:GetParent():RemoveNoDraw()
-    if self.particle then
-        ParticleManager:DestroyParticle(self.particle, true)
-    end
-    self.particle_end = ParticleManager:CreateParticle("particles/units/heroes/hero_obsidian_destroyer/obsidian_destroyer_prison_end.vpcf", PATTACH_ABSORIGIN, self:GetParent())
-    ParticleManager:SetParticleControl(self.particle_end, 0, self:GetParent():GetAbsOrigin())
+
+    local particle_end = ParticleManager:CreateParticle("particles/units/heroes/hero_obsidian_destroyer/obsidian_destroyer_prison_end.vpcf", PATTACH_ABSORIGIN, self:GetParent())
+    ParticleManager:SetParticleControl(particle_end, 0, self:GetParent():GetAbsOrigin())
+    ParticleManager:ReleaseParticleIndex(particle_end)
+
     self:GetParent():EmitSound("Hero_ObsidianDestroyer.AstralImprisonment.End")
+
     ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), ability = self:GetAbility(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL})
-    local target_debuff = self:GetParent():GetModifierStackCount( "modifier_V1lat_ItsNotNormal_target", self:GetCaster() )
-    local caster_buff = self:GetCaster():GetModifierStackCount( "modifier_V1lat_ItsNotNormal_caster", self:GetCaster() )
-    if not self:GetParent():IsRealHero() then return end
-    if self:GetParent():HasModifier("modifier_V1lat_ItsNotNormal_target") then
-        self:GetParent():SetModifierStackCount( "modifier_V1lat_ItsNotNormal_target", self:GetAbility(), target_debuff + self.bonus_int )
-        self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_V1lat_ItsNotNormal_target", { duration = self.duration } )
-    else
-        self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_V1lat_ItsNotNormal_target", { duration = self.duration } )
-        self:GetParent():SetModifierStackCount( "modifier_V1lat_ItsNotNormal_target", self:GetAbility(), self.bonus_int )
-    end
-    if self:GetCaster():HasModifier("modifier_V1lat_ItsNotNormal_caster") then
-        self:GetCaster():SetModifierStackCount( "modifier_V1lat_ItsNotNormal_caster", self:GetAbility(), caster_buff + self.bonus_int )
-        self:GetCaster():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_V1lat_ItsNotNormal_caster", { duration = self.duration } )
-    else
-        self:GetCaster():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_V1lat_ItsNotNormal_caster", { duration = self.duration } )
-        self:GetCaster():SetModifierStackCount( "modifier_V1lat_ItsNotNormal_caster", self:GetAbility(), self.bonus_int )
-    end
+
+    self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_V1lat_ItsNotNormal_target_buff", { duration = duration * (1-self:GetParent():GetStatusResistance()) } )
+    self:GetCaster():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_V1lat_ItsNotNormal_caster_buff", { duration = duration } )
+
+    self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_V1lat_ItsNotNormal_target", { duration = duration * (1-self:GetParent():GetStatusResistance()) } )
+    self:GetCaster():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_V1lat_ItsNotNormal_caster", { duration = duration } )
 end
 
 modifier_V1lat_ItsNotNormal_caster = class ({})
@@ -522,13 +520,24 @@ function modifier_V1lat_ItsNotNormal_caster:IsPurgable()
     return false
 end
 
+function modifier_V1lat_ItsNotNormal_caster:OnCreated()
+    if not IsServer() then return end
+    self:StartIntervalThink(FrameTime())
+end
+
+function modifier_V1lat_ItsNotNormal_caster:OnIntervalThink()
+    if not IsServer() then return end
+    local modifier = self:GetParent():FindAllModifiersByName("modifier_V1lat_ItsNotNormal_caster_buff")
+    self:SetStackCount(#modifier)
+end
+
 function modifier_V1lat_ItsNotNormal_caster:DeclareFunctions()
     local declfuncs = {MODIFIER_PROPERTY_STATS_INTELLECT_BONUS}
     return declfuncs
 end
 
 function modifier_V1lat_ItsNotNormal_caster:GetModifierBonusStats_Intellect()
-    return self:GetStackCount() * 1
+    return self:GetStackCount() * self:GetAbility():GetSpecialValueFor("bonus_int")
 end
 
 modifier_V1lat_ItsNotNormal_target = class ({})
@@ -537,21 +546,42 @@ function modifier_V1lat_ItsNotNormal_target:IsPurgable()
     return false
 end
 
+function modifier_V1lat_ItsNotNormal_target:OnCreated()
+    if not IsServer() then return end
+    self:StartIntervalThink(FrameTime())
+end
+
+function modifier_V1lat_ItsNotNormal_target:OnIntervalThink()
+    if not IsServer() then return end
+    local modifier = self:GetParent():FindAllModifiersByName("modifier_V1lat_ItsNotNormal_target_buff")
+    self:SetStackCount(#modifier)
+end
+
 function modifier_V1lat_ItsNotNormal_target:DeclareFunctions()
     local declfuncs = {MODIFIER_PROPERTY_STATS_INTELLECT_BONUS}
     return declfuncs
 end
 
 function modifier_V1lat_ItsNotNormal_target:GetModifierBonusStats_Intellect()
-    return self:GetStackCount() * -1
+    return (self:GetStackCount() * self:GetAbility():GetSpecialValueFor("bonus_int")) * -1
 end
+
+modifier_V1lat_ItsNotNormal_target_buff = class({})
+function modifier_V1lat_ItsNotNormal_target_buff:IsHidden() return true end
+function modifier_V1lat_ItsNotNormal_target_buff:IsPurgable() return false end
+function modifier_V1lat_ItsNotNormal_target_buff:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+
+modifier_V1lat_ItsNotNormal_caster_buff = class({})
+function modifier_V1lat_ItsNotNormal_caster_buff:IsHidden() return true end
+function modifier_V1lat_ItsNotNormal_caster_buff:IsPurgable() return false end
+function modifier_V1lat_ItsNotNormal_caster_buff:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 LinkLuaModifier("modifier_v1lat_eminem", "abilities/heroes/v1lat", LUA_MODIFIER_MOTION_NONE)
 
 V1lat_Eminem = class({})
 
 function V1lat_Eminem:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_v1lat_3")
+    return self.BaseClass.GetCooldown( self, level )
 end
 
 function V1lat_Eminem:GetManaCost(level)
@@ -581,7 +611,7 @@ function V1lat_Eminem:OnSpellStart()
         self.modifier = self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_v1lat_eminem", {duration = 5} )
         return
     end
-    self.modifier = self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_v1lat_eminem", {} )
+    self.modifier = self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_v1lat_eminem", {duration = self:GetChannelTime()} )
 end
 
 function V1lat_Eminem:OnChannelFinish( bInterrupted )
@@ -599,11 +629,15 @@ function modifier_v1lat_eminem:IsPurgable()
 end
 
 function modifier_v1lat_eminem:IsHidden()
-    return true
+    return not self:GetCaster():HasShard()
 end
 
 function modifier_v1lat_eminem:OnCreated()
     if not IsServer() then return end
+    self.shard = false
+    if self:GetCaster():HasShard() then
+        self.shard = true
+    end
     self:StartIntervalThink(0.25)
     self:OnIntervalThink()
 end
@@ -622,7 +656,12 @@ function modifier_v1lat_eminem:OnIntervalThink()
     local projectile_end_radius = self:GetAbility():GetSpecialValueFor("final_aoe")
     local projectile_direction = self:GetParent():GetForwardVector()
 
-    local info = {
+    if self:GetCaster():HasShard() then
+        self.shard = true
+    end
+
+    local info = 
+    {
         Source = self:GetCaster(),
         Ability = self:GetAbility(),
         vSpawnOrigin = self:GetCaster():GetAbsOrigin(),
@@ -636,15 +675,15 @@ function modifier_v1lat_eminem:OnIntervalThink()
         iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
         iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
         iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-        
         bProvidesVision = false,
     }
+
     self:GetAbility():PlayProjectile( info )
     ProjectileManager:CreateLinearProjectile(info)
 end
 
 function modifier_v1lat_eminem:CheckState()
-    if not self:GetCaster():HasShard() then return end
+    if not self.shard then return end
     return{[MODIFIER_STATE_DISARMED] = true,
     [MODIFIER_STATE_ROOTED] = true,}
 end
@@ -659,20 +698,33 @@ end
 
 function V1lat_Eminem:OnProjectileHit( target, location )
     if not IsServer() then return end
-    local damage = self:GetSpecialValueFor("damage")
+
+    local damage = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_v1lat_1")
+
     local multi = self:GetSpecialValueFor("int_mul")
+
     local typedamage = DAMAGE_TYPE_MAGICAL
-    damage = damage + self:GetCaster():GetIntellect() * multi
+
+    if self:GetCaster():HasScepter() then
+        typedamage = DAMAGE_TYPE_PURE
+    end
+
+    damage = damage + (self:GetCaster():GetIntellect() / 100 * multi)
+
     if not target then return end
-    local damageTable = {
+
+    local damageTable = 
+    {
         victim          = target,
         damage          = damage,
         damage_type     = typedamage,
         attacker        = self:GetCaster(),
         ability         = self
     }
+
     if not self:GetCaster():HasScepter() then
         if target:IsMagicImmune() then return end
     end
+    
     ApplyDamage(damageTable)
 end

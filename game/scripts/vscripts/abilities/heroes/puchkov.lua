@@ -7,7 +7,7 @@ LinkLuaModifier( "modifier_puchkov_pigs_pig_boom", "abilities/heroes/puchkov", L
 puchkov_pigs = class({}) 
 
 function puchkov_pigs:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_puchkov_4")
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_puchkov_8")
 end
 
 function puchkov_pigs:GetManaCost(level)
@@ -16,27 +16,6 @@ end
 
 function puchkov_pigs:GetCastRange(location, target)
     return self.BaseClass.GetCastRange(self, location, target)
-end
-
-function puchkov_pigs:OnInventoryContentsChanged()
-    if self:GetCaster():HasShard() then
-        local ability = self:GetCaster():FindAbilityByName("enraged_wildkin_hurricane")
-        if ability then
-            ability:SetHidden(false)       
-            if not ability:IsTrained() then
-                ability:SetLevel(1)
-            end
-        end
-    else
-        local ability = self:GetCaster():FindAbilityByName("enraged_wildkin_hurricane")
-        if ability then
-            ability:SetHidden(true)
-        end
-    end
-end
-
-function puchkov_pigs:OnHeroCalculateStatBonus()
-    self:OnInventoryContentsChanged()
 end
 
 function puchkov_pigs:OnSpellStart()
@@ -51,8 +30,8 @@ function puchkov_pigs:OnSpellStart()
     dir.z = 0
     dir = dir:Normalized()
     local pigs_copter = CreateUnitByName("npc_dummy_unit_gyro", self:GetCaster():GetAbsOrigin(), false, nil, nil, self:GetCaster():GetTeam())
-    EmitSoundOn("Hero_Phoenix.IcarusDive.Cast", self:GetCaster()) 
-    EmitSoundOn("PuchkovGoni", pigs_copter) 
+    self:GetCaster():EmitSound("Hero_Phoenix.IcarusDive.Cast")
+    pigs_copter:EmitSound("PuchkovGoni")
     pigs_copter:SetForwardVector(dir)
     pigs_copter:AddNewModifier(self:GetCaster(), self, "modifier_puchkov_pigs_move", {})
     pigs_copter:AddNewModifier(self:GetCaster(), self, "modifier_puchkov_pigs_plant", {})
@@ -85,7 +64,8 @@ function modifier_puchkov_pigs_move:OnIntervalThink()
 end
 
 function modifier_puchkov_pigs_move:DeclareFunctions()
-    local decFuncs = {
+    local decFuncs = 
+    {
         MODIFIER_PROPERTY_VISUAL_Z_DELTA,
     }
 
@@ -121,12 +101,8 @@ function modifier_puchkov_pigs_plant:OnCreated( kv )
     local distance = self:GetAbility():GetSpecialValueFor("distance")
     local speed = self:GetAbility():GetSpecialValueFor("speed")
     self.pigs = self:GetAbility():GetSpecialValueFor("pigs") + 1
-
-
-
     local flying_time = distance / speed
     local pigs_interval = flying_time / self.pigs
-
     self:StartIntervalThink(pigs_interval)
 end
 
@@ -135,8 +111,8 @@ function modifier_puchkov_pigs_plant:OnIntervalThink()
     self.pigs = self.pigs - 1
     local copter_position = self:GetParent():GetAbsOrigin()
     local pig_bomb = CreateUnitByName("npc_dota_puchkov_land_pig", copter_position, false, nil, nil, self:GetParent():GetTeam())
-    EmitSoundOn("PuchkovPig", pig_bomb)
-    EmitSoundOn("Hero_Techies.RemoteMine.Toss", pig_bomb)
+    pig_bomb:EmitSound("PuchkovPig")
+    pig_bomb:EmitSound("Hero_Techies.RemoteMine.Toss")
     pig_bomb:SetAbsOrigin(copter_position + Vector(0,0,300))
     pig_bomb:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_puchkov_pigs_pig_move", {copter_position = copter_position})
 end
@@ -170,7 +146,6 @@ function modifier_puchkov_pigs_pig_move:OnIntervalThink()
     local origin = self:GetParent():GetAbsOrigin()
     local new_position = origin + Vector(0,0,-actualspeed)
 
-
     if new_position.z < GetGroundHeight( self:GetParent():GetOrigin(), self:GetParent() ) then
         new_position.z = GetGroundHeight( self:GetParent():GetOrigin(), self:GetParent() )
         self:GetParent():SetAbsOrigin(new_position)
@@ -185,13 +160,6 @@ end
 
 function modifier_puchkov_pigs_pig_move:OnDestroy( kv )
     if not IsServer() then return end
-    local knockback =
-    {
-        knockback_duration = 0.03,
-        duration = 0.03,
-        knockback_height = 5,
-    }
-    --self:GetParent():AddNewModifier(self:GetParent(), nil, "modifier_knockback", knockback)
     self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_puchkov_pigs_pig_boom", {})
 end
 
@@ -207,31 +175,22 @@ end
 
 function modifier_puchkov_pigs_pig_boom:OnCreated()
     if not IsServer() then return end
-    local particle_mine_fx = ParticleManager:CreateParticle("particles/units/heroes/hero_techies/techies_land_mine.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
-    ParticleManager:SetParticleControl(particle_mine_fx, 0, self:GetParent():GetAbsOrigin())
-    ParticleManager:SetParticleControl(particle_mine_fx, 3, self:GetParent():GetAbsOrigin())
-    self:AddParticle(particle_mine_fx, false, false, -1, false, false)
+    --local particle_mine_fx = ParticleManager:CreateParticle("particles/units/heroes/hero_techies/techies_land_mine.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+    --ParticleManager:SetParticleControl(particle_mine_fx, 0, self:GetParent():GetAbsOrigin())
+    --ParticleManager:SetParticleControl(particle_mine_fx, 3, self:GetParent():GetAbsOrigin())
+    --self:AddParticle(particle_mine_fx, false, false, -1, false, false)
     self.triggered = false
     self:StartIntervalThink(FrameTime())
 end
 
 function modifier_puchkov_pigs_pig_boom:OnIntervalThink()
-    local damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_puchkov_5")
+    local damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_puchkov_1")
     local radius = self:GetAbility():GetSpecialValueFor("radius")
-    local enemies = FindUnitsInRadius(self:GetParent():GetTeamNumber(),
-                                        self:GetParent():GetAbsOrigin(),
-                                        nil,
-                                        radius,
-                                        DOTA_UNIT_TARGET_TEAM_ENEMY,
-                                        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-                                        DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-                                        FIND_ANY_ORDER,
-                                        false)
-
+    local enemies = FindUnitsInRadius(self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_ANY_ORDER, false)
     if #enemies > 0 then
         self.triggered = true
-        EmitSoundOn("Hero_Techies.RemoteMine.Detonate", self:GetParent())
-        EmitSoundOn("PuchkovPig", self:GetParent())
+        self:GetParent():EmitSound("Hero_Techies.RemoteMine.Detonate")
+        self:GetParent():EmitSound("PuchkovPig")
         local groundPos = GetGroundPosition(self:GetParent():GetAbsOrigin(), self:GetParent())
         local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_techies/techies_remote_mines_detonate.vpcf", PATTACH_WORLDORIGIN, self:GetParent())
         ParticleManager:SetParticleControl( particle, 0, groundPos )
@@ -291,7 +250,7 @@ function puchkov_small_debils:OnSpellStart()
     ParticleManager:SetParticleControlEnt(particle, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetCaster():GetAbsOrigin(), true)
     ParticleManager:SetParticleControlEnt(particle, 1, target, PATTACH_POINT_FOLLOW, "attach_hitloc", target:GetAbsOrigin(), true)
     ParticleManager:SetParticleControlEnt(particle, 2, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack2", self:GetCaster():GetAbsOrigin(), true)
-    target:AddNewModifier(self:GetCaster(), self, "modifier_puchkov_small_debils", {duration = duration})
+    target:AddNewModifier(self:GetCaster(), self, "modifier_puchkov_small_debils", {duration = duration * (1-target:GetStatusResistance())})
 end
 
 modifier_puchkov_small_debils = class({})
@@ -316,36 +275,35 @@ function modifier_puchkov_small_debils:OnIntervalThink()
 end
 
 function modifier_puchkov_small_debils:DeclareFunctions()
-    local decFuncs = {
+    local decFuncs = 
+    {
         MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
         MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE,
         MODIFIER_PROPERTY_MODEL_SCALE
 
     }
-
     return decFuncs
 end
 
 function modifier_puchkov_small_debils:GetModifierMoveSpeedBonus_Percentage()
-    return self:GetAbility():GetSpecialValueFor("reduce_movement_speed")
+    return self:GetAbility():GetSpecialValueFor("reduce_movement_speed") + self:GetCaster():FindTalentValue("special_bonus_birzha_puchkov_2")
 end
 
 function modifier_puchkov_small_debils:GetModifierIncomingDamage_Percentage()
-    return self:GetAbility():GetSpecialValueFor("bonus_damage")
+    return self:GetAbility():GetSpecialValueFor("bonus_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_puchkov_3")
 end
 
 function modifier_puchkov_small_debils:GetModifierModelScale()
-    return -50
+    return -30
 end
 
 LinkLuaModifier( "modifier_puchkov_smeh_thinker", "abilities/heroes/puchkov", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier( "modifier_puchkov_smeh_thinker_vision", "abilities/heroes/puchkov", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier( "modifier_generic_custom_indicator", "abilities/heroes/puchkov", LUA_MODIFIER_MOTION_NONE)
 
 puchkov_smeh = class({}) 
 
 function puchkov_smeh:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_puchkov_3")
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_puchkov_5")
 end
 
 function puchkov_smeh:GetManaCost(level)
@@ -362,23 +320,6 @@ function puchkov_smeh:GetCastRange(location, target)
     end
     return self.BaseClass.GetCastRange(self, location, target)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function puchkov_smeh:OnSpellStart()
     local point = self:GetCursorPosition()
@@ -406,7 +347,7 @@ end
 
 function modifier_puchkov_smeh_thinker:OnCreated( kv )
     if not IsServer() then return end
-    local radius_boom = self:GetAbility():GetSpecialValueFor( "radius_boom" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_puchkov_1")
+    local radius_boom = self:GetAbility():GetSpecialValueFor( "radius_boom" )
     self.particle = ParticleManager:CreateParticle( "particles/puchkov/smeh_start.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
     ParticleManager:SetParticleControl(self.particle, 0, self:GetParent():GetAbsOrigin()) 
     ParticleManager:SetParticleControl(self.particle, 1, Vector(radius_boom*2, 0, 0))
@@ -416,35 +357,30 @@ end
 
 function modifier_puchkov_smeh_thinker:OnRemoved()
     if not IsServer() then return end
+
     if self.particle then
         ParticleManager:DestroyParticle(self.particle, false)
         ParticleManager:ReleaseParticleIndex(self.particle)
     end
-    local radius_boom = self:GetAbility():GetSpecialValueFor( "radius_boom" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_puchkov_1")
+
+    local radius_boom = self:GetAbility():GetSpecialValueFor( "radius_boom" )
     local duration = self:GetAbility():GetSpecialValueFor( "duration" )
+
     local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_grimstroke/grimstroke_ink_swell_aoe.vpcf", PATTACH_WORLDORIGIN, self:GetParent() )
     ParticleManager:SetParticleControl(effect_cast, 0, self:GetParent():GetAbsOrigin()) 
     ParticleManager:SetParticleControl( effect_cast, 2, Vector( radius_boom, radius_boom, radius_boom ) )
     ParticleManager:ReleaseParticleIndex( effect_cast )
-    local damage = self:GetAbility():GetSpecialValueFor("damage")
-        local enemies = FindUnitsInRadius(
-        self:GetCaster():GetTeamNumber(),
-        self:GetParent():GetAbsOrigin(),
-        nil,
-        radius_boom,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-        0,
-        0,
-        false
-    )
+
+    local damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_puchkov_4")
+    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, radius_boom, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
 
     for _,enemy in pairs(enemies) do
         ApplyDamage({ victim = enemy, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, damage_flags = DOTA_DAMAGE_FLAG_NONE, attacker = self:GetCaster(), ability = self:GetAbility() })
     end
+
     CreateModifierThinker( self:GetCaster(), self:GetAbility(), "modifier_puchkov_smeh_thinker_vision", { duration = duration }, self:GetParent():GetAbsOrigin(), self:GetCaster():GetTeamNumber(), false )
     AddFOWViewer(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), radius_boom, duration, false)
-    EmitSoundOn( "Hero_Grimstroke.InkSwell.Stun", self:GetParent() )
+    self:GetParent():EmitSound("Hero_Grimstroke.InkSwell.Stun")
 end
 
 modifier_puchkov_smeh_thinker_vision = class({})
@@ -462,7 +398,7 @@ function modifier_puchkov_smeh_thinker_vision:IsAura()
 end
 
 function modifier_puchkov_smeh_thinker_vision:GetAuraRadius()
-    return self:GetAbility():GetSpecialValueFor( "radius_boom" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_puchkov_1")
+    return self:GetAbility():GetSpecialValueFor( "radius_boom" )
 end
 
 function modifier_puchkov_smeh_thinker_vision:GetModifierAura()
@@ -519,6 +455,7 @@ function puchkov_shiza:OnSpellStart()
     for _,enemy in pairs(enemies) do
         local modifier = enemy:AddNewModifier( caster, self, "modifier_puchkov_shiza", { duration = duration, coil_x = point.x, coil_y = point.y, coil_z = point.z, } )
     end
+
     EmitSoundOnLocationWithCaster( point, "Hero_Puck.Dream_Coil", self:GetCaster() )
     EmitSoundOnLocationWithCaster( point, "PuchkovUltimate", self:GetCaster() )
 end
@@ -566,7 +503,7 @@ function modifier_puchkov_shiza:OnCreated( kv )
     self.center = Vector( kv.coil_x, kv.coil_y, kv.coil_z )
     self.radius = self:GetAbility():GetSpecialValueFor("radius")
     self.damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_puchkov_7")
-    self.stun_duration = self:GetAbility():GetSpecialValueFor("stun_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_puchkov_2")
+    self.stun_duration = self:GetAbility():GetSpecialValueFor("stun_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_puchkov_6")
     self.current_pos = self:GetParent():GetAbsOrigin()
     if IsServer() then
         self:PlayEffects()
@@ -585,7 +522,7 @@ function modifier_puchkov_shiza:OnIntervalThink()
 
     if (self.current_pos-self.center):Length2D()>self.radius then
         ApplyDamage({ victim = self:GetParent(), attacker = self:GetCaster(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility() })
-        self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", { duration = self.stun_duration } )
+        self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", { duration = self.stun_duration * (1-self:GetParent():GetStatusResistance()) } )
         self:GetParent():EmitSound("Hero_Puck.Dream_Coil_Snap")
         self:Destroy()
         return
@@ -597,64 +534,59 @@ end
 function modifier_puchkov_shiza:PlayEffects()
     local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_puck/puck_dreamcoil_tether.vpcf", PATTACH_ABSORIGIN, self:GetParent() )
     ParticleManager:SetParticleControl( effect_cast, 0, self.center )
-    ParticleManager:SetParticleControlEnt(
-        effect_cast,
-        1,
-        self:GetParent(),
-        PATTACH_POINT_FOLLOW,
-        "attach_hitloc",
-        self:GetParent():GetOrigin(),
-        true
-    )
-
-    self:AddParticle(
-        effect_cast,
-        false,
-        false,
-        -1,
-        false,
-        false
-    )
+    ParticleManager:SetParticleControlEnt( effect_cast, 1, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetOrigin(), true )
+    self:AddParticle( effect_cast, false, false, -1, false, false )
 end
 
-modifier_generic_custom_indicator = class({})
+puchkov_hurricane = class({})
 
-function modifier_generic_custom_indicator:IsHidden()
-    return true
-end
-
-function modifier_generic_custom_indicator:IsPurgable()
-    return true
-end
-
-function modifier_generic_custom_indicator:GetAttributes()
-    return MODIFIER_ATTRIBUTE_PERMANENT + MODIFIER_ATTRIBUTE_MULTIPLE
-end
-
-function modifier_generic_custom_indicator:OnCreated( kv )
-    if IsServer() then return end
-    self:GetAbility().custom_indicator = self
-end
-
-function modifier_generic_custom_indicator:OnIntervalThink()
-    if IsClient() then
-        self:StartIntervalThink(-1)
-        local ability = self:GetAbility()
-        if self.init and ability.DestroyCustomIndicator then
-            self.init = nil
-            ability:DestroyCustomIndicator()
+function puchkov_hurricane:OnInventoryContentsChanged()
+    if self:GetCaster():HasShard() then
+        self:SetHidden(false)       
+        if not self:IsTrained() then
+            self:SetLevel(1)
         end
+    else
+        self:SetHidden(true)
     end
 end
 
-function modifier_generic_custom_indicator:Register( loc )
-    local ability = self:GetAbility()
-    if (not self.init) and ability.CreateCustomIndicator then
-        self.init = true
-        ability:CreateCustomIndicator()
+function puchkov_hurricane:OnHeroCalculateStatBonus()
+    self:OnInventoryContentsChanged()
+end
+
+function puchkov_hurricane:GetAOERadius()
+    return self:GetSpecialValueFor("radius")
+end
+
+function puchkov_hurricane:OnVectorCastStart(vStartLocation, vDirection)
+    if not IsServer() then return end
+
+    local speed = 1200
+
+    print("aaa")
+
+    local range = self:GetSpecialValueFor("range")
+    local radius = self:GetSpecialValueFor("radius")
+    self:GetCaster():EmitSound("n_creep_Wildkin.SummonTornado")
+    local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), vStartLocation, nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_ANY_ORDER, false)
+
+    for _, enemy in pairs(enemies) do
+        local knockback = enemy:AddNewModifier(
+            self:GetCaster(),
+            self,
+            "modifier_generic_knockback_lua",
+            {
+                direction_x = vDirection.x,
+                direction_y = vDirection.y,
+                distance = range,
+                duration = range/speed,
+                IsStun = false,
+                IsFlail = true,
+            }
+        )
+        local effect_cast = ParticleManager:CreateParticle( "particles/neutral_fx/wildkin_ripper_hurricane_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, enemy )
+        ParticleManager:SetParticleControlEnt( effect_cast, 0, enemy, PATTACH_POINT_FOLLOW, "attach_hitloc", Vector(0,0,0), true )
+        knockback:AddParticle(effect_cast, false, false, -1, false, false)
     end
-    if ability.UpdateCustomIndicator then
-        ability:UpdateCustomIndicator( loc )
-    end
-    self:StartIntervalThink( 0.05 )
 end

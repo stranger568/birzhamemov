@@ -6,7 +6,7 @@ nolik_mostdel = class({})
 function nolik_mostdel:OnSpellStart()
 	if not IsServer() then return end
 	self:GetCaster():EmitSound("nolik_wow")
-	local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_nolik_1")
+	local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_nolik_2")
 	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_nolik_mostdel", {duration = duration})
 end
 
@@ -15,13 +15,14 @@ modifier_nolik_mostdel = class({})
 function modifier_nolik_mostdel:IsPurgable() return false end
 
 function modifier_nolik_mostdel:OnCreated()
-	self.damage = self:GetAbility():GetSpecialValueFor("damage_reduced") + self:GetCaster():FindTalentValue("special_bonus_birzha_nolik_2")
+	self.damage = self:GetAbility():GetSpecialValueFor("damage_reduced") + self:GetCaster():FindTalentValue("special_bonus_birzha_nolik_1")
 	self.bonus_mana = self:GetAbility():GetSpecialValueFor("bonus_mana")
 	self.energy_lose = self:GetAbility():GetSpecialValueFor("energy_lose")
 end
 
 function modifier_nolik_mostdel:DeclareFunctions()
-	local funcs = {
+	local funcs = 
+	{
 		MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE,
 		MODIFIER_PROPERTY_MANA_BONUS,
 	}
@@ -49,7 +50,7 @@ LinkLuaModifier( "modifier_nolik_tech", "abilities/heroes/nolik.lua", LUA_MODIFI
 nolik_tech = class({})
 
 function nolik_tech:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_nolik_4")
 end
 
 function nolik_tech:IsRefreshable() return false end
@@ -81,7 +82,8 @@ function modifier_nolik_tech:OnDestroy()
 end
 
 function modifier_nolik_tech:DeclareFunctions()
-	local funcs = {
+	local funcs = 
+	{
 		MODIFIER_EVENT_ON_ABILITY_FULLY_CAST,
 
 	}
@@ -176,12 +178,6 @@ function modifier_nolik_chill:OnIntervalThink()
     end
 end
 
-function modifier_nolik_chill:CheckState()
-	return {
-		[MODIFIER_STATE_INVULNERABLE] = true,
-	}
-end
-
 function modifier_nolik_chill:OnDestroy()
 	if not IsServer() then return end
 	self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_ROT)
@@ -234,7 +230,8 @@ function modifier_nolik_chill_aura:OnIntervalThink()
 end
 
 function modifier_nolik_chill_aura:DeclareFunctions()
-	local decFuncs = {
+	local decFuncs = 
+	{
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
 	}
 
@@ -244,6 +241,8 @@ end
 function modifier_nolik_chill_aura:GetModifierMoveSpeedBonus_Percentage()
 	return self.movement_speed_slow
 end
+
+LinkLuaModifier( "modifier_nolik_energizer", "abilities/heroes/nolik.lua", LUA_MODIFIER_MOTION_NONE)
 
 nolik_energizer = class({})
 
@@ -265,6 +264,27 @@ function nolik_energizer:OnHeroCalculateStatBonus()
     end
 end
 
+function nolik_energizer:CastFilterResultTarget( hTarget )
+    if hTarget:IsMagicImmune() and (not self:GetCaster():HasShard()) then
+        return UF_FAIL_MAGIC_IMMUNE_ENEMY
+    end
+
+    if not IsServer() then return UF_SUCCESS end
+    local nResult = UnitFilter(
+        hTarget,
+        self:GetAbilityTargetTeam(),
+        self:GetAbilityTargetType(),
+        self:GetAbilityTargetFlags(),
+        self:GetCaster():GetTeamNumber()
+    )
+
+    if nResult ~= UF_SUCCESS then
+        return nResult
+    end
+
+    return UF_SUCCESS
+end
+
 function nolik_energizer:OnAbilityPhaseStart()
 	local modifier_nolik_energy = self:GetCaster():FindModifierByName("modifier_nolik_energy")
     if modifier_nolik_energy then
@@ -279,6 +299,7 @@ end
 function nolik_energizer:OnSpellStart()
 	if not IsServer() then return end
 	local target = self:GetCursorTarget()
+	if target:TriggerSpellAbsorb(self) then return nil end
 	local caster = self:GetCaster()
     local direction = (caster:GetOrigin()-target:GetOrigin()):Normalized()
     local effect_cast = ParticleManager:CreateParticle( "particles/nolik/energy_kill.vpcf", PATTACH_ABSORIGIN, caster )
@@ -296,18 +317,89 @@ function nolik_energizer:OnSpellStart()
 
     local modifier_nolik_energy = self:GetCaster():FindModifierByName("modifier_nolik_energy")
     if modifier_nolik_energy then
-    	local damage = (modifier_nolik_energy:GetStackCount() * energy_cost) * 2
-    	if self:GetCaster():HasShard() then
-    		damage = damage * 2
-    	end
-    	ApplyDamage({victim = target, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self})
+    	local damage = (modifier_nolik_energy:GetStackCount() * energy_cost)
+    	ApplyDamage({victim = target, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self})
     	modifier_nolik_energy:EnergyRemove(modifier_nolik_energy:GetStackCount() * energy_cost)
+    	if self:GetCaster():HasTalent("special_bonus_birzha_nolik_6") then
+	    	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_nolik_energizer", { starting_unit_entindex = target:entindex(), damage = damage })
+	    end
     end
 
     if self:GetCaster():HasModifier("modifier_nolik_mostdel") then
     	self:EndCooldown()
     	self:GetCaster():RemoveModifierByName("modifier_nolik_mostdel")
     end
+end
+
+modifier_nolik_energizer = class({})
+
+function modifier_nolik_energizer:IsHidden()		return true end
+function modifier_nolik_energizer:IsPurgable()		return false end
+function modifier_nolik_energizer:RemoveOnDeath()	return false end
+function modifier_nolik_energizer:GetAttributes()	return MODIFIER_ATTRIBUTE_MULTIPLE end
+
+function modifier_nolik_energizer:OnCreated(keys)
+	if not IsServer() or not self:GetAbility() then return end
+	self.radius				= 400
+	self.jump_delay			= 0.25
+	self.jump_count			= 5
+	self.damage = keys.damage * 0.75
+	self.starting_unit_entindex	= keys.starting_unit_entindex
+	self.units_affected			= {}
+	if self.starting_unit_entindex and EntIndexToHScript(self.starting_unit_entindex) then
+		self.current_unit						= EntIndexToHScript(self.starting_unit_entindex)
+		self.units_affected[self.current_unit]	= 1
+		---
+	else
+        self:Destroy()
+		return
+	end
+	
+	self.unit_counter			= 0
+	self:StartIntervalThink(self.jump_delay)
+end
+
+function modifier_nolik_energizer:OnIntervalThink()
+	self.zapped = false
+	
+	if (self.unit_counter >= self.jump_count and self.jump_count > 0) or not self.zapped then
+		for _, enemy in pairs(FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self.current_unit:GetAbsOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE + DOTA_UNIT_TARGET_FLAG_NO_INVIS, FIND_CLOSEST, false)) do
+			if not self.units_affected[enemy] and enemy ~= self.current_unit and enemy ~= self.previous_unit then
+				
+				local direction = (self.current_unit:GetOrigin()-enemy:GetOrigin()):Normalized()
+				local effect_cast = ParticleManager:CreateParticle( "particles/nolik/energy_kill.vpcf", PATTACH_ABSORIGIN, self.current_unit )
+				ParticleManager:SetParticleControlEnt(  effect_cast, 0, self.current_unit, PATTACH_POINT_FOLLOW, "attach_hitloc", Vector(0,0,0), true )
+				ParticleManager:SetParticleControlEnt(  effect_cast, 6, self.current_unit, PATTACH_POINT_FOLLOW, "attach_hitloc", Vector(0,0,0), true )
+				ParticleManager:SetParticleControlEnt(  effect_cast, 5, self.current_unit, PATTACH_POINT_FOLLOW, "attach_hitloc", Vector(0,0,0), true )
+				ParticleManager:SetParticleControlEnt( effect_cast, 1, enemy, PATTACH_POINT_FOLLOW, "attach_hitloc", Vector(0,0,0), true )
+				ParticleManager:SetParticleControl( effect_cast, 2, enemy:GetOrigin() )
+				ParticleManager:SetParticleControl( effect_cast, 3, enemy:GetOrigin() + direction )
+				ParticleManager:SetParticleControlForward( effect_cast, 3, -direction )
+				ParticleManager:ReleaseParticleIndex( effect_cast )
+
+				self:GetCaster():EmitSound("nolik_energizer")
+				
+				self.unit_counter						= self.unit_counter + 1
+				self.previous_unit						= self.current_unit
+				self.current_unit						= enemy
+				
+				if self.units_affected[self.current_unit] then
+					self.units_affected[self.current_unit]	= self.units_affected[self.current_unit] + 1
+				else
+					self.units_affected[self.current_unit]	= 1
+				end
+				
+				self.zapped								= true
+				ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
+				self.damage = self.damage * 0.75
+			end
+		end
+		
+		if (self.unit_counter >= self.jump_count and self.jump_count > 0) or not self.zapped then
+			self:StartIntervalThink(-1)
+            self:Destroy()
+		end
+	end
 end
 
 LinkLuaModifier( "modifier_nolik_energy", "abilities/heroes/nolik.lua", LUA_MODIFIER_MOTION_NONE)
@@ -342,7 +434,7 @@ function modifier_nolik_energy:OnCreated()
 
 	if not IsServer() then return end
 
-	self:SetStackCount(self.max_energy + self.energy_per_level)
+	self:SetStackCount(0)
 
 	self:StartIntervalThink(1)
 end
@@ -378,7 +470,7 @@ function modifier_nolik_energy:GetModifierBonusStats_Agility()
 end
 
 function modifier_nolik_energy:GetModifierBonusStats_Strength()
-	return self:GetStackCount() * (self.bonus_str_energy + self:GetCaster():FindTalentValue("special_bonus_birzha_nolik_4"))
+	return self:GetStackCount() * self.bonus_str_energy
 end
 
 function modifier_nolik_energy:OnAttack(params)
@@ -399,10 +491,12 @@ end
 function modifier_nolik_energy:EnergyAdded(count)
 	if not IsServer() then return end
 	local maximum = self.max_energy + (self.energy_per_level * self:GetParent():GetLevel())
+	
+	if self:GetParent():HasModifier("modifier_nolik_helper_energy") then
+		maximum = maximum * 2
+	end
 
-	print(maximum)
-
-	if self:GetStackCount() + count < maximum or self:GetParent():HasModifier("modifier_nolik_helper_energy") then
+	if self:GetStackCount() + count < maximum then
 		self:SetStackCount(self:GetStackCount() + count)
 	else
 		self:SetStackCount(maximum)
@@ -436,7 +530,7 @@ nolik_helper = class({})
 function nolik_helper:OnSpellStart()
 	if not IsServer() then return end
 	self:GetCaster():EmitSound("nolik_pomogator")
-	local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_nolik_6")
+	local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_nolik_8")
 	self:GetCaster():RemoveModifierByName("modifier_nolik_helper_1")
 	self:GetCaster():RemoveModifierByName("modifier_nolik_helper_2")
 	self:GetCaster():RemoveModifierByName("modifier_nolik_helper_3")
@@ -476,7 +570,8 @@ modifier_nolik_helper_1 = class({})
 function modifier_nolik_helper_1:IsPurgable() return false end
 
 function modifier_nolik_helper_1:DeclareFunctions()
-	local decFuncs = {
+	local decFuncs = 
+	{
 		MODIFIER_PROPERTY_ATTACKSPEED_PERCENTAGE,
 	}
 
@@ -510,12 +605,13 @@ function modifier_nolik_helper_2:GetModifierAttackRangeBonus()
 end
 
 function modifier_nolik_helper_2:OnAttackLanded( params )
-    if not IsServer() then return end
-    local parent = self:GetParent()
-    local target = params.target
-    if parent == params.attacker and target:GetTeamNumber() ~= parent:GetTeamNumber() then
-        DoCleaveAttack( params.attacker, target, self:GetAbility(), params.original_damage, 150, 150, 150, "particles/nolik/nolik_splash.vpcf" )  
-    end
+	if not IsServer() then return end
+	if params.attacker ~= self:GetParent() then return end
+	if params.target:IsWard() then return end
+	if params.target:IsBuilding() then return end
+	if params.target == params.attacker then return end
+	if params.attacker:IsIllusion() then return end
+    DoCleaveAttack( params.attacker, params.target, self:GetAbility(), params.original_damage, 150, 150, 150, "particles/nolik/nolik_splash.vpcf" )  
 end
 
 modifier_nolik_helper_3 = class({})
@@ -523,7 +619,8 @@ modifier_nolik_helper_3 = class({})
 function modifier_nolik_helper_3:IsPurgable() return false end
 
 function modifier_nolik_helper_3:DeclareFunctions()
-	local decFuncs = {
+	local decFuncs = 
+	{
 		MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE,
 	}
 

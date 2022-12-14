@@ -17,7 +17,8 @@ function modifier_kakashi_quas_passive:IsHidden()
 end
 
 function modifier_kakashi_quas_passive:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,
     }
 
@@ -241,7 +242,6 @@ function modifier_kakashi_exort:IsPurgable()
     return false
 end
 
-
 function modifier_kakashi_exort:OnCreated( kv )
     self.movespeed = self:GetAbility():GetSpecialValueFor( "movespeed_bonus" )
 end
@@ -269,7 +269,8 @@ orb_manager = {}
 ability_manager = {}
 
 orb_manager.orb_order = "qwe"
-orb_manager.invoke_list = {
+orb_manager.invoke_list = 
+{
     ["qqq"] = "kakashi_raikiri",
     ["qqw"] = "kakashi_lightning_hit",
     ["qqe"] = "kakashi_shadow_clone",
@@ -319,13 +320,13 @@ function kakashi_invoke:GetCooldown(level)
     local exort = self:GetCaster():FindAbilityByName("kakashi_exort")
     local cd_red = 0
     if exort then
-        cd_red = cd_red + exort:GetLevel() * 0.3333
+        cd_red = cd_red + exort:GetLevel() * self:GetSpecialValueFor("cooldown_per_sphere")
     end
     if wex then
-        cd_red = cd_red + wex:GetLevel() * 0.3333
+        cd_red = cd_red + wex:GetLevel() * self:GetSpecialValueFor("cooldown_per_sphere")
     end
     if quas then
-        cd_red = cd_red + quas:GetLevel() * 0.3333
+        cd_red = cd_red + quas:GetLevel() *self:GetSpecialValueFor("cooldown_per_sphere")
     end
     cooldown = cooldown - cd_red
     return cooldown / ( self:GetCaster():GetCooldownReduction())
@@ -415,7 +416,7 @@ function kakashi_invoke:PlayEffects()
         true
     )
     ParticleManager:ReleaseParticleIndex( effect_cast )
-    EmitSoundOn( sound_cast, self:GetCaster() )
+    self:GetCaster():EmitSound(sound_cast)
 end
 
 function orb_manager:init()
@@ -665,49 +666,23 @@ function ability_manager:GetValueExort(ability, caster, value)
     return 0
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+------------------------------------------------------------------------------------------------------------------
 LinkLuaModifier("modifier_kakashi_lightning", "abilities/heroes/kakashi.lua", LUA_MODIFIER_MOTION_HORIZONTAL)
 LinkLuaModifier("modifier_kakashi_lightning_debuff", "abilities/heroes/kakashi.lua", LUA_MODIFIER_MOTION_HORIZONTAL)
 
 kakashi_lightning = class({})
 
 function kakashi_lightning:GetCastRange(location, target)
-    return ability_manager:GetValueExort(self, self:GetCaster(), "range") + self:GetCaster():FindTalentValue("special_bonus_birzha_kakashi_6")
+    return ability_manager:GetValueExort(self, self:GetCaster(), "range")
 end
 
 function kakashi_lightning:GetCooldown(level)
     local exort = self:GetCaster():FindAbilityByName("kakashi_exort")
     if exort then
         local exort_level = exort:GetLevel()-1
-        return self.BaseClass.GetCooldown( self, exort_level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_kakashi_2")
+        return self.BaseClass.GetCooldown( self, exort_level )
     end  
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_kakashi_2")
+    return self.BaseClass.GetCooldown( self, level )
 end
 
 function kakashi_lightning:GetManaCost(level)
@@ -722,7 +697,7 @@ end
 function kakashi_lightning:OnSpellStart()
     if not IsServer() then return end
 
-    local point = self:GetCaster():GetAbsOrigin() + self:GetCaster():GetForwardVector() * (ability_manager:GetValueExort(self, self:GetCaster(), "range") + self:GetCaster():FindTalentValue("special_bonus_birzha_kakashi_6"))
+    local point = self:GetCaster():GetAbsOrigin() + self:GetCaster():GetForwardVector() * ability_manager:GetValueExort(self, self:GetCaster(), "range")
 
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_kakashi_lightning", {
         x           = point.x,
@@ -761,7 +736,7 @@ function kakashi_lightning:OnProjectileHit(hTarget, vLocation)
         local damage = ability_manager:GetValueExort(self, self:GetCaster(), "base_damage")
         local duration = ability_manager:GetValueExort(self, self:GetCaster(), "debuff_duration")
         ApplyDamage({victim = hTarget, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self})
-        hTarget:AddNewModifier(self:GetCaster(), self, "modifier_kakashi_lightning_debuff", {duration = duration})
+        hTarget:AddNewModifier(self:GetCaster(), self, "modifier_kakashi_lightning_debuff", {duration = duration * (1-hTarget:GetStatusResistance())})
     end
 end 
 
@@ -800,8 +775,8 @@ function modifier_kakashi_lightning:OnCreated(params)
         self.distance = distance
         self.frametime = FrameTime()
         self:StartIntervalThink(FrameTime())
-        EmitSoundOn( "Hero_StormSpirit.BallLightning", self:GetParent() )
-        EmitSoundOn( "Hero_StormSpirit.BallLightning.Loop", self:GetParent() )
+        self:GetParent():EmitSound("Hero_StormSpirit.BallLightning")
+        self:GetParent():EmitSound("Hero_StormSpirit.BallLightning.Loop")
     end
 end
 
@@ -841,7 +816,8 @@ modifier_kakashi_lightning_debuff = class({})
 function modifier_kakashi_lightning_debuff:IsPurgable() return true end
 
 function modifier_kakashi_lightning_debuff:DeclareFunctions()
-    return {
+    return 
+    {
         MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS
     }
 end
@@ -850,125 +826,23 @@ function modifier_kakashi_lightning_debuff:GetModifierMagicalResistanceBonus()
     return ability_manager:GetValueExort(self:GetAbility(), self:GetCaster(), "resistance_bonus")
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+------------------------------------------------------------------------------------------------------------------
 
 LinkLuaModifier("modifier_kakashi_raikiri", "abilities/heroes/kakashi.lua", LUA_MODIFIER_MOTION_HORIZONTAL)
 LinkLuaModifier("modifier_kakashi_raikiri_damage", "abilities/heroes/kakashi.lua", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_kakashi_raikiri_stack", "abilities/heroes/kakashi.lua", LUA_MODIFIER_MOTION_NONE)
 
 kakashi_raikiri = class({})
 
-function kakashi_raikiri:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+function kakashi_raikiri:GetAbilityChargeRestoreTime(level)
+    local quas = self:GetCaster():FindAbilityByName("kakashi_quas")
+    if quas then
+        local quas_level = quas:GetLevel()-1
+        return self.BaseClass.GetAbilityChargeRestoreTime( self, quas_level )
+    end
 end
-
---function kakashi_raikiri:GetCastRange(location, target)
---    return ability_manager:GetValueQuas(self, self:GetCaster(), "range")
---end
 
 function kakashi_raikiri:GetManaCost(level)
     return self.BaseClass.GetManaCost(self, level)
-end
-
-function kakashi_raikiri:GetIntrinsicModifierName()
-    return "modifier_kakashi_raikiri_stack"
-end
-
-modifier_kakashi_raikiri_stack = class({})
-
-function modifier_kakashi_raikiri_stack:IsHidden()
-    return false
-end
-
-function modifier_kakashi_raikiri_stack:IsPurgable()
-    return false
-end
-
-function modifier_kakashi_raikiri_stack:DestroyOnExpire()
-    return false
-end
-
-function modifier_kakashi_raikiri_stack:OnCreated( kv )
-    self.max_charges = 1 + self:GetCaster():FindTalentValue("special_bonus_birzha_kakashi_4")
-    if not IsServer() then return end
-    self:SetStackCount( self.max_charges )
-    self:CalculateCharge()
-end
-
-function modifier_kakashi_raikiri_stack:OnRefresh( kv )
-    self.max_charges = 1 + self:GetCaster():FindTalentValue("special_bonus_birzha_kakashi_4")
-    if not IsServer() then return end
-    self:CalculateCharge()
-end
-
-function modifier_kakashi_raikiri_stack:DeclareFunctions()
-    local funcs = {
-        MODIFIER_EVENT_ON_ABILITY_FULLY_CAST,
-    }
-
-    return funcs
-end
-
-function modifier_kakashi_raikiri_stack:OnAbilityFullyCast( params )
-    if not IsServer() then return end
-    if params.unit==self:GetParent() and (params.ability:GetName() == "item_refresher" or params.ability:GetName() == "item_refresher_shard") then
-        self:SetStackCount(self.max_charges)
-        self:SetDuration( -1, true )
-        self:StartIntervalThink( -1 )
-        return
-    end
-    if params.unit~=self:GetParent() or params.ability~=self:GetAbility() then
-        return
-    end
-    self:DecrementStackCount()
-    self:CalculateCharge()
-end
-
-function modifier_kakashi_raikiri_stack:OnIntervalThink()
-    self:IncrementStackCount()
-    self:StartIntervalThink(-1)
-    self:CalculateCharge()
-end
-
-function modifier_kakashi_raikiri_stack:CalculateCharge()
-    self:GetAbility():EndCooldown()
-    self.max_charges = 1 + self:GetCaster():FindTalentValue("special_bonus_birzha_kakashi_4")
-    if self:GetStackCount()>=self.max_charges then
-        self:SetDuration( -1, false )
-        self:StartIntervalThink( -1 )
-    else
-        if self:GetRemainingTime() <= 0.05 then
-            local charge_time = self:GetAbility():GetCooldown( -1 ) * self:GetParent():GetCooldownReduction()
-            self:StartIntervalThink( charge_time )
-            self:SetDuration( charge_time, true )
-        end
-        if self:GetStackCount()==0 then
-            self:GetAbility():StartCooldown( self:GetRemainingTime() )
-        end
-    end
 end
 
 function kakashi_raikiri:OnSpellStart()
@@ -1030,7 +904,8 @@ function modifier_kakashi_raikiri:GetEffectAttachType()
     return PATTACH_ABSORIGIN_FOLLOW end
 
 function modifier_kakashi_raikiri:CheckState()
-    return {
+    return 
+    {
         [MODIFIER_STATE_STUNNED]            = true,
         [MODIFIER_STATE_INVULNERABLE]       = true,
         [MODIFIER_STATE_NO_UNIT_COLLISION]  = true
@@ -1100,16 +975,7 @@ function modifier_kakashi_raikiri_damage:OnCreated()
         ApplyDamage(damageTable)
     end
 end
-
-
-
-
-
-
-
-
-
-
+------------------------------------------------------------------------------------------------------------------
 LinkLuaModifier( "modifier_kakashi_lightning_hit", "abilities/heroes/kakashi.lua", LUA_MODIFIER_MOTION_NONE )
 
 kakashi_lightning_hit = class({})
@@ -1153,21 +1019,21 @@ function kakashi_lightning_hit:OnSpellStart()
     local caster = self:GetCaster()
     local target = self:GetCursorTarget()
     local duration = self:GetSpecialValueFor("duration")
-    target:AddNewModifier( caster, self, "modifier_kakashi_lightning_hit", { duration = duration } )
+    target:AddNewModifier( caster, self, "modifier_kakashi_lightning_hit", { duration = duration * (1-target:GetStatusResistance()) } )
     local direction = target:GetOrigin()-self:GetCaster():GetOrigin()
     local effect_cast = ParticleManager:CreateParticle( "particles/kakashi/cold_snap.vpcf", PATTACH_POINT_FOLLOW, target )
     ParticleManager:SetParticleControlEnt( effect_cast, 0, target, PATTACH_POINT_FOLLOW, "attach_hitloc", Vector(0,0,0), true )
     ParticleManager:SetParticleControl( effect_cast, 1, self:GetCaster():GetOrigin() + direction )
     ParticleManager:ReleaseParticleIndex( effect_cast )
-    EmitSoundOn( "Hero_Invoker.ColdSnap.Cast", self:GetCaster() )
-    EmitSoundOn( "Hero_Invoker.ColdSnap", target )
+    self:GetCaster():EmitSound("Hero_Invoker.ColdSnap.Cast")
+    target:EmitSound("Hero_Invoker.ColdSnap")
 
     if target:HasModifier("modifier_kakashi_shadow_clone_pull") then
         local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), target:GetAbsOrigin(), nil, 1000, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
         if #enemies <= 0 then return end
         for _, enemy in pairs(enemies) do
             if enemy:HasModifier("modifier_kakashi_shadow_clone_pull") then
-                enemy:AddNewModifier( self:GetCaster(), self, "modifier_kakashi_lightning_hit", { duration = duration } )
+                enemy:AddNewModifier( self:GetCaster(), self, "modifier_kakashi_lightning_hit", { duration = duration * (1-enemy:GetStatusResistance()) } )
             end
         end
     end
@@ -1223,13 +1089,13 @@ function modifier_kakashi_lightning_hit:OnTakeDamage( params )
         ParticleManager:SetParticleControlEnt( effect_cast, 0, params.unit, PATTACH_POINT_FOLLOW, "attach_hitloc", Vector(0,0,0), true )
         ParticleManager:SetParticleControl( effect_cast, 1,  self:GetParent():GetOrigin()+direction )
         ParticleManager:ReleaseParticleIndex( effect_cast )
-        EmitSoundOn( "Hero_Invoker.ColdSnap.Freeze", self:GetParent() )
+        self:GetParent():EmitSound("Hero_Invoker.ColdSnap.Freeze")
     end
 end
 
 function modifier_kakashi_lightning_hit:Freeze()
     self.ticks_current = self.ticks_current + 1
-    self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", { duration = self.duration } )
+    self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", { duration = self.duration * (1-self:GetParent():GetStatusResistance()) } )
     ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
     if self.ticks_current >= self.max_ticks then
         if not self:IsNull() then
@@ -1246,19 +1112,7 @@ end
 function modifier_kakashi_lightning_hit:GetEffectAttachType()
     return PATTACH_ABSORIGIN_FOLLOW
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
+------------------------------------------------------------------------------------------------------------------
 LinkLuaModifier( "modifier_kakashi_shadow_clone", "abilities/heroes/kakashi.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_kakashi_shadow_clone_pull", "abilities/heroes/kakashi.lua", LUA_MODIFIER_MOTION_NONE )
 
@@ -1304,7 +1158,7 @@ function kakashi_shadow_clone:OnSpellStart()
     direction.z = 0
     direction = direction:Normalized()
     CreateModifierThinker( caster, self, "modifier_kakashi_shadow_clone", { dir_x = direction.x, dir_y = direction.y, }, point, caster:GetTeamNumber(), false )
-    EmitSoundOn( "Hero_VoidSpirit.AetherRemnant.Cast", caster )
+    caster:EmitSound( "Hero_VoidSpirit.AetherRemnant.Cast")
 end
 
 modifier_kakashi_shadow_clone = class({})
@@ -1314,7 +1168,7 @@ function modifier_kakashi_shadow_clone:OnCreated( kv )
     self.distance = 450
     self.watch_vision = 200
     self.radius = ability_manager:GetValueQuas(self:GetAbility(), self:GetCaster(), "radius")
-    self.duration = ability_manager:GetValueWex(self:GetAbility(), self:GetCaster(), "duration")
+    self.duration = ability_manager:GetValueWex(self:GetAbility(), self:GetCaster(), "duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_kakashi_2")
     self.one_duration = self:GetAbility():GetSpecialValueFor("duration_clone")
     self.damage = self:GetAbility():GetSpecialValueFor("damage")
     self.units_active = {}
@@ -1338,7 +1192,7 @@ function modifier_kakashi_shadow_clone:OnCreated( kv )
     ParticleManager:SetParticleControl( self.effect_cast, 1, direction * self.speed )
     ParticleManager:SetParticleControlForward( self.effect_cast, 0, -direction )
     ParticleManager:SetParticleShouldCheckFoW( self.effect_cast, false )
-    EmitSoundOn( "Hero_VoidSpirit.AetherRemnant", self:GetParent() )
+    self:GetParent():EmitSound("Hero_VoidSpirit.AetherRemnant")
 end
 
 function modifier_kakashi_shadow_clone:OnDestroy()
@@ -1356,7 +1210,7 @@ function modifier_kakashi_shadow_clone:OnDestroy()
     ParticleManager:SetParticleControl( particle, 0, self:GetParent():GetOrigin() )
     ParticleManager:SetParticleControl( particle, 3, self:GetParent():GetOrigin() )
     ParticleManager:ReleaseParticleIndex( particle )
-    EmitSoundOn( "Hero_VoidSpirit.AetherRemnant.Destroy", self:GetParent() )
+    self:GetParent():EmitSound("Hero_VoidSpirit.AetherRemnant.Destroy")
     UTIL_Remove( self:GetParent() )
 end
 
@@ -1379,7 +1233,7 @@ function modifier_kakashi_shadow_clone:OnIntervalThink()
         ParticleManager:SetParticleControlEnt( self.effect_cast, 3, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_hitloc",self:GetParent():GetAbsOrigin(), true )
         ParticleManager:SetParticleControlForward( self.effect_cast, 0, self.direction )
         ParticleManager:SetParticleControlForward( self.effect_cast, 2, self.direction )
-        EmitSoundOn( "Hero_VoidSpirit.AetherRemnant.Spawn_lp", self:GetParent() )
+        self:GetParent():EmitSound("Hero_VoidSpirit.AetherRemnant.Spawn_lp")
         return
     elseif self.state == STATE_WATCH then
         self.particle_cd = self.particle_cd + 0.1
@@ -1471,14 +1325,7 @@ end
 function modifier_kakashi_shadow_clone_pull:StatusEffectPriority()
     return MODIFIER_PRIORITY_NORMAL
 end
-
-
-
-
-
-
-
-
+------------------------------------------------------------------------------------------------------------------
 LinkLuaModifier( "modifier_kakashi_tornado_debuff_resist", "abilities/heroes/kakashi.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_kakashi_tornado_debuff_movespeed", "abilities/heroes/kakashi.lua", LUA_MODIFIER_MOTION_NONE )
 
@@ -1565,22 +1412,22 @@ function kakashi_tornado:OnProjectileHit( target, vLocation )
 
         target:EmitSound("Hero_Invoker.Tornado")
 
-        if self:GetCaster():HasTalent("special_bonus_birzha_kakashi_3") then
-            target:AddNewModifier( self:GetCaster(), self, "modifier_kakashi_tornado_debuff_resist", { duration = duration } )
-            target:AddNewModifier( self:GetCaster(), self, "modifier_kakashi_tornado_debuff_movespeed", { duration = duration } )
+        if self:GetCaster():HasTalent("special_bonus_birzha_kakashi_5") then
+            target:AddNewModifier( self:GetCaster(), self, "modifier_kakashi_tornado_debuff_resist", { duration = duration * (1 - target:GetStatusResistance()) } )
+            target:AddNewModifier( self:GetCaster(), self, "modifier_kakashi_tornado_debuff_movespeed", { duration = duration * (1 - target:GetStatusResistance()) } )
             return
         end
 
         local modifier = target:FindModifierByName("modifier_kakashi_tornado_debuff_resist")
         if not modifier or modifier:GetStackCount() < self:GetSpecialValueFor("max_effects") then
-            target:AddNewModifier( self:GetCaster(), self, "modifier_kakashi_tornado_debuff_resist", { duration = duration } )
+            target:AddNewModifier( self:GetCaster(), self, "modifier_kakashi_tornado_debuff_resist", { duration = duration * (1 - target:GetStatusResistance()) } )
         elseif modifier then
             modifier:SetDuration(duration, true)
         end
 
         local modifier_2 = target:FindModifierByName("modifier_kakashi_tornado_debuff_movespeed")
         if not modifier_2 or modifier_2:GetStackCount() < self:GetSpecialValueFor("max_effects") then
-            target:AddNewModifier( self:GetCaster(), self, "modifier_kakashi_tornado_debuff_movespeed", { duration = duration } )
+            target:AddNewModifier( self:GetCaster(), self, "modifier_kakashi_tornado_debuff_movespeed", { duration = duration * (1 - target:GetStatusResistance()) } )
         elseif modifier_2 then
             modifier_2:SetDuration(duration, true)
         end
@@ -1588,8 +1435,6 @@ function kakashi_tornado:OnProjectileHit( target, vLocation )
 end
 
 modifier_kakashi_tornado_debuff_resist = class({})
-
-function modifier_kakashi_tornado_debuff_resist:IsPurgable() return false end
 
 function modifier_kakashi_tornado_debuff_resist:OnCreated()
     self.magical_resistance = ability_manager:GetValueWex(self:GetAbility(), self:GetCaster(), "magic_resistance_minus")
@@ -1642,24 +1487,7 @@ end
 function modifier_kakashi_tornado_debuff_movespeed:GetModifierMoveSpeedBonus_Percentage()
     return self.movespeed * self:GetStackCount()
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+------------------------------------------------------------------------------------------------------------------
 kakashi_graze_wave = class({})
 
 LinkLuaModifier( "modifier_kakashi_graze_wave", "abilities/heroes/kakashi.lua", LUA_MODIFIER_MOTION_HORIZONTAL )
@@ -1680,7 +1508,8 @@ function modifier_kakashi_graze_wave_passive:IsPurgable() return false end
 
 
 function modifier_kakashi_graze_wave_passive:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_EVENT_ON_ORDER,
         MODIFIER_PROPERTY_IGNORE_CAST_ANGLE,
         MODIFIER_PROPERTY_DISABLE_TURNING
@@ -1724,6 +1553,7 @@ function kakashi_graze_wave:OnSpellStart()
     if self:GetCaster():HasTalent("special_bonus_birzha_kakashi_8") then
         flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
     end
+    self:GetCaster():SetForwardVector(direction)
     local units = FindUnitsInLine(self:GetCaster():GetTeam(), self:GetCaster():GetAbsOrigin(), endpos, self:GetCaster(), 200, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, flag)
     local duration = ability_manager:GetValueQuas(self, self:GetCaster(), "stun_duration")
     local damage = ability_manager:GetValueWex(self, self:GetCaster(), "damage")
@@ -1745,7 +1575,7 @@ function kakashi_graze_wave:OnSpellStart()
         ParticleManager:ReleaseParticleIndex( effect_cast )
 
         ApplyDamage({ victim = target, attacker = self:GetCaster(), damage = damage, damage_type = self:GetAbilityDamageType(), ability = self, })
-        target:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = duration})
+        target:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = duration * (1-target:GetStatusResistance())})
         FindClearSpaceForUnit(target, new_origin, true)
     end
     if #units > 0 then
@@ -1840,11 +1670,7 @@ function modifier_kakashi_graze_wave:OnHorizontalMotionInterrupted()
         self:Destroy()
     end
 end
-
-
-
-
-
+------------------------------------------------------------------------------------------------------------------
 LinkLuaModifier("modifier_kakashi_susano_ally", "abilities/heroes/kakashi.lua", LUA_MODIFIER_MOTION_HORIZONTAL)
 LinkLuaModifier("modifier_kakashi_susano_enemy", "abilities/heroes/kakashi.lua", LUA_MODIFIER_MOTION_HORIZONTAL)
 
@@ -1874,7 +1700,7 @@ function kakashi_susano:OnSpellStart()
     if target:GetTeamNumber() == self:GetCaster():GetTeamNumber() then
         local shield_duration_ally = self:GetSpecialValueFor("shield_duration_ally")
         local health_restore = self:GetSpecialValueFor("health_restore")
-        local magic_immune = self:GetSpecialValueFor("magic_immune") + self:GetCaster():FindTalentValue("special_bonus_birzha_kakashi_1")
+        local magic_immune = self:GetSpecialValueFor("magic_immune")
         target:Heal(health_restore, self)
         target:AddNewModifier(self:GetCaster(), self, "modifier_kakashi_susano_ally", {duration = shield_duration_ally})
         target:AddNewModifier(self:GetCaster(), self, "modifier_magic_immune", {duration = magic_immune})
@@ -1887,7 +1713,7 @@ function kakashi_susano:OnSpellStart()
         end  
     else
         local shield_duration_enemy = self:GetSpecialValueFor("shield_duration_enemy")
-        target:AddNewModifier(self:GetCaster(), self, "modifier_kakashi_susano_enemy", {duration = shield_duration_enemy})
+        target:AddNewModifier(self:GetCaster(), self, "modifier_kakashi_susano_enemy", {duration = shield_duration_enemy * (1-target:GetStatusResistance())})
     end
     self:GetCaster():EmitSound("kakashi_sasuno")
 end
@@ -1921,7 +1747,7 @@ function modifier_kakashi_susano_ally:OnIntervalThink()
     for _, enemy in pairs(enemies) do
         if enemy ~= self:GetParent() and not self.targets[enemy:entindex()] then
             self.targets[enemy:entindex()] = true
-            enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = self.stun_duration})
+            enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = self.stun_duration * (1-enemy:GetStatusResistance())})
             ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
         end
     end
@@ -1945,12 +1771,6 @@ end
 function modifier_kakashi_susano_ally:GetModifierMoveSpeedBonus_Percentage()
     return self.ally_movespeed
 end
-
-
-
-
-
-
 
 modifier_kakashi_susano_enemy = class({})
 
@@ -1981,7 +1801,7 @@ function modifier_kakashi_susano_enemy:OnIntervalThink()
     for _, enemy in pairs(enemies) do
         if enemy ~= self:GetParent() and not self.targets[enemy:entindex()] then
             self.targets[enemy:entindex()] = true
-            enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = self.stun_duration})
+            enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = self.stun_duration * (1-enemy:GetStatusResistance())})
             ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
         end
     end
@@ -2005,37 +1825,7 @@ end
 function modifier_kakashi_susano_enemy:GetModifierMoveSpeedBonus_Percentage()
     return self.enemy_movespeed
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+------------------------------------------------------------------------------------------------------------------
 LinkLuaModifier("modifier_kakashi_ligning_sphere", "abilities/heroes/kakashi.lua", LUA_MODIFIER_MOTION_HORIZONTAL)
 LinkLuaModifier("modifier_kakashi_ligning_sphere_debuff", "abilities/heroes/kakashi.lua", LUA_MODIFIER_MOTION_HORIZONTAL)
 
@@ -2085,7 +1875,7 @@ function modifier_kakashi_ligning_sphere:OnCreated()
     if not IsServer() then return end
     self.delay = ability_manager:GetValueQuas(self:GetAbility(), self:GetCaster(), "delay")
     self.damage = ability_manager:GetValueExort(self:GetAbility(), self:GetCaster(), "damage")
-    self.duration = ability_manager:GetValueExort(self:GetAbility(), self:GetCaster(), "duration")
+    self.duration = ability_manager:GetValueExort(self:GetAbility(), self:GetCaster(), "duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_kakashi_1")
     self.delay_tick = self.delay / 3
 
     self.particle = ParticleManager:CreateParticle("particles/kakashi_timerstack.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent())
@@ -2117,7 +1907,7 @@ function modifier_kakashi_ligning_sphere:OnIntervalThink()
         if not self:GetParent():IsMagicImmune() or self:GetCaster():HasTalent("special_bonus_birzha_kakashi_7") then
             self:GetParent():EmitSound("Hero_Zuus.LightningBolt")
             ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), damage = self.damage, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility()})
-            self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_kakashi_ligning_sphere_debuff", {duration = self.duration})
+            self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_kakashi_ligning_sphere_debuff", {duration = self.duration * (1-self:GetParent():GetStatusResistance())})
         end
         self:Destroy()
     end
@@ -2143,18 +1933,17 @@ function modifier_kakashi_ligning_sphere_debuff:CheckState()
         [MODIFIER_STATE_SILENCED] = true,
     }
 end
-
-
-
-
-
-
+------------------------------------------------------------------------------------------------------------------
 LinkLuaModifier( "modifier_kakashi_meteor_thinker", "abilities/heroes/kakashi.lua", LUA_MODIFIER_MOTION_HORIZONTAL )
 
 kakashi_meteor = class({})
 
 function kakashi_meteor:GetCastRange(location, target)
     return ability_manager:GetValueWex(self, self:GetCaster(), "range")
+end
+
+function kakashi_meteor:GetAOERadius()
+    return self:GetSpecialValueFor("radius")
 end
 
 function kakashi_meteor:GetCooldown(level)
@@ -2168,9 +1957,8 @@ end
 
 function kakashi_meteor:OnSpellStart()
     if not IsServer() then return end
-    
     local point = self:GetCursorPosition()
-    CreateModifierThinker(self:GetCaster(), self, "modifier_kakashi_meteor_thinker", {creator = self:GetCaster():entindex()}, point, self:GetCaster():GetTeamNumber(), false)
+    CreateModifierThinker(self:GetCaster(), self, "modifier_kakashi_meteor_thinker", {creator = self:GetCaster():entindex(), main = 1}, point, self:GetCaster():GetTeamNumber(), false)
 end
 
 modifier_kakashi_meteor_thinker = class({})
@@ -2180,6 +1968,7 @@ function modifier_kakashi_meteor_thinker:IsHidden() return true end
 function modifier_kakashi_meteor_thinker:OnCreated(params)
     if not IsServer() then return end
     self.creator = EntIndexToHScript(params.creator)
+    self.main = params.main
     if self.creator then
         self.start_origin = self:GetParent():GetAbsOrigin()
         local delay = self:GetAbility():GetSpecialValueFor("delay") - 0.5
@@ -2199,10 +1988,6 @@ function modifier_kakashi_meteor_thinker:OnCreated(params)
             ParticleManager:SetParticleControl( thunder, 1, self:GetParent():GetAbsOrigin() + RandomVector(i*25))
         end
 
-
-        
-
-
         EmitSoundOnLocationWithCaster( self:GetParent():GetAbsOrigin(), "Hero_Invoker.ChaosMeteor.Cast", self:GetCaster() )
     else
         if not self:IsNull() then
@@ -2214,7 +1999,9 @@ end
 function modifier_kakashi_meteor_thinker:OnIntervalThink()
     EmitSoundOnLocationWithCaster( self:GetParent():GetAbsOrigin(), "Hero_Invoker.ChaosMeteor.Impact", self:GetCaster() )
     self:MeteorDamage()
-    self:CheckUnitsInRadius()
+    if self.main == 1 or self:GetCaster():HasShard() then
+        self:CheckUnitsInRadius()
+    end
     if not self:IsNull() then
         self:Destroy()
     end
@@ -2226,18 +2013,20 @@ function modifier_kakashi_meteor_thinker:CheckUnitsInRadius()
     if self:GetCaster():HasTalent("special_bonus_birzha_kakashi_7") then
         flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
     end
-    local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, 100, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, 0, false )
+    local radius = self:GetAbility():GetSpecialValueFor("radius")
+    local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, 0, false )
     if #enemies <= 0 then return end
-    CreateModifierThinker(self:GetCaster(), self:GetAbility(), "modifier_kakashi_meteor_thinker", {creator = self:GetParent():entindex()}, self:GetParent():GetAbsOrigin(), self:GetCaster():GetTeamNumber(), false)
+    CreateModifierThinker(self:GetCaster(), self:GetAbility(), "modifier_kakashi_meteor_thinker", {creator = self:GetParent():entindex(), main = 0}, self:GetParent():GetAbsOrigin(), self:GetCaster():GetTeamNumber(), false)
 end
 
 function modifier_kakashi_meteor_thinker:MeteorDamage()
     if not IsServer() then return end
+    local radius = self:GetAbility():GetSpecialValueFor("radius")
     local flag = 0
     if self:GetCaster():HasTalent("special_bonus_birzha_kakashi_7") then
         flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
     end
-    local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, 100, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, 0, false )
+    local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, 0, false )
     if #enemies <= 0 then return end
 
     local duration = 0
@@ -2255,14 +2044,12 @@ function modifier_kakashi_meteor_thinker:MeteorDamage()
             local thunder = ParticleManager:CreateParticle("particles/units/heroes/hero_zuus/zuus_shard.vpcf", PATTACH_WORLDORIGIN, nil)
             ParticleManager:SetParticleControl( thunder, 0, enemy:GetAbsOrigin() + Vector( 0, 0, 1000 ) )
             ParticleManager:SetParticleControl( thunder, 1, enemy:GetAbsOrigin())
-            enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = duration})
+            enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = duration * (1-enemy:GetStatusResistance())})
             ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility()})
         end
     end
 end
-
-
-
+------------------------------------------------------------------------------------------------------------------
 LinkLuaModifier( "modifier_kakashi_sharingan", "abilities/heroes/kakashi.lua", LUA_MODIFIER_MOTION_HORIZONTAL )
 
 kakashi_sharingan = class({})
@@ -2401,7 +2188,7 @@ function kakashi_sharingan:GetCooldown(iLevel)
             end
         end
     end
-    if self:GetCaster():HasScepter() and self:GetCaster():GetLevel() >= 18 then
+    if self:GetCaster():HasScepter() then
         return 0
     end
     if modifier_stacks == 5 then
@@ -2446,10 +2233,9 @@ function kakashi_sharingan:OnSpellStart()
     end)
 end
 
-
 modifier_kakashi_sharingan = class({})
 
---function modifier_kakashi_sharingan:IsHidden() return true end
+function modifier_kakashi_sharingan:IsHidden() return self:GetStackCount() == 0 end
 
 function modifier_kakashi_sharingan:GetTexture()
     if self:GetStackCount() == 1 then return "kakashi/lightning" end
@@ -2464,7 +2250,8 @@ function modifier_kakashi_sharingan:GetTexture()
 end
 
 function modifier_kakashi_sharingan:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_EVENT_ON_ABILITY_EXECUTED,
     }
 
@@ -2501,7 +2288,7 @@ function modifier_kakashi_sharingan:OnAbilityExecuted( params )
     end
 
     if IsServer() then
-        if self:GetCaster():HasTalent("special_bonus_birzha_kakashi_5") then
+        if self:GetCaster():HasTalent("special_bonus_birzha_kakashi_6") then
             local ability = self:GetCaster():FindAbilityByName("kakashi_tornado")
             if ability then
                 if hAbility ~= ability and hAbility:GetAbilityName() ~= "kakashi_quas" and hAbility:GetAbilityName() ~= "kakashi_sharingan"and hAbility:GetAbilityName() ~= "kakashi_invoke" and hAbility:GetAbilityName() ~= "kakashi_wex" and hAbility:GetAbilityName() ~= "kakashi_exort" then

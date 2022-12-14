@@ -12,7 +12,7 @@ function Versuta_son_dog:GetIntrinsicModifierName()
 end
 
 function Versuta_son_dog:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_versuta_1")
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_versuta_4")
 end
 
 function modifier_versuta_dog:IsHidden()
@@ -32,43 +32,34 @@ end
 
 function modifier_versuta_dog:OnAttackLanded( params )
     if not IsServer() then return end
-    local parent = self:GetParent()
-    local target = params.target
+    if params.attacker ~= self:GetParent() then return end
+    if params.target:IsWard() then return end
     local duration = self:GetAbility():GetSpecialValueFor("duration")
-    if parent == params.attacker and target:GetTeamNumber() ~= parent:GetTeamNumber() then
-        if self:GetParent():IsIllusion() or self:GetParent():PassivesDisabled() then return end
-        if target:IsOther() then
-            return nil
+    if params.attacker:PassivesDisabled() then return end
+    if params.attacker:IsIllusion() then return end
+    if not self:GetAbility():IsFullyCastable() then return end
+
+    if not self:GetCaster():HasShard() then
+        if params.target:IsMagicImmune() then
+            return
         end
-        if not self:GetCaster():HasShard() then
-            if target:IsMagicImmune() then
-                return
-            end
-        end
-        if self:GetAbility():IsFullyCastable() then
-            self:GetAbility():UseResources(false, false, true)
-            self.particle = ParticleManager:CreateParticle("particles/units/heroes/hero_lion/lion_spell_voodoo.vpcf", PATTACH_CUSTOMORIGIN, target)     
-            ParticleManager:SetParticleControl(self.particle, 0, target:GetAbsOrigin())      
-            ParticleManager:ReleaseParticleIndex(self.particle)
-            if target:IsIllusion() then
-                target:ForceKill(true)
-            else
-                target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_versuta_dog_debuff", {duration = duration * (1 - target:GetStatusResistance())})
-                target:EmitSound("Hero_Lion.Hex.Target")
-                self:GetParent():EmitSound("versutadog")
-            end
-        end    
+    end
+
+    self:GetAbility():UseResources(false, false, true)
+    self.particle = ParticleManager:CreateParticle("particles/units/heroes/hero_lion/lion_spell_voodoo.vpcf", PATTACH_CUSTOMORIGIN, params.target)     
+    ParticleManager:SetParticleControl(self.particle, 0, params.target:GetAbsOrigin())      
+    ParticleManager:ReleaseParticleIndex(self.particle)
+
+    if params.target:IsIllusion() then
+        params.target:ForceKill(true)
+    else
+        params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_versuta_dog_debuff", {duration = duration * (1 - params.target:GetStatusResistance())})
+        params.target:EmitSound("Hero_Lion.Hex.Target")
+        self:GetParent():EmitSound("versutadog")
     end
 end
 
 modifier_versuta_dog_debuff = class({})
-
-function modifier_versuta_dog_debuff:IsPurgable() return true end
-function modifier_versuta_dog_debuff:IsDebuff() return true end
-
-function modifier_versuta_dog_debuff:OnCreated()
-    self.movespeed = self:GetAbility():GetSpecialValueFor("movespeed")
-end
 
 function modifier_versuta_dog_debuff:DeclareFunctions()
     local funcs = {
@@ -85,19 +76,27 @@ function modifier_versuta_dog_debuff:GetModifierModelChange()
 end
 
 function modifier_versuta_dog_debuff:GetModifierMoveSpeedOverride()
-    return self.movespeed
+    return self:GetAbility():GetSpecialValueFor("movespeed")
 end
 
 function modifier_versuta_dog_debuff:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_DISARMED] = true,
         [MODIFIER_STATE_HEXED] = true,
         [MODIFIER_STATE_MUTED] = true,
-        [MODIFIER_STATE_EVADE_DISABLED] = true,
-        [MODIFIER_STATE_BLOCK_DISABLED] = true,
         [MODIFIER_STATE_SILENCED] = true
     }
-
+    if self:GetCaster():HasTalent("special_bonus_birzha_versuta_5") then
+        state = 
+        {
+            [MODIFIER_STATE_DISARMED] = true,
+            [MODIFIER_STATE_HEXED] = true,
+            [MODIFIER_STATE_MUTED] = true,
+            [MODIFIER_STATE_SILENCED] = true,
+            [MODIFIER_STATE_PASSIVES_DISABLED] = true
+        }
+    end
     return state
 end
 
@@ -108,7 +107,7 @@ LinkLuaModifier( "modifier_versuta_dog_ultimate_speed", "abilities/heroes/versut
 Versuta_dog_change = class({})
 
 function Versuta_dog_change:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_versuta_2")
 end
 
 function Versuta_dog_change:GetManaCost(level)
@@ -119,7 +118,7 @@ function Versuta_dog_change:OnSpellStart()
     local caster = self:GetCaster()
     local ability = self
     local transformation_time = ability:GetSpecialValueFor("transformation_time")
-    local duration = ability:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_versuta_2")
+    local duration = ability:GetSpecialValueFor("duration")
     if not IsServer() then return end
     self.particle = ParticleManager:CreateParticle("particles/units/heroes/hero_lycan/lycan_shapeshift_cast.vpcf", PATTACH_ABSORIGIN, caster)
     ParticleManager:SetParticleControl(self.particle, 0 , caster:GetAbsOrigin())
@@ -158,16 +157,17 @@ modifier_versuta_dog_ultimate = class({})
 function modifier_versuta_dog_ultimate:IsPurgable() return false end
 
 function modifier_versuta_dog_ultimate:DeclareFunctions()  
-        local decFuncs = {MODIFIER_PROPERTY_MODEL_CHANGE,
-        MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE}
-        
-        return decFuncs 
+    local decFuncs = 
+    {
+        MODIFIER_PROPERTY_MODEL_CHANGE,
+        MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE
+    }
+    return decFuncs 
 end
 
 function modifier_versuta_dog_ultimate:GetModifierModelChange()
     return "models/items/lycan/ultimate/thegreatcalamityti4/thegreatcalamityti4.vmdl"
 end
-
 
 function modifier_versuta_dog_ultimate:GetEffectName()
     return "particles/units/heroes/hero_lycan/lycan_shapeshift_buff.vpcf"
@@ -178,29 +178,10 @@ function modifier_versuta_dog_ultimate:GetEffectAttachType()
 end
 
 function modifier_versuta_dog_ultimate:OnCreated()
-    local duration = self:GetAbility():GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_versuta_2")
-    self.crit_chance = self:GetAbility():GetSpecialValueFor("crit_chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_versuta_3")
+    local duration = self:GetAbility():GetSpecialValueFor("duration")
+    self.crit_chance = self:GetAbility():GetSpecialValueFor("crit_chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_versuta_7")
     self.crit_damage = self:GetAbility():GetSpecialValueFor("crit_damage")  
-
     if not IsServer() then return end
-    local units = FindUnitsInRadius(
-        self:GetCaster():GetTeamNumber(),
-        self:GetCaster():GetOrigin(),
-        nil,
-        FIND_UNITS_EVERYWHERE,
-        DOTA_UNIT_TARGET_TEAM_FRIENDLY,
-        DOTA_UNIT_TARGET_BASIC,
-        DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-        0,
-        false
-    )
-
-    for _,unit in pairs(units) do
-        if unit:GetPlayerOwner() == self:GetCaster():GetPlayerOwner() then
-            unit:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_versuta_dog_ultimate_speed", { duration = duration } )
-        end
-    end
-
     self:GetCaster():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_versuta_dog_ultimate_speed", { duration = duration } )
 end
 
@@ -210,7 +191,7 @@ end
 
 function modifier_versuta_dog_ultimate:GetModifierPreAttack_CriticalStrike()
     if not IsServer() then return end                  
-    if RandomInt(1, 100) <= self.crit_chance then        
+    if RollPercentage(self.crit_chance) then        
         return self.crit_damage
     end
     return nil
@@ -259,16 +240,19 @@ function Versuta_Rage:OnSpellStart()
     if not IsServer() then return end  
     local caster = self:GetCaster()
     local ability = self
-    local max_attacks = ability:GetSpecialValueFor("max_attacks") + self:GetCaster():FindTalentValue("special_bonus_birzha_versuta_4")
     local duration = ability:GetSpecialValueFor("duration")
+
     caster:EmitSound("Hero_Ursa.Overpower")
+
     caster:EmitSound("versutaursa")
+
     caster:StartGesture(ACT_DOTA_OVERRIDE_ABILITY_3)
+
     if caster:HasModifier("modifier_versuta_rage_buff") then
         caster:RemoveModifierByName("modifier_versuta_rage_buff")
     end
+
     caster:AddNewModifier(caster, ability, "modifier_versuta_rage_buff", {duration = duration})
-    caster:SetModifierStackCount("modifier_versuta_rage_buff", caster, max_attacks)
 end
 
 modifier_versuta_rage_buff = class({})
@@ -276,7 +260,9 @@ modifier_versuta_rage_buff = class({})
 function modifier_versuta_rage_buff:IsPurgable() return true end
 
 function modifier_versuta_rage_buff:OnCreated()
+    local max_attacks = self:GetAbility():GetSpecialValueFor("max_attacks") + self:GetCaster():FindTalentValue("special_bonus_birzha_versuta_1")
     self.attack_speed = self:GetAbility():GetSpecialValueFor("attack_speed")
+
     if not IsServer() then return end 
     local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_ursa/ursa_overpower_buff.vpcf", PATTACH_CUSTOMORIGIN, self:GetCaster())
     ParticleManager:SetParticleControlEnt(particle, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_head", self:GetCaster():GetAbsOrigin(), true)
@@ -284,6 +270,8 @@ function modifier_versuta_rage_buff:OnCreated()
     ParticleManager:SetParticleControlEnt(particle, 2, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetCaster():GetAbsOrigin(), true)
     ParticleManager:SetParticleControlEnt(particle, 3, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetCaster():GetAbsOrigin(), true)
     self:AddParticle(particle, false, false, -1, false, false)
+
+    self:SetStackCount(max_attacks)
 end
 
 function modifier_versuta_rage_buff:GetEffectAttachType()
@@ -295,17 +283,21 @@ function modifier_versuta_rage_buff:StatusEffectPriority()
 end
 
 function modifier_versuta_rage_buff:GetStatusEffectName()
-    return "particles/status_fx/status_effect_overpower.vpcf"
+    return "particles/versuta_status_over.vpcf"
 end
 
 function modifier_versuta_rage_buff:DeclareFunctions()
-    local decFuncs = {MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-        MODIFIER_EVENT_ON_ATTACK}
+    local decFuncs = 
+    {
+        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+        MODIFIER_PROPERTY_ATTACK_RANGE_BONUS_UNIQUE,
+        MODIFIER_EVENT_ON_ATTACK
+    }
     return decFuncs
 end
 
 function modifier_versuta_rage_buff:GetModifierAttackSpeedBonus_Constant()
-    return self.attack_speed
+    return self:GetAbility():GetSpecialValueFor("attack_speed")
 end
 
 function modifier_versuta_rage_buff:OnAttack( keys )
@@ -314,11 +306,13 @@ function modifier_versuta_rage_buff:OnAttack( keys )
         if current_stacks > 1 then
             self:DecrementStackCount()
         else
-            if not self:IsNull() then
-                self:Destroy()
-            end
+            self:Destroy()
         end
     end
+end
+
+function modifier_versuta_rage_buff:GetModifierAttackRangeBonusUnique()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_versuta_6")
 end
 
 LinkLuaModifier( "modifier_Versuta_pudge_scepter", "abilities/heroes/versuta.lua", LUA_MODIFIER_MOTION_NONE )
@@ -341,7 +335,7 @@ end
 function Versuta_pudge:OnSpellStart()
     local caster = self:GetCaster()
     local level = self:GetLevel()
-    local count = 1 + self:GetCaster():FindTalentValue("special_bonus_birzha_versuta_5")
+    local count = 1 + self:GetCaster():FindTalentValue("special_bonus_birzha_versuta_8")
     caster:EmitSound("versutapudge")
     for i = 1, count do
         self.pudge = CreateUnitByName("npc_pudge_"..level, caster:GetAbsOrigin() + RandomVector(250), true, caster, caster, caster:GetTeamNumber())
@@ -557,10 +551,13 @@ function modifier_pudge_rot_custom:IsPurgable() return false end
 function modifier_pudge_rot_custom:OnCreated()
     if not IsServer() then return end
     self.rot_radius = self:GetAbility():GetSpecialValueFor("rot_radius")
+    if self:GetCaster():HasModifier("modifier_Versuta_pudge_scepter") then
+        self.rot_radius = self.rot_radius + 150
+    end
     self.rot_tick = self:GetAbility():GetSpecialValueFor("rot_tick")
     self.rot_damage = self:GetAbility():GetSpecialValueFor("rot_damage") * self.rot_tick
     
-    self.pfx = ParticleManager:CreateParticle("particles/units/heroes/hero_pudge/pudge_rot.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+    self.pfx = ParticleManager:CreateParticle("particles/econ/items/pudge/pudge_immortal_arm/pudge_immortal_arm_rot_gold.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
     ParticleManager:SetParticleControl(self.pfx, 1, Vector(self.rot_radius, 1, self.rot_radius))
     self:AddParticle(self.pfx, false, false, -1, false, false)  
     
@@ -578,8 +575,11 @@ function modifier_pudge_rot_custom:OnIntervalThink()
         end
     end
     self.rot_radius = self:GetAbility():GetSpecialValueFor("rot_radius")
+    if self:GetCaster():HasModifier("modifier_Versuta_pudge_scepter") then
+        self.rot_radius = self.rot_radius + 150
+    end
     self.rot_tick = self:GetAbility():GetSpecialValueFor("rot_tick")
-    self.rot_damage = self:GetAbility():GetSpecialValueFor("rot_damage") * self.rot_tick
+    self.rot_damage = (self:GetAbility():GetSpecialValueFor("rot_damage") + self:GetCaster():GetOwner():FindTalentValue("special_bonus_birzha_versuta_3")) * self.rot_tick
 
     if self.pfx then
         ParticleManager:SetParticleControl(self.pfx, 1, Vector(self.rot_radius, 1, self.rot_radius))

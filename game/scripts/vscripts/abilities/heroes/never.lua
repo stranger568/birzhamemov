@@ -2,23 +2,14 @@ LinkLuaModifier( "modifier_birzha_bashed", "modifiers/modifier_birzha_dota_modif
 LinkLuaModifier( "modifier_never_stupid_attack", "abilities/heroes/never.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_never_stupid_steal_target", "abilities/heroes/never.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_never_stupid_steal_caster", "abilities/heroes/never.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_never_stupid_steal_target_debuff", "abilities/heroes/never.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_never_stupid_steal_caster_buff", "abilities/heroes/never.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 
 never_stupid = class({})
 
-modifier_never_stupid_attack = class({})
-modifier_never_stupid_steal_target = class({})
-modifier_never_stupid_steal_caster = class({})
-
 function never_stupid:GetIntrinsicModifierName() 
 	return "modifier_never_stupid_attack"
-end
-
-function modifier_never_stupid_attack:OnCreated()
-	if not IsServer() then return end
-	if DonateShopIsItemBought(self:GetCaster():GetPlayerID(), 27) then
-		self:GetCaster():SetRangedProjectileName("particles/never_arcana/never_arcana_attack.vpcf")
-	end
 end
 
 function never_stupid:GetAbilityTextureName()
@@ -28,89 +19,133 @@ function never_stupid:GetAbilityTextureName()
 	return "Never/Stupid"
 end
 
+modifier_never_stupid_attack = class({})
+
 function modifier_never_stupid_attack:IsHidden()
 	return true
 end
+
+function modifier_never_stupid_attack:OnCreated()
+	if not IsServer() then return end
+	if DonateShopIsItemBought(self:GetCaster():GetPlayerID(), 27) then
+		self:GetCaster():SetRangedProjectileName("particles/never_arcana/never_arcana_attack.vpcf")
+	end
+end
+
+function modifier_never_stupid_attack:IsPurgable() return false end
 
 function modifier_never_stupid_attack:DeclareFunctions()
 	return 
 	{
 		MODIFIER_EVENT_ON_ATTACK_LANDED,
+		MODIFIER_PROPERTY_PROCATTACK_BONUS_DAMAGE_PURE,
 	}
 end
 
-function modifier_never_stupid_attack:OnAttackLanded( keys )
+function modifier_never_stupid_attack:OnAttackLanded( params )
 	if not IsServer() then return end
-	local attacker = self:GetParent()
-	local duration = self:GetAbility():GetSpecialValueFor("steal_duration")
-	if attacker ~= keys.attacker then
-		return
-	end
+	if params.attacker ~= self:GetParent() then return end
+	if params.attacker:IsIllusion() then return end
+	if params.attacker:PassivesDisabled() then return end
+	if params.target:IsWard() then return end
 
-	if attacker:IsIllusion() or attacker:PassivesDisabled() then
-		return
-	end
+	local duration = self:GetAbility():GetSpecialValueFor("steal_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_never_8")
 
-	local target = keys.target
-	if attacker:GetTeam() == target:GetTeam() then
-		return
-	end	
-
-	if target:IsOther() or (not target:IsRealHero()) then
-		return nil
-	end
-
-	attacker:AddNewModifier(attacker, self:GetAbility(), "modifier_never_stupid_steal_caster", {duration = duration})
-	target:AddNewModifier(attacker, self:GetAbility(), "modifier_never_stupid_steal_target", {duration = duration})
-	local bonus_damage = self:GetAbility():GetSpecialValueFor("bonus_damage") / 100
-
-	local damage_table = {}
-
-	damage_table.attacker = attacker
-	damage_table.damage_type = self:GetAbility():GetAbilityDamageType()
-	damage_table.ability = self:GetAbility()
-	damage_table.victim = target
-	damage_table.damage = attacker:GetAgility() * bonus_damage
-
-	ApplyDamage(damage_table)
+	params.attacker:AddNewModifier(params.attacker, self:GetAbility(), "modifier_never_stupid_steal_caster", {duration = duration})
+	params.attacker:AddNewModifier(params.attacker, self:GetAbility(), "modifier_never_stupid_steal_caster_buff", {duration = duration})
+	params.target:AddNewModifier(params.attacker, self:GetAbility(), "modifier_never_stupid_steal_target", {duration = duration * (1-params.target:GetStatusResistance())})
+	params.target:AddNewModifier(params.attacker, self:GetAbility(), "modifier_never_stupid_steal_target_debuff", {duration = duration * (1-params.target:GetStatusResistance())})
 end
 
-function modifier_never_stupid_steal_caster:IsHidden()
-	return true
+function modifier_never_stupid_attack:GetModifierProcAttack_BonusDamage_Pure(params)
+	if not IsServer() then return end
+	if params.attacker ~= self:GetParent() then return end
+	if params.attacker:IsIllusion() then return end
+	if params.attacker:PassivesDisabled() then return end
+	if params.target:IsWard() then return end
+	if not self:GetCaster():HasTalent("special_bonus_birzha_never_6") then
+		if params.target:IsMagicImmune() then return end
+	end
+	local bonus_damage = self:GetAbility():GetSpecialValueFor("bonus_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_never_4")
+	local damage = self:GetParent():GetAgility() / 100 * bonus_damage
+	return damage
 end
 
-function modifier_never_stupid_steal_caster:GetAttributes()
-    return MODIFIER_ATTRIBUTE_MULTIPLE
+modifier_never_stupid_steal_caster_buff = class({})
+
+function modifier_never_stupid_steal_caster_buff:IsPurgable() return false end
+function modifier_never_stupid_steal_caster_buff:IsHidden() return self:GetStackCount() == 0 end
+
+function modifier_never_stupid_steal_caster_buff:OnCreated()
+	if not IsServer() then return end
+	self:StartIntervalThink(FrameTime())
 end
 
-function modifier_never_stupid_steal_caster:DeclareFunctions()
+function modifier_never_stupid_steal_caster_buff:OnIntervalThink()
+	if not IsServer() then return end
+	local modifier = self:GetParent():FindAllModifiersByName("modifier_never_stupid_steal_caster")
+	self:SetStackCount(#modifier)
+end
+
+function modifier_never_stupid_steal_caster_buff:DeclareFunctions()
 	return 
 	{
-		MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
+		MODIFIER_PROPERTY_STATS_AGILITY_BONUS
 	}
 end
 
-function modifier_never_stupid_steal_caster:GetModifierBonusStats_Agility()
-    return self:GetAbility():GetSpecialValueFor("agility_gain")
+function modifier_never_stupid_steal_caster_buff:GetModifierBonusStats_Agility()
+    return self:GetAbility():GetSpecialValueFor("agility_gain") * self:GetStackCount()
 end
 
-function modifier_never_stupid_steal_target:IsHidden()
-	return true
+modifier_never_stupid_steal_target_debuff = class({})
+
+function modifier_never_stupid_steal_target_debuff:IsPurgable() return false end
+function modifier_never_stupid_steal_target_debuff:IsHidden() return self:GetStackCount() == 0 end
+
+function modifier_never_stupid_steal_target_debuff:OnCreated()
+	if not IsServer() then return end
+	self:StartIntervalThink(FrameTime())
 end
 
-function modifier_never_stupid_steal_target:GetAttributes()
-    return MODIFIER_ATTRIBUTE_MULTIPLE
+function modifier_never_stupid_steal_target_debuff:OnIntervalThink()
+	if not IsServer() then return end
+	local modifier = self:GetParent():FindAllModifiersByName("modifier_never_stupid_steal_target")
+	self:SetStackCount(#modifier)
 end
 
-function modifier_never_stupid_steal_target:DeclareFunctions()
+function modifier_never_stupid_steal_target_debuff:DeclareFunctions()
 	return 
 	{
 		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
 	}
 end
 
-function modifier_never_stupid_steal_target:GetModifierBonusStats_Intellect()
-    return self:GetAbility():GetSpecialValueFor("int_steal")
+function modifier_never_stupid_steal_target_debuff:GetModifierBonusStats_Intellect()
+    return self:GetAbility():GetSpecialValueFor("int_steal") * self:GetStackCount()
+end
+
+modifier_never_stupid_steal_caster = class({})
+
+function modifier_never_stupid_steal_caster:IsHidden()
+	return true
+end
+function modifier_never_stupid_steal_caster:IsPurgable() return false end
+
+function modifier_never_stupid_steal_caster:GetAttributes()
+    return MODIFIER_ATTRIBUTE_MULTIPLE
+end
+
+modifier_never_stupid_steal_target = class({})
+
+function modifier_never_stupid_steal_target:IsHidden()
+	return true
+end
+
+function modifier_never_stupid_steal_target:IsPurgable() return false end
+
+function modifier_never_stupid_steal_target:GetAttributes()
+    return MODIFIER_ATTRIBUTE_MULTIPLE
 end
 
 LinkLuaModifier( "modifier_never_spit", "abilities/heroes/never.lua", LUA_MODIFIER_MOTION_NONE )
@@ -118,13 +153,13 @@ LinkLuaModifier( "modifier_never_spit", "abilities/heroes/never.lua", LUA_MODIFI
 never_spit = class({})
 
 function never_spit:GetCooldown(level)
-	return self.BaseClass.GetCooldown( self, level ) / ( self:GetCaster():GetCooldownReduction())
+	return (self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_never_3")) / ( self:GetCaster():GetCooldownReduction())
 end
 
 modifier_never_spit = class({})
 
 function never_spit:GetIntrinsicModifierName() 
-return "modifier_never_spit"
+	return "modifier_never_spit"
 end
 
 function never_spit:GetAbilityTextureName()
@@ -146,83 +181,76 @@ function modifier_never_spit:IsHidden()
 	return true
 end
 
+function modifier_never_spit:IsPurgable() return false end
+
 function modifier_never_spit:DeclareFunctions()
 	return 
 	{
-		MODIFIER_EVENT_ON_ATTACK_LANDED,
+		MODIFIER_PROPERTY_PROCATTACK_BONUS_DAMAGE_PHYSICAL
 	}
 end
 
-function modifier_never_spit:OnAttackLanded( keys )
-	if IsServer() then
-		local attacker = self:GetParent()
+function modifier_never_spit:GetModifierProcAttack_BonusDamage_Physical( params )
+	if not IsServer() then return end
+	if params.attacker ~= self:GetParent() then return end
+	if params.attacker:IsIllusion() then return end
+	if params.attacker:PassivesDisabled() then return end
+	if params.target:IsWard() then return end
+	if not self:GetAbility():IsFullyCastable() then return end
 
-		if attacker ~= keys.attacker then
-			return
+	local duration = self:GetAbility():GetSpecialValueFor("duration")
+	local chance = self:GetAbility():GetSpecialValueFor("chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_never_7")
+
+	if IsInToolsMode() then
+		chance = 100
+	end
+
+	if RollPercentage(chance) then	
+		params.target:AddNewModifier(params.attacker, self:GetAbility(), "modifier_birzha_bashed", {duration = duration * (1 - params.target:GetStatusResistance()) })
+
+		params.target:EmitSound("neverbash")
+
+		self:GetAbility():UseResources(false, false, true)
+
+		local SpitEffect = ParticleManager:CreateParticle(self.particle_spit, PATTACH_ABSORIGIN, params.target)
+
+		if DonateShopIsItemBought(self:GetCaster():GetPlayerID(), 27) then
+			ParticleManager:SetParticleControl(SpitEffect, 0, params.target:GetAbsOrigin())
+			ParticleManager:SetParticleControl(SpitEffect, 1, params.target:GetAbsOrigin())
+			ParticleManager:SetParticleControl(SpitEffect, 3, params.target:GetAbsOrigin())
+			ParticleManager:SetParticleControl(SpitEffect, 5, params.target:GetAbsOrigin())
 		end
 
-		if attacker:IsIllusion() or attacker:PassivesDisabled() then
-			return
-		end
+		ParticleManager:ReleaseParticleIndex(SpitEffect)
 
-		local target = keys.target
-		if attacker:GetTeam() == target:GetTeam() then
-			return
-		end	
-		if target:IsOther() then
-			return nil
-		end
-		if not self:GetAbility():IsFullyCastable() then return end
+		local damage = self:GetAbility():GetSpecialValueFor("damage")
 
-		local duration = self:GetAbility():GetSpecialValueFor("duration")
-		local chance = self:GetAbility():GetSpecialValueFor("chance")
-		local random = RandomInt(1, 100)
-
-		if IsInToolsMode() then
-			chance = 100
-		end
-
-		if random <= chance then	
-			target:AddNewModifier(attacker, self:GetAbility(), "modifier_birzha_bashed", {duration = duration})
-			attacker:EmitSound("neverbash")
-			local damage = self:GetAbility():GetSpecialValueFor("damage")
-			local damage_table = {}
-			damage_table.attacker = attacker
-			damage_table.damage_type = self:GetAbility():GetAbilityDamageType()
-			damage_table.ability = self:GetAbility()
-			damage_table.victim = target
-			damage_table.damage = damage
-			ApplyDamage(damage_table)
-			self:GetAbility():UseResources(false, false, true)
-			local SpitEffect = ParticleManager:CreateParticle(self.particle_spit, PATTACH_ABSORIGIN, target)
-			if DonateShopIsItemBought(self:GetCaster():GetPlayerID(), 27) then
-				ParticleManager:SetParticleControl(SpitEffect, 0, target:GetAbsOrigin())
-				ParticleManager:SetParticleControl(SpitEffect, 1, target:GetAbsOrigin())
-				ParticleManager:SetParticleControl(SpitEffect, 3, target:GetAbsOrigin())
-				ParticleManager:SetParticleControl(SpitEffect, 5, target:GetAbsOrigin())
-			end
-		end
+		return damage
 	end
 end
 
 LinkLuaModifier( "modifier_speed_caster", "abilities/heroes/never.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_speed_friendly", "abilities/heroes/never.lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier("modifier_movespeed_cap", "modifiers/modifier_limit.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier( "modifier_movespeed_cap", "modifiers/modifier_limit.lua", LUA_MODIFIER_MOTION_NONE)
 
 never_speed = class({})
 
 function never_speed:OnSpellStart() 
-	local units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, 600, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_CLOSEST, false)
+	if not IsServer() then return end
+
+	local units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, self:GetSpecialValueFor("radius"), DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_CLOSEST, false)
+
 	self:GetCaster():EmitSound("never")
+
 	for _,unit in ipairs(units) do
-		unit:AddNewModifier(self:GetCaster(), self, "modifier_speed_friendly", {duration = 5})
+		unit:AddNewModifier(self:GetCaster(), self, "modifier_speed_friendly", {duration = self:GetSpecialValueFor("duration")})
 	end
 end
 
 modifier_speed_caster = class({})
 
 function never_speed:GetIntrinsicModifierName() 
-return "modifier_speed_caster"
+	return "modifier_speed_caster"
 end
 
 function never_speed:GetAbilityTextureName()
@@ -236,6 +264,8 @@ function modifier_speed_caster:IsHidden()
 	return true
 end
 
+function modifier_speed_caster:IsPurgable() return false end
+
 function modifier_speed_caster:DeclareFunctions()
 	return 
 	{
@@ -244,30 +274,33 @@ function modifier_speed_caster:DeclareFunctions()
 end
 
 function modifier_speed_caster:GetModifierMoveSpeedBonus_Percentage( keys )
-	return self:GetAbility():GetSpecialValueFor("movespeed_caster")
+	return self:GetAbility():GetSpecialValueFor("movespeed_caster") + self:GetCaster():FindTalentValue("special_bonus_birzha_never_1")
 end
 
 modifier_speed_friendly = class({})
 
 function modifier_speed_friendly:OnCreated()
 	if not IsServer() then return end
+
 	if self:GetCaster():HasScepter() and ( not self:GetParent():HasModifier("modifier_movespeed_cap") ) then
 		self.modifier_speed = self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_movespeed_cap", {})
 	end
+
 	self.movespeed_caster = self:GetAbility():GetSpecialValueFor("movespeed_friendly")
+
 	if DonateShopIsItemBought(self:GetCaster():GetPlayerID(), 27) then
-		self:GetParent().particle_never_speed = ParticleManager:CreateParticle("particles/econ/items/spirit_breaker/spirit_breaker_iron_surge/spirit_breaker_charge_iron.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+		local particle_never_speed = ParticleManager:CreateParticle("particles/econ/items/spirit_breaker/spirit_breaker_iron_surge/spirit_breaker_charge_iron.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+		self:AddParticle(particle_never_speed, false, false, -1, false, false)
 	else
-		self:GetParent().particle_never_speed = ParticleManager:CreateParticle("particles/never/spirit_breaker_charge_iron.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+		local particle_never_speed = ParticleManager:CreateParticle("particles/never/spirit_breaker_charge_iron.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+		self:AddParticle(particle_never_speed, false, false, -1, false, false)
 	end
 end
 
 function modifier_speed_friendly:OnDestroy()
+	if not IsServer() then return end
 	if self.modifier_speed and not self.modifier_speed:IsNull() then
 		self.modifier_speed:Destroy()
-	end
-	if self:GetParent().particle_never_speed then
-		ParticleManager:DestroyParticle(self:GetParent().particle_never_speed, false)
 	end
 end
 
@@ -275,11 +308,16 @@ function modifier_speed_friendly:DeclareFunctions()
 	return 
 	{
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+		MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING
 	}
 end
 
-function modifier_speed_friendly:GetModifierMoveSpeedBonus_Percentage( keys )
+function modifier_speed_friendly:GetModifierMoveSpeedBonus_Percentage()
 	return self:GetAbility():GetSpecialValueFor("movespeed_friendly")
+end
+
+function modifier_speed_friendly:GetModifierStatusResistanceStacking()
+	return self:GetCaster():FindTalentValue("special_bonus_birzha_never_5")
 end
 
 LinkLuaModifier( "modifier_never_damage", "abilities/heroes/never.lua", LUA_MODIFIER_MOTION_NONE )
@@ -288,7 +326,7 @@ LinkLuaModifier( "modifier_never_damage_team", "abilities/heroes/never.lua", LUA
 Never_ultimate = class({})
 
 function Never_ultimate:GetIntrinsicModifierName() 
-return "modifier_never_damage"
+	return "modifier_never_damage"
 end
 
 function Never_ultimate:GetAbilityTextureName()
@@ -299,10 +337,11 @@ function Never_ultimate:GetAbilityTextureName()
 end
 
 function Never_ultimate:OnSpellStart() 
+	if not IsServer() then return end
 	local units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, 9999999, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_CLOSEST, false)
 	for _,unit in ipairs(units) do
 		if unit ~= self:GetCaster() then
-			unit:AddNewModifier(self:GetCaster(), self, "modifier_never_damage_team", {duration = 15})
+			unit:AddNewModifier(self:GetCaster(), self, "modifier_never_damage_team", {duration = self:GetSpecialValueFor("duration")})
 		end
 	end
 end
@@ -313,15 +352,33 @@ function modifier_never_damage:IsHidden()
 	return true
 end
 
+function modifier_never_damage:IsPurgable() return false end
+
 function modifier_never_damage:DeclareFunctions()
 	return 
 	{
 		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
+		MODIFIER_EVENT_ON_TAKEDAMAGE
 	}
 end
 
-function modifier_never_damage:GetModifierPreAttack_BonusDamage( keys )
+function modifier_never_damage:GetModifierPreAttack_BonusDamage()
 	return self:GetAbility():GetSpecialValueFor("bonus_damage")
+end
+
+function modifier_never_damage:OnTakeDamage(params)
+    if not IsServer() then return end
+    if self:GetParent() ~= params.attacker then return end
+    if self:GetParent() == params.unit then return end
+    if params.unit:IsBuilding() then return end
+    if params.unit:IsWard() then return end
+    if not self:GetCaster():HasTalent("special_bonus_birzha_never_2") then return end
+    if params.inflictor == nil and not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then 
+        local heal = self:GetCaster():FindTalentValue("special_bonus_birzha_never_2") / 100 * params.damage
+        self:GetParent():Heal(heal, nil)
+        local effect_cast = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.attacker )
+        ParticleManager:ReleaseParticleIndex( effect_cast )
+    end
 end
 
 modifier_never_damage_team = class({})
@@ -332,17 +389,12 @@ end
 
 function modifier_never_damage_team:OnCreated()
 	if not IsServer() then return end
-	self.bonus_damage = self:GetAbility():GetSpecialValueFor("bonus_damage_team")
 	if DonateShopIsItemBought(self:GetCaster():GetPlayerID(), 27) then
-		self:GetParent().particle_never_damage = ParticleManager:CreateParticle("particles/never/ultimate_effect_arcana.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+		local particle_never_damage = ParticleManager:CreateParticle("particles/never/ultimate_effect_arcana.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+		self:AddParticle(particle_never_damage, false, false, -1, false, false)
 	else
-		self:GetParent().particle_never_damage = ParticleManager:CreateParticle("particles/never/ultimate_effect.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
-	end
-end
-
-function modifier_never_damage_team:OnDestroy()
-	if self:GetParent().particle_never_damage then
-		ParticleManager:DestroyParticle(self:GetParent().particle_never_damage, false)
+		local particle_never_damage = ParticleManager:CreateParticle("particles/never/ultimate_effect.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+		self:AddParticle(particle_never_damage, false, false, -1, false, false)
 	end
 end
 
@@ -356,8 +408,6 @@ end
 function modifier_never_damage_team:GetModifierPreAttack_BonusDamage( keys )
 	return self:GetAbility():GetSpecialValueFor("bonus_damage_team")
 end
-
-
 
 never_zxc = class({})
 
@@ -395,7 +445,8 @@ function never_zxc:OnSpellStart( this )
 	self:Effect(end_position, radius)
 	local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), end_position, nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )
 	for _,enemy in pairs(enemies) do
-		ApplyDamage( { victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self, } )
+		ApplyDamage( { victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self } )
+		self:GetCaster():PerformAttack(enemy, true, true, true, false, true, false, false)
 	end
 
 	Timers:CreateTimer(0.1, function()
@@ -403,7 +454,8 @@ function never_zxc:OnSpellStart( this )
 		self:Effect(end_position, radius)
 		enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), end_position, nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )
 		for _,enemy in pairs(enemies) do
-			ApplyDamage( { victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self, } )
+			ApplyDamage( { victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self } )
+			self:GetCaster():PerformAttack(enemy, true, true, true, false, true, false, false)
 		end
 	end)
 
@@ -412,7 +464,8 @@ function never_zxc:OnSpellStart( this )
 		self:Effect(end_position, radius)
 		enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), end_position, nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )
 		for _,enemy in pairs(enemies) do
-			ApplyDamage( { victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self, } )
+			ApplyDamage( { victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self } )
+			self:GetCaster():PerformAttack(enemy, true, true, true, false, true, false, false)
 		end
 	end)
 end

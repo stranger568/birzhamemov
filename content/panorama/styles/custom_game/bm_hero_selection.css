@@ -9,45 +9,14 @@
 
 .BackgroundPick
 {
-width: 100%;height: 100%;background-color: gradient( linear, 100% 100%, 100% 100%, from( #171A25 ), to( #171A25dd ) );
-
+	width: 100%;
+	height: 100%;
+	background-color: gradient( linear, 100% 100%, 100% 100%, from( #171A25 ), to( #171A25dd ) );
 }
 
 .Deletion
 {
 	opacity: 0;
-}
-
-.StateInfoGlobalClass
-{
-	horizontal-align: left;
-	flow-children: down;
-	margin-top: 65px;
-	margin-left: 80px;
-	border: 1px solid #fff;
-	width: 200px;
-	border-brush: gradient( linear, 0% 0%, 0% 99%, from( black ), to( #fff0 ) );
-	background-image: url("file://{images}/custom_game/custom_pick/test.png");
-	background-size: 100%;
-	box-shadow: black 0 0px 5px;
-	border-radius: 10px;
-
-}
-
-.AspectRatio4x3 .StateInfoGlobalClass
-{
-	horizontal-align: left;
-	flow-children: down;
-	margin-top: 10px;
-	margin-left: 100px;
-	border: 1px solid #fff;
-	width: 200px;
-	border-brush: gradient( linear, 0% 0%, 0% 99%, from( black ), to( #fff0 ) );
-	background-image: url("file://{images}/custom_game/custom_pick/test.png");
-	background-size: 100%;
-	box-shadow: black 0 0px 5px;
-	border-radius: 10px;
-
 }
 
 .PickAverageRating {
@@ -76,14 +45,14 @@ wash-color: #CCCCCC;saturation: 0;
 
 .PickTimerClass
 {
-font-size:34px;font-weight: bold;color:white;horizontal-align: center;
+	vertical-align: center;font-size:34px;font-weight: bold;color:white;horizontal-align: center;
 
 }
 
 
 .PickStateClass
 {
-font-size:16px;color:white;font-weight: bold;horizontal-align: center;letter-spacing: 1px;margin-top: 5px;
+font-size:24px;color:white;font-weight: bold;horizontal-align: center;letter-spacing: 1px;margin-top: 5px;
 
 }
 
@@ -198,7 +167,7 @@ brightness: 1.8;
 
 .PanelSelector
 {
-	margin-top: 120px;
+	margin-top: 85px;
 	width: 100%;margin-left: 40px;flow-children: down;
 }
 
@@ -312,7 +281,7 @@ margin-top: 465px;width: 22px;height: 22px;align: left center;
 
 #StrengthSelector,
 #AgilitySelector,
-#IntellectSelector,
+#IntellectSelector
 {
 	flow-children: right-wrap;width: 100%;margin-top: 15px;
 }
@@ -390,9 +359,9 @@ background-image: url("s2r://panorama/images/custom_game/loading_screen/wiki_png
 .HeroInformation
 {
 	width: 550px;
-	height: 700px;
+	height: 500px;
 	horizontal-align: center;
-	margin-top: 85px;
+	margin-top: 180px;
 	flow-children: down;
 	background-color: rgba(0,0,0,0.8);
 	border-top: 1px solid #fff;
@@ -630,22 +599,59 @@ font-size: 18px;font-weight: bold;color: red;align: center center;
 
 .hero_select_panel_img
 {
-width: 128px;height: 128px;border: 1px solid #38424b;box-shadow: 0px 2px 6px 0px #000000a5;vertical-align: top;background-position: 0px 0px;background-size: contain;
-
+	width: 70px;
+	height: 70px;
+	border: 1px solid #38424b;
+	box-shadow: 0px 2px 6px 0px #000000a5;
+	vertical-align: top;
+	background-position: 0px 0px;
+	background-size: 100%;
+	border-radius: 15px;
+	align: center center;
 }
 
 
 .hero_select_panel
 {
-border: 1px solid #38424b;width: 75px;height: 75px;margin: 2px;border-radius: 15px;
+	width: 79px;
+	height: 79px;
+	margin: 0px;
+}
 
+#DonateIcon {
+	width: 25px;
+	height: 25px;
+	align: right top;
+	background-image:  url("file://{images}/custom_game/birzhapass/passbuttonoff_png.png");
+	background-size: 100%;
+	img-shadow: 0px 0px 8px 3.0 black;
+}
+
+.RankInfoHero
+{
+	align: left bottom;
+	flow-children: up;
+}
+
+.RankIcon {
+	width: 25px;
+	height: 25px;
+	img-shadow: 0px 0px 8px 3.0 black;
+}
+
+.RankLevel {
+	horizontal-align: center;
+	font-size: 12px;
+	color: white;
+	font-family: Reaver;
+	font-weight: bold;
+	text-shadow: 0px 0px 2px 4.0 black;
 }
 
 
 .hero_select_panel:hover
 {
-brightness: 1.5;
-
+	brightness: 1.5;
 }
 
 
@@ -946,16 +952,6 @@ visibility: collapse;
 
 }
 
-
-#DonateIcon {
-	width: 25px;
-	height: 25px;
-	align: center top;
-	background-image:  url("file://{images}/custom_game/birzhapass/passbuttonoff_png.png");
-	background-size: contain;
-	background-color: rgba(0,0,0,0.1);
-}
-
 #HeroAviableInBPPlus
 {
 	margin-top: 2px;
@@ -1115,4 +1111,49 @@ visibility: collapse;
 	color: white;
 	font-weight: bold;
 	font-size: 20px;
+}
+
+#MovieBackground2
+{
+	width: 100%;
+	height: 100%;
+	blur: gaussian( 5 );
+	z-index: -20;
+}
+#MovieBackground
+{
+	width: 100%;
+	height: 100%;
+	blur: gaussian( 5 );
+	z-index: -20;
+}
+
+.pick_timer_particle
+{
+	width: 120px;
+	height: 120px;
+}
+
+.GameInformation
+{
+	flow-children: down;
+	horizontal-align: center;
+}
+
+.StateInfoGlobalClass
+{
+	horizontal-align: left;
+	flow-children: down;
+	margin-top: 80px;
+	margin-left: 40px;
+	width: 200px;
+}
+
+.AspectRatio4x3 .StateInfoGlobalClass
+{
+	horizontal-align: left;
+	flow-children: down;
+	margin-top: 10px;
+	margin-left: 100px;
+	width: 200px;
 }

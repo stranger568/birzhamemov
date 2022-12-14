@@ -10,13 +10,10 @@ end
 
 modifier_item_mana_booster = class({})
 
-function modifier_item_mana_booster:IsHidden()
-	return true
-end
-
-function modifier_item_mana_booster:IsPurgable()
-    return false
-end
+function modifier_item_mana_booster:IsHidden() return true end
+function modifier_item_mana_booster:IsPurgable() return false end
+function modifier_item_mana_booster:IsPurgeException() return false end
+function modifier_item_mana_booster:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_mana_booster:DeclareFunctions()
     local funcs = {
@@ -27,9 +24,8 @@ function modifier_item_mana_booster:DeclareFunctions()
 end
 
 function modifier_item_mana_booster:GetModifierManaBonus()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor('mana')
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("mana")
 end
 
 item_mystic_booster = class({})
@@ -47,15 +43,18 @@ function item_mystic_booster:CastFilterResultTarget(target)
 end
 
 function item_mystic_booster:OnSpellStart()
+    if not IsServer() then return end
     local target = self:GetCursorTarget()
-    if not target:TriggerSpellAbsorb(self) then
-        target:EmitSound("DOTA_Item.Cyclone.Activate")
-        target:AddNewModifier(self:GetCaster(), self, "modifier_modifier_eul_cyclone_birzha", {duration = self:GetSpecialValueFor("duration")})
-        if target:GetTeamNumber() ~= self:GetCaster():GetTeamNumber() then
-            target:Purge(true, false, false, false, false)
-        else
-            target:Purge(false, true, false, false, false)
-        end
+    if target:TriggerSpellAbsorb(self) then return end
+
+    target:EmitSound("DOTA_Item.Cyclone.Activate")
+
+    target:AddNewModifier(self:GetCaster(), self, "modifier_modifier_eul_cyclone_birzha", {duration = self:GetSpecialValueFor("duration")})
+
+    if target:GetTeamNumber() ~= self:GetCaster():GetTeamNumber() then
+        target:Purge(true, false, false, false, false)
+    else
+        target:Purge(false, true, false, false, false)
     end
 end
 
@@ -145,24 +144,19 @@ function modifier_modifier_eul_cyclone_birzha:GetOverrideAnimation( params )
     return ACT_DOTA_FLAIL
 end
 
-
-
 modifier_item_mystic_booster = class({})
 
-function modifier_item_mystic_booster:IsHidden()
-    return true
-end
-
-function modifier_item_mystic_booster:IsPurgable()
-    return false
-end
+function modifier_item_mystic_booster:IsHidden() return true end
+function modifier_item_mystic_booster:IsPurgable() return false end
+function modifier_item_mystic_booster:IsPurgeException() return false end
+function modifier_item_mystic_booster:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_mystic_booster:DeclareFunctions()
     local funcs = {
         MODIFIER_PROPERTY_MANA_BONUS,
         MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
         MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT,
-        MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
+        MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,
         MODIFIER_EVENT_ON_TAKEDAMAGE,
 
     }
@@ -171,34 +165,31 @@ function modifier_item_mystic_booster:DeclareFunctions()
 end
 
 function modifier_item_mystic_booster:GetModifierManaBonus()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor('mana')
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("mana")
 end
 
 function modifier_item_mystic_booster:GetModifierBonusStats_Intellect()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor('int')
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("int")
 end
 
-function modifier_item_mystic_booster:GetModifierConstantHealthRegen()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor('health_regen')
-    end
+function modifier_item_mystic_booster:GetModifierConstantManaRegen()
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("mana_regen")
 end
 
 function modifier_item_mystic_booster:GetModifierMoveSpeedBonus_Constant()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor('movement_speed')
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("movement_speed")
 end
 
 function modifier_item_mystic_booster:OnTakeDamage(params)
     if params.attacker == self:GetParent() then
         if params.damage_type == 2 then
             if params.inflictor:GetName() ~= "Ricardo_KokosMaslo" then
-                local real_damage = params.original_damage
+                if self:GetParent():FindAllModifiersByName("modifier_item_mystic_booster")[1] ~= self then return end
+                local real_damage = params.original_damage 
                 local pure_damage = ((self:GetAbility():GetSpecialValueFor("pure_damage") + (self:GetParent():GetMaxMana() / 1000 )) / 100) * real_damage
                 ApplyDamage({attacker = self:GetParent(), victim = params.unit, ability = params.inflictor, damage = pure_damage, damage_type = DAMAGE_TYPE_PURE, damage_flag = DOTA_DAMAGE_FLAG_IGNORES_MAGIC_ARMOR})
             end

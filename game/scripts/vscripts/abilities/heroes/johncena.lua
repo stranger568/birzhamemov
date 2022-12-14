@@ -49,7 +49,8 @@ function modifier_johncena_Wrestling:RemoveOnDeath()
 end
 
 function modifier_johncena_Wrestling:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
         MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
         MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
@@ -63,12 +64,19 @@ function modifier_johncena_Wrestling:GetModifierPreAttack_BonusDamage()
 end
 
 function modifier_johncena_Wrestling:GetModifierPhysicalArmorBonus()
-    return self:GetAbility():GetSpecialValueFor("bonus_armor")
+    return self:GetAbility():GetSpecialValueFor("bonus_armor") + self:GetCaster():FindTalentValue("special_bonus_birzha_johncena_2")
 end
 
 function modifier_johncena_Wrestling:GetModifierAttackSpeedBonus_Constant()
+    if self:GetCaster():HasTalent("special_bonus_birzha_johncena_4") then return end
     return self:GetAbility():GetSpecialValueFor("minus_attack_speed")
 end
+
+
+
+
+
+LinkLuaModifier( "modifier_JohnCena_Chargehit", "abilities/heroes/johncena.lua", LUA_MODIFIER_MOTION_NONE )
 
 JohnCena_Chargehit = class({})
 
@@ -84,8 +92,6 @@ function JohnCena_Chargehit:GetManaCost(level)
     return self.BaseClass.GetManaCost(self, level)
 end
 
-LinkLuaModifier( "modifier_JohnCena_Chargehit", "abilities/heroes/johncena.lua", LUA_MODIFIER_MOTION_NONE )
-
 function JohnCena_Chargehit:OnSpellStart()
     if not IsServer() then return end
     self:GetCaster():EmitSound("Ability.TossThrow")
@@ -95,6 +101,13 @@ end
 function JohnCena_Chargehit:OnAbilityPhaseInterrupted()
     if not IsServer() then return end
     self:GetCaster():RemoveModifierByName( "modifier_JohnCena_Chargehit" )
+end
+
+function JohnCena_Chargehit:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_bp_johncena") then
+        return "JohnCena/Chargehit_item"
+    end
+    return "JohnCena/Chargehit"
 end
 
 modifier_JohnCena_Chargehit = class ({})
@@ -110,10 +123,17 @@ end
 function modifier_JohnCena_Chargehit:OnCreated( kv )
    if not IsServer() then return end
     self.damage_radius = self:GetAbility():GetSpecialValueFor( "damage_radius" )
-    self.damage = self:GetAbility():GetSpecialValueFor( "damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_johncena_2")
+    self.damage = self:GetAbility():GetSpecialValueFor( "damage" )
     self.hHitTargets = {}
     self.bPlayedSound = false
     self.bInit = false
+
+    if DonateShopIsItemBought(self:GetParent():GetPlayerID(), 30) then
+        local particle = ParticleManager:CreateParticle("particles/econ/items/primal_beast/primal_beast_2022_prestige/primal_beast_2022_prestige_onslaught_charge_active.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+        ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
+        self:AddParticle(particle, false, false, -1, false, false)
+    end
+
     self:StartIntervalThink( 0.01 )
 end
 
@@ -126,9 +146,6 @@ function modifier_JohnCena_Chargehit:OnIntervalThink()
         self.vLocation1 = nil
         self.vLocation2 = nil
         self.attachAttack1 = self:GetParent():ScriptLookupAttachment( "attach_attack1" )
-        local nFXIndex = ParticleManager:CreateParticle( "particles/test_particle/generic_attack_crit_blur.vpcf", PATTACH_CUSTOMORIGIN, self:GetParent() )
-        ParticleManager:SetParticleControlEnt( nFXIndex, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetParent():GetOrigin(), true )
-        ParticleManager:ReleaseParticleIndex( nFXIndex )
         self.bInit = true
     end
 
@@ -167,7 +184,15 @@ function modifier_JohnCena_Chargehit:TryToHitTarget( enemy )
         }
 
         ApplyDamage( damageInfo )
-        enemy:AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_birzha_stunned_purge", { duration = self:GetAbility():GetSpecialValueFor( "stun_duration" ) } )
+
+        if self:GetCaster():HasTalent("special_bonus_birzha_johncena_8") then
+            local JohnCena_greater_bash = self:GetCaster():FindAbilityByName("JohnCena_greater_bash")
+            if JohnCena_greater_bash and JohnCena_greater_bash:GetLevel() > 0 then
+                JohnCena_greater_bash:Bash(enemy, self:GetParent())
+            end
+        end
+
+        enemy:AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_birzha_stunned_purge", { duration = self:GetAbility():GetSpecialValueFor( "stun_duration" ) * (1-enemy:GetStatusResistance()) } )
         enemy:EmitSound("Roshan.Attack.Post")
     end                 
 end
@@ -217,28 +242,31 @@ end
 
 function JohnCena_greater_bash:Bash(target, parent)
     if not IsServer() then return end
-    local parent_loc    = parent:GetAbsOrigin()
+
     target:EmitSound("Hero_Spirit_Breaker.GreaterBash")
+
     local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_spirit_breaker/spirit_breaker_greater_bash.vpcf", PATTACH_ABSORIGIN_FOLLOW, target)
     ParticleManager:ReleaseParticleIndex(particle)
+
     local damage = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_johncena_1")
-    if target:IsBoss() then return end
-    if not target:IsAncient() then
-        knockback_properties = {
-             center_x           = parent_loc.x,
-             center_y           = parent_loc.y,
-             center_z           = parent_loc.z,
+
+    if not target:IsBoss() then
+        local knockback_properties = 
+        {
+             center_x           = parent:GetAbsOrigin().x,
+             center_y           = parent:GetAbsOrigin().y,
+             center_z           = parent:GetAbsOrigin().z,
              duration           = self:GetSpecialValueFor("duration") * (1 - target:GetStatusResistance()),
              knockback_duration = 0.5 * (1 - target:GetStatusResistance()),
              knockback_distance = 25,
              knockback_height   = 50,
         }
-
         target:RemoveModifierByName("modifier_knockback")
         target:AddNewModifier(parent, self, "modifier_knockback", knockback_properties)
     end
     
-    local damageTable = {
+    local damageTable = 
+    {
         victim          = target,
         damage          = parent:GetIdealSpeed() * damage * 0.01,
         damage_type     = self:GetAbilityDamageType(),
@@ -256,31 +284,33 @@ function modifier_JohnCena_greater_bash:IsHidden() return true end
 function modifier_JohnCena_greater_bash:IsPurgable() return false end
 
 function modifier_JohnCena_greater_bash:DeclareFunctions()
-    local decFuncs = {
+    local decFuncs = 
+    {
         MODIFIER_EVENT_ON_ATTACK_LANDED
     }
-
     return decFuncs
 end
 
-function modifier_JohnCena_greater_bash:OnAttackLanded(keys)
+function modifier_JohnCena_greater_bash:OnAttackLanded(params)
     if not IsServer() then return end
-    local chance = self:GetAbility():GetSpecialValueFor( "chance" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_johncena_3")
-    if self:GetAbility() and self:GetAbility():IsFullyCastable() and keys.attacker == self:GetParent() and not keys.attacker:PassivesDisabled() and keys.target:GetTeamNumber() ~= self:GetParent():GetTeamNumber() and not self:GetParent():IsIllusion() then
-        if keys.target:IsOther() then
-            return nil
-        end
-        if RandomInt(1, 100) <= chance then 
-            self:GetAbility():Bash(keys.target, keys.attacker)
-            self:GetAbility():UseResources(false, false, true)
-        end
+    if params.attacker ~= self:GetParent() then return end
+    if self:GetParent():PassivesDisabled() then return end
+    if self:GetParent():IsIllusion() then return end
+    if params.target:IsWard() then return end
+    if not self:GetAbility():IsFullyCastable() then return end
+
+    local chance = self:GetAbility():GetSpecialValueFor( "chance" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_johncena_5")
+
+    if RollPercentage(chance) then 
+        self:GetAbility():Bash(params.target, params.attacker)
+        self:GetAbility():UseResources(false, false, true)
     end
 end
 
-JohnCena_Grab = class({})
-
 LinkLuaModifier( "modifier_JohnCena_Grabbed_buff", "abilities/heroes/johncena.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_JohnCena_Grabbed_debuff", "abilities/heroes/johncena.lua", LUA_MODIFIER_MOTION_BOTH )
+
+JohnCena_Grab = class({})
 
 function JohnCena_Grab:GetCastRange(location, target)
     if self:GetCaster():HasModifier("modifier_JohnCena_Grabbed_buff") then
@@ -290,7 +320,7 @@ function JohnCena_Grab:GetCastRange(location, target)
 end
 
 function JohnCena_Grab:GetAOERadius()
-    return self:GetSpecialValueFor( "radius" )
+    return self:GetSpecialValueFor( "radius_scepter" )
 end
 
 function JohnCena_Grab:GetAbilityTextureName()
@@ -301,7 +331,7 @@ function JohnCena_Grab:GetAbilityTextureName()
 end
 
 function JohnCena_Grab:GetCooldown(level)
-    return self.BaseClass.GetCooldown(self, level)
+    return self.BaseClass.GetCooldown(self, level) + self:GetCaster():FindTalentValue("special_bonus_birzha_johncena_6")
 end
 
 function JohnCena_Grab:GetManaCost(level)
@@ -327,11 +357,11 @@ function JohnCena_Grab:OnSpellStart()
 
     if self:GetCaster():HasModifier("modifier_JohnCena_Grabbed_buff") then
         self.throw_speed = 2500
-        self.impact_radius = self:GetSpecialValueFor( "radius" )
+        self.impact_radius = self:GetSpecialValueFor( "radius_scepter" )
         self.stun_duration = self:GetSpecialValueFor( "stun_duration" )
         self.knockback_duration = 1
         self.knockback_distance = 275
-        self.knockback_damage = self:GetSpecialValueFor( "damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_johncena_4")
+        self.knockback_damage = self:GetSpecialValueFor( "damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_johncena_7")
         self.knockback_height = 150
         self.vDirection = self:GetCursorPosition() - self:GetCaster():GetOrigin()
         self.flDist = self.vDirection:Length2D()
@@ -374,6 +404,7 @@ end
 
 function JohnCena_Grab:OnProjectileHit( hTarget, vLocation )
     if not IsServer() then return end
+
     if hTarget ~= nil then
         return
     end
@@ -404,9 +435,9 @@ function JohnCena_Grab:OnProjectileHit( hTarget, vLocation )
                 ParticleManager:SetParticleControlEnt( nFXIndex, 10, self.target, PATTACH_ABSORIGIN_FOLLOW, nil, self.target:GetOrigin(), true )
                 ParticleManager:ReleaseParticleIndex( nFXIndex )
 
-                EmitSoundOn( "Dungeon.BloodSplatterImpact", self.target )
+                self.target:EmitSound("Dungeon.BloodSplatterImpact")
             else
-                self.target:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", { duration = self.stun_duration } )
+                self.target:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", { duration = self.stun_duration * (1 - self.target:GetStatusResistance()) } )
             end
         end
 
@@ -415,7 +446,7 @@ function JohnCena_Grab:OnProjectileHit( hTarget, vLocation )
         ParticleManager:SetParticleControl( nFXIndex, 1, Vector( self.impact_radius, self.impact_radius, self.impact_radius ) )
         ParticleManager:ReleaseParticleIndex( nFXIndex )
 
-        if not self:GetCaster():HasShard() then return end
+        if not self:GetCaster():HasScepter() then return end
         local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), vLocation, self:GetCaster(), self.impact_radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false )
         for _,enemy in pairs( enemies ) do
             if enemy ~= nil and enemy:IsInvulnerable() == false and enemy ~= self.target then
@@ -423,34 +454,23 @@ function JohnCena_Grab:OnProjectileHit( hTarget, vLocation )
                 {
                     victim = enemy,
                     attacker = self:GetCaster(),
-                    damage = self.knockback_damage / 2,
+                    damage = self.knockback_damage,
                     damage_type = DAMAGE_TYPE_PURE,
                     ability = self,
                 }
 
                 ApplyDamage( damageInfo )
-                if enemy:IsAlive() == false then
+
+                if not enemy:IsAlive() then
                     local nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf", PATTACH_CUSTOMORIGIN, nil )
                     ParticleManager:SetParticleControlEnt( nFXIndex, 0, enemy, PATTACH_POINT_FOLLOW, "attach_hitloc", enemy:GetOrigin(), true )
                     ParticleManager:SetParticleControl( nFXIndex, 1, enemy:GetOrigin() )
                     ParticleManager:SetParticleControlForward( nFXIndex, 1, -self:GetCaster():GetForwardVector() )
                     ParticleManager:SetParticleControlEnt( nFXIndex, 10, enemy, PATTACH_ABSORIGIN_FOLLOW, nil, enemy:GetOrigin(), true )
                     ParticleManager:ReleaseParticleIndex( nFXIndex )
-
                     enemy:EmitSound("Dungeon.BloodSplatterImpact")
                 else
-                    local kv =
-                    {
-                        center_x = vLocation.x,
-                        center_y = vLocation.y,
-                        center_z = vLocation.z,
-                        should_stun = true, 
-                        duration = self.knockback_duration,
-                        knockback_duration = self.knockback_duration,
-                        knockback_distance = self.knockback_distance,
-                        knockback_height = self.knockback_height,
-                    }
-                    enemy:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", { duration = self.knockback_duration } )
+                    enemy:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", { duration = self.knockback_duration * (1 - enemy:GetStatusResistance()) } )
                 end
             end
         end
@@ -473,6 +493,7 @@ function modifier_JohnCena_Grabbed_buff:DeclareFunctions()
         MODIFIER_PROPERTY_TRANSLATE_ACTIVITY_MODIFIERS,
         MODIFIER_PROPERTY_TURN_RATE_PERCENTAGE,
         MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+        MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE,
     }
     return funcs
 end
@@ -481,13 +502,17 @@ function modifier_JohnCena_Grabbed_buff:GetActivityTranslationModifiers( params 
     return "tree"
 end
 
+function modifier_JohnCena_Grabbed_buff:GetModifierDamageOutgoing_Percentage()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_johncena_3")
+end
+
 function modifier_JohnCena_Grabbed_buff:GetModifierTurnRate_Percentage( params )
-    if self:GetCaster():HasScepter() then return end
+    if self:GetCaster():HasShard() then return end
     return -90
 end
 
 function modifier_JohnCena_Grabbed_buff:GetModifierMoveSpeedBonus_Percentage( params )
-    if self:GetCaster():HasScepter() then return end
+    if self:GetCaster():HasShard() then return end
     return self:GetAbility():GetSpecialValueFor( "slow_pct" )
 end
 

@@ -57,7 +57,7 @@ function red_vomit:OnProjectileHit(target, location)
     if target then
         target:EmitSound("Hero_Venomancer.VenomousGaleImpact")
         ApplyDamage({victim = target, attacker = caster, ability = self, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
-        local duration = self:GetSpecialValueFor('duration')
+        local duration = self:GetSpecialValueFor('duration') + self:GetCaster():FindTalentValue("special_bonus_birzha_red21_2")
         local movement_slow = self:GetSpecialValueFor('movement_slow')
         local slow_per_second = movement_slow / duration
         local slow_rate = 1 / slow_per_second
@@ -66,7 +66,7 @@ function red_vomit:OnProjectileHit(target, location)
         end
         target:AddNewModifier( caster, self, "modifier_red_Vomit", {duration = duration * (1 - target:GetStatusResistance())})
         if self:GetCaster():HasShard() then
-            target:AddNewModifier( caster, self, "modifier_red_Vomit_shard_root", {duration = 2 * (1 - target:GetStatusResistance())})
+            target:AddNewModifier( caster, self, "modifier_red_Vomit_shard_root", {duration = self:GetSpecialValueFor("shard_duration") * (1 - target:GetStatusResistance())})
         end
         target:SetModifierStackCount("modifier_red_Vomit", caster, movement_slow)
         target.venomous_gale_timer = Timers:CreateTimer(slow_rate, function()
@@ -97,12 +97,12 @@ end
 
 function modifier_red_Vomit:OnCreated()
     if not IsServer() then return end
-    self:StartIntervalThink(2)
+    self:StartIntervalThink(0.5)
 end
 
 function modifier_red_Vomit:OnIntervalThink()
     local damage = self:GetAbility():GetSpecialValueFor('tick_damage')
-    ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), ability = self:GetAbility(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
+    ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), ability = self:GetAbility(), damage = damage * 0.5, damage_type = DAMAGE_TYPE_MAGICAL})
 end
 
 function modifier_red_Vomit:DeclareFunctions()
@@ -112,6 +112,13 @@ function modifier_red_Vomit:DeclareFunctions()
     }
 
     return decFuncs
+end
+
+function modifier_red_Vomit:CheckState()
+    return 
+    {
+        [MODIFIER_STATE_PASSIVES_DISABLED] = self:GetCaster():HasTalent("special_bonus_birzha_red21_4"),
+    }
 end
 
 function modifier_red_Vomit:GetModifierMoveSpeedBonus_Percentage()
@@ -136,10 +143,6 @@ function modifier_red_Vomit_shard_root:GetEffectAttachType()
     return PATTACH_ABSORIGIN_FOLLOW
 end
 
-
-
-
-
 LinkLuaModifier( "modifier_red_MakeAFeeder", "abilities/heroes/red21.lua", LUA_MODIFIER_MOTION_NONE )
 
 Red_MakeAFeeder = class({})
@@ -154,7 +157,7 @@ end
 
 function Red_MakeAFeeder:OnSpellStart()
     if not IsServer() then return end
-    local duration = self:GetSpecialValueFor('duration') + self:GetCaster():FindTalentValue("special_bonus_birzha_red21_2")
+    local duration = self:GetSpecialValueFor('duration') + self:GetCaster():FindTalentValue("special_bonus_birzha_red21_3")
     self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_red_MakeAFeeder", {duration = duration})
     self:GetCaster():EmitSound("botan1")
 end
@@ -188,7 +191,7 @@ function modifier_red_MakeAFeeder:GetModifierAttackSpeedBonus_Constant()
 end
 
 function modifier_red_MakeAFeeder:GetModifierMoveSpeedBonus_Percentage()
-    return self:GetAbility():GetSpecialValueFor('bonus_movement_speed')
+    return self:GetAbility():GetSpecialValueFor('bonus_movement_speed') + self:GetCaster():FindTalentValue("special_bonus_birzha_red21_6")
 end
 
 Red_GetMoreMass = class({})
@@ -233,7 +236,7 @@ end
 
 function modifier_red_GetMoreMass:GetModifierPhysicalArmorBonus()
     if self:GetParent():PassivesDisabled() then return end
-    return self:GetAbility():GetSpecialValueFor('armor')
+    return self:GetAbility():GetSpecialValueFor('armor') + self:GetCaster():FindTalentValue("special_bonus_birzha_red21_5")
 end
 
 function modifier_red_GetMoreMass:GetModifierHealthBonus()
@@ -246,7 +249,7 @@ LinkLuaModifier( "modifier_red_HUSTLE", "abilities/heroes/red21.lua", LUA_MODIFI
 Red_HUSTLE = class({})
 
 function Red_HUSTLE:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_red21_8")
 end
 
 function Red_HUSTLE:GetManaCost(level)
@@ -255,7 +258,7 @@ end
 
 function Red_HUSTLE:OnSpellStart()
     if not IsServer() then return end
-    local duration = self:GetSpecialValueFor('duration') + self:GetCaster():FindTalentValue("special_bonus_birzha_red21_3")
+    local duration = self:GetSpecialValueFor('duration')
     self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_red_HUSTLE", {duration = duration})
     self:GetCaster():EmitSound("botan2")
 end
@@ -293,19 +296,11 @@ function modifier_red_HUSTLE:GetModifierAttackSpeedBonus_Constant()
     return self:GetAbility():GetSpecialValueFor('attack_speed')
 end
 
-function modifier_red_HUSTLE:CheckState()
-    local state = {
-        [MODIFIER_STATE_MAGIC_IMMUNE] = true,
-    }
-
-    return state
-end
-
 function modifier_red_HUSTLE:GetModifierPreAttack_CriticalStrike()
     if not IsServer() then return end    
-    local chance = self:GetAbility():GetSpecialValueFor('chance')   
+    local chance = self:GetAbility():GetSpecialValueFor('chance') + self:GetCaster():FindTalentValue("special_bonus_birzha_red21_7")   
     local critical_damage = self:GetAbility():GetSpecialValueFor('critical_damage')           
-    if RandomInt(1, 100) <= chance then        
+    if RollPercentage(chance) then        
         return critical_damage
     end
     return nil

@@ -70,7 +70,7 @@ end
 function modifier_item_scp500_buff:OnIntervalThink()
     if not IsServer() then return end
     self.cd = self.cd + FrameTime()
-    if self.cd >= 1.5 then
+    if self.cd >= self:GetAbility():GetSpecialValueFor("think") then
         self.cd = 0
         self:GetParent():Purge(false, true, false, true, true)
     end

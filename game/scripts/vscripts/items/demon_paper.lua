@@ -7,8 +7,7 @@ function item_demon_paper:OnSpellStart()
 	if not IsServer() then return end
 	local duration = self:GetSpecialValueFor("duration")
 	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_item_demon_paper_active", {duration = duration})
-	EmitSoundOn("DOTA_Item.Satanic.Activate", self:GetCaster())
-	EmitSoundOn("Hero_DoomBringer.Doom", self:GetCaster())
+	self:GetCaster():EmitSound("DOTA_Item.Satanic.Activate")
 end
 
 function item_demon_paper:GetIntrinsicModifierName() 
@@ -17,51 +16,47 @@ end
 
 modifier_item_demon_paper = class({})
 
-function modifier_item_demon_paper:IsHidden()
-	return true
-end
-
-function modifier_item_demon_paper:IsPurgable()
-    return false
-end
+function modifier_item_demon_paper:IsHidden() return true end
+function modifier_item_demon_paper:IsPurgable() return false end
+function modifier_item_demon_paper:IsPurgeException() return false end
+function modifier_item_demon_paper:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_demon_paper:OnCreated()
-	self.bonus_strength = self:GetAbility():GetSpecialValueFor("bonus_strength")
-	self.bonus_damage = self:GetAbility():GetSpecialValueFor("bonus_damage")
-	self.bonus_hp_regen = self:GetAbility():GetSpecialValueFor("bonus_hp_regen")
-	self.bonus_armor = self:GetAbility():GetSpecialValueFor("bonus_armor")
-	self.bonus_attack_speed = self:GetAbility():GetSpecialValueFor("bonus_attack_speed")
-	self.bonus_lifesteal = self:GetAbility():GetSpecialValueFor("bonus_lifesteal")
-	self.bonus_resist = self:GetAbility():GetSpecialValueFor("bonus_resist")
+	if not IsServer() then return end
+	self:GetParent():EmitSound("Hero_DoomBringer.Doom")
 end
 
 function modifier_item_demon_paper:DeclareFunctions()
-return 	{
+	return 	
+	{
 		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
 		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
 		MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING,
-		MODIFIER_EVENT_ON_ATTACK_LANDED,
-		}
+		MODIFIER_EVENT_ON_TAKEDAMAGE,
+	}
 end
 
 function modifier_item_demon_paper:GetModifierBonusStats_Strength()
-	return self.bonus_strength
+	if not IsServer() then return end
+	return self:GetAbility():GetSpecialValueFor("bonus_strength")
 end
 
 function modifier_item_demon_paper:GetModifierPreAttack_BonusDamage()
-	return self.bonus_damage
+	if not IsServer() then return end
+	return self:GetAbility():GetSpecialValueFor("bonus_damage")
 end
 
-function modifier_item_demon_paper:GetModifierStatusResistanceStacking()
-	return self.bonus_resist
-end
-
-function modifier_item_demon_paper:OnAttackLanded(params)
-    if IsServer() then
-        if params.attacker == self:GetParent() then
-            local lifesteal = self:GetAbility():GetSpecialValueFor("bonus_lifesteal") / 100
-            self:GetParent():Heal(params.damage * lifesteal, self:GetAbility())
-        end
+function modifier_item_demon_paper:OnTakeDamage(params)
+    if not IsServer() then return end
+    if self:GetParent() ~= params.attacker then return end
+    if self:GetParent() == params.unit then return end
+    if params.unit:IsBuilding() then return end
+    if params.unit:IsWard() then return end
+    if params.inflictor == nil and not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then 
+        local heal = self:GetAbility():GetSpecialValueFor("bonus_lifesteal") / 100 * params.damage
+        self:GetParent():Heal(heal, nil)
+        local effect_cast = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.attacker )
+        ParticleManager:ReleaseParticleIndex( effect_cast )
     end
 end
 
@@ -81,24 +76,23 @@ end
 
 function modifier_item_demon_paper_active:OnCreated()
 	if not IsServer() then return end
-	self.Effect = ParticleManager:CreateParticle("particles/econ/items/warlock/warlock_staff_glory/warlock_upheaval_hellborn_debuff.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
-	ParticleManager:SetParticleControl(self.Effect, 0, self:GetParent():GetAbsOrigin())
-	ParticleManager:SetParticleControl(self.Effect, 1, self:GetParent():GetAbsOrigin())
+	local particle = ParticleManager:CreateParticle("particles/econ/items/warlock/warlock_staff_glory/warlock_upheaval_hellborn_debuff.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+	ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
+	ParticleManager:SetParticleControl(particle, 1, self:GetParent():GetAbsOrigin())
+	self:AddParticle(particle, false, false, -1, false, false)
 end
 
 function modifier_item_demon_paper_active:OnDestroy()
 	if not IsServer() then return end
-	StopSoundOn("Hero_DoomBringer.Doom", self:GetParent())
-	if self.Effect then
-		ParticleManager:DestroyParticle(self.Effect, false)
-	end
+	self:GetParent():StopSound("Hero_DoomBringer.Doom")
 end
 
 function modifier_item_demon_paper_active:DeclareFunctions()
-return 	{
+	return 	
+	{
 		MODIFIER_EVENT_ON_ATTACK_LANDED,
 		MODIFIER_EVENT_ON_TAKEDAMAGE
-		}
+	}
 end
 
 function modifier_item_demon_paper_active:OnAttackLanded(params)
@@ -111,12 +105,11 @@ function modifier_item_demon_paper_active:OnAttackLanded(params)
 end
 
 function modifier_item_demon_paper_active:OnTakeDamage(params)
-    if IsServer() then
-        if params.attacker == self:GetParent() or params.unit == self:GetParent() then
-            if params.damage_type == 1 then
-            	if params.attacker:HasModifier("modifier_item_birzha_blade_mail_active") or params.unit:HasModifier("modifier_item_birzha_blade_mail_active") then return end
-            	ApplyDamage({attacker = params.attacker, victim = params.unit, ability = params.ability, damage = params.original_damage, damage_type = DAMAGE_TYPE_PURE, damage_flag = DOTA_DAMAGE_FLAG_IGNORES_PHYSICAL_ARMOR})
-            end
+    if not IsServer() then return end
+    if params.attacker == self:GetParent() or params.unit == self:GetParent() then
+        if params.damage_type == 1 then
+        	if params.attacker:HasModifier("modifier_item_birzha_blade_mail_active") or params.unit:HasModifier("modifier_item_birzha_blade_mail_active") then return end
+        	ApplyDamage({attacker = params.attacker, victim = params.unit, ability = params.inflictor, damage = params.original_damage, damage_type = DAMAGE_TYPE_PURE, damage_flag = DOTA_DAMAGE_FLAG_IGNORES_PHYSICAL_ARMOR})
         end
     end
 end

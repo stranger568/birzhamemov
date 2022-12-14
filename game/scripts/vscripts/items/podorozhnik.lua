@@ -8,20 +8,14 @@ end
 
 modifier_item_podorozhnik = class({})
 
-function modifier_item_podorozhnik:IsHidden()
-    return true
-end
-
-function modifier_item_podorozhnik:IsPurgable()
-    return false
-end
+function modifier_item_podorozhnik:IsHidden() return true end
+function modifier_item_podorozhnik:IsPurgable() return false end
+function modifier_item_podorozhnik:IsPurgeException() return false end
+function modifier_item_podorozhnik:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_podorozhnik:Custom_AllHealAmplify_Percentage()
-    if self:GetAbility() then
-	    if self:GetParent():HasModifier("modifier_item_medkit") then return end
-        if self:GetParent():HasModifier("modifier_item_birzha_holy_locket") then return end
-        return self:GetAbility():GetSpecialValueFor("bonus_heal_pct")
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("bonus_heal_pct")
 end
 
 LinkLuaModifier( "modifier_item_birzha_holy_locket", "items/podorozhnik", LUA_MODIFIER_MOTION_NONE )
@@ -63,13 +57,10 @@ end
 
 modifier_item_birzha_holy_locket = class({})
 
-function modifier_item_birzha_holy_locket:IsHidden()
-    return true
-end
-
-function modifier_item_birzha_holy_locket:IsPurgable()
-    return false
-end
+function modifier_item_birzha_holy_locket:IsHidden() return true end
+function modifier_item_birzha_holy_locket:IsPurgable() return false end
+function modifier_item_birzha_holy_locket:IsPurgeException() return false end
+function modifier_item_birzha_holy_locket:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_birzha_holy_locket:OnCreated()
     if not IsServer() then return end
@@ -78,6 +69,7 @@ end
 
 function modifier_item_birzha_holy_locket:OnIntervalThink()
     if not IsServer() then return end
+    if self:GetParent():FindAllModifiersByName("modifier_item_birzha_holy_locket")[1] ~= self then return end
     if self:GetAbility():GetCurrentCharges() < self:GetAbility():GetSpecialValueFor("max_charges") then
     	self:GetAbility():SetCurrentCharges(self:GetAbility():GetCurrentCharges() + 1)
     	if self:GetAbility():GetCurrentCharges() > self:GetAbility():GetSpecialValueFor("max_charges") then
@@ -87,43 +79,38 @@ function modifier_item_birzha_holy_locket:OnIntervalThink()
 end
 
 function modifier_item_birzha_holy_locket:DeclareFunctions()
-return  {
-            MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
-        	MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
-        	MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
-            MODIFIER_PROPERTY_HEALTH_BONUS
-        }
+    return  
+    {
+        MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
+    	MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
+    	MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
+        MODIFIER_PROPERTY_HEALTH_BONUS
+    }
 end
 
 function modifier_item_birzha_holy_locket:Custom_AllHealAmplify_Percentage()
-    if self:GetAbility() then
-	   if self:GetParent():HasModifier("modifier_item_medkit") then return end
-        return self:GetAbility():GetSpecialValueFor("bonus_heal_pct")
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("bonus_heal_pct")
 end
 
 function modifier_item_birzha_holy_locket:GetModifierHealthBonus()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor('health')
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('health')
 end
 
 function modifier_item_birzha_holy_locket:GetModifierBonusStats_Strength()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor('bonus_str')
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('bonus_str')
 end
 
 function modifier_item_birzha_holy_locket:GetModifierBonusStats_Agility()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor('bonus_agi')
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('bonus_agi')
 end
 
 function modifier_item_birzha_holy_locket:GetModifierBonusStats_Intellect()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor('bonus_int')
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('bonus_int')
 end
 
 function modifier_item_birzha_holy_locket:IsAura()
@@ -152,22 +139,22 @@ end
 
 modifier_item_birzha_holy_locket_aura = class({})
 
-function modifier_item_birzha_holy_locket_aura:IsHidden()
-    return true
-end
+function modifier_item_birzha_holy_locket_aura:IsHidden() return true end
+function modifier_item_birzha_holy_locket_aura:IsPurgable() return false end
+function modifier_item_birzha_holy_locket_aura:IsPurgeException() return false end
+function modifier_item_birzha_holy_locket_aura:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
-function modifier_item_birzha_holy_locket_aura:IsPurgable()
-    return false
-end
 function modifier_item_birzha_holy_locket_aura:DeclareFunctions()
-return  {
-        	MODIFIER_EVENT_ON_ABILITY_EXECUTED
-        }
+    return  
+    {
+    	MODIFIER_EVENT_ON_ABILITY_EXECUTED
+    }
 end
 
 function modifier_item_birzha_holy_locket_aura:OnAbilityExecuted( params )
     if IsServer() then
         local hAbility = params.ability
+
         if hAbility == nil or not ( hAbility:GetCaster() == self:GetParent() ) then
             return 0
         end
@@ -175,7 +162,7 @@ function modifier_item_birzha_holy_locket_aura:OnAbilityExecuted( params )
         if hAbility:IsToggle() then
             return 0
         end
-        if self:GetCaster():HasModifier("modifier_item_medkit") then return end
+
     	if self:GetAbility():GetCurrentCharges() < self:GetAbility():GetSpecialValueFor("max_charges") then
     		self:GetAbility():SetCurrentCharges(self:GetAbility():GetCurrentCharges() + 1)
     		if self:GetAbility():GetCurrentCharges() > self:GetAbility():GetSpecialValueFor("max_charges") then
@@ -223,13 +210,10 @@ end
 
 modifier_item_medkit = class({})
 
-function modifier_item_medkit:IsHidden()
-    return true
-end
-
-function modifier_item_medkit:IsPurgable()
-    return false
-end
+function modifier_item_medkit:IsHidden() return true end
+function modifier_item_medkit:IsPurgable() return false end
+function modifier_item_medkit:IsPurgeException() return false end
+function modifier_item_medkit:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_medkit:OnCreated()
     if not IsServer() then return end
@@ -238,6 +222,7 @@ end
 
 function modifier_item_medkit:OnIntervalThink()
     if not IsServer() then return end
+    if self:GetParent():FindAllModifiersByName("modifier_item_medkit")[1] ~= self then return end
     if self:GetAbility():GetCurrentCharges() < self:GetAbility():GetSpecialValueFor("max_charges") then
     	self:GetAbility():SetCurrentCharges(self:GetAbility():GetCurrentCharges() + 1)
     	if self:GetAbility():GetCurrentCharges() > self:GetAbility():GetSpecialValueFor("max_charges") then
@@ -247,56 +232,50 @@ function modifier_item_medkit:OnIntervalThink()
 end
 
 function modifier_item_medkit:DeclareFunctions()
-return  {
-            MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
-        	MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
-        	MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
-        	MODIFIER_PROPERTY_HEALTH_BONUS,
-        	MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
-        	MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,
-        }
+    return  
+    {
+        MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
+    	MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
+    	MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
+    	MODIFIER_PROPERTY_HEALTH_BONUS,
+    	MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
+    	MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,
+    }
 end
 
 function modifier_item_medkit:Custom_AllHealAmplify_Percentage()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor("bonus_heal_pct")
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("bonus_heal_pct")
 end
 
 function modifier_item_medkit:GetModifierBonusStats_Strength()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor('bonus_str')
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('bonus_str')
 end
 
 function modifier_item_medkit:GetModifierBonusStats_Agility()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor('bonus_agi')
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('bonus_agi')
 end
 
 function modifier_item_medkit:GetModifierBonusStats_Intellect()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor('bonus_int')
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('bonus_int')
 end
 
 function modifier_item_medkit:GetModifierHealthBonus()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor('bonus_hp')
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('bonus_hp')
 end
 
 function modifier_item_medkit:GetModifierConstantHealthRegen()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor('bonus_hp_regen')
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('bonus_hp_regen')
 end
 
 function modifier_item_medkit:GetModifierConstantManaRegen()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor('bonus_mana_regen')
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('bonus_mana_regen')
 end
 
 function modifier_item_medkit:IsAura()
@@ -325,17 +304,16 @@ end
 
 modifier_item_medkit_aura = class({})
 
-function modifier_item_medkit_aura:IsHidden()
-    return true
-end
+function modifier_item_medkit_aura:IsHidden() return true end
+function modifier_item_medkit_aura:IsPurgable() return false end
+function modifier_item_medkit_aura:IsPurgeException() return false end
+function modifier_item_medkit_aura:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
-function modifier_item_medkit_aura:IsPurgable()
-    return false
-end
 function modifier_item_medkit_aura:DeclareFunctions()
-return  {
-        	MODIFIER_EVENT_ON_ABILITY_EXECUTED
-        }
+    return  
+    {
+    	MODIFIER_EVENT_ON_ABILITY_EXECUTED
+    }
 end
 
 function modifier_item_medkit_aura:OnAbilityExecuted( params )

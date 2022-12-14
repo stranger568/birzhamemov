@@ -39,7 +39,7 @@ function modifier_Vernon_pogonya:OnCreated()
     if not IsServer() then return end
     self.target = self:GetAbility().target
     self.targets_scepter = {}
-    self:StartIntervalThink(.1)
+    self:StartIntervalThink(0.1)
     if self:ApplyHorizontalMotionController() == false then
         if not self:IsNull() then
             self:Destroy()
@@ -64,7 +64,7 @@ function modifier_Vernon_pogonya:OnIntervalThink()
 	        end
 		else
 			self:TakeDamage()
-			local units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, 600, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false)
+			local units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, self:GetAbility():GetSpecialValueFor("radius_scepter"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false)
 			local targets = {}
 
 			for id, unit in pairs(units) do
@@ -100,11 +100,9 @@ function modifier_Vernon_pogonya:TakeDamage()
 		self.targets_scepter[self.target:entindex()] = self.target
 		if self.target:IsMagicImmune() then return end
    		ApplyDamage({victim = self.target, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
-		self.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned_purge", {duration = duration})
+		self.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned_purge", {duration = duration * (1 - self.target:GetStatusResistance()) })
 	end
 end
-
-
 
 function modifier_Vernon_pogonya:OnDestroy()
     local parent = self:GetParent()
@@ -116,11 +114,9 @@ function modifier_Vernon_pogonya:OnDestroy()
    	end
 end
 
-
-
-
 function modifier_Vernon_pogonya:CheckState()
-    local funcs = {
+    local funcs = 
+    {
         [MODIFIER_STATE_NO_HEALTH_BAR] = true,
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
         [MODIFIER_STATE_COMMAND_RESTRICTED] = true,
@@ -145,8 +141,8 @@ function modifier_Vernon_pogonya:UpdateHorizontalMotion( me, dt )
     direction.z = 0
     local distance = direction:Length2D()
     direction = direction:Normalized()
-
-    local target = origin + direction * 800 * dt
+    local speed = self:GetAbility():GetSpecialValueFor("speed") + self:GetCaster():FindTalentValue("special_bonus_birzha_vernon_1")
+    local target = origin + direction * speed * dt
     self:GetParent():SetOrigin( target )
     self:GetParent():FaceTowards( self.target:GetOrigin() )
 end
@@ -158,7 +154,8 @@ function modifier_Vernon_pogonya:OnHorizontalMotionInterrupted()
 end
 
 function modifier_Vernon_pogonya:DeclareFunctions()
-	local funcs = {
+	local funcs = 
+	{
 		MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
 		MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
 		MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
@@ -196,7 +193,7 @@ LinkLuaModifier("modifier_Vernon_power_cogs_cog_push_in", "abilities/heroes/vern
 Vernon_power_cogs = class({})
 
 function Vernon_power_cogs:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_vernon_2")
 end
 
 function Vernon_power_cogs:GetCastRange(location, target)
@@ -222,7 +219,7 @@ function Vernon_power_cogs:OnSpellStart()
 		cog:SetModel("models/items/rattletrap/the_seeker_of_the_lost_artifact_cogs/the_seeker_of_the_lost_artifact_cogs.vmdl")
 		cog:SetOriginalModel("models/items/rattletrap/the_seeker_of_the_lost_artifact_cogs/the_seeker_of_the_lost_artifact_cogs.vmdl")
 		self:GetCaster():EmitSound("VernonDrell")
-		if self:GetCaster():HasTalent("special_bonus_birzha_vernon_2") then
+		if self:GetCaster():HasTalent("special_bonus_birzha_vernon_6") then
 			cog:AddInvul()
 		end
 		cog:AddNewModifier(self:GetCaster(), self, "modifier_Vernon_power_cogs_power_cogs",
@@ -236,7 +233,7 @@ function Vernon_power_cogs:OnSpellStart()
 			center_z	= caster_pos.z
 		})
 
-		if self:GetCaster():HasTalent("special_bonus_birzha_vernon_3") then
+		if self:GetCaster():HasTalent("special_bonus_birzha_vernon_5") then
 			local second_cog = CreateUnitByName("npc_dota_rattletrap_cog", second_cog_vector, false, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
 			second_cog:SetModel("models/items/rattletrap/the_seeker_of_the_lost_artifact_cogs/the_seeker_of_the_lost_artifact_cogs.vmdl")
 			second_cog:SetOriginalModel("models/items/rattletrap/the_seeker_of_the_lost_artifact_cogs/the_seeker_of_the_lost_artifact_cogs.vmdl")
@@ -343,8 +340,8 @@ function modifier_Vernon_power_cogs_power_cogs:OnIntervalThink()
 				mana_burn	= self.mana_burn,
 				push_length	= 0
 			})
-			if self:GetAbility():GetCaster():HasTalent("special_bonus_birzha_vernon_1") then
-				enemy:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_birzha_stunned", {duration = 0.15})
+			if self:GetAbility():GetCaster():HasTalent("special_bonus_birzha_vernon_3") then
+				enemy:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_birzha_stunned", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_vernon_3")})
 			end	
 			if self.particle then
 				ParticleManager:DestroyParticle(self.particle, false)
@@ -367,14 +364,16 @@ function modifier_Vernon_power_cogs_power_cogs:OnDestroy()
 end
 
 function modifier_Vernon_power_cogs_power_cogs:CheckState()
-	return  {
-		[MODIFIER_STATE_SPECIALLY_DENIABLE]					= true,
+	return  
+	{
+		[MODIFIER_STATE_SPECIALLY_DENIABLE]	= true,
 		[MODIFIER_STATE_FLYING_FOR_PATHING_PURPOSES_ONLY]	= true
 	}
 end
 
 function modifier_Vernon_power_cogs_power_cogs:DeclareFunctions()
-	local decFuncs = {
+	local decFuncs = 
+	{
 		MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
 		MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
 		MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
@@ -400,7 +399,7 @@ function modifier_Vernon_power_cogs_power_cogs:OnAttackLanded(keys)
     if not IsServer() then return end
 	
 	if keys.target == self:GetParent() then
-		if not self:GetCaster():HasTalent("special_bonus_birzha_vernon_2") then
+		if not self:GetCaster():HasTalent("special_bonus_birzha_vernon_6") then
 			if keys.attacker == self:GetCaster() then
 				self:GetParent():Kill(nil, self:GetCaster())
 			else
@@ -482,8 +481,9 @@ function modifier_Vernon_power_cogs_cog_push:OnDestroy()
 end
 
 function modifier_Vernon_power_cogs_cog_push:CheckState()
-	local state = {
-	[MODIFIER_STATE_STUNNED] = true
+	local state = 
+	{
+		[MODIFIER_STATE_STUNNED] = true
 	}
 
 	return state
@@ -565,31 +565,24 @@ end
 
 function modifier_Vernon_uporstvo:OnIntervalThink()
 	if not IsServer() then return end
-	self.damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_vernon_4")
+	self.damage = self:GetAbility():GetSpecialValueFor("damage")
 	if not self:GetParent():HasModifier("modifier_Vernon_pogonya") then
 		self:GetParent():SetModelScale(self:GetAbility():GetSpecialValueFor("scale"))
 	end
 	if self:GetParent():IsIllusion() or self:GetParent():PassivesDisabled() then return end
-	local targets = FindUnitsInRadius(self:GetParent():GetTeamNumber(),
-		self:GetParent():GetAbsOrigin(),
-		nil,
-		100,
-		DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO,
-		DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-		FIND_ANY_ORDER,
-		false)
+	local targets = FindUnitsInRadius(self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self:GetAbility():GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_vernon_4"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_ANY_ORDER, false)
 	if self:GetParent():IsAlive() then
 		for _,unit in pairs(targets) do
 			self:GetParent():EmitSound("VernonStomp")
 			local effect_cast = ParticleManager:CreateParticle( "particles/vernon/vernon_stomp.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
-			ApplyDamage({victim = unit, attacker = self:GetParent(), damage = self.damage / 10, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility()})
+			ApplyDamage({victim = unit, attacker = self:GetParent(), damage = self.damage * 0.1, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility()})
 		end
 	end
 end
 
 function modifier_Vernon_uporstvo:DeclareFunctions()
-	local funcs = {
+	local funcs = 
+	{
 		MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
 		MODIFIER_PROPERTY_ABSORB_SPELL,
 		MODIFIER_PROPERTY_MODEL_SCALE,
@@ -614,15 +607,7 @@ function modifier_Vernon_uporstvo:GetAbsorbSpell( params )
 		self:GetAbility():UseResources( false, false, true )
 		self:GetParent():EmitSound("VernonSmeh")
 			local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_antimage/antimage_spellshield_reflect.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
-			ParticleManager:SetParticleControlEnt(
-				effect_cast,
-				0,
-				self:GetParent(),
-				PATTACH_POINT_FOLLOW,
-				"attach_hitloc",
-				self:GetParent():GetOrigin(),
-				true
-			)
+			ParticleManager:SetParticleControlEnt( effect_cast, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetOrigin(), true )
 			ParticleManager:ReleaseParticleIndex( effect_cast )
 		return 1
 	end
@@ -633,6 +618,7 @@ function modifier_Vernon_uporstvo:CheckState()
 end
 
 Vernon_silence = class({})
+
 LinkLuaModifier("modifier_Vernon_silence", "abilities/heroes/vernon.lua", LUA_MODIFIER_MOTION_NONE)
 
 function Vernon_silence:GetCooldown(level)
@@ -647,94 +633,70 @@ function Vernon_silence:GetManaCost(level)
     return self.BaseClass.GetManaCost(self, level)
 end
 
-function Vernon_silence:OnSpellStart()
-	local caster = self:GetCaster()
-	local duration = self:GetSpecialValueFor( "duration" )
-	caster:EmitSound("VernonUltimate")
-	local enemies = FindUnitsInRadius(
-		caster:GetTeamNumber(),
-		caster:GetOrigin(),
-		nil,
-		FIND_UNITS_EVERYWHERE,
-		DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-		DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-		0,
-		false
-	)
-
-	for _,enemy in pairs(enemies) do
-		enemy:AddNewModifier(
-			caster,
-			self,
-			"modifier_Vernon_silence",
-			{ duration = duration * (1 - enemy:GetStatusResistance()) }
-		)
-
-		if enemy:IsHero() then
-			self:PlayEffects2( enemy )
-		end
+function Vernon_silence:GetBehavior()
+	if self:GetCaster():HasTalent("special_bonus_birzha_vernon_8") then
+		return DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR_AOE
 	end
+	return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
+end
+
+function Vernon_silence:GetAOERadius()
+	return self:GetCaster():FindTalentValue("special_bonus_birzha_vernon_8")
+end
+
+function Vernon_silence:OnSpellStart()
+	if not IsServer() then return end
+	local target = self:GetCursorTarget()
+	local duration = self:GetSpecialValueFor( "duration" )
+
+	self:GetCaster():EmitSound("VernonUltimate")
+
+	if self:GetCaster():HasTalent("special_bonus_birzha_vernon_8") then
+		local point = self:GetCursorPosition()
+		local units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), point, nil, self:GetCaster():FindTalentValue("special_bonus_birzha_vernon_8"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_CLOSEST, false)
+		for _, unit in pairs(units) do
+			unit:AddNewModifier( self:GetCaster(), self, "modifier_Vernon_silence", { duration = duration * (1 - unit:GetStatusResistance()) } )
+			self:PlayEffects2( unit )
+		end
+		self:PlayEffects1()
+		return
+	end
+
+	target:AddNewModifier( self:GetCaster(), self, "modifier_Vernon_silence", { duration = duration * (1 - target:GetStatusResistance()) } )
+	self:PlayEffects2( target )
 	self:PlayEffects1()
 end
 
 function Vernon_silence:PlayEffects1()
 	local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_silencer/silencer_global_silence.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
 	ParticleManager:SetParticleControlForward( effect_cast, 0, self:GetCaster():GetForwardVector() )
-	ParticleManager:SetParticleControlEnt(
-		effect_cast,
-		1,
-		self:GetCaster(),
-		PATTACH_POINT_FOLLOW,
-		"attach_attack1",
-		Vector(0,0,0),
-		true
-	)
+	ParticleManager:SetParticleControlEnt( effect_cast, 1, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", Vector(0,0,0), true )
 	ParticleManager:ReleaseParticleIndex( effect_cast )
 end
 
 function Vernon_silence:PlayEffects2( target )
 	local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_silencer/silencer_global_silence_hero.vpcf", PATTACH_ABSORIGIN_FOLLOW, target )
-	ParticleManager:SetParticleControlEnt(
-		effect_cast,
-		1,
-		target,
-		PATTACH_ABSORIGIN_FOLLOW,
-		"attach_attack1",
-		Vector(0,0,0),
-		true
-	)
+	ParticleManager:SetParticleControlEnt( effect_cast, 1, target, PATTACH_ABSORIGIN_FOLLOW, "attach_attack1", Vector(0,0,0), true )
 	ParticleManager:ReleaseParticleIndex( effect_cast )
 end
 
 modifier_Vernon_silence = class({})
 
-function modifier_Vernon_silence:IsPurgable() return true end
+function modifier_Vernon_silence:IsPurgable() return false end
 
 function modifier_Vernon_silence:CheckState()
-    local funcs = {
+    local funcs = 
+    {
         [MODIFIER_STATE_SILENCED] = true,
     }
-    if self:GetCaster():HasTalent("special_bonus_birzha_vernon_5") then
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_vernon_7") then
     	funcs = {
-        [MODIFIER_STATE_SILENCED] = true,
-        [MODIFIER_STATE_MUTED] = true,
-    }
+        	[MODIFIER_STATE_SILENCED] = true,
+        	[MODIFIER_STATE_MUTED] = true,
+    	}
 	end
     return funcs
-end
-
-function modifier_Vernon_silence:DeclareFunctions()
-	local funcs = {
-		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
-	}
-	return funcs
-end
-
-function modifier_Vernon_silence:GetModifierMoveSpeedBonus_Percentage()
-    if self:GetCaster():HasTalent("special_bonus_birzha_vernon_5") then
-    	return -100
-	end
 end
 
 

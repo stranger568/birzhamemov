@@ -17,33 +17,31 @@ end
 
 modifier_item_gunbai_uchiha = class({})
 
-function modifier_item_gunbai_uchiha:IsHidden()
-    return true
-end
-
-function modifier_item_gunbai_uchiha:IsPurgable()
-    return false
-end
+function modifier_item_gunbai_uchiha:IsHidden() return true end
+function modifier_item_gunbai_uchiha:IsPurgable() return false end
+function modifier_item_gunbai_uchiha:IsPurgeException() return false end
+function modifier_item_gunbai_uchiha:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_gunbai_uchiha:OnCreated()
-    self.attack_activate = false
+    self.attack_record = {}
     self.chance = self:GetAbility():GetSpecialValueFor("proc_chance")
     self.crit_multiplier = self:GetAbility():GetSpecialValueFor("crit_multiplier")
 end
 
 function modifier_item_gunbai_uchiha:DeclareFunctions()
-return  {
-			MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
-			MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
-			MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,
-			MODIFIER_PROPERTY_MANA_BONUS,
-			MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
-			MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-			MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
-			MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
-			MODIFIER_EVENT_ON_ATTACK_LANDED,
-			MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE
-        }
+	return  
+	{
+		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
+		MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
+		MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,
+		MODIFIER_PROPERTY_MANA_BONUS,
+		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
+		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+		MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
+		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+		MODIFIER_EVENT_ON_ATTACK_LANDED,
+		MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE
+    }
 end
 
 function modifier_item_gunbai_uchiha:GetModifierPhysicalArmorBonus()
@@ -94,68 +92,48 @@ function modifier_item_gunbai_uchiha:GetModifierMoveSpeedBonus_Percentage()
 	end
 end
 
-function modifier_item_gunbai_uchiha:OnAttackLanded( keys )
-	if IsServer() then
-		local attacker = self:GetParent()
-		if attacker ~= keys.attacker then
-			return
-		end
-		if keys.target:IsOther() then
-            return
-        end
-		local target = keys.target
-		if attacker:GetTeam() == target:GetTeam() then
-			return
-		end
+function modifier_item_gunbai_uchiha:OnAttackLanded( params )
+	if not IsServer() then return end
+	if params.attacker ~= self:GetParent() then return end
+	if params.target:IsWard() then return end
+	if params.attacker:IsIllusion() then return end
+	if self:GetParent():FindAllModifiersByName("modifier_item_gunbai_uchiha")[1] ~= self then return end
 
-		local no_any_items = true
+	local attacker = params.attacker
+	local target = params.target
 
-		local priority_sword_modifiers = {
-			"modifier_item_mem_sange_yasha",
-			"modifier_item_mem_cheburek_yasha",
-			"modifier_item_mem_chebureksword"
-		}
-		for _, sword_modifier in pairs(priority_sword_modifiers) do
-			if self:GetParent():HasModifier(sword_modifier) then
-				no_any_items = false
-			end
-		end
+	local no_any_items = true
 
-		if no_any_items then
-			local modifier_as = attacker:AddNewModifier(attacker, self:GetAbility(), "modifier_item_mem_yasha_stacks", {duration = self:GetAbility():GetSpecialValueFor("stack_duration")})
-			if modifier_as and modifier_as:GetStackCount() < self:GetAbility():GetSpecialValueFor("max_stacks") then
-				modifier_as:SetStackCount(modifier_as:GetStackCount() + 1)
-				attacker:EmitSound("mem.YashaStack")
-			end
+	local priority_sword_modifiers = 
+	{
+		"modifier_item_mem_sange_yasha",
+		"modifier_item_mem_cheburek_yasha",
+		"modifier_item_mem_chebureksword"
+	}
+	for _, sword_modifier in pairs(priority_sword_modifiers) do
+		if self:GetParent():HasModifier(sword_modifier) then
+			no_any_items = false
 		end
+	end
 
-		if attacker:IsIllusion() then
-			return
+	if no_any_items then
+		local modifier_as = attacker:AddNewModifier(attacker, self:GetAbility(), "modifier_item_mem_yasha_stacks", {duration = self:GetAbility():GetSpecialValueFor("stack_duration")})
+		if modifier_as and modifier_as:GetStackCount() < self:GetAbility():GetSpecialValueFor("max_stacks") then
+			modifier_as:SetStackCount(modifier_as:GetStackCount() + 1)
+			attacker:EmitSound("mem.YashaStack")
 		end
+	end
 
-		if self.attack_activate then
-			self.attack_activate = false
-			attacker:AddNewModifier(attacker, self:GetAbility(), "modifier_item_mem_yasha_proc", {duration = self:GetAbility():GetSpecialValueFor("proc_duration_self")})
-			attacker:EmitSound("mem.YashaProc")		
-		end
+	if self.attack_record[params.record] ~= nil then
+		attacker:AddNewModifier(attacker, self:GetAbility(), "modifier_item_mem_yasha_proc", {duration = self:GetAbility():GetSpecialValueFor("proc_duration_self")})
+		attacker:EmitSound("mem.YashaProc")		
 	end
 end
 
 function modifier_item_gunbai_uchiha:GetModifierPreAttack_CriticalStrike(params)
-	if self.attack_activate then 
-		if RollPercentage(5) then
-			self.attack_activate = false
-		end
-		return 
-	end
-
-	if self:GetParent():IsIllusion() then
-		return
-	end
-
-
+	if self:GetParent():IsIllusion() then return end
 	if RollPercentage(self.chance) then
-		self.attack_activate = true
+		self.attack_record[params.record] = true
 		return self.crit_multiplier
 	end
 end

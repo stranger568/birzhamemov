@@ -1,10 +1,11 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_blue_incision", "abilities/heroes/rin.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_blue_incision_buff", "abilities/heroes/rin.lua", LUA_MODIFIER_MOTION_NONE )
 
 blue_incision = class({})
 
 function blue_incision:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_rin_3")
 end
 
 function blue_incision:GetCastRange(location, target)
@@ -17,25 +18,13 @@ end
 
 function blue_incision:OnAbilityPhaseInterrupted()
     if not IsServer() then return end
-    self:GetCaster():StopSound("Hero_Magnataur.ShockWave.Cast")
-    if self.swing_fx then
-        ParticleManager:DestroyParticle(self.swing_fx, false)
-    end
+    self:GetCaster():StopSound("Hero_Juggernaut.BladeDance")
     return true
 end
 
 function blue_incision:OnAbilityPhaseStart()
     if not IsServer() then return end
     self:GetCaster():EmitSound("Hero_Juggernaut.BladeDance")
-    self.swing_fx = ParticleManager:CreateParticle("particles/units/heroes/hero_magnataur/magnataur_shockwave_cast.vpcf", PATTACH_CUSTOMORIGIN_FOLLOW, caster)
-    ParticleManager:SetParticleControlEnt(self.swing_fx, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetCaster():GetAbsOrigin(), true)
-    ParticleManager:SetParticleControlEnt(self.swing_fx, 1, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetCaster():GetAbsOrigin(), true)
-    Timers:CreateTimer(0.2, function()
-        if self.swing_fx then
-            ParticleManager:DestroyParticle(self.swing_fx, false)
-            ParticleManager:ReleaseParticleIndex(self.swing_fx)
-        end
-    end)
     return true
 end
 
@@ -44,21 +33,21 @@ function blue_incision:OnSpellStart()
     local target_loc = self:GetCursorPosition()
     local caster_loc = self:GetCaster():GetAbsOrigin()
     local distance = self:GetCastRange(caster_loc,self:GetCaster())
-    local speed = 1500
-    local radius = 100
+
     if target_loc == caster_loc then
         direction = self:GetCaster():GetForwardVector()
     else
         direction = (target_loc - caster_loc):Normalized()
     end
+
     local projectile =
     {
         Ability             = self,
         EffectName          = "particles/rino/rino_shock.vpcf",
         vSpawnOrigin        = caster_loc,
         fDistance           = distance,
-        fStartRadius        = radius,
-        fEndRadius          = radius,
+        fStartRadius        = 100,
+        fEndRadius          = 100,
         Source              = self:GetCaster(),
         bHasFrontalCone     = false,
         bReplaceExisting    = false,
@@ -66,10 +55,11 @@ function blue_incision:OnSpellStart()
         iUnitTargetType     = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
         fExpireTime         = GameRules:GetGameTime() + 5.0,
         bDeleteOnHit        = false,
-        vVelocity           = Vector(direction.x,direction.y,0) * speed,
+        vVelocity           = Vector(direction.x,direction.y,0) * 1500,
         bProvidesVision     = false,
         ExtraData           = {index = index, damage = damage}
     }
+
     ProjectileManager:CreateLinearProjectile(projectile)
 end
 
@@ -77,47 +67,54 @@ function blue_incision:OnProjectileHit_ExtraData(target, location, ExtraData)
     if target then
         local stun_duration = self:GetSpecialValueFor('stun_duration') + self:GetCaster():FindTalentValue("special_bonus_birzha_rin_2")
         local damage = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_rin_1")
-        local duration = self:GetSpecialValueFor('duration')
-        target:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", {duration = stun_duration})
+        target:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", {duration = stun_duration * (1-target:GetStatusResistance()) })
         ApplyDamage({victim = target, attacker = self:GetCaster(), ability = self, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
-        target:AddNewModifier(self:GetCaster(), self, "modifier_blue_incision", {duration = duration})
         target:EmitSound("Hero_Juggernaut.OmniSlash.Damage")
         target:EmitSound("Hero_Jakiro.LiquidFire")
         local fire_pfx = ParticleManager:CreateParticle( "particles/rino/rino_shock_debuff.vpcf", PATTACH_ABSORIGIN, target )
         ParticleManager:SetParticleControl( fire_pfx, 0, target:GetAbsOrigin() )
         ParticleManager:SetParticleControl( fire_pfx, 1, Vector(200 * 2,0,0) )
         ParticleManager:ReleaseParticleIndex( fire_pfx )
+        if self:GetCaster():HasTalent("special_bonus_birzha_rin_7") then
+            self:GetCaster():PerformAttack(target, true, true, true, false, false, false, true)
+        end
+        if self:GetCaster():HasShard() then
+            self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_blue_incision_buff", {duration = self:GetSpecialValueFor("bonus_shard_duration")})
+            self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_blue_incision", {duration = self:GetSpecialValueFor("bonus_shard_duration")})
+        end
     end
 end
 
 modifier_blue_incision = class({})
 
 function modifier_blue_incision:IsPurgable() return false end
-function modifier_blue_incision:IsPurgeException() return true end
-
+function modifier_blue_incision:IsHidden() return self:GetStackCount() == 0 end
 function modifier_blue_incision:OnCreated()
     if not IsServer() then return end
-    local interval = self:GetAbility():GetSpecialValueFor('fire_interval')
-    self:StartIntervalThink(interval)
+    self:StartIntervalThink(FrameTime())
 end
-
 function modifier_blue_incision:OnIntervalThink()
     if not IsServer() then return end
-    local damage = self:GetAbility():GetSpecialValueFor('fire_damage')
-    ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), ability = self:GetAbility(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
+    local modifier = self:GetCaster():FindAllModifiersByName("modifier_blue_incision_buff")
+    self:SetStackCount(#modifier)
+end
+function modifier_blue_incision:DeclareFunctions()
+    return 
+    {
+        MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE
+    }
+end
+function modifier_blue_incision:GetModifierPreAttack_BonusDamage()
+    return self:GetStackCount() * self:GetAbility():GetSpecialValueFor("bonus_shard_damage") 
 end
 
-function modifier_blue_incision:GetEffectName()
-    return "particles/units/heroes/hero_jakiro/jakiro_liquid_fire_debuff.vpcf"
-end
-
-function modifier_blue_incision:GetEffectAttachType()
-    return PATTACH_ABSORIGIN_FOLLOW 
-end
+modifier_blue_incision_buff = class({})
+function modifier_blue_incision_buff:IsHidden() return true end
+function modifier_blue_incision_buff:IsPurgable() return false end
+function modifier_blue_incision_buff:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 LinkLuaModifier( "modifier_satan_son_aura", "abilities/heroes/rin.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_satan_son_debuff", "abilities/heroes/rin.lua", LUA_MODIFIER_MOTION_NONE )
-
 
 satan_son_aura = class({})
 
@@ -169,6 +166,16 @@ end
 function modifier_satan_son_aura:GetEffectName() return "particles/rino/rino_flameguard2.vpcf" end
 function modifier_satan_son_aura:GetEffectAttachType() return PATTACH_ABSORIGIN_FOLLOW end
 
+function modifier_satan_son_aura:OnCreated()
+    if not IsServer() then return end
+    self:GetParent():EmitSound("Hero_EmberSpirit.FlameGuard.Loop")
+end
+
+function modifier_satan_son_aura:OnDestroy()
+    if not IsServer() then return end
+    self:GetParent():StopSound("Hero_EmberSpirit.FlameGuard.Loop")
+end
+
 modifier_satan_son_debuff = class({})
 
 function modifier_satan_son_debuff:IsPurgable()
@@ -181,14 +188,9 @@ function modifier_satan_son_debuff:OnCreated()
 end
 
 function modifier_satan_son_debuff:OnIntervalThink()
-    local damage = self:GetAbility():GetSpecialValueFor('damage')
-    ApplyDamage({ victim = self:GetParent(), attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
-    self:GetParent():EmitSound("Hero_EmberSpirit.FlameGuard.Loop")
-end
-
-function modifier_satan_son_debuff:OnDestroy()
     if not IsServer() then return end
-    self:GetParent():StopSound("Hero_EmberSpirit.FlameGuard.Loop")
+    local damage = self:GetAbility():GetSpecialValueFor('damage') + self:GetCaster():FindTalentValue("special_bonus_birzha_rin_6")
+    ApplyDamage({ victim = self:GetParent(), attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
 end
 
 function modifier_satan_son_debuff:DeclareFunctions()
@@ -196,19 +198,18 @@ function modifier_satan_son_debuff:DeclareFunctions()
 end
 
 function modifier_satan_son_debuff:GetModifierMoveSpeedBonus_Percentage()
-    return self:GetAbility():GetSpecialValueFor('slow') + self:GetCaster():FindTalentValue("special_bonus_birzha_rin_3")
+    return self:GetAbility():GetSpecialValueFor('slow')
 end
 
 
 LinkLuaModifier( "modifier_rin_blackish_modifier", "abilities/heroes/rin.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_rin_blackish_Mayta", "abilities/heroes/rin.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_rin_blackish_critical", "abilities/heroes/rin.lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_rin_blackish_movespeed", "abilities/heroes/rin.lua", LUA_MODIFIER_MOTION_NONE )
 
 rin_blackish = class({})
 
 function rin_blackish:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_rin_4")
 end
 
 function rin_blackish:GetManaCost(level)
@@ -232,12 +233,16 @@ function rin_blackish:OnSpellStart()
         self.blackish:AddNewModifier(self:GetCaster(), self, 'modifier_rin_blackish_modifier', {})
         self.blackish:EmitSound("Hero_Juggernaut.FortunesTout.Cast.Layer")
         if self:GetLevel() >= 2 then
-          self.blackish:AddAbility("rin_blackish_Mayta")
-          self.blackish:FindAbilityByName("rin_blackish_Mayta"):SetLevel(1)
+            self.blackish:FindAbilityByName("rin_blackish_Mayta"):SetLevel(1)
+        else
+            self.blackish:FindAbilityByName("rin_blackish_Mayta"):SetLevel(0)
+            self.blackish:FindAbilityByName("rin_blackish_Mayta"):SetActivated(false)
         end
         if self:GetLevel() == 4 then
-            self.blackish:AddAbility("rin_blackish_critical")
             self.blackish:FindAbilityByName("rin_blackish_critical"):SetLevel(1)
+        else
+            self.blackish:FindAbilityByName("rin_blackish_critical"):SetLevel(0)
+            self.blackish:FindAbilityByName("rin_blackish_critical"):SetActivated(false)
         end
     end
 end
@@ -255,12 +260,16 @@ function rin_blackish:OnUpgrade()
         self.blackish:AddNewModifier(self:GetCaster(), self, 'modifier_rin_blackish_modifier', {})
         self.blackish:EmitSound("Hero_Juggernaut.FortunesTout.Cast.Layer")
         if self:GetLevel() >= 2 then
-          self.blackish:AddAbility("rin_blackish_Mayta")
-          self.blackish:FindAbilityByName("rin_blackish_Mayta"):SetLevel(1)
+            self.blackish:FindAbilityByName("rin_blackish_Mayta"):SetLevel(1)
+        else
+            self.blackish:FindAbilityByName("rin_blackish_Mayta"):SetLevel(0)
+            self.blackish:FindAbilityByName("rin_blackish_Mayta"):SetActivated(false)
         end
         if self:GetLevel() == 4 then
-            self.blackish:AddAbility("rin_blackish_critical")
             self.blackish:FindAbilityByName("rin_blackish_critical"):SetLevel(1)
+        else
+            self.blackish:FindAbilityByName("rin_blackish_critical"):SetLevel(0)
+            self.blackish:FindAbilityByName("rin_blackish_critical"):SetActivated(false)
         end
     end
 end
@@ -287,7 +296,7 @@ function modifier_rin_blackish_modifier:OnCreated(keys)
     self:GetParent():SetBaseMoveSpeed(self.b_speed)
     self:GetParent():SetBaseMagicalResistanceValue(self.b_magic)
     self:GetParent():SetBaseHealthRegen(self.b_regen)
-    self:GetParent():SetModelScale( self:GetParent():GetModelScale() * (self:GetAbility():GetLevel()*0.5) )
+    self:GetParent():SetModelScale( self:GetParent():GetModelScale() + (self:GetAbility():GetLevel()*0.15) )
 end
 
 function modifier_rin_blackish_modifier:DeclareFunctions()
@@ -315,12 +324,15 @@ function modifier_rin_blackish_Mayta:OnCreated()
 end
 
 function modifier_rin_blackish_Mayta:OnIntervalThink()
-    self.mv = RandomInt(-10, 50)
+    self.mv = RandomInt(self:GetAbility():GetSpecialValueFor("move_slow"), self:GetAbility():GetSpecialValueFor("move_up"))
 end
 
 function modifier_rin_blackish_Mayta:DeclareFunctions()
-    return {MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
-    MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT}
+    return 
+    {
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT
+    }
 end
 
 function modifier_rin_blackish_Mayta:GetModifierAttackSpeedBonus_Constant()
@@ -348,194 +360,48 @@ function modifier_rin_blackish_critical:DeclareFunctions()
 end
 
 function modifier_rin_blackish_critical:GetModifierPreAttack_CriticalStrike(keys)
-    if IsServer() then
-        local attacker = keys.attacker
-        local target = keys.target
-        if attacker == self:GetParent() then
-            if target:GetTeamNumber() == self:GetParent():GetTeamNumber() then
-                return nil
-            end
-            if RandomInt(1, 100) <= 15 then  
-                target:AddNewModifier(self:GetCaster(), self:GetAbility(), 'modifier_rin_blackish_movespeed', {duration = self:GetAbility():GetSpecialValueFor('duration')})
-                return 200
-            end
-        end
+    if not IsServer() then return end
+    if RollPercentage(self:GetAbility():GetSpecialValueFor("chance")) then  
+        return self:GetAbility():GetSpecialValueFor("crit")
     end
-end
-
-modifier_rin_blackish_movespeed = class({})
-
-function modifier_rin_blackish_movespeed:IsHidden()
-    return true
-end
-
-function modifier_rin_blackish_movespeed:DeclareFunctions()
-    return {MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE}
-end
-
-function modifier_rin_blackish_movespeed:GetModifierMoveSpeedBonus_Percentage()
-    return self:GetAbility():GetSpecialValueFor("movespeed")
 end
 
 LinkLuaModifier( "modifier_rin_satana_explosion", "abilities/heroes/rin.lua", LUA_MODIFIER_MOTION_NONE )
 
 rin_satana_explosion = class({})
 
-function rin_satana_explosion:GetChannelTime()
-    return (self:GetSpecialValueFor( "duration" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_rin_4")) + 0.1
-end
-
-function rin_satana_explosion:OnAbilityPhaseStart()
-    if IsServer() then
-        self.nPreviewFX = ParticleManager:CreateParticle( "particles/units/heroes/hero_sandking/sandking_epicenter_tell.vpcf", PATTACH_CUSTOMORIGIN, self:GetCaster() )
-        ParticleManager:SetParticleControlEnt( self.nPreviewFX, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_tail", self:GetCaster():GetOrigin(), true )
-        EmitSoundOn( "SandKingBoss.Epicenter.spell", self:GetCaster() )
-        self.particle_caster_souls_fx = ParticleManager:CreateParticle("particles/units/heroes/hero_nevermore/nevermore_requiemofsouls_a.vpcf", PATTACH_ABSORIGIN, self:GetCaster())
-        ParticleManager:SetParticleControl( self.particle_caster_souls_fx, 0, self:GetCaster():GetAbsOrigin())
-        ParticleManager:SetParticleControl( self.particle_caster_souls_fx, 1, Vector(lines, 0, 0))
-        ParticleManager:SetParticleControl( self.particle_caster_souls_fx, 2, self:GetCaster():GetAbsOrigin())
-        ParticleManager:ReleaseParticleIndex( self.particle_caster_souls_fx)
+function rin_satana_explosion:GetCooldown(level)
+    if self:GetCaster():HasScepter() then
+        return self.BaseClass.GetCooldown( self, level ) + self:GetSpecialValueFor("scepter_cooldown")
     end
-    return true
-end
-
-function rin_satana_explosion:OnAbilityPhaseInterrupted()
-    if IsServer() then
-        if self.nPreviewFX then
-            ParticleManager:DestroyParticle( self.nPreviewFX, false )
-        end
-    end
-end
-
-function rin_satana_explosion:GetPlaybackRateOverride()
-    return 1
+    return self.BaseClass.GetCooldown( self, level )
 end
 
 function rin_satana_explosion:OnSpellStart()
-    if IsServer() then
-        self.Projectiles = {}
-        if self.nPreviewFX then
-            ParticleManager:DestroyParticle( self.nPreviewFX, false )
-        end
-        local ability = self:GetCaster():FindAbilityByName( "blue_incision" )
-        if ability and ability:GetLevel()>0 then
-        else
-            return
-        end
-        self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_rin_satana_explosion", {} )
+    if not IsServer() then return end
+    local duration = self:GetSpecialValueFor("duration")
+    if self:GetCaster():HasScepter() then
+        duration = duration + self:GetSpecialValueFor("scepter_duration")
     end
-end
-
-function rin_satana_explosion:OnChannelFinish( bInterrupted )
-    if IsServer() then
-        self:GetCaster():RemoveModifierByName( "modifier_rin_satana_explosion" )
-    end
-end
-
-function rin_satana_explosion:OnProjectileThinkHandle( nProjectileHandle )
-    if IsServer() then
-        local projectile = nil
-        for _,proj in pairs( self.Projectiles ) do
-            if proj ~= nil and proj.handle == nProjectileHandle then
-                projectile = proj
-            end
-        end
-        if projectile ~= nil then
-            local flRadius = ProjectileManager:GetLinearProjectileRadius( nProjectileHandle )
-            ParticleManager:SetParticleControl( projectile.nFXIndex, 2, Vector( flRadius, flRadius, 0 ) )
-        end 
-    end
-end
-
-function rin_satana_explosion:OnProjectileHitHandle( hTarget, vLocation, nProjectileHandle )
-    if IsServer() then
-        if hTarget ~= nil then
-            local blocker_radius = self:GetSpecialValueFor( "blocker_radius" )
-
-
-            local vFromCaster = vLocation - self:GetCaster():GetOrigin()
-            vFromCaster = vFromCaster:Normalized()
-            local vToCasterPerp  = Vector( -vFromCaster.y, vFromCaster.x, 0 )
-            
-
-            local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), hTarget:GetOrigin(), self:GetCaster(), blocker_radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false )
-            for _,enemy in pairs( enemies ) do
-                if enemy ~= nil and enemy:IsInvulnerable() == false and enemy:IsMagicImmune() == false then
-                    local nFXIndex = ParticleManager:CreateParticle( "particles/rino/rino_ultimate.vpcf", PATTACH_CUSTOMORIGIN, nil )
-                    ParticleManager:SetParticleControl( nFXIndex, 0, enemy:GetOrigin() )
-                    ParticleManager:SetParticleControl( nFXIndex, 1, Vector( 300, 0.0, 1.0 ) )
-                    ParticleManager:SetParticleControl( nFXIndex, 2, Vector( 300, 0.0, 1.0 ) )
-                    ParticleManager:ReleaseParticleIndex( nFXIndex )
-                    enemy:EmitSound( "Hero_DoomBringer.InfernalBlade.Target" )
-                    enemy:EmitSound( "Hero_Techies.LandMine.Detonate" )
-
-                    local stun_duration = 0
-                    local damage = 0
-                    local ability = self:GetCaster():FindAbilityByName( "blue_incision" )
-                    if ability and ability:GetLevel()>0 then
-                        damage = ability:GetSpecialValueFor( "damage" )
-                        stun_duration = ability:GetSpecialValueFor( "stun_duration" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_rin_2")
-                    end
-                    enemy:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", {duration = stun_duration})
-                    ApplyDamage({victim = enemy, attacker = self:GetCaster(), ability = self, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
-                    enemy:AddNewModifier(self:GetCaster(), ability, "modifier_blue_incision", {duration = 3})
-                    enemy:EmitSound("Hero_Juggernaut.OmniSlash.Damage")
-                    enemy:EmitSound("Hero_Jakiro.LiquidFire")
-                    local fire_pfx = ParticleManager:CreateParticle( "particles/rino/rino_shock_debuff.vpcf", PATTACH_ABSORIGIN, enemy )
-                    ParticleManager:SetParticleControl( fire_pfx, 0, enemy:GetAbsOrigin() )
-                    ParticleManager:SetParticleControl( fire_pfx, 1, Vector(200 * 2,0,0) )
-                    ParticleManager:ReleaseParticleIndex( fire_pfx )
-                end
-            end
-        end
-
-        local projectile = nil
-        for _,proj in pairs( self.Projectiles ) do
-            if proj ~= nil and proj.handle == nProjectileHandle then
-                projectile = proj
-            end
-        end
-        if projectile ~= nil then
-            if projectile.nFXIndex then
-                ParticleManager:DestroyParticle( projectile.nFXIndex, false )
-            end
-        end 
-    end
-
-    return true
+    self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_rin_satana_explosion", {duration = duration + 0.1} )
 end
 
 modifier_rin_satana_explosion = class({})
-
-function modifier_rin_satana_explosion:IsHidden()
-    return true
-end
 
 function modifier_rin_satana_explosion:IsPurgable()
     return false
 end
 
 function modifier_rin_satana_explosion:OnCreated( kv )
-    if IsServer() then
-        if self:GetAbility().nCastCount == nil then
-            self:GetAbility().nCastCount = 1 
-        else
-            self:GetAbility().nCastCount = self:GetAbility().nCastCount + 1 
-        end
-        self.damage = self:GetAbility():GetSpecialValueFor( "damage" )
-        self.interval = 0.5
-        self.pulse_width = 110
-        self.pulse_end_width = 110
-        self.pulse_speed = math.min( 1550 + 100 * self:GetAbility().nCastCount, 2000 )
-        self.pulse_distance = 2000
-        if self:GetCaster():HasShard() then
-            self.pulse_distance = self.pulse_distance + 1500
-        end
-        self.random_pulses_step = 3
-        self.random_pulses = math.min( 3 + ( self:GetAbility().nCastCount * self.random_pulses_step ), 15 )
-        self:StartIntervalThink( self.interval )
-        self:GetParent():EmitSound( "rinultimate" )
-    end
+    if not IsServer() then return end
+    self:GetParent():Stop()
+    self:GetParent():EmitSound( "rinultimate" )
+    self.damage = self:GetAbility():GetSpecialValueFor( "damage" )
+    self.interval = self:GetAbility():GetSpecialValueFor("interval")
+    local particle_caster_ground_fx2 = ParticleManager:CreateParticle("particles/rino/rino.vpcf", PATTACH_ABSORIGIN, self:GetCaster())
+    ParticleManager:SetParticleControl(particle_caster_ground_fx2, 0, self:GetCaster():GetAbsOrigin())
+    ParticleManager:ReleaseParticleIndex(particle_caster_ground_fx2)
+    self:StartIntervalThink( self.interval )
 end
 
 function modifier_rin_satana_explosion:OnDestroy()
@@ -543,55 +409,115 @@ function modifier_rin_satana_explosion:OnDestroy()
     self:GetCaster():StopSound("rinultimate")
 end
 
+function modifier_rin_satana_explosion:DeclareFunctions()
+    return 
+    {
+        MODIFIER_EVENT_ON_ORDER,
+    }
+end
+
 function modifier_rin_satana_explosion:CheckState()
-    if not self:GetCaster():HasScepter() then return end
-    local state = {
-    [MODIFIER_STATE_INVULNERABLE] = true}
-    
-    return state
+    return 
+    {
+        [MODIFIER_STATE_ROOTED] = true
+    }
+end
+
+function modifier_rin_satana_explosion:OnOrder(keys)
+    if not IsServer() then return end
+    if keys.unit == self:GetParent() then
+        local cancel_commands = 
+        {
+            [DOTA_UNIT_ORDER_MOVE_TO_POSITION]  = true,
+            [DOTA_UNIT_ORDER_MOVE_TO_TARGET]    = true,
+            [DOTA_UNIT_ORDER_ATTACK_MOVE]       = true,
+            [DOTA_UNIT_ORDER_ATTACK_TARGET]     = true,
+            [DOTA_UNIT_ORDER_CAST_POSITION]     = true,
+            [DOTA_UNIT_ORDER_CAST_TARGET]       = true,
+            [DOTA_UNIT_ORDER_CAST_TARGET_TREE]  = true,
+            [DOTA_UNIT_ORDER_HOLD_POSITION]     = true,
+            [DOTA_UNIT_ORDER_STOP]              = true
+        }
+        
+        if cancel_commands[keys.order_type] and self:GetElapsedTime() >= 0.4 then
+            self:Destroy()
+        end
+    end
 end
 
 function modifier_rin_satana_explosion:OnIntervalThink()
-    if IsServer() then
+    if not IsServer() then return end
+
+    local ability = self:GetCaster():FindAbilityByName( "blue_incision" )
+
+    if ability and ability:GetLevel() > 0 then
         local particle_caster_ground_fx2 = ParticleManager:CreateParticle("particles/rino/rino.vpcf", PATTACH_ABSORIGIN, self:GetCaster())
         ParticleManager:SetParticleControl(particle_caster_ground_fx2, 0, self:GetCaster():GetAbsOrigin())
         ParticleManager:ReleaseParticleIndex(particle_caster_ground_fx2)
-        local radius = self:GetAbility():GetSpecialValueFor("radius")
-        if self:GetCaster():HasShard() then
-            radius = radius + 1500
-        end
-        local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetOrigin(), self:GetCaster(), radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false )
+
+        local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetOrigin(), self:GetCaster(), -1, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE, FIND_ANY_ORDER, false )
+
         for _,enemy in pairs( enemies ) do
             if enemy ~= nil and not enemy:HasModifier("modifier_fountain_passive_invul") then
-                local vDirection = ( enemy:GetOrigin() + RandomVector( 1 ) * self.pulse_width ) - self:GetCaster():GetOrigin()
+                local vDirection = enemy:GetAbsOrigin() - self:GetCaster():GetOrigin()
+                local range = vDirection:Length2D()
                 vDirection.z = 0.0
                 vDirection = vDirection:Normalized()
+
                 local info = 
                 {
+                    EffectName = "particles/rino/rino_shock.vpcf",
                     Ability = self:GetAbility(),
                     vSpawnOrigin = self:GetCaster():GetOrigin(), 
-                    fStartRadius = self.pulse_width,
-                    fEndRadius = self.pulse_end_width,
-                    vVelocity = vDirection * self.pulse_speed,
-                    fDistance = self.pulse_distance,
+                    fStartRadius = 100,
+                    fEndRadius = 100,
+                    vVelocity = vDirection * 2000,
+                    fDistance = range+500,
                     Source = self:GetCaster(),
                     iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
                     iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
                 }
-                self:GetParent():EmitSound( "Hero_DoomBringer.InfernalBlade.PreAttack" )
-                local proj = {}
-                proj.handle = ProjectileManager:CreateLinearProjectile( info )
-                proj.nFXIndex = ParticleManager:CreateParticle( "particles/rino/rino_shock.vpcf", PATTACH_CUSTOMORIGIN, nil )
-                ParticleManager:SetParticleControl( proj.nFXIndex, 0, self:GetParent():GetOrigin() )
-                ParticleManager:SetParticleControl( proj.nFXIndex, 1, vDirection * self.pulse_speed )
-                ParticleManager:SetParticleControl( proj.nFXIndex, 2, Vector( self.pulse_width, self.pulse_width, 0 ) )
-                ParticleManager:SetParticleControl( proj.nFXIndex, 4, Vector( self.pulse_distance / self.pulse_speed + 1, 0, 0 ) )
 
-                table.insert( self:GetAbility().Projectiles, proj )
+                self:GetParent():EmitSound( "Hero_DoomBringer.InfernalBlade.PreAttack" )
+
+                ProjectileManager:CreateLinearProjectile( info )
+                break
             end
         end
     end
 end
+
+function rin_satana_explosion:OnProjectileHit( target, vLocation )
+    if not IsServer() then return end
+    if target == nil then return end
+    if target:IsInvulnerable() then return end
+    if target:IsMagicImmune() then return end
+
+    local nFXIndex = ParticleManager:CreateParticle( "particles/rino/rino_ultimate.vpcf", PATTACH_CUSTOMORIGIN, nil )
+    ParticleManager:SetParticleControl( nFXIndex, 0, target:GetOrigin() )
+    ParticleManager:SetParticleControl( nFXIndex, 1, Vector( 300, 0.0, 1.0 ) )
+    ParticleManager:SetParticleControl( nFXIndex, 2, Vector( 300, 0.0, 1.0 ) )
+    ParticleManager:ReleaseParticleIndex( nFXIndex )
+
+    target:EmitSound( "Hero_DoomBringer.InfernalBlade.Target" )
+    target:EmitSound( "Hero_Techies.LandMine.Detonate" )
+
+    local ability = self:GetCaster():FindAbilityByName( "blue_incision" )
+
+    if ability and ability:GetLevel()>0 then
+        local damage = ability:GetSpecialValueFor("damage")
+        local stun_duration = ability:GetSpecialValueFor("stun_duration")
+        if self:GetCaster():HasTalent("special_bonus_birzha_rin_7") then
+            target:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_rin_7") * (1 - target:GetStatusResistance())})
+        end
+        ApplyDamage({victim = target, attacker = self:GetCaster(), ability = self, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
+        target:EmitSound("Hero_Juggernaut.OmniSlash.Damage")
+        target:EmitSound("Hero_Jakiro.LiquidFire")
+    end
+
+    return true
+end
+
 
 
 

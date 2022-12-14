@@ -814,7 +814,7 @@ margin-top: 465px;width: 22px;height: 22px;align: left center;
 
 #StrengthSelector,
 #AgilitySelector,
-#IntellectSelector,
+#IntellectSelector
 {
   flow-children: right-wrap;width: 100%;margin-top: 15px;
 }

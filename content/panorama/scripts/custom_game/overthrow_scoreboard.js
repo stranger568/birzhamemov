@@ -1,8 +1,11 @@
 "use strict";
 
 var parentHUDElements = $.GetContextPanel().GetParent().GetParent().GetParent().FindChild("HUDElements");
-$.GetContextPanel().SetParent(parentHUDElements);
-
+if ($.GetContextPanel() && parentHUDElements)
+{
+	$.GetContextPanel().SetParent(parentHUDElements);
+}
+ 
 var toggle = false
 
 function UpdateTimer( data )
@@ -184,12 +187,15 @@ function gametimer( data )
 
 function SetShowText(panel, text)
 {
-    panel.SetPanelEvent('onmouseover', function() {
+	if (panel)
+	{
+		panel.SetPanelEvent('onmouseover', function() {
         $.DispatchEvent('DOTAShowTextTooltip', panel, $.Localize(text)); });
         
-    panel.SetPanelEvent('onmouseout', function() {
-        $.DispatchEvent('DOTAHideTextTooltip', panel);
-    });       
+	    panel.SetPanelEvent('onmouseout', function() {
+	        $.DispatchEvent('DOTAHideTextTooltip', panel);
+	    }); 
+	}      
 }
 
 function ShowTimer( data )

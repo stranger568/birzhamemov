@@ -46,9 +46,6 @@ function item_angel_boots:OnSpellStart()
         target:GiveMana(restore_mana_target)
         target:Heal(restore_heal_target, self)
 
-
-
-
         target:Purge( false, true, false, true, true)
     end
 end
@@ -59,22 +56,20 @@ end
 
 modifier_item_angel_boots = class({})
 
-function modifier_item_angel_boots:IsHidden()
-    return true
-end
-
-function modifier_item_angel_boots:IsPurgable()
-    return false
-end
+function modifier_item_angel_boots:IsHidden() return true end
+function modifier_item_angel_boots:IsPurgable() return false end
+function modifier_item_angel_boots:IsPurgeException() return false end
+function modifier_item_angel_boots:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_angel_boots:DeclareFunctions()
-return  {
-            MODIFIER_PROPERTY_MOVESPEED_BONUS_UNIQUE,
-            MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
-            MODIFIER_PROPERTY_MANA_BONUS,
-            MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
-            MODIFIER_PROPERTY_HEALTH_BONUS
-        }
+    return  
+    {
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_UNIQUE,
+        MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
+        MODIFIER_PROPERTY_MANA_BONUS,
+        MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
+        MODIFIER_PROPERTY_HEALTH_BONUS
+    }
 end
 
 function modifier_item_angel_boots:GetModifierMoveSpeedBonus_Special_Boots()

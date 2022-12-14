@@ -37,7 +37,7 @@ function item_armor_damned:OnSpellStart()
 			end
 			if not enemy_has_been_hit then
 				ApplyDamage({attacker = caster, victim = enemy, ability = ability, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
-				enemy:AddNewModifier(self:GetCaster(), self, "modifier_item_armor_damned_debuff", {duration = self:GetSpecialValueFor("duration_debuff")})
+				enemy:AddNewModifier(self:GetCaster(), self, "modifier_item_armor_damned_debuff", {duration = self:GetSpecialValueFor("duration_debuff") * (1 - enemy:GetStatusResistance())})
 				targets_hit[#targets_hit + 1] = enemy
 			end
 		end
@@ -53,51 +53,44 @@ end
 
 modifier_item_armor_damned = class({})
 
-function modifier_item_armor_damned:IsHidden()
-    return true
-end
-
-function modifier_item_armor_damned:IsPurgable()
-    return false
-end
+function modifier_item_armor_damned:IsHidden() return true end
+function modifier_item_armor_damned:IsPurgable() return false end
+function modifier_item_armor_damned:IsPurgeException() return false end
+function modifier_item_armor_damned:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_armor_damned:DeclareFunctions()
-return  {
-            MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
-            MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
-            MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
-            MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
-        }
+	return  
+	{
+        MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
+        MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
+        MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
+        MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
+    }
 end
 
 function modifier_item_armor_damned:GetModifierPreAttack_BonusDamage()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor("bonus_damage")
-	end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("bonus_damage")
 end
 
 function modifier_item_armor_damned:GetModifierConstantHealthRegen()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor('bonus_hp_regen')
-	end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('bonus_hp_regen')
 end
 
 function modifier_item_armor_damned:GetModifierBonusStats_Intellect()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor("bonus_intellect")
-	end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("bonus_intellect")
 end
 
 function modifier_item_armor_damned:GetModifierPhysicalArmorBonus()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor("bonus_armor")
-	end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("bonus_armor")
 end
 
 function modifier_item_armor_damned:GetAuraRadius()
-	if self:GetAbility() then
-		return self:GetAbility():GetSpecialValueFor("radius_passive")
-	end
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("radius_passive")
 end
 
 function modifier_item_armor_damned:GetAuraSearchFlags()
@@ -114,6 +107,10 @@ end
 
 function modifier_item_armor_damned:GetModifierAura()
 	return "modifier_item_armor_damned_aura"
+end
+
+function modifier_item_armor_damned:GetAuraDuration()
+	return 0.01
 end
 
 function modifier_item_armor_damned:IsAura()
@@ -135,36 +132,38 @@ function modifier_item_armor_damned_aura:IsPurgable()
 end
 
 function modifier_item_armor_damned_aura:DeclareFunctions()
-return  {
-            MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-            MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
-            MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE,
-            MODIFIER_PROPERTY_HEAL_AMPLIFY_PERCENTAGE_SOURCE,
-        }
+	return  
+	{
+        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+        MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE,
+        MODIFIER_PROPERTY_HP_REGEN_AMPLIFY_PERCENTAGE,
+    }
 end
 
 function modifier_item_armor_damned_aura:GetModifierAttackSpeedBonus_Constant()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor("attack_speed_passive") * -1
-	end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("attack_speed_passive") * -1
 end
 
 function modifier_item_armor_damned_aura:GetModifierMoveSpeedBonus_Percentage()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor('movespeed_passive') * -1
-	end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('movespeed_passive') * -1
 end
 
 function modifier_item_armor_damned_aura:GetModifierBaseDamageOutgoing_Percentage()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor("damage_passive") * -1
-	end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("damage_passive") * -1
 end
 
-function modifier_item_armor_damned_aura:GetModifierHealAmplify_PercentageSource()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor("hp_regen_passive") * -1
-	end
+function modifier_item_armor_damned_aura:Custom_HealAmplifyReduce()
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("hp_regen_passive") * -1
+end
+
+function modifier_item_armor_damned_aura:GetModifierHPRegenAmplify_Percentage()
+	if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("hp_regen_passive") * -1
 end
 
 modifier_item_armor_damned_debuff = class({})
@@ -173,29 +172,15 @@ function modifier_item_armor_damned_debuff:IsPurgable()
     return false
 end
 
-function modifier_item_armor_damned_debuff:OnCreated()
-    self.attack_speed_debuff = 0
-	self.movespeed_debuff = 0
-	self.damage_debuff = 0
-	self.hp_regen_debuff = 0
-	self.miss_debuff = 0
-    if self:GetAbility() then
-	    self.attack_speed_debuff = self:GetAbility():GetSpecialValueFor("attack_speed_debuff")
-		self.movespeed_debuff = self:GetAbility():GetSpecialValueFor("movespeed_debuff")
-		self.damage_debuff = self:GetAbility():GetSpecialValueFor("damage_debuff")
-		self.hp_regen_debuff = self:GetAbility():GetSpecialValueFor("hp_regen_debuff")
-		self.miss_debuff = self:GetAbility():GetSpecialValueFor("miss_debuff")
-    end
-end
-
 function modifier_item_armor_damned_debuff:DeclareFunctions()
-return  {
-            MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-            MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
-            MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE,
-            MODIFIER_PROPERTY_HEAL_AMPLIFY_PERCENTAGE_SOURCE,
-            MODIFIER_PROPERTY_MISS_PERCENTAGE
-        }
+	return  
+	{
+        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+        MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE,
+        MODIFIER_PROPERTY_MISS_PERCENTAGE,
+        MODIFIER_PROPERTY_HP_REGEN_AMPLIFY_PERCENTAGE,
+    }
 end
 
 function modifier_item_armor_damned_debuff:GetEffectName()
@@ -203,31 +188,31 @@ function modifier_item_armor_damned_debuff:GetEffectName()
 end
 
 function modifier_item_armor_damned_debuff:GetModifierAttackSpeedBonus_Constant()
-    if self:GetAbility() then
-    	return self.attack_speed_debuff
-	end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("attack_speed_debuff")
 end
 
 function modifier_item_armor_damned_debuff:GetModifierMoveSpeedBonus_Percentage()
-    if self:GetAbility() then
-    	return self.movespeed_debuff
-	end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("movespeed_debuff")
 end
 
 function modifier_item_armor_damned_debuff:GetModifierBaseDamageOutgoing_Percentage()
-    if self:GetAbility() then
-    	return self.damage_debuff
-	end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("damage_debuff")
 end
 
-function modifier_item_armor_damned_debuff:GetModifierHealAmplify_PercentageSource()
-    if self:GetAbility() then
-    	return self.hp_regen_debuff
-	end
+function modifier_item_armor_damned_debuff:Custom_HealAmplifyReduce()
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("hp_regen_debuff")
+end
+
+function modifier_item_armor_damned_debuff:GetModifierHPRegenAmplify_Percentage()
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("hp_regen_debuff")
 end
 
 function modifier_item_armor_damned_debuff:GetModifierMiss_Percentage()
-    if self:GetAbility() then
-    	return self.miss_debuff
-	end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("miss_debuff")
 end

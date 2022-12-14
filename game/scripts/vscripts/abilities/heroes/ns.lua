@@ -5,7 +5,7 @@ LinkLuaModifier( "modifier_birzha_bashed", "modifiers/modifier_birzha_dota_modif
 Ns_Tricks = class({})
 
 function Ns_Tricks:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_ns_3")
 end
 
 function Ns_Tricks:GetManaCost(level)
@@ -38,9 +38,10 @@ function Ns_Tricks:CastFilterResultTarget( hTarget )
 end
 
 function Ns_Tricks:OnSpellStart()
-    local target = self:GetCursorTarget()
     if not IsServer() then return end
-    local info = {
+    local target = self:GetCursorTarget()
+    local info = 
+    {
         EffectName = "particles/ns/ns_tricks.vpcf",
         Ability = self,
         iMoveSpeed = 600,
@@ -55,15 +56,27 @@ end
 function Ns_Tricks:OnProjectileHit( target, vLocation )
     if not IsServer() then return end
     if target ~= nil and ( not target:TriggerSpellAbsorb( self ) ) then
-        local modifiers = {
-            "modifier_silenced",
+        local modifiers = 
+        {
+            "modifier_silence",
             "modifier_disarmed",
             "modifier_birzha_stunned",
             "modifier_shadow_shaman_voodoo",
+            "modifier_creep_haste",
+            "modifier_creep_irresolute",
+            "modifier_creep_piercing",
+            "modifier_creep_slow",
+            "modifier_dazzle_shallow_grave",
+            "modifier_furbolg_enrage_attack_speed",
+            "modifier_greater_clarity",
+            "modifier_greevil_miniboss_black_nightmare",
+            "modifier_hoodwink_acorn_shot_slow",
+            "modifier_muted",
         }
 
         local chance = RandomInt(1,3)
-        if target:IsAncient() then return end
+
+        if target:IsBoss() then return end
 
         if not self:GetCaster():HasTalent("special_bonus_birzha_ns_1") then
             if target:IsMagicImmune() then return end
@@ -88,10 +101,10 @@ function modifier_ns_tricks_damage:IsPurgable() return false end
 function modifier_ns_tricks_damage:IsHidden() return true end
 
 function modifier_ns_tricks_damage:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
     }
-
     return funcs
 end
 
@@ -99,18 +112,12 @@ function modifier_ns_tricks_damage:GetModifierPreAttack_BonusDamage( params )
     return 500
 end
 
-
-
-
-
-
-
 LinkLuaModifier( "modifier_ns_fullcounter_debuff", "abilities/heroes/ns.lua", LUA_MODIFIER_MOTION_NONE )
 
 Ns_FullCounter = class({})
 
 function Ns_FullCounter:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_ns_6")
 end
 
 function Ns_FullCounter:GetManaCost(level)
@@ -124,7 +131,8 @@ end
 function Ns_FullCounter:OnSpellStart()
     local target = self:GetCursorTarget()
     if not IsServer() then return end
-    local info = {
+    local info = 
+    {
         EffectName = "particles/econ/items/wisp/wisp_tether_ti7.vpcf",
         Ability = self,
         iMoveSpeed = 2000,
@@ -133,7 +141,6 @@ function Ns_FullCounter:OnSpellStart()
         iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_2
     }
     ProjectileManager:CreateTrackingProjectile( info )
-    
 end
 
 function Ns_FullCounter:OnProjectileHit( target, vLocation )
@@ -152,24 +159,38 @@ modifier_ns_fullcounter_debuff = class({})
 function modifier_ns_fullcounter_debuff:IsPurgable() return false end
 
 function modifier_ns_fullcounter_debuff:CheckState()
-    return {[MODIFIER_STATE_SILENCED] = true,
-    [MODIFIER_STATE_DISARMED] = true,
-[MODIFIER_STATE_PASSIVES_DISABLED] = true,
-[MODIFIER_STATE_ROOTED] = true,
-[MODIFIER_STATE_EVADE_DISABLED] = true,
-[MODIFIER_STATE_STUNNED] = true,
-[MODIFIER_STATE_NIGHTMARED] = true,}
+    if self:GetCaster():HasTalent("special_bonus_birzha_ns_8") then
+        return 
+        {
+            [MODIFIER_STATE_SILENCED] = true,
+            [MODIFIER_STATE_DISARMED] = true,
+            [MODIFIER_STATE_PASSIVES_DISABLED] = true,
+            [MODIFIER_STATE_ROOTED] = true,
+            [MODIFIER_STATE_EVADE_DISABLED] = true,
+            [MODIFIER_STATE_NIGHTMARED] = true,
+            [MODIFIER_STATE_STUNNED] = true
+        }
+    end
+    return 
+    {
+        [MODIFIER_STATE_SILENCED] = true,
+        [MODIFIER_STATE_DISARMED] = true,
+        [MODIFIER_STATE_PASSIVES_DISABLED] = true,
+        [MODIFIER_STATE_ROOTED] = true,
+        [MODIFIER_STATE_EVADE_DISABLED] = true,
+        [MODIFIER_STATE_NIGHTMARED] = true
+    }
 end
 
 
 function modifier_ns_fullcounter_debuff:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,
         MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
         MODIFIER_PROPERTY_BONUS_DAY_VISION,
         MODIFIER_PROPERTY_BONUS_NIGHT_VISION,
     }
-
     return funcs
 end
 
@@ -218,20 +239,23 @@ function modifier_ns_TricksMaster:OnIntervalThink()
     if self:GetParent():IsIllusion() then return end
     if self:GetAbility():IsFullyCastable() then
         self:GetAbility():UseResources(false, false, true)
-        local bonus_intellect = self:GetAbility():GetSpecialValueFor("bonus_intellect") + self:GetCaster():FindTalentValue("special_bonus_birzha_ns_2")
+        local bonus_intellect = self:GetAbility():GetSpecialValueFor("bonus_intellect")
         self:SetStackCount(self:GetStackCount() + bonus_intellect)
     end
 end
 
 function modifier_ns_TricksMaster:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
     }
-
     return funcs
 end
 
 function modifier_ns_TricksMaster:GetModifierBonusStats_Intellect( params )
+    if self:GetCaster():HasTalent("special_bonus_birzha_ns_7") then
+        return self:GetStackCount() * self:GetCaster():FindTalentValue("special_bonus_birzha_ns_7") 
+    end
     return self:GetStackCount()
 end
 
@@ -241,7 +265,7 @@ LinkLuaModifier("modifier_ns_kbu_duration", "abilities/heroes/ns", LUA_MODIFIER_
 Ns_KBU = class({})
 
 function Ns_KBU:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_ns_2")
 end
 
 function Ns_KBU:GetManaCost(level)
@@ -276,7 +300,8 @@ function modifier_ns_kbu_delay:OnCreated()
 end
 
 function modifier_ns_kbu_delay:CheckState()
-    return {
+    return 
+    {
         [MODIFIER_STATE_INVULNERABLE]   = true,
         [MODIFIER_STATE_OUT_OF_GAME]    = true,
         [MODIFIER_STATE_STUNNED]            = true,
@@ -299,10 +324,10 @@ function modifier_ns_kbu_delay:OnDestroy()
         local fire_panda    = CreateUnitByName("npc_dota_inmate_"..self:GetAbility():GetLevel(), RotatePosition(self:GetParent():GetAbsOrigin(), QAngle(0, -120, 0), self:GetParent():GetAbsOrigin() + self:GetParent():GetForwardVector() * 100), true, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
         
         if earth_panda then
-            if self:GetCaster():HasShard() then
+            if not self:GetCaster():HasShard() then
                 local ability = earth_panda:FindAbilityByName("Dread_Armor")
                 if ability then
-                    ability:SetLevel(1)
+                    ability:SetLevel(0)
                 end
             end
         end
@@ -348,9 +373,24 @@ function modifier_ns_kbu_duration:IsPurgable()    return false end
 
 function modifier_ns_kbu_duration:OnCreated(keys)
     if not IsServer() then return end
-
+    self.attack_speed = 0
     if keys and keys.parent_entindex then
         self.parent = EntIndexToHScript(keys.parent_entindex)
+    end
+    if not self:GetParent():IsHero() then
+        if self:GetCaster():HasTalent("special_bonus_birzha_ns_5") then
+            self:GetParent():SetBaseMaxHealth(self:GetParent():GetBaseMaxHealth() + self:GetCaster():FindTalentValue("special_bonus_birzha_ns_5"))
+            self:GetParent():SetHealth(self:GetParent():GetMaxHealth())
+        end
+    end
+    if self:GetParent():GetUnitName() == "npc_dota_xbost_1" then
+        self.attack_speed = self:GetCaster():FindTalentValue("special_bonus_birzha_ns_4")
+    end
+    if self:GetParent():GetUnitName() == "npc_dota_xbost_2" then
+        self.attack_speed = self:GetCaster():FindTalentValue("special_bonus_birzha_ns_4")
+    end
+    if self:GetParent():GetUnitName() == "npc_dota_xbost_3" then
+        self.attack_speed = self:GetCaster():FindTalentValue("special_bonus_birzha_ns_4")
     end
 end
 
@@ -369,10 +409,10 @@ function modifier_ns_kbu_duration:CheckState()
         return 
     end
 
-    return {
+    return 
+    {
         [MODIFIER_STATE_INVULNERABLE]       = self:GetParent():IsHero(),
         [MODIFIER_STATE_OUT_OF_GAME]        = self:GetParent():IsHero(),
-    
         [MODIFIER_STATE_STUNNED]            = self:GetParent():IsHero(),
         [MODIFIER_STATE_NOT_ON_MINIMAP]     = self:GetParent():IsHero(),
         [MODIFIER_STATE_NO_UNIT_COLLISION]  = self:GetParent():IsHero(),
@@ -381,9 +421,15 @@ function modifier_ns_kbu_duration:CheckState()
 end
 
 function modifier_ns_kbu_duration:DeclareFunctions()
-    return {
+    return 
+    {
         MODIFIER_EVENT_ON_DEATH,
+        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT
     }
+end
+
+function modifier_ns_kbu_duration:GetModifierAttackSpeedBonus_Constant()
+    return self.attack_speed
 end
 
 function modifier_ns_kbu_duration:OnDeath(keys)
@@ -410,16 +456,8 @@ function modifier_ns_kbu_duration:OnDeath(keys)
                 if bNoneAlive then
                     self.parent:RemoveModifierByName("modifier_ns_kbu_duration")
                     if keys.attacker ~= self:GetParent() then
-                        local damageTable = {
-                            victim = self.parent,
-                            attacker = keys.attacker,
-                            damage = 100000000,
-                            damage_type = DAMAGE_TYPE_PURE,
-                            ability = self:GetAbility(),
-                            damage_flags = DOTA_DAMAGE_FLAG_HPLOSS + DOTA_DAMAGE_FLAG_NO_DAMAGE_MULTIPLIERS,
-                        }
                         if not self.parent:HasScepter() then
-                            ApplyDamage(damageTable)
+                            self.parent:BirzhaTrueKill( self:GetAbility(), self:GetCaster() )
                         end
                     end
                 end
@@ -427,8 +465,6 @@ function modifier_ns_kbu_duration:OnDeath(keys)
         end
     end
 end
-
-
 
 LinkLuaModifier("modifier_xbost_rapier", "abilities/heroes/ns.lua", LUA_MODIFIER_MOTION_NONE)
 
@@ -443,6 +479,8 @@ modifier_xbost_rapier = class({})
 function modifier_xbost_rapier:IsHidden()
     return true
 end
+
+function modifier_xbost_rapier:IsPurgable() return false end
 
 function modifier_xbost_rapier:DeclareFunctions()
     local declfuncs = {MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE}
@@ -463,6 +501,8 @@ end
 
 modifier_xbost_rapier_2 = class({})
 
+function modifier_xbost_rapier_2:IsPurgable() return false end
+
 function modifier_xbost_rapier_2:IsHidden()
     return true
 end
@@ -475,9 +515,6 @@ end
 function modifier_xbost_rapier_2:GetModifierPreAttack_BonusDamage()
     return self:GetAbility():GetSpecialValueFor("bonus_damage")
 end
-
-
-
 
 LinkLuaModifier("modifier_dread_aura", "abilities/heroes/ns.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_dread_armor", "abilities/heroes/ns.lua", LUA_MODIFIER_MOTION_NONE)
@@ -499,7 +536,8 @@ function modifier_dread_aura:IsHidden() return true end
 function modifier_dread_aura:IsAura() return true end
 
 function modifier_dread_aura:GetAuraSearchTeam()
-    return DOTA_UNIT_TARGET_TEAM_FRIENDLY end
+    return DOTA_UNIT_TARGET_TEAM_FRIENDLY 
+end
 
 function modifier_dread_aura:GetAuraSearchType()
     return DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO
@@ -518,7 +556,7 @@ modifier_dread_armor = class({})
 function modifier_dread_armor:IsPurgable() return false end
 
 function modifier_dread_armor:DeclareFunctions()
-    local funcs = { MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS, }
+    local funcs = {MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS}
     return funcs
 end
 

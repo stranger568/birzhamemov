@@ -21,13 +21,7 @@ end
 
 modifier_item_boots_of_invisibility_active = class({})
 
-function modifier_item_boots_of_invisibility_active:IsHidden()
-    return false
-end
-
-function modifier_item_boots_of_invisibility_active:IsPurgable()
-    return false
-end
+function modifier_item_boots_of_invisibility_active:IsPurgable() return false end
 
 function modifier_item_boots_of_invisibility_active:OnCreated()
     if not IsServer() then return end
@@ -41,6 +35,7 @@ function modifier_item_boots_of_invisibility_active:OnCreated()
     else
         self.effect = "particles/items_fx/black_king_bar_avatar.vpcf"
     end
+    self:GetCaster():Purge(false, true, false, false, false)
     local particle = ParticleManager:CreateParticle(self.effect, PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
     ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
     self:AddParticle(particle, false, false, -1, false, false)
@@ -53,20 +48,19 @@ function modifier_item_boots_of_invisibility_active:GetTexture()
 end
 
 function modifier_item_boots_of_invisibility_active:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_INVISIBILITY_LEVEL,
         MODIFIER_EVENT_ON_ABILITY_EXECUTED,
         MODIFIER_EVENT_ON_ATTACK_LANDED,
         MODIFIER_EVENT_ON_ATTACK,
-
     }
-
     return funcs
 end
 
 function modifier_item_boots_of_invisibility_active:OnAttack(params)
     if self:GetParent() ~= params.attacker then return end
-    if self.proc then return end
+    if self.attack_proc then return end
     self.record = params.record
     self.attack_proc = true
 end
@@ -76,12 +70,12 @@ function modifier_item_boots_of_invisibility_active:GetModifierInvisibilityLevel
 end
 
 function modifier_item_boots_of_invisibility_active:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_INVISIBLE] = true,
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
         [MODIFIER_STATE_MAGIC_IMMUNE] = true,
     }
-
     return state
 end
 
@@ -100,7 +94,7 @@ end
 function modifier_item_boots_of_invisibility_active:OnAttackLanded(params)
     if not IsServer() then return end
     if params.attacker ~= self:GetParent() then return end
-    if self.proc == false then return end
+    if self.attack_proc == false then return end
     if self.record ~= params.record then return end
     if self:IsNull() then return end
     self:Destroy()
@@ -108,13 +102,10 @@ end
 
 modifier_item_boots_of_invisibility = class({})
 
-function modifier_item_boots_of_invisibility:IsHidden()
-    return true
-end
-
-function modifier_item_boots_of_invisibility:IsPurgable()
-    return false
-end
+function modifier_item_boots_of_invisibility:IsHidden() return true end
+function modifier_item_boots_of_invisibility:IsPurgable() return false end
+function modifier_item_boots_of_invisibility:IsPurgeException() return false end
+function modifier_item_boots_of_invisibility:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_boots_of_invisibility:DeclareFunctions()
     local funcs = {

@@ -15,6 +15,15 @@ function modifier_birzha_pet:CheckState()
 	}
 end
 
+function modifier_birzha_pet:DeclareFunctions()
+	return {
+		MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE,
+	}
+end
+
+function modifier_birzha_pet:GetModifierMoveSpeed_Absolute()
+	return self:GetParent():GetOwner():GetMoveSpeedModifier(self:GetParent():GetOwner():GetBaseMoveSpeed(), true)
+end
 
 modifier_birzha_donater = class({})
 

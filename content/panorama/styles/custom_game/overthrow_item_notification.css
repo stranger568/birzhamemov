@@ -66,12 +66,11 @@
 	background-size: 100%;	
 }
 
-
-
-
-
-
-
+#PucciImage 
+{
+	background-image: url("file://{images}/custom_game/events/pucci.png");
+	background-size: 100%;	
+}
 
 #AlertMessage
 {
@@ -163,7 +162,18 @@
 
 
 
+#Pucci
+{
+	flow-children: down;
+	horizontal-align: center;
+	opacity: 0;
+	transform: scaleX(0.5) scaleY(0.5);
+	transition-property: transform, opacity;
+	transition-duration: 0.3s;
+	visibility: collapse;
+}
 
+.pucci_quest #Pucci{opacity: 1;transform: scaleX(1) scaleY(1);visibility: visible;}
 
 
 

@@ -47,7 +47,6 @@ function ToggleMap(button, map_name)
 	$("#5v5v5").SetHasClass( "ButtonMapSelect", false );
 	$("#5v5").SetHasClass( "ButtonMapSelect", false );
 	$("#zxc").SetHasClass( "ButtonMapSelect", false );
-	$("#wtf").SetHasClass( "ButtonMapSelect", false );
 	Game.EmitSound("ui_topmenu_select")
 	$("#" + button).SetHasClass( "ButtonMapSelect", true );
 	GetMmrTop(map_name)

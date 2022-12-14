@@ -24,7 +24,7 @@ function VectorTarget:OrderFilter(event)
 	local behavior = ability:GetBehaviorInt()
 
 	-- check if the ability exists and if it is Vector targeting
-	if bit.band(behavior, DOTA_ABILITY_BEHAVIOR_VECTOR_TARGETING) ~= 0 then
+	if bit.band(behavior, DOTA_ABILITY_BEHAVIOR_VECTOR_TARGETING) ~= 0 or (ability and ability:GetAbilityName() == "puchkov_hurricane") then
 
 		if event.order_type == DOTA_UNIT_ORDER_VECTOR_TARGET_POSITION then
 			ability.vectorTargetPosition2 = Vector(event.position_x, event.position_y, 0)
@@ -32,6 +32,30 @@ function VectorTarget:OrderFilter(event)
 
 		if event.order_type == DOTA_UNIT_ORDER_CAST_POSITION then
 			ability.vectorTargetPosition = Vector(event.position_x, event.position_y, 0)
+			local position = ability.vectorTargetPosition
+			local position2 = ability.vectorTargetPosition2
+			local direction = (position2 - position):Normalized()
+
+			--Change direction if just clicked on the same position
+			if position == position2 then
+				direction = (position - unit:GetAbsOrigin()):Normalized()
+			end
+			direction = Vector(direction.x, direction.y, 0)
+			ability.vectorTargetDirection = direction
+
+			local function OverrideSpellStart(self, position, direction)
+				self:OnVectorCastStart(position, direction)
+			end
+			ability.OnSpellStart = function(self) return OverrideSpellStart(self, position, direction) end
+		end
+
+		if event.order_type == DOTA_UNIT_ORDER_CAST_TARGET and ability:GetName() == 'haku_jump' then
+			ability.vectorTargetPosition = Vector(event.position_x, event.position_y, 0)
+
+			ability.vectorTargetPoisitioncheck = EntIndexToHScript(event["entindex_target"]):GetAbsOrigin()
+
+
+
 			local position = ability.vectorTargetPosition
 			local position2 = ability.vectorTargetPosition2
 			local direction = (position2 - position):Normalized()
@@ -141,6 +165,10 @@ end
 
 function CDOTABaseAbility:GetVectorDirection()
 	return self.vectorTargetDirection
+end 
+
+function CDOTABaseAbility:GetTargetPositionCheck()
+	return self.vectorTargetPoisitioncheck
 end 
 
 function CDOTABaseAbility:OnVectorCastStart(vStartLocation, vDirection)

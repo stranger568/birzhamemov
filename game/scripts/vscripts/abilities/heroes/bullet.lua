@@ -1,68 +1,6 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 
-bullet_sha = class({}) 
-
-function bullet_sha:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
-end
-
-function bullet_sha:GetManaCost(level)
-    return self.BaseClass.GetManaCost(self, level)
-end
-
-function bullet_sha:GetCastRange(location, target)
-    return self.BaseClass.GetCastRange(self, location, target)
-end
-
-function bullet_sha:GetAOERadius()
-    return self:GetSpecialValueFor( "aoe_radius" )
-end
-
-function bullet_sha:OnSpellStart()
-    if not IsServer() then return end
-    local damage = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_1")
-    local radius = self:GetSpecialValueFor("aoe_radius")
-    local knockback_distance = self:GetSpecialValueFor("knockback_distance")
-    local duration = self:GetSpecialValueFor("stun_duration")
-    if self:GetCursorTarget():TriggerSpellAbsorb( self ) then return end
-    self:GetCaster():EmitSound("bulletsha")  
-    local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(),
-        self:GetCursorTarget():GetAbsOrigin(),
-        nil,
-        radius,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO,
-        0,
-        FIND_ANY_ORDER,
-        false)
-
-    for _,enemy in pairs(enemies) do
-        ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self})
-        local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_tusk/tusk_walruskick_tgt.vpcf", PATTACH_ABSORIGIN_FOLLOW, enemy );
-        ParticleManager:SetParticleControlEnt( particle, 0, enemy, PATTACH_ABSORIGIN_FOLLOW, nil, enemy:GetOrigin(), true );
-
-        local distance = (enemy:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Length2D()
-        local direction = (enemy:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Normalized()
-        local bump_point = self:GetCaster():GetAbsOrigin() - direction * (distance + knockback_distance)
-        local knockbackProperties =
-        {
-            center_x = bump_point.x,
-            center_y = bump_point.y,
-            center_z = bump_point.z,
-            duration = 0.75,
-            knockback_duration = 0.75,
-            knockback_distance = knockback_distance,
-            knockback_height = 150
-        }
-        enemy:RemoveModifierByName("modifier_knockback")
-        enemy:AddNewModifier( self:GetCaster(), self, "modifier_knockback", knockbackProperties )
-        Timers:CreateTimer(0.75, function()
-            enemy:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned_purge", {duration = duration})
-        end)
-    end
-end
-
 bullet_taa = class({}) 
 
 function bullet_taa:GetCooldown(level)
@@ -81,38 +19,47 @@ function bullet_taa:GetAOERadius()
     return self:GetSpecialValueFor( "aoe_radius" )
 end
 
-
 function bullet_taa:OnSpellStart()
     if not IsServer() then return end
-    local damage = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_2")
+
+    local damage = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_3")
+
     local radius = self:GetSpecialValueFor("aoe_radius")
+
     local knockback_height = self:GetSpecialValueFor("knockback_height")
-    if self:GetCursorTarget():TriggerSpellAbsorb( self ) then return end
+
+    local target = self:GetCursorTarget()
+
+    if target:TriggerSpellAbsorb( self ) then return end
+
     self:GetCaster():EmitSound("bullettaa")  
-    local particle_start = ParticleManager:CreateParticle( "particles/units/heroes/hero_tusk/tusk_walruspunch_start.vpcf", PATTACH_CUSTOMORIGIN, self:GetCaster() );
-    ParticleManager:SetParticleControlEnt( particle_start, 0, self:GetCursorTarget(), PATTACH_ABSORIGIN_FOLLOW, nil, self:GetCursorTarget():GetOrigin(), true );
-    ParticleManager:SetParticleControlEnt( particle_start, 1, self:GetCursorTarget(), PATTACH_POINT_FOLLOW, "attach_attack2", self:GetCaster():GetOrigin(), true );
-    ParticleManager:SetParticleControlEnt( particle_start, 2, self:GetCaster(), PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", self:GetCaster():GetOrigin(), true );
+
+    local particle_start = ParticleManager:CreateParticle( "particles/units/heroes/hero_tusk/tusk_walruspunch_start.vpcf", PATTACH_CUSTOMORIGIN, self:GetCaster() )
+    ParticleManager:SetParticleControlEnt( particle_start, 0, target, PATTACH_ABSORIGIN_FOLLOW, nil, target:GetOrigin(), true )
+    ParticleManager:SetParticleControlEnt( particle_start, 1, target, PATTACH_POINT_FOLLOW, "attach_attack2", target:GetOrigin(), true )
+    ParticleManager:SetParticleControlEnt( particle_start, 2, self:GetCaster(), PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", self:GetCaster():GetOrigin(), true )
     ParticleManager:ReleaseParticleIndex( particle_start )
 
-    local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(),
-        self:GetCursorTarget():GetAbsOrigin(),
-        nil,
-        radius,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO,
-        0,
-        FIND_ANY_ORDER,
-        false)
+    local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), target:GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, 0, FIND_ANY_ORDER, false)
 
     for _,enemy in pairs(enemies) do
-        ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self})
-        local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_tusk/tusk_walruskick_tgt.vpcf", PATTACH_ABSORIGIN_FOLLOW, enemy );
-        ParticleManager:SetParticleControlEnt( particle, 0, enemy, PATTACH_ABSORIGIN_FOLLOW, nil, enemy:GetOrigin(), true );
+
+        local damage_type = DAMAGE_TYPE_MAGICAL
+
+        if self:GetCaster():HasTalent("special_bonus_birzha_bullet_1") then
+            damage_type = DAMAGE_TYPE_PHYSICAL
+        end
+
+        ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = damage_type, ability = self})
+        local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_tusk/tusk_walruskick_tgt.vpcf", PATTACH_ABSORIGIN_FOLLOW, enemy )
+        ParticleManager:SetParticleControlEnt( particle, 0, enemy, PATTACH_ABSORIGIN_FOLLOW, nil, enemy:GetOrigin(), true )
 
         local distance = (enemy:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Length2D()
+
         local direction = (enemy:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Normalized()
+
         local bump_point = self:GetCaster():GetAbsOrigin() - direction * (distance + 50)
+
         local knockbackProperties =
         {
             center_x = bump_point.x,
@@ -123,8 +70,84 @@ function bullet_taa:OnSpellStart()
             knockback_distance = 50,
             knockback_height = knockback_height
         }
+
         enemy:RemoveModifierByName("modifier_knockback")
+
         enemy:AddNewModifier( self:GetCaster(), self, "modifier_knockback", knockbackProperties )
+    end
+end
+
+bullet_sha = class({}) 
+
+function bullet_sha:GetCooldown(level)
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_4")
+end
+
+function bullet_sha:GetManaCost(level)
+    return self.BaseClass.GetManaCost(self, level)
+end
+
+function bullet_sha:GetCastRange(location, target)
+    return self.BaseClass.GetCastRange(self, location, target)
+end
+
+function bullet_sha:GetAOERadius()
+    return self:GetSpecialValueFor( "aoe_radius" )
+end
+
+function bullet_sha:OnSpellStart()
+    if not IsServer() then return end
+
+    local damage = self:GetSpecialValueFor("damage")
+
+    local radius = self:GetSpecialValueFor("aoe_radius")
+
+    local knockback_distance = self:GetSpecialValueFor("knockback_distance")
+
+    local duration = self:GetSpecialValueFor("stun_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_2")
+
+    local target = self:GetCursorTarget()
+
+    if target:TriggerSpellAbsorb( self ) then return end
+
+    self:GetCaster():EmitSound("bulletsha")  
+    local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), target:GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, 0, FIND_ANY_ORDER, false)
+
+    for _,enemy in pairs(enemies) do
+
+        local damage_type = DAMAGE_TYPE_MAGICAL
+        
+        if self:GetCaster():HasTalent("special_bonus_birzha_bullet_1") then
+            damage_type = DAMAGE_TYPE_PHYSICAL
+        end
+
+        ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = damage_type, ability = self})
+
+        local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_tusk/tusk_walruskick_tgt.vpcf", PATTACH_ABSORIGIN_FOLLOW, enemy )
+        ParticleManager:SetParticleControlEnt( particle, 0, enemy, PATTACH_ABSORIGIN_FOLLOW, nil, enemy:GetOrigin(), true )
+
+        local distance = (enemy:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Length2D()
+        local direction = (enemy:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Normalized()
+        local bump_point = self:GetCaster():GetAbsOrigin() - direction * (distance + knockback_distance)
+
+        local knockbackProperties =
+        {
+            center_x = bump_point.x,
+            center_y = bump_point.y,
+            center_z = bump_point.z,
+            duration = 0.75,
+            knockback_duration = 0.75,
+            knockback_distance = knockback_distance,
+            knockback_height = 150
+        }
+
+        enemy:RemoveModifierByName("modifier_knockback")
+
+        enemy:AddNewModifier( self:GetCaster(), self, "modifier_knockback", knockbackProperties )
+
+        Timers:CreateTimer(0.75, function()
+            enemy:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned_purge", {duration = duration * (1 - enemy:GetStatusResistance()) })
+        end)
     end
 end
 
@@ -144,7 +167,7 @@ function Bullet_Stats:GetIntrinsicModifierName()
 end
 
 function Bullet_Stats:GetCastRange()
-    return 600
+    return self:GetSpecialValueFor("radius")
 end
 
 function Bullet_Stats:OnSpellStart()
@@ -179,7 +202,7 @@ function modifier_Bullet_Stats_aura:IsPermanent() return true end
 function modifier_Bullet_Stats_aura:IsPurgable() return false end
 
 function modifier_Bullet_Stats_aura:GetAuraRadius()
-    return 600
+    return self:GetAbility():GetSpecialValueFor("radius")
 end
 
 function modifier_Bullet_Stats_aura:GetAuraSearchFlags()
@@ -198,6 +221,10 @@ function modifier_Bullet_Stats_aura:GetModifierAura()
     return "modifier_Bullet_Stats"
 end
 
+function modifier_Bullet_Stats_aura:GetAuraDuration()
+    return 0
+end
+
 modifier_Bullet_Stats_aura_debuff = class({})
 
 function modifier_Bullet_Stats_aura_debuff:IsAura() return true end
@@ -208,7 +235,7 @@ function modifier_Bullet_Stats_aura_debuff:IsPermanent() return true end
 function modifier_Bullet_Stats_aura_debuff:IsPurgable() return false end
 
 function modifier_Bullet_Stats_aura_debuff:GetAuraRadius()
-    return 600
+    return self:GetAbility():GetSpecialValueFor("radius")
 end
 
 function modifier_Bullet_Stats_aura_debuff:GetAuraSearchFlags()
@@ -227,13 +254,18 @@ function modifier_Bullet_Stats_aura_debuff:GetModifierAura()
     return "modifier_Bullet_Stats_debuff"
 end
 
+function modifier_Bullet_Stats_aura_debuff:GetAuraDuration()
+    return 0
+end
+
 modifier_Bullet_Stats = class({})
 
 function modifier_Bullet_Stats:IsHidden() return false end
 function modifier_Bullet_Stats:IsPurgable() return false end
 
 function modifier_Bullet_Stats:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
         MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
         MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
@@ -243,15 +275,15 @@ function modifier_Bullet_Stats:DeclareFunctions()
 end
 
 function modifier_Bullet_Stats:GetModifierBonusStats_Strength()
-    return self:GetAbility():GetSpecialValueFor("stat") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_3")
+    return self:GetAbility():GetSpecialValueFor("stat") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_6")
 end
 
 function modifier_Bullet_Stats:GetModifierBonusStats_Agility()
-    return self:GetAbility():GetSpecialValueFor("stat") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_3")
+    return self:GetAbility():GetSpecialValueFor("stat") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_6")
 end
 
 function modifier_Bullet_Stats:GetModifierBonusStats_Intellect()
-    return self:GetAbility():GetSpecialValueFor("stat") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_3")
+    return self:GetAbility():GetSpecialValueFor("stat") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_6")
 end
 
 modifier_Bullet_Stats_debuff = class({})
@@ -260,7 +292,8 @@ function modifier_Bullet_Stats_debuff:IsHidden() return false end
 function modifier_Bullet_Stats_debuff:IsPurgable() return false end
 
 function modifier_Bullet_Stats_debuff:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
         MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
         MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
@@ -270,15 +303,15 @@ function modifier_Bullet_Stats_debuff:DeclareFunctions()
 end
 
 function modifier_Bullet_Stats_debuff:GetModifierBonusStats_Strength()
-    return (self:GetAbility():GetSpecialValueFor("stat") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_3")) * (-1)
+    return (self:GetAbility():GetSpecialValueFor("stat") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_5")) * -1
 end
 
 function modifier_Bullet_Stats_debuff:GetModifierBonusStats_Agility()
-    return (self:GetAbility():GetSpecialValueFor("stat") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_3")) * (-1)
+    return (self:GetAbility():GetSpecialValueFor("stat") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_5")) * -1
 end
 
 function modifier_Bullet_Stats_debuff:GetModifierBonusStats_Intellect()
-    return (self:GetAbility():GetSpecialValueFor("stat") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_3")) * (-1)
+    return (self:GetAbility():GetSpecialValueFor("stat") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_5")) * -1
 end
 
 LinkLuaModifier("modifier_Bullet_BulletInTheHead", "abilities/heroes/bullet", LUA_MODIFIER_MOTION_NONE)
@@ -286,17 +319,16 @@ LinkLuaModifier("modifier_Bullet_BulletInTheHead", "abilities/heroes/bullet", LU
 Bullet_BulletInTheHead = class({})
 
 function Bullet_BulletInTheHead:GetBehavior()
-    local caster = self:GetCaster()
-    local scepter = caster:HasShard()
-
-    if scepter then
+    if self:GetCaster():HasShard() then
         return DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR_AOE
-    else
-        return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
     end
+    return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
 end
 
 function Bullet_BulletInTheHead:GetCooldown(level)
+    if self:GetCaster():HasScepter() then
+        return self.BaseClass.GetCooldown( self, level ) - self:GetSpecialValueFor("scepter_cooldown")
+    end
     return self.BaseClass.GetCooldown( self, level )
 end
 
@@ -309,35 +341,38 @@ function Bullet_BulletInTheHead:GetCastRange(location, target)
 end
 
 function Bullet_BulletInTheHead:GetAOERadius()
-    local caster = self:GetCaster()
-    local ability = self
-    local scepter = caster:HasShard()
-    local scepter_radius = ability:GetSpecialValueFor("scepter_radius")
-
-    if scepter then
-        return scepter_radius
+    if self:GetCaster():HasShard() then
+        return self:GetSpecialValueFor("scepter_radius")
     end
-
     return 0
 end
 
+function Bullet_BulletInTheHead:CastFilterResultTarget( hTarget )
+    if hTarget:IsMagicImmune() and (not self:GetCaster():HasTalent("special_bonus_birzha_bullet_7")) then
+        return UF_FAIL_MAGIC_IMMUNE_ENEMY
+    end
+
+    if not IsServer() then return UF_SUCCESS end
+    local nResult = UnitFilter(
+        hTarget,
+        self:GetAbilityTargetTeam(),
+        self:GetAbilityTargetType(),
+        self:GetAbilityTargetFlags(),
+        self:GetCaster():GetTeamNumber()
+    )
+
+    if nResult ~= UF_SUCCESS then
+        return nResult
+    end
+
+    return UF_SUCCESS
+end
+
 function Bullet_BulletInTheHead:OnAbilityPhaseInterrupted()
-    local caster = self:GetCaster()
-    local ability = self
-
-    caster:FadeGesture(ACT_DOTA_CAST_ABILITY_1)
-    caster:FadeGesture(ACT_DOTA_CAST_ABILITY_4)
-
-    local enemies = FindUnitsInRadius(caster:GetTeamNumber(),
-        caster:GetAbsOrigin(),
-        nil,
-        FIND_UNITS_EVERYWHERE,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-        DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD,
-        FIND_ANY_ORDER,
-        false)
-
+    if not IsServer() then return end
+    self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
+    self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_4)
+    local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD, FIND_ANY_ORDER, false)
     for _,enemy in pairs(enemies) do
         if enemy:HasModifier("modifier_Bullet_BulletInTheHead") then
             enemy:RemoveModifierByName("modifier_Bullet_BulletInTheHead")
@@ -346,128 +381,87 @@ function Bullet_BulletInTheHead:OnAbilityPhaseInterrupted()
 end
 
 function Bullet_BulletInTheHead:OnAbilityPhaseStart()
-    local caster = self:GetCaster()
-    local ability = self
-    local scepter = caster:HasShard()
-    local radius = ability:GetSpecialValueFor("scepter_radius")
-    caster:StartGesture(ACT_DOTA_CAST_ABILITY_4)
+    if not IsServer() then return end
+    self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_4)
 
-    if not scepter then
-        self.target = self:GetCursorTarget()
-        self.target:AddNewModifier(caster, ability, "modifier_Bullet_BulletInTheHead", {duration = 4})
-    else
-        self.target_point = self:GetCursorPosition()
-        self.targets = FindUnitsInRadius(caster:GetTeamNumber(),
-            self.target_point,
-            nil,
-            radius,
-            DOTA_UNIT_TARGET_TEAM_ENEMY,
-            DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-            DOTA_UNIT_TARGET_FLAG_NO_INVIS + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE + DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-            FIND_ANY_ORDER,
-            false)
+    if self:GetCaster():HasShard() then
+        local point = self:GetCursorPosition()
+        self.targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), point, nil, self:GetSpecialValueFor("scepter_radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NO_INVIS + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE + DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_ANY_ORDER, false)
 
-        for _,target in pairs(self.targets) do
-            target:AddNewModifier(caster, ability, "modifier_Bullet_BulletInTheHead", {duration = 4})
+        for _, target in pairs(self.targets) do
+            target:AddNewModifier(self:GetCaster(), self, "modifier_Bullet_BulletInTheHead", {duration = 4})
         end
+        return true
     end
 
+    self.target = self:GetCursorTarget()
+    self.target:AddNewModifier(self:GetCaster(), self, "modifier_Bullet_BulletInTheHead", {duration = 4})
     return true
 end
 
 function Bullet_BulletInTheHead:OnSpellStart()
-    local caster = self:GetCaster()
-    local scepter = caster:HasShard()
-    caster:EmitSound("Ability.Assassinate")
+    if not IsServer() then return end
 
-    if not scepter then
-        local info = {
-            Target = self.target,
-            Source = caster,
-            Ability = self, 
-            bVisibleToEnemies = true,
-            bReplaceExisting = false,
-            bProvidesVision = false,
-            EffectName = "particles/units/heroes/hero_sniper/sniper_assassinate.vpcf",
-            iMoveSpeed = 2500,
-            bDodgeable = true,
-            ExtraData = { modifier = "modifier_Bullet_BulletInTheHead" }
-        }
+    self:GetCaster():EmitSound("Ability.Assassinate")
 
-        ProjectileManager:CreateTrackingProjectile(info)
-        self.target:EmitSound("Hero_Sniper.AssassinateProjectile")
-    else
+    local info = 
+    {
+        Source = self:GetCaster(),
+        Ability = self, 
+        bVisibleToEnemies = true,
+        bReplaceExisting = false,
+        bProvidesVision = false,
+        EffectName = "particles/units/heroes/hero_sniper/sniper_assassinate.vpcf",
+        iMoveSpeed = 2500,
+        bDodgeable = true,
+    }
+
+    if self:GetCaster():HasShard() then
         for _,target in pairs(self.targets) do
-            local info = {
-                Target = target,
-                Source = caster,
-                Ability = self, 
-                bVisibleToEnemies = true,
-                bReplaceExisting = false,
-                bProvidesVision = false,
-                EffectName = "particles/units/heroes/hero_sniper/sniper_assassinate.vpcf",
-                iMoveSpeed = 2500,
-                bDodgeable = true,
-                ExtraData = { modifier = "modifier_Bullet_BulletInTheHead" }
-            }
-
+            info.Target = target
             ProjectileManager:CreateTrackingProjectile(info)
             target:EmitSound("Hero_Sniper.AssassinateProjectile")
         end
+        return
     end
+
+    info.Target = self.target
+    ProjectileManager:CreateTrackingProjectile(info)
+    self.target:EmitSound("Hero_Sniper.AssassinateProjectile")
 end
 
 function Bullet_BulletInTheHead:OnProjectileHit_ExtraData( target, location, extradata )
-    if (not target) or target:IsInvulnerable() or target:IsOutOfGame() or target:TriggerSpellAbsorb( self ) then
-        if target:HasModifier("modifier_Bullet_BulletInTheHead") then
-            target:RemoveModifierByName("modifier_Bullet_BulletInTheHead")
-        end
-        return
-    end
-    local scepter = self:GetCaster():HasScepter()
-    local damage = self:GetSpecialValueFor("damage")
-    if not scepter then
-        if not target:IsMagicImmune() then
-            local damageTable = {victim = target,
-                attacker = self:GetCaster(),
-                damage = damage,
-                damage_type = DAMAGE_TYPE_PURE,
-                ability = self
-            }
+    if target == nil then return end
 
-            ApplyDamage(damageTable)
-        end
-    else
-        local hptargetfull = target:GetMaxHealth() / 100 * 50 
-        local hptarget = target:GetHealth()
-        if  hptarget < hptargetfull then
-            local damageTable = {victim = target,
-                attacker = self:GetCaster(),
-                damage = 1000000,
-                damage_type = DAMAGE_TYPE_PURE,
-                damage_flags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-                ability = self
-            }
-
-            ApplyDamage(damageTable)
-            SendOverheadEventMessage(nil, OVERHEAD_ALERT_CRITICAL, target, damage, nil)
-        end
-        if  hptarget > hptargetfull then
-            local damageTable = {victim = target,
-                attacker = self:GetCaster(),
-                damage = damage,
-                damage_type = DAMAGE_TYPE_PURE,
-                damage_flags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-                ability = self
-            }
-            ApplyDamage(damageTable)
-        end
-    end
-
-    target:EmitSound("Hero_Sniper.AssassinateDamage")
-    target:Interrupt()
     if target:HasModifier("modifier_Bullet_BulletInTheHead") then
         target:RemoveModifierByName("modifier_Bullet_BulletInTheHead")
+    end
+
+    if target:IsInvulnerable() then return end
+
+    if not self:GetCaster():HasTalent("special_bonus_birzha_bullet_7") then
+        if target:IsMagicImmune() then return end
+    end
+
+    if target:TriggerSpellAbsorb(self) then return end
+
+    target:EmitSound("Hero_Sniper.AssassinateDamage")
+
+    local damage = self:GetSpecialValueFor("damage")
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_bullet_8") then
+        print(target:GetHealthPercent())
+        if target:GetHealthPercent() <= self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_8") then
+            target:Kill(self, self:GetCaster())
+            return
+        end
+    end
+
+    ApplyDamage({victim = target, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self})
+
+    if self:GetCaster():HasScepter() then
+        local scepter_stun_duration = self:GetSpecialValueFor("scepter_stun_duration")
+        target:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = scepter_stun_duration * (1-target:GetStatusResistance())})
     end
 end
 

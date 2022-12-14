@@ -2054,6 +2054,68 @@
 			}
 		}
 	}
+	"models/pirat/bike.vmdl"
+	{
+		"PortraitLightPosition"		"14.01 -58.95 179.59"
+		"PortraitLightAngles"		"39.61 63.38 0.00"
+		"PortraitLightFOV"		"90"
+		"PortraitLightDistance"		"99"
+		"PortraitLightColor"		"185 182 254"
+		"PortraitShadowColor"		"126 104 123"
+		"PortraitShadowScale"		"1.775000"
+		"PortraitAmbientColor"		"185 79 180"
+		"PortraitAmbientScale"		"5.000000"
+		"PortraitSpecularColor"		"251 74 84"
+		"PortraitBackgroundTexture"		"materials/vgui/hud/heroportraits/portraitbackground_glacier.vmat"
+		"PortraitBackgroundColor1"		".47 .34 .16"
+		"PortraitBackgroundColor2"		".47 .34 .16"
+		"PortraitBackgroundColor3"		".61 .20 1"
+		"PortraitBackgroundColor4"		"0 0 0"
+		"PortraitLightScale"		"3.700000"
+		"PortraitGroundShadowScale"		"1.500000"
+		"PortraitAmbientDirection"		"67.910 81.180 33.970"
+		"PortraitAnimationActivity"		"ACT_DOTA_IDLE"
+		"cameras"
+		{
+			"default"
+			{
+				"PortraitPosition"		"150.12 -3.64 125.75"
+				"PortraitAngles"		"6.12 180.04 0.00"
+				"PortraitFOV"		"40"
+			}
+		}
+	}
+	"models/pirat/serega.vmdl"
+	{
+		"PortraitLightPosition"		"14.01 -58.95 179.59"
+		"PortraitLightAngles"		"39.61 63.38 0.00"
+		"PortraitLightFOV"		"90"
+		"PortraitLightDistance"		"99"
+		"PortraitLightColor"		"185 182 254"
+		"PortraitShadowColor"		"126 104 123"
+		"PortraitShadowScale"		"1.775000"
+		"PortraitAmbientColor"		"185 79 180"
+		"PortraitAmbientScale"		"5.000000"
+		"PortraitSpecularColor"		"251 74 84"
+		"PortraitBackgroundTexture"		"materials/vgui/hud/heroportraits/portraitbackground_glacier.vmat"
+		"PortraitBackgroundColor1"		".47 .34 .16"
+		"PortraitBackgroundColor2"		".47 .34 .16"
+		"PortraitBackgroundColor3"		".61 .20 1"
+		"PortraitBackgroundColor4"		"0 0 0"
+		"PortraitLightScale"		"3.700000"
+		"PortraitGroundShadowScale"		"1.500000"
+		"PortraitAmbientDirection"		"67.910 81.180 33.970"
+		"PortraitAnimationActivity"		"ACT_DOTA_IDLE"
+		"cameras"
+		{
+			"default"
+			{
+				"PortraitPosition"		"150.12 -7.64 155.75"
+				"PortraitAngles"		"6.12 180.04 0.00"
+				"PortraitFOV"		"16"
+			}
+		}
+	}
 	"models/heroes/axe/axe.vmdl"
 	{
 		"PortraitLightPosition"		"69.29 -11.57 252.09"
@@ -3890,7 +3952,7 @@
 		}
 	}
 
-	"models/heroes/the_world/the_world.vmdl"
+	"models/heroes/anime/jojo/the_world/the_world.vmdl"
 	{
 		"PortraitLightPosition"		"214.17 -20.99 293.67"
 		"PortraitLightAngles"		"38.24 158.25 0.00"
@@ -3915,7 +3977,7 @@
 		{
 			"Default"
 			{
-				"PortraitPosition"		"67.086113 51.671745 95.598038"
+				"PortraitPosition"		"67.086113 51.671745 215.598038"
 				"PortraitAngles"		"20.789993 221.350098 0.000000"
 				"PortraitFOV"		"18.229000"
 				"PortraitFar"		"1000.000000"
@@ -6827,9 +6889,40 @@
 		{
 			"default"
 			{
-				"PortraitPosition"		"228.64 -25.09 177.65"
+				"PortraitPosition"		"228.64 -25.09 1277.65"
 				"PortraitAngles"		"15.63 174.33 0.00"
 				"PortraitFOV"		"16"
+			}
+		}
+	}
+	"models/venom/venom.vmdl"
+	{
+		"PortraitLightPosition"		"94.64 -10.02 42.15"
+		"PortraitLightAngles"		"278.36 351.60 0.00"
+		"PortraitLightFOV"		"58"
+		"PortraitLightDistance"		"145"
+		"PortraitLightColor"		"231 231 231"
+		"PortraitShadowColor"		"48 48 48"
+		"PortraitShadowScale"		"5.000000"
+		"PortraitAmbientColor"		"157 187 206"
+		"PortraitAmbientScale"		"1.275000"
+		"PortraitSpecularColor"		"251 74 84"
+		"PortraitBackgroundTexture"		"materials/vgui/hud/heroportraits/portraitbackground_moon.vmat"
+		"PortraitBackgroundColor1"		"1 .8 .8"
+		"PortraitBackgroundColor2"		"1 .8 .8"
+		"PortraitBackgroundColor3"		"1 .8 .8"
+		"PortraitBackgroundColor4"		"1 .8 .8"
+		"PortraitLightScale"		"1.000000"
+		"PortraitGroundShadowScale"		"1.500000"
+		"PortraitAmbientDirection"		"-188.560 79.000 662.980"
+		"PortraitAnimationActivity"		"ACT_DOTA_IDLE"
+		"cameras"
+		{
+			"default"
+			{
+				"PortraitPosition"		"228.64 -25.09 277.65"
+				"PortraitAngles"		"15.63 174.33 0.00"
+				"PortraitFOV"		"15"
 			}
 		}
 	}

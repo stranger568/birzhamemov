@@ -75,6 +75,14 @@ function FoutainTrue( msg )
 	$.Schedule( 4, RemoveFoutainTrue );
 }
 
+function pucci_accept_quest( msg )
+{
+	RemoveAllEvents()
+	$.GetContextPanel().SetHasClass( "pucci_quest", true );
+	$("#PucciLabel").text = $.Localize("#Birzha_warning_pucci") + " " + msg.count + " / 14" + " " + $.Localize("#Birzha_warning_pucci_quest");
+	$.Schedule( 4, RemovePucciTrue );
+}
+
 function RemoveBristTrue()
 {
 	$.GetContextPanel().SetHasClass( "bristleback_killed", false );
@@ -88,6 +96,11 @@ function RemoveLolTrue()
 function RemoveFoutainTrue()
 {
 	$.GetContextPanel().SetHasClass( "fountain_close", false );
+}
+
+function RemovePucciTrue()
+{
+	$.GetContextPanel().SetHasClass( "pucci_quest", false );
 }
 
 function ContractWillSpawn( msg )
@@ -168,7 +181,7 @@ function RemoveAllEvents()
     GameEvents.Subscribe( "bristlekek_killed_true", BristTrue );
 	GameEvents.Subscribe( "lolblade_killed_true", LolTrue );
 	GameEvents.Subscribe( "fountain_true", FoutainTrue );
-
+	GameEvents.Subscribe( "pucci_accept_quest", pucci_accept_quest );
 
 	GameEvents.Subscribe( "contract_event_will", ContractWillSpawn );
 	GameEvents.Subscribe( "contract_event_spawn", ContractSpawn );

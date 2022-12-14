@@ -2,11 +2,6 @@ LinkLuaModifier("modifier_item_birzha_blink_boots", "items/blink", LUA_MODIFIER_
 
 item_blink_boots = class({})
 
-function item_blink_boots:OnAbilityPhaseStart()
-    self.vTargetPosition = self:GetCursorPosition()
-    return true;
-end
-
 function item_blink_boots:OnSpellStart()
     if not IsServer() then return end
     local caster = self:GetCaster()
@@ -46,16 +41,14 @@ end
 
 modifier_item_birzha_blink_boots = class({})
 
-function modifier_item_birzha_blink_boots:IsHidden()
-    return true
-end
-
-function modifier_item_birzha_blink_boots:IsPurgable()
-    return false
-end
+function modifier_item_birzha_blink_boots:IsHidden() return true end
+function modifier_item_birzha_blink_boots:IsPurgable() return false end
+function modifier_item_birzha_blink_boots:IsPurgeException() return false end
+function modifier_item_birzha_blink_boots:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_birzha_blink_boots:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_MOVESPEED_BONUS_UNIQUE,
         MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
         MODIFIER_PROPERTY_HEALTH_BONUS,

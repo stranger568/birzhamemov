@@ -2,6 +2,8 @@ LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modi
 LinkLuaModifier( "modifier_birzha_bashed", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 
+LinkLuaModifier( "modifier_Pocik_VerySmall_buff", "abilities/heroes/boy.lua", LUA_MODIFIER_MOTION_NONE )
+
 Pocik_VerySmall = class({})
 
 function Pocik_VerySmall:GetCooldown(level)
@@ -17,9 +19,12 @@ function Pocik_VerySmall:GetCastRange(location, target)
 end
 
 function Pocik_VerySmall:OnSpellStart()
-    local target = self:GetCursorTarget()
     if not IsServer() then return end
-    local info = {
+
+    local target = self:GetCursorTarget()
+
+    local info = 
+    {
         EffectName = "particles/ethereal/ethereal_blade.vpcf",
         Ability = self,
         iMoveSpeed = 750,
@@ -28,29 +33,70 @@ function Pocik_VerySmall:OnSpellStart()
         iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_2,
         ExtraData = { scepter = false }
     }
+
     ProjectileManager:CreateTrackingProjectile( info )
+
     self:GetCaster():EmitSound("Hero_Puck.EtherealJaunt")
 end
 
 function Pocik_VerySmall:OnProjectileHit_ExtraData(target, vLocation, table)
     if not IsServer() then return end
+
     if target ~= nil and ( not target:IsMagicImmune() ) and ( not target:TriggerSpellAbsorb( self ) ) then
         local gold_to_damage_ratio = self:GetSpecialValueFor("gold_to_damage_ratio")
-
-        print(table.scepter)
-
-        if table.scepter == 1 then
-            gold_to_damage_ratio = 10
-            print("scepter")
-        end
-
         local gold_damage = math.floor(target:GetGold() * gold_to_damage_ratio * 0.01)
+        if self:GetCaster():HasTalent("special_bonus_birzha_pocik_4") then
+            gold_damage = math.floor(self:GetCaster():GetGold() * gold_to_damage_ratio * 0.01)
+        end
+        if self:GetCaster():HasTalent("special_bonus_birzha_pocik_3") then
+            local bonus_damage = math.floor(target:GetGold() * self:GetCaster():FindTalentValue("special_bonus_birzha_pocik_3") * 0.01)
+            local modifier = self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Pocik_VerySmall_buff", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_pocik_3", "value2"), bonus_damage = bonus_damage})
+        end
         gold_damage = gold_damage + self:GetSpecialValueFor("base_damage")
         ApplyDamage({ victim = target, attacker = self:GetCaster(), damage = gold_damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self}) 
         target:EmitSound("pocikxyli")
         target:EmitSound("DOTA_Item.Hand_Of_Midas")
     end
+
     return true
+end
+
+modifier_Pocik_VerySmall_buff = class({})
+
+function modifier_Pocik_VerySmall_buff:OnCreated(params)
+    if not IsServer() then return end
+    self.bonus_damage = params.bonus_damage
+    self:SetHasCustomTransmitterData(true)
+    self:StartIntervalThink(FrameTime())
+end
+
+function modifier_Pocik_VerySmall_buff:AddCustomTransmitterData()
+    return 
+    {
+        bonus_damage = self.bonus_damage,
+    }
+end
+
+function modifier_Pocik_VerySmall_buff:HandleCustomTransmitterData( data )
+    self.bonus_damage = data.bonus_damage
+end
+
+
+function modifier_Pocik_VerySmall_buff:OnIntervalThink()
+    if not IsServer() then return end
+    self:SendBuffRefreshToClients()
+
+end
+
+function modifier_Pocik_VerySmall_buff:DeclareFunctions()
+    return 
+    {
+        MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE
+    }
+end
+
+function modifier_Pocik_VerySmall_buff:GetModifierPreAttack_BonusDamage()
+    return self.bonus_damage
 end
 
 LinkLuaModifier("modifier_pocik_bash", "abilities/heroes/boy.lua", LUA_MODIFIER_MOTION_NONE)
@@ -58,10 +104,7 @@ LinkLuaModifier("modifier_pocik_bash", "abilities/heroes/boy.lua", LUA_MODIFIER_
 Pocik_pizda = class({})
 
 function Pocik_pizda:GetCooldown(level)
-    if self:GetCaster():HasTalent("special_bonus_birzha_boy_4") then
-        return 0
-    end
-    return self.BaseClass.GetCooldown(self, level) / ( self:GetCaster():GetCooldownReduction())
+    return (self.BaseClass.GetCooldown(self, level) + self:GetCaster():FindTalentValue("special_bonus_birzha_pocik_7")) / ( self:GetCaster():GetCooldownReduction())
 end
 
 function Pocik_pizda:GetIntrinsicModifierName()
@@ -74,70 +117,62 @@ function modifier_pocik_bash:IsPurgable() return false end
 function modifier_pocik_bash:IsHidden() return true end
 
 function modifier_pocik_bash:DeclareFunctions()
-    local funcs = {
-        MODIFIER_EVENT_ON_ATTACK_LANDED,
+    local funcs = 
+    {
+        MODIFIER_PROPERTY_PROCATTACK_BONUS_DAMAGE_PHYSICAL,
     }
 
     return funcs
 end
 
-function modifier_pocik_bash:OnAttackLanded(params)
-    if params.attacker == self:GetParent() then
-		if params.attacker:GetTeam() == params.target:GetTeam() then
-			return
-		end 
-        if self:GetParent():PassivesDisabled() then return end
-        if not self:GetCaster():HasTalent("special_bonus_birzha_boy_3") then
-            if self:GetParent():IsIllusion() then return end
-        end
-        if params.target:IsOther() then
-            return nil
-        end
-        local chance = self:GetAbility():GetSpecialValueFor("chance")
-        local damage = self:GetAbility():GetSpecialValueFor("bonus_damage")
-        local duration = self:GetAbility():GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_boy_1")
-        if chance >= RandomInt(1, 100) then
-            if self:GetAbility():IsFullyCastable() then
-                self:GetParent():EmitSound("pocikpizdaa")
-                local crit_pfx = ParticleManager:CreateParticle("particles/econ/items/troll_warlord/troll_warlord_ti7_axe/troll_ti7_axe_bash_explosion.vpcf", PATTACH_OVERHEAD_FOLLOW, params.target)
-                ParticleManager:SetParticleControl(crit_pfx, 0, params.target:GetAbsOrigin())
-                ParticleManager:SetParticleControl( crit_pfx, 1, params.target:GetOrigin() )
-                ParticleManager:ReleaseParticleIndex(crit_pfx)
-                if not self:GetCaster():HasTalent("special_bonus_birzha_boy_4") then
-                    self:GetAbility():UseResources(false, false, true)
-                end
+function modifier_pocik_bash:GetModifierProcAttack_BonusDamage_Physical(params)
+    if not IsServer() then return end
+    if self:GetParent():PassivesDisabled() then return end
+    if self:GetParent():IsIllusion() then return end
+    if not self:GetAbility():IsFullyCastable() then return end
+    if params.target:IsWard() then return end
+    if params.no_attack_cooldown then return end
 
-                if self:GetParent():HasModifier("modifier_bp_dangerous_boy") then
-                    local crit_pfx_item = ParticleManager:CreateParticle("particles/units/heroes/hero_monkey_king/monkey_king_jump_stomp.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.target)
-                    ParticleManager:SetParticleControl(crit_pfx_item, 0, params.target:GetAbsOrigin())
-                    ParticleManager:SetParticleControl( crit_pfx_item, 1, self:GetParent():GetOrigin() )
-                    ParticleManager:ReleaseParticleIndex(crit_pfx_item)
-                end
+    local damage = self:GetAbility():GetSpecialValueFor("bonus_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_pocik_1")
+    local duration = self:GetAbility():GetSpecialValueFor("duration")
 
-                params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_bashed", {duration = duration})
-                ApplyDamage({victim = params.target, attacker = self:GetParent(), damage = damage, damage_type = DAMAGE_TYPE_PHYSICAL, ability = self:GetAbility()})
+    self:GetParent():EmitSound("pocikpizdaa")
 
-                if self:GetCaster():HasShard() then
-                    if self:GetParent():IsIllusion() then return end
-                    local ability = self:GetCaster():FindAbilityByName("Pocik_VerySmall")
-                    if ability then
-                        local info = {
-                            EffectName = "particles/ethereal/ethereal_blade.vpcf",
-                            Ability = ability,
-                            iMoveSpeed = 750,
-                            Source = self:GetCaster(),
-                            Target = params.target,
-                            iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_2,
-                            ExtraData = { scepter = true }
-                        }
-                        ProjectileManager:CreateTrackingProjectile( info )
-                        self:GetCaster():EmitSound("Hero_Puck.EtherealJaunt")
-                    end
-                end
+    local crit_pfx = ParticleManager:CreateParticle("particles/econ/items/troll_warlord/troll_warlord_ti7_axe/troll_ti7_axe_bash_explosion.vpcf", PATTACH_OVERHEAD_FOLLOW, params.target)
+    ParticleManager:SetParticleControl(crit_pfx, 0, params.target:GetAbsOrigin())
+    ParticleManager:SetParticleControl( crit_pfx, 1, params.target:GetOrigin() )
+    ParticleManager:ReleaseParticleIndex(crit_pfx)
 
-            end
-        end 
+    self:GetAbility():UseResources(false, false, true)
+
+    if self:GetParent():HasModifier("modifier_bp_dangerous_boy") then
+        local crit_pfx_item = ParticleManager:CreateParticle("particles/units/heroes/hero_monkey_king/monkey_king_jump_stomp.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.target)
+        ParticleManager:SetParticleControl(crit_pfx_item, 0, params.target:GetAbsOrigin())
+        ParticleManager:SetParticleControl( crit_pfx_item, 1, self:GetParent():GetOrigin() )
+        ParticleManager:ReleaseParticleIndex(crit_pfx_item)
     end
+
+    params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_bashed", {duration = duration})
+
+    if self:GetCaster():HasScepter() then
+        local ability = self:GetCaster():FindAbilityByName("Pocik_VerySmall")
+        if ability and ability:GetLevel() > 0 then
+            local info = 
+            {
+                EffectName = "particles/ethereal/ethereal_blade.vpcf",
+                Ability = ability,
+                iMoveSpeed = 750,
+                Source = self:GetCaster(),
+                Target = params.target,
+                iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_2,
+                ExtraData = { scepter = true }
+            }
+            ProjectileManager:CreateTrackingProjectile( info )
+            self:GetCaster():EmitSound("Hero_Puck.EtherealJaunt")
+        end
+    end
+
+    return damage
 end
 
 LinkLuaModifier("modifier_ThisMyPoint_debuff", "abilities/heroes/boy.lua", LUA_MODIFIER_MOTION_NONE)
@@ -199,8 +234,13 @@ function Pocik_ThisMyPoint:OnSpellStart()
         return
     end
 
-    if target:TriggerSpellAbsorb(self) then return end
-    EmitSoundOn("pociktochka", caster)
+    if target:GetTeamNumber() ~= self:GetCaster():GetTeamNumber() then
+        if target:TriggerSpellAbsorb(self) then return end
+    else
+        duration = duration * 2
+    end
+    
+    caster:EmitSound("pociktochka")
     caster:AddNewModifier(caster, self, "modifier_ThisMyPoint_buff", {duration = duration})
     target:AddNewModifier(caster, self, "modifier_ThisMyPoint_debuff", {duration = duration})
     self:EndCooldown()
@@ -230,16 +270,19 @@ function modifier_ThisMyPoint_debuff:OnCreated( params )
         self.position_id = #ability.positions
     end
 
-    EmitSoundOn("Ability.XMarksTheSpot.Target", caster)
-    EmitSoundOn("Ability.XMark.Target_Movement", parent)
+    caster:EmitSound("Ability.XMarksTheSpot.Target")
+    parent:EmitSound("Ability.XMark.Target_Movement")
+
     self:StartIntervalThink(0.25)
     self.x_pfx = ParticleManager:CreateParticle("particles/units/heroes/hero_kunkka/kunkka_spell_x_spot.vpcf", PATTACH_CUSTOMORIGIN, caster)
     ParticleManager:SetParticleControlEnt(self.x_pfx, 0, parent, PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", parent:GetAbsOrigin(), true)
     ParticleManager:SetParticleControlEnt(self.x_pfx, 1, parent, PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", parent:GetAbsOrigin(), true)
+    self:AddParticle(self.x_pfx, false, false, -1, false, false)
 end
 
 function modifier_ThisMyPoint_debuff:OnIntervalThink()
     if not IsServer() then return end
+    if self:GetParent():GetTeamNumber() == self:GetCaster():GetTeamNumber() then return end
     local movement_damage_pct = self:GetAbility():GetSpecialValueFor("damage") / 100 
     local damage = 0
     
@@ -266,11 +309,8 @@ function modifier_ThisMyPoint_debuff:OnDestroy( params )
     local position = self.position
     self:GetParent().position = nil
     parent:StopSound("Ability.XMark.Target_Movement")
-    EmitSoundOn("Ability.XMarksTheSpot.Return", parent)
-    if self.x_pfx then
-        ParticleManager:DestroyParticle(self.x_pfx, false)
-        ParticleManager:ReleaseParticleIndex(self.x_pfx)
-    end
+    parent:EmitSound("Ability.XMarksTheSpot.Return")
+
     self:GetAbility():UseResources(false, false, true)
     if not ( parent:IsInvulnerable() ) then
         local stopOrder =
@@ -282,10 +322,13 @@ function modifier_ThisMyPoint_debuff:OnDestroy( params )
 
         FindClearSpaceForUnit(parent, self.position, true)
         ability.positions[self.position_id] = nil
-        if self:GetCaster():HasTalent("special_bonus_birzha_boy_2") then
-            if not parent:IsMagicImmune() then
-                parent:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_boy_2")})
-            end
+    end
+
+    if self:GetParent():GetTeamNumber() == self:GetCaster():GetTeamNumber() then return end
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_pocik_2") then
+        if not parent:IsMagicImmune() then
+            parent:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_pocik_2") * (1 - parent:GetStatusResistance()) })
         end
     end
 end
@@ -306,6 +349,7 @@ end
 
 LinkLuaModifier( "modifier_Pocik_penek_passive", "abilities/heroes/boy.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_Pocik_penek_passive_aura", "abilities/heroes/boy.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_Pocik_penek_passive_shard", "abilities/heroes/boy.lua", LUA_MODIFIER_MOTION_NONE )
 
 Pocik_penek = class({})
 
@@ -334,8 +378,8 @@ function Pocik_penek:OnSpellStart()
     GridNav:DestroyTreesAroundPoint(point, radius, false)
     self.penek = CreateUnitByName("npc_penek_"..self:GetLevel(), point, true, caster, nil, caster:GetTeamNumber())
     self.penek:SetOwner(caster)
+    self.penek.shard_list = {}
     FindClearSpaceForUnit(self.penek, self.penek:GetAbsOrigin(), true)
-    self.penek:AddNewModifier(self:GetCaster(), self, "modifier_kill", {duration = duration})
     self.penek:AddNewModifier(self:GetCaster(), self, "modifier_Pocik_penek_passive", {duration = duration})
 end
 
@@ -364,19 +408,30 @@ function modifier_Pocik_penek_passive:OnIntervalThink()
     local radius = self:GetAbility():GetSpecialValueFor( "radius" ) 
     local units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false)
     self:SpawnEffect()
+
     for i,unit in ipairs(units) do
         local radius = self:GetAbility():GetSpecialValueFor( "radius" )
-        local heal_pct = self:GetAbility():GetSpecialValueFor( "pct_heal" )
+        local heal_pct = self:GetAbility():GetSpecialValueFor( "pct_heal" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_pocik_6")
         local heal = unit:GetMaxHealth() / 100 * heal_pct
-        local damage_pct = self:GetAbility():GetSpecialValueFor( "pct_damage" )
+        local damage_pct = self:GetCaster():FindTalentValue("special_bonus_birzha_pocik_5")
         local target_health_percentage = unit:GetMaxHealth() / 100
         local damage_percentage = target_health_percentage * damage_pct
         local base_damage = self:GetAbility():GetSpecialValueFor( "base_damage" )
         local total_damage = damage_percentage + base_damage
         local caster_team = self:GetCaster():GetTeamNumber()
-        if unit:IsAncient() then return end
+
+        local end_damage = base_damage
+
+        if self:GetCaster():HasTalent("special_bonus_birzha_pocik_5") then
+            end_damage = total_damage
+        end
+
+        print(end_damage)
+
         if unit:GetTeamNumber() ~= caster_team then
-            ApplyDamage({ victim = unit, attacker = self:GetCaster(), damage = total_damage, ability = self:GetAbility(), damage_type = self:GetAbility():GetAbilityDamageType() })
+            if not unit:IsBoss() then
+                ApplyDamage({ victim = unit, attacker = self:GetCaster(), damage = end_damage, ability = self:GetAbility(), damage_type = self:GetAbility():GetAbilityDamageType() })
+            end
         else
             unit:Heal(heal, self:GetAbility())
         end
@@ -393,28 +448,32 @@ function modifier_Pocik_penek_passive:SpawnEffect()
     ParticleManager:SetParticleControl(particle_blast_fx, 0, self:GetParent():GetAbsOrigin())
     ParticleManager:SetParticleControl(particle_blast_fx, 1, Vector(self:GetAbility():GetSpecialValueFor("radius"), 0, 0))
     ParticleManager:ReleaseParticleIndex(particle_blast_fx)
-    EmitSoundOn("Hero_Pugna.NetherBlast", self:GetParent())
+    self:GetParent():EmitSound("Hero_Pugna.NetherBlast")
 end
 
 function modifier_Pocik_penek_passive:CheckState()
-    local state = { [MODIFIER_STATE_STUNNED] = true,
-    [MODIFIER_STATE_MAGIC_IMMUNE] = true,
-[MODIFIER_STATE_ATTACK_IMMUNE] = true,
-[MODIFIER_STATE_SILENCED] = true,
-[MODIFIER_STATE_MUTED] = true,
-[MODIFIER_STATE_ROOTED] = true,
-[MODIFIER_STATE_DISARMED] = true,
-[MODIFIER_STATE_UNSELECTABLE] = true,
-[MODIFIER_STATE_COMMAND_RESTRICTED] = true,
-[MODIFIER_STATE_NO_HEALTH_BAR] = true,
-[MODIFIER_STATE_INVULNERABLE] = true,}
+    local state = 
+    { 
+        [MODIFIER_STATE_STUNNED] = true,
+        [MODIFIER_STATE_MAGIC_IMMUNE] = true,
+        [MODIFIER_STATE_ATTACK_IMMUNE] = true,
+        [MODIFIER_STATE_SILENCED] = true,
+        [MODIFIER_STATE_MUTED] = true,
+        [MODIFIER_STATE_ROOTED] = true,
+        [MODIFIER_STATE_DISARMED] = true,
+        [MODIFIER_STATE_UNSELECTABLE] = true,
+        [MODIFIER_STATE_COMMAND_RESTRICTED] = true,
+        [MODIFIER_STATE_NO_HEALTH_BAR] = true,
+        [MODIFIER_STATE_INVULNERABLE] = true
+    }
     return state
 end
 
 function modifier_Pocik_penek_passive:IsAura() return true end
 
 function modifier_Pocik_penek_passive:GetAuraSearchTeam()
-    return DOTA_UNIT_TARGET_TEAM_ENEMY end
+    return DOTA_UNIT_TARGET_TEAM_ENEMY 
+end
 
 function modifier_Pocik_penek_passive:GetAuraSearchType()
     return DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO
@@ -424,8 +483,15 @@ function modifier_Pocik_penek_passive:GetModifierAura()
     return "modifier_Pocik_penek_passive_aura"
 end
 
+function modifier_Pocik_penek_passive:GetAuraDuration() return 0 end
+
 function modifier_Pocik_penek_passive:GetAuraRadius()
     return self:GetAbility():GetSpecialValueFor("radius")
+end
+
+function modifier_Pocik_penek_passive:OnDestroy()
+    if not IsServer() then return end
+    UTIL_Remove(self:GetParent())
 end
 
 modifier_Pocik_penek_passive_aura = class({})
@@ -440,7 +506,53 @@ end
 
 function modifier_Pocik_penek_passive_aura:OnCreated()
     if not IsServer() then return end
-    self:StartIntervalThink(0.1)
+    self:StartIntervalThink(FrameTime())
+    local modifier_kill = self:GetAuraOwner():FindModifierByName("modifier_Pocik_penek_passive")
+    if modifier_kill then
+        if self:GetCaster():HasShard() then
+            if self:GetAuraOwner().shard_list ~= nil and self:GetAuraOwner().shard_list[self:GetParent():entindex()] == nil then
+                self:GetAuraOwner().shard_list[self:GetParent():entindex()] = true
+                local modifier = self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_Pocik_penek_passive_shard", {duration = modifier_kill:GetRemainingTime(), unit = self:GetAuraOwner():entindex()})
+            end
+        end
+    end
+end
+
+modifier_Pocik_penek_passive_shard = class({})
+
+function modifier_Pocik_penek_passive_shard:IsHidden() return true end
+function modifier_Pocik_penek_passive_shard:IsPurgable() return false end
+
+function modifier_Pocik_penek_passive_shard:OnCreated(params)
+    if not IsServer() then return end
+    self.center = EntIndexToHScript(params.unit):GetAbsOrigin()
+    self.current_pos = self:GetParent():GetAbsOrigin()
+    self:PlayEffects()
+    self:StartIntervalThink(FrameTime())
+end
+
+function modifier_Pocik_penek_passive_shard:OnIntervalThink()
+    if not IsServer() then return end
+
+    if self:GetParent():IsMagicImmune() then
+        self:Destroy()
+        return
+    end
+
+    if (self.current_pos-self.center):Length2D() > self:GetAbility():GetSpecialValueFor("radius") then
+        self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", { duration = self:GetAbility():GetSpecialValueFor("shard_stun_duration") * ( 1 - self:GetParent():GetStatusResistance()) } )
+        self:Destroy()
+        return
+    end
+
+    self.current_pos = self:GetParent():GetAbsOrigin()
+end
+
+function modifier_Pocik_penek_passive_shard:PlayEffects()
+    local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_puck/puck_dreamcoil_tether.vpcf", PATTACH_ABSORIGIN, self:GetParent() )
+    ParticleManager:SetParticleControl( effect_cast, 0, self.center )
+    ParticleManager:SetParticleControlEnt( effect_cast, 1, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetOrigin(), true )
+    self:AddParticle( effect_cast, false, false, -1, false, false )
 end
 
 function modifier_Pocik_penek_passive_aura:OnDestroy()
@@ -449,18 +561,16 @@ function modifier_Pocik_penek_passive_aura:OnDestroy()
 end
 
 function modifier_Pocik_penek_passive_aura:OnIntervalThink()
-    if self:GetParent():IsAncient() then return end
+    if self:GetParent():IsBoss() then return end
+
     local unit_location = self:GetParent():GetAbsOrigin()
     local vector_distance = self:GetAuraOwner():GetAbsOrigin() - unit_location
     local distance = (vector_distance):Length2D()
     local direction = (vector_distance):Normalized()
 
-    local pull = 6
-    if self:GetCaster():HasScepter() then
-        pull = 18
-    end
+    local pull = 8
 
-    if distance >= 50 then
+    if distance >= 150 then
         self:GetParent():SetAbsOrigin(unit_location + direction * pull)
     else
         self:GetParent():SetAbsOrigin(unit_location)
@@ -468,6 +578,130 @@ function modifier_Pocik_penek_passive_aura:OnIntervalThink()
 end
 
 function modifier_Pocik_penek_passive_aura:CheckState()
-    local state = { [MODIFIER_STATE_NO_UNIT_COLLISION] = true,}
+    local state = 
+    { 
+        [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+    }
     return state
+end
+
+LinkLuaModifier( "modifier_Pocik_uebu", "abilities/heroes/boy.lua", LUA_MODIFIER_MOTION_NONE )
+
+Pocik_uebu = class({})
+
+function Pocik_uebu:GetCooldown(level)
+    return self.BaseClass.GetCooldown( self, level )
+end
+
+function Pocik_uebu:GetManaCost(level)
+    return self.BaseClass.GetManaCost(self, level)
+end
+
+function Pocik_uebu:OnInventoryContentsChanged()
+    if self:GetCaster():HasTalent("special_bonus_birzha_pocik_8") then
+        self:SetHidden(false)       
+        if not self:IsTrained() then
+            self:SetLevel(1)
+        end
+    else
+        self:SetHidden(true)
+    end
+end
+
+function Pocik_uebu:OnHeroCalculateStatBonus()
+    self:OnInventoryContentsChanged()
+end
+
+function Pocik_uebu:OnAbilityPhaseStart()
+    local caster = self:GetCaster()
+    caster:EmitSound("Hero_MonkeyKing.Strike.Cast")
+    self.pre_particleID = ParticleManager:CreateParticle("particles/units/heroes/hero_monkey_king/monkey_king_strike_cast.vpcf", PATTACH_POINT_FOLLOW, caster)
+    ParticleManager:SetParticleControl(self.pre_particleID, 0, caster:GetAbsOrigin())
+    ParticleManager:SetParticleControlEnt(self.pre_particleID, 1, caster, PATTACH_POINT_FOLLOW, "attach_weapon_bot", caster:GetAbsOrigin(), true)
+    ParticleManager:SetParticleControlEnt(self.pre_particleID, 2, caster, PATTACH_POINT_FOLLOW, "attach_weapon_top", caster:GetAbsOrigin(), true)
+    ParticleManager:ReleaseParticleIndex(self.pre_particleID)
+    return true
+end
+
+function Pocik_uebu:OnAbilityPhaseInterrupted()
+    local caster = self:GetCaster()
+    if self.pre_particleID ~= nil then
+        ParticleManager:DestroyParticle(self.pre_particleID, true)
+        self.pre_particleID = nil
+    end
+    return true
+end
+
+function Pocik_uebu:OnSpellStart()
+    if not IsServer() then return end
+
+    self:GetCaster():EmitSound("pocik_uebu")
+
+    local point = self:GetCursorPosition()
+
+    if point == self:GetCaster():GetAbsOrigin() then 
+        point = point + self:GetCaster():GetForwardVector()*6
+    end
+
+    if self.pre_particleID ~= nil then
+        ParticleManager:DestroyParticle(self.pre_particleID, false)
+        self.pre_particleID = nil
+    end
+
+    self:Strike(self:GetCaster():GetAbsOrigin(), point, self:GetCaster())
+end
+
+function Pocik_uebu:Strike(start_point, end_point, caster)
+    if not IsServer() then return end
+    local duration = self:GetSpecialValueFor("duration")
+    local strike_radius = self:GetSpecialValueFor("strike_radius")
+    local strike_cast_range = self:GetSpecialValueFor("strike_cast_range")
+    local stun = self:GetSpecialValueFor('stun')
+    local vStartPosition = start_point
+    local vTargetPosition = end_point
+    local vDirection = vTargetPosition - vStartPosition
+    vDirection.z = 0
+    vStartPosition = GetGroundPosition(vStartPosition+vDirection:Normalized()*(strike_radius/2), caster)
+    vTargetPosition = GetGroundPosition(vStartPosition+vDirection:Normalized()*(strike_cast_range-strike_radius/2), caster)
+    EmitSoundOnLocationWithCaster(vStartPosition, "Hero_MonkeyKing.Strike.Impact", caster)
+    EmitSoundOnLocationWithCaster(vTargetPosition, "Hero_MonkeyKing.Strike.Impact.EndPos", caster)
+    local particleID = ParticleManager:CreateParticle("particles/units/heroes/hero_monkey_king/monkey_king_strike.vpcf", PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(particleID, 0, vStartPosition)
+    ParticleManager:SetParticleControlForward(particleID, 0, vDirection:Normalized())
+    ParticleManager:SetParticleControl(particleID, 1, vTargetPosition)
+    ParticleManager:ReleaseParticleIndex(particleID)
+
+    local crit_mod = caster:AddNewModifier(caster, self, "modifier_Pocik_uebu", {})
+
+    local enemies = FindUnitsInLine(self:GetCaster():GetTeamNumber(), vStartPosition , vTargetPosition, nil, strike_radius,  DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NONE)
+
+    for _,enemy in pairs(enemies) do
+        local particleID = ParticleManager:CreateParticle("particles/units/heroes/hero_monkey_king/monkey_king_strike_slow_impact.vpcf", PATTACH_CUSTOMORIGIN, nil)
+        ParticleManager:SetParticleControlEnt(particleID, 0, enemy, PATTACH_POINT_FOLLOW, "attach_hitloc", enemy:GetAbsOrigin(), true)
+        ParticleManager:ReleaseParticleIndex(particleID)
+
+        enemy:AddNewModifier(caster, self, "modifier_birzha_stunned", {duration = stun * (1 - enemy:GetStatusResistance())})
+        caster:PerformAttack(enemy, true, true, true, true, true, false, true)
+    end
+
+    if crit_mod then 
+        crit_mod:Destroy()
+    end
+end
+
+modifier_Pocik_uebu = class({})
+
+function modifier_Pocik_uebu:DeclareFunctions() 
+    return 
+    {
+        MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE,
+    } 
+end
+
+function modifier_Pocik_uebu:GetModifierPreAttack_CriticalStrike()
+    return self:GetAbility():GetSpecialValueFor("strike_crit_mult")
+end
+
+function modifier_Pocik_uebu:IsHidden()
+    return true
 end

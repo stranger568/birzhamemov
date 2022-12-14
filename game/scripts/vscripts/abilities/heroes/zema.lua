@@ -4,7 +4,7 @@ LinkLuaModifier("modifier_Zema_MagicDamage_debuff", "abilities/heroes/zema", LUA
 Zema_CosmoTeleport = class({})
 
 function Zema_CosmoTeleport:GetCooldown(level)
-	return self.BaseClass.GetCooldown( self, level ) / ( self:GetCaster():GetCooldownReduction())
+	return (self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_zema_8")) / ( self:GetCaster():GetCooldownReduction())
 end
 
 function Zema_CosmoTeleport:GetCastRange(location, target)
@@ -36,39 +36,11 @@ function Zema_CosmoTeleport:OnSpellStart()
     if self:GetCaster():HasShard() then
     	local ability_magic = self:GetCaster():FindAbilityByName("Zema_MagicDamage")
     	if ability_magic and ability_magic:GetLevel() > 0 then
-    		local radius = 100
-		    local duration = ability_magic:GetSpecialValueFor("duration")
-		    local damage = ability_magic:GetSpecialValueFor("damage")
-		    local units = FindUnitsInRadius( self:GetCaster():GetTeam(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, 0, FIND_ANY_ORDER, false )
-		    self:GetCaster():EmitSound("DOTA_Item.EtherealBlade.Activate")
-		    local pfx = ParticleManager:CreateParticle( "particles/units/heroes/hero_dark_willow/dark_willow_wisp_spell.vpcf", PATTACH_WORLDORIGIN, self:GetCaster() )
-		    ParticleManager:SetParticleControl( pfx, 0, self:GetCaster():GetAbsOrigin() )
-			ParticleManager:SetParticleControl( pfx, 1, Vector( radius, 0, 0 ) )
-			for _,target in pairs (units) do
-				local damageTable = {
-					victim = target,
-					attacker = self:GetCaster(),
-					damage = damage,
-					damage_type = DAMAGE_TYPE_MAGICAL,
-					ability = ability_magic,
-				}
-				ApplyDamage(damageTable)
-				target:AddNewModifier(self:GetCaster(), ability_magic, "modifier_Zema_MagicDamage_debuff", {duration = duration})
-			end
+    		local radius = self:GetSpecialValueFor("shard_radius")
+    		ability_magic:StartAbility(self:GetCaster():GetAbsOrigin(), radius)
     	end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
 
 function Zema_CosmoTeleport:PlayEffects( origin, direction )
     local particle_one = ParticleManager:CreateParticle( "particles/zema/zema_cosmoteleport.vpcf", PATTACH_ABSORIGIN, self:GetCaster() )
@@ -114,11 +86,7 @@ function Zema_Cosmo_Ray:OnUpgrade()
 end
 
 function Zema_Cosmo_Ray:OnSpellStart()
-
-	if self:GetCursorPosition() == self:GetCaster():GetAbsOrigin() then
-		self:GetCaster():SetCursorPosition(self:GetCursorPosition() + self:GetCaster():GetForwardVector())
-	end	
-
+	if not IsServer() then return end
 	local caster	= self:GetCaster()
 	local ability	= self
 	local pathLength					= 1300
@@ -126,28 +94,25 @@ function Zema_Cosmo_Ray:OnSpellStart()
 	local forwardMoveSpeed				= 250
 	local turnRateInitial				= 250
 	local turnRate						= 20
+	if self:GetCaster():HasTalent("special_bonus_birzha_zema_4") then
+		turnRate = 180
+	end
 	local initialTurnDuration			= 0.75
 	local vision_radius					= 192 / 2
 	local numVision						= math.ceil( pathLength / vision_radius )
-
 	local casterOrigin	= caster:GetAbsOrigin()
 	caster:AddNewModifier(caster, ability, "modifier_Zema_Cosmo_Ray_caster_dummy", { duration = max_duration })
 	caster.sun_ray_hp_at_start = caster:GetHealth()
-
 	local pfx = ParticleManager:CreateParticle( "particles/zema/phoenix_sunray.vpcf", PATTACH_WORLDORIGIN, nil )
 	local attach_point = caster:ScriptLookupAttachment( "attach_head" )
 	StartSoundEvent( "Hero_Phoenix.SunRay.Beam", endcap )
 	StartSoundEvent("Hero_Phoenix.SunRay.Cast", caster)
-
-
 	turnRateInitial	= turnRateInitial	/ (1/30) * 0.03
 	turnRate		= turnRate			/ (1/30) * 0.03
 	local deltaTime = 0.03
 	local lastAngles = caster:GetAngles()
 	local isInitialTurn = true
 	local elapsedTime = 0.0
-
-
 
 	caster:SetContextThink( DoUniqueString( "updateSunRay" ), function ( )
 			ParticleManager:SetParticleControl(pfx, 0, caster:GetAttachmentOrigin(attach_point))
@@ -200,23 +165,13 @@ function Zema_Cosmo_Ray:OnSpellStart()
 			endcapPos.z = endcapPos.z + 92
 			ParticleManager:SetParticleControl( pfx, 1, endcapPos )
 
-			local units = FindUnitsInLine(caster:GetTeamNumber(),
-				caster:GetAbsOrigin() + caster:GetForwardVector() * 32 ,
-				endcapPos,
-				nil,
-				100,
-				DOTA_UNIT_TARGET_TEAM_BOTH,
-				DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-				DOTA_UNIT_TARGET_FLAG_NONE)
-
+			local units = FindUnitsInLine(caster:GetTeamNumber(), caster:GetAbsOrigin() + caster:GetForwardVector() * 32 , endcapPos, nil, 100, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE)
 			for _,unit in pairs(units) do
 				unit:AddNewModifier(caster, ability, "modifier_Zema_Cosmo_Ray_dummy_buff", { duration = ability:GetSpecialValueFor("tick_interval") } )
 			end
-
 			for i=1, numVision do
 				AddFOWViewer(caster:GetTeamNumber(), ( casterOrigin + casterForward * ( vision_radius * 2 * (i-1) ) ), vision_radius, deltaTime, false)
 			end
-
 			return deltaTime
 
 	end, 0.0 )
@@ -230,10 +185,13 @@ function modifier_Zema_Cosmo_Ray_caster_dummy:IsPurgable() 		return false end
 function modifier_Zema_Cosmo_Ray_caster_dummy:RemoveOnDeath() 	return true  end
 
 function modifier_Zema_Cosmo_Ray_caster_dummy:CheckState()
-	return{ [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+	return
+	{ 	
+		[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
 		[MODIFIER_STATE_DISARMED] = true,
-	[MODIFIER_STATE_ROOTED] = true,
-[MODIFIER_STATE_ATTACK_IMMUNE] = true,}
+		[MODIFIER_STATE_ROOTED] = true,
+		[MODIFIER_STATE_ATTACK_IMMUNE] = true
+	}
 end
 
 function modifier_Zema_Cosmo_Ray_caster_dummy:GetEffectName()
@@ -245,7 +203,6 @@ function modifier_Zema_Cosmo_Ray_caster_dummy:OnCreated()
 	local caster = self:GetCaster()
 	local ability = self:GetAbility()
 	StartSoundEvent("Hero_Phoenix.SunRay.Loop", caster)
-
 	self.pfx_sunray_flare = ParticleManager:CreateParticle( "particles/units/heroes/hero_phoenix/phoenix_sunray_flare.vpcf", PATTACH_ABSORIGIN_FOLLOW, caster )
 	ParticleManager:SetParticleControlEnt( self.pfx_sunray_flare, 9, caster, PATTACH_POINT_FOLLOW, "attach_mouth", caster:GetAbsOrigin(), true )
 	local main_ability_name	= "Zema_Cosmo_Ray"
@@ -308,11 +265,9 @@ function modifier_Zema_Cosmo_Ray_dummy_buff:RemoveOnDeath() 			return true end
 
 function modifier_Zema_Cosmo_Ray_dummy_buff:OnCreated()
 	self.tick_interval	= self:GetAbility():GetSpecialValueFor("tick_interval")
-
 	if not IsServer() then
 		return
 	end
-	
 	self:StartIntervalThink( self.tick_interval )
 end
 
@@ -320,7 +275,6 @@ function modifier_Zema_Cosmo_Ray_dummy_buff:OnIntervalThink()
 	if not IsServer() then
 		return
 	end
-
 	local ability = self:GetAbility()
 	local caster = self:GetCaster()
 	local target = self:GetParent()
@@ -341,13 +295,8 @@ function modifier_Zema_Cosmo_Ray_debuff:GetEffectName() return "particles/zema/p
 function modifier_Zema_Cosmo_Ray_debuff:OnCreated()
 	self.tick_interval	= self:GetAbility():GetSpecialValueFor("tick_interval")
 	self.duration		= self:GetAbility():GetSpecialValueFor("duration")
-	self.base_damage	= self:GetAbility():GetSpecialValueFor("base_dmg") + self:GetCaster():FindTalentValue("special_bonus_birzha_zema_2")
-	self.hp_perc_damage	= self:GetAbility():GetSpecialValueFor("hp_perc_dmg")
-
-	if not IsServer() then
-		return
-	end
-
+	self.base_damage	= self:GetAbility():GetSpecialValueFor("base_dmg")
+	if not IsServer() then return end
 	if self:GetStackCount() < 1 then
 		self:SetStackCount(1)
 	end
@@ -356,9 +305,7 @@ function modifier_Zema_Cosmo_Ray_debuff:OnCreated()
 end
 
 function modifier_Zema_Cosmo_Ray_debuff:OnRefresh()
-	if not IsServer() then
-		return
-	end
+	if not IsServer() then return end
 	self:IncrementStackCount()
 end
 
@@ -366,35 +313,21 @@ function modifier_Zema_Cosmo_Ray_debuff:OnIntervalThink()
 	if not IsServer() then
 		return
 	end
-
 	local ability = self:GetAbility()
 	local caster = self:GetCaster()
-
 	if not caster:HasModifier("modifier_Zema_Cosmo_Ray_dummy_unit_thinker") then
 		return
 	end
-
 	local num_stack = caster:FindModifierByName("modifier_Zema_Cosmo_Ray_dummy_unit_thinker"):GetStackCount()
 	local taker = self:GetParent()
 	local tick_sum = self.duration / self.tick_interval
-
 	local base_dmg = self.base_damage * self.tick_interval
 
-	if taker:GetTeamNumber() == self:GetCaster():GetTeamNumber() then
-		if taker == self:GetCaster() then return end
-		taker:Heal( base_dmg, self:GetAbility() )
-		return
+	if self:GetCaster():HasTalent("special_bonus_birzha_zema_5") then
+		base_dmg = base_dmg + ((self:GetCaster():FindTalentValue("special_bonus_birzha_zema_5") / 100 * self:GetParent():GetMaxHealth()) * self.tick_interval)
 	end
 
-	local damageTable = {
-		victim = taker,
-		attacker = self:GetCaster(),
-		damage = base_dmg,
-		damage_type = DAMAGE_TYPE_MAGICAL,
-		ability = self:GetAbility(),
-	}
-	if taker:IsBoss() then return end
-	ApplyDamage(damageTable)
+	ApplyDamage({ victim = taker, attacker = self:GetCaster(), damage = base_dmg, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility() })
 
 	local pfx = ParticleManager:CreateParticle( "particles/zema/phoenix_sunray_debuff.vpcf", PATTACH_ABSORIGIN, taker )
 	ParticleManager:SetParticleControlEnt( pfx, 1, taker, PATTACH_POINT_FOLLOW, "attach_hitloc", taker:GetAbsOrigin(), true )
@@ -434,46 +367,45 @@ function Zema_MagicDamage:OnSpellStart()
     if not IsServer() then return end
     local point = self:GetCursorPosition()
     local radius = self:GetSpecialValueFor("radius")
+    self:StartAbility(point, radius)
+end
+
+function Zema_MagicDamage:StartAbility(point, radius)
     local duration = self:GetSpecialValueFor("duration")
-    local damage = self:GetSpecialValueFor("damage")
+    local damage = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_zema_2")
     local units = FindUnitsInRadius( self:GetCaster():GetTeam(), point, nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, 0, FIND_ANY_ORDER, false )
     self:GetCaster():EmitSound("DOTA_Item.EtherealBlade.Activate")
+
     local pfx = ParticleManager:CreateParticle( "particles/units/heroes/hero_dark_willow/dark_willow_wisp_spell.vpcf", PATTACH_WORLDORIGIN, self:GetCaster() )
     ParticleManager:SetParticleControl( pfx, 0, point )
 	ParticleManager:SetParticleControl( pfx, 1, Vector( radius, 0, 0 ) )
+
 	for _,target in pairs (units) do
-		local damageTable = {
-			victim = target,
-			attacker = self:GetCaster(),
-			damage = damage,
-			damage_type = DAMAGE_TYPE_MAGICAL,
-			ability = self,
-		}
-		ApplyDamage(damageTable)
-		target:AddNewModifier(self:GetCaster(), self, "modifier_Zema_MagicDamage_debuff", {duration = duration})
+		target:AddNewModifier(self:GetCaster(), self, "modifier_Zema_MagicDamage_debuff", {duration = duration * (1-target:GetStatusResistance())})
+		ApplyDamage({ victim = target, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self })
 	end
 end
 
 modifier_Zema_MagicDamage_debuff = class({})
 
-function modifier_Zema_MagicDamage_debuff:IsPurgable() 				return true end
-
 function modifier_Zema_MagicDamage_debuff:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,
     }
-
     return funcs
 end
 
 function modifier_Zema_MagicDamage_debuff:CheckState()
-	return{ [MODIFIER_STATE_ATTACK_IMMUNE] = true,
+	return
+	{ 
+		[MODIFIER_STATE_ATTACK_IMMUNE] = true,
 		[MODIFIER_STATE_DISARMED] = true,
 	}
 end
 
 function modifier_Zema_MagicDamage_debuff:GetModifierMagicalResistanceBonus()
-	return self:GetAbility():GetSpecialValueFor("resist_debuff")
+	return self:GetAbility():GetSpecialValueFor("resist_debuff") + self:GetCaster():FindTalentValue("special_bonus_birzha_zema_3")
 end
 
 function modifier_Zema_MagicDamage_debuff:GetStatusEffectName()
@@ -533,10 +465,9 @@ function Zema_cosmic_blindness:OnSpellStart()
 	local point = self:GetCursorPosition()
 	local duration = self:GetSpecialValueFor("duration")
 	if self:GetCaster():HasScepter() then
-		duration = duration / 2
+		duration = self:GetSpecialValueFor("scepter_duration")
 	end
 	self.thinker = CreateModifierThinker( caster, self, "modifier_zema_cosmic_blindness_hole", { duration = duration }, point, caster:GetTeamNumber(), false )
-	--self.thinker = self.thinker:FindModifierByName("modifier_zema_cosmic_blindness_hole")
 end
 
 function Zema_cosmic_blindness:OnChannelFinish( bInterrupted )
@@ -562,14 +493,8 @@ function modifier_zema_cosmic_blindness_hole:OnCreated( kv )
 	self.interval = 1
 	self.ticks = math.floor(self:GetDuration()/self.interval+0.5)
 	self.tick = 0
-
-	local damage = self:GetAbility():GetSpecialValueFor( "damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_zema_3")
-	self.damageTable = {
-		attacker = self:GetCaster(),
-		damage = damage,
-		damage_type = DAMAGE_TYPE_PURE,
-		ability = self:GetAbility(),
-	}
+	local damage = self:GetAbility():GetSpecialValueFor( "damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_zema_6")
+	self.damageTable = { attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility() }
 	self:StartIntervalThink( self.interval )
 	local pfx = ParticleManager:CreateParticle( "particles/bluehole/enigma_blackhole_ti5.vpcf", PATTACH_WORLDORIGIN, self:GetCaster() )
 	ParticleManager:SetParticleControl( pfx, 0, self:GetParent():GetOrigin() )
@@ -579,39 +504,18 @@ end
 
 function modifier_zema_cosmic_blindness_hole:OnRemoved()
 	if not IsServer() then return end
-	--StopSoundOn( "zema", self:GetParent() )
 	if self:GetRemainingTime()<0.01 and self.tick<self.ticks then
 		self:OnIntervalThink()
 	end
-	--UTIL_Remove( self:GetParent() )
+	self:GetParent():StopSound("zema")
 end
 
 function modifier_zema_cosmic_blindness_hole:OnIntervalThink()
 	if not IsServer() then return end
-	local enemies = FindUnitsInRadius(
-		self:GetCaster():GetTeamNumber(),
-		self:GetParent():GetOrigin(),
-		nil,
-		self.radius,
-		DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-		0,
-		0,
-		false
-	)
+	local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetParent():GetOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
 
-	if self:GetCaster():HasTalent("special_bonus_birzha_zema_4") then
-		enemies = FindUnitsInRadius(
-			self:GetCaster():GetTeamNumber(),
-			self:GetParent():GetOrigin(),
-			nil,
-			self.radius,
-			DOTA_UNIT_TARGET_TEAM_ENEMY,
-			DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-			DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-			0,
-			false
-		)
+	if self:GetCaster():HasTalent("special_bonus_birzha_zema_7") then
+		enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetParent():GetOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false )
 	end
 
 	for _,enemy in pairs(enemies) do
@@ -647,7 +551,7 @@ function modifier_zema_cosmic_blindness_hole:GetAuraSearchType()
 end
 
 function modifier_zema_cosmic_blindness_hole:GetAuraSearchFlags()
-	if not self:GetCaster():HasTalent("special_bonus_birzha_zema_4") then
+	if not self:GetCaster():HasTalent("special_bonus_birzha_zema_7") then
 		return 0
 	end
 	return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
@@ -666,7 +570,7 @@ end
 function modifier_zema_cosmic_blindness_debuff:OnCreated( kv )
 	self.rate = 0.2
 	self.pull_speed =  40
-	self.rotate_speed = 0.25
+	self.rotate_speed = 0.5
 
 	if IsServer() then
 		self.center = Vector( kv.aura_origin_x, kv.aura_origin_y, 0 )
@@ -681,6 +585,7 @@ end
 function modifier_zema_cosmic_blindness_debuff:OnDestroy()
 	if IsServer() then
 		self:GetParent():InterruptMotionControllers( true )
+		FindClearSpaceForUnit(self:GetParent(), self:GetParent():GetAbsOrigin(), true)
 	end
 end
 
@@ -702,10 +607,11 @@ function modifier_zema_cosmic_blindness_debuff:GetOverrideAnimationRate()
 end
 
 function modifier_zema_cosmic_blindness_debuff:CheckState()
-	local state = {
+	local state = 
+	{
 		[MODIFIER_STATE_STUNNED] = true,
+		[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
 	}
-
 	return state
 end
 

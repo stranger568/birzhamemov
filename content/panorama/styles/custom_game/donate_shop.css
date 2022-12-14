@@ -2,7 +2,7 @@
 {
     margin-left: 290px;
     flow-children: down;
-    visibility: collapse;
+    visibility: visible;
 }
 
 #ShopButton:hover .ShopButtonIcon
@@ -20,7 +20,7 @@
     opacity: 1;
     horizontal-align: center;
     img-shadow: 0px 1px 4px 2 black;
-}
+} 
 .ShopButtonLabel {
     color: white;
     horizontal-align: center;
@@ -276,6 +276,13 @@
     flow-children: right;
 }
 
+.DonateShopTopBPCurrency 
+{
+    margin-right: 60px;
+    horizontal-align: right;
+    flow-children: right;
+}
+
 .DonateShopCurrencyMain {
     width: 210px;
     height: 50px;
@@ -432,7 +439,7 @@
 #BorderDonateItems,
 #HeroesDonateItems,
 #ToysDonateItems,
-#CurrencysDonateItems, {
+#CurrencysDonateItems {
     visibility: collapse;
 }
 
@@ -1904,7 +1911,7 @@ letter-spacing: 1px;
 font-weight: thin;
 margin-bottom: 6px;
 vertical-align: top;
-
+ 
 }
 .CheckBox .TickBox{
 width: 18px;
@@ -1937,7 +1944,7 @@ background-repeat: no-repeat;
 
 }
 #DefaultItemQuickcastCheckBox:selected .TickBox,
-#DefaultAbilityQuickcastCheckBox:selected .TickBox,{
+#DefaultAbilityQuickcastCheckBox:selected .TickBox {
 border-color: #66AADD;
 border-radius: 4px;
 border-width: 1px;
@@ -3231,4 +3238,247 @@ visibility: visible;
     horizontal-align: center;
     vertical-align: center;
     text-shadow: 2px 2px 8px 3.0 #333333b0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#BattlepassButton
+{
+    margin-left: 360px;
+    flow-children: down;
+    visibility: visible;
+}
+
+#BattlepassButton:hover .BattlepassButtonIcon
+{
+    brightness: 2.0;
+}
+
+.BattlepassButtonIcon 
+{
+    background-image: url("file://{images}/custom_game/battlepass/main_button.png");
+    background-size: contain;
+    width: 29px;
+    height:29px;
+    brightness: 1;
+    wash-color: #CDF;
+    opacity: 1;
+    horizontal-align: center;
+    img-shadow: 0px 1px 4px 2 black;
+} 
+.BattlepassButtonLabel 
+{
+    color: white;
+    horizontal-align: center;
+    font-size: 15px;
+    text-shadow: 1px 1px 1px 2 black;
+    margin-top: 1px;
+}
+#BattlePassWindow {
+    width: 1300px;
+    height: 850px;
+    background-image: url("file://{images}/custom_game/battlepass/bg.png");
+    background-size: 100%;
+    align: center center;
+    visibility: collapse;
+    flow-children: down;
+    transition-property: pre-transform-scale2d;
+    transition-duration: 0.5s;
+    margin-bottom: 50px;
+    pre-transform-scale2d: 0;
+    transition-property: pre-transform-scale2d;
+    transition-duration: 0.5s;
+    border-top-color: #555555;
+    border-left-color: #494949;
+    border-bottom-color: #333333;
+    border-right-color: #404040;
+    border-style: solid;
+    border-width: 2px;
+}
+
+#BattlePassWindow.sethidden 
+{
+    pre-transform-scale2d: 0;
+    transition-property: pre-transform-scale2d;
+    transition-duration: 0.5s;
+}
+
+#BattlePassWindow.setvisible 
+{
+    pre-transform-scale2d: 1;
+    transition-property: pre-transform-scale2d;
+    transition-duration: 0.5s;
+}
+
+#BattlePassWindowNoActive
+{
+    width: 100%;
+    height: 100%;
+}
+
+.BattlePassLogo
+{
+    height: 50px;
+    width: 100%;
+}
+
+.BattlePassLogoText
+{
+    font-size: 42px;
+    color: gradient( linear, 0% 0%, 0% 100%, from( blue ), to( #84e8f5 ) );
+    text-shadow: 1px 1px 1px 1.0 #3b70a1;
+    text-align: center;
+    font-weight: bold;
+    align: center center;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: Reaver;
+}
+
+.BattlePassLogoCenter
+{
+    horizontal-align: center;
+    margin-top: 10px;
+    flow-children: right;
+}
+
+.BattlePassIcon
+{
+    vertical-align: center;
+    width: 70px;
+    height: 70px;
+    background-size: 100%;
+    margin-left:10px;
+    margin-right: 10px;
+    horizontal-align:right;
+    background-image: url("file://{images}/custom_game/battlepass/battlepass_large.png");
+}
+
+.BuyBattlePass
+{
+    flow-children: right;
+    horizontal-align: center;
+    vertical-align: center;
+}
+
+.BuyPanel
+{
+    width: 300px;
+    height: 300px;
+    background-color: gradient( linear, 45% 0%, 0% 100%, from( #0E161950 ), to( #294566 ) );
+    border-top: 2px solid #294566;
+    box-shadow: 0px 0px 30px #00000088;
+    margin: 20px;
+    flow-children: down;
+}
+
+.BuyPanel:hover .BuyBattlePassButton
+{
+    animation-name: BackgroundPulseBattlePass;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.BuyPanel:hover .BattlePassIconBit
+{
+    animation-name: SpinnerRotate;
+    animation-duration: 5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.BuyPanel:hover .BattlePassIconDoge
+{
+    animation-name: SpinnerRotate;
+    animation-duration: 5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.BuyBattlePassButton
+{
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #2e6e94 ), to( #2e5094 ) );
+    border: 1px solid #2e6e94;
+    width: 200px;
+    horizontal-align: center;
+    vertical-align: bottom;
+    margin-bottom: 50px;
+    height: 40px;
+    box-shadow: 0px 0px 4px 0px black;
+}
+
+.BuyBattlePassButton:hover
+{
+    brightness: 1.2;
+}
+
+.BuyBattlePassButtonLabel
+{
+    color: white;
+    font-weight: bold;
+    align: center center;
+    font-size: 18px;
+}
+
+.BattlePassIconBit
+{
+    background-image: url("file://{images}/custom_game/shop/gold_icon.png");
+    background-size: 100%;
+    width: 110px;
+    height: 110px;
+    horizontal-align: center;
+    margin-top: 30px;
+}
+.BattlePassIconDoge
+{
+    background-image: url("file://{images}/custom_game/shop/gem_icon.png");
+    background-size: 100%;
+    width: 110px;
+    height: 110px;
+    horizontal-align: center;
+    margin-top: 30px;
+}
+.BattlePassPrice
+{
+    vertical-align: center;
+    horizontal-align: center;
+    font-weight: bold;
+    color: white;
+    font-size: 30px;
+    margin-top: 15px;
+}
+.PreBuyLabel
+{
+    margin-top: 180px;
+    horizontal-align: center;
+    font-weight: bold;
+    color: white;
+    font-size: 30px;
+    text-align: center;
+}
+
+@keyframes 'BackgroundPulseBattlePass'
+{
+    0%
+    {
+        box-shadow: 0px 0px 0px 0px #80F4FF00;
+    }
+    50%
+    {
+        box-shadow: 0px 0px 5px 0px #80F4FF22;
+    }
+    100%
+    {
+        box-shadow: 0px 0px 0px 0px #80F4FF00;
+    }
 }

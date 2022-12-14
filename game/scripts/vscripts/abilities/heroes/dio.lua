@@ -1,10 +1,10 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier("modifier_dio_kakyoin_debuff", "abilities/heroes/dio", LUA_MODIFIER_MOTION_HORIZONTAL )
+LinkLuaModifier( "modifier_dio_kakyoin_debuff", "abilities/heroes/dio", LUA_MODIFIER_MOTION_HORIZONTAL )
 
 Dio_Kakyoin = class({})
 
 function Dio_Kakyoin:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_dio_5")
 end
 
 function Dio_Kakyoin:GetCastRange(location, target)
@@ -21,52 +21,66 @@ function Dio_Kakyoin:OnSpellStart()
 	local dirX = 0
 	local dirY = 0
 	local kicked = nil
+
     if target:TriggerSpellAbsorb( self ) then
         return
     end
+
 	dirX = target:GetOrigin().x-caster:GetOrigin().x
 	dirY = target:GetOrigin().y-caster:GetOrigin().y
 	kicked = target
+
 	self:Kick( kicked, dirX, dirY )
+
 	target:EmitSound("dioboom")
+
     local damage = self:GetSpecialValueFor("damage")
-    local damageTable = {
+
+    local damageTable = 
+    {
         victim = target,
         attacker = self:GetCaster(),
         damage = damage,
         damage_type = DAMAGE_TYPE_MAGICAL,
         ability = self,
     }
+
     ApplyDamage(damageTable)
 end
 
 function Dio_Kakyoin:OnProjectileHit_ExtraData( hTarget, vLocation, extraData )
 	if not hTarget then return end
-	local damageTable = {
+
+	local damageTable = 
+    {
 		victim = hTarget,
 		attacker = self:GetCaster(),
 		damage = extraData.damage,
 		damage_type = DAMAGE_TYPE_MAGICAL,
 		ability = self,
 	}
+
 	ApplyDamage(damageTable)
+
     if not hTarget:HasModifier("modifier_dio_kakyoin_debuff") then
-	   hTarget:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", { duration = extraData.stun, }  )
+	   hTarget:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", { duration = extraData.stun * (1-hTarget:GetStatusResistance()) }  )
     end
-	EmitSoundOn( "Hero_EarthSpirit.BoulderSmash.Damage", hTarget )
+
+	hTarget:EmitSound("Hero_EarthSpirit.BoulderSmash.Damage")
 	return false
 end
 
 function Dio_Kakyoin:Kick( target, x, y )
 	local damage = self:GetSpecialValueFor("damage")
-	local stun = self:GetSpecialValueFor("stun_duration")
+	local stun = self:GetSpecialValueFor("stun_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_dio_2")
 	local radius = self:GetSpecialValueFor("radius")
 	local speed = 1500
 	local distance = self:GetSpecialValueFor("distance")
 
 	local mod = target:AddNewModifier( self:GetCaster(), self, "modifier_dio_kakyoin_debuff", { x = x, y = y, r = distance, } )
 
-	local info = {
+	local info = 
+    {
 		Source = self:GetCaster(),
 		Ability = self,
 		vSpawnOrigin = target:GetOrigin(),
@@ -82,7 +96,8 @@ function Dio_Kakyoin:Kick( target, x, y )
 		bHasFrontalCone = false,
 		bReplaceExisting = false,
 		bProvidesVision = false,
-		ExtraData = {
+		ExtraData = 
+        {
 			damage = damage,
 			stun = stun,
 		}
@@ -96,7 +111,7 @@ function Dio_Kakyoin:PlayEffects1( target )
 	local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_earth_spirit/espirit_bouldersmash_caster.vpcf", PATTACH_WORLDORIGIN, target )
 	ParticleManager:SetParticleControl( effect_cast, 1, target:GetOrigin() )
 	ParticleManager:ReleaseParticleIndex( effect_cast )
-	EmitSoundOn( "Hero_EarthSpirit.BoulderSmash.Cast", self:GetCaster() )
+    self:GetCaster():EmitSound("Hero_EarthSpirit.BoulderSmash.Cast")
 end
 
 function Dio_Kakyoin:PlayEffects2( target, direction, duration )
@@ -104,7 +119,7 @@ function Dio_Kakyoin:PlayEffects2( target, direction, duration )
 	ParticleManager:SetParticleControlForward( effect_cast, 1, direction )
 	ParticleManager:SetParticleControl( effect_cast, 2, Vector( duration, 0, 0 ) )
 	ParticleManager:ReleaseParticleIndex( effect_cast )
-	EmitSoundOn( "Hero_EarthSpirit.BoulderSmash.Target", target )
+    target:EmitSound("Hero_EarthSpirit.BoulderSmash.Target")
 end
 
 modifier_dio_kakyoin_debuff = class({})
@@ -158,6 +173,8 @@ end
 function modifier_dio_kakyoin_debuff:OnDestroy( kv )
 	if IsServer() then
 		self:GetParent():InterruptMotionControllers( true )
+        local stun = self:GetAbility():GetSpecialValueFor("stun_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_dio_2")
+        self:GetParent():AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", { duration = stun * (1-self:GetParent():GetStatusResistance()) }  )
 	end
 end
 
@@ -209,41 +226,61 @@ end
 
 function Dio_Wry:OnSpellStart()
 	if not IsServer() then return end
+
 	self:GetCaster():EmitSound("diowry")
+
     local particle = ParticleManager:CreateParticle("particles/dio/dio_wry.vpcf", PATTACH_POINT, self:GetCaster())
     ParticleManager:SetParticleControl(particle, 0, self:GetCaster():GetAbsOrigin())
     ParticleManager:SetParticleControl(particle, 1, Vector(self:GetSpecialValueFor("radius"), 1, 1))
     ParticleManager:ReleaseParticleIndex(particle)
+
     local current_int = 0
-    local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, self:GetSpecialValueFor("radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, FIND_ANY_ORDER, false)   
+
+    local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, self:GetSpecialValueFor("radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, FIND_ANY_ORDER, false) 
+
     for _, enemy in pairs(enemies) do
+
 		local current_mana = enemy:GetMana()
+
         if enemy:IsHero() then
 		    current_int = enemy:GetIntellect()
         end
-		local multiplier = self:GetSpecialValueFor("float_multiplier") + self:GetCaster():FindTalentValue("special_bonus_birzha_dio_1")
+
+		local multiplier = self:GetSpecialValueFor("float_multiplier") / 100
+
 		local basicdamage = self:GetSpecialValueFor("damage")
+
 		local mana_to_burn = math.min( current_mana, current_int * multiplier )
+
 		local digits = string.len( math.floor( mana_to_burn ) ) + 1
+
 		enemy:ReduceMana( mana_to_burn )
-		local damageTable = {
+
+		local damageTable = 
+        {
 			victim = enemy,
 			attacker = self:GetCaster(),
 			damage = mana_to_burn + basicdamage,
 			damage_type = DAMAGE_TYPE_MAGICAL
 		}
+
 		ApplyDamage( damageTable )
+
 		local numberIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_nyx_assassin/nyx_assassin_mana_burn_msg.vpcf", PATTACH_OVERHEAD_FOLLOW, enemy )
 		ParticleManager:SetParticleControl( numberIndex, 1, Vector( 1, mana_to_burn, 0 ) )
 		ParticleManager:SetParticleControl( numberIndex, 2, Vector( 2.0, digits, 0 ) )
+
 		local burnIndex = ParticleManager:CreateParticle( "particles/dio/dio_wry_debuff.vpcf", PATTACH_ABSORIGIN, enemy )
+        ParticleManager:ReleaseParticleIndex(burnIndex)
     end
 end
+
+LinkLuaModifier("modifier_generic_knockback_lua", "modifiers/modifier_generic_knockback_lua.lua", LUA_MODIFIER_MOTION_BOTH )
 
 Dio_Blink = class({})
 
 function Dio_Blink:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_dio_5")
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_dio_3")
 end
 
 function Dio_Blink:GetCastRange(location, target)
@@ -254,38 +291,58 @@ function Dio_Blink:GetManaCost(level)
     return self.BaseClass.GetManaCost(self, level)
 end
 
-function Dio_Blink:OnAbilityPhaseStart()
-    self.vTargetPosition = self:GetCursorPosition()
-    return true;
-end
-
 function Dio_Blink:OnSpellStart()
     if not IsServer() then return end
     local point = self:GetCursorPosition()
     local origin = self:GetCaster():GetOrigin()
-    local range = self:GetSpecialValueFor("blink_range") + self:GetCaster():FindTalentValue("special_bonus_birzha_dio_3")
-    local direction = (point - origin)
-    if direction:Length2D() > range then
-        direction = direction:Normalized() * range
+
+    local range = self:GetSpecialValueFor("blink_range") + self:GetCaster():FindTalentValue("special_bonus_birzha_dio_1")
+
+    local distance_teleport = (point - self:GetCaster():GetAbsOrigin()):Length2D()
+
+    local dist_check = (point - self:GetCaster():GetAbsOrigin()):Length2D()
+
+    local direciton = (point - self:GetCaster():GetAbsOrigin())
+    direciton.z = 0
+    direciton = direciton:Normalized()
+
+    if dist_check > range then
+        distance_teleport = range
     end
-    FindClearSpaceForUnit( self:GetCaster(), origin + direction, true )
-    ProjectileManager:ProjectileDodge(self:GetCaster())
-    self:PlayEffects( origin, direction )
-end
 
-function Dio_Blink:PlayEffects( origin, direction )
     local particle_one = ParticleManager:CreateParticle( "particles/dio/antimage_blink_start.vpcf", PATTACH_ABSORIGIN, self:GetCaster() )
-    ParticleManager:SetParticleControl( particle_one, 0, origin )
-    ParticleManager:SetParticleControlForward( particle_one, 0, direction:Normalized() )
-    ParticleManager:SetParticleControl( particle_one, 1, origin + direction )
+    ParticleManager:SetParticleControl( particle_one, 0, self:GetCaster():GetAbsOrigin() )
+    ParticleManager:SetParticleControlForward( particle_one, 0, direciton:Normalized() )
+    ParticleManager:SetParticleControl( particle_one, 1, self:GetCaster():GetAbsOrigin() + direciton )
     ParticleManager:ReleaseParticleIndex( particle_one )
-    EmitSoundOnLocationWithCaster( origin, "Hero_Antimage.Blink_out", self:GetCaster() )
+    EmitSoundOnLocationWithCaster( self:GetCaster():GetAbsOrigin(), "Hero_Antimage.Blink_out", self:GetCaster() )
 
-    local particle_two = ParticleManager:CreateParticle( "particles/dio/end/antimage_blink_end.vpcf", PATTACH_ABSORIGIN, self:GetCaster() )
-    ParticleManager:SetParticleControl( particle_two, 0, self:GetCaster():GetOrigin() )
-    ParticleManager:SetParticleControlForward( particle_two, 0, direction:Normalized() )
-    ParticleManager:ReleaseParticleIndex( particle_two )
-    EmitSoundOnLocationWithCaster( self:GetCaster():GetOrigin(), "Hero_Antimage.Blink_in", self:GetCaster() )
+    local knockback = self:GetCaster():AddNewModifier(
+        self:GetCaster(),
+        self,
+        "modifier_generic_knockback_lua",
+        {
+            direction_x = direciton.x,
+            direction_y = direciton.y,
+            distance = distance_teleport,
+            duration = distance_teleport/3000,
+        }
+    )
+
+    local particle = ParticleManager:CreateParticle("particles/econ/items/faceless_void/faceless_void_arcana/faceless_void_arcana_time_walk.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
+
+    self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_1)
+
+    local callback = function( bInterrupted )
+        if particle then
+            ParticleManager:DestroyParticle(particle, false)
+        end
+        FindClearSpaceForUnit( self:GetCaster(), self:GetCaster():GetAbsOrigin(), true )
+        ProjectileManager:ProjectileDodge(self:GetCaster())
+        EmitSoundOnLocationWithCaster( self:GetCaster():GetOrigin(), "Hero_Antimage.Blink_in", self:GetCaster() )
+    end
+
+    knockback:SetEndCallback( callback )
 end
 
 LinkLuaModifier("modifier_dio_vampire", "abilities/heroes/dio.lua", LUA_MODIFIER_MOTION_NONE)
@@ -301,16 +358,20 @@ function dio_vampire:GetBehavior()
 end
 
 function dio_vampire:GetManaCost(iLevel)
-    return 100
+    return self:GetSpecialValueFor("shard_manacost")
 end
 
 function dio_vampire:GetCooldown(iLevel)
-    return 60
+    return self:GetSpecialValueFor("shard_cooldown")
 end
 
 function dio_vampire:OnSpellStart()
     if not IsServer() then return end
-    GameRules:BeginNightstalkerNight(20)
+    GameRules:BeginNightstalkerNight(self:GetSpecialValueFor("shard_duration"))
+    self:GetCaster():EmitSound("Hero_Nightstalker.Darkness")
+    local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_night_stalker/nightstalker_ulti.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
+    ParticleManager:SetParticleControl(particle, 0, self:GetCaster():GetAbsOrigin())
+    ParticleManager:SetParticleControl(particle, 1, self:GetCaster():GetAbsOrigin())
 end
 
 function dio_vampire:GetIntrinsicModifierName()
@@ -348,7 +409,7 @@ function modifier_dio_vampire:IsPurgable()
 end
 
 function modifier_dio_vampire_stats:DeclareFunctions()
-    local declfuncs = {MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT, MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,MODIFIER_PROPERTY_HEALTH_BONUS, MODIFIER_EVENT_ON_ATTACK_LANDED}
+    local declfuncs = {MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT, MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,MODIFIER_PROPERTY_EXTRA_HEALTH_PERCENTAGE, MODIFIER_EVENT_ON_TAKEDAMAGE}
     return declfuncs
 end
 
@@ -362,29 +423,24 @@ function modifier_dio_vampire_stats:GetModifierMoveSpeedBonus_Percentage()
     return self:GetAbility():GetSpecialValueFor("movespeed")
 end
 
-function modifier_dio_vampire_stats:GetModifierHealthBonus()
+function modifier_dio_vampire_stats:GetModifierExtraHealthPercentage()
     if self:GetParent():PassivesDisabled() then return end
     return self:GetAbility():GetSpecialValueFor("health")
 end
 
-function modifier_dio_vampire_stats:OnAttackLanded( keys )
+function modifier_dio_vampire_stats:OnTakeDamage(params)
     if not IsServer() then return end
-    local attacker = self:GetParent()
-    if attacker ~= keys.attacker then
-        return
+    if self:GetParent() ~= params.attacker then return end
+    if self:GetParent() == params.unit then return end
+    if params.unit:IsBuilding() then return end
+    if params.unit:IsWard() then return end
+    if self:GetParent():PassivesDisabled() then return end
+    if params.inflictor == nil and not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then 
+        local heal = self:GetAbility():GetSpecialValueFor("lifesteal") / 100 * params.damage
+        self:GetParent():Heal(heal, nil)
+        local effect_cast = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.attacker )
+        ParticleManager:ReleaseParticleIndex( effect_cast )
     end
-    if attacker:PassivesDisabled() or attacker:IsIllusion() then
-        return
-    end
-    local target = keys.target
-    if attacker:GetTeam() == target:GetTeam() then
-        return
-    end 
-    local particle = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
-    ParticleManager:ReleaseParticleIndex( particle )
-    self.damage = self:GetAbility():GetSpecialValueFor( "lifesteal" ) / 100
-    local damage = keys.damage * self.damage
-    self:GetParent():Heal( damage, self:GetAbility() )
 end
 
 LinkLuaModifier("modifier_dio_TheWorld", "abilities/heroes/dio.lua", LUA_MODIFIER_MOTION_NONE)
@@ -393,7 +449,7 @@ LinkLuaModifier("modifier_dio_silence", "abilities/heroes/dio.lua", LUA_MODIFIER
 Dio_TheWorld = class({})
 
 function Dio_TheWorld:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_dio_4")
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_dio_6")
 end
 
 function Dio_TheWorld:GetManaCost(level)
@@ -402,6 +458,7 @@ end
 
 function Dio_TheWorld:OnUpgrade()
      if not IsServer() then return end
+
      if self.the_world and IsValidEntity(self.the_world) and self.the_world:IsAlive() then
         local caster = self:GetCaster()
         local player = caster:GetPlayerID()
@@ -412,7 +469,6 @@ function Dio_TheWorld:OnUpgrade()
         local two_ability = self.the_world:FindAbilityByName("Dio_Za_Warudo")
         local cooldown_one = 0
         local cooldown_two = 0
-
 
         if one_ability then
             cooldown_one = one_ability:GetCooldownTimeRemaining()
@@ -427,7 +483,6 @@ function Dio_TheWorld:OnUpgrade()
         self.the_world:SetControllableByPlayer(player, true)
         self.the_world:SetOwner(caster)
         self.the_world:AddNewModifier(self:GetCaster(), self, 'modifier_dio_TheWorld', {})
-        self.the_world:AddNewModifier(self:GetCaster(), self, 'modifier_disarmed', {})
 
         one_ability = self.the_world:FindAbilityByName("Dio_MudaMudaMuda")
         two_ability = self.the_world:FindAbilityByName("Dio_Za_Warudo")
@@ -461,7 +516,6 @@ function Dio_TheWorld:OnSpellStart()
         self.the_world:SetControllableByPlayer(player, true)
         self.the_world:SetOwner(self:GetCaster())
         self.the_world:AddNewModifier(self:GetCaster(), self, 'modifier_dio_TheWorld', {})
-        self.the_world:AddNewModifier(self:GetCaster(), self, 'modifier_disarmed', {})  
         self.the_world:EmitSound("StandSpawn")
         self.the_world:FindAbilityByName("Dio_Za_Warudo"):SetLevel(level)
     end
@@ -478,7 +532,7 @@ function modifier_dio_TheWorld:IsPurgable()
 end
 
 function modifier_dio_TheWorld:OnCreated(keys)
-    self.b_damage = self:GetAbility():GetSpecialValueFor("stand_damage") + ( self:GetCaster():GetIntellect() * self:GetAbility():GetSpecialValueFor("bonus_damage") )
+    self.b_damage = self:GetAbility():GetSpecialValueFor("stand_damage") + ( self:GetCaster():GetIntellect() * (self:GetAbility():GetSpecialValueFor("bonus_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_dio_8")) )
     self.b_health = self:GetAbility():GetSpecialValueFor("stand_hp")
     self.b_armor = self:GetAbility():GetSpecialValueFor("stand_armor")
     if not IsServer() then return end
@@ -491,7 +545,7 @@ function modifier_dio_TheWorld:OnCreated(keys)
 end
 
 function modifier_dio_TheWorld:OnRefresh(keys)
-    self.b_damage = self:GetAbility():GetSpecialValueFor("stand_damage") + ( self:GetCaster():GetIntellect() * self:GetAbility():GetSpecialValueFor("bonus_damage") )
+    self.b_damage = self:GetAbility():GetSpecialValueFor("stand_damage") + ( self:GetCaster():GetIntellect() * (self:GetAbility():GetSpecialValueFor("bonus_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_dio_8")) )
     self.b_armor = self:GetAbility():GetSpecialValueFor("stand_armor")
     if not IsServer() then return end
     self:GetParent():SetPhysicalArmorBaseValue(self.b_armor)
@@ -502,39 +556,27 @@ end
 function modifier_dio_TheWorld:OnIntervalThink()
     if not IsServer() then return end
     self:OnRefresh()
-    local friends = FindUnitsInRadius(
-	    self:GetCaster():GetTeamNumber(),
-	    self:GetParent():GetOrigin(),
-	    nil,
-	    900,
-	    DOTA_UNIT_TARGET_TEAM_FRIENDLY,
-	    DOTA_UNIT_TARGET_HERO,
-	    0,
-	    FIND_CLOSEST,
-	    false
-    )
-    for _,target in pairs(friends) do
-    	if self:GetParent():GetOwner() == target then
-    		self:GetParent():RemoveModifierByName("modifier_dio_silence")
-    		return
-    	end
+    local distance = (self:GetCaster():GetAbsOrigin() - self:GetParent():GetAbsOrigin()):Length2D()
+    if distance >= self:GetAbility():GetSpecialValueFor("radius") then
+        self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), 'modifier_dio_silence', {})
+    else
+        self:GetParent():RemoveModifierByName("modifier_dio_silence") 
     end
-    self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), 'modifier_dio_silence', {})
 end
 
 function modifier_dio_TheWorld:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_EVENT_ON_DEATH,
     }
-
     return funcs
 end
 
 function modifier_dio_TheWorld:OnDeath( params )
     if not IsServer() then return end
     if params.unit == self:GetParent() then
-		if self:GetCaster():HasTalent("special_bonus_birzha_dio_2") then return end
-		ApplyDamage({ victim = self:GetCaster(), attacker = params.attacker, damage = 1000000, damage_flags = DOTA_DAMAGE_FLAG_REFLECTION + DOTA_DAMAGE_FLAG_NO_SPELL_LIFESTEAL + DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION, damage_type = DAMAGE_TYPE_PURE })
+		if self:GetCaster():HasTalent("special_bonus_birzha_dio_7") then return end
+		self:GetCaster():BirzhaTrueKill( self:GetAbility(), self:GetCaster() )
     end
 end
 
@@ -549,14 +591,17 @@ function modifier_dio_silence:IsPurgable()
 end
 
 function modifier_dio_silence:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_SILENCED] = true,
+        [MODIFIER_STATE_DISARMED] = true,
     }
 
     return state
 end
 
 LinkLuaModifier ("modifier_dio_mudamudamuda", "abilities/heroes/dio.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier ("modifier_dio_mudamudamuda_caster", "abilities/heroes/dio.lua", LUA_MODIFIER_MOTION_NONE)
 
 Dio_MudaMudaMuda = class({})
 
@@ -590,9 +635,10 @@ function Dio_MudaMudaMuda:OnSpellStart()
 	if self.hVictim == nil then
 		return
 	end
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_dio_mudamudamuda_caster", { duration = self:GetChannelTime() })
 	self.hVictim:AddNewModifier( caster, self, "modifier_dio_mudamudamuda", { duration = self:GetChannelTime() } )
 	self.hVictim:Interrupt()
-	EmitSoundOn("mudamuda",self:GetCaster())
+	self:GetCaster():EmitSound("mudamuda")
 end
 
 function Dio_MudaMudaMuda:OnChannelFinish( bInterrupted )
@@ -623,74 +669,89 @@ end
 function modifier_dio_mudamudamuda:OnDestroy()
 	if IsServer() then
 		self:GetCaster():InterruptChannel()
-		StopSoundOn("mudamuda",self:GetCaster())
+		self:GetCaster():StopSound("mudamuda")
+        self:GetCaster():RemoveModifierByName("modifier_dio_mudamudamuda_caster")
 	end
 end
 
 function modifier_dio_mudamudamuda:OnIntervalThink()
 	if IsServer() then
-		self:GetCaster():StartGesture(ACT_DOTA_ATTACK)
-		local damage = {
-			victim = self:GetParent(),
-			attacker = self:GetCaster(),
-			damage = self:GetCaster():GetAttackDamage(),
-			damage_type = self:GetAbility():GetAbilityDamageType(),
-			ability = self:GetAbility()
-		}
-		ApplyDamage( damage )
+		self:GetCaster():PerformAttack(self:GetParent(), true, true, true, true, false, false, true)
 	end
 end
 
+modifier_dio_mudamudamuda_caster = class({})
+
+function modifier_dio_mudamudamuda_caster:IsHidden() return true end
+function modifier_dio_mudamudamuda_caster:IsPurgable() return false end
+
+function modifier_dio_mudamudamuda_caster:DeclareFunctions()
+    local funcs = 
+    {
+        MODIFIER_PROPERTY_OVERRIDE_ANIMATION,
+    }
+
+    return funcs
+end
+
+function modifier_dio_mudamudamuda_caster:GetOverrideAnimation()
+    return ACT_DOTA_OVERRIDE_ABILITY_1
+end
+
 function modifier_dio_mudamudamuda:CheckState()
-	local state = {
+	local state = 
+    {
 		[MODIFIER_STATE_ROOTED] = true,
 		[MODIFIER_STATE_INVISIBLE] = false,
 	}
-
 	return state
 end
-
 
 LinkLuaModifier("modifier_Dio_Za_Warudo", "abilities/heroes/dio.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_Dio_Za_Warudo_aura", "abilities/heroes/dio.lua", LUA_MODIFIER_MOTION_NONE)
 
-Dio_Za_Warudo = Dio_Za_Warudo or class({})
+Dio_Za_Warudo = class({})
 
 function Dio_Za_Warudo:OnSpellStart()
-	if IsServer() then
-		self:SetLevel(self:GetCaster():GetOwner():FindAbilityByName("Dio_TheWorld"):GetLevel())
-		local duration = self:GetSpecialValueFor("duration")
-		self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Dio_Za_Warudo_aura", {duration = duration})
-		self:GetCaster():EmitSound("dioult")
-	end
+	if not IsServer() then return end
+	local duration = self:GetSpecialValueFor("duration")
+	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Dio_Za_Warudo_aura", {duration = duration})
+	self:GetCaster():EmitSound("dioult")
 end
 
 modifier_Dio_Za_Warudo_aura = class({})
 
 function modifier_Dio_Za_Warudo_aura:OnCreated()
+    if not IsServer() then return end
+
 	self.parent = self:GetParent()
+
 	self:StartIntervalThink(FrameTime())
+
+    self.max_radius = self:GetAbility():GetSpecialValueFor("radius") + self:GetCaster():GetOwner():FindTalentValue("special_bonus_birzha_dio_4")
+
 	self.radius_effect = 0
+    self.cast_duration = 1
+    self.radius_per_time = self.max_radius / (self.cast_duration / FrameTime())
+
 	self.particle = ParticleManager:CreateParticle("particles/dio/dio_sphere_ground.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
 	ParticleManager:SetParticleControl(self.particle, 0, self:GetParent():GetAbsOrigin())
-	ParticleManager:SetParticleControl(self.particle, 1, Vector(450, 450, 1))
-	self.particle_sphere = ParticleManager:CreateParticle("particles/dio/dio_stand.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
-	ParticleManager:SetParticleControl(self.particle_sphere, 0, self:GetParent():GetAbsOrigin())
-	ParticleManager:SetParticleControl(self.particle_sphere, 1, Vector(0, 0, 1))
+	ParticleManager:SetParticleControl(self.particle, 1, Vector(self.max_radius, self.max_radius, 1))
 end
 
 function modifier_Dio_Za_Warudo_aura:OnIntervalThink()
-	self.radius_effect = self.radius_effect + 75
-    if self.radius_effect >= 450 then
-        self.radius_effect = 450
+    if not IsServer() then return end
+	self.radius_effect = self.radius_effect + self.radius_per_time
+    if self.radius_effect >= self.max_radius then
+        self.radius_effect = self.max_radius
     end
-	ParticleManager:SetParticleControl(self.particle_sphere, 1, Vector(self.radius_effect, self.radius_effect, 1))
 end
 
 function modifier_Dio_Za_Warudo_aura:OnDestroy()
-	ParticleManager:DestroyParticle(self.particle_sphere,true)
-	ParticleManager:DestroyParticle(self.particle,true)
-	ParticleManager:ReleaseParticleIndex(self.particle)
+    if not IsServer() then return end
+    if self.particle then
+	   ParticleManager:DestroyParticle(self.particle,true)
+    end
 end
 
 function modifier_Dio_Za_Warudo_aura:IsAura() return true end
@@ -708,7 +769,6 @@ function modifier_Dio_Za_Warudo_aura:GetAuraSearchFlags()
 	return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
 end
 
-
 function modifier_Dio_Za_Warudo_aura:GetAuraSearchType()
 	return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC
 end
@@ -716,6 +776,8 @@ end
 function modifier_Dio_Za_Warudo_aura:GetModifierAura()
 	return "modifier_Dio_Za_Warudo"
 end
+
+function modifier_Dio_Za_Warudo_aura:GetAuraDuration() return 0 end
 
 function modifier_Dio_Za_Warudo_aura:GetAuraEntityReject(target)
 	if IsServer() then
@@ -730,11 +792,8 @@ end
 modifier_Dio_Za_Warudo = class({})
 
 function modifier_Dio_Za_Warudo:OnCreated()
-	self.parent = self:GetParent()
-
-    if not self.parent.damagetaken then
-	    self.parent.damagetaken = 0 
-	end
+	if not IsServer() then return end
+    self.damagetaken = 0 
 end
 
 function modifier_Dio_Za_Warudo:GetStatusEffectName()
@@ -742,45 +801,42 @@ function modifier_Dio_Za_Warudo:GetStatusEffectName()
 end
 
 function modifier_Dio_Za_Warudo:DeclareFunctions()
-	local funcs = {
+	local funcs = 
+    {
 		MODIFIER_EVENT_ON_TAKEDAMAGE,
 	}
-
 	return funcs
 end
 
 function modifier_Dio_Za_Warudo:OnTakeDamage(keys)
     local unit = keys.unit
     local parent = self:GetParent()
-
     if unit == parent then
         local damage = keys.damage
-        self.parent.damagetaken = self.parent.damagetaken + damage
+        self.damagetaken = self.damagetaken + damage
     end
 end
 
 function modifier_Dio_Za_Warudo:OnDestroy()
 	if IsServer() then
         self:GetParent():AddNewModifier( self:GetAbility():GetCaster(), self:GetAbility(), "modifier_birzha_stunned", { duration = 0.1 }  )
-		if self:GetParent():GetHealth() - self.parent.damagetaken <=0 then 
-			ApplyDamage({victim = self:GetParent(), attacker = self:GetAbility():GetCaster(), damage = self.parent.damagetaken, damage_flags = DOTA_DAMAGE_FLAG_REFLECTION + DOTA_DAMAGE_FLAG_NO_SPELL_LIFESTEAL + DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility()})
-			self.parent.damagetaken = 0 
+		if self:GetParent():GetHealth() - self.damagetaken <=0 then 
+			self:GetParent():Kill(self:GetAbility(), self:GetCaster())
+			self.damagetaken = 0 
 			return
 		end
-		ApplyDamage({victim = self:GetParent(), attacker = self:GetAbility():GetCaster(), ability = self:GetAbility(), damage = self.parent.damagetaken, damage_flags = DOTA_DAMAGE_FLAG_REFLECTION + DOTA_DAMAGE_FLAG_NO_SPELL_LIFESTEAL + DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION, damage_type = DAMAGE_TYPE_PURE })
-		self.parent.damagetaken = 0 
+		self:GetParent():SetHealth(self:GetParent():GetHealth() - self.damagetaken)
+		self.damagetaken = 0 
 	end
 end
 
 function modifier_Dio_Za_Warudo:CheckState()
-	return {[MODIFIER_STATE_STUNNED] = true,
-		[MODIFIER_STATE_FROZEN] = true, }
+	return 
+    {
+        [MODIFIER_STATE_STUNNED] = true,
+		[MODIFIER_STATE_FROZEN] = true, 
+    }
 end
-
-
-
-
-
 
 LinkLuaModifier("modifier_dio_roller", "abilities/heroes/dio.lua", LUA_MODIFIER_MOTION_BOTH)
 LinkLuaModifier("modifier_dio_roller_caster", "abilities/heroes/dio.lua", LUA_MODIFIER_MOTION_BOTH)
@@ -803,7 +859,7 @@ function dio_roller:OnHeroCalculateStatBonus()
 end
 
 function dio_roller:GetAOERadius()
-    return 200
+    return self:GetSpecialValueFor("radius")
 end
 
 function dio_roller:OnSpellStart()
@@ -899,10 +955,10 @@ function modifier_dio_roller_caster:OnDestroy()
 end
 
 function modifier_dio_roller_caster:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_STUNNED] = true,
     }
-
     return state
 end
 
@@ -947,11 +1003,12 @@ function modifier_dio_roller:OnDestroy()
     self:GetParent():RemoveHorizontalMotionController( self )
     self:GetParent():RemoveVerticalMotionController( self )
     self:GetParent():EmitSound("dio_scepter_stomp")
-    local units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, 200, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false)
+    local units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self:GetAbility():GetSpecialValueFor("radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false)
     for i,enemy in ipairs(units) do
-        ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = 300, damage_type = DAMAGE_TYPE_MAGICAL})
-        enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = 0.5})
+        ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = self:GetAbility():GetSpecialValueFor("damage"), damage_type = DAMAGE_TYPE_MAGICAL})
+        enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = self:GetAbility():GetSpecialValueFor("stun_duration")})
     end
+
     local particle = ParticleManager:CreateParticle("particles/neutral_fx/ogre_bruiser_smash.vpcf", PATTACH_WORLDORIGIN, nil)
     local origin = self:GetParent():GetAbsOrigin()
     origin = GetGroundPosition(origin, self:GetParent())
@@ -977,14 +1034,18 @@ function modifier_dio_roller:UpdateVerticalMotion( me, dt )
     if not IsServer() then return end
     local vMyPos = me:GetOrigin()
     local flGroundHeight = GetGroundHeight( vMyPos, me )
-
-    
-
-
-    
     local flHeightChange = (self.flHeight / self.flTime) * dt
     vMyPos.z = math.max( vMyPos.z - flHeightChange, flGroundHeight )
     me:SetOrigin( vMyPos )
+end
+
+function modifier_dio_roller:CheckState()
+    local state = 
+    {
+        [MODIFIER_STATE_UNSELECTABLE] = true,
+        [MODIFIER_STATE_NOT_ON_MINIMAP] = true,
+    }
+    return state
 end
 
 function modifier_dio_roller:OnHorizontalMotionInterrupted()

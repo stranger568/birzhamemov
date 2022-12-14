@@ -3,7 +3,6 @@ LinkLuaModifier("modifier_item_cuirass_2_aura_buff", "items/cuirass", LUA_MODIFI
 LinkLuaModifier("modifier_item_cuirass_2_aura_buff_armor", "items/cuirass", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_item_cuirass_2_aura_debuff", "items/cuirass", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_item_cuirass_2_aura_debuff_armor", "items/cuirass", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_item_ship_magic_armor_slow", "items/cuirass", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_item_ship_magic_armor", "items/cuirass", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_item_bristback_ship", "items/boss_items", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_item_birzha_blade_mail", "items/cuirass", LUA_MODIFIER_MOTION_NONE)
@@ -27,13 +26,10 @@ end
 
 modifier_item_cuirass_2 = class({})
 
-function modifier_item_cuirass_2:IsHidden()
-    return true
-end
-
-function modifier_item_cuirass_2:IsPurgable()
-    return false
-end
+function modifier_item_cuirass_2:IsHidden() return true end
+function modifier_item_cuirass_2:IsPurgable() return false end
+function modifier_item_cuirass_2:IsPurgeException() return false end
+function modifier_item_cuirass_2:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_cuirass_2:OnCreated()
 	if not IsServer() then return end
@@ -63,27 +59,23 @@ function modifier_item_cuirass_2:DeclareFunctions()
 end
 
 function modifier_item_cuirass_2:GetModifierPhysicalArmorBonus()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor('bonus_armor_stats')
-	end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('bonus_armor_stats')
 end
 
 function modifier_item_cuirass_2:GetModifierAttackSpeedBonus_Constant()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor('bonus_attack_speed_stats')
-	end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('bonus_attack_speed_stats')
 end
 
 function modifier_item_cuirass_2:GetModifierPreAttack_BonusDamage()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor('bonus_damage_stats')
-	end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('bonus_damage_stats')
 end
 
 function modifier_item_cuirass_2:GetModifierBonusStats_Intellect()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor('bonus_int_stats')
-	end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('bonus_int_stats')
 end
 
 modifier_item_cuirass_2_aura_buff = class({})
@@ -217,7 +209,6 @@ LinkLuaModifier("modifier_item_cuirass_3_aura_debuff", "items/cuirass", LUA_MODI
 LinkLuaModifier("modifier_item_cuirass_3_aura_debuff_armor", "items/cuirass", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_item_magical_cuirass_active", "items/cuirass", LUA_MODIFIER_MOTION_NONE)
 
-
 item_cuirass_3 = class({})
 
 function item_cuirass_3:GetIntrinsicModifierName()
@@ -233,13 +224,10 @@ end
 
 modifier_item_cuirass_3 = class({})
 
-function modifier_item_cuirass_3:IsHidden()
-    return true
-end
-
-function modifier_item_cuirass_3:IsPurgable()
-    return false
-end
+function modifier_item_cuirass_3:IsHidden() return true end
+function modifier_item_cuirass_3:IsPurgable() return false end
+function modifier_item_cuirass_3:IsPurgeException() return false end
+function modifier_item_cuirass_3:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_cuirass_3:OnCreated()
 	if not IsServer() then return end
@@ -251,66 +239,52 @@ function modifier_item_cuirass_3:OnCreated()
 end
 
 function modifier_item_cuirass_3:OnDestroy()
-	if IsServer() then
-		if not self:GetCaster():HasModifier("modifier_item_cuirass_3") then
-			self:GetCaster():RemoveModifierByName("modifier_item_cuirass_3_aura_buff")
-			self:GetCaster():RemoveModifierByName("modifier_item_cuirass_3_aura_debuff")
-		end
+	if not IsServer() then return end
+	if not self:GetCaster():HasModifier("modifier_item_cuirass_3") then
+		self:GetCaster():RemoveModifierByName("modifier_item_cuirass_3_aura_buff")
+		self:GetCaster():RemoveModifierByName("modifier_item_cuirass_3_aura_debuff")
 	end
 end
 
 function modifier_item_cuirass_3:DeclareFunctions()
 	return {
-		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
 		MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
 		MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,	
-		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
-		MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
 		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
+		MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,
+		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
+		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
 	}
 end
 
 function modifier_item_cuirass_3:GetModifierAttackSpeedBonus_Constant()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor('attack_speed')
-	end
-end
-
-function modifier_item_cuirass_3:GetModifierPhysicalArmorBonus()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor('bonus_armor')
-	end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("bonus_attack_speed")
 end
 
 function modifier_item_cuirass_3:GetModifierConstantHealthRegen()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor('hpregen')
-	end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("health_regen")
 end
 
 function modifier_item_cuirass_3:GetModifierMagicalResistanceBonus()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor('magical_resist_passive')
-	end
-end
-
-function modifier_item_cuirass_3:GetModifierBonusStats_Strength()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor('atribute')
-	end
-end
-
-function modifier_item_cuirass_3:GetModifierBonusStats_Agility()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor('atribute')
-	end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("magical_resistance")
 end
 
 function modifier_item_cuirass_3:GetModifierBonusStats_Intellect()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor('atribute')
-	end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("bonus_int")
+end
+
+function modifier_item_cuirass_3:GetModifierConstantManaRegen()
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("mana_regen")
+end
+
+function modifier_item_cuirass_3:GetModifierPreAttack_BonusDamage()
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("bonus_damage")
 end
 
 modifier_item_cuirass_3_aura_buff = class({})
@@ -321,7 +295,7 @@ function modifier_item_cuirass_3_aura_buff:IsHidden() return true end
 function modifier_item_cuirass_3_aura_buff:IsPurgable() return false end
 
 function modifier_item_cuirass_3_aura_buff:GetAuraRadius()
-	return 1200
+	return self:GetAbility():GetSpecialValueFor("radius")
 end
 
 function modifier_item_cuirass_3_aura_buff:GetAuraSearchFlags()
@@ -351,8 +325,8 @@ function modifier_item_cuirass_3_aura_buff_armor:GetTexture()
 end
 
 function modifier_item_cuirass_3_aura_buff_armor:OnCreated()
-	self.aura_as_ally = self:GetAbility():GetSpecialValueFor("attack_speed_aura")
-	self.aura_armor_ally = self:GetAbility():GetSpecialValueFor("magical_resist_aura")
+	self.magical_resistance_aura = self:GetAbility():GetSpecialValueFor("magical_resistance_aura")
+	self.health_regen_aura = self:GetAbility():GetSpecialValueFor("health_regen_aura")
 end
 
 function modifier_item_cuirass_3_aura_buff_armor:IsHidden() return false end
@@ -361,17 +335,17 @@ function modifier_item_cuirass_3_aura_buff_armor:IsDebuff() return false end
 
 function modifier_item_cuirass_3_aura_buff_armor:DeclareFunctions()
 	return {
-		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-		MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS
+		MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
+		MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,
 	}
 end
 
-function modifier_item_cuirass_3_aura_buff_armor:GetModifierAttackSpeedBonus_Constant()
-	return self.aura_as_ally
+function modifier_item_cuirass_3_aura_buff_armor:GetModifierConstantHealthRegen()
+	return self.health_regen_aura
 end
 
 function modifier_item_cuirass_3_aura_buff_armor:GetModifierMagicalResistanceBonus()
-	return self.aura_armor_ally
+	return self.magical_resistance_aura
 end
 
 modifier_item_cuirass_3_aura_debuff = class({})
@@ -382,7 +356,7 @@ function modifier_item_cuirass_3_aura_debuff:IsHidden() return true end
 function modifier_item_cuirass_3_aura_debuff:IsPurgable() return false end
 
 function modifier_item_cuirass_3_aura_debuff:GetAuraRadius()
-	return 1200
+	return self:GetAbility():GetSpecialValueFor("radius")
 end
 
 function modifier_item_cuirass_3_aura_debuff:GetAuraSearchFlags()
@@ -412,7 +386,7 @@ function modifier_item_cuirass_3_aura_debuff_armor:GetTexture()
 end
 
 function modifier_item_cuirass_3_aura_debuff_armor:OnCreated()
-	self.aura_armor_enemy = self:GetAbility():GetSpecialValueFor("magical_resist_aura_debuff")
+	self.spell_amplify_aura = self:GetAbility():GetSpecialValueFor("spell_amplify_aura")
 end
 
 function modifier_item_cuirass_3_aura_debuff_armor:IsHidden() return false end
@@ -421,12 +395,12 @@ function modifier_item_cuirass_3_aura_debuff_armor:IsDebuff() return true end
 
 function modifier_item_cuirass_3_aura_debuff_armor:DeclareFunctions()
 	return {
-		MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS
+		MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE,
 	}
 end
 
-function modifier_item_cuirass_3_aura_debuff_armor:GetModifierMagicalResistanceBonus()
-	return self.aura_armor_enemy
+function modifier_item_cuirass_3_aura_debuff_armor:GetModifierSpellAmplify_Percentage()
+	return self.spell_amplify_aura
 end
 
 modifier_item_magical_cuirass_active = class({})
@@ -439,26 +413,61 @@ function modifier_item_magical_cuirass_active:GetEffectAttachType()
 	return PATTACH_ABSORIGIN_FOLLOW
 end
 
-function modifier_item_magical_cuirass_active:OnCreated()
-	self.magical_resist_active = self:GetAbility():GetSpecialValueFor("magical_resist_active")
-end
-
-function modifier_item_magical_cuirass_active:DeclareFunctions()
-	return {
-		MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS
-	}
-end
-
-function modifier_item_magical_cuirass_active:GetModifierMagicalResistanceBonus()
-	return self.magical_resist_active
-end
-
 function modifier_item_magical_cuirass_active:GetTexture()
 	return "items/cuiras2"
 end
 
+function modifier_item_magical_cuirass_active:OnCreated(keys)
+    if not IsServer() then return end
+    local magical_resist_active = self:GetAbility():GetSpecialValueFor("magical_resist_active")
+    self.remaining_health = magical_resist_active
+    self:SetStackCount(self.remaining_health)
+end
 
+function modifier_item_magical_cuirass_active:OnRefresh(keys)
+    if not IsServer() then return end
+    local magical_resist_active = self:GetAbility():GetSpecialValueFor("magical_resist_active")
+    self.remaining_health = magical_resist_active
+    self:SetStackCount(self.remaining_health)
+end
 
+function modifier_item_magical_cuirass_active:OnIntervalThink()
+    if not IsServer() then return end
+    if self.remaining_health <= 0 then
+        self:Destroy()
+    end
+end
+
+function modifier_item_magical_cuirass_active:DeclareFunctions()
+    local funcs = {
+        MODIFIER_PROPERTY_TOTAL_CONSTANT_BLOCK,
+        MODIFIER_PROPERTY_TOOLTIP,
+    }
+    return funcs
+end
+
+function modifier_item_magical_cuirass_active:OnTooltip()
+	return self:GetStackCount()
+end
+
+function modifier_item_magical_cuirass_active:GetModifierTotal_ConstantBlock(kv)
+    if not IsServer() then return end
+    local original_shield_amount = self.remaining_health
+    if kv.damage_type == DAMAGE_TYPE_MAGICAL then
+	    if kv.damage > 0 and bit.band(kv.damage_flags, DOTA_DAMAGE_FLAG_HPLOSS) ~= DOTA_DAMAGE_FLAG_HPLOSS then
+	        if kv.damage < original_shield_amount then
+	            SendOverheadEventMessage(nil, OVERHEAD_ALERT_BLOCK, target, kv.damage, nil)
+	            self.remaining_health = original_shield_amount - kv.damage
+	            self:SetStackCount(self.remaining_health)
+	            return kv.damage
+	        else
+	            SendOverheadEventMessage(nil, OVERHEAD_ALERT_BLOCK, target, original_shield_amount, nil)
+	            self:Destroy()
+	            return original_shield_amount
+	        end
+	    end
+	end
+end
 
 item_ship_magic_armor = class({})
 
@@ -468,13 +477,10 @@ end
 
 modifier_item_ship_magic_armor = class({})
 
-function modifier_item_ship_magic_armor:IsHidden()
-    return true
-end
-
-function modifier_item_ship_magic_armor:IsPurgable()
-    return false
-end
+function modifier_item_ship_magic_armor:IsHidden() return true end
+function modifier_item_ship_magic_armor:IsPurgable() return false end
+function modifier_item_ship_magic_armor:IsPurgeException() return false end
+function modifier_item_ship_magic_armor:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_ship_magic_armor:OnCreated()
 	if not IsServer() then return end
@@ -504,67 +510,59 @@ function modifier_item_ship_magic_armor:OnIntervalThink()
 end
 
 function modifier_item_ship_magic_armor:OnDestroy()
-	if IsServer() then
-		if not self:GetCaster():HasModifier("modifier_item_ship_magic_armor") then
-			self:GetCaster():RemoveModifierByName("modifier_item_cuirass_3_aura_buff")
-			self:GetCaster():RemoveModifierByName("modifier_item_cuirass_3_aura_debuff")
-			self:GetCaster():RemoveModifierByName("modifier_item_bristback_ship")
-		end
+	if not IsServer() then return end
+	if not self:GetCaster():HasModifier("modifier_item_ship_magic_armor") then
+		self:GetCaster():RemoveModifierByName("modifier_item_cuirass_3_aura_buff")
+		self:GetCaster():RemoveModifierByName("modifier_item_cuirass_3_aura_debuff")
+		self:GetCaster():RemoveModifierByName("modifier_item_bristback_ship")
 	end
 end
 
-function modifier_item_ship_magic_armor:DeclareFunctions()
+function modifier_item_cuirass_3:DeclareFunctions()
 	return {
-		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
 		MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
 		MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,	
-		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
-		MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
 		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
+		MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,
+		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
+		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
 	}
 end
 
-function modifier_item_ship_magic_armor:GetModifierAttackSpeedBonus_Constant()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor('attack_speed')
-	end
+function modifier_item_cuirass_3:GetModifierAttackSpeedBonus_Constant()
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("bonus_attack_speed")
 end
 
-function modifier_item_ship_magic_armor:GetModifierPhysicalArmorBonus()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor('bonus_armor')
-	end
+function modifier_item_cuirass_3:GetModifierConstantHealthRegen()
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("health_regen")
 end
 
-function modifier_item_ship_magic_armor:GetModifierConstantHealthRegen()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor('hpregen')
-	end
+function modifier_item_cuirass_3:GetModifierMagicalResistanceBonus()
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("magical_resistance")
 end
 
-function modifier_item_ship_magic_armor:GetModifierMagicalResistanceBonus()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor('magical_resist_passive')
-	end
+function modifier_item_cuirass_3:GetModifierBonusStats_Intellect()
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("bonus_int")
 end
 
-function modifier_item_ship_magic_armor:GetModifierBonusStats_Strength()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor('atribute')
-	end
+function modifier_item_cuirass_3:GetModifierConstantManaRegen()
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("mana_regen")
 end
 
-function modifier_item_ship_magic_armor:GetModifierBonusStats_Agility()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor('atribute')
-	end
+function modifier_item_cuirass_3:GetModifierPreAttack_BonusDamage()
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("bonus_damage")
 end
 
-function modifier_item_ship_magic_armor:GetModifierBonusStats_Intellect()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor('atribute')
-	end
+function modifier_item_cuirass_3:GetModifierPhysicalArmorBonus()
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("bonus_armor")
 end
 
 function item_ship_magic_armor:OnSpellStart()
@@ -572,49 +570,6 @@ function item_ship_magic_armor:OnSpellStart()
     local duration = self:GetSpecialValueFor("duration")
     self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_item_magical_cuirass_active", {duration = duration} )
     self:GetCaster():EmitSound("DOTA_Item.Pipe.Activate")
-    local heroes = FindUnitsInRadius(self:GetCaster():GetTeamNumber(),self:GetCaster():GetAbsOrigin(), nil, 600, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NONE,FIND_ANY_ORDER, false)
-	self:GetCaster():EmitSound("Hero_Bristleback.ViscousGoo.Cast")
-	
-	for _,hero in pairs(heroes) do
-		local goo = {
-			Target = hero,
-			Source = self:GetCaster(),
-			Ability = self,
-			EffectName = "particles/econ/items/bristleback/ti7_head_nasal_goo/bristleback_ti7_crimson_nasal_goo_proj.vpcf",
-			iMoveSpeed = 1500,
-			bDodgeable = false, 
-			bVisibleToEnemies = true,
-			bReplaceExisting = false,
-			bProvidesVision = false,
-			iVisionTeamNumber = self:GetCaster():GetTeamNumber()
-		}
-		ProjectileManager:CreateTrackingProjectile(goo) 
-	end 
-end
-
-function item_ship_magic_armor:OnProjectileHit( target, vLocation )
-    if not IsServer() then return end
-    if target ~= nil and ( not target:IsMagicImmune() ) and ( not target:TriggerSpellAbsorb( self ) ) then
-		target:EmitSound("Hero_Bristleback.ViscousGoo.Target")
-		target:AddNewModifier(self:GetCaster(), self, "modifier_item_ship_magic_armor_slow", {duration = 3})
-    end
-    return true
-end
-
-modifier_item_ship_magic_armor_slow = class({})
-
-function modifier_item_ship_magic_armor_slow:DeclareFunctions()
-	return {
-		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
-	}
-end
-
-function modifier_item_ship_magic_armor_slow:GetModifierMoveSpeedBonus_Percentage()
-	return -100
-end
-
-function modifier_item_ship_magic_armor_slow:GetTexture()
-	return "items/shiparmor"
 end
 
 item_birzha_blade_mail = class({})
@@ -635,16 +590,14 @@ end
 
 modifier_item_birzha_blade_mail = class({})
 
-function modifier_item_birzha_blade_mail:IsHidden()
-    return true
-end
-
-function modifier_item_birzha_blade_mail:IsPurgable()
-    return false
-end
+function modifier_item_birzha_blade_mail:IsHidden() return true end
+function modifier_item_birzha_blade_mail:IsPurgable() return false end
+function modifier_item_birzha_blade_mail:IsPurgeException() return false end
+function modifier_item_birzha_blade_mail:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_birzha_blade_mail:DeclareFunctions()
-	return {
+	return 
+	{
 		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
 		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
 		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,	
@@ -652,20 +605,31 @@ function modifier_item_birzha_blade_mail:DeclareFunctions()
 end
 
 function modifier_item_birzha_blade_mail:GetModifierPhysicalArmorBonus()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor('bonus_armor')
-	end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('bonus_armor')
 end
 
 function modifier_item_birzha_blade_mail:GetModifierBonusStats_Intellect()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor('bonus_intellect')
-	end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('bonus_intellect')
 end
 
 function modifier_item_birzha_blade_mail:GetModifierPreAttack_BonusDamage()
-    if self:GetAbility() then
-    	return self:GetAbility():GetSpecialValueFor('bonus_damage')
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('bonus_damage')
+end
+
+function modifier_item_birzha_blade_mail:OnAttackLanded(params)
+	if not IsServer() then return end
+	if not self:GetAbility() then return end
+	if params.attacker ~= self:GetParent() and params.target == self:GetParent() then
+		if bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) == DOTA_DAMAGE_FLAG_REFLECTION then return end
+		if self:GetParent():FindAllModifiersByName("modifier_item_birzha_blade_mail")[1] ~= self then return end
+		if self:GetAbility():GetName() == "item_birzha_blade_mail" then
+			if params.attacker:IsMagicImmune() then return end
+		end
+		local damage_return = self:GetAbility():GetSpecialValueFor("return_damage_passive_percentage") * params.original_damage / 100 + self:GetAbility():GetSpecialValueFor("return_damage_passive")
+		ApplyDamage({victim = params.attacker, attacker = self:GetParent(), damage = damage_return, damage_type = params.damage_type,  damage_flags = DOTA_DAMAGE_FLAG_BYPASSES_BLOCK + DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION + DOTA_DAMAGE_FLAG_REFLECTION, ability = self:GetAbility()})
 	end
 end
 
@@ -696,13 +660,11 @@ end
 
 function modifier_item_birzha_blade_mail_active:DeclareFunctions()
 	local decFuncs = {MODIFIER_EVENT_ON_TAKEDAMAGE}
-
 	return decFuncs
 end
 
 function modifier_item_birzha_blade_mail_active:OnDestroy()
 	if not IsServer() then return end
-	
 	self:GetParent():EmitSound("DOTA_Item.BladeMail.Deactivate")
 end
 
@@ -714,18 +676,11 @@ function modifier_item_birzha_blade_mail_active:OnTakeDamage(keys)
 	local damage_type = keys.damage_type
 	local damage_flags = keys.damage_flags
 	if keys.unit == self:GetParent() and not keys.attacker:IsBuilding() and keys.attacker:GetTeamNumber() ~= self:GetParent():GetTeamNumber() and bit.band(keys.damage_flags, DOTA_DAMAGE_FLAG_HPLOSS) ~= DOTA_DAMAGE_FLAG_HPLOSS and bit.band(keys.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then	
-		if not keys.unit:IsOther() then
-			EmitSoundOnClient("DOTA_Item.BladeMail.Damage", keys.attacker:GetPlayerOwner())
-			local damageTable = {
-				victim			= keys.attacker,
-				damage			= keys.original_damage,
-				damage_type		= keys.damage_type,
-				damage_flags 	= DOTA_DAMAGE_FLAG_REFLECTION + DOTA_DAMAGE_FLAG_NO_SPELL_LIFESTEAL + DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION,
-				attacker		= self:GetParent(),
-				ability			= self:GetAbility()
-			}
-			ApplyDamage(damageTable)
+		if self:GetAbility():GetName() == "item_birzha_blade_mail" then
+			if keys.attacker:IsMagicImmune() then return end
 		end
+		EmitSoundOnClient("DOTA_Item.BladeMail.Damage", keys.attacker:GetPlayerOwner())
+		ApplyDamage({ victim = keys.attacker, damage = keys.original_damage / 100 * self:GetAbility():GetSpecialValueFor("return_damage"), damage_type = keys.damage_type, damage_flags = DOTA_DAMAGE_FLAG_REFLECTION + DOTA_DAMAGE_FLAG_NO_SPELL_LIFESTEAL + DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION, attacker = self:GetParent(), ability = self:GetAbility() })
 	end
 end
 

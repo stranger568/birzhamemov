@@ -1,6 +1,6 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier("modifier_Pistoletov_dolphin_count", "abilities/heroes/pistoletov", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_Pistoletov_dolphin", "abilities/heroes/pistoletov", LUA_MODIFIER_MOTION_BOTH )
+LinkLuaModifier( "modifier_Pistoletov_dolphin", "abilities/heroes/pistoletov", LUA_MODIFIER_MOTION_BOTH )
+LinkLuaModifier( "modifier_Pistoletov_dolphin_debuff", "abilities/heroes/pistoletov", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 
 Pistoletov_dolphin = class({}) 
@@ -19,23 +19,8 @@ end
 
 function Pistoletov_dolphin:OnSpellStart()
     if not IsServer() then return end
-    local caster = self:GetCaster()
-    caster:AddNewModifier( caster, self, "modifier_Pistoletov_dolphin", {} )
-    caster:EmitSound("PistoletovDolphin")
-end
-
-modifier_Pistoletov_dolphin_count = class({})
-
-function modifier_Pistoletov_dolphin_count:IsHidden()
-    return false
-end
-
-function modifier_Pistoletov_dolphin_count:IsPurgable()
-    return false
-end
-
-function modifier_Pistoletov_dolphin_count:DestroyOnExpire()
-    return false
+    self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_Pistoletov_dolphin", {} )
+    self:GetCaster():EmitSound("PistoletovDolphin")
 end
 
 modifier_Pistoletov_dolphin = class({})
@@ -81,36 +66,57 @@ end
 function modifier_Pistoletov_dolphin:OnDestroy( kv )
     if IsServer() then
         self:GetAbility():SetActivated( true )
+
         self:GetParent():InterruptMotionControllers( true )
-        local damage = self:GetAbility():GetSpecialValueFor( "damage" )
-        local radius = self:GetAbility():GetSpecialValueFor( "radius" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_pistoletov_3")
-        local duration = self:GetAbility():GetSpecialValueFor( "duration" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_pistoletov_1")
-        local targets = FindUnitsInRadius(self:GetParent():GetTeamNumber(),
-            self:GetParent():GetAbsOrigin(),
-            nil,
-            radius,
-            DOTA_UNIT_TARGET_TEAM_ENEMY,
-            DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO,
-            DOTA_UNIT_TARGET_FLAG_NONE,
-            FIND_ANY_ORDER,
-            false)
+
+        
+
+        local radius = self:GetAbility():GetSpecialValueFor( "radius" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_pistoletov_5")
+
+        local duration = self:GetAbility():GetSpecialValueFor( "duration" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_pistoletov_3")
+
+        local targets = FindUnitsInRadius(self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
+
         local particle_1 = ParticleManager:CreateParticle( "particles/units/heroes/hero_slardar/slardar_crush.vpcf", PATTACH_WORLDORIGIN, nil )
         ParticleManager:SetParticleControl( particle_1, 0, self:GetParent():GetOrigin() )
         ParticleManager:SetParticleControl( particle_1, 1, Vector(radius, radius, radius) )
         ParticleManager:ReleaseParticleIndex( particle_1 )
+
         local particle_2 = ParticleManager:CreateParticle( "particles/units/heroes/hero_slardar/slardar_crush_entity.vpcf", PATTACH_WORLDORIGIN, nil )
         ParticleManager:SetParticleControl( particle_2, 0, self:GetParent():GetOrigin() )
         ParticleManager:SetParticleControl( particle_2, 1, Vector(radius, radius, radius) )
         ParticleManager:ReleaseParticleIndex( particle_2 )
+
         for i = 1, 2 do
             local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_tidehunter/tidehunter_anchor_hero.vpcf", PATTACH_WORLDORIGIN, nil )
             ParticleManager:SetParticleControl( particle, 0, self:GetParent():GetOrigin() )
             ParticleManager:ReleaseParticleIndex( particle )
         end
+
         self:GetParent():EmitSound("Ability.Torrent")
+
+        
+        
+
         for _,unit in pairs(targets) do
+            local damage = self:GetAbility():GetSpecialValueFor( "damage" )
+
+            if self:GetCaster():HasTalent("special_bonus_birzha_pistoletov_1") then
+                local target_mod = unit:FindModifierByName("modifier_Pistoletov_dolphin_debuff")
+                if target_mod then
+                    for stack = 1, target_mod:GetStackCount() do
+                        damage = damage + (damage / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_pistoletov_1"))
+                    end
+                end
+            end
+
             ApplyDamage({victim = unit, attacker = self:GetParent(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
-            unit:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_birzha_stunned_purge", {duration = duration})
+
+            unit:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_birzha_stunned_purge", {duration = duration * (1-unit:GetStatusResistance())})
+
+            if self:GetCaster():HasTalent("special_bonus_birzha_pistoletov_1") then
+                unit:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_Pistoletov_dolphin_debuff", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_pistoletov_1", "value2") * (1-unit:GetStatusResistance())})
+            end
         end
     end
 end
@@ -158,6 +164,33 @@ function modifier_Pistoletov_dolphin:OnVerticalMotionInterrupted()
     end
 end
 
+modifier_Pistoletov_dolphin_debuff = class({})
+function modifier_Pistoletov_dolphin_debuff:IsPurgable() return true end
+function modifier_Pistoletov_dolphin_debuff:OnCreated()
+    if not IsServer() then return end
+    self:SetStackCount(1)
+end
+function modifier_Pistoletov_dolphin_debuff:OnRefresh()
+    if not IsServer() then return end
+    self:IncrementStackCount()
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 LinkLuaModifier( "modifier_pistoletov_deathfight", "abilities/heroes/pistoletov.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_deathfight_atribute", "abilities/heroes/pistoletov.lua", LUA_MODIFIER_MOTION_NONE )
 
@@ -197,7 +230,7 @@ function Pistoletov_DeathFight:OnSpellStart()
     local target = self:GetCursorTarget()
     local target_origin = target:GetAbsOrigin()
     local caster_origin = self:GetCaster():GetAbsOrigin()
-    local duration = (self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_pistoletov_5")) * (1 - target:GetStatusResistance())
+    local duration = (self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_pistoletov_2")) * (1 - target:GetStatusResistance())
     if target:TriggerSpellAbsorb( self ) then return end
     if target:IsIllusion() then
         target:Kill( self, self:GetCaster() )
@@ -207,20 +240,14 @@ function Pistoletov_DeathFight:OnSpellStart()
     if self:GetCaster().particle then
         ParticleManager:DestroyParticle(self:GetCaster().particle, false)
     end
-    self:GetCaster().particle = ParticleManager:CreateParticle("particles/boss/test.vpcf", PATTACH_ABSORIGIN, self:GetCaster())
+    self:GetCaster().particle = ParticleManager:CreateParticle("particles/econ/items/legion/legion_weapon_voth_domosh/legion_duel_start_ring_arcana.vpcf", PATTACH_ABSORIGIN, self:GetCaster())
     local center_point = target_origin + ((caster_origin - target_origin) / 1)
     ParticleManager:SetParticleControl(self:GetCaster().particle, 0, center_point)
     ParticleManager:SetParticleControl(self:GetCaster().particle, 7, center_point)
-
     target:AddNewModifier( self:GetCaster(), self, "modifier_pistoletov_deathfight", { duration = duration, target = self:GetCaster():entindex() } )
     self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_pistoletov_deathfight", { duration = duration, target = target:entindex() } )
     self:EndCooldown()
 end
-
-
-
-
-
 
 modifier_pistoletov_deathfight = class({})
 
@@ -250,18 +277,22 @@ function modifier_pistoletov_deathfight:OnDeath( params )
         if params.unit == self:GetCaster() then
             if not self.target:HasModifier("modifier_deathfight_atribute") then
                 self.target:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_deathfight_atribute", {} )
+                self.target:CalculateStatBonus(true)
             end
             local duel_stacks = self.target:GetModifierStackCount("modifier_deathfight_atribute", self:GetAbility()) + attribute
             self.target:SetModifierStackCount("modifier_deathfight_atribute", self:GetAbility(), duel_stacks)
+            self.target:CalculateStatBonus(true)
             self.target:RemoveModifierByName("modifier_pistoletov_deathfight")
             self.target:EmitSound("Hero_LegionCommander.Duel.Victory")
             local duel_victory_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_legion_commander/legion_commander_duel_victory.vpcf", PATTACH_OVERHEAD_FOLLOW, self.target)
         else
             if not self:GetCaster():HasModifier("modifier_deathfight_atribute") then
                 self:GetCaster():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_deathfight_atribute", {} )
+                self:GetCaster():CalculateStatBonus(true)
             end
             local duel_stacks = self:GetCaster():GetModifierStackCount("modifier_deathfight_atribute", self:GetAbility()) + attribute
             self:GetCaster():SetModifierStackCount("modifier_deathfight_atribute", self:GetAbility(), duel_stacks)
+            self:GetCaster():CalculateStatBonus(true)
             self:GetCaster():RemoveModifierByName("modifier_pistoletov_deathfight")
             self:GetCaster():EmitSound("Hero_LegionCommander.Duel.Victory")
             local duel_victory_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_legion_commander/legion_commander_duel_victory.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetCaster())
@@ -295,8 +326,8 @@ local state =
     [MODIFIER_STATE_MAGIC_IMMUNE] = true,
     [MODIFIER_STATE_MUTED] = true,
     [MODIFIER_STATE_COMMAND_RESTRICTED] = true,
-[MODIFIER_STATE_INVISIBLE] = false,
-[MODIFIER_STATE_TAUNTED] = true,}
+    [MODIFIER_STATE_INVISIBLE] = false,
+    [MODIFIER_STATE_TAUNTED] = true,}
     return state
 end
 
@@ -313,14 +344,12 @@ end
 
 function modifier_pistoletov_deathfight:GetModifierPhysicalArmorBonus()
     if self:GetParent() ~= self:GetCaster() then return end
-    if self:GetCaster():HasTalent("special_bonus_birzha_pistoletov_4") then return 40 end
-    return self:GetAbility():GetSpecialValueFor("armor")
+    return self:GetAbility():GetSpecialValueFor("armor") + self:GetCaster():FindTalentValue("special_bonus_birzha_pistoletov_7")
 end
 
 function modifier_pistoletov_deathfight:GetModifierBonusStats_Strength()
     if self:GetParent() ~= self:GetCaster() then return end
-    if self:GetCaster():HasTalent("special_bonus_birzha_pistoletov_4") then return 30 end
-    return self:GetAbility():GetSpecialValueFor("strength")
+    return self:GetAbility():GetSpecialValueFor("strength") + self:GetCaster():FindTalentValue("special_bonus_birzha_pistoletov_7", "value2")
 end
 
 modifier_deathfight_atribute = class({})
@@ -348,11 +377,19 @@ function modifier_deathfight_atribute:DeclareFunctions()
 end
 
 function modifier_deathfight_atribute:GetModifierBonusStats_Agility()
-    return self:GetStackCount()
+    local multiple = 1
+    if self:GetCaster():HasTalent("special_bonus_birzha_pistoletov_8") then
+        multiple = self:GetCaster():FindTalentValue("special_bonus_birzha_pistoletov_8")
+    end
+    return self:GetStackCount() * multiple
 end
 
 function modifier_deathfight_atribute:GetModifierBonusStats_Strength()
-    return self:GetStackCount()
+    local multiple = 1
+    if self:GetCaster():HasTalent("special_bonus_birzha_pistoletov_8") then
+        multiple = self:GetCaster():FindTalentValue("special_bonus_birzha_pistoletov_8")
+    end
+    return self:GetStackCount() * multiple
 end
 
 LinkLuaModifier("modifier_pistoletov_TrahTibidoh", "abilities/heroes/pistoletov", LUA_MODIFIER_MOTION_NONE)
@@ -362,7 +399,7 @@ Pistoletov_TrahTibidoh = class({})
 
 function Pistoletov_TrahTibidoh:GetCooldown(level)
     if self:GetCaster():HasScepter() then
-        return 2 / ( self:GetCaster():GetCooldownReduction())
+        return self:GetSpecialValueFor("cooldown_scepter") / ( self:GetCaster():GetCooldownReduction())
     end
     return self.BaseClass.GetCooldown( self, level ) / ( self:GetCaster():GetCooldownReduction())
 end
@@ -373,6 +410,8 @@ end
 
 modifier_pistoletov_TrahTibidoh = class({}) 
 
+function modifier_pistoletov_TrahTibidoh:IsHidden() return self:GetStackCount() == 0 end
+
 function modifier_pistoletov_TrahTibidoh:IsPurgable()
     return false
 end
@@ -380,31 +419,33 @@ end
 function modifier_pistoletov_TrahTibidoh:DeclareFunctions()
     local funcs = 
     {
-        MODIFIER_EVENT_ON_ATTACK_LANDED,
+        MODIFIER_EVENT_ON_TAKEDAMAGE,
         MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS
     }
     return funcs
 end
 
-function modifier_pistoletov_TrahTibidoh:OnAttackLanded( keys )
+function modifier_pistoletov_TrahTibidoh:OnTakeDamage( params )
+    if not IsServer() then return end
+    if params.unit ~= self:GetParent() then return end
+    if self:GetParent():IsIllusion() then return end
+    if self:GetParent():PassivesDisabled() then return end
+    if not self:GetParent():IsAlive() then return end
+
     local chance = self:GetAbility():GetSpecialValueFor("chance")
-    local persentage = self:GetAbility():GetSpecialValueFor("healpersentage") + self:GetCaster():FindTalentValue("special_bonus_birzha_pistoletov_2")
+    local persentage = self:GetAbility():GetSpecialValueFor("healpersentage") + self:GetCaster():FindTalentValue("special_bonus_birzha_pistoletov_6")
     local healbasic = self:GetAbility():GetSpecialValueFor("heal")
     local duration = self:GetAbility():GetSpecialValueFor("duration")
     local heal = self:GetParent():GetMaxHealth() / 100 * persentage
     local fullheal = healbasic + heal
-    if not IsServer() then return end
-    if keys.target == self:GetParent() then
-        if self:GetParent():IsIllusion() or self:GetParent():PassivesDisabled() then return end
-        if self:GetAbility():IsFullyCastable() then
-            if RandomInt(1, 100) <= chance then
-                if not self:GetParent():IsAlive() then return end
-                self:GetParent():EmitSound("PistoletovTrah")
-                self:GetAbility():UseResources(false,false,true)
-                self:GetParent():Heal(fullheal, self:GetAbility())
-                self:GetParent():AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_pistoletov_TrahTibidoh_armor", { duration = duration } )
-                self:IncrementStackCount()
-            end
+
+    if self:GetAbility():IsFullyCastable() then
+        if RollPercentage(chance) then
+            self:GetParent():EmitSound("PistoletovTrah")
+            self:GetAbility():UseResources(false,false,true)
+            self:GetParent():Heal(fullheal, self:GetAbility())
+            self:GetParent():AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_pistoletov_TrahTibidoh_armor", { duration = duration } )
+            self:IncrementStackCount()
         end
     end
 end
@@ -505,7 +546,7 @@ end
 
 function modifier_Pistoletov_NewPirat_boat:OnIntervalThink()
     if not IsServer() then return end
-    local targets = FindUnitsInRadius(self:GetParent():GetTeam(), self:GetParent():GetAbsOrigin(), nil, 600, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_CLOSEST, false)
+    local targets = FindUnitsInRadius(self:GetParent():GetTeam(), self:GetParent():GetAbsOrigin(), nil, self:GetAbility():GetSpecialValueFor("radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_CLOSEST, false)
     for _,target in pairs(targets) do
         local projectile_info = 
         {
@@ -524,7 +565,8 @@ function modifier_Pistoletov_NewPirat_boat:OnIntervalThink()
 end
 
 function modifier_Pistoletov_NewPirat_boat:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_MAGIC_IMMUNE] = true,
         [MODIFIER_STATE_ATTACK_IMMUNE] = true,
         [MODIFIER_STATE_SILENCED] = true,
@@ -561,7 +603,7 @@ function modifier_Pistoletov_NewPirat_boat:GetModifierProcAttack_BonusDamage_Phy
         modifier:ForceRefresh()
         stack = modifier:GetStackCount()
     end
-    return stack * self:GetParent():GetAttackDamage() / 100 * 25
+    return stack * self:GetParent():GetAttackDamage() / 100 * self:GetAbility():GetSpecialValueFor("pct_damage")
 end
 
 modifier_Boat_damage_debuff = class({})
@@ -573,6 +615,20 @@ end
 function modifier_Boat_damage_debuff:IsPurgable()
     return false
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function Spawn( entityKeyValues )
     if not IsServer() then

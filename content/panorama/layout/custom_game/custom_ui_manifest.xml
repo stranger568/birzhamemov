@@ -86,10 +86,10 @@
 		<CustomUIElement type="Hud"					layoutfile="file://{resources}/layout/custom_game/scpscreamer.xml" />
 		<CustomUIElement type="FlyoutScoreboard"	layoutfile="file://{resources}/layout/custom_game/multiteam_flyout_scoreboard.xml" />
 		<CustomUIElement type="HeroSelection" 		layoutfile="file://{resources}/layout/custom_game/multiteam_hero_select_overlay.xml"/>
-		<CustomUIElement type="EndScreen" 			layoutfile="file://{resources}/layout/custom_game/multiteam_end_screen.xml" />
-		<CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/birzha_leaderboard.xml" /> 	
+		<CustomUIElement type="EndScreen" 			layoutfile="file://{resources}/layout/custom_game/multiteam_end_screen.xml" />	
 		<CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/nolik_energy.xml" />
-		<CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/bm_hero_selection.xml" /> 		
+		<CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/bm_hero_selection.xml" />
+		<CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/birzha_leaderboard.xml" />  		
 		<CustomUIElement type="Hud"					layoutfile="file://{resources}/layout/custom_game/dota_hud_chat_wheel.xml" />	
 		<CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/ring_hud.xml" /> 	
 		<CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/invoked_spells.xml" /> 		

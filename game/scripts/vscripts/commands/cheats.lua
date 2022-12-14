@@ -42,7 +42,7 @@ end
 function Commands:Key(player, arg)
 	if not IsAdmin(player) then return end
 	local hero = player:GetAssignedHero()	
-	AUTH_KEY = GetDedicatedServerKeyV2('birzhamemov')
+	AUTH_KEY = GetDedicatedServerKeyV3('birzhamemov')
 	GameRules:SendCustomMessage(AUTH_KEY, 0, 0)
 end
 

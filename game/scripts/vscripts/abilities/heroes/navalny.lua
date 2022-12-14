@@ -14,7 +14,7 @@ function Naval_meeting:OnSpellStart()
     if not IsServer() then return end
     local caster = self:GetCaster()
     local level = self:GetLevel()
-    local count = self:GetSpecialValueFor('schoolboys_number')
+    local count = self:GetSpecialValueFor('schoolboys_number') + self:GetCaster():FindTalentValue("special_bonus_birzha_navalny_1")
     caster:EmitSound("navalmit")
     for i = 1, count do
         self.schoolboy = CreateUnitByName("npc_schoolboy_"..level, caster:GetAbsOrigin() + RandomVector(300), true, caster, nil, caster:GetTeamNumber())
@@ -25,11 +25,7 @@ function Naval_meeting:OnSpellStart()
         if caster:HasTalent("special_bonus_birzha_navalny_5") then
             self.schoolboy:AddNewModifier(caster, self, "modifier_magic_immune", {})
         end
-        if caster:HasTalent("special_bonus_birzha_navalny_3") then
-            self.schoolboy:SetBaseDamageMin(self.schoolboy:GetBaseDamageMin() + 100)
-            self.schoolboy:SetBaseDamageMax(self.schoolboy:GetBaseDamageMax() + 100)
-        end
-        if caster:HasTalent("special_bonus_birzha_navalny_4") then
+        if caster:HasTalent("special_bonus_birzha_navalny_8") then
             self.schoolboy:AddNewModifier(caster, self, "modifier_naval_meeting_talent", {})
         end
     end
@@ -46,15 +42,18 @@ function modifier_naval_meeting_talent:IsHidden()
 end
 
 function modifier_naval_meeting_talent:OnCreated()
-    self:GetParent():SetBaseDamageMin(self:GetParent():GetBaseDamageMin() * 2)
-    self:GetParent():SetBaseDamageMax(self:GetParent():GetBaseDamageMax() * 2)
-    self:GetParent():SetBaseMaxHealth(self:GetParent():GetMaxHealth() * 2)
+    if not IsServer() then return end
+    self:GetParent():SetBaseDamageMin(self:GetParent():GetBaseDamageMin() * self:GetCaster():FindTalentValue("special_bonus_birzha_navalny_8"))
+    self:GetParent():SetBaseDamageMax(self:GetParent():GetBaseDamageMax() * self:GetCaster():FindTalentValue("special_bonus_birzha_navalny_8"))
+    self:GetParent():SetBaseMaxHealth(self:GetParent():GetMaxHealth() * self:GetCaster():FindTalentValue("special_bonus_birzha_navalny_8"))
     self:GetParent():SetHealth(self:GetParent():GetMaxHealth())
 end
 
 
 LinkLuaModifier( "modifier_naval_acid_spray", "abilities/heroes/navalny.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_naval_acid_spray_debuff", "abilities/heroes/navalny.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_naval_acid_spray_ally", "abilities/heroes/navalny.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_naval_acid_spray_buff", "abilities/heroes/navalny.lua", LUA_MODIFIER_MOTION_NONE )
 
 naval_acid_spray = class({})
 
@@ -71,11 +70,7 @@ function naval_acid_spray:GetManaCost(level)
 end
 
 function naval_acid_spray:GetAOERadius()
-    local bonus_radius = 0
-    if self:GetCaster():HasShard() then
-        bonus_radius = 200
-    end
-    return self:GetSpecialValueFor("radius") + bonus_radius
+    return self:GetSpecialValueFor("radius")
 end
 
 function naval_acid_spray:OnSpellStart()
@@ -84,6 +79,9 @@ function naval_acid_spray:OnSpellStart()
     local duration = self:GetSpecialValueFor( "duration" )
 
     CreateModifierThinker( caster, self, "modifier_naval_acid_spray", { duration = duration }, point, caster:GetTeamNumber(), false )
+    if self:GetCaster():HasTalent("special_bonus_birzha_navalny_3") then
+        CreateModifierThinker( caster, self, "modifier_naval_acid_spray_ally", { duration = duration }, point, caster:GetTeamNumber(), false )
+    end
 end
 
 modifier_naval_acid_spray = class({})
@@ -93,11 +91,7 @@ function modifier_naval_acid_spray:IsPurgable()
 end
 
 function modifier_naval_acid_spray:OnCreated( kv )
-    local bonus_radius = 0
-    if self:GetCaster():HasShard() then
-        bonus_radius = 200
-    end
-    self.radius = self:GetAbility():GetSpecialValueFor( "radius" ) + bonus_radius
+    self.radius = self:GetAbility():GetSpecialValueFor( "radius" )
     if not IsServer() then return end
     local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_alchemist/alchemist_acid_spray.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
     ParticleManager:SetParticleControl( particle, 0, self:GetParent():GetOrigin() )
@@ -111,7 +105,7 @@ modifier_naval_acid_spray_debuff = class({})
 function modifier_naval_acid_spray_debuff:OnCreated( kv )
     local interval = self:GetAbility():GetSpecialValueFor( "tick_rate" )
     local damage = self:GetAbility():GetSpecialValueFor( "damage" )
-    self.armor = -(self:GetAbility():GetSpecialValueFor( "armor_reduction" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_navalny_1"))
+    self.armor = -self:GetAbility():GetSpecialValueFor( "armor_reduction" )
     if not IsServer() then return end
     self.damageTable = {
         victim = self:GetParent(),
@@ -124,7 +118,8 @@ function modifier_naval_acid_spray_debuff:OnCreated( kv )
 end
 
 function modifier_naval_acid_spray_debuff:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
     }
 
@@ -166,6 +161,9 @@ function modifier_naval_acid_spray:GetAuraSearchType()
 end
 
 function modifier_naval_acid_spray:GetAuraSearchFlags()
+    if self:GetCaster():HasTalent("special_bonus_birzha_navalny_4") then
+        return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
+    end
     return 0
 end
 
@@ -174,6 +172,71 @@ function modifier_naval_acid_spray_debuff:GetEffectName()
 end
 
 function modifier_naval_acid_spray_debuff:GetEffectAttachType()
+    return PATTACH_ABSORIGIN_FOLLOW
+end
+
+modifier_naval_acid_spray_ally = class({})
+
+function modifier_naval_acid_spray_ally:IsPurgable()
+    return false
+end
+
+function modifier_naval_acid_spray_ally:OnCreated( kv )
+    self.radius = self:GetAbility():GetSpecialValueFor( "radius" )
+end
+
+function modifier_naval_acid_spray_ally:IsAura()
+    return true
+end
+
+function modifier_naval_acid_spray_ally:GetModifierAura()
+    return "modifier_naval_acid_spray_buff"
+end
+
+function modifier_naval_acid_spray_ally:GetAuraRadius()
+    return self.radius
+end
+
+function modifier_naval_acid_spray_ally:GetAuraDuration()
+    return 0.5
+end
+
+function modifier_naval_acid_spray_ally:GetAuraSearchTeam()
+    return DOTA_UNIT_TARGET_TEAM_FRIENDLY
+end
+
+function modifier_naval_acid_spray_ally:GetAuraSearchType()
+    return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC
+end
+
+function modifier_naval_acid_spray_ally:GetAuraSearchFlags()
+    return DOTA_UNIT_TARGET_FLAG_INVULNERABLE
+end
+
+modifier_naval_acid_spray_buff = class({})
+
+function modifier_naval_acid_spray_buff:OnCreated( kv )
+    self.armor = self:GetAbility():GetSpecialValueFor( "armor_reduction" )
+end
+
+function modifier_naval_acid_spray_buff:DeclareFunctions()
+    local funcs = 
+    {
+        MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
+    }
+
+    return funcs
+end
+
+function modifier_naval_acid_spray_buff:GetModifierPhysicalArmorBonus()
+    return self.armor
+end
+
+function modifier_naval_acid_spray_buff:GetEffectName()
+    return "particles/units/heroes/hero_alchemist/alchemist_acid_spray_debuff.vpcf"
+end
+
+function modifier_naval_acid_spray_buff:GetEffectAttachType()
     return PATTACH_ABSORIGIN_FOLLOW
 end
 
@@ -209,7 +272,7 @@ function modifier_Naval_Youtube:OnIntervalThink()
     if self:GetAbility():IsFullyCastable() then
         self:GetAbility():UseResources(false, false, true)
         self:GetCaster():ModifyGold( money, true, 0 )
-        local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_dragon_knight/dragon_knight_transform_red_spotlight.vpcf", PATTACH_ABSORIGIN_FOLLOW, caster) 
+        local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_dragon_knight/dragon_knight_transform_red_spotlight.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster()) 
     end
 end
 
@@ -227,8 +290,9 @@ function Naval_President:GetManaCost(level)
 end
 
 function Naval_President:OnSpellStart()
+    if not IsServer() then return end
     local caster = self:GetCaster()
-    local duration = self:GetSpecialValueFor( "duration" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_navalny_6")
+    local duration = self:GetSpecialValueFor( "duration" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_navalny_7")
     caster:AddNewModifier( caster, self, "modifier_naval_president", { duration = duration } )
     caster:EmitSound("navalprez")
 end
@@ -240,6 +304,12 @@ function modifier_naval_president:OnCreated()
     self.hp_regen = self:GetAbility():GetSpecialValueFor( "hp_regen" )
     self.bonus_attack_speed = self:GetAbility():GetSpecialValueFor( "bonus_attack_speed" )
     if not IsServer() then return end
+    self.scepter = false
+    if self:GetCaster():HasScepter() then
+        self.scepter = true
+        local particle = ParticleManager:CreateParticle( "particles/econ/items/omniknight/omni_ti8_head/omniknight_repel_buff_ti8.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
+        self:AddParticle(particle, false, false, -1, false, false )
+    end
     local particle = ParticleManager:CreateParticle( "particles/econ/items/bloodseeker/bloodseeker_eztzhok_weapon/bloodseeker_bloodrage_eztzhok.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent() )
     self:AddParticle(particle, false, false, -1, false, false )
 end
@@ -252,18 +322,19 @@ function modifier_naval_president:OnDestroy()
 end
 
 function modifier_naval_president:DeclareFunctions()
-    local funcs = {
-    MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
-    MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
-    MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-    MODIFIER_PROPERTY_MODEL_SCALE,
+    local funcs = 
+    {
+        MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE,
+        MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
+        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+        MODIFIER_PROPERTY_MODEL_SCALE,
     }
 
     return funcs
 end
 
 function modifier_naval_president:CheckState()
-    if not self:GetParent():HasScepter() then return end
+    if not self.scepter then return end
     return {
         [MODIFIER_STATE_MAGIC_IMMUNE] = true,
     }
@@ -273,8 +344,8 @@ function modifier_naval_president:GetModifierModelScale()
     return 75
 end
 
-function modifier_naval_president:GetModifierPreAttack_BonusDamage()
-    return self.bonus_damage
+function modifier_naval_president:GetModifierTotalDamageOutgoing_Percentage()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_navalny_6")
 end
 
 function modifier_naval_president:GetModifierConstantHealthRegen()
@@ -283,13 +354,4 @@ end
 
 function modifier_naval_president:GetModifierAttackSpeedBonus_Constant()
     return self.bonus_attack_speed
-end
-
-function modifier_naval_president:GetEffectName()
-    if not self:GetParent():HasScepter() then return end
-    return "particles/econ/items/omniknight/omni_ti8_head/omniknight_repel_buff_ti8.vpcf"
-end
-
-function modifier_naval_president:GetEffectAttachType()
-    return PATTACH_ABSORIGIN_FOLLOW
 end

@@ -13,19 +13,25 @@ function Panasenkov_catch:GetManaCost(level)
 end
 
 function Panasenkov_catch:GetCastRange(location, target)
-    return self.BaseClass.GetCastRange(self, location, target)
+    return self.BaseClass.GetCastRange(self, location, target) + self:GetCaster():FindTalentValue("special_bonus_birzha_ponasenkov_4")
 end
 
 function Panasenkov_catch:OnSpellStart()
 	if not IsServer() then return end
 	self.target = self:GetCursorTarget()
+
 	if self.target:TriggerSpellAbsorb( self ) then
         return
     end
+
 	self:GetCaster():EmitSound("PasenkovDeshSetka")
+
 	local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_ponasenkov_1")
+
 	self.target:AddNewModifier(self:GetCaster(), self, "modifier_Panasenkov_catch", {duration = duration * (1 - self.target:GetStatusResistance())})
+
 	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Panasenkov_catch_caster", {})
+
 	self.target:EmitSound("PasenkovDesh")
 end
 
@@ -52,13 +58,11 @@ end
 
 function modifier_Panasenkov_catch:CheckState()
 	local state = {[MODIFIER_STATE_STUNNED] = true}
-	
 	return state
 end
 
 function modifier_Panasenkov_catch:DeclareFunctions()
 	local decFuncs = {MODIFIER_PROPERTY_OVERRIDE_ANIMATION}
-	
 	return decFuncs
 end
 
@@ -110,11 +114,11 @@ function modifier_Panasenkov_catch_caster:OnDestroy()
 end
 
 function modifier_Panasenkov_catch_caster:CheckState()
-	local state = {
+	local state = 
+	{
 		[MODIFIER_STATE_MAGIC_IMMUNE] = true,
 		[MODIFIER_STATE_DISARMED] = true,
 	}
-
 	return state
 end
 
@@ -162,7 +166,7 @@ LinkLuaModifier( "modifier_Panasenkov_rakom", "abilities/heroes/panasenkov.lua",
 Panasenkov_rakom = class({})
 
 function Panasenkov_rakom:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_ponasenkov_2")
 end
 
 function Panasenkov_rakom:GetManaCost(level)
@@ -175,7 +179,7 @@ end
 
 function Panasenkov_rakom:GetAOERadius()
     if self:GetCaster():HasShard() then
-        return 200
+        return self:GetSpecialValueFor("shard_radius")
     end
 
     return 0
@@ -184,7 +188,6 @@ end
 function Panasenkov_rakom:GetBehavior()
     local caster = self:GetCaster()
     local scepter = caster:HasShard()
-
     if scepter then
         return DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR_AOE
     else
@@ -194,10 +197,10 @@ end
 
 function Panasenkov_rakom:OnSpellStart()
 	if not IsServer() then return end
-	local duration = self:GetSpecialValueFor("duration")
+	local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_ponasenkov_3")
 
 	if self:GetCaster():HasShard() then
-		local targets = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetCursorPosition(), nil, 200, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, 0, 0, false )
+		local targets = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetCursorPosition(), nil, self:GetSpecialValueFor("shard_radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, 0, 0, false )
 	    for _,enemy in pairs(targets) do
 			enemy:AddNewModifier(self:GetCaster(), self, "modifier_Panasenkov_rakom", {duration = duration * (1 - enemy:GetStatusResistance())})
 		end
@@ -220,26 +223,21 @@ end
 
 function modifier_Panasenkov_rakom:OnCreated()
 	if not IsServer() then return end
+	local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_leshrac/leshrac_diabolic_edict.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
+	ParticleManager:SetParticleControlEnt( effect_cast, 1, self:GetParent(), PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", Vector(0,0,0), true )
+	ParticleManager:ReleaseParticleIndex( effect_cast )
 	self:StartIntervalThink(0.5)
 end
 
 function modifier_Panasenkov_rakom:OnIntervalThink()
 	local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_leshrac/leshrac_diabolic_edict.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
-
-	ParticleManager:SetParticleControlEnt(
-		effect_cast,
-		1,
-		self:GetParent(),
-		PATTACH_ABSORIGIN_FOLLOW,
-		"attach_hitloc",
-		Vector(0,0,0),
-		true
-	)
+	ParticleManager:SetParticleControlEnt( effect_cast, 1, self:GetParent(), PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", Vector(0,0,0), true )
 	ParticleManager:ReleaseParticleIndex( effect_cast )
 end
 
 function modifier_Panasenkov_rakom:DeclareFunctions()
-	return {
+	return 
+	{
 		MODIFIER_EVENT_ON_TAKEDAMAGE
 	}
 end
@@ -253,13 +251,13 @@ function modifier_Panasenkov_rakom:OnTakeDamage(params)
 	end
 end
 
-
 LinkLuaModifier( "modifier_Panasenkov_groza", "abilities/heroes/panasenkov.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_Panasenkov_groza_debuff", "abilities/heroes/panasenkov.lua", LUA_MODIFIER_MOTION_NONE )
 
 Panasenkov_groza = class({})
 
 function Panasenkov_groza:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_ponasenkov_2")
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_ponasenkov_6")
 end
 
 function Panasenkov_groza:GetManaCost(level)
@@ -296,17 +294,8 @@ function modifier_Panasenkov_groza:OnIntervalThink()
 	if self:GetAbility():IsFullyCastable() then
 		local damage = self:GetAbility():GetSpecialValueFor( "damage" )
 		local radius = self:GetAbility():GetSpecialValueFor( "radius" )
-		local targets = FindUnitsInRadius(self:GetParent():GetTeamNumber(),
-		self:GetParent():GetAbsOrigin(),
-		nil,
-		radius,
-		DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO,
-		DOTA_UNIT_TARGET_FLAG_NONE,
-		FIND_ANY_ORDER,
-		false)
+		local targets = FindUnitsInRadius(self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
 		if #targets <= 0 then return end
-
 		local target = nil
 		for _,enemy in pairs(targets) do
 			target = enemy
@@ -316,7 +305,6 @@ function modifier_Panasenkov_groza:OnIntervalThink()
 			target = enemies[1]
 		end
 		self:GetAbility():UseResources( false, false, true )
-
 		target:EmitSound("PasenkovGroza")
 		self.purifying_particle = ParticleManager:CreateParticle("particles/panasenkov/panasenkov_groza.vpcf", PATTACH_ABSORIGIN_FOLLOW, target)
 		ParticleManager:SetParticleControlEnt(self.purifying_particle, 1, target, PATTACH_POINT_FOLLOW, "attach_hitloc", target:GetAbsOrigin(), true)
@@ -324,8 +312,28 @@ function modifier_Panasenkov_groza:OnIntervalThink()
 		self.purifying_cast_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_oracle/oracle_purifyingflames_cast.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
 		ParticleManager:SetParticleControlEnt(self.purifying_cast_particle, 1, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetCaster():GetAbsOrigin(), true)
 		ParticleManager:ReleaseParticleIndex(self.purifying_particle)
+
+		local modifier_Panasenkov_groza_debuff = target:FindModifierByName("modifier_Panasenkov_groza_debuff")
+		if modifier_Panasenkov_groza_debuff then
+			damage = damage + ( modifier_Panasenkov_groza_debuff:GetStackCount() * self:GetCaster():FindTalentValue("special_bonus_birzha_ponasenkov_8") )
+		end
+
 		ApplyDamage({victim = target, attacker = self:GetParent(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
+		if self:GetCaster():HasTalent("special_bonus_birzha_ponasenkov_8") then
+			target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_Panasenkov_groza_debuff", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_ponasenkov_8", "value2")})
+		end
 	end
+end
+
+modifier_Panasenkov_groza_debuff = class({})
+function modifier_Panasenkov_groza_debuff:IsPurgable() return false end
+function modifier_Panasenkov_groza_debuff:OnCreated()
+	if not IsServer() then return end
+	self:SetStackCount(1)
+end
+function modifier_Panasenkov_groza_debuff:OnRefresh()
+	if not IsServer() then return end
+	self:IncrementStackCount()
 end
 
 LinkLuaModifier( "modifier_Panasenkov_song", "abilities/heroes/panasenkov.lua", LUA_MODIFIER_MOTION_NONE )
@@ -340,7 +348,7 @@ function Panasenkov_song:GetManaCost(level)
 end
 
 function Panasenkov_song:GetCastRange(location, target)
-    return self:GetSpecialValueFor( "radius" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_ponasenkov_4")
+    return self:GetSpecialValueFor( "radius" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_ponasenkov_7")
 end
 
 function Panasenkov_song:OnToggle()
@@ -348,17 +356,14 @@ function Panasenkov_song:OnToggle()
 	local toggle = self:GetToggleState()
 
 	if toggle then
-		self.modifier = caster:AddNewModifier(
-			caster,
-			self,
-			"modifier_Panasenkov_song",
-			{}
-		)
+		self.modifier = caster:AddNewModifier( caster, self, "modifier_Panasenkov_song", {})
+		self:EndCooldown()
 	else
 		if self.modifier and not self.modifier:IsNull() then
 			self.modifier:Destroy()
 		end
 		self.modifier = nil
+		self:UseResources(false, false, true)
 	end
 end
 
@@ -374,21 +379,22 @@ end
 
 function modifier_Panasenkov_song:OnCreated( kv )
 	if not IsServer() then return end
-	local damage = self:GetAbility():GetSpecialValueFor( "damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_ponasenkov_3")
-	self.radius = self:GetAbility():GetSpecialValueFor( "radius" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_ponasenkov_4")
+	local damage = self:GetAbility():GetSpecialValueFor( "damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_ponasenkov_5")
+	self.radius = self:GetAbility():GetSpecialValueFor( "radius" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_ponasenkov_7")
 	self.manacost = self:GetAbility():GetSpecialValueFor( "mana_cost_per_second" )
 
-	self.damageTable = {
+	self.damageTable = 
+	{
 		attacker = self:GetParent(),
 		damage = damage,
 		damage_type = self:GetAbility():GetAbilityDamageType(),
 		ability = self:GetAbility(),
 	}
+
 	local interval = 1
 	self.parent = self:GetParent()
 	self:Burn()
 	self:StartIntervalThink( interval )
-	self:OnIntervalThink()
 	EmitSoundOn( "PasenkovUltimate", self.parent )
 end
 
@@ -411,17 +417,7 @@ end
 function modifier_Panasenkov_song:Burn()
 	self.parent:SpendMana( self.manacost, self:GetAbility() )
 
-	local enemies = FindUnitsInRadius(
-		self.parent:GetTeamNumber(),
-		self.parent:GetOrigin(),
-		nil,
-		self.radius,
-		DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-		0,
-		0,
-		false
-	)
+	local enemies = FindUnitsInRadius( self.parent:GetTeamNumber(), self.parent:GetOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false)
 
 	for _,enemy in pairs(enemies) do
 		self.damageTable.victim = enemy
@@ -442,19 +438,10 @@ function modifier_Panasenkov_song:PlayEffects( target )
 	local particle_cast = "particles/units/heroes/hero_leshrac/leshrac_pulse_nova.vpcf"
 	local radius = 100
 	local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, target )
-	ParticleManager:SetParticleControlEnt(
-		effect_cast,
-		0,
-		target,
-		PATTACH_POINT_FOLLOW,
-		"attach_hitloc",
-		Vector(0,0,0),
-		true
-	)
+	ParticleManager:SetParticleControlEnt( effect_cast, 0, target, PATTACH_POINT_FOLLOW, "attach_hitloc", Vector(0,0,0), true )
 	ParticleManager:SetParticleControl( effect_cast, 1, Vector(radius,0,0) )
 	ParticleManager:ReleaseParticleIndex( effect_cast )
 end
-
 
 LinkLuaModifier( "modifier_ponasenkov_ya_vas_killed", "abilities/heroes/panasenkov.lua", LUA_MODIFIER_MOTION_NONE )
 
@@ -481,7 +468,7 @@ function ponasenkov_ya_vas_killed:OnSpellStart()
 	local target = self:GetCursorTarget()
 	local duration = self:GetSpecialValueFor( "duration" )
 	self:GetCaster():EmitSound("panasenkov_shard")
-	target:AddNewModifier( caster, self, "modifier_ponasenkov_ya_vas_killed", { duration = duration } )
+	target:AddNewModifier( caster, self, "modifier_ponasenkov_ya_vas_killed", { duration = duration * (1-target:GetStatusResistance()) } )
 	self:PlayEffects( target )
 end
 
@@ -508,7 +495,8 @@ function modifier_ponasenkov_ya_vas_killed:OnCreated( kv )
 end
 
 function modifier_ponasenkov_ya_vas_killed:DeclareFunctions()
-	local funcs = {
+	local funcs = 
+	{
 		MODIFIER_EVENT_ON_ABILITY_FULLY_CAST,
 	}
 
@@ -527,9 +515,8 @@ function modifier_ponasenkov_ya_vas_killed:OnIntervalThink()
 	AddFOWViewer(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), 50, FrameTime(), false)
 end
 
-
 function modifier_ponasenkov_ya_vas_killed:Silence()
-	self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_silence", {duration = self:GetAbility():GetSpecialValueFor("debuff_duration")})
+	self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_silence", {duration = self:GetAbility():GetSpecialValueFor("debuff_duration") * (1-self:GetParent():GetStatusResistance())})
 	local damage = self:GetAbility():GetSpecialValueFor("damage")
 	local damageTable = {
 		victim = self:GetParent(),
@@ -547,7 +534,7 @@ end
 function modifier_ponasenkov_ya_vas_killed:OnDestroy()
 	if not IsServer() then return end
 	if self.silence then
-		self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_silence", {duration = self:GetAbility():GetSpecialValueFor("debuff_duration")})
+		self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_silence", {duration = self:GetAbility():GetSpecialValueFor("debuff_duration") * (1-self:GetParent():GetStatusResistance())})
 		local damage = self:GetAbility():GetSpecialValueFor("damage")
 		local damageTable = {
 			victim = self:GetParent(),

@@ -1,5 +1,4 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
-
 LinkLuaModifier( "modifier_tailer_burger_buff", "abilities/heroes/tailer.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier( "modifier_tailer_burger_buff_counter", "abilities/heroes/tailer.lua", LUA_MODIFIER_MOTION_NONE)
 
@@ -16,12 +15,15 @@ function tailer_burger:OnSpellStart()
 		self:GetCaster():StartGesture(ACT_DOTA_UNDYING_SOUL_RIP)
     	local duration = self:GetSpecialValueFor("duration")
     	target:AddNewModifier(self:GetCaster(), self, "modifier_tailer_burger_buff", {duration = duration})
-    	target:AddNewModifier(self:GetCaster(), self, "modifier_tailer_burger_buff_counter", {})
+    	target:AddNewModifier(self:GetCaster(), self, "modifier_tailer_burger_buff_counter", {duration = duration})
     	target:EmitSound("item_burger")
     	return
 	end
+
 	self:GetCaster():StartGesture(ACT_DOTA_ATTACK)
-	local info = {
+
+	local info = 
+	{
         Target = target,
         Source = self:GetCaster(),
         Ability = self, 
@@ -32,6 +34,7 @@ function tailer_burger:OnSpellStart()
         bDodgeable = false,
         iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1,
     }
+
     self:GetCaster():EmitSound("SeasonalConsumable.TI9.Monkey.ProjectileThrow")
     ProjectileManager:CreateTrackingProjectile(info)
 end
@@ -41,7 +44,7 @@ function tailer_burger:OnProjectileHit( target, vLocation )
     if target == nil then return end
     local duration = self:GetSpecialValueFor("duration")
     target:AddNewModifier(self:GetCaster(), self, "modifier_tailer_burger_buff", {duration = duration})
-    target:AddNewModifier(self:GetCaster(), self, "modifier_tailer_burger_buff_counter", {})
+    target:AddNewModifier(self:GetCaster(), self, "modifier_tailer_burger_buff_counter", {duration = duration})
     target:EmitSound("item_burger")
 end
 
@@ -51,50 +54,6 @@ function modifier_tailer_burger_buff:IsPurgable() return false end
 function modifier_tailer_burger_buff:IsHidden() return true end
 function modifier_tailer_burger_buff:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
-function modifier_tailer_burger_buff:OnCreated()
-	self.bonus_str = self:GetAbility():GetSpecialValueFor("bonus_str")
-	self.bonus_agi = self:GetAbility():GetSpecialValueFor("bonus_agi")
-	self.bonus_int = self:GetAbility():GetSpecialValueFor("bonus_int")
-	self.movespeed = self:GetAbility():GetSpecialValueFor("movespeed")
-	self.attackspeed = self:GetAbility():GetSpecialValueFor("attackspeed")
-
-	if self:GetCaster():HasScepter() then
-		self.bonus_str = self.bonus_str * 2
-		self.bonus_agi = self.bonus_agi * 2
-		self.bonus_int = self.bonus_int * 2
-	end
-end
-
-function modifier_tailer_burger_buff:DeclareFunctions()
-	return {
-		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
-		MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
-		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
-		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
-		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-	}
-end
-
-function modifier_tailer_burger_buff:GetModifierBonusStats_Strength()
-	return self.bonus_str
-end
-
-function modifier_tailer_burger_buff:GetModifierBonusStats_Agility()
-	return self.bonus_agi
-end
-
-function modifier_tailer_burger_buff:GetModifierBonusStats_Intellect()
-	return self.bonus_int
-end
-
-function modifier_tailer_burger_buff:GetModifierMoveSpeedBonus_Percentage()
-	return self.movespeed
-end
-
-function modifier_tailer_burger_buff:GetModifierAttackSpeedBonus_Constant()
-	return self.attackspeed
-end
-
 modifier_tailer_burger_buff_counter = class({})
 
 function modifier_tailer_burger_buff_counter:GetEffectName() return "particles/tailer/burger_effect.vpcf" end
@@ -103,6 +62,10 @@ function modifier_tailer_burger_buff_counter:GetEffectAttachType() return PATTAC
 function modifier_tailer_burger_buff_counter:IsPurgable() return false end
 
 function modifier_tailer_burger_buff_counter:OnCreated()
+	self.bonus_str = self:GetAbility():GetSpecialValueFor("bonus_str")
+	self.bonus_agi = self:GetAbility():GetSpecialValueFor("bonus_agi")
+	self.bonus_int = self:GetAbility():GetSpecialValueFor("bonus_int")
+	self.attackspeed = self:GetAbility():GetSpecialValueFor("attackspeed")
 	if not IsServer() then return end
 	self:StartIntervalThink(FrameTime())
 end
@@ -127,6 +90,58 @@ function modifier_tailer_burger_buff_counter:GetModifierModelScale()
 	return math.min(self:GetStackCount() * 5, 50)
 end
 
+function modifier_tailer_burger_buff_counter:DeclareFunctions()
+	return {
+		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
+		MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
+		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
+		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+	}
+end
+
+function modifier_tailer_burger_buff_counter:GetModifierBonusStats_Strength()
+	return self.bonus_str * self:GetStackCount()
+end
+
+function modifier_tailer_burger_buff_counter:GetModifierBonusStats_Agility()
+	return self.bonus_agi * self:GetStackCount()
+end
+
+function modifier_tailer_burger_buff_counter:GetModifierBonusStats_Intellect()
+	return self.bonus_int * self:GetStackCount()
+end
+
+function modifier_tailer_burger_buff_counter:GetModifierAttackSpeedBonus_Constant()
+	return self.attackspeed * self:GetStackCount()
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 LinkLuaModifier("modifier_tailer_burgerking_buff", "abilities/heroes/tailer.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_tailer_burgerking_debuff", "abilities/heroes/tailer.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_tailer_burgerking_buff_hero", "abilities/heroes/tailer.lua", LUA_MODIFIER_MOTION_NONE)
@@ -135,7 +150,7 @@ tailer_burgerking = class({})
 
 function tailer_burgerking:OnSpellStart()
 	if not IsServer() then return end
-	local duration = self:GetSpecialValueFor("duration")
+	local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_tailer_6")
 	local point = self:GetCursorPosition()
 	local burger_king = CreateUnitByName("npc_dota_tailer_burger_king", point, true, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeam())
 	burger_king:SetControllableByPlayer(self:GetCaster():GetPlayerID(), true)
@@ -151,8 +166,8 @@ function modifier_tailer_burgerking_buff:IsHidden() return true end
 
 function modifier_tailer_burgerking_buff:OnCreated()
 	if not IsServer() then return end
-    self.destroy_attacks            = self:GetAbility():GetSpecialValueFor("attack_destroy") + self:GetCaster():FindTalentValue("special_bonus_birzha_tailer_4")
-    if self:GetCaster():HasTalent("special_bonus_birzha_tailer_4") then
+    self.destroy_attacks            = self:GetAbility():GetSpecialValueFor("attack_destroy") + self:GetCaster():FindTalentValue("special_bonus_birzha_tailer_5")
+    if self:GetCaster():HasTalent("special_bonus_birzha_tailer_5") then
     	self:GetParent():SetBaseMaxHealth(10)
     	self:GetParent():SetHealth(10)
     end
@@ -160,7 +175,7 @@ function modifier_tailer_burgerking_buff:OnCreated()
     self.health_increments          = self:GetParent():GetMaxHealth() / self.destroy_attacks
     self:StartIntervalThink(FrameTime())
 
-    EmitSoundOn("tailer_two", self:GetParent())
+    self:GetParent():EmitSound("tailer_two")
 
     local particle = ParticleManager:CreateParticle("particles/econ/items/juggernaut/jugg_fall20_immortal/jugg_fall20_immortal_healing_ward.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
     ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
@@ -353,6 +368,29 @@ function modifier_tailer_burgerking_buff_hero:OnIntervalThink()
 	end
 end
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 LinkLuaModifier("modifier_tailer_damageblock", "abilities/heroes/tailer.lua", LUA_MODIFIER_MOTION_NONE)
 
 tailer_damageblock = class({})
@@ -409,9 +447,9 @@ function modifier_tailer_damageblock:OnTakeDamage( params )
 	if not self.parent:IsAlive() then return end
     if params.attacker:GetUnitName() == "dota_fountain" then return end
     if params.attacker:IsBoss() then return end
-	self:StartIntervalThink( self.reset + self:GetCaster():FindTalentValue("special_bonus_birzha_tailer_7") )
+	self:StartIntervalThink( self.reset + self:GetCaster():FindTalentValue("special_bonus_birzha_tailer_2") )
 	self.damage = self.damage + params.damage
-	if self.damage < (self.purge + self:GetCaster():FindTalentValue("special_bonus_birzha_tailer_2")) then return end
+	if self.damage < (self.purge + self:GetCaster():FindTalentValue("special_bonus_birzha_tailer_4")) then return end
 	self.damage = 0
 	self:IncrementStackCount()
 	self.parent:Purge( false, true, false, true, true )
@@ -427,7 +465,7 @@ end
 function modifier_tailer_damageblock:GetModifierPhysicalArmorBonus()
 	if self.parent:PassivesDisabled() then return 0 end
 	local multiple = 1
-	if self:GetCaster():HasTalent("special_bonus_birzha_tailer_6") then
+	if self:GetCaster():HasTalent("special_bonus_birzha_tailer_7") then
 		multiple = 2
 	end
 	return (self:GetStackCount() * multiple) * (self:GetAbility():GetSpecialValueFor("bonus_armor") + self:GetCaster():FindTalentValue("special_bonus_birzha_tailer_1"))
@@ -437,6 +475,17 @@ function modifier_tailer_damageblock:OnIntervalThink()
 	self:StartIntervalThink( -1 )
 	self.damage = 0
 end
+
+
+
+
+
+
+
+
+
+
+
 
 LinkLuaModifier("modifier_tailer_doubleform", "abilities/heroes/tailer.lua", LUA_MODIFIER_MOTION_NONE)
 
@@ -448,7 +497,7 @@ end
 
 function tailer_doubleform:OnSpellStart()
 	if not IsServer() then return end
-	local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_tailer_5")
+	local duration = self:GetSpecialValueFor("duration")
 	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_tailer_doubleform", {duration = duration})
 end
 
@@ -458,26 +507,27 @@ function modifier_tailer_doubleform:IsPurgable() return false end
 
 function modifier_tailer_doubleform:OnCreated()
 	self.bonus_strength_kv = self:GetAbility():GetSpecialValueFor("bonus_strength")
-	self.bonus_strength = self:GetParent():GetStrength() / 100 * self.bonus_strength_kv
 	self.movespeed_slow = self:GetAbility():GetSpecialValueFor("movespeed_slow")
-
 	self.range = self:GetAbility():GetSpecialValueFor("range")
 	self.strength_multiplier = self:GetAbility():GetSpecialValueFor("strength_multiplier")
 	self.radius = self:GetAbility():GetSpecialValueFor("radius")
 	if not IsServer() then return end
 
-	self.update_str = 0
+	self.bonus_strength = self:GetParent():GetStrength() / 100 * self.bonus_strength_kv
+	self:GetCaster():CalculateStatBonus(true)
 
 	self.zhir_item = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/tidehunter/horror_from_the_deep_belt/horror_from_the_deep_belt.vmdl"})
 	self.zhir_item:FollowEntity(self:GetParent(), true)
-
 	self.distance = 0
 	self.currentpos = self:GetParent():GetOrigin()
+
 	Timers:CreateTimer(FrameTime(), function()
 		self:GetParent():StartGesture(ACT_DOTA_CAST_ABILITY_4)
 		self:GetParent():EmitSound("tailer_ultimate_scream")
 	end)
+
 	self:GetParent():EmitSound("tailer_ultimate")
+
 	self:StartIntervalThink(FrameTime())
 end
 
@@ -491,14 +541,13 @@ end
 
 function modifier_tailer_doubleform:OnRefresh()
 	self.bonus_strength_kv = self:GetAbility():GetSpecialValueFor("bonus_strength")
-	self.bonus_strength = self:GetParent():GetStrength() / 100 * self.bonus_strength_kv
 	self.movespeed_slow = self:GetAbility():GetSpecialValueFor("movespeed_slow")
-
 	self.range = self:GetAbility():GetSpecialValueFor("range")
 	self.strength_multiplier = self:GetAbility():GetSpecialValueFor("strength_multiplier")
 	self.radius = self:GetAbility():GetSpecialValueFor("radius")
-
 	if not IsServer() then return end
+	self.bonus_strength = self:GetParent():GetStrength() / 100 * self.bonus_strength_kv
+	self:GetCaster():CalculateStatBonus(true)
 	Timers:CreateTimer(FrameTime(), function()
 		self:GetParent():StartGesture(ACT_DOTA_CAST_ABILITY_4)
 		self:GetParent():EmitSound("tailer_ultimate_scream")
@@ -506,17 +555,20 @@ function modifier_tailer_doubleform:OnRefresh()
 end
 
 function modifier_tailer_doubleform:DeclareFunctions()
-	local funcs = {
+	local funcs = 
+	{
 		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
 		MODIFIER_PROPERTY_MODEL_CHANGE,
-		MODIFIER_PROPERTY_MODEL_SCALE
+		MODIFIER_PROPERTY_MODEL_SCALE,
+		MODIFIER_PROPERTY_TOOLTIP,
 	}
 	return funcs
 end
 
 function modifier_tailer_doubleform:CheckState()
-	local state = {
+	local state = 
+	{
 		[MODIFIER_STATE_FLYING_FOR_PATHING_PURPOSES_ONLY] = true,
 		[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
 	}
@@ -525,12 +577,11 @@ function modifier_tailer_doubleform:CheckState()
 end
 
 function modifier_tailer_doubleform:OnIntervalThink()
-	if self.update_str >= 2 then
-		self.bonus_strength = 0
-		self.bonus_strength = self:GetParent():GetStrength() / 100 * self.bonus_strength_kv
-		self.update_str = 0
-	end
-	self.update_str = self.update_str + FrameTime()
+	if not IsServer() then return end
+	self.bonus_strength = 0
+	self.bonus_strength = self:GetParent():GetStrength() / 100 * self.bonus_strength_kv
+	self:GetCaster():CalculateStatBonus(true)
+
 	local pos = self:GetParent():GetOrigin()
 	local dist = (pos - self.currentpos):Length2D()
 	self.currentpos = pos
@@ -550,9 +601,14 @@ function modifier_tailer_doubleform:Pulse()
 
 	local damage = self:GetParent():GetStrength() * self.strength_multiplier
 
+
+	if self:GetCaster():HasTalent("special_bonus_birzha_tailer_8") then
+		damage = damage + (self:GetCaster():GetAverageTrueAttackDamage(nil) / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_tailer_8"))
+	end
+
 	local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
 	for _, target in pairs(enemies) do
-		ApplyDamage({victim = target, attacker = self:GetParent(), damage = damage, ability = self:GetAbility(), damage_type = DAMAGE_TYPE_PHYSICAL})
+		ApplyDamage({victim = target, attacker = self:GetParent(), damage = damage, ability = self:GetAbility(), damage_type = DAMAGE_TYPE_MAGICAL})
 		if self:GetCaster():HasShard() then
         	local distance = (target:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Length2D()
         	local direction = (target:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Normalized()
@@ -572,8 +628,10 @@ function modifier_tailer_doubleform:Pulse()
         	target:AddNewModifier( self:GetCaster(), nil, "modifier_knockback", knockbackProperties )
 		end
 	end
+end
 
-
+function modifier_tailer_doubleform:OnTooltip()
+	return self.bonus_strength_kv
 end
 
 function modifier_tailer_doubleform:GetModifierBonusStats_Strength()

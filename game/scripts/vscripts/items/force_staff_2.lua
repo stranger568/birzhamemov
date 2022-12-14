@@ -6,8 +6,15 @@ item_force_staff_2 = class({})
 
 function item_force_staff_2:OnSpellStart()
     if not IsServer() then return end
-    self:GetCursorTarget():AddNewModifier(self:GetCaster(), self, 'modifier_item_force_staff_2_pull', {})
-    EmitSoundOn('DOTA_Item.ForceStaff.Activate', self:GetCursorTarget())
+
+    local target = self:GetCursorTarget()
+
+    if target == self:GetCaster() then
+        self:GetCaster():AddNewModifier(self:GetCaster(), self, 'modifier_item_forcestaff_active', {push_length = self:GetSpecialValueFor("push_length")})
+    else
+        self:GetCursorTarget():AddNewModifier(self:GetCaster(), self, 'modifier_item_force_staff_2_pull', {})
+        target:EmitSound("DOTA_Item.ForceStaff.Activate")
+    end
 end
 
 function item_force_staff_2:GetIntrinsicModifierName() 
@@ -16,13 +23,10 @@ end
 
 modifier_item_force_staff_2 = class({})
 
-function modifier_item_force_staff_2:IsHidden()
-    return true
-end
-
-function modifier_item_force_staff_2:IsPurgable()
-    return false
-end
+function modifier_item_force_staff_2:IsHidden() return true end
+function modifier_item_force_staff_2:IsPurgable() return false end
+function modifier_item_force_staff_2:IsPurgeException() return false end
+function modifier_item_force_staff_2:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_force_staff_2:DeclareFunctions()
 return  {
@@ -30,34 +34,37 @@ return  {
             MODIFIER_PROPERTY_MOVESPEED_BONUS_UNIQUE,
             MODIFIER_PROPERTY_HEALTH_BONUS,
             MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
+            MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
         }
 end
 
 function modifier_item_force_staff_2:GetModifierBonusStats_Intellect()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor("bonus_intellect")
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("bonus_intellect")
 end
 
 function modifier_item_force_staff_2:GetModifierConstantHealthRegen()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor('bonus_hp_regen')
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('bonus_hp_regen')
 end
 
-function modifier_item_force_staff_2:GetModifierMoveSpeedBonus_Special_Boots()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor("bonus_movespeed")
-    end
+function modifier_item_force_staff_2:GetModifierMoveSpeedBonus_Constant()
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("bonus_movespeed")
 end
 
 function modifier_item_force_staff_2:GetModifierPhysicalArmorBonus()
-    if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor("bonus_armor")
-    end
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("bonus_armor")
 end
 
-modifier_item_force_staff_2_pull = modifier_item_force_staff_2_pull or class({})
+function modifier_item_force_staff_2:GetModifierHealthBonus()
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("bonus_health")
+end
+
+modifier_item_force_staff_2_pull = class({})
+
 function modifier_item_force_staff_2_pull:IsDebuff() return false end
 function modifier_item_force_staff_2_pull:IsHidden() return true end
 function modifier_item_force_staff_2_pull:IsPurgable() return false end
@@ -68,7 +75,8 @@ function modifier_item_force_staff_2_pull:GetMotionControllerPriority() return D
 function modifier_item_force_staff_2_pull:GetAttributes() return MODIFIER_ATTRIBUTE_PERMANENT end
 
 function modifier_item_force_staff_2_pull:GetEffectName()
-    return "particles/econ/items/windrunner/windranger_arcana/windranger_arcana_item_force_staff_v2.vpcf" end
+    return "particles/econ/items/windrunner/windranger_arcana/windranger_arcana_item_force_staff_v2.vpcf" 
+end
 
 function modifier_item_force_staff_2_pull:CheckState()
     return   {  [MODIFIER_STATE_ROOTED] = true,
@@ -150,9 +158,11 @@ function modifier_item_force_staff_2_buff:GetModifierMoveSpeedBonus_Percentage()
 end
 
 function modifier_item_force_staff_2_buff:GetEffectName()
-    return "particles/econ/items/windrunner/windranger_arcana/windranger_arcana_windrun_v2.vpcf" end
+    return "particles/econ/items/windrunner/windranger_arcana/windranger_arcana_windrun_v2.vpcf" 
+end
 
 function modifier_item_force_staff_2_buff:GetEffectAttachType()
-    return PATTACH_ABSORIGIN_FOLLOW end
+    return PATTACH_ABSORIGIN_FOLLOW 
+end
 
 

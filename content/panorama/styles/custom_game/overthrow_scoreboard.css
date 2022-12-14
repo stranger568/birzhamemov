@@ -14,7 +14,7 @@
 
 .PanelInformation {
 	background-image: url("file://{images}/custom_game/right_info/panel.png");
-    background-size: contain;
+    background-size: 100%;
     width: 64px;
     height: 64px;
     margin-left: 10px;

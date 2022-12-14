@@ -2,16 +2,6 @@
 {
 	"Version"		"1"
 	
-	"item_bristback"
-	{
-		"ItemPurchasable"				"0"
-		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
-	}
-	"item_crysdalus"
-	{
-		"ItemPurchasable"				"0"
-		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
-	}
 	"item_abakan"
 	{
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
@@ -46,8 +36,6 @@
 	"item_orb_of_corrosion"		"REMOVE"
 	"item_recipe_witch_blade"		"REMOVE"
 	"item_witch_blade"		"REMOVE"
-	"item_recipe_mage_slayer"		"REMOVE"
-	"item_mage_slayer"		"REMOVE"
 	"item_recipe_eternal_shroud"		"REMOVE"
 	"item_eternal_shroud"		"REMOVE"
 	"item_recipe_helm_of_the_overlord"		"REMOVE"
@@ -73,4 +61,10 @@
 	"item_bloodthorn"	"REMOVE"
 	"item_ethereal_blade"	"REMOVE"
 	"item_recipe_ethereal_blade"	"REMOVE"
+	"item_recipe_hand_of_midas"		"REMOVE"
+	"item_hand_of_midas"		"REMOVE"
+	"item_heavens_halberd"		"REMOVE"
+	"item_recipe_heavens_halberd"		"REMOVE"
+	"item_manta"		"REMOVE"
+	"item_recipe_manta"		"REMOVE"
 }

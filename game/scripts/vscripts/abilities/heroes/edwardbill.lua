@@ -50,7 +50,7 @@ function modifier_EdwardBil_Agression:IsPurgable()
 end
 
 function modifier_EdwardBil_Agression:OnCreated()
-    self.phys_immunitet = self:GetAbility():GetSpecialValueFor("phys_immunitet")
+    self.phys_immunitet = self:GetAbility():GetSpecialValueFor("phys_immunitet") + self:GetCaster():FindTalentValue("special_bonus_birzha_edwardbill_6")
     self.bonus_attack_speed = self:GetAbility():GetSpecialValueFor("bonus_attack_speed")
     if not IsServer() then return end
     self.target = self:GetAbility().target
@@ -88,13 +88,13 @@ function modifier_EdwardBil_Agression:OnIntervalThink()
 end
 
 function modifier_EdwardBil_Agression:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE,
         MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
         MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE,
         MODIFIER_PROPERTY_IGNORE_CAST_ANGLE,
     }
-
     return funcs
 end
 
@@ -111,15 +111,14 @@ function modifier_EdwardBil_Agression:GetModifierMoveSpeed_Absolute( params )
 end
 
 function modifier_EdwardBil_Agression:CheckState()
-    local state = {
-        [MODIFIER_STATE_MAGIC_IMMUNE] = true,
+    local state = 
+    {
         [MODIFIER_STATE_COMMAND_RESTRICTED] = true,
         [MODIFIER_STATE_FAKE_ALLY] = true
     }
 
     if self:GetCaster():HasShard() then
         state = {
-            [MODIFIER_STATE_MAGIC_IMMUNE] = true,
             [MODIFIER_STATE_IGNORING_MOVE_AND_ATTACK_ORDERS] = true,
             [MODIFIER_STATE_FAKE_ALLY] = true
         }       
@@ -131,7 +130,6 @@ end
 function modifier_EdwardBil_Agression:GetModifierIgnoreCastAngle()
     return 1
 end
-
 
 modifier_EdwardBil_Agression_debuff = class({}) 
 
@@ -148,11 +146,12 @@ function modifier_EdwardBil_Agression_debuff:DeclareFunctions()
 end
 
 function modifier_EdwardBil_Agression_debuff:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_SILENCED] = true,
     }
 
-    if not self:GetCaster():HasTalent("special_bonus_birzha_edwardbill_1") then
+    if not self:GetCaster():HasTalent("special_bonus_birzha_edwardbill_7") then
         return
     end
 
@@ -192,28 +191,25 @@ function modifier_EdwardBil_Chi_Yes_passive:DeclareFunctions()
     return declfuncs
 end
 
-function modifier_EdwardBil_Chi_Yes_passive:OnAttackLanded(kv)
+function modifier_EdwardBil_Chi_Yes_passive:OnAttackLanded(params)
     if not IsServer() then return end
-    local attacker = kv.attacker
-    local target = kv.target
-    local chanceproc = self:GetAbility():GetSpecialValueFor("chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_edwardbill_3")
-    local chance = RandomInt(1, 100)
-    self.duration = self:GetAbility():GetSpecialValueFor("duration")
-    self.damage = self:GetAbility():GetSpecialValueFor("bonus_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_edwardbill_4")
-    if self:GetParent() == attacker then
-        if target:IsOther() then
-            return nil
-        end
-        if self:GetParent():PassivesDisabled() then return end
-        if attacker:IsIllusion() then return end
-        if RandomInt(1, 100) <= chanceproc then
-            target:AddNewModifier( attacker, self:GetAbility(), "modifier_EdwardBil_Chi_Yes_slow", {duration = self.duration})
-            ApplyDamage({victim = target, attacker = attacker, damage = self.damage, ability = self:GetAbility(), damage_type = DAMAGE_TYPE_PHYSICAL})
-            if chance < 10 then
-                attacker:EmitSound("edwardchidadouble")
-            else
-                attacker:EmitSound("edwardchida")
-            end
+    if params.attacker ~= self:GetParent() then return end
+    if params.target == self:GetParent() then return end
+    if params.target:IsWard() then return end
+    if self:GetParent():PassivesDisabled() then return end
+    if params.attacker:IsIllusion() then return end
+
+    local chance = self:GetAbility():GetSpecialValueFor("chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_edwardbill_4")
+    local duration = self:GetAbility():GetSpecialValueFor("duration")
+    local damage = self:GetAbility():GetSpecialValueFor("bonus_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_edwardbill_1")
+
+    if RollPercentage( chance ) then
+        params.target:AddNewModifier( params.attacker, self:GetAbility(), "modifier_EdwardBil_Chi_Yes_slow", {duration = duration * (1 - params.target:GetStatusResistance()) })
+        ApplyDamage({victim = params.target, attacker = params.attacker, damage = damage, ability = self:GetAbility(), damage_type = DAMAGE_TYPE_PHYSICAL})
+        if RollPercentage(10) then
+            params.attacker:EmitSound("edwardchidadouble")
+        else
+            params.attacker:EmitSound("edwardchida")
         end
     end
 end
@@ -225,7 +221,8 @@ function modifier_EdwardBil_Chi_Yes_slow:IsPurgable()
 end
 
 function modifier_EdwardBil_Chi_Yes_slow:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
         MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
     }
@@ -257,18 +254,29 @@ function EdwardBil_V_EBASOS:GetCastRange(location, target)
     return self.BaseClass.GetCastRange(self, location, target)
 end
 
+function EdwardBil_V_EBASOS:GetBehavior()
+    if self:GetCaster():HasTalent("special_bonus_birzha_edwardbill_8") then
+        return DOTA_ABILITY_BEHAVIOR_PASSIVE
+    end
+    return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
+end
+
 function EdwardBil_V_EBASOS:OnSpellStart()
     if not IsServer() then return end
     local target = self:GetCursorTarget()
     if target:TriggerSpellAbsorb(self) then return nil end
+
     local damage_crit = self:GetSpecialValueFor("damage_crit")
     local duration = self:GetSpecialValueFor("duration")
     local damage = self:GetCaster():GetAverageTrueAttackDamage(nil) / 100 * damage_crit
-    target:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", {duration = duration})
+
+    target:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", {duration = duration * (1 - target:GetStatusResistance()) })
     ApplyDamage({victim = target, attacker = self:GetCaster(), damage = damage, ability = self, damage_type = self:GetAbilityDamageType()})
+
     local distance = (target:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Length2D()
     local direction = (target:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Normalized()
     local bump_point = self:GetCaster():GetAbsOrigin() - direction * (distance + 50)
+
     local knockbackProperties =
     {
         center_x = bump_point.x,
@@ -279,17 +287,22 @@ function EdwardBil_V_EBASOS:OnSpellStart()
         knockback_distance = 100,
         knockback_height = 300
     }
+
     target:AddNewModifier( self:GetCaster(), self, "modifier_knockback", knockbackProperties )
-    self:GetCaster():EmitSound("billstun")  
+
+    self:GetCaster():EmitSound("billstun") 
+
     local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_tusk/tusk_walruspunch_start.vpcf", PATTACH_CUSTOMORIGIN, self:GetCaster() );
     ParticleManager:SetParticleControlEnt( particle, 0, target, PATTACH_ABSORIGIN_FOLLOW, nil, target:GetOrigin(), true );
     ParticleManager:SetParticleControlEnt( particle, 1, target, PATTACH_POINT_FOLLOW, "attach_attack2", self:GetCaster():GetOrigin(), true );
     ParticleManager:SetParticleControlEnt( particle, 2, self:GetCaster(), PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", self:GetCaster():GetOrigin(), true );
     ParticleManager:ReleaseParticleIndex( particle )
+
     local particle_2 = ParticleManager:CreateParticle( "particles/units/heroes/hero_tusk/tusk_walruspunch_hand.vpcf", PATTACH_CUSTOMORIGIN, self:GetCaster() );
     ParticleManager:SetParticleControlEnt( particle_2, 1, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack2", self:GetCaster():GetOrigin(), true );
     ParticleManager:SetParticleControlEnt( particle_2, 2, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetCaster():GetOrigin(), true );
     ParticleManager:ReleaseParticleIndex( particle_2 )
+
     self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 5)
 end
 
@@ -313,66 +326,72 @@ function modifier_edwardbill_ebasosina:DeclareFunctions()
     return declfuncs
 end
 
-function modifier_edwardbill_ebasosina:OnAttackLanded(kv)
+function modifier_edwardbill_ebasosina:OnAttackLanded(params)
     if not IsServer() then return end
-    local attacker = kv.attacker
-    local target = kv.target
-    local damage_percent = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_edwardbill_5")
+    if params.attacker ~= self:GetParent() then return end
+    if params.target == self:GetParent() then return end
+    if params.target:IsWard() then return end
+    if self:GetParent():PassivesDisabled() then return end
+    
+    local damage_percent = self:GetAbility():GetSpecialValueFor("damage")
+    local damage = params.attacker:GetAverageTrueAttackDamage(nil) / 100 * damage_percent
 
-    if self:GetParent() == attacker then
-		if attacker:GetTeam() == target:GetTeam() then
-			return
-		end 
-        if target:IsOther() then
-            return nil
+    local vision_cone = 85
+    local caster_location = params.attacker:GetAbsOrigin()
+    local target_location = params.target:GetAbsOrigin()
+    local direction = (caster_location - target_location):Normalized()
+    local forward_vector = params.target:GetForwardVector()
+    local angle = math.abs(RotationDelta((VectorToAngles(direction)), VectorToAngles(forward_vector)).y)
+
+    if angle <= vision_cone/2 then
+        ApplyDamage({victim = params.target, attacker = params.attacker, damage = damage, ability = self:GetAbility(), damage_type = self:GetAbility():GetAbilityDamageType()})
+        params.attacker:EmitSound("edwardebasos")
+    end
+
+    if params.attacker:IsIllusion() then return end
+
+    if params.attacker:HasTalent("special_bonus_birzha_edwardbill_8") then
+        if RollPercentage(self:GetCaster():FindTalentValue("special_bonus_birzha_edwardbill_8")) then
+
+            local damage_crit = self:GetAbility():GetSpecialValueFor("damage_crit")
+            local duration = self:GetAbility():GetSpecialValueFor("duration")
+            local damage = params.attacker:GetAverageTrueAttackDamage(nil) / 100 * damage_crit
+
+            params.target:AddNewModifier(params.attacker, self:GetAbility(), "modifier_birzha_stunned", {duration = duration * (1 - params.target:GetStatusResistance()) })
+
+            ApplyDamage({victim = params.target, attacker = params.attacker, damage = damage, ability = self:GetAbility(), damage_type = self:GetAbility():GetAbilityDamageType()})
+
+            params.attacker:EmitSound("Hero_EarthSpirit.GeomagneticGrip.Stun")  
+
+            local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_tusk/tusk_walruspunch_start.vpcf", PATTACH_CUSTOMORIGIN, self:GetCaster() );
+            ParticleManager:SetParticleControlEnt( particle, 0, params.target, PATTACH_ABSORIGIN_FOLLOW, nil, params.target:GetOrigin(), true );
+            ParticleManager:SetParticleControlEnt( particle, 1, target, PATTACH_POINT_FOLLOW, "attach_attack2", self:GetCaster():GetOrigin(), true );
+            ParticleManager:SetParticleControlEnt( particle, 2, self:GetCaster(), PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", self:GetCaster():GetOrigin(), true );
+            ParticleManager:ReleaseParticleIndex( particle )
+
+            local particle_2 = ParticleManager:CreateParticle( "particles/units/heroes/hero_tusk/tusk_walruspunch_hand.vpcf", PATTACH_CUSTOMORIGIN, self:GetCaster() );
+            ParticleManager:SetParticleControlEnt( particle_2, 1, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack2", self:GetCaster():GetOrigin(), true );
+            ParticleManager:SetParticleControlEnt( particle_2, 2, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetCaster():GetOrigin(), true );
+            ParticleManager:ReleaseParticleIndex( particle_2 )
+
+            local distance = (params.target:GetAbsOrigin() - params.attacker:GetAbsOrigin()):Length2D()
+
+            local direction = (params.target:GetAbsOrigin() - params.attacker:GetAbsOrigin()):Normalized()
+
+            local bump_point = params.attacker:GetAbsOrigin() - direction * (distance + 50)
+
+            local knockbackProperties =
+            {
+                center_x = bump_point.x,
+                center_y = bump_point.y,
+                center_z = bump_point.z,
+                duration = 0.5 * (1 - params.target:GetStatusResistance()),
+                knockback_duration = 0.5 * (1 - params.target:GetStatusResistance()),
+                knockback_distance = 100,
+                knockback_height = 300
+            }
+            params.target:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_knockback", knockbackProperties )
         end
-        local damage = attacker:GetAverageTrueAttackDamage(nil) / 100 * damage_percent
-        local vision_cone = 85
-        local caster_location = attacker:GetAbsOrigin()
-        local target_location = target:GetAbsOrigin()
-        local direction = (caster_location - target_location):Normalized()
-        local forward_vector = target:GetForwardVector()
-        local angle = math.abs(RotationDelta((VectorToAngles(direction)), VectorToAngles(forward_vector)).y)
-        if attacker:PassivesDisabled() then return end
-        if attacker:IsIllusion() then return end
-        if angle <= vision_cone/2 then
-            ApplyDamage({victim = target, attacker = attacker, damage = damage, ability = self:GetAbility(), damage_type = self:GetAbility():GetAbilityDamageType()})
-            attacker:EmitSound("edwardebasos")
-        end
-        if attacker:HasTalent("special_bonus_birzha_edwardbill_7") then
-            local chance = RandomInt(1, 100)
-            if chance <= 8 then
-                local damage_crit = self:GetAbility():GetSpecialValueFor("damage_crit")
-                local duration = self:GetAbility():GetSpecialValueFor("duration")
-                local damage = attacker:GetAverageTrueAttackDamage(nil) / 100 * damage_crit
-                target:AddNewModifier(attacker, self:GetAbility(), "modifier_birzha_bashed", {duration = duration})
-                ApplyDamage({victim = target, attacker = attacker, damage = damage, ability = self:GetAbility(), damage_type = self:GetAbility():GetAbilityDamageType()})
-                attacker:EmitSound("Hero_EarthSpirit.GeomagneticGrip.Stun")  
-                local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_tusk/tusk_walruspunch_start.vpcf", PATTACH_CUSTOMORIGIN, self:GetCaster() );
-                ParticleManager:SetParticleControlEnt( particle, 0, target, PATTACH_ABSORIGIN_FOLLOW, nil, target:GetOrigin(), true );
-                ParticleManager:SetParticleControlEnt( particle, 1, target, PATTACH_POINT_FOLLOW, "attach_attack2", self:GetCaster():GetOrigin(), true );
-                ParticleManager:SetParticleControlEnt( particle, 2, self:GetCaster(), PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", self:GetCaster():GetOrigin(), true );
-                ParticleManager:ReleaseParticleIndex( particle )
-                local particle_2 = ParticleManager:CreateParticle( "particles/units/heroes/hero_tusk/tusk_walruspunch_hand.vpcf", PATTACH_CUSTOMORIGIN, self:GetCaster() );
-                ParticleManager:SetParticleControlEnt( particle_2, 1, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack2", self:GetCaster():GetOrigin(), true );
-                ParticleManager:SetParticleControlEnt( particle_2, 2, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetCaster():GetOrigin(), true );
-                ParticleManager:ReleaseParticleIndex( particle_2 )
-                local distance = (target:GetAbsOrigin() - attacker:GetAbsOrigin()):Length2D()
-                local direction = (target:GetAbsOrigin() - attacker:GetAbsOrigin()):Normalized()
-                local bump_point = attacker:GetAbsOrigin() - direction * (distance + 50)
-                local knockbackProperties =
-                {
-                    center_x = bump_point.x,
-                    center_y = bump_point.y,
-                    center_z = bump_point.z,
-                    duration = 0.5,
-                    knockback_duration = 0.5,
-                    knockback_distance = 100,
-                    knockback_height = 300
-                }
-                target:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_knockback", knockbackProperties )
-            end
-        end 
     end
 end
 
@@ -388,57 +407,81 @@ function edward_bil_prank:GetManaCost(level)
     return self.BaseClass.GetManaCost(self, level)
 end
 
+function edward_bil_prank:OnInventoryContentsChanged()
+    if self:GetCaster():HasTalent("special_bonus_birzha_edwardbill_3") then
+        self:SetHidden(false)       
+        if not self:IsTrained() then
+            self:SetLevel(1)
+        end
+    else
+        self:SetHidden(true)
+    end
+end
+
+function edward_bil_prank:OnHeroCalculateStatBonus()
+    self:OnInventoryContentsChanged()
+end
+
 function edward_bil_prank:OnSpellStart()
     if not IsServer() then return end
     self.duration = self:GetSpecialValueFor("invis_duration")
-    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_invisible", {duration = self.duration})
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_edward_bil_prank_invis", {duration = self.duration})
 end
 
 modifier_edward_bil_prank_invis = class({})
 
-function modifier_edward_bil_prank_invis:CheckState()
-if self:GetCaster():HasTalent("special_bonus_birzha_edwardbill_6") then
-    return {[MODIFIER_STATE_INVISIBLE] = true,[MODIFIER_STATE_FLYING_FOR_PATHING_PURPOSES_ONLY] = true,}
-end   
-return {[MODIFIER_STATE_INVISIBLE] = true,}
-end
-
-function modifier_edward_bil_prank_invis:DeclareFunctions()
-return {MODIFIER_EVENT_ON_ATTACK_LANDED,
-MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE}
-end
-
 function modifier_edward_bil_prank_invis:IsPurgable()
     return false
 end
 
-function modifier_edward_bil_prank_invis:OnAttackLanded(kv)
-    if not IsServer() then return end
+function modifier_edward_bil_prank_invis:DeclareFunctions()
+    local decFuncs = 
+    {
+        MODIFIER_PROPERTY_INVISIBILITY_LEVEL,
+        MODIFIER_EVENT_ON_ATTACK,
+        MODIFIER_EVENT_ON_ABILITY_EXECUTED 
 
+    }
+    return decFuncs
+end
+
+function modifier_edward_bil_prank_invis:GetModifierInvisibilityLevel()
+    return 1
+end
+
+function modifier_edward_bil_prank_invis:OnAttack( params )
+    if not IsServer() then return end
+    if params.attacker ~= self:GetParent() then return end
+    if params.target == self:GetParent() then return end
     local EdwardBil_Chi_Yes = self:GetCaster():FindAbilityByName("EdwardBil_Chi_Yes")
-    if EdwardBil_Chi_Yes ~= nil then
-        self.damage = EdwardBil_Chi_Yes:GetSpecialValueFor("bonus_damage")
-    else
-        self.damage = 0
+    if EdwardBil_Chi_Yes and EdwardBil_Chi_Yes:GetLevel() > 0 then
+        local duration = EdwardBil_Chi_Yes:GetSpecialValueFor("duration")
+        local damage = EdwardBil_Chi_Yes:GetSpecialValueFor("bonus_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_edwardbill_1")
+        params.target:AddNewModifier( params.attacker, self:GetAbility(), "modifier_EdwardBil_Chi_Yes_slow", {duration = duration * (1 - params.target:GetStatusResistance()) })
+        ApplyDamage({victim = params.target, attacker = params.attacker, damage = damage, ability = EdwardBil_Chi_Yes, damage_type = DAMAGE_TYPE_PHYSICAL})
+        params.attacker:EmitSound("edwardchida")
     end
-    
-    if kv.attacker == self:GetParent() then
-		if kv.attacker:GetTeam() == kv.target:GetTeam() then
-			return
-		end 
-        kv.target:AddNewModifier( kv.attacker, EdwardBil_Chi_Yes, "modifier_EdwardBil_Chi_Yes_slow", {duration = 0.5})
-        ApplyDamage({victim = kv.target, attacker = kv.attacker, ability = self:GetAbility(), damage = self.damage, damage_type = DAMAGE_TYPE_PHYSICAL})
-        kv.attacker:EmitSound("edwardchida")
-        if not self:IsNull() then
-            self:Destroy()
+    self:Destroy()
+end
+
+function modifier_edward_bil_prank_invis:OnAbilityExecuted(keys)
+    if IsServer() then
+        local ability = keys.ability
+        local caster = keys.unit
+        if caster == self:GetParent() then
+            if not self:IsNull() then
+                self:Destroy()
+            end
         end
     end
-end 
+end
 
-function modifier_edward_bil_prank_invis:GetModifierMoveSpeedBonus_Percentage()
-    return 15
-end 
+function modifier_edward_bil_prank_invis:CheckState()
+    return 
+    {
+        [MODIFIER_STATE_INVISIBLE] = true,
+    }
+end
 
 LinkLuaModifier("modifier_edward_gopnik_aura", "abilities/heroes/edwardbill.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_edward_gopnik", "abilities/heroes/edwardbill.lua", LUA_MODIFIER_MOTION_NONE)
@@ -490,7 +533,7 @@ function edward_gopnik:OnUpgrade()
 end
 
 function edward_gopnik:GetCastRange()
-    return self:GetSpecialValueFor("radius")
+    return self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_edwardbill_5")
 end
 
 modifier_edward_gopnik_aura = class({})
@@ -501,7 +544,7 @@ function modifier_edward_gopnik_aura:IsAura() return true end
 function modifier_edward_gopnik_aura:IsPermanent() return true end
 
 function modifier_edward_gopnik_aura:GetAuraRadius()
-    return self:GetAbility():GetSpecialValueFor("radius")
+    return self:GetAbility():GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_edwardbill_5")
 end
 
 function modifier_edward_gopnik_aura:GetAuraSearchFlags()
@@ -532,9 +575,9 @@ function modifier_edward_gopnik:IsDebuff()
     return true
 end
 
-
 function modifier_edward_gopnik:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE,
         MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
         MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,

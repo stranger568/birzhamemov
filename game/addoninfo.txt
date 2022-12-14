@@ -8,17 +8,11 @@
 		"birzhamemov_5v5v5",
 		"birzhamemov_5v5",
 		"birzhamemov_zxc",
-		"birzhamemov_wtf",
 	]
 	IsPlayable = 1
 	PenaltiesEnabled = 0
 	Default_Keys = 
 	[
-		{
-			Key = "Y"
-			Command = "+WheelButton"
-			Name = "CustomCommand"
-		},
 	]
 	map_options = 
 	[
@@ -39,15 +33,12 @@
 			map = "birzhamemov_duo"
 		},
 		{
-			MaxPlayers = 10
+			MaxPlayers = 8
 			map = "birzhamemov_solo"
 		},
 		{
 			MaxPlayers = 2
 			map = "birzhamemov_zxc"
-		},
-		{
-			map = "birzhamemov_wtf"
 		},
 	]
 	HideInTools = false

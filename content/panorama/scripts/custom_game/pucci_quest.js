@@ -1,11 +1,13 @@
 var parentHUDElements = $.GetContextPanel().GetParent().GetParent().GetParent().FindChild("HUDElements");
 $.GetContextPanel().SetParent(parentHUDElements);
 
-function SetNewQuest(data) {
+function SetNewQuest(data) 
+{
 	$.GetContextPanel().FindChildTraverse("CurrentQuest").FindChildTraverse("QuestName").text = $.Localize("#" + data.quest_name)
 	$.GetContextPanel().FindChildTraverse("CurrentQuest").FindChildTraverse("QuestProgressLabel").text = $.Localize("#" + data.quest_name + "_description")
 	$.GetContextPanel().FindChildTraverse("CurrentQuest").FindChildTraverse("QuestProgressCountLabel").text = data.min + " / " + data.max
-	$.GetContextPanel().FindChildTraverse("CurrentQuest").FindChildTraverse("QuestProgressFront").style.width = "0px"
+	var percentage = ((data.max-data.min)*100)/data.max
+	$.GetContextPanel().FindChildTraverse("CurrentQuest").FindChildTraverse("QuestProgressFront").style.width =  (100 - percentage) +'%';
 }
 
 function SetQuestProgress(data) {

@@ -5,7 +5,6 @@ LinkLuaModifier( "modifier_birzha_silenced", "modifiers/modifier_birzha_dota_mod
 aang_quas = class({})
 
 LinkLuaModifier( "modifier_aang_quas", "abilities/heroes/avatar", LUA_MODIFIER_MOTION_NONE )
-
 LinkLuaModifier( "modifier_aang_quas_passive", "abilities/heroes/avatar", LUA_MODIFIER_MOTION_NONE )
 
 function aang_quas:GetIntrinsicModifierName() 
@@ -78,7 +77,8 @@ function modifier_aang_quas:OnRefresh( kv )
 end
 
 function modifier_aang_quas:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
     }
 
@@ -312,24 +312,13 @@ function modifier_aang_invoke_passive:OnCreated()
     if not IsServer() then return end
     self:SetStackCount(0)
     if IsInToolsMode() then
-        self:SetStackCount(20)
+        self:SetStackCount(19)
     end
 end
 
 function modifier_aang_invoke_passive:OnDeath( params )
     if not IsServer() then return end
-    self:DeathLogic( params )
     self:KillLogic( params )
-end
-
-function modifier_aang_invoke_passive:DeathLogic( params )
-    local unit = params.unit
-    local pass = false
-    if unit==self:GetParent() and params.reincarnate==false then
-        pass = true
-    end
-    if pass then
-    end
 end
 
 function modifier_aang_invoke_passive:KillLogic( params )
@@ -348,7 +337,8 @@ function modifier_aang_invoke_passive:KillLogic( params )
 end
 
 function modifier_aang_invoke_passive:PlayEffects( target )
-    local info = {
+    local info = 
+    {
         Target = self:GetParent(),
         Source = target,
         EffectName = "particles/units/heroes/hero_nevermore/nevermore_necro_souls.vpcf",
@@ -364,11 +354,11 @@ function modifier_aang_invoke_passive:PlayEffects( target )
 end
 
 function modifier_aang_invoke_passive:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
         MODIFIER_EVENT_ON_DEATH
     }
-
     return funcs
 end
 
@@ -383,13 +373,13 @@ function aang_invoke:GetCooldown(level)
     local exort = self:GetCaster():FindAbilityByName("aang_exort")
     local cd_red = 0
     if exort then
-        cd_red = cd_red + exort:GetLevel() * 0.3333
+        cd_red = cd_red + exort:GetLevel() * self:GetSpecialValueFor("cooldown_per_sphere")
     end
     if wex then
-        cd_red = cd_red + wex:GetLevel() * 0.3333
+        cd_red = cd_red + wex:GetLevel() * self:GetSpecialValueFor("cooldown_per_sphere")
     end
     if quas then
-        cd_red = cd_red + quas:GetLevel() * 0.3333
+        cd_red = cd_red + quas:GetLevel() * self:GetSpecialValueFor("cooldown_per_sphere")
     end
     cooldown = cooldown - cd_red
     if self:GetCaster():HasModifier("modifier_aang_avatar") then
@@ -457,7 +447,7 @@ function aang_invoke:PlayEffects()
         true
     )
     ParticleManager:ReleaseParticleIndex( effect_cast )
-    EmitSoundOn( sound_cast, self:GetCaster() )
+    self:GetCaster():EmitSound(sound_cast)
 end
 
 function orb_manager:init()
@@ -694,99 +684,19 @@ end
 
 LinkLuaModifier("modifier_aang_lunge", "abilities/heroes/avatar.lua", LUA_MODIFIER_MOTION_HORIZONTAL)
 LinkLuaModifier("modifier_aang_lunge_damage", "abilities/heroes/avatar.lua", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_aang_lunge_stack", "abilities/heroes/avatar.lua", LUA_MODIFIER_MOTION_NONE)
 
 aang_lunge = class({})
-
-function aang_lunge:GetIntrinsicModifierName()
-    return "modifier_aang_lunge_stack"
-end
-
-modifier_aang_lunge_stack = class({})
-
-function modifier_aang_lunge_stack:IsHidden()
-    return false
-end
-
-function modifier_aang_lunge_stack:IsPurgable()
-    return false
-end
-
-function modifier_aang_lunge_stack:DestroyOnExpire()
-    return false
-end
-
-function modifier_aang_lunge_stack:OnCreated( kv )
-    self.max_charges = 1 + self:GetCaster():FindTalentValue("special_bonus_birzha_avatar_4")
-    if not IsServer() then return end
-    self:SetStackCount( self.max_charges )
-    self:CalculateCharge()
-end
-
-function modifier_aang_lunge_stack:OnRefresh( kv )
-    self.max_charges = 1 + self:GetCaster():FindTalentValue("special_bonus_birzha_avatar_4")
-    if not IsServer() then return end
-    self:CalculateCharge()
-end
-
-function modifier_aang_lunge_stack:DeclareFunctions()
-    local funcs = {
-        MODIFIER_EVENT_ON_ABILITY_FULLY_CAST,
-    }
-
-    return funcs
-end
-
-function modifier_aang_lunge_stack:OnAbilityFullyCast( params )
-    if not IsServer() then return end
-    if params.unit==self:GetParent() and (params.ability:GetName() == "item_refresher" or params.ability:GetName() == "item_refresher_shard") then
-        self:SetStackCount(self.max_charges)
-        self:SetDuration( -1, true )
-        self:StartIntervalThink( -1 )
-        return
-    end
-    if params.unit~=self:GetParent() or params.ability~=self:GetAbility() then
-        return
-    end
-    self:DecrementStackCount()
-    self:CalculateCharge()
-end
-
-function modifier_aang_lunge_stack:OnIntervalThink()
-    self:IncrementStackCount()
-    self:StartIntervalThink(-1)
-    self:CalculateCharge()
-end
-
-function modifier_aang_lunge_stack:CalculateCharge()
-    self:GetAbility():EndCooldown()
-    self.max_charges = 1 + self:GetCaster():FindTalentValue("special_bonus_birzha_avatar_4")
-    if self:GetStackCount()>=self.max_charges then
-        self:SetDuration( -1, false )
-        self:StartIntervalThink( -1 )
-    else
-        if self:GetRemainingTime() <= 0.05 then
-            local charge_time = self:GetAbility():GetCooldown( -1 ) * self:GetParent():GetCooldownReduction()
-            self:StartIntervalThink( charge_time )
-            self:SetDuration( charge_time, true )
-        end
-        if self:GetStackCount()==0 then
-            self:GetAbility():StartCooldown( self:GetRemainingTime() )
-        end
-    end
-end
 
 function aang_lunge:GetCastRange(location, target)
     return ability_manager:GetValueQuas(self, self:GetCaster(), "range")
 end
 
-function aang_lunge:GetCooldown(level)
+function aang_lunge:GetAbilityChargeRestoreTime(level)
     local quas = self:GetCaster():FindAbilityByName("aang_quas")
     if quas then
         local quas_level = quas:GetLevel()-1
-        return self.BaseClass.GetCooldown( self, quas_level )
-    end  
-    return self.BaseClass.GetCooldown( self, level )
+        return self.BaseClass.GetAbilityChargeRestoreTime( self, quas_level )
+    end
 end
 
 function aang_lunge:GetManaCost(level)
@@ -817,7 +727,7 @@ function aang_lunge:OnSpellStart()
         vSpawnOrigin = self:GetCaster():GetOrigin(), 
         fStartRadius = 100,
         fEndRadius = 100,
-        vVelocity = vDirection * 1200,
+        vVelocity = vDirection * 1100,
         fDistance = #(self:GetCursorPosition() - self:GetCaster():GetOrigin()),
         Source = self:GetCaster(),
         iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
@@ -846,7 +756,8 @@ function modifier_aang_lunge:IsMotionController() return true end
 function modifier_aang_lunge:GetMotionControllerPriority() return DOTA_MOTION_CONTROLLER_PRIORITY_MEDIUM end
 
 function modifier_aang_lunge:CheckState()
-    return {
+    return 
+        {
         [MODIFIER_STATE_INVULNERABLE]       = true,
         [MODIFIER_STATE_NO_UNIT_COLLISION]  = true,
         [MODIFIER_STATE_IGNORING_MOVE_AND_ATTACK_ORDERS] = true,
@@ -927,24 +838,13 @@ function aang_ice_wall:GetCastRange(location, target)
 end
 
 function aang_ice_wall:OnSpellStart()
+    if not IsServer() then return end
     local caster = self:GetCaster()
     local point = self:GetCursorPosition()
     local dir = point - caster:GetOrigin()
     dir.z = 0
     dir = dir:Normalized()
-
-    CreateModifierThinker(
-        caster,
-        self,
-        "modifier_aang_ice_wall_thinker",
-        {
-            x = dir.x,
-            y = dir.y,
-        },
-        caster:GetOrigin(),
-        caster:GetTeamNumber(),
-        false
-    )
+    CreateModifierThinker( caster, self, "modifier_aang_ice_wall_thinker", { x = dir.x, y = dir.y }, caster:GetOrigin(), caster:GetTeamNumber(), false)
 end
 
 modifier_aang_ice_wall_thinker = class({})
@@ -968,13 +868,11 @@ end
 function modifier_aang_ice_wall_thinker:OnCreated( kv )
     self.parent = self:GetParent()
     self.caster = self:GetCaster()
-
     local damage = ability_manager:GetValueQuas(self:GetAbility(), self:GetCaster(), "damage")
     self.range = ability_manager:GetValueQuas(self:GetAbility(), self:GetCaster(), "range") + self.caster:GetCastRangeBonus()
     self.delay = self:GetAbility():GetSpecialValueFor( "path_delay" )
     self.duration = ability_manager:GetValueQuas(self:GetAbility(), self:GetCaster(), "duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_avatar_3")
     self.radius = self:GetAbility():GetSpecialValueFor( "path_radius" )
-
     if not IsServer() then return end
     self.abilityDamageType = self:GetAbility():GetAbilityDamageType()
     self.abilityTargetTeam = self:GetAbility():GetAbilityTargetTeam()
@@ -983,21 +881,18 @@ function modifier_aang_ice_wall_thinker:OnCreated( kv )
     self.delayed = true
     self.targets = {}
     local start_range = 12
-
     self.direction = Vector( kv.x, kv.y, 0 )
     self.startpoint = self.parent:GetOrigin() + self.direction + start_range
     self.endpoint = self.startpoint + self.direction * self.range
-
-    self.damageTable = {
+    self.damageTable = 
+    {
         attacker = self.caster,
         damage = damage,
         damage_type = self.abilityDamageType,
         ability = self:GetAbility(),
     }
-
     self:StartIntervalThink( self.delay )
     self:PlayEffects1()
-    --self:PlayEffects2()
     self:PlayEffects3()
 end
 
@@ -1015,34 +910,19 @@ function modifier_aang_ice_wall_thinker:OnIntervalThink()
         local step = 0
         while step < self.range do
             local loc = self.startpoint + self.direction * step
-            AddFOWViewer(
-                self.caster:GetTeamNumber(),
-                loc,
-                self.radius,
-                self.duration,
-                false
-            )
-
+            AddFOWViewer( self.caster:GetTeamNumber(), loc, self.radius, self.duration, false)
             step = step + self.radius
         end
         return
     end
 
     local flag = DOTA_DAMAGE_FLAG_NONE
+
     if self:GetCaster():HasTalent("special_bonus_birzha_avatar_7") then
         flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
     end
 
-    local enemies = FindUnitsInLine(
-        self.caster:GetTeamNumber(),
-        self.startpoint,
-        self.endpoint,
-        nil,
-        self.radius,
-        self.abilityTargetTeam,
-        self.abilityTargetType,
-        flag
-    )
+    local enemies = FindUnitsInLine( self.caster:GetTeamNumber(), self.startpoint, self.endpoint, nil, self.radius, self.abilityTargetTeam, self.abilityTargetType, flag )
 
     for _,enemy in pairs(enemies) do
         if not self.targets[enemy] then
@@ -1050,19 +930,13 @@ function modifier_aang_ice_wall_thinker:OnIntervalThink()
             self.damageTable.victim = enemy
             ApplyDamage( self.damageTable )
             local duration = self:GetRemainingTime()
-            enemy:AddNewModifier(
-                self.caster,
-                self:GetAbility(),
-                "modifier_aang_ice_wall",
-                { duration = duration }
-            )
+            enemy:AddNewModifier( self.caster, self:GetAbility(), "modifier_aang_ice_wall", { duration = duration * (1-enemy:GetStatusResistance()) })
         end
     end
 end
 
 function modifier_aang_ice_wall_thinker:PlayEffects1()
-    local particle_cast = "particles/units/heroes/hero_jakiro/jakiro_ice_path.vpcf"
-    local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_WORLDORIGIN, self.parent )
+    local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_jakiro/jakiro_ice_path.vpcf", PATTACH_WORLDORIGIN, self.parent )
     ParticleManager:SetParticleControl( effect_cast, 0, self.startpoint )
     ParticleManager:SetParticleControl( effect_cast, 1, self.endpoint )
     ParticleManager:SetParticleControl( effect_cast, 2, Vector( 0, 0, self.delay ) )
@@ -1070,45 +944,25 @@ function modifier_aang_ice_wall_thinker:PlayEffects1()
 end
 
 function modifier_aang_ice_wall_thinker:PlayEffects2()
-    local particle_cast = "particles/units/heroes/hero_jakiro/jakiro_ice_path_b.vpcf"
-    local sound_cast = "Hero_Jakiro.IcePath"
-    local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_WORLDORIGIN, self.parent )
+    local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_jakiro/jakiro_ice_path_b.vpcf", PATTACH_WORLDORIGIN, self.parent )
     ParticleManager:SetParticleControl( effect_cast, 0, self.startpoint )
     ParticleManager:SetParticleControl( effect_cast, 1, self.endpoint )
     ParticleManager:SetParticleControl( effect_cast, 2, Vector( self.delay + self.duration, 0, 0 ) )
     ParticleManager:SetParticleControl( effect_cast, 9, self.startpoint )
-    ParticleManager:SetParticleControlEnt(
-        effect_cast,
-        9,
-        self.caster,
-        PATTACH_POINT_FOLLOW,
-        "attach_attack1",
-        Vector(0,0,0),
-        true
-    )
+    ParticleManager:SetParticleControlEnt( effect_cast, 9, self.caster, PATTACH_POINT_FOLLOW, "attach_attack1", Vector(0,0,0), true)
     ParticleManager:ReleaseParticleIndex( effect_cast )
-    EmitSoundOn( sound_cast, self.parent )
+    self.parent:EmitSound("Hero_Jakiro.IcePath")
 end
 
 function modifier_aang_ice_wall_thinker:PlayEffects3()
-    local particle_cast = "particles/aang_ice.vpcf"
-    local sound_cast = "Hero_Jakiro.IcePath"
-    local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_WORLDORIGIN, self.parent )
+    local effect_cast = ParticleManager:CreateParticle( "particles/aang_ice.vpcf", PATTACH_WORLDORIGIN, self.parent )
     ParticleManager:SetParticleControl( effect_cast, 0, self.startpoint )
     ParticleManager:SetParticleControl( effect_cast, 1, self.endpoint )
     ParticleManager:SetParticleControl( effect_cast, 2, Vector( self.delay + self.duration, 0, 0 ) )
     ParticleManager:SetParticleControl( effect_cast, 9, self.startpoint )
-    ParticleManager:SetParticleControlEnt(
-        effect_cast,
-        9,
-        self.caster,
-        PATTACH_POINT_FOLLOW,
-        "attach_attack1",
-        Vector(0,0,0),
-        true
-    )
+    ParticleManager:SetParticleControlEnt( effect_cast, 9, self.caster, PATTACH_POINT_FOLLOW, "attach_attack1", Vector(0,0,0), true )
     ParticleManager:ReleaseParticleIndex( effect_cast )
-    EmitSoundOn( sound_cast, self.parent )
+    self.parent:EmitSound("Hero_Jakiro.IcePath")
 end
 
 modifier_aang_ice_wall = class({})
@@ -1130,7 +984,8 @@ function modifier_aang_ice_wall:IsPurgable()
 end
 
 function modifier_aang_ice_wall:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_STUNNED] = true,
         [MODIFIER_STATE_FROZEN] = true,
     }
@@ -1146,13 +1001,12 @@ function modifier_aang_ice_wall:GetEffectAttachType()
     return PATTACH_ABSORIGIN_FOLLOW
 end
 
-
 aang_vacuum = class({})
 
 LinkLuaModifier( "modifier_aang_vacuum", "abilities/heroes/avatar.lua", LUA_MODIFIER_MOTION_HORIZONTAL )
 
 function aang_vacuum:GetAOERadius()
-    return self:GetSpecialValueFor( "radius" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_avatar_2")
+    return ability_manager:GetValueQuas(self, self:GetCaster(), "radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_avatar_1")
 end
 
 function aang_vacuum:GetCastRange(location, target)
@@ -1175,50 +1029,33 @@ end
 function aang_vacuum:OnSpellStart()
     local caster = self:GetCaster()
     local point = self:GetCursorPosition()
-    local radius = ability_manager:GetValueQuas(self, self:GetCaster(), "radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_avatar_2")
+    local radius = ability_manager:GetValueQuas(self, self:GetCaster(), "radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_avatar_1")
     local tree = self:GetSpecialValueFor( "radius_tree" )
     local duration = ability_manager:GetValueQuas(self, self:GetCaster(), "duration")
+
     local flag = DOTA_DAMAGE_FLAG_NONE
+
     if self:GetCaster():HasTalent("special_bonus_birzha_avatar_7") then
         flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
     end
 
-    local enemies = FindUnitsInRadius(
-        caster:GetTeamNumber(),
-        point,
-        nil,  
-        radius,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-        flag,
-        0,
-        false
-    )
+    local enemies = FindUnitsInRadius( caster:GetTeamNumber(), point, nil,   radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, 0, false )
 
     for _,enemy in pairs(enemies) do
-        enemy:AddNewModifier(
-            caster,
-            self,
-            "modifier_aang_vacuum",
-            {
-                duration = duration,
-                x = point.x,
-                y = point.y,
-            } -- kv
-        )
+        enemy:AddNewModifier( caster, self, "modifier_aang_vacuum", { duration = duration * (1-enemy:GetStatusResistance()), x = point.x, y = point.y })
     end
+
     GridNav:DestroyTreesAroundPoint( point, tree, false )
+
     self:PlayEffects( point, radius )
 end
 
 function aang_vacuum:PlayEffects( point, radius )
-    local particle_cast = "particles/avatar/avatar_vacuum.vpcf"
-    local sound_cast = "Hero_Dark_Seer.Vacuum"
-    local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_WORLDORIGIN, self:GetCaster() )
+    local effect_cast = ParticleManager:CreateParticle("particles/avatar/avatar_vacuum.vpcf", PATTACH_WORLDORIGIN, self:GetCaster() )
     ParticleManager:SetParticleControl( effect_cast, 0, point )
     ParticleManager:SetParticleControl( effect_cast, 1, Vector( radius, radius, radius ) )
     ParticleManager:ReleaseParticleIndex( effect_cast )
-    EmitSoundOnLocationWithCaster( point, sound_cast, self:GetCaster() )
+    EmitSoundOnLocationWithCaster( point, "Hero_Dark_Seer.Vacuum", self:GetCaster() )
 end
 
 modifier_aang_vacuum = class({})
@@ -1241,18 +1078,13 @@ end
 
 function modifier_aang_vacuum:OnCreated( kv )
     self.damage = self:GetAbility():GetSpecialValueFor("damage")
-
     if not IsServer() then return end
-
     self.abilityDamageType = self:GetAbility():GetAbilityDamageType()
-
     local center = Vector( kv.x, kv.y, 0 )
     self.direction = center - self:GetParent():GetOrigin()
     self.speed = self.direction:Length2D()/self:GetDuration()
-
     self.direction.z = 0
     self.direction = self.direction:Normalized()
-
     if not self:ApplyHorizontalMotionController() then
         if not self:IsNull() then
             self:Destroy()
@@ -1267,8 +1099,8 @@ end
 function modifier_aang_vacuum:OnDestroy()
     if not IsServer() then return end
     self:GetParent():RemoveHorizontalMotionController( self )
-
-    local damageTable = {
+    local damageTable = 
+    {
         victim = self:GetParent(),
         attacker = self:GetCaster(),
         damage = self.damage,
@@ -1279,10 +1111,10 @@ function modifier_aang_vacuum:OnDestroy()
 end
 
 function modifier_aang_vacuum:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_OVERRIDE_ANIMATION,
     }
-
     return funcs
 end
 
@@ -1291,10 +1123,10 @@ function modifier_aang_vacuum:GetOverrideAnimation()
 end
 
 function modifier_aang_vacuum:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_STUNNED] = true,
     }
-
     return state
 end
 
@@ -1309,91 +1141,10 @@ function modifier_aang_vacuum:OnHorizontalMotionInterrupted()
     end
 end
 
-
-LinkLuaModifier("modifier_aang_fast_hit_stack", "abilities/heroes/avatar.lua", LUA_MODIFIER_MOTION_NONE)
-
 aang_fast_hit = class({})
 
 function aang_fast_hit:GetCastRange(location, target)
     return self:GetSpecialValueFor( "radius" )
-end
-
-function aang_fast_hit:GetIntrinsicModifierName()
-    return "modifier_aang_fast_hit_stack"
-end
-
-modifier_aang_fast_hit_stack = class({})
-
-function modifier_aang_fast_hit_stack:IsHidden()
-    return false
-end
-
-function modifier_aang_fast_hit_stack:IsPurgable()
-    return false
-end
-
-function modifier_aang_fast_hit_stack:DestroyOnExpire()
-    return false
-end
-
-function modifier_aang_fast_hit_stack:OnCreated( kv )
-    self.max_charges = 1 + self:GetCaster():FindTalentValue("special_bonus_birzha_avatar_5")
-    if not IsServer() then return end
-    self:SetStackCount( self.max_charges )
-    self:CalculateCharge()
-end
-
-function modifier_aang_fast_hit_stack:OnRefresh( kv )
-    self.max_charges = 1 + self:GetCaster():FindTalentValue("special_bonus_birzha_avatar_5")
-    if not IsServer() then return end
-    self:CalculateCharge()
-end
-
-function modifier_aang_fast_hit_stack:DeclareFunctions()
-    local funcs = {
-        MODIFIER_EVENT_ON_ABILITY_FULLY_CAST,
-    }
-
-    return funcs
-end
-
-function modifier_aang_fast_hit_stack:OnAbilityFullyCast( params )
-    if not IsServer() then return end
-    if params.unit==self:GetParent() and (params.ability:GetName() == "item_refresher" or params.ability:GetName() == "item_refresher_shard") then
-        self:SetStackCount(self.max_charges)
-        self:SetDuration( -1, true )
-        self:StartIntervalThink( -1 )
-        return
-    end
-    if params.unit~=self:GetParent() or params.ability~=self:GetAbility() then
-        return
-    end
-    self:DecrementStackCount()
-    self:CalculateCharge()
-end
-
-function modifier_aang_fast_hit_stack:OnIntervalThink()
-    self:IncrementStackCount()
-    self:StartIntervalThink(-1)
-    self:CalculateCharge()
-end
-
-function modifier_aang_fast_hit_stack:CalculateCharge()
-    self:GetAbility():EndCooldown()
-    self.max_charges = 1 + self:GetCaster():FindTalentValue("special_bonus_birzha_avatar_5")
-    if self:GetStackCount()>=self.max_charges then
-        self:SetDuration( -1, false )
-        self:StartIntervalThink( -1 )
-    else
-        if self:GetRemainingTime() <= 0.05 then
-            local charge_time = self:GetAbility():GetCooldown( -1 ) * self:GetParent():GetCooldownReduction()
-            self:StartIntervalThink( charge_time )
-            self:SetDuration( charge_time, true )
-        end
-        if self:GetStackCount()==0 then
-            self:GetAbility():StartCooldown( self:GetRemainingTime() )
-        end
-    end
 end
 
 function aang_fast_hit:OnSpellStart()
@@ -1402,12 +1153,11 @@ function aang_fast_hit:OnSpellStart()
     local radius = self:GetSpecialValueFor( "radius" )
     local radius_hit = self:GetSpecialValueFor( "radius_hit" )
     local duration = ability_manager:GetValueWex(self, self:GetCaster(), "duration")
-    local damage = ability_manager:GetValueWex(self, self:GetCaster(), "damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_avatar_1")
+    local damage = ability_manager:GetValueWex(self, self:GetCaster(), "damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_avatar_2")
     local vector = self:GetCaster():GetAbsOrigin() + self:GetCaster():GetForwardVector()*200
     local target
     local flag = DOTA_DAMAGE_FLAG_NONE
     local damage_type = self:GetAbilityDamageType()
-
     if self:GetCaster():HasTalent("special_bonus_birzha_avatar_8") then
         flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
     end
@@ -1424,19 +1174,14 @@ function aang_fast_hit:OnSpellStart()
         EmitSoundOnLocationWithCaster( target:GetOrigin(), "AangFasthit", self:GetCaster() )
         local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), target:GetAbsOrigin(), nil, radius_hit, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO+DOTA_UNIT_TARGET_BASIC, flag, FIND_CLOSEST, false )
         for _,enemy in pairs(enemies) do
-            enemy:AddNewModifier(
-                self:GetCaster(),
-                self,
-                "modifier_birzha_stunned",
-                { duration = duration }
-            )
-            self.damageTable = {
+            enemy:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", { duration = duration * (1-enemy:GetStatusResistance()) })
+            self.damageTable = 
+            {
                 attacker = self:GetCaster(),
                 damage = damage,
                 damage_type = damage_type,
                 ability = self,
             }
-
             self.damageTable.victim = enemy
             ApplyDamage( self.damageTable )
         end
@@ -1494,130 +1239,42 @@ function aang_jumping:OnSpellStart()
     self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_7)
     self.effect = false
     local radius = self:GetSpecialValueFor("radius")
+
     local flag = DOTA_DAMAGE_FLAG_NONE
+
     if self:GetCaster():HasTalent("special_bonus_birzha_avatar_8") then
         flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
     end
-    local enemies = FindUnitsInRadius(
-        self:GetCaster():GetTeamNumber(),
-        self:GetCaster():GetOrigin(),
-        nil,
-        radius,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-        flag,
-        0,
-        false
-    )
+
+    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetCaster():GetOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, 0, false )
+
     local animation_pfx = ParticleManager:CreateParticle("particles/units/heroes/hero_elder_titan/elder_titan_echo_stomp.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
     ParticleManager:SetParticleControlEnt(animation_pfx, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, nil, self:GetCaster():GetAbsOrigin(), true)
     ParticleManager:SetParticleControl(animation_pfx, 1, Vector(radius, 0, 0))
     ParticleManager:SetParticleControl(animation_pfx, 2, Vector(self:GetCastPoint(), 0, 0))
     ParticleManager:SetParticleControl(animation_pfx, 3, self:GetCaster():GetAbsOrigin())
     ParticleManager:ReleaseParticleIndex(animation_pfx)
+
     self:GetCaster():EmitSound("AangJumping")
+
     for _,enemy in pairs(enemies) do
         local stun_duration = ability_manager:GetValueWex(self, self:GetCaster(), "stun_duration")
         local damage = ability_manager:GetValueWex(self, self:GetCaster(), "damage")
-        enemy:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = stun_duration})
+        enemy:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = stun_duration * (1-enemy:GetStatusResistance()) })
         ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self})
     end
 end
 
-LinkLuaModifier( "modifier_agility_toss", "abilities/heroes/avatar", LUA_MODIFIER_MOTION_HORIZONTAL  )
+LinkLuaModifier( "modifier_agility_toss", "abilities/heroes/avatar", LUA_MODIFIER_MOTION_HORIZONTAL )
 LinkLuaModifier( "modifier_generic_arc_lua",  "abilities/heroes/avatar", LUA_MODIFIER_MOTION_BOTH )
-LinkLuaModifier("modifier_aang_agility_toss_stack", "abilities/heroes/avatar.lua", LUA_MODIFIER_MOTION_NONE)
-
-
-
-
 
 aang_agility = class({})
 
-function aang_agility:GetIntrinsicModifierName()
-    return "modifier_aang_agility_toss_stack"
-end
-
-function aang_agility:GetCooldown(level)
+function aang_agility:GetAbilityChargeRestoreTime(level)
     local wex = self:GetCaster():FindAbilityByName("aang_wex")
     if wex then
         local wex_level = wex:GetLevel()-1
-        return self.BaseClass.GetCooldown( self, wex_level )
-    end  
-    return self.BaseClass.GetCooldown( self, level )
-end
-
-modifier_aang_agility_toss_stack = class({})
-
-function modifier_aang_agility_toss_stack:IsHidden()
-    return false
-end
-
-function modifier_aang_agility_toss_stack:IsPurgable()
-    return false
-end
-
-function modifier_aang_agility_toss_stack:DestroyOnExpire()
-    return false
-end
-
-function modifier_aang_agility_toss_stack:OnCreated( kv )
-    self.max_charges = 1 + self:GetCaster():FindTalentValue("special_bonus_birzha_avatar_6")
-    if not IsServer() then return end
-    self:SetStackCount( self.max_charges )
-    self:CalculateCharge()
-end
-
-function modifier_aang_agility_toss_stack:OnRefresh( kv )
-    self.max_charges = 1 + self:GetCaster():FindTalentValue("special_bonus_birzha_avatar_6")
-    if not IsServer() then return end
-    self:CalculateCharge()
-end
-
-function modifier_aang_agility_toss_stack:DeclareFunctions()
-    local funcs = {
-        MODIFIER_EVENT_ON_ABILITY_FULLY_CAST,
-    }
-
-    return funcs
-end
-
-function modifier_aang_agility_toss_stack:OnAbilityFullyCast( params )
-    if not IsServer() then return end
-    if params.unit==self:GetParent() and (params.ability:GetName() == "item_refresher" or params.ability:GetName() == "item_refresher_shard") then
-        self:SetStackCount(self.max_charges)
-        self:SetDuration( -1, true )
-        self:StartIntervalThink( -1 )
-        return
-    end
-    if params.unit~=self:GetParent() or params.ability~=self:GetAbility() then
-        return
-    end
-    self:DecrementStackCount()
-    self:CalculateCharge()
-end
-
-function modifier_aang_agility_toss_stack:OnIntervalThink()
-    self:IncrementStackCount()
-    self:StartIntervalThink(-1)
-    self:CalculateCharge()
-end
-
-function modifier_aang_agility_toss_stack:CalculateCharge()
-    self:GetAbility():EndCooldown()
-    self.max_charges = 1 + self:GetCaster():FindTalentValue("special_bonus_birzha_avatar_6")
-    if self:GetStackCount()>=self.max_charges then
-        self:SetDuration( -1, false )
-        self:StartIntervalThink( -1 )
-    else
-        if self:GetRemainingTime() <= 0.05 then
-            local charge_time = self:GetAbility():GetCooldown( -1 ) * self:GetParent():GetCooldownReduction()
-            self:StartIntervalThink( charge_time )
-            self:SetDuration( charge_time, true )
-        end
-        if self:GetStackCount()==0 then
-            self:GetAbility():StartCooldown( self:GetRemainingTime() )
-        end
+        return self.BaseClass.GetAbilityChargeRestoreTime( self, wex_level )
     end
 end
 
@@ -1634,18 +1291,7 @@ function aang_agility:FindEnemies()
         flag = flag + DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
     end
 
-    local units = FindUnitsInRadius(
-        caster:GetTeamNumber(), -- int, your team number
-        caster:GetOrigin(), -- point, center point
-        nil,    -- handle, cacheUnit. (not known)
-        radius, -- float, radius. or use FIND_UNITS_EVERYWHERE
-        DOTA_UNIT_TARGET_TEAM_BOTH, -- int, team filter
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, -- int, type filter
-        flag,  -- int, flag filter
-        FIND_CLOSEST,   -- int, order filter
-        false   -- bool, can grow cache
-    )
-
+    local units = FindUnitsInRadius( caster:GetTeamNumber(), caster:GetOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, FIND_CLOSEST, false )
     local target
     for _,unit in pairs(units) do
         local filter1 = (unit~=caster) and (not unit:IsBoss()) and (not unit:FindModifierByName( 'modifier_agility_toss' ))
@@ -1661,12 +1307,12 @@ end
 function aang_agility:OnAbilityPhaseStart()
     self.vTargetPosition = self:GetCursorPosition()
     return self:FindEnemies()
-    -- return true -- if success
 end
 
 function aang_agility:OnSpellStart()
     local point = self:GetCursorPosition()
     local target = self:FindEnemies()
+    if target == nil then return end
     target:AddNewModifier( self:GetCaster(), self, "modifier_agility_toss", {point_x = point.x, point_y = point.y, point_z = point.z} )
 end
 
@@ -1706,28 +1352,20 @@ function modifier_agility_toss:OnCreated( kv )
         if self:GetCaster():HasTalent("special_bonus_birzha_avatar_8") then
             flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
         end
-        local units = FindUnitsInRadius(
-        self.caster:GetTeamNumber(), -- int, your team number
-        self:GetParent():GetOrigin(), -- point, center point
-        nil,    -- handle, cacheUnit. (not known)
-        self:GetAbility():GetSpecialValueFor("radius"), -- float, radius. or use FIND_UNITS_EVERYWHERE
-        DOTA_UNIT_TARGET_TEAM_ENEMY, -- int, team filter
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, -- int, type filter
-        flag,  -- int, flag filter
-        FIND_CLOSEST,   -- int, order filter
-        false   -- bool, can grow cache
-    )
-    for _,unit in pairs(units) do
-        local damage = ability_manager:GetValueWex(self:GetAbility(), self:GetCaster(), "damage")
-        local damageTable = {victim = unit,
-        attacker = self:GetCaster(),
-        damage = damage,
-        ability = self:GetAbility(),
-        damage_type = DAMAGE_TYPE_MAGICAL,
-        ability = self:GetAbility()
-        }
-        ApplyDamage(damageTable)
-    end
+        local units = FindUnitsInRadius( self.caster:GetTeamNumber(), self:GetParent():GetOrigin(), nil, self:GetAbility():GetSpecialValueFor("radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, FIND_CLOSEST, false)
+        for _,unit in pairs(units) do
+            local damage = ability_manager:GetValueWex(self:GetAbility(), self:GetCaster(), "damage")
+            local damageTable = 
+            {
+                victim = unit,
+                attacker = self:GetCaster(),
+                damage = damage,
+                ability = self:GetAbility(),
+                damage_type = DAMAGE_TYPE_MAGICAL,
+                ability = self:GetAbility()
+            }
+            ApplyDamage(damageTable)
+        end
         GridNav:DestroyTreesAroundPoint( self.parent:GetOrigin(), 270, false )
         self.parent:EmitSound("Ability.TossImpact")
     end)
@@ -1758,10 +1396,10 @@ function modifier_agility_toss:OnDestroy()
 end
 
 function modifier_agility_toss:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_STUNNED] = true,
     }
-
     return state
 end
 
@@ -1802,8 +1440,6 @@ end
 function modifier_agility_toss:GetEffectAttachType()
     return PATTACH_ABSORIGIN_FOLLOW
 end
-
-
 
 modifier_generic_arc_lua = class({})
 
@@ -1860,12 +1496,12 @@ function modifier_generic_arc_lua:GetOverrideAnimation()
 end
 
 function modifier_generic_arc_lua:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_STUNNED] = self.isStun or false,
         [MODIFIER_STATE_COMMAND_RESTRICTED] = self.isRestricted or false,
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
     }
-
     return state
 end
 
@@ -2110,6 +1746,7 @@ function aang_fire_hit:OnSpellStart()
         vVelocity           = Vector(direction.x,direction.y,0) * 1200,
         bProvidesVision     = false,
     }
+
     ProjectileManager:CreateLinearProjectile(projectile)
     caster:EmitSound("AangFirehit")
 end
@@ -2194,13 +1831,14 @@ function aang_lightning:OnSpellStart()
     local hand = self:GetCaster():GetAttachmentOrigin(self:GetCaster():ScriptLookupAttachment("attach_attack1"))
     self:GetCaster():EmitSound("Hero_Zuus.GodsWrath.Target")
     local damage = ability_manager:GetValueExort(self, self:GetCaster(), "damage")
-    local double_damage = ability_manager:GetValueExort(self, self:GetCaster(), "damage") * 1.5
+    local double_damage = ability_manager:GetValueExort(self, self:GetCaster(), "damage") * (self:GetSpecialValueFor("damage_multiple") / 100)
     local velocity = (vector - self:GetCaster():GetAbsOrigin()):Normalized() * (self:GetSpecialValueFor("range")*15500)
     local velocity_2 = (vector_2_start - self:GetCaster():GetAbsOrigin()):Normalized() * (self:GetSpecialValueFor("range")*15500)
     local velocity_3 = (vector_3_start - self:GetCaster():GetAbsOrigin()):Normalized() * (self:GetSpecialValueFor("range")*15500)
     local flag = DOTA_DAMAGE_FLAG_NONE
 
-    local info_1 = {
+    local info_1 = 
+    {
         Source = self:GetCaster(),
         Ability = self,
         vSpawnOrigin = self:GetCaster():GetAbsOrigin(),
@@ -2218,6 +1856,7 @@ function aang_lightning:OnSpellStart()
             damage = damage,
         }
     }
+
     local info_2 = {
         Source = self:GetCaster(),
         Ability = self,
@@ -2232,10 +1871,12 @@ function aang_lightning:OnSpellStart()
         fEndRadius = 275,
         vVelocity = velocity,
         bProvidesVision = false,
-        ExtraData = {
+        ExtraData = 
+        {
             damage = double_damage,
         }
     }
+
     local info_3 = {
         Source = self:GetCaster(),
         Ability = self,
@@ -2250,21 +1891,27 @@ function aang_lightning:OnSpellStart()
         fEndRadius = 115,
         vVelocity = velocity_3,
         bProvidesVision = false,
-        ExtraData = {
+        ExtraData = 
+        {
             damage = damage,
         }
     }
+
     ProjectileManager:CreateLinearProjectile(info_2) 
+
     Timers:CreateTimer(FrameTime(), function()
         ProjectileManager:CreateLinearProjectile(info_1) 
         ProjectileManager:CreateLinearProjectile(info_3) 
     end)
+
     local particle = ParticleManager:CreateParticle("particles/aang_lightning.vpcf", PATTACH_WORLDORIGIN, self:GetCaster())
     ParticleManager:SetParticleControl(particle, 0, hand)
     ParticleManager:SetParticleControl(particle, 1, Vector(vector.x, vector.y, vector.z+150)) 
+
     local particle_2 = ParticleManager:CreateParticle("particles/aang_lightning.vpcf", PATTACH_WORLDORIGIN, self:GetCaster())
     ParticleManager:SetParticleControl(particle_2, 0, hand)
     ParticleManager:SetParticleControl(particle_2, 1, Vector(vector_2_start.x, vector_2_start.y, vector_2_start .z+150)) 
+
     local particle_3 = ParticleManager:CreateParticle("particles/aang_lightning.vpcf", PATTACH_WORLDORIGIN, self:GetCaster())
     ParticleManager:SetParticleControl(particle_3, 0, hand)
     ParticleManager:SetParticleControl(particle_3, 1, Vector(vector_3_start.x, vector_3_start.y, vector_3_start.z+150)) 
@@ -2277,8 +1924,8 @@ function aang_lightning:OnProjectileHit_ExtraData( target, location, extraData )
     if not self.targets_table[ target:entindex() ] then
         self.targets_table[ target:entindex() ] = target
         local caster = self:GetCaster()
-        print(extraData.damage)
-        local damageTable = {
+        local damageTable = 
+        {
             victim = target,
             attacker = caster,
             damage = extraData.damage,
@@ -2304,6 +1951,7 @@ function aang_avatar:OnAbilityPhaseInterrupted()
 end
 
 function aang_avatar:OnSpellStart()
+    if not IsServer() then return end
     self:GetCaster():FadeGesture(ACT_DOTA_CAST_REFRACTION)
     local lines = 0
     local modifier = self:GetCaster():FindModifierByNameAndCaster( "modifier_aang_invoke_passive", self:GetCaster() )
@@ -2312,7 +1960,7 @@ function aang_avatar:OnSpellStart()
     end
     if not self:GetCaster():HasScepter() then
         if lines > self:GetSpecialValueFor("max_wave") then
-            lines = 20
+            lines = self:GetSpecialValueFor("max_wave")
         end
     end
     if IsInToolsMode() then
@@ -2345,7 +1993,8 @@ function aang_avatar:OnProjectileHit_ExtraData( hTarget, vLocation, params )
             elseif self:GetCaster():GetLevel() >= 18 then
                 self.damage = self:GetLevelSpecialValueFor("damage", 2)
             end
-            local damage = {
+            local damage = 
+            {
                 victim = hTarget,
                 attacker = self:GetCaster(),
                 damage = self.damage,
@@ -2353,28 +2002,21 @@ function aang_avatar:OnProjectileHit_ExtraData( hTarget, vLocation, params )
                 ability = self,
             }
             ApplyDamage( damage )
-            hTarget:AddNewModifier(self:GetCaster(), self, "modifier_birzha_silenced", {duration = self:GetSpecialValueFor("silence_duration")})
+            hTarget:AddNewModifier(self:GetCaster(), self, "modifier_birzha_silenced", {duration = self:GetSpecialValueFor("silence_duration") * (1-hTarget:GetStatusResistance()) })
         end
     end
     return false
 end
 
 function aang_avatar:OnOwnerDied()
-    if self:GetLevel()<1 then return end
-    local lines = 0
     local modifier = self:GetCaster():FindModifierByNameAndCaster( "modifier_aang_invoke_passive", self:GetCaster() )
-    if modifier~=nil then
-        lines = math.floor(modifier:GetStackCount() / 1) 
-    end
-    if lines > self:GetSpecialValueFor("max_wave") then
-        lines = 20
-    end
     if self:GetCaster():HasScepter() then
         if modifier~=nil then
-            modifier:SetStackCount(modifier:GetStackCount() - 1)
+            if modifier:GetStackCount() > 0 then
+                modifier:SetStackCount(modifier:GetStackCount() - 1)
+            end
         end
     end
-    self:Explode( lines )
 end
 
 function aang_avatar:Explode( lines )
@@ -2385,6 +2027,7 @@ function aang_avatar:Explode( lines )
     local line_speed = 700
     local initial_angle_deg = self:GetCaster():GetAnglesAsVector().y
     local delta_angle = 360/lines
+
     for i=0,lines-1 do
         local facing_angle_deg = initial_angle_deg + delta_angle * i
         if facing_angle_deg>360 then facing_angle_deg = facing_angle_deg - 360 end
@@ -2395,7 +2038,7 @@ function aang_avatar:Explode( lines )
         local info = {
             Source = self:GetCaster(),
             Ability = self,
-            EffectName = particle_line,
+            EffectName = "particles/avatar/aang_avatar_boom.vpcf",
             vSpawnOrigin = self:GetCaster():GetOrigin(),
             fDistance = line_length,
             vVelocity = velocity,
@@ -2409,6 +2052,7 @@ function aang_avatar:Explode( lines )
         }
         ProjectileManager:CreateLinearProjectile( info )
     end
+
     self:StopEffects1( true )
     self:PlayEffects2( lines )
 end
@@ -2432,7 +2076,7 @@ function aang_avatar:Implode( lines, modifier )
         local info = {
             Source = self:GetCaster(),
             Ability = self,
-            EffectName = particle_line,
+            EffectName = "particles/avatar/aang_avatar_boom.vpcf",
             vSpawnOrigin = self:GetCaster():GetOrigin() + facing_vector * line_length,
             fDistance = line_length,
             vVelocity = -velocity,
@@ -2452,10 +2096,8 @@ function aang_avatar:Implode( lines, modifier )
 end
 
 function aang_avatar:PlayEffects1()
-    local particle_precast = "particles/avatar/aang_avatar_effect.vpcf"
-    local sound_precast = "Hero_Nevermore.RequiemOfSoulsCast"
-    self.effect_precast = ParticleManager:CreateParticle( particle_precast, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )    
-    EmitSoundOn(sound_precast, self:GetCaster())
+    self.effect_precast = ParticleManager:CreateParticle( "particles/avatar/aang_avatar_effect.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )    
+    self:GetCaster():EmitSound("Hero_Nevermore.RequiemOfSoulsCast")
 end
 
 function aang_avatar:StopEffects1( success )
@@ -2464,7 +2106,7 @@ function aang_avatar:StopEffects1( success )
         if self.effect_precast then
             ParticleManager:DestroyParticle( self.effect_precast, true )
         end
-        StopSoundOn(sound_precast, self:GetCaster())
+        self:GetCaster():StopSound("Hero_Nevermore.RequiemOfSoulsCast")
     end
     if self.effect_precast then
         ParticleManager:ReleaseParticleIndex( self.effect_precast )
@@ -2472,11 +2114,9 @@ function aang_avatar:StopEffects1( success )
 end
 
 function aang_avatar:PlayEffects2( lines )
-    local particle_cast = "particles/econ/items/windrunner/windranger_arcana/windranger_arcana_debut_start.vpcf"
-    local sound_cast = "Hero_Nevermore.RequiemOfSouls"
-    local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
+    local effect_cast = ParticleManager:CreateParticle( "particles/econ/items/windrunner/windranger_arcana/windranger_arcana_debut_start.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
     ParticleManager:ReleaseParticleIndex( effect_cast )
-    EmitSoundOn(sound_cast, self:GetCaster())
+    self:GetCaster():EmitSound("Hero_Nevermore.RequiemOfSouls")
 end
 
 function aang_avatar:GetAT()
@@ -2518,7 +2158,7 @@ modifier_aang_avatar = class({})
 
 function modifier_aang_avatar:OnCreated()
     if not IsServer() then return end
-    EmitSoundOn("AangAvatar", self:GetParent())
+    self:GetParent():EmitSound("AangAvatar")
     self:GetCaster():SetMaterialGroup("2")
     local ultimate = self:GetCaster():FindAbilityByName("aang_invoke")
     if ultimate then
@@ -2533,7 +2173,7 @@ end
 
 function modifier_aang_avatar:OnDestroy()
     if not IsServer() then return end
-    StopSoundOn("AangAvatar", self:GetParent())
+    self:GetParent():StopSound("AangAvatar")
     self:GetCaster():SetMaterialGroup("1")
 end
 
@@ -2543,12 +2183,12 @@ function modifier_aang_avatar:OnIntervalThink()
 end
 
 function modifier_aang_avatar:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_BONUS_DAY_VISION,
         MODIFIER_PROPERTY_BONUS_NIGHT_VISION,
         MODIFIER_PROPERTY_CASTTIME_PERCENTAGE
     }
-
     return funcs
 end
 
@@ -2573,8 +2213,9 @@ function modifier_aang_avatar:GetCastTimeLevel(level)
 end
 
 function modifier_aang_avatar:CheckState()
-    return {
-        [MODIFIER_STATE_FLYING]       = true,
+    return 
+    {
+        [MODIFIER_STATE_FLYING] = true,
     }
 end
 
@@ -2586,6 +2227,13 @@ LinkLuaModifier( "modifier_aang_firestone_stun", "abilities/heroes/avatar.lua", 
 function aang_firestone:OnAbilityPhaseStart()
     self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_6, 1)
     return true
+end
+
+function aang_firestone:GetCooldown(level)
+    if self:GetCaster():HasShard() then
+        return self.BaseClass.GetCooldown( self, level ) - self:GetSpecialValueFor("shard_cooldown")
+    end
+    return self.BaseClass.GetCooldown( self, level )
 end
 
 function aang_firestone:OnSpellStart()
@@ -2600,7 +2248,7 @@ function aang_firestone:OnSpellStart()
     self.stone_one:SetMaterialGroup("2")
     self.stone_one:SetForwardVector(end_point-start_point:Normalized())
     self.stone_one:EmitSound("DOTA_Item.MeteorHammer.Cast")
-    EmitSoundOn( "DOTA_Item.MeteorHammer.Channel", self.stone_one )
+    self.stone_one:EmitSound("DOTA_Item.MeteorHammer.Channel")
     local nFXIndex = ParticleManager:CreateParticle("particles/units/heroes/hero_nyx_assassin/nyx_assassin_burrow_exit.vpcf", PATTACH_CUSTOMORIGIN, nil)
     ParticleManager:SetParticleControl(nFXIndex, 0, self.stone_one:GetOrigin())
     local nFXIndex2 = ParticleManager:CreateParticle("particles/avatar/avatar_meteor_ground.vpcf", PATTACH_CUSTOMORIGIN, nil)
@@ -2608,19 +2256,10 @@ function aang_firestone:OnSpellStart()
 
     local flag = DOTA_DAMAGE_FLAG_NONE
 
-    local units = FindUnitsInRadius(
-        self:GetCaster():GetTeamNumber(),
-        self.stone_one:GetAbsOrigin(),
-        nil,
-        self:GetSpecialValueFor("radius"),
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-        flag,
-        FIND_ANY_ORDER,
-        false
-    )
+    local units = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self.stone_one:GetAbsOrigin(), nil, self:GetSpecialValueFor("radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, FIND_ANY_ORDER, false)
     local duration = ability_manager:GetValueWex(self, self:GetCaster(), "stun_duration")
     local damage = ability_manager:GetValueExort(self, self:GetCaster(), "damage")
+
    --for _,unit in pairs(units) do
    --    unit:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = duration})
    --    local damageTable = {victim = unit,
@@ -2676,10 +2315,10 @@ function modifier_aang_firestone_stun:IsPurgable()
 end
 
 function modifier_aang_firestone_stun:CheckState()
-    local state = {
-    [MODIFIER_STATE_STUNNED] = true,
+    local state = 
+    {
+        [MODIFIER_STATE_STUNNED] = true,
     }
-
     return state
 end
 
@@ -2711,10 +2350,6 @@ function modifier_aang_firestone_motion:OnCreated( kv )
     self.first_effect_y = 0
     self.first_effect_z = 0
 
-
-
-
-
     self.pfx = ParticleManager:CreateParticle( "particles/avatar/avatar_meteor_effect.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
     ParticleManager:SetParticleControlEnt( self.pfx, 1, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true )
 end
@@ -2732,7 +2367,7 @@ end
 
 function modifier_aang_firestone_motion:OnDestroy()
     if not IsServer() then return end
-    StopSoundOn( "DOTA_Item.MeteorHammer.Channel", self:GetParent() )
+    self:GetParent():StopSound("DOTA_Item.MeteorHammer.Channel")
     self:GetParent():EmitSound("Hero_Invoker.ChaosMeteor.Impact")
     self:GetParent():RemoveHorizontalMotionController( self )
     self:GetParent():RemoveVerticalMotionController( self )
@@ -2763,8 +2398,10 @@ function modifier_aang_firestone_motion:OnDestroy()
     local duration = ability_manager:GetValueWex(self:GetAbility(), self:GetCaster(), "stun_duration")
     local damage = ability_manager:GetValueExort(self:GetAbility(), self:GetCaster(), "damage")
     for _,unit in pairs(units) do
-        unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = duration})
-        local damageTable = {victim = unit,
+        unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = duration * (1-unit:GetStatusResistance()) })
+        local damageTable = 
+        {
+            victim = unit,
             attacker = self:GetCaster(),
             damage = damage,
             ability = self:GetAbility(),

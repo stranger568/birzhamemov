@@ -1,5 +1,5 @@
 BirzhaData = class({})
-BirzhaData.url = 'bmemov.ru'  -- сайт с бд
+BirzhaData.url = '91.219.192.6'  -- сайт с бд
 
 -------------------------------------------------------------------------------
 
@@ -32,7 +32,9 @@ function BirzhaData:RegisterPlayerSiteInfo(player_id)
             gob = tonumber(data.gob) or 0,
             dragonball = tonumber(data.dragonball) or 0,
             leader = tonumber(data.leader) or 0,
-            chat_wheel = data.chat_wheel or {},
+            chat_wheel = data.chat_wheel or {0,0,0,0,0,0,0,0},
+            has_battlepass = tonumber(data.has_battlepass) or 0,
+            battlepass_level = tonumber(data.battlepass_level) or 0,
         }
 
         local table_shop = {
@@ -138,7 +140,7 @@ function BirzhaData.PostData()
         table.insert(post_data.players, player_table)
     end
 
-    SendData('https://bmemov.ru/data/bm_post_player_data.php', post_data, nil)
+    SendData('https://' ..BirzhaData.url .. '/data/bm_post_player_data.php', post_data, nil)
 end
 
 function BirzhaData.PostHeroesInfo()
@@ -154,7 +156,7 @@ function BirzhaData.PostHeroesInfo()
                 deaths = PlayerResource:GetDeaths(id)
                 kills = PlayerResource:GetKills(id)
             end
-            if PLAYERS[ id ].picked_hero ~= nil and (player_info.games_calibrating[12] or 10) <= 0 then
+            if PLAYERS[ id ].picked_hero ~= nil and (player_info.games_calibrating[13] or 10) <= 0 then
                 local name = tostring(PLAYERS[ id ].picked_hero)
                 local win = ((function(id) if BirzhaData.GetMmrByTeamPlace(id) >= 0 then return 1 end return 0 end)(id))
                 local lose = ((function(id) if BirzhaData.GetMmrByTeamPlace(id) >= 0 then return 0 end return 1 end)(id))
@@ -171,7 +173,7 @@ function BirzhaData.PostHeroesInfo()
         end
     end  
 
-    SendData('https://bmemov.ru/data/post_hero_data.php', post_heroes_data, nil)
+    SendData('https://' ..BirzhaData.url .. '/data/post_hero_data.php', post_heroes_data, nil)
 end
 
 function BirzhaData.PostHeroPlayerHeroInfo()
@@ -181,7 +183,7 @@ function BirzhaData.PostHeroPlayerHeroInfo()
 
     for id, player_info in pairs(BirzhaData.PLAYERS_GLOBAL_INFORMATION) do
         if PLAYERS[ id ] then
-            if PLAYERS[ id ].picked_hero ~= nil and (player_info.games_calibrating[12] or 10) <= 0 then
+            if PLAYERS[ id ].picked_hero ~= nil and (player_info.games_calibrating[13] or 10) <= 0 then
                 local steamid = player_info.steamid
                 local name = tostring(PLAYERS[ id ].picked_hero)
                 local deaths = 1
@@ -191,7 +193,7 @@ function BirzhaData.PostHeroPlayerHeroInfo()
                     kills = PlayerResource:GetKills(id)
                 end
                 local win = ((function(id) if BirzhaData.GetMmrByTeamPlace(id) >= 0 then return 1 end return 0 end)(id))
-                local experience = ((function(id) if BirzhaData.GetMmrByTeamPlace(id) >= 0 then return 100 end return 0 end)(id))
+                local experience = ((function(id) if BirzhaData.GetMmrByTeamPlace(id) >= 0 then return 100 end return 10 end)(id))
 
                 if tonumber(player_info.bp_days) <= 0 then
                     experience = 0
@@ -211,7 +213,7 @@ function BirzhaData.PostHeroPlayerHeroInfo()
         end
     end 
 
-    SendData('https://bmemov.ru/data/post_player_info.php', post_player_info, nil)
+    SendData('https://' ..BirzhaData.url .. '/data/post_player_info.php', post_player_info, nil)
 end
 
 -------------------------------------------------------------------------------------------------------------------
@@ -273,38 +275,36 @@ end
 BirzhaData.Coins_Table = {
     ['birzhamemov_solo'] = {
         [1] = 10,
-        [2] = 8,
-        [3] = 6,
-        [4] = 4,
-        [5] = 2,
-        [6] = 1,
-        [7] = 1,
-        [8] = 1,
-        [9] = 1,
-        [10] = 1,
+        [2] = 9,
+        [3] = 8,
+        [4] = 7,
+        [5] = 6,
+        [6] = 5,
+        [7] = 4,
+        [8] = 3,
     },
     ['birzhamemov_wtf'] = {
         [1] = 10,
-        [2] = 8,
-        [3] = 6,
-        [4] = 4,
-        [5] = 2,
-        [6] = 1,
-        [7] = 1,
-        [8] = 1,
-        [9] = 1,
+        [2] = 9,
+        [3] = 8,
+        [4] = 7,
+        [5] = 6,
+        [6] = 5,
+        [7] = 4,
+        [8] = 3,
+        [9] = 2,
         [10] = 1,
     },
     ['birzhamemov_duo'] = {
         [1] = 10,
-        [2] = 6,
-        [3] = 2,
+        [2] = 7,
+        [3] = 4,
         [4] = 1,
     },
     ['birzhamemov_trio'] = {
         [1] = 10,
-        [2] = 6,
-        [3] = 2,
+        [2] = 7,
+        [3] = 4,
         [4] = 1,
     },
     ['birzhamemov_5v5'] = {
@@ -312,12 +312,12 @@ BirzhaData.Coins_Table = {
         [2] = 5,
     },
     ['birzhamemov_zxc'] = {
-        [1] = 1,
+        [1] = 2,
         [2] = 0,
     },
     ['birzhamemov_5v5v5'] = {
         [1] = 10,
-        [2] = 6,
+        [2] = 5,
         [3] = 1,
     }
 }
@@ -332,8 +332,6 @@ BirzhaData.rating_table_calibrating = {
         [6] =  50,
         [7] =  0,
         [8] =  0,
-        [9] =  0,
-        [10] = 0,
     },
     ['birzhamemov_duo'] = {
         [1] = 300,
@@ -378,15 +376,13 @@ BirzhaData.rating_table_calibrating = {
 BirzhaData.rating_table_high_5000_player_high = {
     ['birzhamemov_solo'] = {
         [1] =  30,
-        [2] =  15,
-        [3] =  8,
+        [2] =  20,
+        [3] =  10,
         [4] =  0,
         [5] =  -10,
         [6] =  -20,
         [7] =  -30,
         [8] =  -40,
-        [9] =  -50,
-        [10] = -60,
     },
     ['birzhamemov_duo'] = {
         [1] = 30,
@@ -437,8 +433,6 @@ BirzhaData.rating_table_high_5000_player_low = {
         [6] =  -20,
         [7] =  -30,
         [8] =  -40,
-        [9] =  -50,
-        [10] = -60,
     },
     ['birzhamemov_duo'] = {
         [1] = 30,
@@ -483,15 +477,13 @@ BirzhaData.rating_table_high_5000_player_low = {
 BirzhaData.rating_table_low_5000_player_high = {
     ['birzhamemov_solo'] = {
         [1] =  60,
-        [2] =  30,
-        [3] =  16,
+        [2] =  40,
+        [3] =  20,
         [4] =  0,
         [5] =  -15,
         [6] =  -30,
         [7] =  -45,
         [8] =  -60,
-        [9] =  -75,
-        [10] = -90,
     },
     ['birzhamemov_duo'] = {
         [1] = 60,
@@ -542,8 +534,6 @@ BirzhaData.rating_table_low_5000_player_low = {
         [6] =  -30,
         [7] =  -45,
         [8] =  -60,
-        [9] =  -75,
-        [10] = -90,
     },
     ['birzhamemov_duo'] = {
         [1] = 60,
@@ -673,10 +663,10 @@ function BirzhaData.GetMmrByTeamPlace(id)
     local average_rating = 0
     local multiplier_rating = 1
     local difference_rating = 0
-    local current_player_rating = (BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].mmr[12] or 2500)
+    local current_player_rating = (BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].mmr[13] or 2500)
 
     for id, player_info in pairs(BirzhaData.PLAYERS_GLOBAL_INFORMATION) do
-        average_rating = average_rating + (player_info.mmr[12] or 2500)
+        average_rating = average_rating + (player_info.mmr[13] or 2500)
     end
 
     average_rating = average_rating / BirzhaData:GetPlayerCount()
@@ -684,7 +674,7 @@ function BirzhaData.GetMmrByTeamPlace(id)
 
     if place and place ~= nil then
         --Калибровочные---------------------------------------------------------------------------------------------------------------
-        if (BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].games_calibrating[12] or 10) > 0 then
+        if (BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].games_calibrating[13] or 10) > 0 then
             bonus_mmr = BirzhaData.rating_table_calibrating[GetMapName()][place]
             CustomNetTables:SetTableValue('bonus_rating', tostring(id), {mmr = bonus_mmr})      
             return bonus_mmr
@@ -696,21 +686,21 @@ function BirzhaData.GetMmrByTeamPlace(id)
                 bonus_mmr = BirzhaData.rating_table_high_5000_player_high[GetMapName()][place]
                 if difference_rating >= 3000 then
                     if bonus_mmr > 0 then
-                        multiplier_rating = 0.1
+                        multiplier_rating = 0.7
                     else
-                        multiplier_rating = 2.5
+                        multiplier_rating = 1.3
                     end
                 elseif difference_rating >= 2000 then
                     if bonus_mmr > 0 then
-                        multiplier_rating = 0.33
+                        multiplier_rating = 0.8
                     else
-                        multiplier_rating = 2
+                        multiplier_rating = 1.2
                     end
                 elseif difference_rating >= 1000 then
                     if bonus_mmr > 0 then
-                        multiplier_rating = 0.66
+                        multiplier_rating = 0.9
                     else
-                        multiplier_rating = 1.5
+                        multiplier_rating = 1.1
                     end
                 elseif difference_rating >= 0 then
                     multiplier_rating = 1
@@ -719,21 +709,21 @@ function BirzhaData.GetMmrByTeamPlace(id)
                 bonus_mmr = BirzhaData.rating_table_high_5000_player_low[GetMapName()][place]
                 if difference_rating >= 3000 then
                     if bonus_mmr > 0 then
-                        multiplier_rating = 8
+                        multiplier_rating = 2
                     else
                         multiplier_rating = 0
                     end    
                 elseif difference_rating >= 2000 then
                     if bonus_mmr > 0 then
-                        multiplier_rating = 4
+                        multiplier_rating = 1.8
                     else
-                        multiplier_rating = 0.25
+                        multiplier_rating = 0.4
                     end
                 elseif difference_rating >= 1000 then
                     if bonus_mmr > 0 then
-                        multiplier_rating = 2
+                        multiplier_rating = 1.4
                     else
-                        multiplier_rating = 0.5
+                        multiplier_rating = 0.8
                     end        
                 elseif difference_rating >= 0 then
                     multiplier_rating = 1
@@ -744,21 +734,21 @@ function BirzhaData.GetMmrByTeamPlace(id)
                 bonus_mmr = BirzhaData.rating_table_low_5000_player_high[GetMapName()][place]
                 if difference_rating >= 3000 then
                     if bonus_mmr > 0 then
-                        multiplier_rating = 0.1
+                        multiplier_rating = 0.7
                     else
-                        multiplier_rating = 2.5
+                        multiplier_rating = 1.3
                     end
                 elseif difference_rating >= 2000 then
                     if bonus_mmr > 0 then
-                        multiplier_rating = 0.33
+                        multiplier_rating = 0.8
                     else
-                        multiplier_rating = 2
+                        multiplier_rating = 1.2
                     end
                 elseif difference_rating >= 1000 then
                     if bonus_mmr > 0 then
-                        multiplier_rating = 0.66
+                        multiplier_rating = 0.9
                     else
-                        multiplier_rating = 1.5
+                        multiplier_rating = 1.1
                     end
                 elseif difference_rating >= 0 then
                     multiplier_rating = 1
@@ -767,21 +757,21 @@ function BirzhaData.GetMmrByTeamPlace(id)
                 bonus_mmr = BirzhaData.rating_table_low_5000_player_low[GetMapName()][place]
                 if difference_rating >= 3000 then
                     if bonus_mmr > 0 then
-                        multiplier_rating = 8
+                        multiplier_rating = 2
                     else
                         multiplier_rating = 0
                     end    
                 elseif difference_rating >= 2000 then
                     if bonus_mmr > 0 then
-                        multiplier_rating = 4
+                        multiplier_rating = 1.8
                     else
-                        multiplier_rating = 0.25
+                        multiplier_rating = 0.4
                     end
                 elseif difference_rating >= 1000 then
                     if bonus_mmr > 0 then
-                        multiplier_rating = 2
+                        multiplier_rating = 1.4
                     else
-                        multiplier_rating = 0.5
+                        multiplier_rating = 0.8
                     end        
                 elseif difference_rating >= 0 then
                     multiplier_rating = 1

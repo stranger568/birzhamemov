@@ -16,16 +16,12 @@ function item_frostmorn:OnSpellStart()
 	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_item_frostmorn_active", {duration = duration})
 end
 
-
 modifier_item_frostmorn = class({})
 
-function modifier_item_frostmorn:IsHidden()
-	return true
-end
-
-function modifier_item_frostmorn:IsPurgable()
-    return false
-end
+function modifier_item_frostmorn:IsHidden() return true end
+function modifier_item_frostmorn:IsPurgable() return false end
+function modifier_item_frostmorn:IsPurgeException() return false end
+function modifier_item_frostmorn:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_frostmorn:DeclareFunctions()
     local funcs = {
@@ -77,25 +73,12 @@ function modifier_item_frostmorn:GetModifierManaBonus()
     end
 end
 
-function modifier_item_frostmorn:OnAttackLanded( keys )
+function modifier_item_frostmorn:OnAttackLanded( params )
     if not IsServer() then return end
-    local attacker = self:GetParent()
-
-    if attacker ~= keys.attacker then
-        return
-    end
-
-    local target = keys.target
-
-    if attacker:GetTeam() == target:GetTeam() then
-        return
-    end 
-    if target:IsOther() then
-        return nil
-    end
-
+    if params.attacker ~= self:GetParent() then return end
+    if params.target:IsWard() then return end
     local duration = self:GetAbility():GetSpecialValueFor('cold_duration')
-	keys.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_item_frostmorn_debuff", {duration = duration})
+	params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_item_frostmorn_debuff", {duration = duration})
 end
 
 modifier_item_frostmorn_debuff = class({})
@@ -147,7 +130,6 @@ end
 
 modifier_item_frostmorn_active = class({})
 
-
 function modifier_item_frostmorn_active:GetTexture()
     return "items/frostmourne"
 end
@@ -168,36 +150,20 @@ function modifier_item_frostmorn_active:DeclareFunctions()
     return funcs
 end
 
-function modifier_item_frostmorn_active:OnAttackLanded( keys )
+function modifier_item_frostmorn_active:OnAttackLanded( params )
     if not IsServer() then return end
-    local attacker = self:GetParent()
-
-    if attacker ~= keys.attacker then
-        return
-    end
-
-    local target = keys.target
-
-    if attacker:GetTeam() == target:GetTeam() then
-        return
-    end 
-    if target:IsOther() then
-        return nil
-    end
+    if params.attacker ~= self:GetParent() then return end
+    if params.target:IsWard() then return end
 
     if not self:GetAbility() then
-        if not self:IsNull() then
-            self:Destroy()
-        end
+        self:Destroy()
         return 
     end
 
     local duration_hex = self:GetAbility():GetSpecialValueFor('duration_hex')
 
-	keys.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_item_frostmorn_debuff_hex", {duration = duration_hex * (1 - keys.target:GetStatusResistance())})
-    if not self:IsNull() then
-        self:Destroy()
-    end
+	params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_item_frostmorn_debuff_hex", {duration = duration_hex * (1 - params.target:GetStatusResistance())})
+    self:Destroy()
 end
 
 modifier_item_frostmorn_debuff_hex = class({})
@@ -224,7 +190,8 @@ function modifier_item_frostmorn_debuff_hex:OnCreated()
 end
 
 function modifier_item_frostmorn_debuff_hex:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_HEXED] = true,
         [MODIFIER_STATE_DISARMED] = true,
         [MODIFIER_STATE_SILENCED] = true,
@@ -235,8 +202,11 @@ function modifier_item_frostmorn_debuff_hex:CheckState()
 end
 
 function modifier_item_frostmorn_debuff_hex:DeclareFunctions()
-    local decFuncs = {MODIFIER_PROPERTY_MODEL_CHANGE,
-                      MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE,}
+    local decFuncs = 
+    {
+        MODIFIER_PROPERTY_MODEL_CHANGE,
+        MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE
+    }
     return decFuncs
 end
 

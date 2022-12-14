@@ -9,14 +9,24 @@
 
 	<Panel class="NolikEnergyMain" hittest="false">
 		<Panel id="NolikEnergyPanel" class="NolikEnergyPanel">
-
+			<DOTAAbilityImage abilityname="nolik_energy" class="NolikAbility" />
 			<Panel id="EnergyPanel">
 				<Panel id="EnergyPanelBackground" />
-				<Panel id="EnergyPanelBackgroundGreen">
-
-				</Panel>
+				<Panel id="EnergyPanelBackgroundGreen" />
+				<Label id="Energy" text="0 / 0" />
 			</Panel>
-			<Label id="Energy" text="50 / 100" />
 		</Panel>
+
+		<Panel id="MonikaStatsPanel" class="MonikaStatsPanel">
+			<DOTAAbilityImage abilityname="monika_fourthwall" class="NolikAbility" />
+			<Panel id="MonikaStatsPanels">
+				<Panel id="MonikaStatsPanelBackground" />
+				<Panel id="MonikaStatsPanelBackgroundGreen" />
+				<Label id="MonikaStats" text="0 / 0" />
+			</Panel>
+		</Panel>
+
+
+
 	</Panel>
 </root>

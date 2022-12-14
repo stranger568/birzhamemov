@@ -3,7 +3,6 @@ LinkLuaModifier( "modifier_movespeed_cap", "modifiers/modifier_limit.lua", LUA_M
 LinkLuaModifier( "modifier_overlord_prihvosti", "abilities/heroes/overlord", LUA_MODIFIER_MOTION_BOTH )
 LinkLuaModifier( "modifier_overlord_prihvosti_fire_talent", "abilities/heroes/overlord", LUA_MODIFIER_MOTION_BOTH )
 LinkLuaModifier( "modifier_overlord_prihvosti_venom_talent", "abilities/heroes/overlord", LUA_MODIFIER_MOTION_BOTH )
-LinkLuaModifier( "modifier_overlord_prihvosti_fire_talent_debuff", "abilities/heroes/overlord", LUA_MODIFIER_MOTION_BOTH )
 LinkLuaModifier( "modifier_overlord_prihvosti_venom_talent_debuff", "abilities/heroes/overlord", LUA_MODIFIER_MOTION_BOTH )
 
 overlord_prihvosti = class({}) 
@@ -18,13 +17,17 @@ end
 
 function overlord_prihvosti:OnSpellStart()
     if not IsServer() then return end
+
     self.count = self:GetSpecialValueFor( "count" )
+
     local duration = self:GetSpecialValueFor( "duration" )
+
     for _, unit in pairs(FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED, FIND_ANY_ORDER, false)) do
         if unit:GetUnitName() == "npc_overlord_small_prihvost" and unit:GetOwner() == self:GetCaster() then
             unit:ForceKill(false)               
         end
     end
+
     for i = 1, self.count do
         local prihvost = CreateUnitByName("npc_overlord_small_prihvost", self:GetCaster():GetAbsOrigin() + (self:GetCaster():GetForwardVector() * 300) + (self:GetCaster():GetRightVector() * 20 * i), true, self:GetCaster(), nil, self:GetCaster():GetTeamNumber())
         prihvost:SetOwner(self:GetCaster())
@@ -34,7 +37,8 @@ function overlord_prihvosti:OnSpellStart()
         prihvost:AddNewModifier(self:GetCaster(), self, "modifier_overlord_prihvosti", {})
         prihvost:AddNewModifier(self:GetCaster(), self, "modifier_kill", {duration = duration})
     end
-    EmitSoundOn("OverlordOne", self:GetCaster())
+
+    self:GetCaster():EmitSound("OverlordOne")
 end
 
 modifier_overlord_prihvosti = class({})
@@ -49,8 +53,11 @@ end
 
 function modifier_overlord_prihvosti:OnCreated()
     if not IsServer() then return end
+
     local health = self:GetAbility():GetSpecialValueFor( "prihvosti_hp" )
+
     local damage = self:GetAbility():GetSpecialValueFor( "prihvosti_dmg" )
+
     if self:GetParent():GetUnitName() == "npc_overlord_big_prihvost_portal" then
         local ability = self:GetCaster():FindAbilityByName("overlord_portal")
         if ability and ability:GetLevel() > 0 then
@@ -59,25 +66,34 @@ function modifier_overlord_prihvosti:OnCreated()
             damage = damage * mult
         end
     end
+
     if self:GetCaster():HasTalent("special_bonus_birzha_overlord_6") then
         damage = damage + (damage * (self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_6") / 100))
     end
+
     if self:GetCaster():HasTalent("special_bonus_birzha_overlord_1") then
         local armor = self:GetParent():GetPhysicalArmorBaseValue() + self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_1")
         self:GetParent():SetPhysicalArmorBaseValue(armor)
     end
+
     if self:GetCaster():HasTalent("special_bonus_birzha_overlord_2") then
         local magic_resist = self:GetParent():GetBaseMagicalResistanceValue() + self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_2")
         self:GetParent():SetBaseMagicalResistanceValue(magic_resist)
     end
+
     if self:GetCaster():HasTalent("special_bonus_birzha_overlord_3") then
         self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_overlord_prihvosti_fire_talent", {})
-    elseif self:GetCaster():HasTalent("special_bonus_birzha_overlord_4") then
+    end
+    if self:GetCaster():HasTalent("special_bonus_birzha_overlord_4") then
         self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_overlord_prihvosti_venom_talent", {})
     end
+
     self:GetParent():SetBaseDamageMin(damage)
+
     self:GetParent():SetBaseDamageMax(damage)
+
     self:GetParent():SetBaseMaxHealth(health)
+
     self:GetParent():SetHealth(health)
 end
 
@@ -92,21 +108,22 @@ function modifier_overlord_prihvosti_fire_talent:IsPurgable()
 end
 
 function modifier_overlord_prihvosti_fire_talent:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_EVENT_ON_ATTACK_LANDED,
     }
-
     return funcs
 end
+
 function modifier_overlord_prihvosti_fire_talent:OnAttackLanded( params )
     if not IsServer() then return end
-    local parent = self:GetParent()
-    local target = params.target
-    if parent == params.attacker and target:GetTeamNumber() ~= parent:GetTeamNumber() then
-        target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_overlord_prihvosti_fire_talent_debuff", {duration = 1})
+    if params.attacker ~= self:GetParent() then return end
+    if params.target:IsWard() then return end
+    local ability = self:GetCaster():FindAbilityByName("overlord_fireball")
+    if ability and ability:GetLevel() > 0 then
+        params.target:AddNewModifier(self:GetCaster(), ability, "modifier_overlord_fireball_debuff_duration", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_3") * (1-params.target:GetStatusResistance())})
     end
 end
-
 
 modifier_overlord_prihvosti_venom_talent = class({})
 
@@ -119,37 +136,18 @@ function modifier_overlord_prihvosti_venom_talent:IsPurgable()
 end
 
 function modifier_overlord_prihvosti_venom_talent:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_EVENT_ON_ATTACK_LANDED,
     }
-
     return funcs
 end
+
 function modifier_overlord_prihvosti_venom_talent:OnAttackLanded( params )
     if not IsServer() then return end
-    local parent = self:GetParent()
-    local target = params.target
-    if parent == params.attacker and target:GetTeamNumber() ~= parent:GetTeamNumber() then
-        target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_overlord_prihvosti_venom_talent_debuff", {duration = 1})
-    end
-end
-
-modifier_overlord_prihvosti_fire_talent_debuff = class({})
-
-function modifier_overlord_prihvosti_fire_talent_debuff:IsPurgable()
-    return true
-end
-
-function modifier_overlord_prihvosti_fire_talent_debuff:OnCreated()
-    if not IsServer() then return end
-    local ability = self:GetCaster():FindAbilityByName("overlord_fireball")
-    self:GetParent():AddNewModifier(self:GetCaster(), ability, "modifier_overlord_fireball_debuff_duration", {duration = 1})
-end
-
-function modifier_overlord_prihvosti_fire_talent_debuff:OnRefresh()
-    if not IsServer() then return end
-    local ability = self:GetCaster():FindAbilityByName("overlord_fireball")
-    self:GetParent():AddNewModifier(self:GetCaster(), ability, "modifier_overlord_fireball_debuff_duration", {duration = 1})
+    if params.attacker ~= self:GetParent() then return end
+    if params.target:IsWard() then return end
+    params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_overlord_prihvosti_venom_talent_debuff", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_4") * (1-params.target:GetStatusResistance())})
 end
 
 modifier_overlord_prihvosti_venom_talent_debuff = class({})
@@ -159,19 +157,33 @@ function modifier_overlord_prihvosti_venom_talent_debuff:IsPurgable()
 end
 
 function modifier_overlord_prihvosti_venom_talent_debuff:DeclareFunctions()
-    local decFuncs = {
+    local decFuncs = 
+    {
         MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+        MODIFIER_PROPERTY_HP_REGEN_AMPLIFY_PERCENTAGE
     }
 
     return decFuncs
 end
 
 function modifier_overlord_prihvosti_venom_talent_debuff:Custom_HealAmplifyReduce()
-    return -25
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_4", "value2")
 end
 
 function modifier_overlord_prihvosti_venom_talent_debuff:GetModifierMoveSpeedBonus_Percentage()
-    return -20
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_4", "value3")
+end
+
+function modifier_overlord_prihvosti_venom_talent_debuff:GetModifierHPRegenAmplify_Percentage()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_4", "value2")
+end
+
+function modifier_overlord_prihvosti_venom_talent_debuff:GetEffectName()
+    return "particles/units/heroes/hero_venomancer/venomancer_gale_poison_debuff.vpcf"
+end
+
+function modifier_overlord_prihvosti_venom_talent_debuff:GetEffectAttachType()
+    return PATTACH_ABSORIGIN_FOLLOW
 end
 
 LinkLuaModifier( "modifier_overlord_fireball", "abilities/heroes/overlord.lua", LUA_MODIFIER_MOTION_NONE )
@@ -220,7 +232,7 @@ end
 function modifier_overlord_fireball:OnCreated( kv )
     self.radius = self:GetAbility():GetSpecialValueFor( "radius" )
     if not IsServer() then return end
-    EmitSoundOn("n_black_dragon.Fireball.Target", self:GetParent())
+    self:GetParent():EmitSound("n_black_dragon.Fireball.Target")
     GridNav:DestroyTreesAroundPoint(self:GetParent():GetAbsOrigin(), self.radius, false)
     local particle = ParticleManager:CreateParticle("particles/lava_overlord.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
     ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
@@ -252,7 +264,7 @@ function modifier_overlord_fireball:GetAuraRadius()
 end
 
 function modifier_overlord_fireball:GetAuraDuration()
-    return 0.1
+    return 0
 end
 
 function modifier_overlord_fireball:GetAuraSearchTeam()
@@ -280,14 +292,14 @@ end
 function modifier_overlord_fireball_debuff:OnCreated()
     if not IsServer() then return end
     if self:GetCaster():HasTalent("special_bonus_birzha_overlord_8") then
-        self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration=self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_8")} )
+        self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration=self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_8") * (1 - self:GetParent():GetStatusResistance())} )
     end
     self:StartIntervalThink(FrameTime())
 end
 
 function modifier_overlord_fireball_debuff:OnIntervalThink()
     if not IsServer() then return end
-    self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_overlord_fireball_debuff_duration", {duration=self:GetAbility():GetSpecialValueFor( "debuff_duration" )} )
+    self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_overlord_fireball_debuff_duration", {duration=self:GetAbility():GetSpecialValueFor( "debuff_duration" ) * (1 - self:GetParent():GetStatusResistance())} )
 end
 
 modifier_overlord_fireball_debuff_duration = class({})
@@ -306,20 +318,25 @@ function modifier_overlord_fireball_debuff_duration:OnIntervalThink()
     self.min_damage = self:GetAbility():GetSpecialValueFor( "min_damage" )
     self.max_damage = self:GetAbility():GetSpecialValueFor( "max_damage" )
     if not IsServer() then return end
-    local damageTable = {
+
+    local damageTable = 
+    {
         victim = self:GetParent(),
         attacker = self:GetCaster(),
-        --damage = self.damage,
         damage_type = self:GetAbility():GetAbilityDamageType(),
         ability = self:GetAbility(),
     }
+
     damageTable.damage = self.min_damage
+
     if self:GetStackCount() >=3 then
         damageTable.damage = self.max_damage
     end
+
     if self:GetParent():HasModifier("modifier_overlord_fireball_debuff") then
         self:IncrementStackCount()
     end
+
     ApplyDamage( damageTable )
 end
 
@@ -381,7 +398,8 @@ function modifier_overlord_terror_legion:OnCreated()
 end
 
 function modifier_overlord_terror_legion:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_EXTRA_HEALTH_BONUS,
         MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE
     }
@@ -412,7 +430,8 @@ function modifier_overlord_terror_legion_talent:IsPurgable()
 end
 
 function modifier_overlord_terror_legion_talent:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_MIN_HEALTH,
     }
 
@@ -428,11 +447,10 @@ LinkLuaModifier( "modifier_overlord_select_target", "abilities/heroes/overlord.l
 overlord_select_target = class({}) 
 
 function overlord_select_target:GetCooldown(level)
-    local cooldown = 0
     if self:GetCaster():HasShard() then
-        cooldown = -5
+        return self.BaseClass.GetCooldown( self, level ) - self:GetSpecialValueFor("shard_cooldown")
     end
-    return self.BaseClass.GetCooldown( self, level ) + cooldown
+    return self.BaseClass.GetCooldown( self, level )
 end
 
 function overlord_select_target:GetManaCost(level)
@@ -509,13 +527,11 @@ function modifier_overlord_select_target:GetModifierMoveSpeed_Absolute( params )
 end
 
 function modifier_overlord_select_target:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_COMMAND_RESTRICTED] = true,
         [MODIFIER_STATE_FAKE_ALLY] = true,
-        [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
-        [MODIFIER_STATE_FLYING_FOR_PATHING_PURPOSES_ONLY] = true,
     }
-
     return state
 end
 
@@ -560,7 +576,7 @@ function overlord_portal:OnSpellStart()
     portal:SetForwardVector(self:GetCaster():GetForwardVector())
     portal:AddNewModifier(self:GetCaster(), self, "modifier_overlord_portal", {})
     portal:AddNewModifier(self:GetCaster(), self, "modifier_kill", {duration = duration})
-    EmitSoundOn("OverlordScepter", portal)
+    portal:EmitSound("OverlordScepter")
 end
 
 modifier_overlord_portal = class({})
@@ -637,6 +653,7 @@ function overlord_shut:GetCastRange(location, target)
 end
 
 function overlord_shut:OnSpellStart()
+    if not IsServer() then return end
     self.target = self:GetCursorTarget()
     if self.target:TriggerSpellAbsorb(self) then return end
     local point = self:GetCaster():GetAttachmentOrigin(self:GetCaster():ScriptLookupAttachment("attach_attack2"))
@@ -645,7 +662,7 @@ function overlord_shut:OnSpellStart()
     prihvost:SetOwner(self:GetCaster())
     prihvost:AddNewModifier(self:GetCaster(), self, "modifier_overlord_shut", {})
     prihvost:AddNewModifier( self:GetCaster(), self, "modifier_overlord_shut_jump", { target = self.target:entindex() } )
-    EmitSoundOn("OverlordUltstart", prihvost)
+    prihvost:EmitSound("OverlordUltstart")
 end
 
 modifier_overlord_shut_jump = class({})
@@ -686,7 +703,7 @@ function modifier_overlord_shut_jump:OnCreated( kv )
             self:Destroy()
         end
         if interrupted then return UTIL_Remove(self:GetParent()) end
-        self.target:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_overlord_shut_debuff", { duration = self.duration_buff } )
+        self.target:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_overlord_shut_debuff", { duration = self.duration_buff * (1-self.target:GetStatusResistance()) } )
         self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_overlord_shut_buff", { duration = self.duration_buff, target_entindex = self.target:entindex() } )
         self:GetParent():SetForwardVector((self.target:GetAbsOrigin() - self:GetParent():GetAbsOrigin()):Normalized())
     end)
@@ -804,6 +821,7 @@ function modifier_overlord_shut_debuff:DeclareFunctions()
 
     return funcs
 end
+
 function modifier_overlord_shut_debuff:GetBonusDayVision( params )
     return -9999999
 end
@@ -814,7 +832,7 @@ end
 
 function modifier_overlord_shut_debuff:OnIntervalThink()
     if not IsServer() then return end
-    local damage = self:GetAbility():GetSpecialValueFor("damage") + (self:GetCaster():GetAverageTrueAttackDamage(nil) / 2)
+    local damage = self:GetAbility():GetSpecialValueFor("damage") + (self:GetCaster():GetAverageTrueAttackDamage(nil) / 100 * self:GetAbility():GetSpecialValueFor("damage_from_attack"))
     local damageTable = 
     {
         victim = self:GetParent(),
@@ -832,7 +850,6 @@ end
 function modifier_overlord_shut_debuff:Purge()
     self:GetParent():Purge(true, false, false, false, false)
 end
-
 
 modifier_overlord_shut_buff = class({})
 

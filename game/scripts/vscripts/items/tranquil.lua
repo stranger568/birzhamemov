@@ -18,16 +18,14 @@ end
 
 modifier_item_overheal_trank = class({})
 
-function modifier_item_overheal_trank:IsHidden()
-    return true
-end
-
-function modifier_item_overheal_trank:IsPurgable()
-    return false
-end
+function modifier_item_overheal_trank:IsHidden() return true end
+function modifier_item_overheal_trank:IsPurgable() return false end
+function modifier_item_overheal_trank:IsPurgeException() return false end
+function modifier_item_overheal_trank:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_overheal_trank:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_MOVESPEED_BONUS_UNIQUE,
         MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
         MODIFIER_PROPERTY_HEALTH_BONUS

@@ -1,9 +1,7 @@
 LinkLuaModifier("modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier("modifier_jull_crive_realy_thinker", "abilities/heroes/jull", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_jull_crive_realy_thinker_debuff", "abilities/heroes/jull", LUA_MODIFIER_MOTION_NONE)
-
 LinkLuaModifier("modifier_jull_light_future_passive_charge", "abilities/heroes/jull", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_jull_crive_realy_stack", "abilities/heroes/jull", LUA_MODIFIER_MOTION_NONE)
 
 jull_crive_realy = class({})
 
@@ -11,90 +9,12 @@ function jull_crive_realy:GetVectorTargetRange()
     return 500
 end
 
-function jull_crive_realy:GetIntrinsicModifierName()
-    return "modifier_jull_crive_realy_stack"
-end
-
-modifier_jull_crive_realy_stack = class({})
-
-function modifier_jull_crive_realy_stack:IsHidden()
-    return false
-end
-
-function modifier_jull_crive_realy_stack:IsPurgable()
-    return false
-end
-
-function modifier_jull_crive_realy_stack:DestroyOnExpire()
-    return false
-end
-
-function modifier_jull_crive_realy_stack:OnCreated( kv )
-    self.max_charges = 1 + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_3")
-    if not IsServer() then return end
-    self:SetStackCount( self.max_charges )
-    self:CalculateCharge()
-end
-
-function modifier_jull_crive_realy_stack:OnRefresh( kv )
-    self.max_charges = 1 + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_3")
-    if not IsServer() then return end
-    self:CalculateCharge()
-end
-
-function modifier_jull_crive_realy_stack:DeclareFunctions()
-    local funcs = {
-        MODIFIER_EVENT_ON_ABILITY_FULLY_CAST,
-    }
-
-    return funcs
-end
-
-function modifier_jull_crive_realy_stack:OnAbilityFullyCast( params )
-    if not IsServer() then return end
-    if params.unit==self:GetParent() and (params.ability:GetName() == "item_refresher" or params.ability:GetName() == "item_refresher_shard") then
-        self:SetStackCount(self.max_charges)
-        self:SetDuration( -1, true )
-        self:StartIntervalThink( -1 )
-        return
-    end
-    if params.unit~=self:GetParent() or params.ability~=self:GetAbility() then
-        return
-    end
-    self:DecrementStackCount()
-    self:CalculateCharge()
-end
-
-function modifier_jull_crive_realy_stack:OnIntervalThink()
-    self:IncrementStackCount()
-    self:StartIntervalThink(-1)
-    self:CalculateCharge()
-end
-
-function modifier_jull_crive_realy_stack:CalculateCharge()
-    self:GetAbility():EndCooldown()
-    self.max_charges = 1 + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_3")
-    if self:GetStackCount()>=self.max_charges then
-        self:SetDuration( -1, false )
-        self:StartIntervalThink( -1 )
-    else
-        if self:GetRemainingTime() <= 0.05 then
-            local charge_time = self:GetAbility():GetCooldown( -1 ) * self:GetParent():GetCooldownReduction()
-            self:StartIntervalThink( charge_time )
-            self:SetDuration( charge_time, true )
-        end
-        if self:GetStackCount()==0 then
-            self:GetAbility():StartCooldown( self:GetRemainingTime() )
-        end
-    end
-end
-
 function jull_crive_realy:OnVectorCastStart(vStartLocation, vDirection)
     local vector_start = self:GetVectorPosition()
     local vector_end = self:GetVector2Position()
     local distance = (vector_end - vector_start):Length2D()
-    local min_radius = self:GetSpecialValueFor("min_radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_7", "value")
-    local max_radius = self:GetSpecialValueFor("max_radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_7", "value")
+    local min_radius = self:GetSpecialValueFor("min_radius")
+    local max_radius = self:GetSpecialValueFor("max_radius")
     local radius = min_radius
 
     if distance <= min_radius then
@@ -106,18 +26,20 @@ function jull_crive_realy:OnVectorCastStart(vStartLocation, vDirection)
     end
 
     local min_duration = self:GetSpecialValueFor("min_duration")
-    local max_duration = self:GetSpecialValueFor("max_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_7", "value2")
+    local max_duration = self:GetSpecialValueFor("max_duration")
 
-    local min_damage = self:GetSpecialValueFor("min_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_2")
-    local max_damage = self:GetSpecialValueFor("max_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_2")
+    local min_damage = self:GetSpecialValueFor("min_damage")
+    local max_damage = self:GetSpecialValueFor("max_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_3")
 
-    local min_slow = self:GetSpecialValueFor("min_slow")
-    local max_slow = self:GetSpecialValueFor("max_slow")
+    local min_slow = self:GetSpecialValueFor("min_slow") + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_4")
+    local max_slow = self:GetSpecialValueFor("max_slow") + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_4")
 
     local bonus_pct = math.min(1,radius/max_radius)
     local damage = math.max(min_damage, max_damage * (1 - bonus_pct) )
     local duration = math.max(min_duration, max_duration*bonus_pct)
     local slow = math.max(min_slow, max_slow*bonus_pct)
+
+    self:SetCurrentAbilityCharges(51)
 
     self:GetCaster():EmitSound("jull_ring")
 
@@ -153,14 +75,13 @@ function modifier_jull_crive_realy_thinker:OnCreated(data)
             end        
         end
     end
-
 end
 
 function modifier_jull_crive_realy_thinker:OnIntervalThink()
     if not IsServer() then return end
     local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetParent():GetOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, FIND_CLOSEST, false )
     for _,enemy in pairs(enemies) do
-        enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_jull_crive_realy_thinker_debuff", {duration = 0.5, slow = self.slow})
+        enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_jull_crive_realy_thinker_debuff", {duration = 0.5 * (1-enemy:GetStatusResistance()), slow = self.slow})
     end
 end
 
@@ -175,8 +96,9 @@ function modifier_jull_crive_realy_thinker:OnDestroy()
 
         enemy:EmitSound("jull_ring_damage")
 
-        for i=1,2 do
-            self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_jull_light_future_passive_charge", {duration = 1.5})
+        local jull_light_future = self:GetCaster():FindAbilityByName("jull_light_future")
+        if jull_light_future then
+            jull_light_future:AddCharge(enemy)
         end
     end
 end
@@ -193,12 +115,14 @@ function modifier_jull_crive_realy_thinker_debuff:OnCreated(data)
     end
 end
 
-function modifier_jull_crive_realy_thinker_debuff:DeclareFunctions() return {
-    MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
-    MODIFIER_PROPERTY_CASTTIME_PERCENTAGE,
-    MODIFIER_PROPERTY_TURN_RATE_PERCENTAGE
-
-} end
+function modifier_jull_crive_realy_thinker_debuff:DeclareFunctions() 
+    return 
+    {
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+        MODIFIER_PROPERTY_CASTTIME_PERCENTAGE,
+        MODIFIER_PROPERTY_TURN_RATE_PERCENTAGE
+    } 
+end
 
 function modifier_jull_crive_realy_thinker_debuff:GetModifierMoveSpeedBonus_Percentage()
     return self:GetStackCount() * -1
@@ -220,151 +144,67 @@ jull_choronostasis = class({})
 
 function jull_choronostasis:GetBehavior()
     local behavior = DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
-    if self:GetCaster():HasTalent("special_bonus_birzha_jull_8") then
-        behavior = behavior + DOTA_ABILITY_BEHAVIOR_AOE
+    if self:GetCaster():HasTalent("special_bonus_birzha_jull_5") then
+        return DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR_AOE
     end
-    return behavior
+    return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
 end
 
 function jull_choronostasis:GetAOERadius()
-    return self:GetCaster():FindTalentValue("special_bonus_birzha_jull_8")
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_jull_5")
 end
-
-function jull_choronostasis:GetIntrinsicModifierName()
-    return "modifier_jull_choronostasis_stack"
-end
-
-modifier_jull_choronostasis_stack = class({})
-
-function modifier_jull_choronostasis_stack:IsHidden()
-    return false
-end
-
-function modifier_jull_choronostasis_stack:IsPurgable()
-    return false
-end
-
-function modifier_jull_choronostasis_stack:DestroyOnExpire()
-    return false
-end
-
-function modifier_jull_choronostasis_stack:OnCreated( kv )
-    self.max_charges = 1 + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_1")
-    if not IsServer() then return end
-    self:SetStackCount( self.max_charges )
-    self:CalculateCharge()
-end
-
-function modifier_jull_choronostasis_stack:OnRefresh( kv )
-    self.max_charges = 1 + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_1")
-    if not IsServer() then return end
-    self:CalculateCharge()
-end
-
-function modifier_jull_choronostasis_stack:DeclareFunctions()
-    local funcs = {
-        MODIFIER_EVENT_ON_ABILITY_FULLY_CAST,
-    }
-
-    return funcs
-end
-
-function modifier_jull_choronostasis_stack:OnAbilityFullyCast( params )
-    if not IsServer() then return end
-    if params.unit==self:GetParent() and (params.ability:GetName() == "item_refresher" or params.ability:GetName() == "item_refresher_shard") then
-        self:SetStackCount(self.max_charges)
-        self:SetDuration( -1, true )
-        self:StartIntervalThink( -1 )
-        return
-    end
-    if params.unit~=self:GetParent() or params.ability~=self:GetAbility() then
-        return
-    end
-    self:DecrementStackCount()
-    self:CalculateCharge()
-end
-
-function modifier_jull_choronostasis_stack:OnIntervalThink()
-    self:IncrementStackCount()
-    self:StartIntervalThink(-1)
-    self:CalculateCharge()
-end
-
-function modifier_jull_choronostasis_stack:CalculateCharge()
-    self:GetAbility():EndCooldown()
-    self.max_charges = 1 + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_1")
-    if self:GetStackCount()>=self.max_charges then
-        self:SetDuration( -1, false )
-        self:StartIntervalThink( -1 )
-    else
-        if self:GetRemainingTime() <= 0.05 then
-            local charge_time = self:GetAbility():GetCooldown( -1 ) * self:GetParent():GetCooldownReduction()
-            self:StartIntervalThink( charge_time )
-            self:SetDuration( charge_time, true )
-        end
-        if self:GetStackCount()==0 then
-            self:GetAbility():StartCooldown( self:GetRemainingTime() )
-        end
-    end
-end
-
-
-
-
-
-
-
-
-
-
 
 function jull_choronostasis:GetCastRange(location, target)
-    return self.BaseClass.GetCastRange(self, location, target) + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_4", "value")
+    return self.BaseClass.GetCastRange(self, location, target)
 end
-
 
 function jull_choronostasis:OnSpellStart(new_target)
     if not IsServer() then return end
     local target = self:GetCursorTarget()
 
-
-
     if new_target then
         target = new_target
     end
 
-    local teammate = target:GetTeamNumber() == self:GetCaster():GetTeamNumber()
+    local stun_duration = self:GetSpecialValueFor("stun_duration")
 
-    local stun_duration = self:GetSpecialValueFor("stun_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_4", "value2")
-    local shield_duration = self:GetSpecialValueFor("shield_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_4", "value2")
+    local shield_duration = self:GetSpecialValueFor("shield_duration")
+
+
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_jull_5") and new_target == nil then
+            local point = self:GetCursorPosition()
+            local targets_f = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), point, nil, self:GetCaster():FindTalentValue("special_bonus_birzha_jull_5"), DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
+            for _, target_table in pairs(targets_f) do
+                target_table:AddNewModifier(self:GetCaster(), self, "modifier_jull_choronostasis_buff", {duration = shield_duration})
+            end
+            local targets_e = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), point, nil, self:GetCaster():FindTalentValue("special_bonus_birzha_jull_5"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
+            for _, target_table in pairs(targets_e) do
+                target_table:AddNewModifier(self:GetCaster(), self, "modifier_jull_choronostasis_debuff", {duration = stun_duration * (1 - target_table:GetStatusResistance())})
+            end
+            local jull_light_future = self:GetCaster():FindAbilityByName("jull_light_future")
+            if jull_light_future then
+                jull_light_future:AddCharge(target)
+            end
+            self:GetCaster():EmitSound("jull_chronostasis")
+        return
+    end
+
+    local teammate = target:GetTeamNumber() == self:GetCaster():GetTeamNumber()
 
     if teammate then
         target:AddNewModifier(self:GetCaster(), self, "modifier_jull_choronostasis_buff", {duration = shield_duration})
-        if self:GetCaster():HasTalent("special_bonus_birzha_jull_8") then
-            local targets = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), target:GetAbsOrigin(), nil, self:GetCaster():FindTalentValue("special_bonus_birzha_jull_8"), DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
-            for _, target_table in pairs(targets) do
-                target_table:AddNewModifier(self:GetCaster(), self, "modifier_jull_choronostasis_buff", {duration = shield_duration})
-            end
-        end
     else
         if target:TriggerSpellAbsorb( self ) then
             return
         end
         target:AddNewModifier(self:GetCaster(), self, "modifier_jull_choronostasis_debuff", {duration = stun_duration * (1 - target:GetStatusResistance())})
-        if self:GetCaster():HasTalent("special_bonus_birzha_jull_8") then
-            local targets = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), target:GetAbsOrigin(), nil, self:GetCaster():FindTalentValue("special_bonus_birzha_jull_8"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
-            for _, target_table in pairs(targets) do
-                target_table:AddNewModifier(self:GetCaster(), self, "modifier_jull_choronostasis_debuff", {duration = stun_duration * (1 - target:GetStatusResistance())})
-            end
-        end
     end
 
-    if new_target == nil then
-        for i=1,2 do
-            self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_jull_light_future_passive_charge", {duration = 1})
-        end
+    local jull_light_future = self:GetCaster():FindAbilityByName("jull_light_future")
+    if jull_light_future then
+        jull_light_future:AddCharge(target)
     end
-
     self:GetCaster():EmitSound("jull_chronostasis")
 end
 
@@ -383,21 +223,24 @@ function modifier_jull_choronostasis_debuff:OnCreated()
     self:AddParticle(self.particle, false, false, -1, false, false)
 end
 
-function modifier_jull_choronostasis_debuff:DeclareFunctions() return {
-    MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,
-    MODIFIER_PROPERTY_OVERRIDE_ANIMATION,
-} end
+function modifier_jull_choronostasis_debuff:DeclareFunctions() 
+    return 
+    {
+        MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,
+        MODIFIER_PROPERTY_OVERRIDE_ANIMATION,
+    }
+ end
 
 function modifier_jull_choronostasis_debuff:GetModifierMagicalResistanceBonus()
     return self:GetAbility():GetSpecialValueFor("resist_magic_debuff")
 end
 
 function modifier_jull_choronostasis_debuff:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_STUNNED] = true,
         [MODIFIER_STATE_FROZEN] = true,
     }
-
     return state
 end
 
@@ -428,15 +271,15 @@ function modifier_jull_choronostasis_buff:OnCreated()
     self:AddParticle(self.particle, false, false, -1, false, false)
 end
 
-function modifier_jull_choronostasis_buff:DeclareFunctions() return {
-    MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE,
-    MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING
-} end
+function modifier_jull_choronostasis_buff:DeclareFunctions() 
+    return 
+    {
+        MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE,
+        MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING
+    } 
+end
 
 function modifier_jull_choronostasis_buff:GetModifierIncomingDamage_Percentage()
-    if self:GetCaster():HasShard() then
-        return self:GetAbility():GetSpecialValueFor("resistance") - 20
-    end
     return self:GetAbility():GetSpecialValueFor("resistance")
 end
 
@@ -446,16 +289,11 @@ end
 
 LinkLuaModifier("modifier_jull_in_time", "abilities/heroes/jull", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_jull_in_time_buff", "abilities/heroes/jull", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_jull_in_time_manacost", "abilities/heroes/jull", LUA_MODIFIER_MOTION_NONE)
 
 jull_in_time = class({})
 
 function jull_in_time:GetManaCost(level)
-    local mod_stack_count = self:GetCaster():GetModifierStackCount("modifier_jull_in_time_manacost", self:GetCaster())
-    if mod_stack_count <= 0 then
-        mod_stack_count = 1
-    end
-    return self.BaseClass.GetManaCost(self, level) * (mod_stack_count * 1.5)
+    return self:GetCaster():GetMaxMana() / 100 * (self:GetSpecialValueFor("manacost") + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_2"))
 end
 
 function jull_in_time:GetIntrinsicModifierName()
@@ -466,12 +304,15 @@ modifier_jull_in_time_buff = class({})
 
 function modifier_jull_in_time_buff:IsHidden() return true end
 function modifier_jull_in_time_buff:IsPurgable() return false end
+
 function modifier_jull_in_time_buff:OnCreated()
     if not IsServer() then return end
     self.rotate = false
 end
+
 function modifier_jull_in_time_buff:DeclareFunctions()
-    return {
+    return 
+    {
         MODIFIER_PROPERTY_IGNORE_CAST_ANGLE,
         MODIFIER_EVENT_ON_ABILITY_EXECUTED
     }
@@ -523,8 +364,6 @@ function jull_in_time:OnSpellStart()
         self:AddMod()
     end
 
-    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_jull_in_time_manacost", {duration = 3})
-
     local particle_one = ParticleManager:CreateParticle( "particles/econ/events/fall_2021/blink_dagger_fall_2021_start.vpcf", PATTACH_ABSORIGIN, self:GetCaster() )
     ParticleManager:SetParticleControl( particle_one, 0, origin )
     ParticleManager:SetParticleControlForward( particle_one, 0, direction:Normalized() )
@@ -552,25 +391,11 @@ function jull_in_time:AddMod()
     local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetCaster():GetOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, FIND_CLOSEST, false )
     for _,enemy in pairs(enemies) do
         enemy:AddNewModifier(self:GetCaster(), self, "modifier_jull_in_time", {duration = duration})
-        for i=1,2 do
-            self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_jull_light_future_passive_charge", {duration = 1})
+        local jull_light_future = self:GetCaster():FindAbilityByName("jull_light_future")
+        if jull_light_future then
+            jull_light_future:AddCharge(enemy)
         end
     end
-end
-
-modifier_jull_in_time_manacost = class({})
-
-function modifier_jull_in_time_manacost:IsPurgable() return false end
-function modifier_jull_in_time_manacost:IsHidden() return true end
-
-function modifier_jull_in_time_manacost:OnCreated()
-    if not IsServer() then return end
-    self:SetStackCount(1)
-end
-
-function modifier_jull_in_time_manacost:OnRefresh()
-    if not IsServer() then return end
-    self:IncrementStackCount()
 end
 
 modifier_jull_in_time = class({})
@@ -606,7 +431,7 @@ end
 
 LinkLuaModifier("modifier_jull_light_future_passive", "abilities/heroes/jull", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_jull_light_future_laser", "abilities/heroes/jull", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_jull_light_future_laser_debuff", "abilities/heroes/jull", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_mum_meat_hook_hook_thinker", "abilities/heroes/mum.lua", LUA_MODIFIER_MOTION_NONE  )
 
 jull_light_future = class({})
 
@@ -625,9 +450,12 @@ function jull_light_future:OnSpellStart()
     local point_spawn = self:GetCaster():GetAbsOrigin() + direction * 150
     
     local modifiers = self:GetCaster():FindAllModifiersByName("modifier_jull_light_future_passive_charge")
-    for id, mod in pairs(modifiers) do
-        if id == #modifiers then
-            mod:Destroy()
+
+    if #modifiers > 0 then
+        table.sort( modifiers, function(x,y) return y:GetRemainingTime() < x:GetRemainingTime() end )
+
+        if #modifiers > 1 and modifiers[#modifiers] and not modifiers[#modifiers]:IsNull() then
+            modifiers[#modifiers]:Destroy()
         end
     end
 
@@ -644,13 +472,23 @@ function jull_light_future:CreateLaser(point, direction)
     end
 end
 
+function jull_light_future:AddCharge(target)
+    if target == nil then return end
+
+    if target:IsRealHero() then
+        self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_jull_light_future_passive_charge", {duration = self:GetSpecialValueFor("charge_duration")})
+        self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_jull_light_future_passive_charge", {duration = self:GetSpecialValueFor("charge_duration") + 0.5})
+    end
+end
+
 modifier_jull_light_future_laser = class({})
 
 function modifier_jull_light_future_laser:IsHidden() return true end
 function modifier_jull_light_future_laser:IsPurgable() return false end
 
 function modifier_jull_light_future_laser:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_NO_TEAM_MOVE_TO]    = true,
         [MODIFIER_STATE_NO_TEAM_SELECT]     = true,
         [MODIFIER_STATE_COMMAND_RESTRICTED] = true,
@@ -688,35 +526,42 @@ function modifier_jull_light_future_laser:OnIntervalThink()
     end
 
     local flag = 0
-    if self:GetCaster():HasTalent("special_bonus_birzha_jull_5") then
-        flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
-    end
-
     local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetParent():GetOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, FIND_CLOSEST, false )
+
     if #enemies == 0 then
         self:Destroy()
         return
     end
 
     self.point_end = CreateUnitByName("npc_dota_companion", enemies[1]:GetAbsOrigin(), false, nil, nil, self:GetCaster():GetTeamNumber())
-    self.point_end:AddNewModifier(self:GetCaster(), self, "modifier_phased", {})
-    self.point_end:AddNewModifier(self:GetCaster(), self, "modifier_no_healthbar", {})
-    self.point_end:AddNewModifier(self:GetCaster(), self, "modifier_invulnerable", {})
+    self.point_end:AddNewModifier(self:GetCaster(), self, "modifier_mum_meat_hook_hook_thinker", {})
     self.point_end:SetAbsOrigin(self.point_end:GetAbsOrigin() + Vector(0,0,125))
 
     self:GetParent():EmitSound("jull_attack")
 
+    local damage_type = DAMAGE_TYPE_MAGICAL
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_jull_8") then
+        flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
+    end
+
     local units = FindUnitsInLine(self:GetCaster():GetTeam(), self:GetParent():GetAbsOrigin(), enemies[1]:GetAbsOrigin(), self:GetCaster(), self.width, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, flag)
     for _, enemy in pairs(units) do
 
-        local damage = self:GetAbility():GetSpecialValueFor("base_damage") + (self:GetCaster():GetIntellect() * 0.7)
-        local modifier = self:GetCaster():FindModifierByName("modifier_jull_light_future_passive")
-        if modifier then
-            damage = damage + (self:GetAbility():GetLevelSpecialValueFor("damage_intellect", modifier:GetStackCount()) + (self:GetCaster():GetIntellect() / 100 * modifier:GetStackCount()) )
+        local damage_type = DAMAGE_TYPE_MAGICAL
+
+        if self:GetCaster():HasTalent("special_bonus_birzha_jull_8") and enemy:IsMagicImmune() then
+            damage_type = DAMAGE_TYPE_PURE
         end
 
-        ApplyDamage({victim = enemy, attacker = self:GetCaster(), ability = self:GetAbility(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
-        enemy:AddNewModifier(self:GetCaster(), self, "modifier_jull_light_future_laser_debuff", {duration = self:GetAbility():GetSpecialValueFor("duration_slow")})
+        local damage = self:GetAbility():GetSpecialValueFor("base_damage") + self:GetCaster():GetIntellect() + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_1")
+
+        local modifier = self:GetCaster():FindModifierByName("modifier_jull_light_future_passive")
+        if modifier then
+            damage = damage + (self:GetAbility():GetLevelSpecialValueFor("damage_intellect", modifier:GetStackCount()) * modifier:GetStackCount())
+        end
+
+        ApplyDamage({victim = enemy, attacker = self:GetCaster(), ability = self:GetAbility(), damage = damage, damage_type = damage_type})
 
         local nDamageFX = ParticleManager:CreateParticle( "particles/creatures/boss_tinker/boss_tinker_laser_enemy.vpcf", PATTACH_CUSTOMORIGIN, nil )
         ParticleManager:SetParticleControlEnt( nDamageFX, 1, enemy, PATTACH_POINT_FOLLOW, "attach_hitloc", enemy:GetAbsOrigin(), true )
@@ -750,29 +595,29 @@ function modifier_jull_light_future_passive:IsPurgable()
     return false
 end
 
+function modifier_jull_light_future_passive:IsHidden() return self:GetStackCount() == 0 end
+
 function modifier_jull_light_future_passive:OnCreated()
     if not IsServer() then return end
-    local ability = self:GetCaster():FindAbilityByName("jull_light_future")
-    if ability then
-        ability:SetCurrentAbilityCharges(0)
-    end
     self:StartIntervalThink(FrameTime())
 end
 
 function modifier_jull_light_future_passive:OnIntervalThink()
     if not IsServer() then return end
-    local ability = self:GetCaster():FindAbilityByName("jull_light_future")
-    if ability then
-        if ability:GetCurrentAbilityCharges() == 0 then
-            ability:SetActivated(false)
-        else
-            ability:SetActivated(true)
-        end
+
+    local modifier = self:GetCaster():FindAllModifiersByName("modifier_jull_light_future_passive_charge")
+    self:SetStackCount(#modifier)
+
+    if self:GetStackCount() > 0 then
+        self:GetAbility():SetActivated(true)
+    else
+        self:GetAbility():SetActivated(false)
     end
 end
 
 function modifier_jull_light_future_passive:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_EVENT_ON_ABILITY_FULLY_CAST,
         MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE,
         MODIFIER_EVENT_ON_ATTACK_LANDED
@@ -782,26 +627,27 @@ function modifier_jull_light_future_passive:DeclareFunctions()
 end
 
 function modifier_jull_light_future_passive:GetModifierDamageOutgoing_Percentage()
-    --if IsClient() then return 0 end
     return -100
 end
 
-function modifier_jull_light_future_passive:OnAttackLanded( keys )
+function modifier_jull_light_future_passive:OnAttackLanded( params )
     if not IsServer() then return end
     local attacker = self:GetParent()
 
-    if attacker ~= keys.attacker then
+    if attacker ~= params.attacker then
         return
     end
 
-    local target = keys.target
+    local target = params.target
 
     self:GetCaster():EmitSound("jull_attack")
 
-    if self:GetParent():IsIllusion() then return end
+    local damage = self:GetAbility():GetSpecialValueFor("base_damage") + self:GetCaster():GetIntellect() + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_1")
 
-    local damage = self:GetAbility():GetSpecialValueFor("base_damage") + (self:GetCaster():GetIntellect() * 0.7)
-    damage = damage + (self:GetAbility():GetLevelSpecialValueFor("damage_intellect", self:GetStackCount()) + (self:GetCaster():GetIntellect() / 100 * self:GetStackCount()) )
+    local modifier = self:GetCaster():FindModifierByName("modifier_jull_light_future_passive")
+    if modifier then
+        damage = damage + (self:GetAbility():GetLevelSpecialValueFor("damage_intellect", modifier:GetStackCount()) * modifier:GetStackCount())
+    end
 
     ApplyDamage({victim = target, attacker = self:GetCaster(), ability = self:GetAbility(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
 end
@@ -813,73 +659,20 @@ function modifier_jull_light_future_passive:OnAbilityFullyCast( params )
             return 0
         end
 
-        if hAbility:GetAbilityName() == "item_refresher" or hAbility:GetAbilityName() == "item_refresher_shard" then
-            local ability = self:GetCaster():FindAbilityByName("jull_light_future")
-            if ability then
-                ability:SetCurrentAbilityCharges(0)
-            end
-        end
-
         if hAbility:IsToggle() or hAbility:IsItem() then
             return 0
         end
 
         if hAbility:GetAbilityName() == "jull_light_future" then return end
         if hAbility:GetAbilityName() == "jull_steal_time" then return end
-
-        local ability = self:GetCaster():FindAbilityByName("jull_light_future")
-        if ability then
-            ability:SetCurrentAbilityCharges(ability:GetCurrentAbilityCharges() + 1)
-            Timers:CreateTimer(1, function()
-                if (ability:GetCurrentAbilityCharges() ~= 0) then
-                    ability:SetCurrentAbilityCharges(ability:GetCurrentAbilityCharges() - 1)
-                end
-            end)
-        end
-
         local point = RotatePosition(self:GetCaster():GetAbsOrigin(), QAngle(0,RandomInt(-360, 360),0), self:GetCaster():GetAbsOrigin() + self:GetCaster():GetForwardVector() * 150)
         local direction = (point - self:GetCaster():GetAbsOrigin()):Normalized()
 
         self:GetAbility():CreateLaser(point, direction)
     end
-
-    return 0
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-modifier_jull_light_future_laser_debuff = class({})
-
-function modifier_jull_light_future_laser_debuff:IsPurgable() return false end
-function modifier_jull_light_future_laser_debuff:IsPurgeException() return false end
-
-function modifier_jull_light_future_laser_debuff:DeclareFunctions() return {
-    MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
-} end
-
-function modifier_jull_light_future_laser_debuff:GetModifierMoveSpeedBonus_Percentage()
-    return -100
 end
 
 modifier_jull_light_future_passive_charge = class({})
-
 function modifier_jull_light_future_passive_charge:IsHidden() return true end
 function modifier_jull_light_future_passive_charge:IsPurgable() return false end
 function modifier_jull_light_future_passive_charge:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
@@ -917,6 +710,7 @@ function modifier_jull_steal_time:IsPurgable() return false end
 modifier_jull_steal_time_stack = class({})
 
 function modifier_jull_steal_time_stack:IsPurgable() return false end
+function modifier_jull_steal_time_stack:IsHidden() return self:GetStackCount() == 0 end
 
 function modifier_jull_steal_time_stack:DeclareFunctions()
     local decFuncs =
@@ -935,10 +729,6 @@ function modifier_jull_steal_time_stack:OnHeroKilled( params )
         self:IncrementStackCount()
     end
 end
-
-
-
-
 
 LinkLuaModifier("modifier_jull_portal_backend_buff", "abilities/heroes/jull", LUA_MODIFIER_MOTION_NONE)
 
@@ -966,7 +756,11 @@ function jull_portal_backend:CastFilterResultTarget( hTarget )
 end
 
 function jull_portal_backend:GetManaCost(level)
-    return self.BaseClass.GetManaCost(self, level) + (self:GetCaster():GetMaxMana() / 100 * self:GetSpecialValueFor("manacost_percentage"))
+    return self.BaseClass.GetManaCost(self, level) 
+end
+
+function jull_portal_backend:GetCooldown(level)
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_7")
 end
 
 function jull_portal_backend:GetIntrinsicModifierName()
@@ -976,7 +770,6 @@ end
 function jull_portal_backend:OnSpellStart()
     if not IsServer() then return end
     local target = self:GetCursorTarget()
-    local chronostasis = self:GetCaster():FindAbilityByName("jull_choronostasis")
     local bonus_intellect = self:GetSpecialValueFor("bonus_intellect")
     local damage_wave = self:GetSpecialValueFor("damage_wave")
 
@@ -984,62 +777,49 @@ function jull_portal_backend:OnSpellStart()
         return
     end
 
-    if chronostasis then
-        chronostasis:OnSpellStart(target)
+    if self:GetCaster():HasTalent("special_bonus_birzha_jull_6") then
+        local jull_choronostasis = self:GetCaster():FindAbilityByName("jull_choronostasis")
+        if jull_choronostasis and jull_choronostasis:GetLevel() > 0 then
+            jull_choronostasis:OnSpellStart(target)
+        end
     end
 
-    local damage = self:GetSpecialValueFor("base_damage")
-
-    local modifier = self:GetCaster():FindModifierByName("modifier_jull_steal_time_stack")
-    if modifier then
-        damage = damage + (modifier:GetStackCount() * self:GetSpecialValueFor("damage_per_charge"))
-    end
-
+    local base_damage = self:GetSpecialValueFor("base_damage")
+    local damage = target:GetMaxHealth() / 100 * base_damage
     ApplyDamage({victim = target, attacker = self:GetCaster(), ability = self, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
 
+    -- Если герой погибает
     if not target:IsAlive() then
         local modifier = self:GetCaster():FindModifierByName("modifier_jull_portal_backend_buff")
         if modifier then
-            modifier:SetStackCount(modifier:GetStackCount() + self:GetSpecialValueFor("bonus_intellect"))
+            modifier:IncrementStackCount()
         end
-        damage_wave = damage_wave * 2
 
-        if self:GetCaster():HasScepter() then
-            local abilities = {
+        damage_wave = damage_wave * self:GetSpecialValueFor("wave_damage_multiple")
+
+        if self:GetCaster():HasShard() then
+            local abilities = 
+            {
                 "jull_crive_realy",
                 "jull_choronostasis",
                 "jull_in_time",
             }
-            for _, abil in pairs(abilities) do
-                local abilka = self:GetCaster():FindAbilityByName(abil)
-                if abilka then
-                    if abilka == "jull_crive_realy" then
-                        local modifier_abilka = self:GetCaster():FindModifierByName("modifier_jull_crive_realy_stack")
-                        if modifier_abilka then
-                            modifier_abilka:SetStackCount(modifier_abilka.max_charges)
-                            modifier_abilka:SetDuration( -1, true )
-                            modifier_abilka:StartIntervalThink( -1 )
-                        end
-                    end
-                    if abilka == "jull_choronostasis" then
-                        local modifier_abilka = self:GetCaster():FindModifierByName("modifier_jull_choronostasis_stack")
-                        if modifier_abilka then
-                            modifier_abilka:SetStackCount(modifier_abilka.max_charges)
-                            modifier_abilka:SetDuration( -1, true )
-                            modifier_abilka:StartIntervalThink( -1 )
-                        end
-                    end
-                    abilka:EndCooldown()
+            for _, ability_name in pairs(abilities) do
+                local ability = self:GetCaster():FindAbilityByName(ability_name)
+                if ability then
+                    ability:EndCooldown()
+                    ability:RefreshCharges()
                 end
             end
         end
-
     end
 
-    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_jull_light_future_passive_charge", {duration = 1.5})
+    local jull_light_future = self:GetCaster():FindAbilityByName("jull_light_future")
+    if jull_light_future then
+        jull_light_future:AddCharge(target)
+    end
 
     local direction = (target:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Normalized()
-
     local projectile =
     {
         Ability             = self,
@@ -1057,7 +837,8 @@ function jull_portal_backend:OnSpellStart()
         bDeleteOnHit        = false,
         vVelocity           = Vector(direction.x,direction.y,0) * 900,
         bProvidesVision     = false,
-        ExtraData           = {
+        ExtraData           = 
+        {
             damage = damage_wave,
             target_main = target:entindex()
         }
@@ -1078,10 +859,10 @@ end
 function jull_portal_backend:OnProjectileHit_ExtraData(target, vLocation, table)
     if not IsServer() then return end
     local target_name = EntIndexToHScript(table.target_main)
-    print(table.damage)
     if target ~= nil and target ~= target_name then
-        for i=1,3 do
-            self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_jull_light_future_passive_charge", {duration = 1.5})
+        local jull_light_future = self:GetCaster():FindAbilityByName("jull_light_future")
+        if jull_light_future then
+            jull_light_future:AddCharge(target)
         end
         ApplyDamage({ victim = target, attacker = self:GetCaster(), damage = table.damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self}) 
     end
@@ -1090,9 +871,11 @@ end
 modifier_jull_portal_backend_buff = class({})
 
 function modifier_jull_portal_backend_buff:IsPurgable() return false end
+function modifier_jull_portal_backend_buff:IsHidden() return self:GetStackCount() == 0 end
 
 function modifier_jull_portal_backend_buff:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
     }
 
@@ -1100,5 +883,5 @@ function modifier_jull_portal_backend_buff:DeclareFunctions()
 end
 
 function modifier_jull_portal_backend_buff:GetModifierBonusStats_Intellect()
-    return self:GetStackCount()
+    return self:GetStackCount() * self:GetAbility():GetSpecialValueFor("bonus_intellect")
 end

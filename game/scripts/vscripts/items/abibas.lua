@@ -30,13 +30,10 @@ end
 
 modifier_item_imba_phase_boots_2 = class({})
 
-function modifier_item_imba_phase_boots_2:IsHidden()
-    return true
-end
-
-function modifier_item_imba_phase_boots_2:IsPurgable()
-    return false
-end
+function modifier_item_imba_phase_boots_2:IsHidden() return true end
+function modifier_item_imba_phase_boots_2:IsPurgable() return false end
+function modifier_item_imba_phase_boots_2:IsPurgeException() return false end
+function modifier_item_imba_phase_boots_2:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_imba_phase_boots_2:DeclareFunctions()
     local funcs = {
@@ -113,7 +110,8 @@ function modifier_item_imba_phase_boots_2_active:GetModifierAttackSpeedBonus_Con
 end
 
 function modifier_item_imba_phase_boots_2_active:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
     }
 

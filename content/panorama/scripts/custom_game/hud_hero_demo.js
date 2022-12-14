@@ -30,6 +30,124 @@ function UpdateHeroes(table, key, data ) {
 
 function RegisterHeroes()
 {
+	     let strength_heroes = 
+    [
+        "npc_dota_hero_huskar",
+        "npc_dota_hero_alchemist",
+        "npc_dota_hero_slardar",
+        "npc_dota_hero_lycan",
+        "npc_dota_hero_tusk",
+        "npc_dota_hero_saitama",
+        "npc_dota_hero_skeleton_king",
+        "npc_dota_hero_slark",
+        "npc_dota_hero_abaddon",
+        "npc_dota_hero_legion_commander",
+        "npc_dota_hero_migi",
+        "npc_dota_hero_kunkka",
+        "npc_dota_hero_pudge",
+        "npc_dota_hero_venom",
+        "npc_dota_hero_juggernaut",
+        "npc_dota_hero_tailer",
+        "npc_dota_hero_life_stealer",
+        "npc_dota_hero_nolik",
+        "npc_dota_hero_pyramide",
+        "npc_dota_hero_spirit_breaker",
+        "npc_dota_hero_elder_titan",
+        "npc_dota_hero_rattletrap",
+        "npc_dota_hero_stone_dwayne",
+        "npc_dota_hero_mars",
+        "npc_dota_hero_brewmaster",
+        "npc_dota_hero_beastmaster",
+        "npc_dota_hero_axe",
+        "npc_dota_hero_treant",
+        "npc_dota_hero_tidehunter",
+        "npc_dota_hero_spectre",
+        "npc_dota_hero_centaur",
+        "npc_dota_hero_omniknight",
+        "npc_dota_hero_ursa",
+        "npc_dota_hero_dark_seer",
+        "npc_dota_hero_tiny",
+        "npc_dota_hero_earthshaker",
+        "npc_dota_hero_sven",
+        "npc_dota_hero_bristleback",
+        "npc_dota_hero_earth_spirit",
+        "npc_dota_hero_chaos_knight",
+    ]
+
+    let agility_heroes = 
+    [
+        "npc_dota_hero_lone_druid",
+        "npc_dota_hero_naga_siren",
+        "npc_dota_hero_vengefulspirit",
+        "npc_dota_hero_ogre_magi",
+        "npc_dota_hero_sand_king",
+        "npc_dota_hero_pangolier",
+        "npc_dota_hero_monkey_king",
+        "npc_dota_hero_magnataur",
+        "npc_dota_hero_antimage",
+        "npc_dota_hero_abyssal_underlord",
+        "npc_dota_hero_serega_pirat",
+        "npc_dota_hero_queenofpain",
+        "npc_dota_hero_marci",
+        "npc_dota_hero_dark_willow",
+        "npc_dota_hero_furion",
+        "npc_dota_hero_sonic",
+        "npc_dota_hero_phantom_lancer",
+        "npc_dota_hero_nevermore",
+        "npc_dota_hero_sasake",
+        "npc_dota_hero_terrorblade",
+        "npc_dota_hero_batrider",
+        "npc_dota_hero_void_spirit",
+        "npc_dota_hero_phantom_assassin",
+        "npc_dota_hero_arc_warden",
+        "npc_dota_hero_luna",
+        "npc_dota_hero_bloodseeker",
+        "npc_dota_hero_bounty_hunter",
+        "npc_dota_hero_dragon_knight",
+        //"npc_dota_hero_clinkz",
+        "npc_dota_hero_crystal_maiden",
+        "npc_dota_hero_winter_wyvern",
+        "npc_dota_hero_warlock",
+        "npc_dota_hero_rat",
+        "npc_dota_hero_sniper",
+        "npc_dota_hero_thomas_bebra",
+        "npc_dota_hero_ember_spirit",
+        "npc_dota_hero_nyx_assassin",
+        "npc_dota_hero_troll_warlord",
+    ]
+
+    let intellect_heroes = 
+    [
+        "npc_dota_hero_jull",
+        "npc_dota_hero_necrolyte",
+        "npc_dota_hero_morphling",
+        "npc_dota_hero_enigma",
+        "npc_dota_hero_oracle",
+        "npc_dota_hero_shredder",
+        "npc_dota_hero_templar_assassin",
+        "npc_dota_hero_lina",
+        "npc_dota_hero_keeper_of_the_light",
+        "npc_dota_hero_pump",
+        "npc_dota_hero_faceless_void",
+        "npc_dota_hero_enchantress",
+        "npc_dota_hero_freddy",
+        "npc_dota_hero_travoman",
+        "npc_dota_hero_gyrocopter",
+        "npc_dota_hero_silencer",
+        "npc_dota_hero_overlord",
+        "npc_dota_hero_dawnbreaker",
+        "npc_dota_hero_doom_bringer",
+        "npc_dota_hero_puck",
+        "npc_dota_hero_invoker",
+        "npc_dota_hero_grimstroke",
+        "npc_dota_hero_zuus",
+        "npc_dota_hero_visage",
+        "npc_dota_hero_venomancer",
+        "npc_dota_hero_rubick",
+        "npc_dota_hero_techies",
+        "npc_dota_hero_leshrac",
+    ]
+
     var hero_list = CustomNetTables.GetTableValue("birzha_pick", "hero_list");
     if (hero_list)
     {
@@ -49,17 +167,17 @@ function RegisterHeroes()
 
 
 
-            for (var i = 1; i <= hero_list.str_length; i++) 
+            for (var i = 1; i < strength_heroes.length; i++) 
             {
-                var hero_creating = $("#StrengthSelector").FindChild(hero_list.str[i])
+                var hero_creating = $("#StrengthSelector").FindChild(strength_heroes[i])
                 if (hero_creating) { return };
-                var panel = $.CreatePanel("Panel", $("#StrengthSelector"), hero_list.str[i] );
+                var panel = $.CreatePanel("Panel", $("#StrengthSelector"), strength_heroes[i] );
                 panel.AddClass("hero_select_panel"); 
                 var icon = $.CreatePanel("Panel", panel, "image");
                 icon.AddClass("hero_select_panel_img");
-                icon.style.backgroundImage = 'url("file://{images}/custom_game/cm/heroes_pick/' + hero_list.str[i] + '.png")';
+                icon.style.backgroundImage = 'url("file://{images}/custom_game/cm/heroes_pick/' + strength_heroes[i] + '.png")';
                 icon.style.backgroundSize = 'contain';
-                SetHero(panel, hero_list.str[i]);
+                SetHero(panel, strength_heroes[i]);
                 panel.BLoadLayoutSnippet('HeroCard');
             }
         }
@@ -78,17 +196,17 @@ function RegisterHeroes()
             var agi_row = $.CreatePanel("Panel", $("#HeroBirzhaList"), "AgilitySelector" );
 
 
-            for (var i = 1; i <= hero_list.ag_length; i++) 
+            for (var i = 1; i < agility_heroes.length; i++) 
             {
-                var hero_creating = $("#AgilitySelector").FindChild(hero_list.ag[i])
+                var hero_creating = $("#AgilitySelector").FindChild(agility_heroes[i])
                 if (hero_creating) { return };
-                var panel = $.CreatePanel("Panel", $("#AgilitySelector"), hero_list.ag[i] );
+                var panel = $.CreatePanel("Panel", $("#AgilitySelector"), agility_heroes[i] );
                 panel.AddClass("hero_select_panel");
                 var icon = $.CreatePanel("Panel", panel, "image");
                 icon.AddClass("hero_select_panel_img");
-                icon.style.backgroundImage = 'url("file://{images}/custom_game/cm/heroes_pick/' + hero_list.ag[i] + '.png")';
+                icon.style.backgroundImage = 'url("file://{images}/custom_game/cm/heroes_pick/' + agility_heroes[i] + '.png")';
                 icon.style.backgroundSize = 'contain';
-                SetHero(panel, hero_list.ag[i]);
+                SetHero(panel, agility_heroes[i]);
                 panel.BLoadLayoutSnippet('HeroCard');
             }
         }
@@ -105,17 +223,17 @@ function RegisterHeroes()
             AttributePanelLabelINT.text = $.Localize("#DOTA_Hero_Selection_INT")
             var int_row = $.CreatePanel("Panel", $("#HeroBirzhaList"), "IntellectSelector" );
 
-            for (var i = 1; i <= hero_list.int_length; i++) 
+            for (var i = 1; i < intellect_heroes.length; i++) 
             {
-                var hero_creating = $("#IntellectSelector").FindChild(hero_list.int[i])
+                var hero_creating = $("#IntellectSelector").FindChild(intellect_heroes[i])
                 if (hero_creating) { return };
-                var panel = $.CreatePanel("Panel", $("#IntellectSelector"), hero_list.int[i] );
+                var panel = $.CreatePanel("Panel", $("#IntellectSelector"), intellect_heroes[i] );
                 panel.AddClass("hero_select_panel");
                 var icon = $.CreatePanel("Panel", panel, "image");
                 icon.AddClass("hero_select_panel_img");
-                icon.style.backgroundImage = 'url("file://{images}/custom_game/cm/heroes_pick/' + hero_list.int[i] + '.png")';
+                icon.style.backgroundImage = 'url("file://{images}/custom_game/cm/heroes_pick/' + intellect_heroes[i] + '.png")';
                 icon.style.backgroundSize = 'contain';
-                SetHero(panel, hero_list.int[i]);
+                SetHero(panel, intellect_heroes[i]);
                 panel.BLoadLayoutSnippet('HeroCard');
             }
         }

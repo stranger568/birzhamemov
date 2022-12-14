@@ -76,7 +76,7 @@ function BirzhaGameMode:SpawnItem()
 
 	Timers:CreateTimer(0.25, function()
 		CustomGameEventManager:Send_ServerToAllClients( "item_has_spawned", {} )
-		EmitGlobalSound( "Hero_Earthshaker.Arcana.GlobalLayer1" )
+		EmitGlobalSound( "chest_dropped" )
 		local effect_cast = ParticleManager:CreateParticle( "particles/econ/items/earthshaker/earthshaker_arcana/earthshaker_arcana_aftershock_v2.vpcf", PATTACH_CUSTOMORIGIN, nil )
 		ParticleManager:SetParticleControl( effect_cast, 0, Vector(0,0,100) )
 		ParticleManager:SetParticleControl( effect_cast, 1, Vector( 200, 200, 200 ) )
@@ -209,11 +209,11 @@ function BirzhaGameMode:SpecialItemAdd( event )
 		"item_orchid_custom",
 		"item_bfury",
 		"item_pipe",
-		"item_manta",
+		"item_manta_custom",
 		"item_crimson_guard",
 		"item_lotus_orb",
 		"item_diffusal_blade",
-		"item_heavens_halberd",
+		"item_heavens_halberd_custom",
 		"item_nullifier",
 		"item_moon_shard",
 	}

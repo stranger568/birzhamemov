@@ -30,6 +30,26 @@ function NextTip()
     $("#TipLabel").text=$.Localize(sTip);
 }
 
+function SwapLeaders(panel, button)
+{
+    $("#SoloPlayers").style.visibility = "collapse"
+    $("#DuoPlayers").style.visibility = "collapse"
+    $("#TrioPlayers").style.visibility = "collapse"
+    $("#5v5Players").style.visibility = "collapse"
+    $("#5v5v5Players").style.visibility = "collapse"
+    $("#zxcPlayers").style.visibility = "collapse"
+
+    $("#SoloPlayers_button").SetHasClass("ButtonActive", false)
+    $("#DuoPlayers_button").SetHasClass("ButtonActive", false)
+    $("#TrioPlayers_button").SetHasClass("ButtonActive", false)
+    $("#5v5Players_button").SetHasClass("ButtonActive", false)
+    $("#5v5v5Players_button").SetHasClass("ButtonActive", false)
+    $("#zxcPlayers_button").SetHasClass("ButtonActive", false)
+
+    $("#"+panel).style.visibility = "visible"
+    $("#"+button).SetHasClass("ButtonActive", true)
+}
+
 (function()
 {
     iIndexTip = RandomTipIndex();

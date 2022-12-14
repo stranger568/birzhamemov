@@ -1,10 +1,8 @@
 "itembuilds"
 {
-"itembuilds"
-{
 	"author"	"Solomon"
 	"hero"		"npc_dota_hero_ogre_magi"
-	"tile"		"Birzha memov"
+	"title"		"Birzha memov"
 
 	"items"
 	{
@@ -28,7 +26,7 @@
 		{
 			"item"		"item_memolator3"
 			"item"		"item_blink_boots"
-       			"item"		"item_mega_spinner"
+       		"item"		"item_mega_spinner"
 			"item"		"item_sharoeb"
 			"item"		"item_uebator"
 			"item"		"item_frostmorn"

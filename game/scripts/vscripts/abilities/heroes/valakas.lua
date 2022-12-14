@@ -15,7 +15,7 @@ function Valakas_sorry:GetCooldown(level)
 end
 
 function Valakas_sorry:GetCastRange(location, target)
-    return self.BaseClass.GetCastRange(self, location, target)
+    return self.BaseClass.GetCastRange(self, location, target) + self:GetCaster():FindTalentValue("special_bonus_birzha_valakas_1")
 end
 
 function Valakas_sorry:GetManaCost(level)
@@ -25,11 +25,17 @@ end
 function Valakas_sorry:OnSpellStart()
     if not IsServer() then return end
     local target = self:GetCursorTarget()
-    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_valakas_3")
+
+    local duration = self:GetSpecialValueFor("duration")
+
     if target:IsDuel() then return end
+
     if target:TriggerSpellAbsorb(self) then return end
+
     self:GetCaster():EmitSound("gladsorry")
+
     target:AddNewModifier( self:GetCaster(), self, "modifier_glad_sorry_target", { duration = duration } )
+
     if self:GetCaster():HasModifier("modifier_bp_valakas_reward") then
     	local particle = ParticleManager:CreateParticle( "particles/birzhapass/valakas_arcana_sorry_owner.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
     	ParticleManager:SetParticleControl( particle, 0, self:GetCaster():GetOrigin() )
@@ -78,23 +84,23 @@ end
 
 function modifier_glad_sorry_target:DeclareFunctions()
     local decFuns =
-        {
-            MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE,
-        }
+    {
+        MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE,
+    }
     return decFuns
 end
 
 function modifier_glad_sorry_target:GetModifierDamageOutgoing_Percentage()
     if not self:GetCaster():HasShard() then return end
-    return -25
+    return self:GetAbility():GetSpecialValueFor("shard_damage")
 end
 
 function modifier_glad_sorry_target:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_COMMAND_RESTRICTED] = true,
         [MODIFIER_STATE_TAUNTED] = true,
     }
-
     return state
 end
 
@@ -108,6 +114,7 @@ end
 LinkLuaModifier( "modifier_Valakas_DabDabDab", "abilities/heroes/valakas.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_Valakas_DabDabDab_lifesteal", "abilities/heroes/valakas.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_Valakas_DabDabDab_scepter", "abilities/heroes/valakas.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_Valakas_DabDabDab_debuff", "abilities/heroes/valakas.lua", LUA_MODIFIER_MOTION_NONE )
 
 Valakas_DabDabDab = class({})
 
@@ -125,20 +132,20 @@ end
 
 function Valakas_DabDabDab:OnSpellStart()
     if not IsServer() then return end
-    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Valakas_DabDabDab_scepter", {duration = 2})
-    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Valakas_DabDabDab_lifesteal", {duration = 2})
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Valakas_DabDabDab_scepter", {duration = self:GetSpecialValueFor("scepter_duration")})
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Valakas_DabDabDab_lifesteal", {duration = self:GetSpecialValueFor("scepter_duration")})
     self:GetCaster():EmitSound("gladbak")
 end
 
 function Valakas_DabDabDab:GetCooldown(iLevel)
     if self:GetCaster():HasScepter() then
-        return 30
+        return self:GetSpecialValueFor("scepter_cooldown")
     end
 end
 
 function Valakas_DabDabDab:GetManaCost(iLevel)
     if self:GetCaster():HasScepter() then
-        return 150
+        return self:GetSpecialValueFor("scepter_manacost")
     end
 end
 
@@ -166,31 +173,44 @@ end
 function modifier_Valakas_DabDabDab:DeclareFunctions()
     local decFuncs =
     {
-        MODIFIER_EVENT_ON_ATTACK
+        MODIFIER_EVENT_ON_ATTACK_LANDED
     }
 
     return decFuncs
 end
 
-function modifier_Valakas_DabDabDab:OnAttack( params )
+function modifier_Valakas_DabDabDab:OnAttackLanded( params )
     if not IsServer() then return end
-    local parent = self:GetParent()
-    local target = params.target
-    if params.target == self:GetParent() then
-        if target:IsOther() then
-            return nil
-        end
-    	local chance = self:GetAbility():GetSpecialValueFor("chance")
-        if self:GetParent():IsIllusion() or self:GetParent():PassivesDisabled() then return end
-        if self:GetCaster():HasModifier("modifier_Valakas_DabDabDab_scepter") then return end
+    if params.attacker ~= self:GetParent() then return end
+    if params.target:IsWard() then return end
+    if params.attacker:PassivesDisabled() then return end
+    if self:GetParent():IsIllusion() then return end
+    if self:GetCaster():HasModifier("modifier_Valakas_DabDabDab_scepter") then return end
 
-        if RandomInt(1, 100) <= chance then
-            if self:GetAbility():IsFullyCastable() then
-                parent:AddNewModifier( parent, self:GetAbility(), "modifier_Valakas_DabDabDab_lifesteal", { duration = 1.5 } )
-                self:GetAbility():UseResources(false, false, true)
+    local chance = self:GetAbility():GetSpecialValueFor("chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_valakas_5")
+
+    if RollPercentage(chance) then
+        if self:GetAbility():IsFullyCastable() then
+            if self:GetCaster():HasTalent("special_bonus_birzha_valakas_4") then
+                params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_Valakas_DabDabDab_debuff", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_valakas_4", "value2")})
             end
+            self:GetParent():AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_Valakas_DabDabDab_lifesteal", { duration = 1.5 } )
+            self:GetAbility():UseResources(false, false, true)
         end
     end
+end
+
+modifier_Valakas_DabDabDab_debuff = class({})
+
+function modifier_Valakas_DabDabDab_debuff:DeclareFunctions()
+    return 
+    {
+        MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS
+    }
+end
+
+function modifier_Valakas_DabDabDab_debuff:GetModifierMagicalResistanceBonus()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_valakas_4")
 end
 
 modifier_Valakas_DabDabDab_lifesteal = class({})
@@ -204,52 +224,69 @@ function modifier_Valakas_DabDabDab_lifesteal:IsHidden()
 end
 
 function modifier_Valakas_DabDabDab_lifesteal:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-        MODIFIER_EVENT_ON_ATTACK_LANDED,
+        MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE,
+        MODIFIER_EVENT_ON_TAKEDAMAGE,
     }
-
     return funcs
 end
 
-function modifier_Valakas_DabDabDab_lifesteal:GetModifierAttackSpeedBonus_Constant ( params )
+function modifier_Valakas_DabDabDab_lifesteal:GetModifierAttackSpeedBonus_Constant( params )
     return 15000
 end
 
-function modifier_Valakas_DabDabDab_lifesteal:OnAttackLanded(kv)
-    if IsServer() then
-        local attacker = kv.attacker
-        local target = kv.target
-        local damage = kv.damage
-        if self:GetParent() == attacker then
-            self.lifesteal = self:GetAbility():GetSpecialValueFor( "lifesteal" ) / 100
-            self:GetParent():EmitSound("gladbak")
-            if self:GetCaster():HasModifier("modifier_bp_valakas_reward") then
-                local particle = ParticleManager:CreateParticle( "particles/econ/items/earthshaker/earthshaker_arcana/earthshaker_arcana_aftershock.vpcf", PATTACH_ABSORIGIN_FOLLOW, target )
-                ParticleManager:SetParticleControl( particle, 1, Vector( 125, 125, 125 ) )
-                ParticleManager:ReleaseParticleIndex( particle )
-            else
-                local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_legion_commander/legion_commander_courage_hit.vpcf", PATTACH_CUSTOMORIGIN, self:GetParent() )
-                ParticleManager:SetParticleControlEnt( particle, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetParent():GetOrigin(), true )
-                ParticleManager:ReleaseParticleIndex( particle )
-            end
-            print(kv.original_damage, " ", kv.damage, " ", self.lifesteal, " ", self:GetAbility():GetSpecialValueFor( "lifesteal" ))
-            attacker:Heal(damage * self.lifesteal, self:GetAbility())
-            if self:GetParent():HasModifier("modifier_Valakas_DabDabDab_scepter") then return end
-            if not self:IsNull() then
-                self:Destroy()
-            end
+function modifier_Valakas_DabDabDab_lifesteal:GetModifierDamageOutgoing_Percentage()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_valakas_3")
+end
+
+function modifier_Valakas_DabDabDab_lifesteal:OnTakeDamage(params)
+    if not IsServer() then return end
+    if self:GetParent() ~= params.attacker then return end
+    if self:GetParent() == params.unit then return end
+    if params.unit:IsBuilding() then return end
+    if params.unit:IsWard() then return end
+    if params.inflictor == nil and not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then 
+        
+        local lifesteal = (self:GetAbility():GetSpecialValueFor( "lifesteal" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_valakas_7")) / 100
+
+        self:GetParent():EmitSound("gladbak")
+
+        if self:GetCaster():HasModifier("modifier_bp_valakas_reward") then
+            local particle = ParticleManager:CreateParticle( "particles/econ/items/earthshaker/earthshaker_arcana/earthshaker_arcana_aftershock.vpcf", PATTACH_ABSORIGIN_FOLLOW, target )
+            ParticleManager:SetParticleControl( particle, 1, Vector( 125, 125, 125 ) )
+            ParticleManager:ReleaseParticleIndex( particle )
+        else
+            local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_legion_commander/legion_commander_courage_hit.vpcf", PATTACH_CUSTOMORIGIN, self:GetParent() )
+            ParticleManager:SetParticleControlEnt( particle, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetParent():GetOrigin(), true )
+            ParticleManager:ReleaseParticleIndex( particle )
         end
+
+        params.attacker:Heal(params.damage * lifesteal, self:GetAbility())
+        if self:GetParent():HasModifier("modifier_Valakas_DabDabDab_scepter") then return end
+        self:Destroy()
     end
 end
 
-modifier_Valakas_DabDabDab_scepter = class({})
 
+modifier_Valakas_DabDabDab_scepter = class({})
 function modifier_Valakas_DabDabDab_scepter:IsPurgable() return false end
 
+
+
+
+LinkLuaModifier( "modifier_valakas_dadaya", "abilities/heroes/valakas.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_valakas_dadaya_stacks", "abilities/heroes/valakas.lua", LUA_MODIFIER_MOTION_NONE )
 
 Valakas_DaDaYa = class({})
+
+function Valakas_DaDaYa:Spawn()
+    if not IsServer() then return end
+    if not self:GetCaster():HasModifier("modifier_valakas_dadaya") then
+        self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_valakas_dadaya", {})
+    end
+end
 
 function Valakas_DaDaYa:GetAbilityTextureName()
     if self:GetCaster():HasModifier("modifier_bp_valakas_reward") then
@@ -268,22 +305,56 @@ function modifier_valakas_dadaya_stacks:IsPurgable()
     return false
 end
 
+function modifier_valakas_dadaya_stacks:OnCreated()
+    if not IsServer() then return end
+    if not self:GetParent():IsIllusion() then
+        self:StartIntervalThink(0.1)
+    end
+end
+
+function modifier_valakas_dadaya_stacks:OnIntervalThink()
+    if self:GetCaster():HasModifier("modifier_valakas_dadaya") then
+        self:SetStackCount(self:GetCaster():FindModifierByName("modifier_valakas_dadaya"):GetStackCount())
+    end
+    self:GetCaster():CalculateStatBonus(true)
+end
+
 function modifier_valakas_dadaya_stacks:DeclareFunctions()
     local decFuncs =
     {
-        MODIFIER_EVENT_ON_HERO_KILLED,
         MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
+    }
+    return decFuncs
+end
+
+function modifier_valakas_dadaya_stacks:IsHidden() return self:GetStackCount() == 0 end
+
+function modifier_valakas_dadaya_stacks:GetModifierBonusStats_Strength( params )
+    if self:GetParent():PassivesDisabled() then return end
+    return self:GetStackCount() * self:GetAbility():GetSpecialValueFor("bonus_strength")
+end
+
+modifier_valakas_dadaya = class({})
+
+function modifier_valakas_dadaya:IsHidden() return true end
+function modifier_valakas_dadaya:IsPurgable() return false end
+function modifier_valakas_dadaya:RemoveOnDeath() return false end
+
+function modifier_valakas_dadaya:DeclareFunctions()
+    local decFuncs =
+    {
+        MODIFIER_EVENT_ON_HERO_KILLED,
     }
 
     return decFuncs
 end
 
-function modifier_valakas_dadaya_stacks:OnHeroKilled( params )
+function modifier_valakas_dadaya:OnHeroKilled( params )
     if not IsServer() then return end
     local parent = self:GetParent()
     local target = params.target
     if parent == params.attacker and target:GetTeamNumber() ~= parent:GetTeamNumber() then
-        if self:GetParent():IsIllusion() or self:GetParent():PassivesDisabled() then return end
+        if self:GetParent():IsIllusion() then return end
         parent:EmitSound("gladda")
         self:IncrementStackCount()
         if self:GetCaster():HasModifier("modifier_bp_valakas_reward") then
@@ -294,21 +365,16 @@ function modifier_valakas_dadaya_stacks:OnHeroKilled( params )
     end
 end
 
-function modifier_valakas_dadaya_stacks:GetModifierBonusStats_Strength( params )
-    if self:GetParent():PassivesDisabled() then return end
-    return self:GetStackCount() * (self:GetAbility():GetSpecialValueFor("bonus_strength") + self:GetCaster():FindTalentValue("special_bonus_birzha_valakas_4"))
-end
-
 LinkLuaModifier( "modifier_Valakas_Gadza", "abilities/heroes/valakas.lua", LUA_MODIFIER_MOTION_NONE )
 
 Valakas_Gadza = class({})
 
 function Valakas_Gadza:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_valakas_2")
 end
 
 function Valakas_Gadza:GetCastRange(location, target)
-    return self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_valakas_1", "value2")
+    return self:GetSpecialValueFor("radius")
 end
 
 function Valakas_Gadza:GetManaCost(level)
@@ -354,23 +420,17 @@ function modifier_Valakas_Gadza:OnDestroy()
 end
 
 function modifier_Valakas_Gadza:OnIntervalThink()
-    local damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_valakas_1")
-    local radius = self:GetAbility():GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_valakas_1", "value2")
-
+    if not IsServer() then return end
+    local damage = self:GetAbility():GetSpecialValueFor("damage")
+    local radius = self:GetAbility():GetSpecialValueFor("radius")
 
     local flag = DOTA_UNIT_TARGET_FLAG_NONE
-    if self:GetCaster():HasTalent("special_bonus_birzha_valakas_5") then
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_valakas_8") then
         flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
     end
-    local targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(),
-    self:GetCaster():GetAbsOrigin(),
-    nil,
-    radius,
-    DOTA_UNIT_TARGET_TEAM_ENEMY,
-    DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO,
-    flag,
-    FIND_ANY_ORDER,
-    false)
+
+    local targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, flag, FIND_ANY_ORDER, false)
 
     if self:GetCaster():HasModifier("modifier_bp_valakas_reward") then
         local particle = ParticleManager:CreateParticle( "particles/birzhapass/valakas_arcana_gadza.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
@@ -383,9 +443,9 @@ function modifier_Valakas_Gadza:OnIntervalThink()
     end
 
     for _,unit in pairs(targets) do
-        ApplyDamage({victim = unit, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
-        if self:GetCaster():HasTalent("special_bonus_birzha_valakas_2") then
-            unit:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", { duration = 0.1 } )
+        ApplyDamage({victim = unit, attacker = self:GetCaster(), damage = damage * 0.4, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
+        if self:GetCaster():HasTalent("special_bonus_birzha_valakas_6") then
+            unit:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", { duration = self:GetCaster():FindTalentValue("special_bonus_birzha_valakas_6") * (1 - unit:GetStatusResistance()) } )
         end
     end
 end

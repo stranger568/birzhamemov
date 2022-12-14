@@ -191,12 +191,10 @@ function modifier_fountain_passive_invul:GetModifierHealthRegenPercentage( param
 end
 
 function modifier_fountain_passive_invul:GetModifierTotalPercentageManaRegen( params )
-	if self:GetParent():HasModifier("modifier_travoman_focused_detonate_debuff") then return 0 end
 	return 20
 end
 
 function modifier_fountain_passive_invul:GetModifierConstantManaRegen( params )
-	if self:GetParent():HasModifier("modifier_travoman_focused_detonate_debuff") then return 0 end
 	return 30
 end
 

@@ -82,7 +82,7 @@ function modifier_pyramide_wires_thinker:OnIntervalThink()
     local debuff_duration = self:GetAbility():GetSpecialValueFor("debuff_duration")
     local enemies = FindUnitsInRadius(self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, 135, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
     for _,enemy in ipairs(enemies) do
-        enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_pyramide_wires_damage", {duration = debuff_duration})
+        enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_pyramide_wires_damage", {duration = debuff_duration * (1 - enemy:GetStatusResistance()) })
     end
 end
 
@@ -96,7 +96,6 @@ function modifier_pyramide_wires_damage:OnCreated()
     self.damage_per_second  = self:GetAbility():GetSpecialValueFor("damage_per_second")
     self.movement_slow      = self:GetAbility():GetSpecialValueFor("movement_slow_base")
     self.interval           = 0.25
-    self.damage_per_tick    = self.damage_per_second * self.interval
     self:SetStackCount(self.movement_slow)
     self:StartIntervalThink(self.interval)
 end
@@ -105,10 +104,12 @@ function modifier_pyramide_wires_damage:OnIntervalThink()
     if not IsServer() then return end
     local damage = self.damage_per_second
     local modifier_damage = self:GetParent():FindModifierByName("modifier_pyramide_fault_stack")
+
     if modifier_damage then
         damage = damage + ( (self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_pyramide_3") ) * modifier_damage:GetStackCount())
     end
-    ApplyDamage({ victim = self:GetParent(), damage = self.damage_per_tick, damage_type = DAMAGE_TYPE_MAGICAL, damage_flags= DOTA_DAMAGE_FLAG_NONE, attacker = self:GetCaster(), ability = self:GetAbility() })
+
+    ApplyDamage({ victim = self:GetParent(), damage = damage * self.interval, damage_type = DAMAGE_TYPE_MAGICAL, damage_flags= DOTA_DAMAGE_FLAG_NONE, attacker = self:GetCaster(), ability = self:GetAbility() })
 end
 
 function modifier_pyramide_wires_damage:DeclareFunctions()
@@ -130,20 +131,9 @@ function modifier_pyramide_wires_damage:GetEffectName()
     return "particles/units/heroes/hero_bloodseeker/bloodseeker_rupture.vpcf"
 end
 
-
-            
-
-
-
-
-
-
-
-
-
-
 LinkLuaModifier( "modifier_pyramide_sud_debuff", "abilities/heroes/pyramide", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_pyramide_sud", "abilities/heroes/pyramide", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_pyramide_sud_thinker", "abilities/heroes/pyramide", LUA_MODIFIER_MOTION_NONE )
 
 pyramide_sud = class({})
 
@@ -175,6 +165,24 @@ function pyramide_sud:OnSpellStart()
     end)
 end
 
+modifier_pyramide_sud_thinker = class({})
+
+function modifier_pyramide_sud_thinker:IsHidden() return true end
+function modifier_pyramide_sud_thinker:IsPurgable() return false end
+function modifier_pyramide_sud_thinker:RemoveOnDeath() return false end
+
+function modifier_pyramide_sud_thinker:CheckState()
+    return 
+    {
+        [MODIFIER_STATE_INVULNERABLE] = true,
+        [MODIFIER_STATE_NO_HEALTH_BAR] = true,
+        [MODIFIER_STATE_NOT_ON_MINIMAP] = true,
+        [MODIFIER_STATE_STUNNED] = true,
+        [MODIFIER_STATE_UNSELECTABLE] = true,
+        [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+    }
+end
+
 modifier_pyramide_sud = class({})
 
 function modifier_pyramide_sud:IsPurgable() return true end
@@ -202,9 +210,7 @@ function modifier_pyramide_sud:OnCreated(params)
     self.box = CreateUnitByName("npc_dota_companion", self:GetParent():GetAbsOrigin(), true, nil, nil, self:GetCaster():GetTeamNumber())
     self.box:SetModel("models/pyramide/pyramide_box.vmdl")
     self.box:SetOriginalModel("models/pyramide/pyramide_box.vmdl")
-    self.box:AddNewModifier(self:GetAbility(), nil, "modifier_phased", {})
-    self.box:AddNewModifier(self:GetAbility(), nil, "modifier_no_healthbar", {})
-    self.box:AddNewModifier(self:GetAbility(), nil, "modifier_invulnerable", {})
+    self.box:AddNewModifier(self:GetAbility(), nil, "modifier_pyramide_sud_thinker", {})
 
     self.particle = ParticleManager:CreateParticle("particles/pyramide/box_effect.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
     ParticleManager:SetParticleControl(self.particle, 0, self:GetParent():GetAbsOrigin())
@@ -287,7 +293,8 @@ function modifier_pyramide_sud:HorizontalMotion(unit, dt)
 end
 
 function modifier_pyramide_sud:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_ROOTED] = true,
         [MODIFIER_STATE_DISARMED] = true,
     }
@@ -300,26 +307,12 @@ modifier_pyramide_sud_debuff = class({})
 function modifier_pyramide_sud_debuff:IsPurgable() return true end
 
 function modifier_pyramide_sud_debuff:DeclareFunctions()
-    return {MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE}
+    return {MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE}
 end
 
 function modifier_pyramide_sud_debuff:GetModifierMoveSpeed_Absolute()
     return self:GetAbility():GetSpecialValueFor("movespeed")
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -346,22 +339,21 @@ end
 
 function pyramide_passive:GetCooldown(level)
     if self:GetCaster():HasScepter() then
-        return 90
+        return self:GetSpecialValueFor("scepter_cooldown")
     end
     return 0
 end
 
 function pyramide_passive:GetManaCost(level)
     if self:GetCaster():HasScepter() then
-        return 200
+        return self:GetSpecialValueFor("scepter_manacost")
     end
     return 0
 end
 
-
 function pyramide_passive:OnSpellStart()
     if not IsServer() then return end
-    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_pyramide_aghanim_thinker", {duration = 15})
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_pyramide_aghanim_thinker", {duration = self:GetSpecialValueFor("scepter_duration")})
 end
 
 modifier_pyramide_passive = class({})
@@ -370,7 +362,8 @@ function modifier_pyramide_passive:IsHidden() return true end
 function modifier_pyramide_passive:IsPurgable() return false end
 
 function modifier_pyramide_passive:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_FIXED_ATTACK_RATE,
         MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE,
         MODIFIER_PROPERTY_TURN_RATE_PERCENTAGE,
@@ -387,9 +380,9 @@ end
 function modifier_pyramide_passive:GetModifierPreAttack_CriticalStrike( params )
     if not IsServer() then return end
     if not self:GetCaster():HasTalent("special_bonus_birzha_pyramide_7") then return end
-    if params.target:IsOther() then return end
+    if params.target:IsWard() then return end
     if self:GetParent():IsIllusion() or self:GetParent():PassivesDisabled() then return end
-    return 300
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_pyramide_7")
 end
 
 function modifier_pyramide_passive:GetModifierProcAttack_BonusDamage_Physical( params )
@@ -421,9 +414,15 @@ function modifier_pyramide_passive:GetModifierFixedAttackRate( params )
 end
 
 function modifier_pyramide_passive:OnAttackLanded( params )
-    if self:GetParent() ~= params.attacker then return end
+    if not IsServer() then return end
+    if params.attacker ~= self:GetParent() then return end
+    if params.target:IsWard() then return end
+    if params.target:IsBuilding() then return end
+    if params.target == params.attacker then return end
+    if params.attacker:IsIllusion() then return end
+
     local cleave = self:GetAbility():GetSpecialValueFor("cleave_damage") / 100
-    DoCleaveAttack( params.attacker, params.target, self:GetAbility(), (params.damage * cleave), 150, 360, 650, "particles/units/heroes/hero_sven/sven_spell_great_cleave.vpcf" ) 
+    DoCleaveAttack( params.attacker, params.target, self:GetAbility(), (params.original_damage * cleave), 150, 360, 650, "particles/units/heroes/hero_sven/sven_spell_great_cleave.vpcf" ) 
 end
 
 function modifier_pyramide_passive:OnModifierAdded( params )
@@ -435,7 +434,6 @@ function modifier_pyramide_passive:OnModifierAdded( params )
         end
     end
 end
-
 
 LinkLuaModifier( "modifier_pyramide_aghanim_pyramide_1", "abilities/heroes/pyramide", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_pyramide_aghanim_pyramide_2", "abilities/heroes/pyramide", LUA_MODIFIER_MOTION_NONE )
@@ -475,7 +473,9 @@ function modifier_pyramide_aghanim_thinker:OnCreated()
 
     local allHeroes = HeroList:GetAllHeroes()
     for _, hero in pairs(allHeroes) do
-        hero.fog_pyramide = ParticleManager:CreateParticleForPlayer("particles/pyramide/fog_fx_aghanim.vpcf", PATTACH_EYES_FOLLOW, hero, hero:GetPlayerOwner())
+        if hero:IsRealHero() then
+            hero.fog_pyramide = ParticleManager:CreateParticleForPlayer("particles/pyramide/fog_fx_aghanim.vpcf", PATTACH_EYES_FOLLOW, hero, hero:GetPlayerOwner())
+        end
     end
 
     EmitGlobalSound("pyramide_fog")
@@ -486,9 +486,7 @@ end
 function modifier_pyramide_aghanim_thinker:OnIntervalThink()
     if not IsServer() then return end
     if self:GetParent():IsAlive() then return end
-    if not self:IsNull() then
-        self:Destroy()
-    end
+    self:Destroy()
 end
 
 function modifier_pyramide_aghanim_thinker:OnDestroy()
@@ -532,11 +530,11 @@ function modifier_pyramide_aghanim_thinker:GetModifierAura()
     return "modifier_pyramide_aghanim_fog"
 end
 
-
 modifier_pyramide_aghanim_fog = class({})
 
 function modifier_pyramide_aghanim_fog:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_BONUS_VISION_PERCENTAGE,
         MODIFIER_PROPERTY_BONUS_DAY_VISION,
         MODIFIER_PROPERTY_BONUS_NIGHT_VISION,
@@ -568,7 +566,6 @@ function modifier_pyramide_aghanim_fog:GetBonusNightVision( params )
     return self.vision
 end
 
-
 modifier_pyramide_aghanim_pyramide_1 = class({})
 
 function modifier_pyramide_aghanim_pyramide_1:OnCreated()
@@ -583,13 +580,12 @@ function modifier_pyramide_aghanim_pyramide_1:OnIntervalThink()
     for _,unit in pairs(targets) do
         local ability = self:GetCaster():FindAbilityByName("pyramide_fault")
         if ability and ability:GetLevel() > 0 then
-            local damage = self:GetCaster():GetAverageTrueAttackDamage(nil) * 0.1
+            local damage = self:GetCaster():GetAverageTrueAttackDamage(nil) / 100 * self:GetAbility():GetSpecialValueFor("scepter_figure_attack_damage")
             local modifier_damage = unit:FindModifierByName("modifier_pyramide_fault_stack")
             if modifier_damage then
                 damage = damage * modifier_damage:GetStackCount()
             end
             ApplyDamage({ victim = unit, damage = damage, ability = ability, damage_type = DAMAGE_TYPE_PHYSICAL, damage_flags= DOTA_DAMAGE_FLAG_NONE, attacker = self:GetCaster() })
-
             local duration = ability:GetSpecialValueFor("duration")
             unit:AddNewModifier(self:GetCaster(), ability, "modifier_pyramide_fault_stack", {duration = duration})
         end
@@ -604,7 +600,8 @@ function modifier_pyramide_aghanim_pyramide_1:OnIntervalThink()
 end
 
 function modifier_pyramide_aghanim_pyramide_1:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_NO_HEALTH_BAR] = true,
         [MODIFIER_STATE_INVULNERABLE] = true,
         [MODIFIER_STATE_UNSELECTABLE] = true,
@@ -620,7 +617,7 @@ modifier_pyramide_aghanim_pyramide_2 = class({})
 
 function modifier_pyramide_aghanim_pyramide_2:OnCreated()
     if not IsServer() then return end
-    self:StartIntervalThink(2)
+    self:StartIntervalThink(self:GetAbility():GetSpecialValueFor("scepter_figure_attack_think"))
     UpdateTarget(self:GetParent())
 end
 
@@ -629,7 +626,7 @@ function modifier_pyramide_aghanim_pyramide_2:OnIntervalThink()
     local targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self:GetCaster():Script_GetAttackRange() + 200, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, 0, FIND_ANY_ORDER, false)
     self:GetParent():StartGesture(ACT_DOTA_ATTACK)
     for _,unit in pairs(targets) do
-        local damage = self:GetCaster():GetAverageTrueAttackDamage(nil) * 2
+        local damage = self:GetCaster():GetAverageTrueAttackDamage(nil) / 100 * self:GetAbility():GetSpecialValueFor("scepter_figure_attack_damage_perc")
         ApplyDamage({ victim = unit, damage = damage, damage_type = DAMAGE_TYPE_PHYSICAL, damage_flags= DOTA_DAMAGE_FLAG_NONE, attacker = self:GetCaster() })
     end
     local particle = ParticleManager:CreateParticle("particles/pyramide/explosion_aghanim.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
@@ -641,7 +638,8 @@ function modifier_pyramide_aghanim_pyramide_2:OnIntervalThink()
 end
 
 function modifier_pyramide_aghanim_pyramide_2:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_NO_HEALTH_BAR] = true,
         [MODIFIER_STATE_INVULNERABLE] = true,
         [MODIFIER_STATE_UNSELECTABLE] = true,
@@ -689,9 +687,10 @@ end
 function modifier_pyramide_aghanim_pyramide_3:OnAttackLanded(params)
     if not IsServer() then return end
     if self:GetParent() ~= params.attacker then return end
+    if params.target:IsWard() then return end
     local ability = self:GetCaster():FindAbilityByName("pyramide_wires")
     if ability then
-        params.target:AddNewModifier(self:GetCaster(), ability, "modifier_pyramide_wires_damage", {duration = 3})
+        params.target:AddNewModifier(self:GetCaster(), ability, "modifier_pyramide_wires_damage", {duration = self:GetAbility():GetSpecialValueFor("scepter_figure_attack_duration") * (1 - params.target:GetStatusResistance()) })
     end
 end
 
@@ -733,13 +732,12 @@ end
 function modifier_pyramide_aghanim_pyramide_4:OnAttackLanded(params)
     if not IsServer() then return end
     if self:GetParent() ~= params.attacker then return end
-    local base_damage = 5
+    if params.target:IsWard() then return end
+    local base_damage = self:GetAbility():GetSpecialValueFor("scepter_figure_attack_damage_streak")
     local streak_damage = params.target:GetKills()
     local damage = base_damage * streak_damage
-    print(damage, streak_damage)
     ApplyDamage({ victim = params.target, damage = damage, damage_type = DAMAGE_TYPE_PURE, damage_flags= DOTA_DAMAGE_FLAG_NONE, attacker = self:GetCaster() })
 end
-
 
 function UpdateTarget(parent)
     local targets = {}
@@ -785,17 +783,10 @@ function UpdateTargetLeader(parent)
     end
 end
 
-
-
-
-
-
-
-
-
 LinkLuaModifier( "modifier_pyramide_fault", "abilities/heroes/pyramide", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_pyramide_fault_radius", "abilities/heroes/pyramide", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_pyramide_fault_stack", "abilities/heroes/pyramide", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_pyramide_fault_stack_bb", "abilities/heroes/pyramide", LUA_MODIFIER_MOTION_NONE )
 
 pyramide_fault = class({})
 
@@ -838,6 +829,9 @@ end
 function modifier_pyramide_fault_radius:OnIntervalThink()
     if not IsServer() then return end
     local duration = self:GetAbility():GetSpecialValueFor("duration")
+    local modifiers = self:GetParent():FindAllModifiersByName("modifier_pyramide_fault_stack_bb")
+    if #modifiers >= self:GetAbility():GetSpecialValueFor("charges") then return end
+    self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_pyramide_fault_stack_bb", {duration = duration})
     self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_pyramide_fault_stack", {duration = duration})
 end
 
@@ -847,14 +841,13 @@ function modifier_pyramide_fault_stack:IsPurgable() return false end
 
 function modifier_pyramide_fault_stack:OnCreated()
     if not IsServer() then return end
-    self:SetStackCount(1)
+    self:StartIntervalThink(FrameTime())
 end
 
-function modifier_pyramide_fault_stack:OnRefresh()
+function modifier_pyramide_fault_stack:OnIntervalThink()
     if not IsServer() then return end
-    if self:GetStackCount() < 10 then
-        self:SetStackCount(self:GetStackCount() + 1)
-    end
+    local modifiers = self:GetParent():FindAllModifiersByName("modifier_pyramide_fault_stack_bb")
+    self:SetStackCount(#modifiers)
 end
 
 function modifier_pyramide_fault_stack:DeclareFunctions()
@@ -864,6 +857,11 @@ end
 function modifier_pyramide_fault_stack:GetModifierDamageOutgoing_Percentage()
     return self:GetStackCount() * self:GetAbility():GetSpecialValueFor("damage_reduced") * -1
 end
+
+modifier_pyramide_fault_stack_bb = class({})
+function modifier_pyramide_fault_stack_bb:IsPurgable() return false end
+function modifier_pyramide_fault_stack_bb:IsHidden() return true end
+function modifier_pyramide_fault_stack_bb:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 pyramide_ultimate = class({})
 
@@ -895,8 +893,9 @@ end
 function pyramide_ultimate:OnSpellStart()
     if not IsServer() then return end
     local target = self:GetCursorTarget()
+    if target:TriggerSpellAbsorb(self) then return nil end
     local base_damage = self:GetSpecialValueFor("base_damage")
-    local streak_damage = self:GetSpecialValueFor("streak_damage") * PlayerResource:GetStreak(target:GetPlayerID())
+    local streak_damage = (self:GetSpecialValueFor("streak_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_pyramide_8")) * PlayerResource:GetStreak(target:GetPlayerOwnerID())
     local damage = base_damage + streak_damage
     ApplyDamage({ victim = target, damage = damage, damage_type = DAMAGE_TYPE_PURE, damage_flags= DOTA_DAMAGE_FLAG_NONE, attacker = self:GetCaster(), ability = self })
 

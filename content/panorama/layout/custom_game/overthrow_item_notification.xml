@@ -43,6 +43,11 @@
 				<Label class="TitleFont" text="#fountainoff" />
 			</Panel>
 
+			<Panel id="Pucci">
+				<Image class = "ItemImage" id="PucciImage"  />
+				<Label class="TitleFont" id="PucciLabel" text="" />
+			</Panel>
+
 
 
 			<Panel id="ContractSpawn">

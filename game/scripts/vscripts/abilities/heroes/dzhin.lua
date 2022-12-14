@@ -165,7 +165,7 @@ function dzhin_call_of_shadows:OnSpellStart()
         wolf:AddNewModifier( self:GetCaster(), self, "modifier_dzhin_call_of_shadows_wolf", {enemy_entindex = target:entindex()})
         wolf:AddInvul(invul_duration)
     end
-    EmitSoundOn("Hero_Lycan.SummonWolves", self:GetCaster())
+    self:GetCaster():EmitSound("Hero_Lycan.SummonWolves")
 end
 
 modifier_dzhin_call_of_shadows_wolf = class({}) 

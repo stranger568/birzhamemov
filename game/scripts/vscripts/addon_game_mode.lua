@@ -47,15 +47,19 @@ require('util/custom_selection')
 
 function Precache( context )
   	local heroes = LoadKeyValues("scripts/npc/dota_heroes.txt")
+
   	for k,v in pairs(heroes) do
   		PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_" .. k:gsub('npc_dota_hero_','') ..".vsndevts", context )  
   		PrecacheResource( "soundfile", "soundevents/voscripts/game_sounds_vo_" .. k:gsub('npc_dota_hero_','') ..".vsndevts", context ) 
   	end
+
   	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_batrider.vsndevts", context )  
   	PrecacheResource( "soundfile", "soundevents/game_sounds_creeps.vsndevts", context )  
-  	local list = {
+
+  	local list = 
+  	{
     	model = {"models/courier/baby_rosh/babyroshan.vmdl","models/courier/donkey_trio/mesh/donkey_trio.vmdl","models/courier/mechjaw/mechjaw.vmdl","models/courier/huntling/huntling.vmdl","models/items/courier/devourling/devourling.vmdl","models/courier/seekling/seekling.vmdl","models/courier/venoling/venoling.vmdl","models/items/courier/amaterasu/amaterasu.vmdl","models/items/courier/beaverknight_s2/beaverknight_s2.vmdl","models/items/courier/nian_courier/nian_courier.vmdl","models/items/courier/faceless_rex/faceless_rex.vmdl","models/pets/icewrack_wolf/icewrack_wolf.vmdl","models/heroes/storm_spirit/storm_spirit.vmdl","materials/models/heroes/slark/bracer.vmdl","materials/models/heroes/slark/cape.vmdl","materials/models/heroes/slark/hood.vmdl","materials/models/heroes/slark/shoulder.vmdl","materials/models/heroes/slark/weapon.vmdl","models/apple_horo.vmdl","models/ball.vmdl","models/bogdan_wrench.vmdl","models/card.vmdl","models/cup_kaneki.vmdl","models/hero_knuckles.vmdl","models/hookah.vmdl","models/knuckles_tank.vmdl","models/omniknight_zelensky_head.vmdl","models/troll_warlord_gorin_stool.vmdl","models/yakub_car.vmdl","models/baldezh/planet.vmdl","models/creeps/thief/thief_01.vmdl","models/creeps/knoll_1/knoll_1.vmdl","models/creeps/knoll_1/werewolf_boss.vmdl","models/hero_rem/hero_rem_base.vmdl","models/heroes/anime/berserk/berserk/berserk.vmdl","models/heroes/anime/berserk/guts/guts.vmdl","models/heroes/anime/ghoul/kaneki/kaneki_base/kaneki_base.vmdl","models/heroes/anime/ghoul/kaneki/kaneki_form/kaneki_form.vmdl","models/heroes/anime/konosuba/megumin/megumin.vmdl","models/heroes/anime/rwby/ruby/ruby_basic.vmdl","models/heroes/anime/rwby/ruby/ruby_skythe.vmdl","models/heroes/antimage/antimage.vmdl","models/heroes/brewmaster/brewmaster.vmdl","models/heroes/faceless_void/faceless_void.vmdl","models/heroes/goku/goku.vmdl","models/heroes/goku/goku_five.vmdl","models/heroes/goku/goku_four.vmdl","models/heroes/goku/goku_one.vmdl","models/heroes/goku/goku_two.vmdl","models/heroes/hisoka/hisoka.vmdl","models/heroes/horo/horo.vmdl","models/heroes/invoker/invoker.vmdl","models/heroes/life_stealer/life_stealer.vmdl","models/heroes/monika/monika.vmdl","models/heroes/pangolier/pangolier_gyroshell2.vmdl","models/heroes/polnaref/chariot.vmdl","models/heroes/polnaref/polnaref.vmdl","models/heroes/rin/rin.vmdl","models/heroes/scp_173/scp_173.vmdl","models/heroes/shiro/shiro.vmdl","models/heroes/siren/siren.vmdl","models/heroes/slark/bracer.vmdl","models/heroes/slark/cape.vmdl","models/heroes/slark/hood.vmdl","models/heroes/slark/shoulder.vmdl","models/heroes/slark/weapon.vmdl","models/heroes/the_world/the_world.vmdl","models/heroes/thomas/thomas.vmdl","models/heroes/weaver/weaver.vmdl","models/heroes/wraith_king/wraith_king.vmdl","models/insane/insane.vmdl","models/models/mega_spinner.vmdl","models/models/heroes/felix/felix.vmdl","models/models/heroes/overlord/clown.vmdl","models/models/heroes/overlord/guard.vmdl","models/models/heroes/overlord/minion.vmdl","models/models/heroes/overlord/guard_weapon.vmdl","models/models/heroes/overlord/overlord.vmdl","models/models/heroes/overlord/overlord_sword.vmdl","models/models/heroes/scp/scp_173.vmdl","models/npc/npc_dingus/dingus.vmdl","models/scp_682/scp_crock_reference.vmdl","models/items/courier/nexon_turtle_01_grey/nexon_turtle_01_grey.vmdl","models/items/courier/nexon_turtle_09_blue/nexon_turtle_09_blue.vmdl","models/items/courier/nexon_turtle_15_red/nexon_turtle_15_red.vmdl","models/heroes/gyro/gyro.vmdl","models/heroes/blood_seeker/blood_seeker.vmdl","models/haku/haku_mask.vmdl","models/kakashi_new/kakashi.vmdl","models/heroes/aang/aang.vmdl","models/haku/haku.vmdl","models/migi/migi.vmdl","models/heroes/anime/overlord/overlord2/overlord2.vmdl","models/kyriyama/girl_2.vmdl","models/heroes/anime/jojo/white_snake/pucci/pucci.vmdl","models/dead_rat/dead_rat.vmdl","models/pyramide/pyramide.vmdl",},
-    	soundfile = {"soundevents/voscripts/game_sounds_vo_batrider.vsndevts","soundevents/voscripts/game_sounds_vo_void_spirit.vsndevts","soundevents/voscripts/game_sounds_vo_earth_spirit.vsndevts","soundevents/voscripts/game_sounds_vo_faceless_void.vsndevts","soundevents/game_sounds_creeps.vsndevts","soundevents/game_sounds_birzha.vsndevts","soundevents/game_sounds_birzha_new.vsndevts","soundevents/voscripts/game_sounds_vo_announcer_dlc_rick_and_morty.vsndevts","soundevents/soundevents_conquest.vsndevts","soundevents/voscripts/game_sounds_vo_terrorblade.vsndevts","soundevents/soundevents_minigames.vsndevts","soundevents/game_sounds_ui_imported.vsndevts",},
+    	soundfile = {"soundevents/voscripts/game_sounds_vo_batrider.vsndevts","soundevents/voscripts/game_sounds_vo_void_spirit.vsndevts","soundevents/voscripts/game_sounds_vo_earth_spirit.vsndevts","soundevents/voscripts/game_sounds_vo_faceless_void.vsndevts","soundevents/game_sounds_creeps.vsndevts","soundevents/voscripts/game_sounds_vo_announcer_dlc_rick_and_morty.vsndevts","soundevents/soundevents_conquest.vsndevts","soundevents/voscripts/game_sounds_vo_terrorblade.vsndevts","soundevents/soundevents_minigames.vsndevts","soundevents/game_sounds_ui_imported.vsndevts"},
     	particle = {"particles/econ/events/nexon_hero_compendium_2014/teleport_end_nexon_hero_cp_2014.vpcf","particles/units/heroes/hero_undying/undying_soul_rip_damage.vpcf", "particles/leader/leader_overhead.vpcf","particles/last_hit/last_hit.vpcf","particles/units/heroes/hero_zuus/zeus_taunt_coin.vpcf","particles/addons_gameplay/player_deferred_light.vpcf","particles/items_fx/black_king_bar_avatar.vpcf","particles/treasure_courier_death.vpcf","particles/econ/wards/f2p/f2p_ward/f2p_ward_true_sight_ambient.vpcf","particles/econ/items/effigies/status_fx_effigies/gold_effigy_ambient_dire_lvl2.vpcf","particles/units/heroes/hero_kunkka/kunkka_ghost_ship_model.vpcf","particles/units/heroes/hero_kunkka/kunkka_ghost_ship.vpcf","particles/memolator3/memolator.vpcf","particles/generic_gameplay/generic_silenced.vpcf","particles/memolator2/desolator_projectile.vpcf","particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_base_attack.vpcf","particles/items2_fx/veil_of_discord.vpcf",},
     	particle_folder = {}
   	}
@@ -75,6 +79,8 @@ function Precache( context )
 	for k,v in pairs(items) do
 	  	PrecacheItemByNameSync(k, context)
 	end
+
+	PrecacheResource( "soundfile", "soundevents/birzha/game_sounds_birzha.vsndevts", context )  
 end
 
 function Activate()
@@ -85,13 +91,13 @@ function Activate()
 end
 
 function BirzhaGameMode:InitGameMode()
-	XP_PER_LEVEL_TABLE = {0,200,600,1080,1680,2300,3940,4600,5280,6080,6900,7740,8740,9865,11215,12490,13790,15115,16515,18005,19505,21255,23255,25505,28005}
+	XP_PER_LEVEL_TABLE = {0,200,600,1080,1680,2300,3940,4600,5280,6080,6900,7740,8740,9865,11215,12490,13790,15115,16515,18005,19505,21255,23255,25505,28005,32005,37005,43005,50005}
 	GameRules:GetGameModeEntity():SetUseCustomHeroLevels(true)
 	if IsInToolsMode() then
 		XP_PER_LEVEL_TABLE = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-		GameRules:GetGameModeEntity():SetCustomHeroMaxLevel( 25 )
+		GameRules:GetGameModeEntity():SetCustomHeroMaxLevel( 30 )
 	else
-		GameRules:GetGameModeEntity():SetCustomHeroMaxLevel( 25 )
+		GameRules:GetGameModeEntity():SetCustomHeroMaxLevel( 30 )
 	end
 	GameRules:GetGameModeEntity():SetCustomXPRequiredToReachNextLevel(XP_PER_LEVEL_TABLE)
 
@@ -188,8 +194,6 @@ function BirzhaGameMode:InitGameMode()
 		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_CUSTOM_4, 1 )
 		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_CUSTOM_5, 1 )
 		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_CUSTOM_6, 1 )
-		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_CUSTOM_7, 1 )
-		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_CUSTOM_8, 1 )
 	elseif GetMapName() == "birzhamemov_duo" then
 		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_BADGUYS, 2 )
 		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_GOODGUYS, 2 )
@@ -242,6 +246,7 @@ function BirzhaGameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetDaynightCycleDisabled(false)
 	GameRules:GetGameModeEntity():SetCustomGameForceHero("npc_dota_hero_wisp")
 	GameRules:GetGameModeEntity():SetModifyGoldFilter(Dynamic_Wrap(self, "ModifyGoldFilter"), self)
+	SendToServerConsole("dota_max_physical_items_purchase_limit 9999")
 
 
 	ListenToGameEvent( "game_rules_state_change", Dynamic_Wrap( self, 'OnGameRulesStateChange' ), self )
@@ -255,6 +260,7 @@ function BirzhaGameMode:InitGameMode()
 	CustomGameEventManager:RegisterListener( "change_premium_pet", Dynamic_Wrap(donate_shop, "ChangePetPremium"))
 	CustomGameEventManager:RegisterListener( "change_border_effect", Dynamic_Wrap(donate_shop, "change_border_effect"))
 	CustomGameEventManager:RegisterListener( "donate_shop_buy_item", Dynamic_Wrap(donate_shop, "BuyItem"))
+	CustomGameEventManager:RegisterListener( "donate_shop_bp_preorder", Dynamic_Wrap(donate_shop, "PreOrderBattlePass"))
 	CustomGameEventManager:RegisterListener( "PlayerTip", Dynamic_Wrap(donate_shop, 'PlayerTip'))
 	CustomGameEventManager:RegisterListener( "SelectSmile", Dynamic_Wrap(donate_shop, 'SelectSmile'))
 	CustomGameEventManager:RegisterListener( "LotteryStart", Dynamic_Wrap(donate_shop, 'LotteryStart'))
@@ -262,8 +268,6 @@ function BirzhaGameMode:InitGameMode()
 	CustomGameEventManager:RegisterListener( "select_chatwheel_player", Dynamic_Wrap(donate_shop,'SelectChatWheel'))
 	CustomGameEventManager:RegisterListener( "report_player", Dynamic_Wrap(report_system,'ReportPlayer'))
 	CustomGameEventManager:RegisterListener( "SpawnHeroDemo", Dynamic_Wrap(HeroDemo,'SpawnHeroDemo'))
-	CustomGameEventManager:RegisterListener( "BebraBetCaster", Dynamic_Wrap(self, 'BebraBetCaster'))
-	CustomGameEventManager:RegisterListener( "BebraBetTarget", Dynamic_Wrap(self, 'BebraBetTarget'))
 
     local fix_pos_timer = SpawnEntityFromTableSynchronous("info_target", { targetname = "Fix_position" })
     fix_pos_timer:SetThink( FixPosition, FrameTime() )
@@ -277,7 +281,7 @@ function BirzhaGameMode:ModifyGoldFilter(params)
 	local Player = PlayerResource:GetPlayer(player_id)
 	if Player then
 		local hero = PlayerResource:GetSelectedHeroEntity(player_id)  
-		local ability_modifier_shelby = hero:FindAbilityByName("special_bonus_birzha_shelby_3")
+		local ability_modifier_shelby = hero:FindAbilityByName("special_bonus_birzha_shelby_4")
 		if ability_modifier_shelby and ability_modifier_shelby:GetLevel() > 0 and hero:IsRealHero() then
 			if params.reason_const ~= DOTA_ModifyGold_SellItem and params.gold > 0 then
 				params.gold = params.gold * (1 + (ability_modifier_shelby:GetSpecialValueFor("value") / 100))
@@ -378,7 +382,7 @@ function BirzhaGameMode:OnThink()
 				self:SpawnContracts()
 			else
 				self.ContractTimer = self.ContractTimer - 1
-				if self.ContractTimer - 10 == 0 then
+				if self.ContractTimer - 5 == 0 then
 					CustomGameEventManager:Send_ServerToAllClients("contract_event_will", {} )
 				end
 				CountdownContractTimer(self.ContractTimer)
@@ -496,14 +500,14 @@ function BirzhaGameMode:SpawnContracts()
 	local spawn_points = {
 		["birzhamemov_solo"] =
 		{
-			Vector(-558.305, -1536, 257),
-			Vector(768, -1536, 257),
-			Vector(1380.82, -636.846, 257),
-			Vector(1380.82, 689.458, 257),
-			Vector(768, 1415.6, 257),
-			Vector(-558.305, 1415.6, 257),
-			Vector(-1570.78, 768, 257),
-			Vector(-1570.78, -704, 257),
+			Vector(-677.264, 1473.03, 256),
+			Vector(698.379, 1473.03, 256),
+			Vector(1527.58, 707.842, 256),
+			Vector(1534.7, -679.804, 256),
+			Vector(690.966, -1498.83, 256),
+			Vector(-640.588, -1470.73, 256),
+			Vector(-1464.22, -687.853, 256),
+			Vector(-1489.97, 657.538, 256),
 		},
 
 		["birzhamemov_wtf"] =
@@ -520,18 +524,18 @@ function BirzhaGameMode:SpawnContracts()
 
 		["birzhamemov_duo"] =
 		{
-			Vector(2028.34, -2240.28, 128),
-			Vector(-2137.65, -2113.1, 128),
-			Vector(-2075.83, 2119, 128),
-			Vector(2105.9, 2164.85, 128),
+			Vector(2112, -2112, 128),
+			Vector(-2112, -2112, 128),
+			Vector(-2112, 2112, 128),
+			Vector(2112, 2112, 128),
 		},
 
 		["birzhamemov_trio"] =
 		{
-			Vector(2028.34, -2240.28, 128),
-			Vector(-2137.65, -2113.1, 128),
-			Vector(-2075.83, 2119, 128),
-			Vector(2105.9, 2164.85, 128),
+			Vector(2112, -2112, 128),
+			Vector(-2112, -2112, 128),
+			Vector(-2112, 2112, 128),
+			Vector(2112, 2112, 128),
 		},
 
 		["birzhamemov_5v5"] =
@@ -573,201 +577,5 @@ function BirzhaGameMode:SpawnContracts()
 				GameRules:ExecuteTeamPing( team, origin.x, origin.y, nil, 0 )
 			end
 		end)
-	end
-end
-
-function BirzhaGameMode:BebraBetCaster( data )
-	local player_id = data.PlayerID
-	local hero_shelby = PlayerResource:GetSelectedHeroEntity(player_id)
-	local bet = 0
-	if hero_shelby then
-		local modifier = hero_shelby:FindModifierByName("modifier_thomas_ability_three_bet_caster")
-		if modifier then
-			bet = math.min(data.bet, hero_shelby:GetGold())
-			modifier.bet_current = bet
-			modifier.bet_pick = data.pick
-			hero_shelby:SpendGold(bet, 0)
-
-			local hero_target = modifier:GetCaster()
-			local modifier_target = hero_target:FindModifierByName("modifier_thomas_ability_three_bet_target")
-			if modifier_target then
-				modifier_target.bet_current = bet
-				local player = PlayerResource:GetPlayer( hero_target:GetPlayerID() )
-				local time = 10
-				if player then
-					CustomGameEventManager:Send_ServerToPlayer( player, 'bebra_event_time_coint', {time = time} )
-					CustomGameEventManager:Send_ServerToPlayer( player, 'bebra_event_activate_target', {bet = bet} )
-
-					modifier_target.bebra_timer = Timers:CreateTimer(1, function()
-						time = time - 1
-						if player then
-							CustomGameEventManager:Send_ServerToPlayer( player, 'bebra_event_time_coint', {time = time} )
-						end
-						if time <= 0 then 
-							modifier.win = true
-							modifier_target.win = false
-							return 
-						end
-						return 1
-					end)
-				end
-			end
-		end
-	end
-end
-
-function BirzhaGameMode:BebraBetTarget( data )
-	local player_id = data.PlayerID
-	local hero_target = PlayerResource:GetSelectedHeroEntity(player_id)
-
-	if hero_target then
-		local modifier = hero_target:FindModifierByName("modifier_thomas_ability_three_bet_target")
-
-		if modifier then
-			modifier.bet_pick = data.pick
-			hero_target:SpendGold( (math.min(modifier.bet_current, hero_target:GetGold())), 0 )
-		end
-
-		if hero_target.bebra_timer then
-			Timers:RemoveTimer(hero_target.bebra_timer)
-		end
-
-		local player = PlayerResource:GetPlayer( hero_target:GetPlayerID() )
-		if player then
-			CustomGameEventManager:Send_ServerToPlayer( player, 'bebra_event_time_coint', {time = " "} )
-		end
-	end
-
-	BirzhaGameMode:BebraHorseStarted()
-end
-
-function BirzhaGameMode:BebraHorseStarted()
-	local kotl = {0,0}
-	local mirana = {0,0}
-	local chaos = {0,0}
-	local number = 1
-
-	local random_gigachad_1 = RandomInt(1, 3)
-
-	Timers:CreateTimer(0.03, function()
-
-		local kotl_bonus_run = RandomInt(0, 1)
-		local mirana_bonus_run = RandomInt(0, 1)
-		local chaos_bonus_run = RandomInt(0, 1)
-
-		if random_gigachad_1 == 1 then
-			kotl_bonus_run = RandomInt(2, 3)
-			mirana_bonus_run = RandomInt(1, 1)
-			chaos_bonus_run = RandomInt(2, 3)
-		elseif random_gigachad_1 == 2 then
-			kotl_bonus_run = RandomInt(1, 1)
-			mirana_bonus_run = RandomInt(2, 3)
-			chaos_bonus_run = RandomInt(2, 3)
-		elseif random_gigachad_1 == 3 then
-			kotl_bonus_run = RandomInt(2, 3)
-			mirana_bonus_run = RandomInt(2, 3)
-			chaos_bonus_run = RandomInt(1, 1)
-		end
-
-		if kotl[1] < 100 then
-			kotl[1] = kotl[1] + kotl_bonus_run
-		end
-		if mirana[1] < 100 then
-			mirana[1] = mirana[1] + mirana_bonus_run
-		end
-		if chaos[1] < 100 then
-			chaos[1] = chaos[1] + chaos_bonus_run
-		end
-
-		if kotl[1] >= 100 and kotl[2] == 0 then
-			kotl[2] = number
-			number = number + 1
-		end
-
-		if mirana[1] >= 100 and mirana[2] == 0 then
-			mirana[2] = number
-			number = number + 1
-		end
-
-		if chaos[1] >= 100 and chaos[2] == 0 then
-			chaos[2] = number
-			number = number + 1
-		end
-
-		CustomGameEventManager:Send_ServerToAllClients( "bebra_event_run", {kotl = kotl[1], mirana = mirana[1], chaos = chaos[1], kotl_number = kotl[2], mirana_number = mirana[2], chaos_number = chaos[2]} )
-
-		if kotl[1] >= 100 and mirana[1] >= 100 and chaos[1] >= 100 then
-			Timers:CreateTimer(1, function()
-
-				local winner1 = nil
-				local winner2 = nil
-
-				if kotl[2] == 1 or kotl[2] == 2 then
-					if winner1 == nil then
-						winner1 = "kotl"
-					end
-					if winner2 == nil then
-						winner2 = "kotl"
-					end
-				end
-				if mirana[2] == 1 or mirana[2] == 2 then
-					if winner1 == nil then
-						winner1 = "mirana"
-					end
-					if winner2 == nil then
-						winner2 = "mirana"
-					end
-				end
-				if chaos[2] == 1 or chaos[2] == 2 then
-					if winner1 == nil then
-						winner1 = "chaos"
-					end
-					if winner2 == nil then
-						winner2 = "chaos"
-					end
-				end
-
-				BirzhaGameMode:RunEnd( winner1, winner2 )
-			end)
-			return nil
-		end
-
-		return 0.03
-	end)
-end
-
-function BirzhaGameMode:RunEnd( winner1, winner2 )
-	local allHeroes = HeroList:GetAllHeroes()
-	for _, hero in pairs(allHeroes) do
-		if hero:IsRealHero() then
-			if hero:HasModifier("modifier_thomas_ability_three_bet_target") then
-				local modifier = hero:FindModifierByName("modifier_thomas_ability_three_bet_target")
-				if modifier then
-					if modifier.bet_pick == winner1 or modifier.bet_pick == winner2 then
-						modifier:Win()
-					else
-						modifier:Lose()
-					end
-				end
-				local player = PlayerResource:GetPlayer( hero:GetPlayerID() )
-				if player then
-					CustomGameEventManager:Send_ServerToPlayer( player, 'bebra_event_close', {} )
-				end
-			end
-			if hero:HasModifier("modifier_thomas_ability_three_bet_caster") then
-				local modifier = hero:FindModifierByName("modifier_thomas_ability_three_bet_caster")
-				if modifier then
-					if modifier.bet_pick == winner1 or modifier.bet_pick == winner2 then
-						modifier:Win()
-					else
-						modifier:Lose()
-					end
-				end
-				local player = PlayerResource:GetPlayer( hero:GetPlayerID() )
-				if player then
-					CustomGameEventManager:Send_ServerToPlayer( player, 'bebra_event_close', {} )
-				end
-			end
-		end
 	end
 end

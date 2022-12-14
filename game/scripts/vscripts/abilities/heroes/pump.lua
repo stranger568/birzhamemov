@@ -7,12 +7,12 @@ LinkLuaModifier( "modifier_pump_charm", "abilities/heroes/pump.lua", LUA_MODIFIE
 pump_charm = class({})
 
 function pump_charm:GetCastRange(vLocation, hTarget)
-    return self:GetSpecialValueFor("radius")
+    return self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_pump_1")
 end
 
 function pump_charm:OnSpellStart()
     if not IsServer() then return end
-    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_pump_3")
+    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_pump_6")
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_pump_charm", {duration = duration})
 end
 
@@ -22,10 +22,13 @@ function modifier_pump_charm:IsPurgable() return false end
 
 function modifier_pump_charm:OnCreated()
     if not IsServer() then return end
+
     self:StartIntervalThink(0.5)
-    self.damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetParent():GetIntellect() * self:GetAbility():GetSpecialValueFor("int_multiplier")
-    self.bonus_damage = self:GetAbility():GetSpecialValueFor("bonus_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_pump_2")
+
+    self.damage = self:GetAbility():GetSpecialValueFor("damage") + (self:GetParent():GetIntellect() / 100 * (self:GetAbility():GetSpecialValueFor("int_multiplier") + self:GetCaster():FindTalentValue("special_bonus_birzha_pump_2")))
+    self.bonus_damage = self:GetAbility():GetSpecialValueFor("bonus_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_pump_3")
     self.radius = self:GetAbility():GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_pump_1")
+
     local particle = ParticleManager:CreateParticle( "particles/pump/charm_effect.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
     ParticleManager:SetParticleControlEnt( particle, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", Vector(0,0,0), true )
     self:AddParticle( particle, false, false, -1, false, false )
@@ -35,8 +38,7 @@ function modifier_pump_charm:OnIntervalThink()
     if not IsServer() then return end
     local flag = 0
 
-
-    if self:GetCaster():HasTalent("special_bonus_birzha_pump_5") then
+    if self:GetCaster():HasTalent("special_bonus_birzha_pump_8") then
         flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
     end
 
@@ -45,28 +47,30 @@ function modifier_pump_charm:OnIntervalThink()
     local particle = ParticleManager:CreateParticle( "particles/pump_charm_effect.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
     ParticleManager:SetParticleControlEnt( particle, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc2", Vector(0,0,0), true )
     ParticleManager:SetParticleControl(particle, 1, Vector(self.radius, self.radius, self.radius))
-
+    ParticleManager:ReleaseParticleIndex(particle)
 
     local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, 0, false )
     for _,enemy in pairs(enemies) do
         ApplyDamage({victim = enemy, attacker = self:GetParent(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
     end
-    self.damage = self.damage + self.bonus_damage
+
+    self.damage = self.damage + (self.bonus_damage * 0.5)
 end
 
 LinkLuaModifier( "modifier_pump_sugar_cast", "abilities/heroes/pump.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier("modifier_generic_knockback_lua", "modifiers/modifier_generic_knockback_lua.lua", LUA_MODIFIER_MOTION_BOTH )
 
 pump_sugar = class({})
 
 function pump_sugar:GetChannelTime()
-    if self:GetCaster():HasTalent("special_bonus_birzha_pump_6") then
-        return 0.35
+    if self:GetCaster():HasTalent("special_bonus_birzha_pump_5") then
+        return 0.4
     end
     return 0
 end
 
 function pump_sugar:GetBehavior()
-    if self:GetCaster():HasTalent("special_bonus_birzha_pump_6") then
+    if self:GetCaster():HasTalent("special_bonus_birzha_pump_5") then
         return DOTA_ABILITY_BEHAVIOR_DIRECTIONAL + DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR_CHANNELLED
     end
     return DOTA_ABILITY_BEHAVIOR_DIRECTIONAL + DOTA_ABILITY_BEHAVIOR_POINT
@@ -75,7 +79,7 @@ end
 function pump_sugar:OnChannelFinish( bInterrupted )
     if not IsServer() then return end
     self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_2)
-    if self:GetCaster():HasTalent("special_bonus_birzha_pump_6") then
+    if self:GetCaster():HasTalent("special_bonus_birzha_pump_5") then
         if self.modifier and not self.modifier:IsNull() then
             self.modifier:Destroy()
         end
@@ -89,7 +93,7 @@ function pump_sugar:OnSpellStart()
 
     self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_2)
 
-    if self:GetCaster():HasTalent("special_bonus_birzha_pump_6") then
+    if self:GetCaster():HasTalent("special_bonus_birzha_pump_5") then
         self.modifier = self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_pump_sugar_cast", {x=point.x, y=point.y, z=point.z})
         return
     end
@@ -154,32 +158,28 @@ end
 
 function pump_sugar:OnProjectileHit_ExtraData( hTarget, vLocation, extraData )
     if hTarget==nil then return end
+
     if hTarget:IsMagicImmune() then return end
+
     local origin = Vector( extraData.originX, extraData.originY, extraData.originZ )
+
     local distance = (hTarget:GetAbsOrigin()-origin):Length2D()
+
     local bonus_pct = math.min(1,distance/extraData.max_distance)
+
     local damage = math.max(extraData.min_damage, extraData.max_damage*bonus_pct)
-    local damageTable = { victim = hTarget, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self, }
+
+    local damageTable = { victim = hTarget, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self }
+
     ApplyDamage(damageTable)
+
     hTarget:EmitSound("pump_stun_sugar")
-    hTarget:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", { duration = math.max(extraData.min_stun, extraData.max_stun*bonus_pct) } )
+
+    hTarget:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", { duration = (math.max(extraData.min_stun, extraData.max_stun*bonus_pct)) * (1-hTarget:GetStatusResistance()) } )
 
     if self:GetCaster():HasShard() then
-        local distance = (hTarget:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Length2D()
         local direction = (hTarget:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Normalized()
-        local bump_point = hTarget:GetAbsOrigin() - direction * (distance + 250)
-
-        local knockbackProperties =
-        {
-            center_x = bump_point.x,
-            center_y = bump_point.y,
-            center_z = bump_point.z,
-            duration = 0.1,
-            knockback_duration = 0.1,
-            knockback_distance = 150,
-            knockback_height = 10
-        }
-        hTarget:AddNewModifier( self:GetCaster(), nil, "modifier_knockback", knockbackProperties )
+        hTarget:AddNewModifier( self:GetCaster(), self, "modifier_generic_knockback_lua", { duration = 0.1, distance = self:GetSpecialValueFor("shard_knockback"), height = 0, direction_x = direction.x, direction_y = direction.y, IsStun = true})
     end
 
     return true
@@ -192,7 +192,7 @@ function modifier_pump_sugar_cast:IsPurgable() return false end
 function modifier_pump_sugar_cast:OnCreated(kv)
     if not IsServer() then return end
     self.point = Vector(kv.x,kv.y,kv.z)
-    self:StartIntervalThink(0.3)
+    self:StartIntervalThink(0.10)
     self:OnIntervalThink()
 end
 
@@ -258,52 +258,17 @@ function modifier_pump_sugar_cast:OnIntervalThink()
     ProjectileManager:CreateLinearProjectile(info)
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 LinkLuaModifier( "modifier_pump_skid", "abilities/heroes/pump.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_pump_skid_active", "abilities/heroes/pump.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_pump_skid_resist_active", "abilities/heroes/pump.lua", LUA_MODIFIER_MOTION_NONE )
 
 pump_skid = class({})
 
-function pump_skid:GetCastRange(vLocation, hTarget)
-    return 1000
-end
-
 function pump_skid:OnSpellStart()
     if not IsServer() then return end
-    local duration = self:GetSpecialValueFor("duration")
+    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_pump_4")
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_pump_skid_active", {duration = duration})
-    local heroes = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, 600, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_CLOSEST, false)
+    local heroes = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, self:GetSpecialValueFor("radius"), DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_CLOSEST, false)
     local count = 0
     for _, hero in pairs(heroes) do
         if count >= 2 then break end
@@ -325,11 +290,11 @@ end
 function modifier_pump_skid_resist_active:IsPurgable() return false end
 
 function modifier_pump_skid_resist_active:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,
         MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING,
     }
-
     return funcs
 end
 
@@ -348,12 +313,11 @@ function modifier_pump_skid_active:IsHidden() return true end
 function modifier_pump_skid_active:OnCreated()
     if not IsServer() then return end
     self:GetParent():EmitSound("pump_shield")
-    local duration = self:GetAbility():GetSpecialValueFor("duration")
+    local duration = self:GetAbility():GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_pump_4")
     self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_item_lotus_orb_active", {duration = duration})
 end
 
 function modifier_pump_skid_active:IsPurgable() return false end
-
 
 LinkLuaModifier( "modifier_pump_spooky_aura", "abilities/heroes/pump.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_pump_spooky", "abilities/heroes/pump.lua", LUA_MODIFIER_MOTION_NONE )
@@ -362,7 +326,7 @@ pump_spooky = class({})
 
 function pump_spooky:OnSpellStart()
     if not IsServer() then return end
-    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_pump_4")
+    local duration = self:GetSpecialValueFor("duration")
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_pump_spooky_aura", {duration = duration})
 end
 
@@ -374,6 +338,7 @@ function modifier_pump_spooky_aura:OnCreated()
     if not IsServer() then return end
 
     self.flag = 0
+
     if self:GetCaster():HasTalent("special_bonus_birzha_pump_7") then
          self.flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
     end
@@ -381,11 +346,14 @@ function modifier_pump_spooky_aura:OnCreated()
     self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_6)
 
     EmitSoundOn("pump_dance", self:GetParent())
+
     self.origin = self:GetCaster():GetAbsOrigin()
+
     self.particle = ParticleManager:CreateParticle("particles/pump/sphere_ultimate.vpcf", PATTACH_WORLDORIGIN, nil)
     ParticleManager:SetParticleControl(self.particle, 0, self.origin)
     ParticleManager:SetParticleControl(self.particle, 1, Vector(self:GetAbility():GetSpecialValueFor("radius"), self:GetAbility():GetSpecialValueFor("radius"), 1))
     self:AddParticle(self.particle, false, false, -1, false, false)
+
     self:StartIntervalThink(0.5)
 end
 
@@ -398,6 +366,7 @@ function modifier_pump_spooky_aura:DeclareFunctions()
 
     return decFuncs
 end
+
 function modifier_pump_spooky_aura:OnDeath( params )
     if params.unit == self:GetParent() then
         if not self:IsNull() then
@@ -412,7 +381,6 @@ end
 
 function modifier_pump_spooky_aura:OnIntervalThink()
     if not IsServer() then return end
-
     if self.origin ~= self:GetCaster():GetAbsOrigin() then
         if self.particle then
             ParticleManager:DestroyParticle(self.particle, true)
@@ -420,6 +388,7 @@ function modifier_pump_spooky_aura:OnIntervalThink()
             self.particle = ParticleManager:CreateParticle("particles/pump/sphere_ultimate.vpcf", PATTACH_WORLDORIGIN, nil)
             ParticleManager:SetParticleControl(self.particle, 0, self.origin)
             ParticleManager:SetParticleControl(self.particle, 1, Vector(self:GetAbility():GetSpecialValueFor("radius"), self:GetAbility():GetSpecialValueFor("radius"), 1))
+            self:AddParticle(self.particle, false, false, -1, false, false)
         end     
     end
 end
@@ -428,15 +397,17 @@ function modifier_pump_spooky_aura:OnDestroy()
     if not IsServer() then return end
     StopSoundOn("pump_dance", self:GetParent())
     self:GetParent():FadeGesture(ACT_DOTA_CAST_ABILITY_6)
-    ParticleManager:DestroyParticle(self.particle, true)
 end
 
 function modifier_pump_spooky_aura:CheckState()
-    if self:GetCaster():HasScepter() then return {
-        [MODIFIER_STATE_SILENCED] = true,
-        [MODIFIER_STATE_DISARMED] = true,
-        [MODIFIER_STATE_MUTED] = true,
-    } end
+    if self:GetCaster():HasScepter() then 
+        return 
+        {
+            [MODIFIER_STATE_SILENCED] = true,
+            [MODIFIER_STATE_DISARMED] = true,
+            [MODIFIER_STATE_MUTED] = true,
+        } 
+    end
     local state = { [MODIFIER_STATE_STUNNED] = true}
     return state
 end

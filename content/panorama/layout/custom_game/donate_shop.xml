@@ -2,7 +2,7 @@
 
 	<styles>
 		<include src="s2r://panorama/styles/dotastyles.css" />
-		<include src="file://{resources}/styles/custom_game/donate_shop.css" />
+		<include src="file://{resources}/styles/custom_game/donate_shop.css" /> 
 		<include src="file://{resources}/styles/custom_game/birzha_memepass.css" />
 	</styles>
 
@@ -16,13 +16,49 @@
 			<Panel class="ShopButtonIcon" />
 			<Label class="ShopButtonLabel" text="#shop_button" />
 		</Panel>
-
-		<Panel id="BirzhaPlusButton" onactivate="ToggleBattlepass();">
+ 
+		<Panel id="BirzhaPlusButton" onactivate="GameUI.CustomUIConfig().OpenBirzhaPlus();">
 			<Panel class="BirzhaPlusButtonIcon" />
 			<Label class="BirzhaPlusButtonLabel" text="#birzhaplus_button" />
 		</Panel>
+
+		<Panel id="BattlepassButton" onactivate="GameUI.CustomUIConfig().OpenBattlePass();">
+			<Panel class="BattlepassButtonIcon" />
+			<Label class="BattlepassButtonLabel" text="#bp_button" />
+		</Panel>
 		
 		<Panel id="SmilesButton" onactivate="ToggleSmiles();" />
+
+
+		<Panel id="BattlePassWindow" hittest="false">
+			<Panel id="BattlePassWindowNoActive">
+				<Panel class="BattlePassLogo">
+					<Panel class="CloseBattlepass" onactivate="GameUI.CustomUIConfig().OpenBattlePass();"/>
+				</Panel>
+				<Panel class="BattlePassLogoCenter">
+					<Label text = "BATTLE" class = "BattlePassLogoText"/>	
+					<Panel id="BattlePassIcon" class="BattlePassIcon"/>
+					<Label text = "PASS" class = "BattlePassLogoText"/>	
+				</Panel>
+				<Label id="PreBuyLabel" html="true" class="PreBuyLabel" text="#preorder" />
+				<Panel id="BuyBattlePass" class="BuyBattlePass">
+					<Panel class="BuyPanel">
+						<Panel class="BattlePassIconBit" />
+						<Label class="BattlePassPrice" text="3000" />
+						<Panel class="BuyBattlePassButton" onactivate="BPPreOrderBuy('gold');">
+							<Label class="BuyBattlePassButtonLabel" text="Купить"/>
+						</Panel>
+					</Panel>
+					<Panel class="BuyPanel">
+						<Panel class="BattlePassIconDoge" />
+						<Label class="BattlePassPrice" text="3000" />
+						<Panel class="BuyBattlePassButton" onactivate="BPPreOrderBuy('gem');">
+							<Label class="BuyBattlePassButtonLabel" text="Купить"/>
+						</Panel>
+					</Panel>
+				</Panel>
+			</Panel>
+		</Panel>
 
 		<Panel id="BirzhaPassWindow" hittest="false">
 			<Panel id="BirzhaPassWindowActive">
@@ -34,7 +70,7 @@
 						<Label text = "PLUS" class = "BirzhaPassLogoText"/>	
 					</Panel>
 
-					<Panel class="CloseBattlepass" onactivate="ToggleBattlepass();"/>
+					<Panel class="CloseBattlepass" onactivate="GameUI.CustomUIConfig().OpenBirzhaPlus();"/>
 				</Panel>
 				<Panel id="MenuPanel" >
 					<Panel class="MenuButtonsPanel" id="MenuStatistic" onactivate="BPSwitchTab('TableInfoPlayer');">
@@ -109,25 +145,25 @@
 					<Label class="RatingSeasonName" text="#YourRatingSeasons" />
 
 					<Panel class="ButtonsMapsBplus">
-						<Panel id="solo_plus" class="ButtonMap ButtonMapSelect" onactivate="ToggleMapBPUS('solo_plus', 'birzhamemov_solo');">
+						<Panel id="solo_plus" class="ButtonMap_2 ButtonMapSelect" onactivate="ToggleMapBPUS('solo_plus', 'birzhamemov_solo');">
 							<Label class="ButtonMapLabel" text="Solo" />
 						</Panel>
-						<Panel id="duo_plus" class="ButtonMap" onactivate="ToggleMapBPUS('duo_plus', 'birzhamemov_duo');">
+						<Panel id="duo_plus" class="ButtonMap_2" onactivate="ToggleMapBPUS('duo_plus', 'birzhamemov_duo');">
 							<Label class="ButtonMapLabel" text="Duo" />
 						</Panel>
-						<Panel id="trio_plus" class="ButtonMap" onactivate="ToggleMapBPUS('trio_plus', 'birzhamemov_trio');">
+						<Panel id="trio_plus" class="ButtonMap_2" onactivate="ToggleMapBPUS('trio_plus', 'birzhamemov_trio');">
 							<Label class="ButtonMapLabel" text="Trio" />
 						</Panel>
-						<Panel id="5v5v5_plus" class="ButtonMap" onactivate="ToggleMapBPUS('5v5v5_plus', 'birzhamemov_5v5v5');">
+						<Panel id="5v5v5_plus" class="ButtonMap_2" onactivate="ToggleMapBPUS('5v5v5_plus', 'birzhamemov_5v5v5');">
 							<Label class="ButtonMapLabel" text="5v5v5" />
 						</Panel>
-						<Panel id="5v5_plus" class="ButtonMap" onactivate="ToggleMapBPUS('5v5_plus', 'birzhamemov_5v5');">
+						<Panel id="5v5_plus" class="ButtonMap_2" onactivate="ToggleMapBPUS('5v5_plus', 'birzhamemov_5v5');">
 							<Label class="ButtonMapLabel" text="5v5" />
 						</Panel>
-						<Panel id="zxc_plus" class="ButtonMap" onactivate="ToggleMapBPUS('zxc_plus', 'birzhamemov_zxc');">
+						<Panel id="zxc_plus" class="ButtonMap_2" onactivate="ToggleMapBPUS('zxc_plus', 'birzhamemov_zxc');">
 							<Label class="ButtonMapLabel" text="ZXC" />
 						</Panel>
-						<Panel id="wtf_plus" class="ButtonMap" onactivate="ToggleMapBPUS('wtf_plus', 'birzhamemov_wtf');">
+						<Panel id="wtf_plus" class="ButtonMap_2" onactivate="ToggleMapBPUS('wtf_plus', 'birzhamemov_wtf');">
 							<Label class="ButtonMapLabel" text="WTF" />
 						</Panel>
 					</Panel>
@@ -145,7 +181,29 @@
 						<Label text = "PLUS" class = "BirzhaPassLogoText"/>	
 					</Panel>
 
-					<Panel class="CloseBattlepass" onactivate="ToggleBattlepass();"/>
+					<Panel class="DonateShopTopBPCurrency"> 
+						<Panel class="DonateShopCurrencyMain">
+							<Panel class="DonateShopCurrency">
+								<Label id="CurrencyBP" text="0" class="GoldText" />
+								<Panel class="DonateShopGiveDonate">
+									<Panel class="PlusLabel" onactivate="ToggleShop();SwitchTab('ItemsContainer', 'DonateItemsButton');SwitchShopTab('CurrencysDonateItems', 'CurrencyButton');"/>
+								</Panel>
+							</Panel>
+							<Panel class="CurrencyIconMain" />
+						</Panel>
+
+						<Panel class="DonateShopCurrencyMain2">
+							<Panel class="DonateShopCurrency2">
+								<Label id="Currency2BP" text="0" class="GoldText2" />
+								<Panel class="DonateShopGiveDonate2">
+									<Panel class="PlusLabel2" onactivate="ToggleShop();SwitchTab('ItemsContainer', 'DonateItemsButton');SwitchShopTab('CurrencysDonateItems', 'CurrencyButton');"/>
+								</Panel>
+							</Panel>
+							<Panel class="CurrencyIconMain2" />
+						</Panel>
+					</Panel>
+
+					<Panel class="CloseBattlepass" onactivate="GameUI.CustomUIConfig().OpenBirzhaPlus();"/>
 				</Panel>
 				<Panel style="flow-children:right;">
 					<DOTAScenePanel id="PlusLogoScene" camera="shot_camera" map="scenes/plus_logo" renderdeferred="true" deferredalpha="true" antialias="true" hittest="false" particleonly="false" />

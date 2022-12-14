@@ -27,7 +27,7 @@ function mina_explosive_wave:OnSpellStart()
 		local radius = self:GetSpecialValueFor("aoe_radius")
 		local cast_delay = self:GetSpecialValueFor("cast_delay")
 		local stun_duration = self:GetSpecialValueFor("stun_duration")
-		local damage = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_mina_2")
+		local damage = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_mina_1")
 		local secondary_delay = self:GetSpecialValueFor("secondary_delay")
 		local array_count = self:GetSpecialValueFor("array_count")
 		local array_rings_count = self:GetSpecialValueFor("array_rings_count")
@@ -91,8 +91,12 @@ end
 
 function mina_explosive_wave:OnHit( target, damage, stun_duration )
 	local caster = self:GetCaster()
+    local mina_radiation_field = self:GetCaster():FindAbilityByName("mina_radiation_field")
+    if mina_radiation_field and mina_radiation_field:GetLevel() > 0 then
+        mina_radiation_field:Damage(target)
+    end
 	ApplyDamage({attacker = caster, victim = target, ability = self, damage = damage, damage_type = self:GetAbilityDamageType()})
-    target:AddNewModifier(caster, self, "modifier_birzha_stunned_purge", {duration = stun_duration})
+    target:AddNewModifier(caster, self, "modifier_birzha_stunned_purge", {duration = stun_duration * (1-target:GetStatusResistance()) })
 end
 
 LinkLuaModifier("modifier_mina_explosion_jump", "abilities/heroes/mina.lua", LUA_MODIFIER_MOTION_BOTH)
@@ -105,7 +109,7 @@ function mina_explosion_jump:GetAOERadius()
 end
 
 function mina_explosion_jump:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_mina_4")
 end
 
 function mina_explosion_jump:GetCastRange(location, target)
@@ -133,7 +137,7 @@ function mina_explosion_jump:OnSpellStart()
             vLocZ = vLocation.z
         }
         self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_mina_explosion_jump", kv )
-        EmitSoundOn( "Hero_MonkeyKing.TreeJump.Cast", self:GetCaster() )
+        self:GetCaster():EmitSound("Hero_MonkeyKing.TreeJump.Cast")
         self:GetCaster():EmitSound("mina_special")
         local nFXIndex = ParticleManager:CreateParticle( "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_calldown_launch.vpcf", PATTACH_WORLDORIGIN, nil )
         ParticleManager:SetParticleControl( nFXIndex, 0, self:GetCaster():GetOrigin() )
@@ -211,14 +215,22 @@ function modifier_mina_explosion_jump:OnDestroy()
 		self.radius  = self:GetAbility():GetSpecialValueFor("radius")
 		self.damage  = self:GetAbility():GetSpecialValueFor("damage")
 		self.duration  = self:GetAbility():GetSpecialValueFor("duration")
-        EmitSoundOn("Hero_Techies.Suicide", self:GetCaster())
+        self:GetCaster():EmitSound("Hero_Techies.Suicide")
         local particle_explosion_fx = ParticleManager:CreateParticle("particles/units/heroes/hero_techies/techies_blast_off.vpcf", PATTACH_WORLDORIGIN, self:GetParent())
         ParticleManager:SetParticleControl(particle_explosion_fx, 0, self:GetParent():GetAbsOrigin())
         ParticleManager:ReleaseParticleIndex(particle_explosion_fx)
-		local units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_ANY_ORDER, false)
+		local units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, FIND_ANY_ORDER, false)
+        local damage_type = DAMAGE_TYPE_MAGICAL
+        if self:GetCaster():HasTalent("special_bonus_birzha_mina_6") then
+            damage_type = DAMAGE_TYPE_PURE
+        end
 		for i,unit in ipairs(units) do
-			ApplyDamage({ victim = unit, attacker = self:GetCaster(), ability = self:GetAbility(), damage = self.damage, damage_type = DAMAGE_TYPE_PURE })
+			ApplyDamage({ victim = unit, attacker = self:GetCaster(), ability = self:GetAbility(), damage = self.damage, damage_type = damage_type })
 			unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_mina_explosive_jump_debuff", {duration = self.duration * (1 - unit:GetStatusResistance())})
+            local mina_radiation_field = self:GetCaster():FindAbilityByName("mina_radiation_field")
+            if mina_radiation_field and mina_radiation_field:GetLevel() > 0 then
+                mina_radiation_field:Damage(unit)
+            end
 		end
     end
 end
@@ -318,9 +330,12 @@ function modifier_mina_explosive_jump_debuff:IsPurgable() return true end
 
 function modifier_mina_explosive_jump_debuff:CheckState()
     local state = {[MODIFIER_STATE_SILENCED] = true}
-    if self:GetCaster():HasTalent("special_bonus_birzha_mina_4") then
-	    state = {[MODIFIER_STATE_MUTED] = true,
-	    [MODIFIER_STATE_SILENCED] = true}
+    if self:GetCaster():HasTalent("special_bonus_birzha_mina_5") then
+	    state = 
+        {
+            [MODIFIER_STATE_MUTED] = true,
+	        [MODIFIER_STATE_SILENCED] = true
+        }
 	end
     return state
 end
@@ -333,82 +348,106 @@ function modifier_mina_explosive_jump_debuff:GetEffectAttachType()
     return PATTACH_OVERHEAD_FOLLOW
 end
 
+LinkLuaModifier("modifier_mina_passive_shard","abilities/heroes/mina.lua",LUA_MODIFIER_MOTION_NONE)
 
+mina_passive_shard = class({})
 
-LinkLuaModifier("modifier_radiation_field", "abilities/heroes/mina.lua", LUA_MODIFIER_MOTION_NONE)
+function mina_passive_shard:GetIntrinsicModifierName()
+    return "modifier_mina_passive_shard"
+end
+
+modifier_mina_passive_shard = class({})
+
+function modifier_mina_passive_shard:IsHidden() return true end
+function modifier_mina_passive_shard:IsPurgable() return false end
+
+function modifier_mina_passive_shard:DeclareFunctions()
+    local funcs = 
+    {
+        MODIFIER_PROPERTY_PROCATTACK_BONUS_DAMAGE_MAGICAL,
+        MODIFIER_PROPERTY_PROCATTACK_BONUS_DAMAGE_PURE,
+    }
+    return funcs
+end
+
+function modifier_mina_passive_shard:GetModifierProcAttack_BonusDamage_Magical( params )
+    if not IsServer() then return end
+    if self:GetParent():HasTalent("special_bonus_birzha_mina_8") then return end
+    local bonus_damage = self:GetAbility():GetSpecialValueFor("damage")
+    local chance = self:GetAbility():GetSpecialValueFor("chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_mina_3")
+    if RollPercentage(chance) then
+        params.target:EmitSound("Hero_Techies.RemoteMine.Detonate")
+        local nfx = ParticleManager:CreateParticle('particles/units/heroes/hero_gob_squad/kamikaze_explosion.vpcf', PATTACH_ABSORIGIN_FOLLOW, params.target)
+        ParticleManager:SetParticleControl(nfx, 0, params.target:GetAbsOrigin())
+        ParticleManager:SetParticleControl(nfx, 1, Vector(100, 100, 100))    
+        ParticleManager:ReleaseParticleIndex(nfx)  
+        local mina_radiation_field = self:GetCaster():FindAbilityByName("mina_radiation_field")
+        if mina_radiation_field and mina_radiation_field:GetLevel() > 0 then
+            mina_radiation_field:Damage(params.target)
+        end  
+        return bonus_damage
+    end
+end
+
+function modifier_mina_passive_shard:GetModifierProcAttack_BonusDamage_Pure( params )
+    if not IsServer() then return end
+    if not self:GetParent():HasTalent("special_bonus_birzha_mina_8") then return end
+    local bonus_damage = self:GetAbility():GetSpecialValueFor("damage")
+    local chance = self:GetAbility():GetSpecialValueFor("chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_mina_3")
+    if RollPercentage(chance) then
+        params.target:EmitSound("Hero_Techies.RemoteMine.Detonate")
+        local nfx = ParticleManager:CreateParticle('particles/units/heroes/hero_gob_squad/kamikaze_explosion.vpcf', PATTACH_ABSORIGIN_FOLLOW, params.target)
+        ParticleManager:SetParticleControl(nfx, 0, params.target:GetAbsOrigin())
+        ParticleManager:SetParticleControl(nfx, 1, Vector(100, 100, 100))    
+        ParticleManager:ReleaseParticleIndex(nfx)  
+        local mina_radiation_field = self:GetCaster():FindAbilityByName("mina_radiation_field")
+        if mina_radiation_field and mina_radiation_field:GetLevel() > 0 then
+            mina_radiation_field:Damage(params.target)
+        end  
+        return bonus_damage
+    end
+end
 
 mina_radiation_field = class({})
 
-function mina_radiation_field:GetCastRange(location, target)
-    return self:GetSpecialValueFor("radius")
+function mina_radiation_field:OnInventoryContentsChanged()
+    if self:GetCaster():HasShard() then
+        self:SetHidden(false)       
+        if not self:IsTrained() then
+            self:SetLevel(1)
+        end
+    else
+        self:SetHidden(true)
+    end
 end
 
-function mina_radiation_field:GetIntrinsicModifierName()
-	return "modifier_radiation_field"
+function mina_radiation_field:OnHeroCalculateStatBonus()
+    self:OnInventoryContentsChanged()
 end
 
-modifier_radiation_field = class({})
-
-function modifier_radiation_field:IsPurgable()
-	return false
-end
-
-function modifier_radiation_field:IsHidden()
-	return true
-end
-
-function modifier_radiation_field:DeclareFunctions()
-	local funcs = {
-		MODIFIER_EVENT_ON_ABILITY_EXECUTED,
-
-	}
-
-	return funcs
-end
-
-function modifier_radiation_field:OnAbilityExecuted( params )
-	if IsServer() then
-		local hAbility = params.ability
-		if hAbility == nil or not ( hAbility:GetCaster() == self:GetParent() ) then
-			return 0
-		end
-
-		if hAbility:IsToggle() or hAbility:IsItem() then
-			return 0
-		end
-
-        if self:GetParent():PassivesDisabled() then return end
-
-		local flDamagePct = self:GetAbility():GetSpecialValueFor("damage_health_pct") + self:GetCaster():FindTalentValue("special_bonus_birzha_mina_1")
-		local radius = self:GetAbility():GetSpecialValueFor("radius")
-
-		local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetOrigin(), self:GetParent(), radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
-		if #enemies > 0 then
-			for _,enemy in pairs( enemies ) do
-				if enemy ~= nil and not enemy:IsBoss() then
-					local damage =
-					{
-						victim = enemy,
-						attacker = self:GetParent(),
-						damage = ( ( enemy:GetHealth() * flDamagePct ) / 100 ),
-						damage_type = DAMAGE_TYPE_PURE,
-						ability = self:GetAbility(),
-						damage_flags = DOTA_DAMAGE_FLAG_HPLOSS + DOTA_DAMAGE_FLAG_NO_DAMAGE_MULTIPLIERS
-					}
-					ApplyDamage( damage )
-					ParticleManager:ReleaseParticleIndex( ParticleManager:CreateParticle( "particles/heroes/hero_mina/radiation_field.vpcf", PATTACH_ABSORIGIN_FOLLOW, enemy ) )
-					enemy:EmitSound("Hero_Zuus.StaticField")
-
-				end
-			end
-		end
-	end
-
-	return 0
+function mina_radiation_field:Damage(target)
+    if self:GetCaster():PassivesDisabled() then return end
+    if target:IsMagicImmune() then return end
+    if not self:GetCaster():HasShard() then return end
+    local flDamagePct = self:GetSpecialValueFor("damage_health_pct")
+    local radius = self:GetSpecialValueFor("radius")
+    local damage =
+    {
+        victim = target,
+        attacker = self:GetCaster(),
+        damage = ( ( target:GetHealth() * flDamagePct ) / 100 ),
+        damage_type = DAMAGE_TYPE_PURE,
+        ability = self,
+        damage_flags = DOTA_DAMAGE_FLAG_HPLOSS + DOTA_DAMAGE_FLAG_NO_DAMAGE_MULTIPLIERS
+    }
+    ApplyDamage( damage )
+    ParticleManager:ReleaseParticleIndex( ParticleManager:CreateParticle( "particles/heroes/hero_mina/radiation_field.vpcf", PATTACH_ABSORIGIN_FOLLOW, target ) )
+    target:EmitSound("Hero_Zuus.StaticField")
 end
 
 LinkLuaModifier("modifier_mina_nuclear_strike","abilities/heroes/mina.lua",LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_mina_nuclear_strike_slow","abilities/heroes/mina.lua",LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier( "modifier_mum_meat_hook_hook_thinker", "abilities/heroes/mum.lua", LUA_MODIFIER_MOTION_NONE  )
 
 mina_nuclear_strike = class({})
 
@@ -438,6 +477,7 @@ function mina_nuclear_strike:FastDummy(target, team, duration, vision)
 	    dummy:SetDayTimeVisionRange(vision)
 	    dummy:SetNightTimeVisionRange(vision)
 	    dummy:AddNewModifier(dummy, nil, "modifier_phased", {})
+        dummy:AddNewModifier(dummy, nil, "modifier_mum_meat_hook_hook_thinker", {})
         dummy:AddInvul()
 	    dummy:AddNewModifier(dummy, nil, "modifier_kill", {duration = duration+0.03})
 	    Timers:CreateTimer(duration,function()
@@ -472,6 +512,7 @@ function mina_nuclear_strike:CreateBomb(caster)
 		unit.explosion_particle = "particles/units/heroes/hero_gob_squad/clearance_sale_explosion_physical.vpcf"
 		unit.explosion_sound = "mina_sun_exp"
 	end
+
 	if r >= 9 then
 		unit.bomb_type = DAMAGE_TYPE_PURE
 		unit.bomb_particle = "particles/units/heroes/hero_gob_squad/clearance_sale_bomb_pure.vpcf"
@@ -502,23 +543,19 @@ function mina_nuclear_strike:CreateBomb(caster)
 		unit:EmitSound(unit.explosion_sound)
 		ScreenShake(unit:GetCenter(), 1000, 3, 0.50, 1500, 0, true)
 
-		local enemy_found = FindUnitsInRadius( caster:GetTeamNumber(),
-      	unit:GetCenter(),
-     	 nil,
-        radius,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO+DOTA_UNIT_TARGET_CREEP,
-        DOTA_UNIT_TARGET_FLAG_NONE,
-        FIND_CLOSEST,
-        false)
+		local enemy_found = FindUnitsInRadius( caster:GetTeamNumber(), unit:GetCenter(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO+DOTA_UNIT_TARGET_CREEP, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false)
 
 		for k,v in pairs(enemy_found) do
+            local mina_radiation_field = self:GetCaster():FindAbilityByName("mina_radiation_field")
+            if mina_radiation_field and mina_radiation_field:GetLevel() > 0 then
+                mina_radiation_field:Damage(v)
+            end
 			ApplyDamage({ victim = v, attacker = caster, ability = ability, damage = damage, damage_type = unit.bomb_type })
 			if unit.bomb_type == DAMAGE_TYPE_PURE then
-				v:AddNewModifier(caster, ability, "modifier_birzha_stunned", {duration=0.60})
+				v:AddNewModifier(caster, ability, "modifier_birzha_stunned", {duration=(ability:GetSpecialValueFor("stun_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_mina_2")) * (1-v:GetStatusResistance())})
 			end
 			if unit.bomb_type == DAMAGE_TYPE_PHYSICAL then
-				v:AddNewModifier(caster, ability, "modifier_mina_nuclear_strike_slow", {duration=2})
+				v:AddNewModifier(caster, ability, "modifier_mina_nuclear_strike_slow", {duration=ability:GetSpecialValueFor("slow_duration") * (1-v:GetStatusResistance())})
 			end
 		end
 	end)
@@ -532,7 +569,7 @@ end
 
 function modifier_mina_nuclear_strike:OnCreated()
 	if IsServer() then
-		local interval = self:GetAbility():GetSpecialValueFor("interval") + self:GetCaster():FindTalentValue("special_bonus_birzha_mina_3")
+		local interval = self:GetAbility():GetSpecialValueFor("interval") + self:GetCaster():FindTalentValue("special_bonus_birzha_mina_7")
 		self:StartIntervalThink(interval)
         self:OnIntervalThink()
 	end
@@ -547,7 +584,8 @@ end
 modifier_mina_nuclear_strike_slow = class({})
 
 function modifier_mina_nuclear_strike_slow:DeclareFunctions()
-	local funcs = {
+	local funcs = 
+    {
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
 	}
 	return funcs
@@ -601,7 +639,8 @@ function modifier_mina_suicide:IsPurgable() return false end
 function modifier_mina_suicide:IsHidden() return true end
 
 function modifier_mina_suicide:CheckState()
-    return {
+    return 
+    {
         [MODIFIER_STATE_STUNNED] = true,
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
         [MODIFIER_STATE_NO_HEALTH_BAR] = true,
@@ -612,68 +651,30 @@ end
 
 function modifier_mina_suicide:OnDestroy()
     if not IsServer() then return end
-    local damage = self:GetParent():GetHealth() * 0.5
+    
+    local damage = self:GetParent():GetHealth() / 100 * self:GetAbility():GetSpecialValueFor("damage_from_health")
+    local radius = self:GetAbility():GetSpecialValueFor("radius")
+    
     self:GetParent():EmitSound("Hero_Techies.RemoteMine.Detonate")
-    local enemies = FindUnitsInRadius(self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, 800, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
+    
+    local enemies = FindUnitsInRadius(self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
     for _,enemy in ipairs(enemies) do
+        local mina_radiation_field = self:GetCaster():FindAbilityByName("mina_radiation_field")
+        if mina_radiation_field and mina_radiation_field:GetLevel() > 0 then
+            mina_radiation_field:Damage(enemy)
+        end
         ApplyDamage({attacker = self:GetParent(), victim = enemy, ability = self:GetAbility(), damage = damage, damage_type = self:GetAbility():GetAbilityDamageType()})
     end
+
     local nfx = ParticleManager:CreateParticle('particles/units/heroes/hero_gob_squad/whoops_explosion.vpcf', PATTACH_POINT_FOLLOW, self:GetParent())
     ParticleManager:SetParticleControl(nfx, 0, self:GetParent():GetAbsOrigin())
     ParticleManager:SetParticleControl(nfx, 1, Vector(800/2, 800/2, 800/2))
-    self:GetParent():SetHealth(math.max( self:GetParent():GetHealth() * 0.5, 1))
+
+    self:GetParent():SetHealth(math.max( self:GetParent():GetHealth() / 100 * self:GetAbility():GetSpecialValueFor("damage_from_health"), 1))
 end
 
 
-LinkLuaModifier("modifier_mina_passive_shard","abilities/heroes/mina.lua",LUA_MODIFIER_MOTION_NONE)
 
-mina_passive_shard = class({})
-
-function mina_passive_shard:OnInventoryContentsChanged()
-    if self:GetCaster():HasShard() then
-        self:SetHidden(false)       
-        if not self:IsTrained() then
-            self:SetLevel(1)
-        end
-    else
-        self:SetHidden(true)
-    end
-end
-
-function mina_passive_shard:OnHeroCalculateStatBonus()
-    self:OnInventoryContentsChanged()
-end
-
-function mina_passive_shard:GetIntrinsicModifierName()
-    return "modifier_mina_passive_shard"
-end
-
-modifier_mina_passive_shard = class({})
-
-function modifier_mina_passive_shard:IsHidden() return true end
-function modifier_mina_passive_shard:IsPurgable() return false end
-
-function modifier_mina_passive_shard:DeclareFunctions()
-    local funcs = {
-        MODIFIER_PROPERTY_PROCATTACK_BONUS_DAMAGE_MAGICAL,
-    }
-
-    return funcs
-end
-
-function modifier_mina_passive_shard:GetModifierProcAttack_BonusDamage_Magical( params )
-    if not IsServer() then return end
-    local bonus_damage = self:GetAbility():GetSpecialValueFor("damage")
-    local chance = self:GetAbility():GetSpecialValueFor("chance")
-    if not self:GetParent():HasShard() then return end
-    if RollPercentage(chance) then
-        params.target:EmitSound("Hero_Techies.RemoteMine.Detonate")
-        local nfx = ParticleManager:CreateParticle('particles/units/heroes/hero_gob_squad/kamikaze_explosion.vpcf', PATTACH_ABSORIGIN_FOLLOW, params.target)
-        ParticleManager:SetParticleControl(nfx, 0, params.target:GetAbsOrigin())
-        ParticleManager:SetParticleControl(nfx, 1, Vector(100, 100, 100))        
-        return bonus_damage
-    end
-end
 
 
 

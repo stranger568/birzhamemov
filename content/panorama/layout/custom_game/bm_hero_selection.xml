@@ -3,13 +3,11 @@
 		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
 		<include src="s2r://panorama/styles/custom_game/bm_hero_selection.vcss_c" />
 		<include src="s2r://panorama/styles/banners/front_page_dota_plus_debut.vcss_c" />
-		<include src="s2r://panorama/styles/custom_game/debug.vcss_c" />
 		<include src="s2r://panorama/styles/custom_game/ads.vcss_c" />
 	</styles>
 
 	<scripts>
 		<include src="s2r://panorama/scripts/custom_game/bm_hero_selection.vjs_c" />
-		<include src="s2r://panorama/scripts/custom_game/debug.vjs_c" />
 	</scripts>
 
 	<snippets>
@@ -20,32 +18,33 @@
 		
 		<snippet name="HeroCard">
 			<Panel class="HeroCard">
-				<Image id="HeroImage"/>
+
 			</Panel>
 		</snippet>
 	</snippets>
 
 	<Panel class="CustomPick" onfocus="DropInputFocus()">
-			<DOTAScenePanel id="BGBirzhaScene" onload="BirzhaHeroSelectionLoad()" class="BackgroundPick" map="maps/backgrounds/pregame_phase.vmap"/>
 
+			<Movie src="file://{resources}/videos/custom_game/loading/outlanders_header.webm" id="MovieBackground2" style="width:100%;height:100%;" repeat="true" autoplay="onload" />
+
+			<MoviePanel src="file://{resources}/videos/custom_game/loading/outlanders_header.webm" id="MovieBackground" repeat="true" onload="BirzhaHeroSelectionLoad();" autoplay="onload" />
+ 
 			<Panel id="StateInfoGlobal" class="StateInfoGlobalClass">
-				<Label id="PickTimer" class="PickTimerClass" text="#BIRZHA_PICK_STATE_START" />
-				<Label id="PickState" class="PickStateClass" text="" />
-				<Label id="PickAverageRating" class="PickAverageRating" text="#Pick_AverageRating" />
+				<Panel style="horizontal-align: center;">
+					<DOTAParticleScenePanel class="pick_timer_particle" particleName="particles/hero_selection/time_fx.vpcf" particleOnly="true" cameraOrigin="0 0 165" lookAt="0 0 0" fov="65" squarePixels="true" startActive="true"/>
+					<Label id="PickTimer" class="PickTimerClass" text="" />
+				</Panel>
 			</Panel>
 
 			<Panel id="GeneralPickPanel">
-
 				<Panel id="HeroesConteiner" class="HeroesContClass">
 					<Panel id="PanelSelector" class="PanelSelector">
-
+						<Panel class="GameInformation">
+							<Label id="PickState" class="PickStateClass" text="#BIRZHA_PICK_STATE_START" />
+							<Label id="PickAverageRating" class="PickAverageRating" text="#Pick_AverageRating" />
+						</Panel>
 					</Panel>
 				</Panel>
-
-
-
-
-
 
 				<Panel id = "HeroInfoCont" class = "HeroInfoContClass">
 					<Panel id ="HeroInformation" class="HeroInformation">
@@ -59,31 +58,6 @@
 						<Label text="" id="HeroDifficulty" />
 						<Label text="" id="HeroRole" />
 						<Label text="#HeroAviableInBPPlus" html="true" id="HeroAviableInBPPlus" />
-
-						<Panel id="HeroBPProgress">
-							<Label id="HeroBPProgressAviableBPPlus" text="#HeroBPProgressAviableBPPlus" />
-							<Label id="HeroRankTitle" text="#HeroRankTitle" />
-							<Panel class="RankIconPanel">
-								<Panel id="RankIcon" />
-								<Label id="RankName" text="#BP_rank_0" />
-							</Panel>
-							<Panel id="HeroLevelProgressBarPanel">
-								<Panel class="HeroLevelProgressBarPanelLabels" >
-									<Panel style="flow-children:right;">
-										<Label class="HeroExpLabel" text="#HeroProgressBirzha" />
-										<Label id="HeroExpLabel2" text="0 / 1000" />
-									</Panel>
-									<Panel style="flow-children:right;">
-										<Label class="HeroLevelLabel" text="#HeroProgressBirzhaLevel" />
-										<Label id="HeroLevelLabel2" text="0" />
-									</Panel>
-									<Panel class="ProgressHeroBarPanel">
-										<Panel class="ProgressHeroBarPanelBack" />
-										<Panel id="ProgressHeroBarPanelActive" />
-									</Panel>
-								</Panel>
-							</Panel>
-						</Panel>
 
 						<Panel class="BirzaAbilitiesPanel">
 							<Label class="BirzaAbilitiesLabel"	text="#Pick_abilities" />

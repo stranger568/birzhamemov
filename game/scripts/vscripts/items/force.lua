@@ -6,7 +6,7 @@ function item_birzha_force_boots:OnSpellStart()
     if not IsServer() then return end
     self:GetCaster():AddNewModifier(self:GetCaster(), self, 'modifier_item_forcestaff_active', {push_length = self:GetSpecialValueFor("push_length")})
     self:GetCaster():RemoveGesture(ACT_DOTA_DISABLED)
-    EmitSoundOn('DOTA_Item.ForceStaff.Activate', self:GetCaster())
+    self:GetCaster():EmitSound('DOTA_Item.ForceStaff.Activate')
     if self:GetCaster():GetUnitName() == "npc_dota_hero_void_spirit" then
         self:GetCaster():EmitSound("van_force")
     end
@@ -18,20 +18,18 @@ end
 
 modifier_item_birzha_force_boots = class({})
 
-function modifier_item_birzha_force_boots:IsHidden()
-    return true
-end
-
-function modifier_item_birzha_force_boots:IsPurgable()
-    return false
-end
+function modifier_item_birzha_force_boots:IsHidden() return true end
+function modifier_item_birzha_force_boots:IsPurgable() return false end
+function modifier_item_birzha_force_boots:IsPurgeException() return false end
+function modifier_item_birzha_force_boots:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_birzha_force_boots:DeclareFunctions()
-return  {
-            MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
-            MODIFIER_PROPERTY_MOVESPEED_BONUS_UNIQUE,
-            MODIFIER_PROPERTY_HEALTH_BONUS,
-        }
+    return  
+    {
+        MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_UNIQUE,
+        MODIFIER_PROPERTY_HEALTH_BONUS,
+    }
 end
 
 function modifier_item_birzha_force_boots:GetModifierBonusStats_Intellect()

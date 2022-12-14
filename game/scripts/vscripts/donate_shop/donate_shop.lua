@@ -91,7 +91,71 @@ function donate_shop:BuyItem(data)
 		},
 	}
 
-	SendData('https://bmemov.ru/data/bm_post_buy_item.php', post_data, nil)
+	SendData('https://' ..BirzhaData.url .. '/data/bm_post_buy_item.php', post_data, nil)
+end
+
+function donate_shop:PreOrderBattlePass(data)
+	if data.PlayerID == nil then return end
+	local id = data.PlayerID
+	local currency = data.currency
+	local player =	PlayerResource:GetPlayer(id)
+	local player_donate_table = CustomNetTables:GetTableValue('birzhashop', tostring(id))
+	local change_bitcoin_currency = 0
+	local change_dogecoin_currency = 0
+
+
+	print(currency)
+    -- Если покупка за донат валюту
+	if tostring(currency) == "gold" then
+		if tonumber(player_donate_table.birzha_coin) >= 3000 then
+			change_bitcoin_currency = -3000
+			player_donate_table.birzha_coin = player_donate_table.birzha_coin - 3000
+
+			local player_table_info = CustomNetTables:GetTableValue('birzhainfo', tostring(id))
+			if player_table_info then
+				player_table_info.has_battlepass = 1
+				CustomNetTables:SetTableValue('birzhainfo', tostring(id), player_table_info)
+			end
+			CustomNetTables:SetTableValue('birzhashop', tostring(id), player_donate_table)
+			CustomGameEventManager:Send_ServerToPlayer(player, "shop_set_currency", {bitcoin = player_donate_table.birzha_coin, dogecoin = player_donate_table.doge_coin} )
+			CustomGameEventManager:Send_ServerToPlayer(player, "shop_accept_notification", {} )
+		else
+			print("ошибка биткоинов мало")
+			CustomGameEventManager:Send_ServerToPlayer(player, "shop_error_notification", {error_name = "shop_no_bitcoin"} )
+			return
+		end
+	elseif tostring(currency) == "gem" then
+		if tonumber(player_donate_table.doge_coin) >= 3000 then
+			change_dogecoin_currency = -3000
+			player_donate_table.doge_coin = player_donate_table.doge_coin - 3000
+
+			local player_table_info = CustomNetTables:GetTableValue('birzhainfo', tostring(id))
+			if player_table_info then
+				player_table_info.has_battlepass = 1
+				CustomNetTables:SetTableValue('birzhainfo', tostring(id), player_table_info)
+			end
+			CustomNetTables:SetTableValue('birzhashop', tostring(id), player_donate_table)
+			CustomGameEventManager:Send_ServerToPlayer(player, "shop_set_currency", {bitcoin = player_donate_table.birzha_coin, dogecoin = player_donate_table.doge_coin} )
+			CustomGameEventManager:Send_ServerToPlayer(player, "shop_accept_notification", {} )
+		else
+			CustomGameEventManager:Send_ServerToPlayer(player, "shop_error_notification", {error_name = "shop_no_dogecoin"} )
+			return
+		end
+	end
+
+	local post_data = 
+	{
+		player = 
+		{
+			{
+				steamid = PlayerResource:GetSteamAccountID(id),
+				player_bitcoin = change_bitcoin_currency,
+				player_dogecoin = change_dogecoin_currency,
+			}
+		},
+	}
+
+	SendData('https://' ..BirzhaData.url .. '/data/bm_post_buy_battlepass.php', post_data, nil)
 end
 
 function DonateShopIsItemBought(id, item)
@@ -169,7 +233,7 @@ MEMESPASS_PREMIUM_PETS[19] = {
 	effect = "particles/econ/courier/courier_lockjaw/courier_lockjaw_ambient.vpcf", model = "models/courier/lockjaw/lockjaw.vmdl"
 }
 MEMESPASS_PREMIUM_PETS["Insane"] = {
-	effect = "courier_devourling_gold_ambient", model = "models/insane/insane.vmdl"
+	effect = "particles/econ/courier/courier_devourling_gold/courier_devourling_gold_ambient.vpcf", model = "models/insane/insane.vmdl"
 }
 
 LinkLuaModifier( "modifier_birzha_pet", "modifiers/modifier_birzha_pet", LUA_MODIFIER_MOTION_NONE )
@@ -655,7 +719,7 @@ function donate_shop:PlayerTip(keys)
     local id_caster = keys.PlayerID
     local id_target = keys.player_id_tip
 
-    CustomGameEventManager:Send_ServerToAllClients( 'TipPlayerNotification', {player_id_1 = id_caster, player_id_2 = id_target})
+    CustomGameEventManager:Send_ServerToAllClients( 'TipPlayerNotification', {player_id_1 = id_caster, player_id_2 = id_target, type = RandomInt(1, 16)})
 
     CustomNetTables:SetTableValue("tip_cooldown", tostring(id_caster), {cooldown = cooldown})
     Timers:CreateTimer(1, function()
@@ -871,5 +935,5 @@ function donate_shop:GiveGiftPlayer(id, item_id)
 			}
 		},
 	}
-	SendData('https://bmemov.ru/data/bm_post_lottery_item.php', post_data, nil)
+	SendData('https://' ..BirzhaData.url .. '/data/bm_post_lottery_item.php', post_data, nil)
 end

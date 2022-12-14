@@ -8,8 +8,6 @@ function item_gamble_gold_ring:GetIntrinsicModifierName()
     return "modifier_item_gamble_gold_ring"
 end
 
-item_gamble_gold_ring.use_count = 0
-
 function item_gamble_gold_ring:OnSpellStart()
 	if self:GetCaster():HasModifier("modifier_item_gamble_gold_ring_2") then return end
 	local int_min = self:GetSpecialValueFor("int_min")
@@ -79,7 +77,11 @@ function item_gamble_gold_ring:OnSpellStart()
 		self:GetCaster():EmitSound("CasinoRandom")
 	end
 
-	if self.use_count >= 30 then
+	if self:GetCaster().gamble_cast_count == nil then
+		self:GetCaster().gamble_cast_count = 1
+	end
+
+	if self:GetCaster().gamble_cast_count >= 30 then
 		self.strength = int_max
 		self.agility =	str_max
 		self.intellect = agi_max
@@ -93,7 +95,7 @@ function item_gamble_gold_ring:OnSpellStart()
 		self.mag_damage = magdmg_max
 	end
 
-	self.use_count = self.use_count + 1
+	self:GetCaster().gamble_cast_count = self:GetCaster().gamble_cast_count + 1
 
 	local bonuses = {
 		"lifesteal",
@@ -145,8 +147,6 @@ function item_gamble_gold_ring:OnSpellStart()
 end
 
 item_gamble_gold_ring_2 = class({})
-
-item_gamble_gold_ring_2.use_count = 0
 
 function item_gamble_gold_ring_2:GetIntrinsicModifierName()
     return "modifier_item_gamble_gold_ring_2"
@@ -222,7 +222,11 @@ function item_gamble_gold_ring_2:OnSpellStart()
 		self:GetCaster():EmitSound("CasinoRandom")
 	end
 
-	if self.use_count >= 30 then
+	if self:GetCaster().gamble_cast_count == nil then
+		self:GetCaster().gamble_cast_count = 1
+	end
+
+	if self:GetCaster().gamble_cast_count >= 30 then
 		self.strength = int_max
 		self.agility =	str_max
 		self.intellect = agi_max
@@ -236,7 +240,7 @@ function item_gamble_gold_ring_2:OnSpellStart()
 		self.mag_damage = magdmg_max
 	end
 
-	self.use_count = self.use_count + 1
+	self:GetCaster().gamble_cast_count = self:GetCaster().gamble_cast_count + 1
 
 	local bonuses = {
 		"lifesteal",
@@ -314,11 +318,6 @@ modifier_item_gamble_gold_ring = class({
         }
     end,
 })
-
-function modifier_item_gamble_gold_ring:OnCreated()
-	if not IsServer() then return end
-	local Player = PlayerResource:GetPlayer(self:GetParent():GetPlayerID())
-end
 
 function modifier_item_gamble_gold_ring:OnDestroy()
 	if not IsServer() then return end
@@ -484,17 +483,6 @@ modifier_item_gamble_gold_ring_2 = class({
         }
     end,
 })
-
-function modifier_item_gamble_gold_ring_2:OnCreated()
-	if not IsServer() then return end
-	local Player = PlayerResource:GetPlayer(self:GetParent():GetPlayerID())
-    self:StartIntervalThink(0.5)
-end
-
-function modifier_item_gamble_gold_ring_2:OnIntervalThink()
-	if not IsServer() then return end
-	local Player = PlayerResource:GetPlayer(self:GetParent():GetPlayerID())
-end
 
 function modifier_item_gamble_gold_ring_2:OnDestroy()
 	if not IsServer() then return end

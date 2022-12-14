@@ -4,8 +4,6 @@ LinkLuaModifier( "modifier_migi_inside", "abilities/heroes/migi.lua", LUA_MODIFI
 LinkLuaModifier( "modifier_migi_inside_parent", "abilities/heroes/migi.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_migi_inside_caster", "abilities/heroes/migi.lua", LUA_MODIFIER_MOTION_NONE )
 
-LinkLuaModifier( "modifier_migi_inside_cooldown", "abilities/heroes/migi.lua", LUA_MODIFIER_MOTION_NONE )
-
 migi_inside = class({})
 
 function migi_inside:GetCooldown(level)
@@ -20,36 +18,16 @@ function migi_inside:GetCastRange(location, target)
     return self.BaseClass.GetCastRange(self, location, target)
 end
 
-
-
-
-
-
-
 function migi_inside:CastFilterResultTarget(target)
-    if target:HasModifier("modifier_migi_inside_cooldown") then
-        return UF_FAIL_CUSTOM
+    if not target:IsRealHero() then
+        return UF_FAIL
     end
-    local nResult = UnitFilter( target, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NOT_CREEP_HERO, self:GetCaster():GetTeamNumber() )
+    local nResult = UnitFilter( target, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NOT_CREEP_HERO, self:GetCaster():GetTeamNumber() )
     if nResult ~= UF_SUCCESS then
         return nResult
     end
     return UF_SUCCESS
 end 
-
-function migi_inside:GetCustomCastErrorTarget(target)
-    if target:HasModifier("modifier_migi_inside_cooldown") then
-        return "#dota_hud_error_migi_inside"
-    end
-end
-
-
-
-
-
-
-
-
 
 function migi_inside:OnSpellStart()
     self.target = self:GetCursorTarget()
@@ -93,7 +71,8 @@ function modifier_migi_inside:OnDestroy()
 end
 
 function modifier_migi_inside:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_INVULNERABLE] = true,
         [MODIFIER_STATE_STUNNED] = true,
     }
@@ -137,83 +116,127 @@ function modifier_migi_inside:EndCharge( success )
     end
 end
 
-
-modifier_migi_inside_cooldown = class({})
-
-function modifier_migi_inside_cooldown:IsHidden() return true end
-function modifier_migi_inside_cooldown:RemoveOnDeath() return false end
-
-
 modifier_migi_inside_parent = class({})
 
 function modifier_migi_inside_parent:IsPurgable() return false end
 function modifier_migi_inside_parent:IsHidden() return true end
 
 function modifier_migi_inside_parent:OnCreated()
-    self.ally = self:GetParent():GetTeamNumber() == self:GetCaster():GetTeamNumber()
-    self.regen = self:GetAbility():GetSpecialValueFor("regen_enemy")
-    if IsServer() then
-        self.damage = self:GetCaster():GetAverageTrueAttackDamage(nil) / 100 * (self:GetAbility():GetSpecialValueFor("bonus_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_migi_4"))
-        self.health = self:GetCaster():GetMaxHealth() / 100 * (self:GetAbility():GetSpecialValueFor("bonus_health") + self:GetCaster():FindTalentValue("special_bonus_birzha_migi_2"))
-        self.magic_amplify = self:GetCaster():GetSpellAmplification(false) / 100 * (self:GetAbility():GetSpecialValueFor("bonus_magic_amplify") + self:GetCaster():FindTalentValue("special_bonus_birzha_migi_4"))
-        self.health_regen = self:GetCaster():GetHealthRegen() / 100 * self:GetAbility():GetSpecialValueFor("health_regen")
-        self:SetHasCustomTransmitterData(true)
-        if not self:GetCaster():HasModifier("modifier_migi_inside_caster") then
-            self.attack_time = 0
-            self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_migi_inside_caster", {target = self:GetParent():entindex()})
-        end
-        self:StartIntervalThink(FrameTime())
+    if not IsServer() then return end
+
+    local bonus_damage_perc = self:GetAbility():GetSpecialValueFor("bonus_damage")
+    local bonus_magical_perc = self:GetAbility():GetSpecialValueFor("bonus_magic_amplify")
+    local bonus_health_perc = 0 + self:GetCaster():FindTalentValue("special_bonus_birzha_migi_5")
+    local health_regen_perc = 0 + self:GetCaster():FindTalentValue("special_bonus_birzha_migi_6")
+    local bonus_armor_perc = 0
+
+    if self:GetCaster():HasShard() then
+        bonus_armor_perc = self:GetAbility():GetSpecialValueFor("armor_percent")
     end
+
+    self.damage = self:GetCaster():GetAverageTrueAttackDamage(nil) / 100 * bonus_damage_perc
+    self.health = self:GetCaster():GetMaxHealth() / 100 * bonus_health_perc
+    self.magic_amplify = self:GetCaster():GetSpellAmplification(false) * bonus_magical_perc
+    self.health_regen = self:GetCaster():GetHealthRegen() / 100 * health_regen_perc
+    self.strength_bonus = 0
+    self.agility_bonus = 0
+    self.intellect_bonus = 0
+
+    local get_armor = self:GetCaster():GetPhysicalArmorValue(false)
+    if get_armor < 0 then
+        get_armor = 0
+    end
+
+    self.armor = get_armor / 100 * bonus_armor_perc
+
+    if self:GetCaster():HasModifier("modifier_migi_mutation_active") then
+        self.strength_bonus = self:GetParent():GetStrength() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_migi_8")
+        self.agility_bonus = self:GetParent():GetAgility() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_migi_8")
+        self.intellect_bonus = self:GetParent():GetIntellect() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_migi_8")
+    end
+
+    self:SetHasCustomTransmitterData(true)
+
+    if not self:GetCaster():HasModifier("modifier_migi_inside_caster") then
+        self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_migi_inside_caster", {target = self:GetParent():entindex()})
+    end
+
+    self:StartIntervalThink(FrameTime())
 end
 
 function modifier_migi_inside_parent:OnRefresh()
     self:OnCreated()
 end
 
-function modifier_migi_inside_parent:AddCustomTransmitterData() return {
-    damage = self.damage,
-    health = self.health,
-    magic_amplify = self.magic_amplify,
-    health_regen = self.health_regen
-
-} end
+function modifier_migi_inside_parent:AddCustomTransmitterData() 
+    return 
+    {
+        armor = self.armor,
+        damage = self.damage,
+        health = self.health,
+        magic_amplify = self.magic_amplify,
+        health_regen = self.health_regen,
+        strength_bonus = self.strength_bonus,
+        agility_bonus = self.agility_bonus,
+        intellect_bonus = self.intellect_bonus,
+    } 
+end
 
 function modifier_migi_inside_parent:HandleCustomTransmitterData(data)
     self.damage = data.damage
     self.health = data.health
     self.magic_amplify = data.magic_amplify
     self.health_regen = data.health_regen
+    self.armor = data.armor
+    self.strength_bonus = data.strength_bonus
+    self.agility_bonus = data.agility_bonus
+    self.intellect_bonus = data.intellect_bonus
 end
 
 function modifier_migi_inside_parent:OnIntervalThink()
-    self.ally = self:GetParent():GetTeamNumber() == self:GetCaster():GetTeamNumber()
     self:AddCustomTransmitterData()
-    if IsServer() then
-        self:GetParent():CalculateStatBonus(true)
-        self:ForceRefresh()
-        self.damage = self:GetCaster():GetAverageTrueAttackDamage(nil) / 100 * (self:GetAbility():GetSpecialValueFor("bonus_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_migi_4"))
-        self.health = self:GetCaster():GetMaxHealth() / 100 * (self:GetAbility():GetSpecialValueFor("bonus_health") + self:GetCaster():FindTalentValue("special_bonus_birzha_migi_2"))
-        self.magic_amplify = self:GetCaster():GetSpellAmplification(false) / 100 * (self:GetAbility():GetSpecialValueFor("bonus_magic_amplify") + self:GetCaster():FindTalentValue("special_bonus_birzha_migi_4"))
-        self.health_regen = self:GetCaster():GetHealthRegen() / 100 * self:GetAbility():GetSpecialValueFor("health_regen")
-        if self.ally then return end
-        if self:GetParent():HasModifier("modifier_fountain_passive_invul") then return end
-        self.attack_time = self.attack_time + FrameTime()
-        if self.attack_time >= (self:GetAbility():GetSpecialValueFor("attack_cooldown") + self:GetCaster():FindTalentValue("special_bonus_birzha_migi_3")) then
-            self:GetCaster():EmitSound("Hero_LifeStealer.Consume")
-            self:GetCaster():PerformAttack(self:GetParent(), true, true, true, true, false, false, true)
-            local infest_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_life_stealer/life_stealer_infest_cast.vpcf", PATTACH_POINT, self:GetParent())
-            ParticleManager:SetParticleControl(infest_particle, 0, self:GetParent():GetAbsOrigin())
-            ParticleManager:SetParticleControlEnt(infest_particle, 1, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
-            ParticleManager:ReleaseParticleIndex(infest_particle)
-            self.attack_time = 0
-        end
+    if not IsServer() then return end
+
+    local bonus_damage_perc = self:GetAbility():GetSpecialValueFor("bonus_damage")
+    local bonus_magical_perc = self:GetAbility():GetSpecialValueFor("bonus_magic_amplify")
+    local bonus_health_perc =0 + self:GetCaster():FindTalentValue("special_bonus_birzha_migi_5")
+    local health_regen_perc = 0 + self:GetCaster():FindTalentValue("special_bonus_birzha_migi_6")
+    local bonus_armor_perc = 0
+
+    if self:GetCaster():HasShard() then
+        bonus_armor_perc = self:GetAbility():GetSpecialValueFor("armor_percent")
     end
+
+    self.damage = self:GetCaster():GetAverageTrueAttackDamage(nil) / 100 * bonus_damage_perc
+    self.health = self:GetCaster():GetMaxHealth() / 100 * bonus_health_perc
+    self.magic_amplify = self:GetCaster():GetSpellAmplification(false) * bonus_magical_perc
+    self.health_regen = self:GetCaster():GetHealthRegen() / 100 * health_regen_perc
+
+    self.strength_bonus = 0
+    self.agility_bonus = 0
+    self.intellect_bonus = 0
+
+    local get_armor = self:GetCaster():GetPhysicalArmorValue(false)
+    if get_armor < 0 then
+        get_armor = 0
+    end
+
+    if self:GetCaster():HasModifier("modifier_migi_mutation_active") then
+        self.strength_bonus = self:GetParent():GetStrength() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_migi_8")
+        self.agility_bonus = self:GetParent():GetAgility() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_migi_8")
+        self.intellect_bonus = self:GetParent():GetIntellect() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_migi_8")
+    end
+
+    self.armor = get_armor / 100 * bonus_armor_perc
+
+    self:ForceRefresh()
+    self:GetParent():CalculateStatBonus(true)
 end
 
 function modifier_migi_inside_parent:OnDestroy()
     if not IsServer() then return end
     self:GetCaster():RemoveModifierByName("modifier_migi_inside_caster")
-    if self:GetCaster():HasTalent("special_bonus_birzha_migi_6") then
+    if self:GetCaster():HasTalent("special_bonus_birzha_migi_3") then
         
     else
         self:GetCaster():BirzhaTrueKill(nil, self:GetCaster())
@@ -221,59 +244,72 @@ function modifier_migi_inside_parent:OnDestroy()
 end
 
 function modifier_migi_inside_parent:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
         MODIFIER_PROPERTY_HEALTH_BONUS,
         MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
         MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE,
-        MODIFIER_PROPERTY_HP_REGEN_AMPLIFY_PERCENTAGE,
         MODIFIER_PROPERTY_AVOID_DAMAGE,
         MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
         MODIFIER_PROPERTY_EVASION_CONSTANT,
-        MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS
+        MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
+        MODIFIER_EVENT_ON_ATTACK_LANDED,
+
+        MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
+        MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
+        MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
     }
 
     return funcs
 end
 
 function modifier_migi_inside_parent:GetModifierPreAttack_BonusDamage()
-    if not self.ally then return end
     return self.damage
 end
 
 function modifier_migi_inside_parent:GetModifierHealthBonus()
-    if not self.ally then return end
     return self.health
 end
 
 function modifier_migi_inside_parent:GetModifierConstantHealthRegen()
-    if not self.ally then return end
     return self.health_regen
 end
 
 function modifier_migi_inside_parent:GetModifierSpellAmplify_Percentage()
-    if not self.ally then return end
     return self.magic_amplify
+end
+
+function modifier_migi_inside_parent:GetModifierBonusStats_Strength()
+    return self.strength_bonus
+end
+
+function modifier_migi_inside_parent:GetModifierBonusStats_Agility()
+    return self.agility_bonus
+end
+
+function modifier_migi_inside_parent:GetModifierBonusStats_Intellect()
+    return self.intellect_bonus
 end
 
 function modifier_migi_inside_parent:GetModifierPhysicalArmorBonus()
     if self:GetCaster():HasShard() then
-        if self.ally then
-            return 7
-        else
-            return -7
-        end
+        return self.armor
     end
     return 0
 end
 
-function modifier_migi_inside_parent:GetModifierHPRegenAmplify_Percentage()
-    if self.ally then return end
-    return self.regen
+function modifier_migi_inside_parent:OnAttackLanded(params)
+    if not IsServer() then return end
+    if params.attacker ~= self:GetParent() and params.target == self:GetParent() then
+        if bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) == DOTA_DAMAGE_FLAG_REFLECTION then return end
+        if not self:GetCaster():HasTalent("special_bonus_birzha_migi_4") then return end
+        local damage_return = self:GetCaster():FindTalentValue("special_bonus_birzha_migi_4") * params.original_damage / 100
+        ApplyDamage({victim = params.attacker, attacker = self:GetParent(), damage = damage_return, damage_type = params.damage_type,  damage_flags = DOTA_DAMAGE_FLAG_BYPASSES_BLOCK + DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION + DOTA_DAMAGE_FLAG_REFLECTION, ability = self:GetAbility()})
+    end
 end
 
 function modifier_migi_inside_parent:GetModifierAvoidDamage(keys)
-    if not self.ally then return 0 end
     local ab = self:GetCaster():FindAbilityByName("migi_bubble")
     if ab and ab:GetLevel() > 0 then
         if ab:IsFullyCastable() then
@@ -290,24 +326,14 @@ function modifier_migi_inside_parent:GetModifierAvoidDamage(keys)
 end
 
 function modifier_migi_inside_parent:GetModifierMoveSpeedBonus_Percentage()
-    if self.ally then
-        local ab = self:GetCaster():FindAbilityByName("migi_speed")
-        if ab and ab:GetLevel() > 0 then
-            return ab:GetSpecialValueFor("movespeed") + self:GetCaster():FindTalentValue("special_bonus_birzha_migi_1")
-        end
+    local ab = self:GetCaster():FindAbilityByName("migi_speed")
+    if ab and ab:GetLevel() > 0 then
+        return ab:GetSpecialValueFor("movespeed")
     end
-    if not self.ally then
-        local ab = self:GetCaster():FindAbilityByName("migi_speed")
-        if ab and ab:GetLevel() > 0 then
-            return (ab:GetSpecialValueFor("movespeed") + self:GetCaster():FindTalentValue("special_bonus_birzha_migi_1")) * -1
-        end
-    end
-
     return 0
 end
 
 function modifier_migi_inside_parent:GetModifierEvasion_Constant()
-    if not self.ally then return 0 end
     local ab = self:GetCaster():FindAbilityByName("migi_speed")
     if ab and ab:GetLevel() > 0 then
         return ab:GetSpecialValueFor("evasion") + self:GetCaster():FindTalentValue("special_bonus_birzha_migi_1")
@@ -333,7 +359,7 @@ function modifier_migi_inside_caster:OnCreated(kv)
     self:GetParent():AddNoDraw()
     self.target = EntIndexToHScript(kv.target)
     self:StartIntervalThink(FrameTime())
-    --self.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_migi_inside_cooldown", {duration = 60})
+
     local ab = self:GetParent():FindAbilityByName("migi_inside")
     if ab then
         ab:SetActivated(false)
@@ -347,9 +373,6 @@ function modifier_migi_inside_caster:OnDestroy()
     if ab then
         ab:SetActivated(true)
     end
-    if self.target and not self.target:IsNull() and self.target:IsAlive() then
-        self.target:RemoveModifierByName("modifier_migi_inside_cooldown")
-    end
 end
 
 function modifier_migi_inside_caster:OnIntervalThink()
@@ -360,17 +383,33 @@ function modifier_migi_inside_caster:OnIntervalThink()
 end
 
 function modifier_migi_inside_caster:CheckState()
-    return {
-        [MODIFIER_STATE_STUNNED]            = true,
-        [MODIFIER_STATE_INVULNERABLE]       = true,
-        [MODIFIER_STATE_NO_UNIT_COLLISION]  = true,
-        [MODIFIER_STATE_NO_HEALTH_BAR]  = true,
+    local state = 
+    {
+        [MODIFIER_STATE_MUTED] = true,
+        [MODIFIER_STATE_ROOTED] = true,
+        [MODIFIER_STATE_INVULNERABLE] = true,
+        [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+        [MODIFIER_STATE_NO_HEALTH_BAR] = true,
         [MODIFIER_STATE_OUT_OF_GAME] = true,
     }
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_migi_7") then
+        state = 
+        {
+            [MODIFIER_STATE_ROOTED] = true,
+            [MODIFIER_STATE_INVULNERABLE] = true,
+            [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+            [MODIFIER_STATE_NO_HEALTH_BAR] = true,
+            [MODIFIER_STATE_OUT_OF_GAME] = true,
+        }
+    end
+
+    return state
 end
 
 function modifier_migi_inside_caster:DeclareFunctions()
-    return {
+    return 
+    {
         MODIFIER_EVENT_ON_ORDER
     }
 end
@@ -381,13 +420,6 @@ function modifier_migi_inside_caster:OnOrder(keys)
     if keys.unit == self:GetParent() then
         local cancel_commands = 
         {
-            [DOTA_UNIT_ORDER_MOVE_TO_POSITION]  = true,
-            [DOTA_UNIT_ORDER_MOVE_TO_TARGET]    = true,
-            [DOTA_UNIT_ORDER_ATTACK_MOVE]       = true,
-            [DOTA_UNIT_ORDER_ATTACK_TARGET]     = true,
-            [DOTA_UNIT_ORDER_CAST_POSITION]     = true,
-            [DOTA_UNIT_ORDER_CAST_TARGET]       = true,
-            [DOTA_UNIT_ORDER_CAST_TARGET_TREE]  = true,
             [DOTA_UNIT_ORDER_HOLD_POSITION]     = true,
             [DOTA_UNIT_ORDER_STOP]              = true
         }
@@ -403,56 +435,44 @@ function modifier_migi_inside_caster:OnOrder(keys)
     end
 end
 
-LinkLuaModifier( "modifier_migi_bubble", "abilities/heroes/migi.lua", LUA_MODIFIER_MOTION_NONE )
-
+-------------------------------
 migi_bubble = class({})
 
-function migi_bubble:GetIntrinsicModifierName()
-    return "modifier_migi_bubble"
-end
-
 function migi_bubble:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_migi_7")
-end
-
-modifier_migi_bubble = class({})
-
-function modifier_migi_bubble:IsPurgable() return false end
-function modifier_migi_bubble:IsHidden() return true end
-
-function modifier_migi_bubble:OnCreated( kv )
-    if not IsServer() then return end
-    self:StartIntervalThink(FrameTime())
-end
-
-function modifier_migi_bubble:OnIntervalThink( kv )
-    if not IsServer() then return end
-    local mod = self:GetParent():FindModifierByName("modifier_migi_inside_caster")
-    if mod then
-        local target = mod.target
-        if target and target:GetTeamNumber() ~= self:GetParent():GetTeamNumber() then
-            if self:GetAbility():IsFullyCastable() then
-                if target:HasModifier("modifier_fountain_passive_invul") then return end
-                target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = self:GetAbility():GetSpecialValueFor("stun_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_migi_5")})
-                local damageTable = {
-                    victim = target,
-                    attacker = self:GetParent(),
-                    damage = self:GetAbility():GetSpecialValueFor("damage"),
-                    damage_type = DAMAGE_TYPE_PURE,
-                    ability = self:GetAbility()
-                }
-                ApplyDamage(damageTable)
-                self:GetAbility():UseResources(false, false, true)
-            end
-        end
-    end
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_migi_2")
 end
 
 migi_speed = class({})
 
+
 LinkLuaModifier( "modifier_migi_mutation", "abilities/heroes/migi.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_migi_mutation_active", "abilities/heroes/migi.lua", LUA_MODIFIER_MOTION_NONE )
 
 migi_mutation = class({})
+
+function migi_mutation:GetBehavior()
+    if self:GetCaster():HasTalent("special_bonus_birzha_migi_8") then
+        return DOTA_ABILITY_BEHAVIOR_NO_TARGET + DOTA_ABILITY_BEHAVIOR_IMMEDIATE
+    end
+    return DOTA_ABILITY_BEHAVIOR_PASSIVE
+end
+
+function migi_mutation:GetCooldown(iLevel)
+    if self:GetCaster():HasTalent("special_bonus_birzha_migi_8") then
+        return 30
+    end
+    return 0
+end
+
+function migi_mutation:OnSpellStart()
+    if not IsServer() then return end
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_migi_mutation_active", {duration = 10})
+end
+
+modifier_migi_mutation_active = class({})
+
+function modifier_migi_mutation_active:IsPurgable() return false end
+function modifier_migi_mutation_active:RemoveOnDeath() return false end
 
 function migi_mutation:GetIntrinsicModifierName()
     return "modifier_migi_mutation"
@@ -464,13 +484,13 @@ function modifier_migi_mutation:IsPurgable() return false end
 function modifier_migi_mutation:IsHidden() return true end
 
 function modifier_migi_mutation:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
         MODIFIER_PROPERTY_HEALTH_BONUS,
         MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
         MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE
     }
-
     return funcs
 end
 
@@ -530,14 +550,15 @@ function modifier_migi_death:OnIntervalThink()
 end
 
 function modifier_migi_death:DeclareFunctions()
-    local funcs = {
-        MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING,
+    local funcs = 
+    {
+        MODIFIER_PROPERTY_STATUS_RESISTANCE
     }
     return funcs
 end
 
-function modifier_migi_death:GetModifierStatusResistanceStacking()
-    return 100
+function modifier_migi_death:GetModifierStatusResistance()
+    return self:GetAbility():GetSpecialValueFor("effect_resistance")
 end
 
 LinkLuaModifier( "modifier_migi_aghanim_ability", "abilities/heroes/migi.lua", LUA_MODIFIER_MOTION_NONE )
@@ -647,23 +668,6 @@ function modifier_migi_aghanim_ability:OnIntervalThink()
     end
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 modifier_migi_weapon = class({})
 
 function modifier_migi_weapon:CheckState()
@@ -697,20 +701,10 @@ function modifier_migi_weapon:OnIntervalThink()
         if not self:GetCaster():IsAlive() then self:GetParent():ForceKill(false) return end 
         if not self:GetCaster():HasScepter() then self:GetParent():ForceKill(false) return end 
         local spirit = self:GetParent()
-        local nearby_enemy_units = FindUnitsInRadius(
-            self:GetCaster():GetTeam(),
-            spirit:GetAbsOrigin(), 
-            nil, 
-            100, 
-            DOTA_UNIT_TARGET_TEAM_ENEMY,
-            DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 
-            DOTA_UNIT_TARGET_FLAG_NONE, 
-            FIND_ANY_ORDER, 
-            false
-        )
-
+        local nearby_enemy_units = FindUnitsInRadius( self:GetCaster():GetTeam(), spirit:GetAbsOrigin(),  nil,  100,  DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,  DOTA_UNIT_TARGET_FLAG_NONE,  FIND_ANY_ORDER,  false )
         if nearby_enemy_units ~= nil and #nearby_enemy_units > 0 then
-            modifier_migi_weapon:OnHit(self:GetCaster(), spirit, nearby_enemy_units, 50 + self:GetCaster():GetAverageTrueAttackDamage(nil) * 0.4, self:GetAbility())
+            local damage = self:GetAbility():GetSpecialValueFor("base_damage") + (self:GetCaster():GetAverageTrueAttackDamage(nil) / 100 * self:GetAbility():GetSpecialValueFor("perc_damage"))
+            modifier_migi_weapon:OnHit(self:GetCaster(), spirit, nearby_enemy_units, damage, self:GetAbility())
         end
     end
 end
@@ -718,7 +712,7 @@ end
 function modifier_migi_weapon:OnHit(caster, spirit, enemies_hit, damage, ability) 
     local damage_table          = {}
     damage_table.attacker       = caster
-    damage_table.ability        = ability
+    damage_table.ability        = nil
     damage_table.damage_type    = DAMAGE_TYPE_PURE
     damage_table.damage = damage
     for _,enemy in pairs(enemies_hit) do

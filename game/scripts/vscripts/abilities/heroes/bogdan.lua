@@ -6,7 +6,7 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 Bogdan_Cower = class({}) 
 
 function Bogdan_Cower:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) 
 end
 
 function Bogdan_Cower:GetManaCost(level)
@@ -17,9 +17,6 @@ function Bogdan_Cower:OnSpellStart()
     if not IsServer() then return end
     self:GetCaster():EmitSound("bogdan")
     local duration = self:GetSpecialValueFor('duration')
-    if self:GetCaster():HasShard() then
-        duration = duration + 4
-    end
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_bogdan_cower", {duration = duration})
     local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_terrorblade/terrorblade_metamorphosis_transform.vpcf", PATTACH_WORLDORIGIN, self:GetCaster())
     ParticleManager:SetParticleControl(particle, 0, self:GetCaster():GetAbsOrigin())
@@ -45,7 +42,7 @@ function modifier_bogdan_cower:OnCreated()
     if not IsServer() then return end
     local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_terrorblade/terrorblade_metamorphosis_ambient.vpcf", PATTACH_WORLDORIGIN, self:GetParent())
     ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
-
+    ParticleManager:ReleaseParticleIndex(particle)
 end
 
 function modifier_bogdan_cower:OnDestroy()
@@ -54,20 +51,19 @@ function modifier_bogdan_cower:OnDestroy()
 end
 
 function modifier_bogdan_cower:DeclareFunctions()
-    local decFuncs = {
+    local decFuncs = 
+    {
         MODIFIER_PROPERTY_ATTACK_RANGE_BONUS,
-        MODIFIER_PROPERTY_HEALTH_BONUS,
         MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
         MODIFIER_PROPERTY_VISUAL_Z_DELTA,
         MODIFIER_PROPERTY_MODEL_CHANGE,
         MODIFIER_PROPERTY_PROJECTILE_NAME,
     }
-
     return decFuncs
 end
 
 function modifier_bogdan_cower:GetModifierAttackRangeBonus()
-    return self:GetAbility():GetSpecialValueFor('bonus_range')
+    return self:GetAbility():GetSpecialValueFor('bonus_range') + self:GetCaster():FindTalentValue("special_bonus_birzha_bogdan_6")
 end
 
 function modifier_bogdan_cower:GetModifierHealthBonus()
@@ -75,7 +71,7 @@ function modifier_bogdan_cower:GetModifierHealthBonus()
 end
 
 function modifier_bogdan_cower:GetModifierAttackSpeedBonus_Constant()
-    return self:GetAbility():GetSpecialValueFor('attack_speed')
+    return self:GetAbility():GetSpecialValueFor('attack_speed') + self:GetCaster():FindTalentValue("special_bonus_birzha_bogdan_4")
 end
 
 function modifier_bogdan_cower:GetVisualZDelta()
@@ -90,20 +86,20 @@ function modifier_bogdan_cower:GetModifierProjectileName()
     return "particles/units/heroes/hero_warlock/warlock_base_attack.vpcf"
 end
 
-function modifier_bogdan_cower:CheckState()
-    if not self:GetCaster():HasTalent("special_bonus_birzha_bogdan_2") then return end
-    local state = {
-        [MODIFIER_STATE_FLYING_FOR_PATHING_PURPOSES_ONLY] = true,
-        [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
-    }
-
-    return state
-end
+--function modifier_bogdan_cower:CheckState()
+--    if not self:GetCaster():HasTalent("special_bonus_birzha_bogdan_2") then return end
+--    local state = 
+--    {
+--        [MODIFIER_STATE_FLYING_FOR_PATHING_PURPOSES_ONLY] = true,
+--        [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+--    }
+--    return state
+--end
 
 Bogdan_key = class({})
 
 function Bogdan_key:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_bogdan_3")
 end
 
 function Bogdan_key:GetManaCost(level)
@@ -117,7 +113,8 @@ end
 function Bogdan_key:OnSpellStart()
     local target = self:GetCursorTarget()
     if not IsServer() then return end
-    local info = {
+    local info = 
+    {
         EffectName = "particles/bogdan/wrench.vpcf",
         Ability = self,
         iMoveSpeed = 1200,
@@ -142,7 +139,7 @@ function Bogdan_key:OnProjectileHit( target, vLocation )
             ability = self
         }
         ApplyDamage( damage )
-        target:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned_purge", {duration = stun_duration})
+        target:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned_purge", {duration = stun_duration * (1-target:GetStatusResistance()) })
         target:EmitSound("Brewmaster_Earth.Boulder.Target")
     end
     return true
@@ -151,6 +148,13 @@ end
 LinkLuaModifier("modifier_bogdan_aids_debuff", "abilities/heroes/bogdan", LUA_MODIFIER_MOTION_NONE)
 
 bogdan_aids = class({}) 
+
+function bogdan_aids:GetCooldown(level)
+    if self:GetCaster():HasTalent("special_bonus_birzha_bogdan_7") then
+        return 0
+    end
+    return self.BaseClass.GetCooldown( self, level )
+end
 
 function bogdan_aids:GetIntrinsicModifierName()
     return "modifier_birzha_orb_effect_lua"
@@ -161,20 +165,22 @@ function bogdan_aids:GetProjectileName()
 end
 
 function bogdan_aids:OnOrbFire( params )
-    EmitSoundOn( "hero_viper.poisonAttack.Cast", self:GetCaster() )
+    if not IsServer() then return end
+    self:GetCaster():EmitSound("hero_viper.poisonAttack.Cast")
 end
 
 function bogdan_aids:OnOrbImpact( params )
+    if not IsServer() then return end
     local duration = self:GetSpecialValueFor( "duration" )
-    params.target:AddNewModifier( self:GetCaster(), self, "modifier_bogdan_aids_debuff", { duration = duration } )
-    EmitSoundOn( "hero_viper.poisonAttack.Target", self:GetCaster() )
+    params.target:AddNewModifier( self:GetCaster(), self, "modifier_bogdan_aids_debuff", { duration = duration * (1-params.target:GetStatusResistance()) } )
+    params.target:EmitSound("hero_viper.poisonAttack.Target")
 end
 
 function bogdan_aids:OnSpellStart()
     if IsServer() then
         local caster = self:GetCaster()
         local target = self:GetCursorTarget()  
-        if target:IsOther() then return end       
+        if target:IsWard() then return end       
         caster:MoveToTargetToAttack(target)
     end
 end
@@ -191,28 +197,33 @@ end
 
 function modifier_bogdan_aids_debuff:OnCreated( kv )
     if not IsServer() then return end
-    if self:GetCaster():HasScepter() then
+
+    if self:GetCaster():HasShard() then
         self:IncrementStackCount()
     end
-    self.damageTable = {
+
+    self.damageTable = 
+    {
         victim = self:GetParent(),
         attacker = self:GetCaster(),
         damage_type = self:GetAbility():GetAbilityDamageType(),
         ability = self:GetAbility(),
         damage_flags = DOTA_DAMAGE_FLAG_NONE,
     }
+
     self:StartIntervalThink( 1 )
 end
 
 function modifier_bogdan_aids_debuff:OnRefresh()
     if not IsServer() then return end
-    if self:GetCaster():HasScepter() then
+    if self:GetCaster():HasShard() then
         self:IncrementStackCount()
     end
 end
 
 function modifier_bogdan_aids_debuff:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
         MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
         MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS
@@ -226,15 +237,15 @@ function modifier_bogdan_aids_debuff:GetModifierMoveSpeedBonus_Percentage()
 end
 
 function modifier_bogdan_aids_debuff:GetModifierAttackSpeedBonus_Constant()
-    return self:GetAbility():GetSpecialValueFor( "bonus_attack_speed" )
+    return self:GetAbility():GetSpecialValueFor( "bonus_attack_speed" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_bogdan_2")
 end
 
 function modifier_bogdan_aids_debuff:GetModifierPhysicalArmorBonus()
-    return -1 * self:GetStackCount()
+    return self:GetAbility():GetSpecialValueFor("shard_armor") * self:GetStackCount()
 end
 
 function modifier_bogdan_aids_debuff:OnIntervalThink()
-    self.damage_pct = self:GetAbility():GetSpecialValueFor( "damage" )
+    self.damage_pct = self:GetAbility():GetSpecialValueFor( "damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_bogdan_5")
     local miss_health = 100-self:GetParent():GetHealthPercent()
     self.damageTable.damage = miss_health*self.damage_pct
     ApplyDamage( self.damageTable )
@@ -281,36 +292,46 @@ function modifier_Bogdan_Ultimate:RemoveOnDeath()
 end
 
 function modifier_Bogdan_Ultimate:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
         MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
         MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
         MODIFIER_EVENT_ON_DEATH,
     }
-
     return funcs
 end
 
 function modifier_Bogdan_Ultimate:GetModifierBonusStats_Strength()
-    return self:GetStackCount() * self:GetAbility():GetSpecialValueFor('str')
+    local multiple = 1
+    if self:GetCaster():HasTalent("special_bonus_birzha_bogdan_8") then
+        multiple = self:GetCaster():FindTalentValue("special_bonus_birzha_bogdan_8")
+    end
+    return self:GetStackCount() * self:GetAbility():GetSpecialValueFor('str') * multiple
 end
 
 function modifier_Bogdan_Ultimate:GetModifierBonusStats_Agility()
-    return self:GetStackCount() * self:GetAbility():GetSpecialValueFor('agi')
+    local multiple = 1
+    if self:GetCaster():HasTalent("special_bonus_birzha_bogdan_8") then
+        multiple = self:GetCaster():FindTalentValue("special_bonus_birzha_bogdan_8")
+    end
+    return self:GetStackCount() * self:GetAbility():GetSpecialValueFor('agi') * multiple
 end
 
 function modifier_Bogdan_Ultimate:GetModifierBonusStats_Intellect()
-    return self:GetStackCount() * self:GetAbility():GetSpecialValueFor('int')
+    local multiple = 1
+    if self:GetCaster():HasTalent("special_bonus_birzha_bogdan_8") then
+        multiple = self:GetCaster():FindTalentValue("special_bonus_birzha_bogdan_8")
+    end
+    return self:GetStackCount() * self:GetAbility():GetSpecialValueFor('int') * multiple
 end
 
 function modifier_Bogdan_Ultimate:OnDeath( params )
     if not IsServer() then return end
-    if params.unit == self:GetParent() then
-        if RandomInt(1, 100) <= 50 then     
-            if self:GetCaster():HasTalent("special_bonus_birzha_bogdan_3") then return end
-            if self:GetStackCount() >= 1 then        
-                self:DecrementStackCount()
-            end
+    if params.unit == self:GetParent() then  
+        if self:GetCaster():HasScepter() then return end
+        if self:GetStackCount() > 0 then        
+            self:DecrementStackCount()
         end
     end
 end

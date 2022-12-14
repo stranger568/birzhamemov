@@ -1,79 +1,92 @@
 var dotahud = $.GetContextPanel().GetParent().GetParent().GetParent().GetParent();
 
-//PickAverageRating
-
-var heroes = {
-        "npc_dota_hero_techies": true,
-        "npc_dota_hero_abaddon": true,
-        "npc_dota_hero_juggernaut": true,
-        "npc_dota_hero_sand_king": true,
-        "npc_dota_hero_winter_wyvern": true,
-        "npc_dota_hero_enigma": true,
-        "npc_dota_hero_invoker": true,
-        "npc_dota_hero_gyrocopter": true,
-        "npc_dota_hero_rubick": true,
-        "npc_dota_hero_life_stealer": true,
-        "npc_dota_hero_spectre": true,
-        "npc_dota_hero_sven": true,
-        "npc_dota_hero_naga_siren": true,
-        "npc_dota_hero_enchantress": true,
-        "npc_dota_hero_phantom_assassin": true,
-        "npc_dota_hero_crystal_maiden": true,
-        "npc_dota_hero_queenofpain": true,
-        "npc_dota_hero_dark_willow": true,
-        "npc_dota_hero_templar_assassin": true,
-        "npc_dota_hero_lina": true,
-        "npc_dota_hero_morphling": true,
-        "npc_dota_hero_abyssal_underlord": true,
-        "npc_dota_hero_phantom_lancer": true,
-        "npc_dota_hero_luna": true,
-        "npc_dota_hero_ogre_magi": true,
-        "npc_dota_hero_vengefulspirit": true,
-        "npc_dota_hero_riki": true,
-        "npc_dota_hero_nyx_assassin": true,
-        "npc_dota_hero_centaur": true,
-        "npc_dota_hero_batrider": true,
-        "npc_dota_hero_slardar": true,
-        "npc_dota_hero_magnataur": true,
-        "npc_dota_hero_treant": true,
-        "npc_dota_hero_tidehunter": true,
-        "npc_dota_hero_dawnbreaker": true,
-        "npc_dota_hero_oracle": true,
-        "npc_dota_hero_void_spirit": true,
-        "npc_dota_hero_arc_warden": true,
-        "npc_dota_hero_sasake": true,
-        "npc_dota_hero_migi": true,
-        "npc_dota_hero_overlord": true,
-        "npc_dota_hero_stone_dwayne": true,
-
-        "npc_dota_hero_silencer": true,
-        "npc_dota_hero_marci": true,
-        "npc_dota_hero_rat": true,
-        "npc_dota_hero_pump": true,
-        "npc_dota_hero_pyramide": true,
-        "npc_dota_hero_sonic": true,
-        "npc_dota_hero_travoman": true,
-        "npc_dota_hero_jull": true,
-        "npc_dota_hero_nolik": true,
-        "npc_dota_hero_freddy": true,
-        "npc_dota_hero_saitama": true,
-        "npc_dota_hero_tailer": true,
-        "npc_dota_hero_thomas_bebra": true,
-        //
-    };
+var heroes = 
+{
+    "npc_dota_hero_techies": true,
+    "npc_dota_hero_abaddon": true,
+    "npc_dota_hero_juggernaut": true,
+    "npc_dota_hero_sand_king": true,
+    "npc_dota_hero_winter_wyvern": true,
+    "npc_dota_hero_enigma": true,
+    "npc_dota_hero_invoker": true,
+    "npc_dota_hero_gyrocopter": true,
+    "npc_dota_hero_rubick": true,
+    "npc_dota_hero_life_stealer": true,
+    "npc_dota_hero_spectre": true,
+    "npc_dota_hero_sven": true,
+    "npc_dota_hero_naga_siren": true,
+    "npc_dota_hero_enchantress": true,
+    "npc_dota_hero_phantom_assassin": true,
+    "npc_dota_hero_crystal_maiden": true,
+    "npc_dota_hero_queenofpain": true,
+    "npc_dota_hero_dark_willow": true,
+    "npc_dota_hero_templar_assassin": true,
+    "npc_dota_hero_lina": true,
+    "npc_dota_hero_morphling": true,
+    "npc_dota_hero_abyssal_underlord": true,
+    "npc_dota_hero_phantom_lancer": true,
+    "npc_dota_hero_luna": true,
+    "npc_dota_hero_ogre_magi": true,
+    "npc_dota_hero_vengefulspirit": true,
+    "npc_dota_hero_riki": true,
+    "npc_dota_hero_nyx_assassin": true,
+    "npc_dota_hero_centaur": true,
+    "npc_dota_hero_batrider": true,
+    "npc_dota_hero_slardar": true,
+    "npc_dota_hero_magnataur": true,
+    "npc_dota_hero_treant": true,
+    "npc_dota_hero_tidehunter": true,
+    "npc_dota_hero_dawnbreaker": true,
+    "npc_dota_hero_oracle": true,
+    "npc_dota_hero_void_spirit": true,
+    "npc_dota_hero_arc_warden": true,
+    "npc_dota_hero_sasake": true,
+    "npc_dota_hero_migi": true,
+    "npc_dota_hero_overlord": true,
+    "npc_dota_hero_stone_dwayne": true,
+    "npc_dota_hero_silencer": true,
+    "npc_dota_hero_marci": true,
+    "npc_dota_hero_rat": true,
+    "npc_dota_hero_pump": true,
+    "npc_dota_hero_pyramide": true,
+    "npc_dota_hero_sonic": true,
+    "npc_dota_hero_travoman": true,
+    "npc_dota_hero_jull": true,
+    "npc_dota_hero_nolik": true,
+    "npc_dota_hero_freddy": true,
+    "npc_dota_hero_saitama": true,
+    "npc_dota_hero_tailer": true,
+    "npc_dota_hero_thomas_bebra": true,
+    "npc_dota_hero_serega_pirat" : true,
+    "npc_dota_hero_venom" : true,
+};  
 
 var selected_hero
- 
-function BirzhaPickInit(){
-    $.Msg("init")  
-    var is_spect = Players.IsSpectator( Players.GetLocalPlayer() )
-    var localTeam = Players.GetTeam(Players.GetLocalPlayer())
-    if ( is_spect || localTeam != 2 && localTeam != 3 && localTeam != 6 && localTeam != 7 && localTeam != 8 && localTeam != 9 && localTeam != 10 && localTeam != 11 && localTeam != 12 && localTeam != 13 ) {
-        $.Schedule( 1, function(){
-            $.GetContextPanel().AddClass('Deletion');
-        })
+var buttons;
+var buttons_parent;
+var chat;
+var chat_parent;
+var start_voice = true;
+var double_rating = true
+
+function IsSpectator() 
+{
+    const localPlayer = Players.GetLocalPlayer()
+    if (Players.IsSpectator(localPlayer))
+    {
+        return true
+    }
+    const localTeam = Players.GetTeam(localPlayer)
+    return localTeam !== 2 && localTeam !== 3 && localTeam !== 6 && localTeam !== 7 && localTeam !== 8 && localTeam !== 9 && localTeam !== 10 && localTeam !== 11 && localTeam !== 12 && localTeam !== 13
+}
+
+function BirzhaPickInit()
+{
+    if (IsSpectator())
+    {
         return
     }
+
     GameEvents.Subscribe( 'birzha_pick_start', PickStart );
     GameEvents.Subscribe( 'birzha_pick_load_heroes', LoadHeroes );
     GameEvents.Subscribe( 'birzha_pick_timer_upd', TimerUpd );
@@ -87,113 +100,246 @@ function BirzhaPickInit(){
     GameEvents.Subscribe( 'more_ban_aviable', Moreban );
     GameEvents.Subscribe( 'birzha_pick_filter_reconnect', BirzhaShowFiltList );
     GameEvents.Subscribe( 'ban_count_changed', ban_count_changed );
-    
-    $.Schedule( 0.1, function(){
-        GameEvents.SendCustomGameEventToServer( 'birzha_pick_player_registred', {} );
-        $.Schedule( 0.1, function(){
-            BirzhaHeroSelectionLoad()
-        })
-    })
 }
 
-function BirzhaHeroSelectionLoad(){
-    let is_spect = Players.IsSpectator( Players.GetLocalPlayer() )
-    let localTeam = Players.GetTeam(Players.GetLocalPlayer())
-    if ( is_spect || localTeam != 2 && localTeam != 3 && localTeam != 6 && localTeam != 7 && localTeam != 8 && localTeam != 9 && localTeam != 10 && localTeam != 11 && localTeam != 12 && localTeam != 13 ) {
-        $.Schedule( 1, function(){
-            $.GetContextPanel().AddClass('Deletion');
-        })
+function BirzhaHeroSelectionLoad()
+{
+    if (IsSpectator()) 
+    {
+        $.GetContextPanel().AddClass('Deletion');
+        $.GetContextPanel().style.opacity = "0"
         return
     }
+
+    $.Msg("dadadad")
+
+    StealButtonsAndChat();
+
+    $.Schedule( 1, function()
+    {
+        GameEvents.SendCustomGameEventToServer( 'birzha_pick_player_registred', {} );
+    });
+
+    $.Schedule( 1.5, function()
+    {
+        GameEvents.SendCustomGameEventToServer( 'birzha_pick_player_loaded', {} );
+    });
+
     var game_start = CustomNetTables.GetTableValue('game_state', "pickstate");
+
     if (game_start)
     {
         if (game_start.v == "ended")
         {
-            $.Schedule( 1, function(){
-                $.GetContextPanel().AddClass('Deletion');
-            })
-            return
+            HeroSelectionEnd()
+        } 
+        else 
+        {
+            LoadHeroes()
         }
+    } else {
+        LoadHeroes()
     }
-    StealButtonsAndChat();
-    $.Schedule( 0.2, function(){
-        GameEvents.SendCustomGameEventToServer( 'birzha_pick_player_loaded', {} );
-    });
+
     CreateTokenPanel();
 }
 
-function HeroSelectionEnd(){
-    let is_spect = Players.IsSpectator( Players.GetLocalPlayer() )
-    let localTeam = Players.GetTeam(Players.GetLocalPlayer())
-    if ( is_spect || localTeam != 2 && localTeam != 3 && localTeam != 6 && localTeam != 7 && localTeam != 8 && localTeam != 9 && localTeam != 10 && localTeam != 11 && localTeam != 12 && localTeam != 13 ) {
-        $.Schedule( 1, function(){
-            $.GetContextPanel().AddClass('Deletion');
-        })
-        return
-    }
-    $.GetContextPanel().AddClass('Deletion');
-    //$.GetContextPanel().DeleteAsync( 0.1 );
-    RestoreButtonsAndChat();
-    var button_bp = $.GetContextPanel().GetParent().GetParent().GetParent().FindChild("HUDElements").FindChildTraverse("MenuButtons").FindChildTraverse("BirzhaPlusButton");
-    button_bp.style.visibility = "visible"
-    var leaderboard_button = $.GetContextPanel().GetParent().GetParent().GetParent().FindChild("HUDElements").FindChildTraverse("MenuButtons").FindChildTraverse("LeaderBoardButton");
-    leaderboard_button.style.visibility = "visible"
-    var shop_button = $.GetContextPanel().GetParent().GetParent().GetParent().FindChild("HUDElements").FindChildTraverse("MenuButtons").FindChildTraverse("ShopButton");
-    shop_button.style.visibility = "visible"
-    var ButtonsPanelBackground = $.GetContextPanel().GetParent().GetParent().GetParent().FindChild("HUDElements").FindChildTraverse("MenuButtons").FindChildTraverse("ButtonsPanelBackground");
-    ButtonsPanelBackground.style.visibility = "visible"
-}
-
-function PickStart( kv ){
-    $.GetContextPanel().SetFocus();
-}
-
-var buttons;
-var buttons_parent;
-var chat;
-var chat_parent;
-var start_voice = true;
-var double_rating = true
-
-function StealButtonsAndChat(){
+function StealButtonsAndChat()
+{
     if( $.GetContextPanel().BHasClass('Deletion') ) return;
+
     buttons = dotahud.FindChildTraverse('MenuButtons');
     buttons_parent = buttons.GetParent();
-    if( buttons ){
+
+    if( buttons )
+    {
         buttons.SetParent( $.GetContextPanel() );
         buttons.FindChildTraverse('ToggleScoreboardButton').visible = false;
     }
     
     chat = dotahud.FindChildTraverse('HudChat');
     chat_parent = chat.GetParent();
-    if( chat ){
+
+    if( chat )
+    {
         chat.SetParent( $.GetContextPanel() );
         chat.style.horizontalAlign = 'right';
         chat.style.y = '0px';
     }
 }
 
-function RestoreButtonsAndChat(){
+function RestoreButtonsAndChat()
+{
     var HudElements = dotahud.FindChildTraverse('HUDElements');
     var button = dotahud.FindChildTraverse('MenuButtons');
     var chating = dotahud.FindChildTraverse('HudChat');
 
-   if ( button && HudElements ){
+    if ( button && HudElements )
+    {
         button.SetParent( HudElements );
         button.FindChildTraverse('ToggleScoreboardButton').visible = true;
     }
     
-    if ( chating && HudElements ){
+    if ( chating && HudElements )
+    {
         chating.SetParent( HudElements );
         chating.style.horizontalAlign = 'center';
         chating.style.y = '-220px';
     }
 }
 
-function LoadHeroes( kv ){
+function HeroSelectionEnd()
+{
+    $.GetContextPanel().AddClass('Deletion');
+
+    RestoreButtonsAndChat();
+
+    $.Schedule(1.5, function() 
+    {
+        if ($("#BGScene"))
+        {
+            $("#BGScene").DeleteAsync(0)
+        }
+        $.GetContextPanel().style.opacity = "0"
+    })
+
+    var ButtonsPanelBackground = dotahud.FindChildTraverse("MenuButtons").FindChildTraverse("ButtonsPanelBackground");
+    if (ButtonsPanelBackground)
+    {
+        ButtonsPanelBackground.style.visibility = "visible"
+    }
+}
+
+function PickStart( kv )
+{
+    $.GetContextPanel().SetFocus();
+}
+
+function LoadHeroes( kv )
+{
     $("#HeroInfoCont").style.opacity = "1"
-    //
+    let player_info = CustomNetTables.GetTableValue('birzhainfo', String(Players.GetLocalPlayer()));
+
+
+
+    let strength_heroes = 
+    [
+        "npc_dota_hero_huskar",
+        "npc_dota_hero_alchemist",
+        "npc_dota_hero_slardar",
+        "npc_dota_hero_lycan",
+        "npc_dota_hero_tusk",
+        "npc_dota_hero_saitama",
+        "npc_dota_hero_skeleton_king",
+        "npc_dota_hero_slark",
+        "npc_dota_hero_abaddon",
+        "npc_dota_hero_legion_commander",
+        "npc_dota_hero_migi",
+        "npc_dota_hero_kunkka",
+        "npc_dota_hero_pudge",
+        "npc_dota_hero_venom",
+        "npc_dota_hero_juggernaut",
+        "npc_dota_hero_tailer",
+        "npc_dota_hero_life_stealer",
+        "npc_dota_hero_nolik",
+        "npc_dota_hero_pyramide",
+        "npc_dota_hero_spirit_breaker",
+        "npc_dota_hero_elder_titan",
+        "npc_dota_hero_rattletrap",
+        "npc_dota_hero_stone_dwayne",
+        "npc_dota_hero_mars",
+        "npc_dota_hero_brewmaster",
+        "npc_dota_hero_beastmaster",
+        "npc_dota_hero_axe",
+        "npc_dota_hero_treant",
+        "npc_dota_hero_tidehunter",
+        "npc_dota_hero_spectre",
+        "npc_dota_hero_centaur",
+        "npc_dota_hero_omniknight",
+        "npc_dota_hero_ursa",
+        "npc_dota_hero_dark_seer",
+        "npc_dota_hero_tiny",
+        "npc_dota_hero_earthshaker",
+        "npc_dota_hero_sven",
+        "npc_dota_hero_bristleback",
+        "npc_dota_hero_earth_spirit",
+        "npc_dota_hero_chaos_knight",
+    ]
+
+    let agility_heroes = 
+    [
+        "npc_dota_hero_lone_druid",
+        "npc_dota_hero_naga_siren",
+        "npc_dota_hero_vengefulspirit",
+        "npc_dota_hero_ogre_magi",
+        "npc_dota_hero_sand_king",
+        "npc_dota_hero_pangolier",
+        "npc_dota_hero_monkey_king",
+        "npc_dota_hero_magnataur",
+        "npc_dota_hero_antimage",
+        "npc_dota_hero_abyssal_underlord",
+        "npc_dota_hero_serega_pirat",
+        "npc_dota_hero_queenofpain",
+        "npc_dota_hero_marci",
+        "npc_dota_hero_dark_willow",
+        "npc_dota_hero_furion",
+        "npc_dota_hero_sonic",
+        "npc_dota_hero_phantom_lancer",
+        "npc_dota_hero_nevermore",
+        "npc_dota_hero_sasake",
+        "npc_dota_hero_terrorblade",
+        "npc_dota_hero_batrider",
+        "npc_dota_hero_void_spirit",
+        "npc_dota_hero_phantom_assassin",
+        "npc_dota_hero_arc_warden",
+        "npc_dota_hero_luna",
+        "npc_dota_hero_bloodseeker",
+        "npc_dota_hero_bounty_hunter",
+        "npc_dota_hero_dragon_knight",
+        //"npc_dota_hero_clinkz",
+        "npc_dota_hero_crystal_maiden",
+        "npc_dota_hero_winter_wyvern",
+        "npc_dota_hero_warlock",
+        "npc_dota_hero_rat",
+        "npc_dota_hero_sniper",
+        "npc_dota_hero_thomas_bebra",
+        "npc_dota_hero_ember_spirit",
+        "npc_dota_hero_nyx_assassin",
+        "npc_dota_hero_troll_warlord",
+    ]
+
+    let intellect_heroes = 
+    [
+        "npc_dota_hero_jull",
+        "npc_dota_hero_necrolyte",
+        "npc_dota_hero_morphling",
+        "npc_dota_hero_enigma",
+        "npc_dota_hero_oracle",
+        "npc_dota_hero_shredder",
+        "npc_dota_hero_templar_assassin",
+        "npc_dota_hero_lina",
+        "npc_dota_hero_keeper_of_the_light",
+        "npc_dota_hero_pump",
+        "npc_dota_hero_faceless_void",
+        "npc_dota_hero_enchantress",
+        "npc_dota_hero_freddy",
+        "npc_dota_hero_travoman",
+        "npc_dota_hero_gyrocopter",
+        "npc_dota_hero_silencer",
+        "npc_dota_hero_overlord",
+        "npc_dota_hero_dawnbreaker",
+        "npc_dota_hero_doom_bringer",
+        "npc_dota_hero_puck",
+        "npc_dota_hero_invoker",
+        "npc_dota_hero_grimstroke",
+        "npc_dota_hero_zuus",
+        "npc_dota_hero_visage",
+        "npc_dota_hero_venomancer",
+        "npc_dota_hero_rubick",
+        "npc_dota_hero_techies",
+        "npc_dota_hero_leshrac",
+    ]
+    
     var hero_list = CustomNetTables.GetTableValue("birzha_pick", "hero_list");
     if (hero_list)
     {
@@ -211,29 +357,57 @@ function LoadHeroes( kv ){
             AttributePanelLabelSTR.text = $.Localize("#DOTA_Hero_Selection_STR")
             var str_row = $.CreatePanel("Panel", $("#PanelSelector"), "StrengthSelector" );
 
-
-
-            for (var i = 1; i <= hero_list.str_length; i++) 
+            for (var i = 0; i < strength_heroes.length; i++) 
             {
-                var hero_creating = $("#StrengthSelector").FindChild(hero_list.str[i])
+                var hero_creating = $("#StrengthSelector").FindChild(strength_heroes[i])
                 if (hero_creating) { return };
-                var panel = $.CreatePanel("Panel", $("#StrengthSelector"), hero_list.str[i] );
+                var panel = $.CreatePanel("Panel", $("#StrengthSelector"), strength_heroes[i] );
                 panel.AddClass("hero_select_panel");
-                SetPSelectEvent(panel, hero_list.str[i]);
+                SetPSelectEvent(panel, strength_heroes[i]);
                 var icon = $.CreatePanel("Panel", panel, "image");
                 icon.AddClass("hero_select_panel_img");
-                icon.style.backgroundImage = 'url("file://{images}/custom_game/cm/heroes_pick/' + hero_list.str[i] + '.png")';
+                icon.style.backgroundImage = 'url("file://{images}/custom_game/cm/heroes_pick/' + strength_heroes[i] + '.png")';
                 icon.style.backgroundSize = 'contain';
 
                 for (var d = 1; d <= Object.keys(hero_list.bp_heroes).length; d++)  {
-                    if (hero_list.bp_heroes[d] == hero_list.str[i]) {
+                    if (hero_list.bp_heroes[d] == strength_heroes[i]) {
                         var DonateIcon = $.CreatePanel("Panel", panel, "DonateIcon");
+                        if (panel.GetChild(0))
+                        {
+                            panel.GetChild(0).style.border = "1px solid gold"
+                        }
                     }
                 }
+                if (player_info)
+                {
+                    let hero_information = GetHeroInformation(player_info, strength_heroes[i])
+                    if (hero_information == "No") 
+                    {
 
-                
-
-                panel.BLoadLayoutSnippet('HeroCard');
+                    } else {
+                        if (GetHeroLevel(hero_information.experience) > 0)
+                        {
+                            var RankInfoHero = $.CreatePanel("Panel", panel, "");
+                            if (RankInfoHero)
+                            {
+                                RankInfoHero.AddClass("RankInfoHero")
+                                var RankIcon = $.CreatePanel("Panel", RankInfoHero, "");
+                                if (RankIcon)
+                                {
+                                    RankIcon.AddClass("RankIcon")
+                                    RankIcon.style.backgroundImage = 'url("file://{images}/custom_game/hero_rank/' + GetHeroRankIcon(GetHeroLevel(hero_information.experience)) + '.png")';
+                                    RankIcon.style.backgroundSize = "100%"
+                                }
+                                var RankLevel = $.CreatePanel("Label", RankInfoHero, "");
+                                if (RankLevel)
+                                {
+                                    RankLevel.AddClass("RankLevel")
+                                    RankLevel.text = GetHeroLevel(hero_information.experience) 
+                                }
+                            }
+                        }         
+                    }
+                }
             }
         }
 
@@ -251,25 +425,57 @@ function LoadHeroes( kv ){
             var agi_row = $.CreatePanel("Panel", $("#PanelSelector"), "AgilitySelector" );
 
 
-            for (var i = 1; i <= hero_list.ag_length; i++) 
+            for (var i = 0; i < agility_heroes.length; i++) 
             {
-                var hero_creating = $("#AgilitySelector").FindChild(hero_list.ag[i])
+                var hero_creating = $("#AgilitySelector").FindChild(agility_heroes[i])
                 if (hero_creating) { return };
-                var panel = $.CreatePanel("Panel", $("#AgilitySelector"), hero_list.ag[i] );
+                var panel = $.CreatePanel("Panel", $("#AgilitySelector"), agility_heroes[i] );
                 panel.AddClass("hero_select_panel");
-                SetPSelectEvent(panel, hero_list.ag[i]);
+                SetPSelectEvent(panel, agility_heroes[i]);
                 var icon = $.CreatePanel("Panel", panel, "image");
                 icon.AddClass("hero_select_panel_img");
-                icon.style.backgroundImage = 'url("file://{images}/custom_game/cm/heroes_pick/' + hero_list.ag[i] + '.png")';
+                icon.style.backgroundImage = 'url("file://{images}/custom_game/cm/heroes_pick/' + agility_heroes[i] + '.png")';
                 icon.style.backgroundSize = 'contain';
 
                 for (var d = 1; d <= Object.keys(hero_list.bp_heroes).length; d++)   {
-                    if (hero_list.bp_heroes[d] == hero_list.ag[i]) {
+                    if (hero_list.bp_heroes[d] == agility_heroes[i]) {
                         var DonateIcon = $.CreatePanel("Panel", panel, "DonateIcon");
+                        if (panel.GetChild(0))
+                        {
+                            panel.GetChild(0).style.border = "1px solid gold"
+                        }
                     }
                 }
+                if (player_info)
+                {
+                    let hero_information = GetHeroInformation(player_info, agility_heroes[i])
+                    if (hero_information == "No") 
+                    {
 
-                panel.BLoadLayoutSnippet('HeroCard');
+                    } else {
+                        if (GetHeroLevel(hero_information.experience) > 0)
+                        {
+                            var RankInfoHero = $.CreatePanel("Panel", panel, "");
+                            if (RankInfoHero)
+                            {
+                                RankInfoHero.AddClass("RankInfoHero")
+                                var RankIcon = $.CreatePanel("Panel", RankInfoHero, "");
+                                if (RankIcon)
+                                {
+                                    RankIcon.AddClass("RankIcon")
+                                    RankIcon.style.backgroundImage = 'url("file://{images}/custom_game/hero_rank/' + GetHeroRankIcon(GetHeroLevel(hero_information.experience)) + '.png")';
+                                    RankIcon.style.backgroundSize = "100%"
+                                }
+                                var RankLevel = $.CreatePanel("Label", RankInfoHero, "");
+                                if (RankLevel)
+                                {
+                                    RankLevel.AddClass("RankLevel")
+                                    RankLevel.text = GetHeroLevel(hero_information.experience) 
+                                }
+                            }
+                        }         
+                    }
+                }
             }
         }
 
@@ -285,47 +491,82 @@ function LoadHeroes( kv ){
             AttributePanelLabelINT.text = $.Localize("#DOTA_Hero_Selection_INT")
             var int_row = $.CreatePanel("Panel", $("#PanelSelector"), "IntellectSelector" );
 
-            for (var i = 1; i <= hero_list.int_length; i++) 
+            for (var i = 0; i < intellect_heroes.length; i++) 
             {
-                var hero_creating = $("#IntellectSelector").FindChild(hero_list.int[i])
+                var hero_creating = $("#IntellectSelector").FindChild(intellect_heroes[i])
                 if (hero_creating) { return };
-                var panel = $.CreatePanel("Panel", $("#IntellectSelector"), hero_list.int[i] );
+                var panel = $.CreatePanel("Panel", $("#IntellectSelector"), intellect_heroes[i] );
                 panel.AddClass("hero_select_panel");
-                SetPSelectEvent(panel, hero_list.int[i]);
+                SetPSelectEvent(panel, intellect_heroes[i]);
                 var icon = $.CreatePanel("Panel", panel, "image");
                 icon.AddClass("hero_select_panel_img");
-                icon.style.backgroundImage = 'url("file://{images}/custom_game/cm/heroes_pick/' + hero_list.int[i] + '.png")';
+                icon.style.backgroundImage = 'url("file://{images}/custom_game/cm/heroes_pick/' + intellect_heroes[i] + '.png")';
                 icon.style.backgroundSize = 'contain';
 
                 for (var d = 1; d <= Object.keys(hero_list.bp_heroes).length; d++)   {
-                    if (hero_list.bp_heroes[d] == hero_list.int[i]) {
+                    if (hero_list.bp_heroes[d] == intellect_heroes[i]) {
                         var DonateIcon = $.CreatePanel("Panel", panel, "DonateIcon");
+                        if (panel.GetChild(0))
+                        {
+                            panel.GetChild(0).style.border = "1px solid gold"
+                        }
                     }
                 }
+                if (player_info)
+                {
+                    let hero_information = GetHeroInformation(player_info, intellect_heroes[i])
+                    if (hero_information == "No") 
+                    {
 
-                panel.BLoadLayoutSnippet('HeroCard');
+                    } else {
+                        if (GetHeroLevel(hero_information.experience) > 0)
+                        {
+                            var RankInfoHero = $.CreatePanel("Panel", panel, "");
+                            if (RankInfoHero)
+                            {
+                                RankInfoHero.AddClass("RankInfoHero")
+                                var RankIcon = $.CreatePanel("Panel", RankInfoHero, "");
+                                if (RankIcon)
+                                {
+                                    RankIcon.AddClass("RankIcon")
+                                    RankIcon.style.backgroundImage = 'url("file://{images}/custom_game/hero_rank/' + GetHeroRankIcon(GetHeroLevel(hero_information.experience)) + '.png")';
+                                    RankIcon.style.backgroundSize = "100%"
+                                }
+                                var RankLevel = $.CreatePanel("Label", RankInfoHero, "");
+                                if (RankLevel)
+                                {
+                                    RankLevel.AddClass("RankLevel")
+                                    RankLevel.text = GetHeroLevel(hero_information.experience) 
+                                }
+                            }
+                        }         
+                    }
+                }
             }
         }
-        ChangeHeroInfo(hero_list.str[1]);
+        ChangeHeroInfo("npc_dota_hero_huskar");
     }
 }
 
 function SetPSelectEvent(p, n)
 {
-    p.SetPanelEvent("onactivate", function() { 
+    p.SetPanelEvent("onactivate", function() 
+    { 
         ChangeHeroInfo(n);
-    } );        
+    });        
 }
 
 function ChangeHeroInfo(hero_name) 
 {
     if (hero_name == selected_hero) { return }
+
     selected_hero = hero_name
 
     $('#HeroModel').style.backgroundImage = 'url("file://{images}/custom_game/cm/heroes_pick/' + hero_name + '.png")';
     $('#HeroModel').style.backgroundSize = "100%"
 
     $("#hero_name_info").text = $.Localize("#" + hero_name);  
+
     var abilities = GetHeroAbility(hero_name);
 
     $("#HeroDifficulty").html = true
@@ -334,6 +575,7 @@ function ChangeHeroInfo(hero_name)
     $("#HeroDifficulty").text = $.Localize("#Pick_HeroDifficulty") + ": " + $.Localize("#" + abilities.difficulty)
     $("#HeroRole").text = $.Localize("#Pick_HeroRole") + ": " + $.Localize("#" +abilities.role_hero)
 
+    let bp_hero = false
 
     SetShowText($("#HeroAviableInBPPlus"), $.Localize("#HeroAviableInBPPlus_description"))
     SetShowText($("#HeroRole"), $.Localize("#" + abilities.role_hero + "_description"))
@@ -352,42 +594,9 @@ function ChangeHeroInfo(hero_name)
         for (var d = 1; d <= Object.keys(hero_list.bp_heroes).length; d++)   {
             if (hero_list.bp_heroes[d] == hero_name) {
                 $('#HeroAviableInBPPlus').style.visibility = "visible"
+                bp_hero = true
             }
         }        
-    }
-
-    $('#HeroAviableInBPPlus').html = true
-
-    var player_info = CustomNetTables.GetTableValue('birzhainfo', Players.GetLocalPlayer());
-    if (player_info)
-    {
-        if (player_info.bp_days <= 0) {
-            $('#HeroRankTitle').style.visibility = "collapse"
-            $('#HeroBPProgressAviableBPPlus').style.visibility = "visible"
-        } else {
-
-            let hero_information = GetHeroInformation(player_info, hero_name)
-            
-            if (hero_information == "No") {
-               $('#RankIcon').style.backgroundImage = 'url("file://{images}/custom_game/hero_rank/' + "rank_0" + '.png")';
-               $('#RankIcon').style.backgroundSize = "100%"
-               $('#RankName').text = $.Localize("#BP_rank_0")
-               $('#HeroExpLabel2').text = "0 / 1000"
-               $('#HeroLevelLabel2').text = "0"
-               $('#ProgressHeroBarPanelActive').style.width = "0%"
-            } else {
-               $('#RankIcon').style.backgroundImage = 'url("file://{images}/custom_game/hero_rank/' + GetHeroRankIcon(GetHeroLevel(hero_information.experience)) + '.png")';
-               $('#RankIcon').style.backgroundSize = "100%"
-               $('#RankName').text = GetHeroRankName(GetHeroLevel(hero_information.experience))
-               $('#HeroExpLabel2').text = GetHeroExp(hero_information.experience)
-               $('#HeroLevelLabel2').text = GetHeroLevel(hero_information.experience)
-               $('#ProgressHeroBarPanelActive').style.width = GetHeroExpProgress(hero_information.experience)              
-            }
-
-
-            $('#HeroRankTitle').style.visibility = "visible"
-            $('#HeroBPProgressAviableBPPlus').style.visibility = "collapse"
-        }
     }
 
     while(true)
@@ -401,6 +610,7 @@ function ChangeHeroInfo(hero_name)
     }
 
     var bonus_ab = 0;
+
     while(true)
     {
         bonus_ab++;     
@@ -413,18 +623,31 @@ function ChangeHeroInfo(hero_name)
         $('#BirzaAbilitiesInfoBonus').style.visibility = "visible"
     }
 
+    $("#PickButton").SetPanelEvent("onactivate", function() 
+    {
+        GameEvents.SendCustomGameEventToServer( "birzha_pick_select_hero", {hero : hero_name,} );    
+        Game.EmitSound("General.ButtonClick");
 
+        var game_state_name = CustomNetTables.GetTableValue('game_state', "pickstate_name");
 
-    $("#PickButton").SetPanelEvent("onactivate", function() {
-     GameEvents.SendCustomGameEventToServer( "birzha_pick_select_hero", {hero : hero_name,} );    
-     Game.EmitSound("General.ButtonClick");
-     }
-    );
-    $("#BirzhaRandomButton").SetPanelEvent("onactivate", function() {
-     GameEvents.SendCustomGameEventToServer( "birzha_pick_select_hero", {hero : hero_name, random : true,} );    
-     Game.EmitSound("General.ButtonClick");
-     }
-    );
+        if (bp_hero)
+        {
+            var p_info = CustomNetTables.GetTableValue('birzhainfo', String(Players.GetLocalPlayer()));
+            if (p_info.bp_days <= 0) 
+            {
+                if (game_state_name && game_state_name.pickstate_name == "start")
+                {
+                    GameUI.CustomUIConfig().OpenBirzhaPlus()
+                }
+            }
+        }
+    });
+
+    $("#BirzhaRandomButton").SetPanelEvent("onactivate", function() 
+    {
+        GameEvents.SendCustomGameEventToServer( "birzha_pick_select_hero", {hero : hero_name, random : true,} );    
+        Game.EmitSound("General.ButtonClick");
+    });
 }
 
 function SetShowAbDesc(panel, ability)
@@ -437,7 +660,8 @@ function SetShowAbDesc(panel, ability)
     });       
 }
 
-function GetHeroAbility(hn) {
+function GetHeroAbility(hn) 
+{
     var ab = CustomNetTables.GetTableValue("birzha_pick", hn);
     if (ab)
     {
@@ -446,35 +670,43 @@ function GetHeroAbility(hn) {
     return [];
 }
 
-function TimerUpd( kv ){
+function TimerUpd( kv )
+{
     var timer_panel = $('#PickTimer');
-    if( !timer_panel ) return;
+
+    if ( timer_panel )
+    {
+        timer_panel.text = kv.timer;
+    }
     
     $('#PickAverageRating').text = $.Localize("#Pick_AverageRating") + GetAverageRating()
-
-    timer_panel.text = kv.timer;
 }
 
-function BanStart(){
+function BanStart()
+{
     $("#PickState").text = $.Localize("#BIRZHA_PICK_STATE_BAN");
-    if (!Game.IsInToolsMode()) {
-        //Game.EmitSound("BirzhaStart");
-    }
 }
 
-function StartSelection( kv ){
+function StartSelection( kv )
+{
     $("#PickState").text = $.Localize("#BIRZHA_PICK_STATE_SELECT");
+
     $("#birzhapickbutton").text = $.Localize("#birzhapickhero");
-    if (start_voice) {
+
+    if (start_voice) 
+    {
         start_voice = false
         Game.EmitSound("announcer_dlc_rick_and_morty_choose_your_hero_02");
     }
-    if ($("#moreban_aviablefordonaters")) {
+
+    if ($("#moreban_aviablefordonaters")) 
+    {
         $("#moreban_aviablefordonaters").style.visibility = "collapse";
     }
 }
 
-function StartPreEnd( kv ){
+function StartPreEnd( kv )
+{
     $("#PickState").text = $.Localize("#BIRZHA_PICK_STATE_PRE_END");
     $("#PickButton").style.visibility = "collapse";
     $("#RandomButtonWithUnlock").style.visibility = "collapse";
@@ -489,18 +721,24 @@ function StartPreEnd( kv ){
 function BanHeroes( kv )
 {
     var child = $("#" + kv.hero);
-    if (child) {
+
+    if (child) 
+    {
         child.AddClass('Banned');
         var child_img = child.FindChild("image")
-        if (child_img) {
+        if (child_img) 
+        {
             var ban = $.CreatePanel("Panel", child_img, "ban");
             ban.style.width = "100%";
             ban.style.height = "100%";
-            if (kv.hero == "npc_dota_hero_kunkka") {
+
+            if (kv.hero == "npc_dota_hero_kunkka") 
+            {
                 ban.style.backgroundImage = 'url("file://{images}/custom_game/custom_pick/prison.png")';
             } else {
                 ban.style.backgroundImage = 'url("file://{images}/custom_game/custom_pick/ban.png")';
             }
+
             ban.style.backgroundSize = "contain";
         } 
     }
@@ -509,10 +747,12 @@ function BanHeroes( kv )
 function HeroSelected(kv)
 {    
     var child = $("#" + kv.hero);
-    if (child) {
+    if (child) 
+    {
         child.AddClass('Picked');
         var child_img = child.FindChild("image")
-        if (child_img) {
+        if (child_img) 
+        {
             var ban = $.CreatePanel("Panel", child_img, "selected");
             ban.style.width = "100%";
             ban.style.height = "100%";
@@ -522,7 +762,8 @@ function HeroSelected(kv)
     }
 }
 
-function HeroesIsPicked(kv) {
+function HeroesIsPicked(kv) 
+{
     $("#RandomButtonWithUnlock").style.visibility = "collapse";
     $("#PickButton").style.visibility = "collapse";
     $("#BirzhaRandomButton").style.visibility = "collapse";
@@ -538,14 +779,17 @@ function HeroesIsPicked(kv) {
     {
         hero_info_model.DeleteAsync(0.01)
     }
+
     if (hero_info_abilities)
     {
         hero_info_abilities.DeleteAsync(0.01)
     }
+
     if (hero_info_abilities_panel)
     {
         hero_info_abilities_panel.DeleteAsync(0.01)
     }
+
     if (repick_hero)
     {
         repick_hero.DeleteAsync(0.01)
@@ -600,17 +844,20 @@ function HeroesIsPicked(kv) {
     GeneratePreGameDonate(); 
 }
 
-function BacktoHeroes() {
+function BacktoHeroes() 
+{
     $("#GeneralPickPanel").style.visibility = "visible";
     $("#hero_selection_your_hero").style.visibility = "collapse";
 }
 
-function BacktoHero() {
+function BacktoHero() 
+{
     $("#GeneralPickPanel").style.visibility = "collapse";
     $("#hero_selection_your_hero").style.visibility = "visible";
 }
 
-function Moreban() {
+function Moreban() 
+{
     var moreban_aviablefordonaters = $.CreatePanel('Label', $("#RandomButtonWithUnlock"), 'moreban_aviablefordonaters');
     moreban_aviablefordonaters.AddClass('aviablefordonate');
     moreban_aviablefordonaters.html = true
@@ -620,29 +867,35 @@ function Moreban() {
 function CreateTokenPanel()
 {
     var player = Players.GetLocalPlayer();
+    var p_info = CustomNetTables.GetTableValue('birzhainfo', String(player));
    
     var event = function()
     {
-        if ( getTokens() - p_info.token_used == 0 ) {return;}
-        GameEvents.SendCustomGameEventToServer('birzha_token_set', {});
-        if ($("#token_label"))
+        var p_info = CustomNetTables.GetTableValue('birzhainfo', String(Players.GetLocalPlayer()));
+        if (p_info)
         {
-            $("#token_label").text = String(( getTokens()   - p_info.token_used - 1) );
-        }
-        Game.EmitSound("ui_hero_transition");
-        if ($("#token_panel"))
-        {
-            $("#token_panel").style.backgroundColor = "gradient( linear, 0% 0%, 0% 100%, from( #373d45 ), to( #4d5860 ) )";
+            if ( getTokens() - p_info.token_used == 0 ) {return;}
+            GameEvents.SendCustomGameEventToServer('birzha_token_set', {});
+            if ($("#token_label"))
+            {
+                $("#token_label").text = String(( getTokens()   - p_info.token_used - 1) );
+            }
+            Game.EmitSound("ui_hero_transition");
+            if ($("#token_panel"))
+            {
+                $("#token_panel").style.backgroundColor = "gradient( linear, 0% 0%, 0% 100%, from( #373d45 ), to( #4d5860 ) )";
+            }
         }
     }
 
-    var p_info = CustomNetTables.GetTableValue('birzhainfo', String(player));
     if (!p_info)
     {
         $.Schedule(1, CreateTokenPanel)
         return;
     }
-    if (p_info.bp_days <= 0) {
+
+    if (p_info.bp_days <= 0) 
+    {
         if ($("#token_panel"))
         {
             $("#token_panel").style.backgroundColor = "gradient( linear, 0% 0%, 0% 100%, from( #373d45 ), to( #4d5860 ) )";
@@ -654,12 +907,14 @@ function CreateTokenPanel()
         SetShowText($("#TokenInfo"), $.Localize("#Token_Info_Descr"))
     } 
 
-    if (double_rating) {
+    if (double_rating) 
+    {
         if ($("#token_label"))
         {
             $("#token_label").text = String(( getTokens() - p_info.token_used) );
         }
-        if (p_info.bp_days > 0) {
+        if (p_info.bp_days > 0) 
+        {
             double_rating = false
             if ($("#token_panel"))
             {
@@ -681,18 +936,20 @@ function ChangeToken()
     var player = Players.GetLocalPlayer();
     var p_info = CustomNetTables.GetTableValue('birzhainfo', String(player));
     var token_panel = $.GetContextPanel().FindChild('token_panel');
-    if (!token_panel) {return;}
-    var token_label = token_panel.FindChild('token_label');
-    token_label.text = String('X ' + ( getTokens() - p_info.token_used - 1) );
+    if (token_panel && p_info )
+    {
+        var token_label = token_panel.FindChild('token_label');
+        token_label.text = String(( getTokens() - p_info.token_used - 1) );
+    }
 }
-
+ 
 function BirzhaShowFiltList(kv) 
 {   
     for (var i = 1; i <= kv.banned_length; i++) {
         var panel = $("#" + kv.banned[i]);
         if (panel)
-        panel.AddClass('Banned');
         {
+            panel.AddClass('Banned');
             var panel_img = panel.FindChild("image");
             if (panel_img) {
                 var ban = panel_img.FindChild("ban");

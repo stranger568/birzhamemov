@@ -20,17 +20,10 @@ function Poroshenko_Slava_Ukraine:OnSpellStart()
     if not IsServer() then return end
     local duration = self:GetSpecialValueFor("duration")
     self:GetCaster():EmitSound("slavaukraine")  
-    local snipers = FindUnitsInRadius(self:GetCaster():GetTeamNumber(),
-        self:GetCaster():GetAbsOrigin(),
-        nil,
-        FIND_UNITS_EVERYWHERE,
-        DOTA_UNIT_TARGET_TEAM_FRIENDLY,
-        DOTA_UNIT_TARGET_BASIC,
-        DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-        FIND_ANY_ORDER,
-        false)
+    local snipers = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_ANY_ORDER, false)
 
     self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_Poroshenko_slava_ukraine_hero", {duration = duration} )
+
     local particle = ParticleManager:CreateParticle("particles/poroshenko/poroshenko_slava_ukraine.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
     ParticleManager:SetParticleControlEnt(particle, 1, self:GetCaster(), PATTACH_ABSORIGIN_FOLLOW, nil, self:GetCaster():GetAbsOrigin(), true)
     ParticleManager:ReleaseParticleIndex(particle)
@@ -69,16 +62,18 @@ function modifier_Poroshenko_slava_ukraine_hero:StatusEffectPriority()
 end
 
 function modifier_Poroshenko_slava_ukraine_hero:DeclareFunctions()
-    return {
-            MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE,
-        }
+    return 
+    {
+        MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE,
+    }
 end
 
 function modifier_Poroshenko_slava_ukraine_hero:GetModifierBaseDamageOutgoing_Percentage()
-    return self:GetAbility():GetSpecialValueFor("damage_hero")
+    return self:GetAbility():GetSpecialValueFor("damage_hero") + self:GetCaster():FindTalentValue("special_bonus_birzha_poroshenko_3")
 end
 
 modifier_Poroshenko_slava_ukraine_sniper = class({})
+
 function modifier_Poroshenko_slava_ukraine_sniper:IsPurgable() return false end
 function modifier_Poroshenko_slava_ukraine_sniper:IsPurgeException() return false end
 
@@ -99,9 +94,10 @@ function modifier_Poroshenko_slava_ukraine_sniper:StatusEffectPriority()
 end
 
 function modifier_Poroshenko_slava_ukraine_sniper:DeclareFunctions()
-    return {
-            MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE,
-        }
+    return 
+    {
+        MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE,
+    }
 end
 
 function modifier_Poroshenko_slava_ukraine_sniper:GetModifierBaseDamageOutgoing_Percentage()
@@ -115,7 +111,7 @@ LinkLuaModifier( "modifier_Poroshenko_fat_debuff_target", "abilities/heroes/poro
 Poroshenko_fat = class({})
 
 function Poroshenko_fat:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_poroshenko_1")
 end
 
 function Poroshenko_fat:GetCastRange(location, target)
@@ -127,7 +123,7 @@ function Poroshenko_fat:GetManaCost(level)
 end
 
 function Poroshenko_fat:GetAOERadius()
-    return self:GetSpecialValueFor("radius")
+    return self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_poroshenko_5")
 end
 
 function Poroshenko_fat:OnSpellStart()
@@ -147,11 +143,23 @@ function modifier_Poroshenko_fat:IsPurgable()
 end
 
 function modifier_Poroshenko_fat:OnCreated( kv )
-    self.radius = self:GetAbility():GetSpecialValueFor( "radius" )
+    self.radius = self:GetAbility():GetSpecialValueFor( "radius" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_poroshenko_5")
     if not IsServer() then return end
+    if self:GetCaster():HasTalent("special_bonus_birzha_poroshenko_5") then
+        local r = self.radius / 2
+        local c = math.sqrt( 2 ) * 0.5 * r 
+        local x_offset = { -r, -c, 0.0, c, r, c, 0.0, -c }
+        local y_offset = { 0.0, c, r, c, 0.0, -c, -r, -c }
+        for i=1, 8 do
+            local particle = ParticleManager:CreateParticle( "particles/poroshenko/poroshenko_fat.vpcf", PATTACH_WORLDORIGIN, self:GetParent() )
+            ParticleManager:SetParticleControl( particle, 0, self:GetParent():GetOrigin() + Vector( x_offset[i], y_offset[i], 0.0 ) )
+            ParticleManager:SetParticleControl( particle, 1, Vector( self.radius, self.radius, self.radius ) )
+            self:AddParticle(particle, false, false, -1, false, false )
+        end
+    end
     local particle = ParticleManager:CreateParticle( "particles/poroshenko/poroshenko_fat.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
     ParticleManager:SetParticleControl( particle, 0, self:GetParent():GetOrigin() )
-    ParticleManager:SetParticleControl( particle, 1, Vector( self.radius, 1, 1 ) )
+    ParticleManager:SetParticleControl( particle, 1, Vector( self.radius, self.radius, self.radius ) )
     self:AddParticle(particle, false, false, -1, false, false )
 end
 
@@ -197,7 +205,7 @@ function modifier_Poroshenko_fat_debuff:OnCreated()
     if not IsServer() then return end
     if self:GetParent():IsBoss() then return end
     self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_ice_slide", {} )
-    self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_Poroshenko_fat_debuff_target", {duration=self:GetAbility():GetSpecialValueFor( "duration" )} )
+    self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_Poroshenko_fat_debuff_target", {duration=self:GetAbility():GetSpecialValueFor( "duration" ) * (1-self:GetParent():GetStatusResistance()) } )
 end
 
 function modifier_Poroshenko_fat_debuff:OnDestroy()
@@ -214,16 +222,17 @@ end
 
 function modifier_Poroshenko_fat_debuff_target:OnCreated()
     if not IsServer() then return end
-    self:StartIntervalThink( 1 )
+    self:StartIntervalThink( 0.5 )
 end
 
 function modifier_Poroshenko_fat_debuff_target:OnIntervalThink()
     self.damage = self:GetAbility():GetSpecialValueFor( "damage" )
     if not IsServer() then return end
-    local damageTable = {
+    local damageTable = 
+    {
         victim = self:GetParent(),
         attacker = self:GetCaster(),
-        damage = self.damage,
+        damage = self.damage * 0.5,
         damage_type = self:GetAbility():GetAbilityDamageType(),
         ability = self:GetAbility(),
     }
@@ -231,10 +240,10 @@ function modifier_Poroshenko_fat_debuff_target:OnIntervalThink()
 end
 
 function modifier_Poroshenko_fat_debuff_target:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_SILENCED] = true,
     }
-
     return state
 end
 
@@ -292,14 +301,14 @@ end
 
 function modifier_Poroshenko_bunt:GetModifierConstantHealthRegen()
     if self:GetParent():PassivesDisabled() or self:GetParent():IsIllusion() then return end
-    local pct = math.max((self:GetParent():GetHealthPercent()-self.max_threshold)/self.range,0)
-    local health_regen = ((1-pct)*self.max_hp_regen) * (self:GetParent():GetStrength() / 100)
+    local pct = math.max((self:GetParent():GetHealthPercent()- ( self.max_threshold + self:GetCaster():FindTalentValue("special_bonus_birzha_poroshenko_6")) )/  (self.range - self:GetCaster():FindTalentValue("special_bonus_birzha_poroshenko_6")) ,0)
+    local health_regen = ((1-pct)* (self.max_hp_regen+ self:GetCaster():FindTalentValue("special_bonus_birzha_poroshenko_2"))  ) * (self:GetParent():GetStrength() / 100)
     return health_regen
 end
 
 function modifier_Poroshenko_bunt:GetModifierAttackSpeedBonus_Constant()
     if self:GetParent():PassivesDisabled() or self:GetParent():IsIllusion() then return end
-    local pct = math.max((self:GetParent():GetHealthPercent()-self.max_threshold)/self.range,0)
+    local pct = math.max((self:GetParent():GetHealthPercent()- ( self.max_threshold + self:GetCaster():FindTalentValue("special_bonus_birzha_poroshenko_6")) )/  (self.range - self:GetCaster():FindTalentValue("special_bonus_birzha_poroshenko_6")) ,0)
     return (1-pct)*self.max_as
 end
 
@@ -307,7 +316,7 @@ end
 function modifier_Poroshenko_bunt:GetModifierModelScale()
     if IsServer() then
         if self:GetParent():PassivesDisabled() or self:GetParent():IsIllusion() then return end
-        local pct = math.max((self:GetParent():GetHealthPercent()-self.max_threshold)/self.range,0)
+        local pct = math.max((self:GetParent():GetHealthPercent()- ( self.max_threshold + self:GetCaster():FindTalentValue("special_bonus_birzha_poroshenko_6")) )/  (self.range - self:GetCaster():FindTalentValue("special_bonus_birzha_poroshenko_6")) ,0)
         ParticleManager:SetParticleControl( self.effect_cast, 1, Vector( (1-pct)*100,0,0 ) )
         return (1-pct)*self.max_size
     end
@@ -327,7 +336,7 @@ function poroshenko_donbass:GetIntrinsicModifierName()
 end
 
 function poroshenko_donbass:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_poroshenko_4")
 end
 
 function poroshenko_donbass:GetCastRange(location, target)
@@ -351,21 +360,14 @@ function poroshenko_donbass:OnSpellStart()
     local stun_duration = self:GetSpecialValueFor("stun_duration")
     caster:EmitSound("gimnukraine")
     GridNav:DestroyTreesAroundPoint(point, radius, false)
-    local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(),
-        point,
-        nil,
-        radius,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-        DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-        FIND_ANY_ORDER,
-        false)
+    local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), point, nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_ANY_ORDER, false)
 
     for _,enemy in pairs(enemies) do
         if self:GetCaster():HasScepter() then
-            enemy:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = 3})
+            enemy:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = self:GetSpecialValueFor("stun_duration_scepter") * (1-enemy:GetStatusResistance()) })
         end
     end
+
     for i = 1, count do
         self.sniper = CreateUnitByName("npc_dota_uk_sniper_"..self:GetLevel(), point + RandomVector(150), true, caster, nil, caster:GetTeamNumber())
         self.sniper:SetOwner(caster)
@@ -385,7 +387,8 @@ function poroshenko_donbass_talent:IsPurgable()
     return false
 end
 function poroshenko_donbass_talent:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_EVENT_ON_DEATH,
     }
 
@@ -397,7 +400,7 @@ function poroshenko_donbass_talent:OnDeath( params )
     local count = self:GetAbility():GetSpecialValueFor('snipers_count')
     local snipers_duration = self:GetAbility():GetSpecialValueFor('snipers_duration')
     if params.unit == self:GetParent() then
-        if self:GetCaster():HasTalent("special_bonus_birzha_poroshenko_1") then
+        if self:GetCaster():HasTalent("special_bonus_birzha_poroshenko_8") then
             if self:GetCaster():IsIllusion() then return end
             self:GetParent():EmitSound("gimnukraine")
             for i = 1, count do
@@ -413,4 +416,138 @@ end
 
 
 
+LinkLuaModifier("modifier_Poroshenko_flag_ukraine", "abilities/heroes/poroshenko", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_Poroshenko_flag_ukraine_buff", "abilities/heroes/poroshenko", LUA_MODIFIER_MOTION_NONE)
 
+Poroshenko_flag_ukraine = class({})
+
+function Poroshenko_flag_ukraine:OnSpellStart()
+    if not IsServer() then return end
+    local point = self:GetCursorPosition()
+    local duration = self:GetSpecialValueFor("duration")
+    local unit = CreateUnitByName("npc_dota_flag_ukraine_unit", point, true, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
+    unit:SetForwardVector(self:GetCaster():GetForwardVector() * -1)
+    unit:AddNewModifier(self:GetCaster(), self, "modifier_Poroshenko_flag_ukraine", {duration = duration})
+    unit:EmitSound("DOTA_Item.ObserverWard.Activate")
+end
+
+function Poroshenko_flag_ukraine:OnInventoryContentsChanged()
+    if self:GetCaster():HasTalent("special_bonus_birzha_poroshenko_7") then
+        self:SetHidden(false)       
+        if not self:IsTrained() then
+            self:SetLevel(1)
+        end
+    else
+        self:SetHidden(true)
+    end
+end
+
+function Poroshenko_flag_ukraine:OnHeroCalculateStatBonus()
+    self:OnInventoryContentsChanged()
+end
+
+modifier_Poroshenko_flag_ukraine = class({})
+
+function modifier_Poroshenko_flag_ukraine:IsHidden() return true end
+
+function modifier_Poroshenko_flag_ukraine:IsAuraActiveOnDeath() return false end
+
+function modifier_Poroshenko_flag_ukraine:OnDestroy()
+    if not IsServer() then return end
+    UTIL_Remove(self:GetParent())
+end
+
+function modifier_Poroshenko_flag_ukraine:CheckState()
+    local state = 
+    {
+        [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+    }
+    return state
+end
+
+function modifier_Poroshenko_flag_ukraine:OnCreated(params)
+    if not IsServer() then return end
+    self.destroy_attacks = self:GetAbility():GetSpecialValueFor("attack_destroy") * 2
+    self.hero_attack_multiplier = 2
+    self.health_increments = self:GetParent():GetMaxHealth() / self.destroy_attacks
+    local particle = ParticleManager:CreateParticle("particles/poroshenko/flag_ukraine.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+    ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
+end
+
+function modifier_Poroshenko_flag_ukraine:DeclareFunctions()
+    local decFuncs = 
+    {
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
+        MODIFIER_EVENT_ON_ATTACKED
+    }
+    return decFuncs
+end
+
+function modifier_Poroshenko_flag_ukraine:GetAbsoluteNoDamageMagical()
+    return 1
+end
+
+function modifier_Poroshenko_flag_ukraine:GetAbsoluteNoDamagePhysical()
+    return 1
+end
+
+function modifier_Poroshenko_flag_ukraine:GetAbsoluteNoDamagePure()
+    return 1
+end
+
+function modifier_Poroshenko_flag_ukraine:OnAttacked(keys)
+    if not IsServer() then return end
+    if keys.target == self:GetParent() then
+        if keys.attacker:IsRealHero() then
+            self:GetParent():SetHealth(self:GetParent():GetHealth() - (self.health_increments * self.hero_attack_multiplier))
+        else
+            self:GetParent():SetHealth(self:GetParent():GetHealth() - self.health_increments)
+        end
+        if self:GetParent():GetHealth() <= 0 then
+            UTIL_Remove(self:GetParent())
+        end
+    end
+end
+
+function modifier_Poroshenko_flag_ukraine:IsAura()
+    return true
+end
+
+function modifier_Poroshenko_flag_ukraine:GetModifierAura()
+    return "modifier_Poroshenko_flag_ukraine_buff"
+end
+
+function modifier_Poroshenko_flag_ukraine:GetAuraRadius()
+    return self:GetAbility():GetSpecialValueFor("radius")
+end
+
+function modifier_Poroshenko_flag_ukraine:GetAuraDuration()
+    return 0
+end
+
+function modifier_Poroshenko_flag_ukraine:GetAuraSearchTeam()
+    return DOTA_UNIT_TARGET_TEAM_FRIENDLY
+end
+
+function modifier_Poroshenko_flag_ukraine:GetAuraSearchType()
+    return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC
+end
+
+function modifier_Poroshenko_flag_ukraine:GetAuraSearchFlags()
+    return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
+end
+
+modifier_Poroshenko_flag_ukraine_buff = class({})
+
+function modifier_Poroshenko_flag_ukraine_buff:DeclareFunctions()
+    return 
+    {
+        MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE
+    }
+end
+
+function modifier_Poroshenko_flag_ukraine_buff:GetModifierIncomingDamage_Percentage()
+    return self:GetAbility():GetSpecialValueFor("damage_reduce")
+end

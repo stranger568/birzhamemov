@@ -33,8 +33,8 @@ LinkLuaModifier( "modifier_Overlord_use_book", "abilities/heroes/overlord_anime.
 Overlord_one_book = class({})
 
 function Overlord_one_book:GetCooldown(level)
-    if self:GetCaster():HasScepter() then return 5 + self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_anime_7") end
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_anime_7")
+    if self:GetCaster():HasScepter() then return self:GetSpecialValueFor("scepter_cooldown") end
+    return self.BaseClass.GetCooldown( self, level )
 end
 
 function Overlord_one_book:OnSpellStart()
@@ -46,8 +46,8 @@ end
 Overlord_two_book = class({})
 
 function Overlord_two_book:GetCooldown(level)
-    if self:GetCaster():HasScepter() then return 5 + self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_anime_7") end
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_anime_7")
+    if self:GetCaster():HasScepter() then return self:GetSpecialValueFor("scepter_cooldown") end
+    return self.BaseClass.GetCooldown( self, level )
 end
 
 function Overlord_two_book:OnSpellStart()
@@ -59,8 +59,8 @@ end
 Overlord_three_book = class({})
 
 function Overlord_three_book:GetCooldown(level)
-    if self:GetCaster():HasScepter() then return 5 + self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_anime_7") end
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_anime_7")
+    if self:GetCaster():HasScepter() then return self:GetSpecialValueFor("scepter_cooldown") end
+    return self.BaseClass.GetCooldown( self, level )
 end
 
 function Overlord_three_book:OnSpellStart()
@@ -113,23 +113,199 @@ function modifier_Overlord_use_book:OnDestroy()
     self:GetAbility():UseResources(false, false, true)
 end
 
+LinkLuaModifier( "modifier_Overlord_spell_1_buff", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
+LinkLuaModifier( "modifier_Overlord_spell_1_shield", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
 
+Overlord_spell_1 = class({}) 
 
+function Overlord_spell_1:GetCooldown(level)
+    return self.BaseClass.GetCooldown( self, level )
+end
 
+function Overlord_spell_1:GetManaCost(level)
+    return self.BaseClass.GetManaCost(self, level)
+end
 
+function Overlord_spell_1:OnAbilityPhaseStart()
+    if #(self:GetCursorTarget():FindAllModifiersByName("modifier_Overlord_spell_1_buff")) >= self:GetSpecialValueFor("count_max") then
+        return false
+    end
+    return true
+end
 
+function Overlord_spell_1:OnSpellStart()
+    if not IsServer() then return end
+    local target = self:GetCursorTarget()
+    local duration = self:GetSpecialValueFor("duration")
+    target:AddNewModifier(self:GetCaster(), self, "modifier_Overlord_spell_1_buff", {duration = duration})
+    self:GetCaster():EmitSound("overlord_spell1")
+end
 
+modifier_Overlord_spell_1_buff = class({})
 
+function modifier_Overlord_spell_1_buff:IsPurgable() return false end
 
+function modifier_Overlord_spell_1_buff:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
+function modifier_Overlord_spell_1_buff:OnCreated()
+    if not IsServer() then return end
+    self:GetParent():Purge( false, true, false, false, false)
+    self.damage_absorb = self:GetAbility():GetSpecialValueFor( "health" ) + GetOverlordPassiveValue(self:GetCaster(), 100)
+    self:SetStackCount(self.damage_absorb)
+    local effect_cast = ParticleManager:CreateParticle( "particles/overlord_anime/shield_skelet.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
+    ParticleManager:SetParticleControlEnt( effect_cast, 1, self:GetParent(), PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", Vector(0,0,0), true )
+    ParticleManager:SetParticleControl( effect_cast, 3, Vector( 100, 0, 0 ) )
+    self:AddParticle( effect_cast, false, false, -1, false, false )
+end
 
+function modifier_Overlord_spell_1_buff:DeclareFunctions()
+    local funcs = 
+    {
+        MODIFIER_PROPERTY_TOTAL_CONSTANT_BLOCK
+    }
+    return funcs
+end
+
+function modifier_Overlord_spell_1_buff:GetModifierTotal_ConstantBlock(kv)
+    if IsServer() then
+        local target                    = self:GetParent()
+        local original_shield_amount    = self.damage_absorb
+
+        if self:GetParent():HasModifier("modifier_Overlord_spell_10_invul") then
+            return
+        end
+
+        if self:GetParent():FindAllModifiersByName(self:GetName())[1] == self then
+            if kv.damage > 0 and bit.band(kv.damage_flags, DOTA_DAMAGE_FLAG_HPLOSS) ~= DOTA_DAMAGE_FLAG_HPLOSS then
+                if kv.damage < self.damage_absorb then
+                    SendOverheadEventMessage(nil, OVERHEAD_ALERT_BLOCK, target, kv.damage, nil)
+                    self.damage_absorb = self.damage_absorb - kv.damage
+                    self:SetStackCount(self.damage_absorb)
+                    return kv.damage
+                else
+                    SendOverheadEventMessage(nil, OVERHEAD_ALERT_BLOCK, target, original_shield_amount, nil)
+                    self:Destroy() 
+                    return self.damage_absorb
+                end
+            end
+        end
+    end
+end
+
+LinkLuaModifier( "modifier_Overlord_spell_2_buff", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
+LinkLuaModifier( "modifier_Overlord_spell_2_passive", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
+LinkLuaModifier( "modifier_Overlord_spell_2_icon", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
+
+Overlord_spell_2 = class({}) 
+
+Overlord_spell_2.unit = "npc_dota_overlord_skelet_melee"
+
+function Overlord_spell_2:GetCooldown(level)
+    return self.BaseClass.GetCooldown( self, level )
+end
+
+function Overlord_spell_2:GetManaCost(level)
+    return self.BaseClass.GetManaCost(self, level)
+end
+
+function Overlord_spell_2:GetAbilityTextureName()
+    if self:GetCaster():GetModifierStackCount("modifier_Overlord_spell_2_icon", self:GetCaster()) == 1 then
+        return "overlord_anime/spell_2_2"
+    end
+    return "overlord_anime/spell_2"
+end
+
+function Overlord_spell_2:GetIntrinsicModifierName()
+    return "modifier_Overlord_spell_2_icon"
+end
+
+function Overlord_spell_2:OnSpellStart()
+    if IsServer() then
+        local skelet = CreateUnitByName(self.unit, self:GetCaster():GetAbsOrigin() + (self:GetCaster():GetForwardVector() * 300), true, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
+        skelet:SetOwner(self:GetCaster())
+        skelet:SetControllableByPlayer(self:GetCaster():GetPlayerID(), true)
+        FindClearSpaceForUnit(skelet, skelet:GetAbsOrigin(), true)
+        skelet:SetForwardVector(self:GetCaster():GetForwardVector())
+        skelet:AddNewModifier(self:GetCaster(), self, "modifier_Overlord_spell_2_buff", {})
+        skelet:AddNewModifier(self:GetCaster(), self, "modifier_Overlord_spell_2_passive", {})
+        skelet:AddNewModifier(self:GetCaster(), self, "modifier_kill", {duration = self:GetSpecialValueFor("duration")})
+        local mod = self:GetCaster():FindModifierByName("modifier_Overlord_spell_2_icon")
+        if self.unit == "npc_dota_overlord_skelet_ranged" then
+            self:GetCaster():EmitSound("overlord_spell2_2")
+            self.unit = "npc_dota_overlord_skelet_melee"
+            if mod then
+                mod:SetStackCount(0)
+            end
+        else
+            self.unit = "npc_dota_overlord_skelet_ranged"
+            self:GetCaster():EmitSound("overlord_spell2_1")
+            if mod then
+                mod:SetStackCount(1)
+            end
+        end
+    end
+end
+
+modifier_Overlord_spell_2_icon = class({})
+
+function modifier_Overlord_spell_2_icon:IsHidden() return true end
+function modifier_Overlord_spell_2_icon:OnCreated() self:SetStackCount(0) end
+
+modifier_Overlord_spell_2_passive = class({})
+
+function modifier_Overlord_spell_2_passive:IsHidden()
+    return true
+end
+
+function modifier_Overlord_spell_2_passive:OnCreated()
+    if not IsServer() then return end
+    self.attack = 0
+end
+
+function modifier_Overlord_spell_2_passive:DeclareFunctions()
+    local decFuncs = {MODIFIER_EVENT_ON_ATTACK_LANDED}
+    return decFuncs
+end
+
+function modifier_Overlord_spell_2_passive:OnAttackLanded(params)
+    if not IsServer() then return end
+    if params.attacker == self:GetParent() then
+        if params.target:IsWard() then return end
+        self.attack = self.attack + 1
+        if self.attack >= 5 then
+            local modifier_passive = self:GetCaster():FindModifierByName("modifier_Overlord_passive")
+            if modifier_passive then
+                modifier_passive:IncrementStackCount()
+            end
+            self.attack = 0
+        end
+    end
+end
+
+modifier_Overlord_spell_2_buff = class({})
+
+function modifier_Overlord_spell_2_buff:IsPurgable()
+    return false
+end
+
+function modifier_Overlord_spell_2_buff:IsHidden()
+    return true
+end
+
+function modifier_Overlord_spell_2_buff:OnCreated()
+    if not IsServer() then return end
+    local health = self:GetAbility():GetSpecialValueFor( "health" )
+    local damage = self:GetAbility():GetSpecialValueFor( "damage" )
+    self:GetParent():SetBaseDamageMin(damage)
+    self:GetParent():SetBaseDamageMax(damage)
+    self:GetParent():SetBaseMaxHealth(health)
+    self:GetParent():SetHealth(health)
+end 
 
 LinkLuaModifier( "modifier_overlord_spell_3_main", "abilities/heroes/overlord_anime.lua", LUA_MODIFIER_MOTION_NONE )
-
 LinkLuaModifier( "modifier_overlord_spell_3_invis", "abilities/heroes/overlord_anime.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_overlord_spell_3_illusion", "abilities/heroes/overlord_anime.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_overlord_spell_3_cheat", "abilities/heroes/overlord_anime.lua", LUA_MODIFIER_MOTION_NONE )
-
 LinkLuaModifier( "modifier_overlord_spell_3_illusion_aura", "abilities/heroes/overlord_anime.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_overlord_spell_3_cheat_aura", "abilities/heroes/overlord_anime.lua", LUA_MODIFIER_MOTION_NONE )
 
@@ -153,17 +329,6 @@ function modifier_overlord_spell_3_main:OnCreated()
     self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_overlord_spell_3_illusion", {})
     self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_overlord_spell_3_cheat", {})
 end
-
-
-
-
-
-
-
-
-
-
-
 
 modifier_overlord_spell_3_invis = class({})
 
@@ -291,9 +456,6 @@ modifier_overlord_spell_3_cheat_aura = class({})
 function modifier_overlord_spell_3_cheat_aura:IsHidden() return true end
 
 function modifier_overlord_spell_3_cheat_aura:OnCreated()
-
-    --THNAKS FOR ANGEL ARENA BLACK STAR
-    --ARK I LOVE YOU MAN
     if not IsServer() then return end
     if self:GetParent():IsRealHero() then
         self:GetParent().VisionAbilities = WorldPanels:CreateWorldPanelForTeam(self:GetCaster():GetTeamNumber(), {
@@ -312,33 +474,6 @@ function modifier_overlord_spell_3_cheat_aura:OnDestroy()
         self:GetParent().VisionAbilities = nil
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 LinkLuaModifier( "modifier_overlord_spell_4", "abilities/heroes/overlord_anime.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_overlord_spell_4_aura", "abilities/heroes/overlord_anime.lua", LUA_MODIFIER_MOTION_NONE )
@@ -403,9 +538,11 @@ modifier_overlord_spell_4_aura = class({})
 function modifier_overlord_spell_4_aura:IsHidden() return true end
 
 function modifier_overlord_spell_4_aura:DeclareFunctions()
-    local decFuncs = {MODIFIER_PROPERTY_MIN_HEALTH,
-                      MODIFIER_EVENT_ON_TAKEDAMAGE}
-
+    local decFuncs = 
+    {
+        MODIFIER_PROPERTY_MIN_HEALTH,
+        MODIFIER_EVENT_ON_TAKEDAMAGE
+    }
     return decFuncs
 end
 
@@ -419,7 +556,8 @@ function modifier_overlord_spell_4_aura:OnTakeDamage(keys)
         local target = keys.unit 
         local damage = keys.damage
 
-        local mod_invuls = {
+        local mod_invuls = 
+        {
             "modifier_Overlord_spell_10_invul",
             "modifier_Overlord_spell_10_buff",
             "modifier_item_uebator_active",
@@ -440,17 +578,23 @@ function modifier_overlord_spell_4_aura:OnTakeDamage(keys)
                         return
                     end
                 end
+
                 for i = 0, 5 do 
                     local item = target:GetItemInSlot(i)
                     if item then
-                        if item:GetName() == "item_uebator" or item:GetName() == "item_aeon_disk" then
+                        if item:GetName() == "item_aeon_disk" then
                             if item:IsFullyCastable() then
                                 return false
                             end
                         end
                     end        
                 end
-                local wraith_form_modifier_handler = self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_overlord_spell_4_buff", {duration = self:GetAbility():GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_anime_1")})
+
+                if not self:GetParent():HasModifier("modifier_item_uebator_cooldown") and self:GetParent():HasModifier("modifier_item_uebator") then
+                    return
+                end
+
+                local wraith_form_modifier_handler = self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_overlord_spell_4_buff", {duration = self:GetAbility():GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_anime_3")})
                 if wraith_form_modifier_handler then
                     wraith_form_modifier_handler.original_killer = attacker
                     wraith_form_modifier_handler.ability_killer = keys.inflictor
@@ -467,12 +611,14 @@ function modifier_overlord_spell_4_buff:IsDebuff() return false end
 function modifier_overlord_spell_4_buff:IsPurgable() return false end
 
 function modifier_overlord_spell_4_buff:DeclareFunctions()
-    local decFuncs = {MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
-                      MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
-                      MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
-                      MODIFIER_PROPERTY_DISABLE_HEALING,
-                      MODIFIER_EVENT_ON_TAKEDAMAGE,
-                }
+    local decFuncs = 
+    {
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
+        MODIFIER_PROPERTY_DISABLE_HEALING,
+        MODIFIER_EVENT_ON_TAKEDAMAGE,
+    }
 
     return decFuncs
 end
@@ -494,13 +640,17 @@ function modifier_overlord_spell_4_buff:GetDisableHealing()
 end
 
 function modifier_overlord_spell_4_buff:CheckState()
-    local state = {[MODIFIER_STATE_NO_HEALTH_BAR] = true,
-                   [MODIFIER_STATE_NO_UNIT_COLLISION] = true,}
+    local state = 
+    {
+        [MODIFIER_STATE_NO_HEALTH_BAR] = true,
+        [MODIFIER_STATE_NO_UNIT_COLLISION] = true
+    }
     return state
 end
 
 function modifier_overlord_spell_4_buff:OnDestroy()
     if IsServer() then
+        self:GetParent().overlord_kill = true
         self:GetParent():BirzhaTrueKill(self.ability_killer, self.original_killer)
     end
 end
@@ -536,326 +686,10 @@ function modifier_overlord_spell_5:GetModifierIncomingPhysicalDamage_Percentage(
     return self:GetAbility():GetSpecialValueFor("damage_incoming")
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-LinkLuaModifier( "modifier_Overlord_spell_2_buff", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
-LinkLuaModifier( "modifier_Overlord_spell_2_passive", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
-LinkLuaModifier( "modifier_Overlord_spell_2_icon", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
-
-Overlord_spell_2 = class({}) 
-
-Overlord_spell_2.unit = "npc_dota_overlord_skelet_melee"
-
-function Overlord_spell_2:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
-end
-
-function Overlord_spell_2:GetManaCost(level)
-    return self.BaseClass.GetManaCost(self, level)
-end
-
-function Overlord_spell_2:GetAbilityTextureName()
-    if self:GetCaster():GetModifierStackCount("modifier_Overlord_spell_2_icon", self:GetCaster()) == 1 then
-        return "overlord_anime/spell_2_2"
-    end
-    return "overlord_anime/spell_2"
-end
-
-function Overlord_spell_2:GetIntrinsicModifierName()
-    return "modifier_Overlord_spell_2_icon"
-end
-
-function Overlord_spell_2:OnSpellStart()
-    if IsServer() then
-        local skelet = CreateUnitByName(self.unit, self:GetCaster():GetAbsOrigin() + (self:GetCaster():GetForwardVector() * 300), true, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
-        skelet:SetOwner(self:GetCaster())
-        skelet:SetControllableByPlayer(self:GetCaster():GetPlayerID(), true)
-        FindClearSpaceForUnit(skelet, skelet:GetAbsOrigin(), true)
-        skelet:SetForwardVector(self:GetCaster():GetForwardVector())
-        skelet:AddNewModifier(self:GetCaster(), self, "modifier_Overlord_spell_2_buff", {})
-        skelet:AddNewModifier(self:GetCaster(), self, "modifier_Overlord_spell_2_passive", {})
-        skelet:AddNewModifier(self:GetCaster(), self, "modifier_kill", {duration = self:GetSpecialValueFor("duration")})
-        local mod = self:GetCaster():FindModifierByName("modifier_Overlord_spell_2_icon")
-        if self.unit == "npc_dota_overlord_skelet_ranged" then
-            self:GetCaster():EmitSound("overlord_spell2_2")
-            self.unit = "npc_dota_overlord_skelet_melee"
-            if mod then
-                mod:SetStackCount(0)
-            end
-        else
-            self.unit = "npc_dota_overlord_skelet_ranged"
-            self:GetCaster():EmitSound("overlord_spell2_1")
-            if mod then
-                mod:SetStackCount(1)
-            end
-        end
-    end
-end
-
-modifier_Overlord_spell_2_icon = class({})
-function modifier_Overlord_spell_2_icon:IsHidden() return true end
-function modifier_Overlord_spell_2_icon:OnCreated() self:SetStackCount(0) end
-
-modifier_Overlord_spell_2_passive = class({})
-
-function modifier_Overlord_spell_2_passive:IsHidden()
-    return true
-end
-
-function modifier_Overlord_spell_2_passive:OnCreated()
-    self.attack = 0
-end
-
-function modifier_Overlord_spell_2_passive:DeclareFunctions()
-    local decFuncs = {MODIFIER_EVENT_ON_ATTACK}
-    return decFuncs
-end
-
-function modifier_Overlord_spell_2_passive:OnAttack(params)
-    if params.attacker == self:GetParent() then
-        self.attack = self.attack + 1
-        if self.attack >= 5 then
-            local modifier_passive = self:GetCaster():FindModifierByName("modifier_Overlord_passive")
-            if modifier_passive then
-                modifier_passive:IncrementStackCount()
-            end
-            self.attack = 0
-        end
-    end
-end
-
-modifier_Overlord_spell_2_buff = class({})
-
-function modifier_Overlord_spell_2_buff:IsPurgable()
-    return false
-end
-
-function modifier_Overlord_spell_2_buff:IsHidden()
-    return true
-end
-
-function modifier_Overlord_spell_2_buff:OnCreated()
-    if not IsServer() then return end
-    local health = self:GetAbility():GetSpecialValueFor( "health" )
-    local damage = self:GetAbility():GetSpecialValueFor( "damage" )
-    self:GetParent():SetBaseDamageMin(damage)
-    self:GetParent():SetBaseDamageMax(damage)
-    self:GetParent():SetBaseMaxHealth(health)
-    self:GetParent():SetHealth(health)
-    self:StartIntervalThink(5)
-end 
-
-function modifier_Overlord_spell_2_buff:OnIntervalThink()
-    if not IsServer() then return end
-    if self:GetParent():GetUnitName() == "npc_dota_overlord_skelet_melee" then
-        local newItem = CreateItem( "item_bag_of_gold_bp_fake", nil, nil )
-        local drop = CreateItemOnPositionForLaunch( self:GetParent():GetAbsOrigin(), newItem )
-        newItem:LaunchLootInitialHeight( false, 0, 500, 0.75, self:GetParent():GetAbsOrigin() + RandomVector( 100 ) )
-        Timers:CreateTimer(10, function() 
-            if drop:IsNull() then
-                return
-            end
-            UTIL_Remove( item )
-            UTIL_Remove( drop )
-        end)
-    elseif self:GetParent():GetUnitName() == "npc_dota_overlord_skelet_ranged" then
-        local newItem = CreateItem( "item_treasure_chest_bp_fake", nil, nil )
-        local drop = CreateItemOnPositionForLaunch( self:GetParent():GetAbsOrigin(), newItem )
-        newItem:LaunchLootInitialHeight( false, 0, 500, 0.75, self:GetParent():GetAbsOrigin() + RandomVector( 100 ) )
-        Timers:CreateTimer(10, function() 
-            if drop:IsNull() then
-                return
-            end
-            UTIL_Remove( item )
-            UTIL_Remove( drop )
-        end)
-    end
-end
-
-
-
-
-
-
-
-LinkLuaModifier( "modifier_Overlord_spell_1_buff", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
-LinkLuaModifier( "modifier_Overlord_spell_1_shield", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
-
-Overlord_spell_1 = class({}) 
-
-function Overlord_spell_1:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
-end
-
-function Overlord_spell_1:GetManaCost(level)
-    return self.BaseClass.GetManaCost(self, level)
-end
-
-function Overlord_spell_1:OnAbilityPhaseStart()
-    if #(self:GetCursorTarget():FindAllModifiersByName("modifier_Overlord_spell_1_buff")) >= (self:GetSpecialValueFor("count_max") + self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_anime_2")) then
-        return false
-    end
-    return true
-end
-
-function Overlord_spell_1:OnSpellStart()
-    if not IsServer() then return end
-    local target = self:GetCursorTarget()
-    target:AddNewModifier(self:GetCaster(), self, "modifier_Overlord_spell_1_buff", {})
-    self:GetCaster():EmitSound("overlord_spell1")
-end
-
-modifier_Overlord_spell_1_buff = class({})
-
-function modifier_Overlord_spell_1_buff:IsPurgable() return false end
-
-function modifier_Overlord_spell_1_buff:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
-
-function modifier_Overlord_spell_1_buff:OnCreated()
-    if not IsServer() then return end
-    self:GetParent():Purge( false, true, false, true, true)
-    --self.shield = CreateUnitByName("npc_overlord_shield", self:GetParent():GetAbsOrigin(), false, self:GetParent(), self:GetParent(), self:GetParent():GetTeamNumber())
-    --self.shield:SetOwner(self:GetCaster())
-    --self.shield.modifier = self
-    --self.shield:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_Overlord_spell_1_shield", {})
-    --self.shield:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_phased", {})
-    self.damage_absorb = self:GetAbility():GetSpecialValueFor( "health" ) + GetOverlordPassiveValue(self:GetCaster(), 100)
-    self:SetStackCount(self.damage_absorb)
-    local effect_cast = ParticleManager:CreateParticle( "particles/overlord_anime/shield_skelet.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
-    ParticleManager:SetParticleControlEnt( effect_cast, 1, self:GetParent(), PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", Vector(0,0,0), true )
-    ParticleManager:SetParticleControl( effect_cast, 3, Vector( 100, 0, 0 ) )
-    self:AddParticle( effect_cast, false, false, -1, false, false )
-end
-
-function modifier_Overlord_spell_1_buff:OnDestroy()
-    --if not IsServer() then return end
-    --if self.shield and not self.shield:IsNull() then
-    --    self.shield:Destroy()
-    --end
-end
-
-function modifier_Overlord_spell_1_buff:DeclareFunctions()
-    local funcs = {
-        MODIFIER_PROPERTY_TOTAL_CONSTANT_BLOCK
-    }
-    return funcs
-end
-
-function modifier_Overlord_spell_1_buff:GetModifierTotal_ConstantBlock(kv)
-    if IsServer() then
-        local target                    = self:GetParent()
-        local original_shield_amount    = self.damage_absorb
-
-        if self:GetParent():HasModifier("modifier_Overlord_spell_10_invul") then
-            return
-        end
-
-        if self:GetParent():FindAllModifiersByName(self:GetName())[1] == self then
-            if kv.damage > 0 and bit.band(kv.damage_flags, DOTA_DAMAGE_FLAG_HPLOSS) ~= DOTA_DAMAGE_FLAG_HPLOSS then
-                if kv.damage < self.damage_absorb then
-                    SendOverheadEventMessage(nil, OVERHEAD_ALERT_BLOCK, target, kv.damage, nil)
-                    self.damage_absorb = self.damage_absorb - kv.damage
-                    self:SetStackCount(self.damage_absorb)
-                    return kv.damage
-                else
-                    SendOverheadEventMessage(nil, OVERHEAD_ALERT_BLOCK, target, original_shield_amount, nil)
-                    self:Destroy() 
-                    return self.damage_absorb
-                end
-            end
-        end
-    end
-end
-
---modifier_Overlord_spell_1_shield = class({})
---
---function modifier_Overlord_spell_1_shield:IsHidden() return true end
---
---function modifier_Overlord_spell_1_shield:OnCreated(table)
---    if not IsServer() then return end
---    self.mod = self:GetParent().modifier
---    self:StartIntervalThink(FrameTime())
---end
---
---function modifier_Overlord_spell_1_shield:OnIntervalThink()
---    if not IsServer() then return end
---    self:GetParent():SetAbsOrigin(self:GetCaster():GetAbsOrigin())
---end
---
---function modifier_Overlord_spell_1_shield:DeclareFunctions()
---    local funcs = {
---        MODIFIER_EVENT_ON_TAKEDAMAGE,
---        MODIFIER_PROPERTY_MIN_HEALTH
---    }
---    return funcs
---end
---
---function modifier_Overlord_spell_1_shield:GetMinHealth()
---    return 1
---end
---
---function modifier_Overlord_spell_1_shield:OnTakeDamage(kv)
---    if kv.unit == self:GetParent() then
---        if self:IsNull() then return end
---        if self.mod == nil then return end
---        if self.mod:IsNull() then return end
---        if self:GetCaster():FindAllModifiersByName(self.mod:GetName())[1] == self.mod then
---            if kv.inflictor ~= nil then
---                if bit.band( kv.inflictor:GetBehaviorInt(), DOTA_ABILITY_BEHAVIOR_UNIT_TARGET ) ~= 0 then
---                    local damageTable = {victim = self:GetCaster(), attacker = kv.attacker, damage = kv.original_damage, ability = kv.inflictor, damage_type = kv.damage_type}
---                    ApplyDamage(damageTable)
---                end
---            end
---        end
---    end
---end
---
---function modifier_Overlord_spell_1_shield:CheckState()
---    local state = {
---        [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
---        [MODIFIER_STATE_NO_HEALTH_BAR] = true,
---    }
---
---    return state
---end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Overlord_spell_6 = class({}) 
 
 function Overlord_spell_6:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_anime_3")
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_anime_4")
 end
 
 function Overlord_spell_6:GetCastRange(vLocation, hTarget)
@@ -876,8 +710,10 @@ function Overlord_spell_6:OnSpellStart()
     if not IsServer() then return end
     local delay = self:GetSpecialValueFor("delay")
     local radius = self:GetSpecialValueFor("radius")
-    local base_damage = self:GetSpecialValueFor("base_damage") + GetOverlordPassiveValue(self:GetCaster(), 75)
+    local perc_damage = self:GetSpecialValueFor("perc_damage")
+    local base_damage = self:GetSpecialValueFor("base_damage") + GetOverlordPassiveValue(self:GetCaster(), perc_damage)
     local point = self:GetCursorPosition()
+
     local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_brewmaster/brewmaster_void_pulse.vpcf", PATTACH_WORLDORIGIN, nil )
     ParticleManager:SetParticleControl( effect_cast, 0, point )
     ParticleManager:SetParticleControl( effect_cast, 1, Vector( radius*2, radius*2, radius*2 ) )
@@ -891,7 +727,7 @@ function Overlord_spell_6:OnSpellStart()
     pulse:SetCallback( function( enemy )
         local damageTable = {victim = enemy, attacker = self:GetCaster(), damage = base_damage, ability = self, damage_type = DAMAGE_TYPE_MAGICAL}
         ApplyDamage(damageTable)
-        if enemy:IsHero() then
+        if enemy:IsRealHero() then
             AddPassiveStack(self:GetCaster())
         end
     end)
@@ -1024,8 +860,6 @@ function modifier_generic_ring_lua:OnIntervalThink()
     end
 end
 
-
-
 LinkLuaModifier( "modifier_Overlord_spell_7_buff", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
 
 Overlord_spell_7 = class({}) 
@@ -1041,7 +875,8 @@ end
 function Overlord_spell_7:OnSpellStart()
     if not IsServer() then return end
     self:GetCaster():EmitSound("overlord_spell7")
-    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Overlord_spell_7_buff", {duration = self:GetSpecialValueFor("duration") + GetOverlordPassiveValue(self:GetCaster(), 1)})
+    local duration_perc = self:GetSpecialValueFor("duration_perc")
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Overlord_spell_7_buff", {duration = self:GetSpecialValueFor("duration") + GetOverlordPassiveValue(self:GetCaster(), duration_perc)})
 end
 
 modifier_Overlord_spell_7_buff = class({}) 
@@ -1054,17 +889,20 @@ function modifier_Overlord_spell_7_buff:IsHidden() return false end
 function modifier_Overlord_spell_7_buff:IsPurgable() return true end
 
 function modifier_Overlord_spell_7_buff:DeclareFunctions()
-    local decFuncs = {MODIFIER_EVENT_ON_TAKEDAMAGE,
-                }
-
+    local decFuncs = 
+    {
+        MODIFIER_EVENT_ON_TAKEDAMAGE,
+    }
     return decFuncs
 end
 
 function modifier_Overlord_spell_7_buff:OnCreated()
+    if not IsServer() then return end
     self.damage = 0
 end
 
 function modifier_Overlord_spell_7_buff:OnTakeDamage(params)
+    if not IsServer() then return end
     if params.unit == self:GetParent() then
         local damage = params.damage
         self.damage = self.damage + damage
@@ -1074,7 +912,8 @@ end
 
 function modifier_Overlord_spell_7_buff:OnDestroy()
     if not IsServer() then return end
-    local units = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self:GetAbility():GetSpecialValueFor("radius") + GetOverlordPassiveValue(self:GetCaster(), 100), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO+DOTA_UNIT_TARGET_BASIC, 0, FIND_CLOSEST, false )
+    local radius_perc = self:GetAbility():GetSpecialValueFor("radius_perc")
+    local units = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self:GetAbility():GetSpecialValueFor("radius") + GetOverlordPassiveValue(self:GetCaster(), radius_perc), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO+DOTA_UNIT_TARGET_BASIC, 0, FIND_CLOSEST, false )
     for i = #units, 1, -1 do
         if units[i] ~= nil and (units[i] == self:GetParent()) then
             table.remove(units, i)
@@ -1083,14 +922,16 @@ function modifier_Overlord_spell_7_buff:OnDestroy()
     if #units > 0 then
         self.damage = self.damage / #units
         for _, unit in pairs(units) do
-            local damageTable = {victim = unit, attacker = self:GetCaster(), damage = self.damage + GetOverlordPassiveValue(self:GetCaster(), 150), ability = self:GetAbility(), damage_type = DAMAGE_TYPE_PURE}
+            local damageTable = {victim = unit, attacker = self:GetCaster(), damage = self.damage, ability = self:GetAbility(), damage_type = DAMAGE_TYPE_PURE}
             ApplyDamage(damageTable)
+            if self.damage > 0 then
+                if unit:IsRealHero() then
+                    AddPassiveStack(self:GetCaster())
+                end
+            end
         end
     end
 end
-
-
-
 
 LinkLuaModifier( "modifier_Overlord_spell_8_buff", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
 LinkLuaModifier( "modifier_Overlord_spell_8_debuff", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
@@ -1127,8 +968,8 @@ function Overlord_spell_8:OnSpellStart()
     end
     self:GetCaster():EmitSound("overlord_spell8")
     self.target = self:GetCursorTarget()
-    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Overlord_spell_8_buff", {duration = self:GetSpecialValueFor("duration")})
-    self.target:AddNewModifier(self:GetCaster(), self, "modifier_Overlord_spell_8_debuff", {duration = self:GetSpecialValueFor("duration")})
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Overlord_spell_8_buff", {duration = self:GetSpecialValueFor("duration") * (1-self.target:GetStatusResistance())})
+    self.target:AddNewModifier(self:GetCaster(), self, "modifier_Overlord_spell_8_debuff", {duration = self:GetSpecialValueFor("duration") * (1-self.target:GetStatusResistance())})
     self:EndCooldown()
 end
 
@@ -1137,10 +978,10 @@ modifier_Overlord_spell_8_buff = class({})
 function modifier_Overlord_spell_8_buff:IsPurgable() return false end
 
 function modifier_Overlord_spell_8_buff:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
     }
-
     return funcs
 end
 
@@ -1162,15 +1003,15 @@ function modifier_Overlord_spell_8_debuff:OnCreated()
     self:AddParticle( effect_cast, false, false, -1, false, true )
 
     self:StartIntervalThink(1)
-    if self:GetParent():IsHero() then
-        AddPassiveStack(self:GetCaster())
-    end
 end
 
 function modifier_Overlord_spell_8_debuff:OnIntervalThink()
     if not IsServer() then return end
-    AddPassiveStack(self:GetCaster())
-    local damage = self:GetAbility():GetSpecialValueFor("base_damage") + GetOverlordPassiveValue(self:GetCaster(), 20)
+    local perc_damage = self:GetAbility():GetSpecialValueFor("perc_damage")
+    if self:GetParent():IsRealHero() then
+        AddPassiveStack(self:GetCaster())
+    end
+    local damage = self:GetAbility():GetSpecialValueFor("base_damage") + GetOverlordPassiveValue(self:GetCaster(), perc_damage)
     local damageTable = {victim = self:GetParent(), attacker = self:GetCaster(), damage = damage, ability = self:GetAbility(), damage_type = DAMAGE_TYPE_MAGICAL}
     ApplyDamage(damageTable)
 end
@@ -1185,8 +1026,9 @@ function modifier_Overlord_spell_8_debuff:OnDestroy()
 end
 
 function modifier_Overlord_spell_8_debuff:CheckState()
-    return {
-        [MODIFIER_STATE_ROOTED]            = true,
+    return 
+    {
+        [MODIFIER_STATE_ROOTED] = true,
     }
 end
 
@@ -1211,9 +1053,9 @@ end
 function Overlord_spell_9:OnSpellStart()
     if not IsServer() then return end
     local target = self:GetCursorTarget()
-    target:AddNewModifier(self:GetCaster(), self, "modifier_Overlord_spell_9_metka", {duration = self:GetSpecialValueFor("duration")})
+    target:AddNewModifier(self:GetCaster(), self, "modifier_Overlord_spell_9_metka", {duration = self:GetSpecialValueFor("duration") * (1-target:GetStatusResistance())})
     self:GetCaster():EmitSound("overlord_spell9")
-    if target:IsHero() then
+    if target:IsRealHero() then
         AddPassiveStack(self:GetCaster())
     end
 end
@@ -1222,7 +1064,6 @@ modifier_Overlord_spell_9_metka = class({})
 
 function modifier_Overlord_spell_9_metka:OnCreated()
     if not IsServer() then return end
-
     self.nfx = ParticleManager:CreateParticle("particles/wraith_king_custom.vpcf", PATTACH_ABSORIGIN, self:GetParent())
     ParticleManager:SetParticleControlEnt(self.nfx, 0, self:GetParent(), PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
     self:AddParticle( self.nfx, false, false, -1, false, false )
@@ -1239,25 +1080,17 @@ function modifier_Overlord_spell_9_metka:GetAttributes()
 end
 
 function modifier_Overlord_spell_9_metka:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_EVENT_ON_DEATH,
     }
-
     return funcs
 end
 
 function modifier_Overlord_spell_9_metka:OnDeath( params )
     if params.unit == self:GetParent() then
 
-        local units = FindUnitsInRadius(self:GetParent():GetTeamNumber(),
-        self:GetParent():GetAbsOrigin(),
-        nil,
-        self:GetAbility():GetSpecialValueFor("radius"),
-        DOTA_UNIT_TARGET_TEAM_BOTH,
-        DOTA_UNIT_TARGET_HERO,
-        DOTA_UNIT_TARGET_FLAG_NONE,
-        FIND_ANY_ORDER,
-        false)
+        local units = FindUnitsInRadius(self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self:GetAbility():GetSpecialValueFor("radius"), DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
 
         for _, hero in pairs(units) do
             if hero:GetTeamNumber() ~= self:GetCaster():GetTeamNumber() then
@@ -1282,40 +1115,20 @@ function modifier_Overlord_spell_9_metka:OnDeath( params )
     end
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 modifier_Overlord_spell_9_buff = class({})
 
+function modifier_Overlord_spell_9_buff:IsHidden() return self:GetStackCount() == 0 end
+
 function modifier_Overlord_spell_9_buff:OnCreated()
+    if not IsServer() then return end
     self:SetStackCount(0)
 end
 
 function modifier_Overlord_spell_9_buff:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_MANA_BONUS,
     }
-
     return funcs
 end
 
@@ -1326,60 +1139,21 @@ end
 modifier_Overlord_spell_9_debuff = class({})
 
 function modifier_Overlord_spell_9_debuff:OnCreated()
+    if not IsServer() then return end
     self:SetStackCount(self:GetAbility():GetSpecialValueFor("intellect_gain"))
 end
 
 function modifier_Overlord_spell_9_debuff:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_MANA_BONUS,
     }
-
     return funcs
 end
 
 function modifier_Overlord_spell_9_debuff:GetModifierManaBonus( params )
     return self:GetStackCount() * -1
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 LinkLuaModifier( "modifier_Overlord_spell_10_buff", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
 LinkLuaModifier( "modifier_Overlord_spell_10_invul", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
@@ -1398,16 +1172,18 @@ function modifier_Overlord_spell_10_buff:IsHidden() return false end
 
 
 function modifier_Overlord_spell_10_buff:DeclareFunctions()
-    local decFuncs = {
-                      MODIFIER_EVENT_ON_TAKEDAMAGE,
-                }
-
+    local decFuncs = 
+    {
+        MODIFIER_EVENT_ON_TAKEDAMAGE,
+    }
     return decFuncs
 end
 
 function modifier_Overlord_spell_10_buff:OnTakeDamage(keys)
     if keys.unit == self:GetParent() then
-        AddPassiveStack(self:GetCaster())
+        if keys.unit:IsRealHero() then
+            AddPassiveStack(self:GetCaster())
+        end
         self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_Overlord_spell_10_invul", {duration = self:GetAbility():GetSpecialValueFor("duration_invul")})
         if not self:IsNull() then
             self:Destroy()
@@ -1426,19 +1202,6 @@ end
 function modifier_Overlord_spell_10_invul:GetEffectAttachType()
     return PATTACH_ABSORIGIN_FOLLOW
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 LinkLuaModifier( "modifier_Overlord_spell_11", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
 
@@ -1477,13 +1240,13 @@ function modifier_Overlord_spell_11:GetEffectAttachType()
     return PATTACH_ABSORIGIN_FOLLOW
 end
 
-
 function modifier_Overlord_spell_11:OnCreated()
     if not IsServer() then return end
     self.radius = self:GetAbility():GetSpecialValueFor("radius")
-    self.damageTable = {
+    self.damageTable = 
+    {
         attacker = self:GetParent(),
-        damage = (self:GetAbility():GetSpecialValueFor("base_damage") +GetOverlordPassiveValue(self:GetCaster(), 5)),
+        damage = self:GetAbility():GetSpecialValueFor("base_damage"),
         damage_type = DAMAGE_TYPE_PURE,
         ability = self:GetAbility(),
     }
@@ -1500,48 +1263,38 @@ end
 
 function modifier_Overlord_spell_11:OnIntervalThink()
     if not IsServer() then return end
-    if self:GetParent():GetMana() < (5 * self:GetStackCount()) then
+
+    if self:GetParent():GetMana() < self:GetAbility():GetSpecialValueFor("manacost") then
         if self:GetAbility():GetToggleState() then
             self:GetAbility():ToggleAbility()
         end
         return
     end
 
-    self.bonus_damage = self.bonus_damage + self:GetAbility():GetSpecialValueFor("damage_increase")
-
     local flag = 0
-    if self:GetCaster():HasTalent("special_bonus_birzha_overlord_anime_5") then
-        flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
+
+    local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, 0, false)
+
+    if #enemies > 0 then
+        self.bonus_damage = self.bonus_damage + self:GetAbility():GetSpecialValueFor("damage_increase")
+        self:SetStackCount(self.bonus_damage)
     end
 
-    local enemies = FindUnitsInRadius(
-        self:GetParent():GetTeamNumber(),
-        self:GetParent():GetOrigin(),
-        nil,
-        self.radius,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-        flag,
-        0,
-        false
-    )
-
     for _,enemy in pairs(enemies) do
-        self.damageTable.damage = (self:GetAbility():GetSpecialValueFor("base_damage") +GetOverlordPassiveValue(self:GetCaster(), 5)) + self.bonus_damage
+        self.damageTable.damage = self:GetAbility():GetSpecialValueFor("base_damage") + self.bonus_damage
         self.damageTable.victim = enemy
         if GetTargetHealthCheck(enemy) or GetOverlordPassiveGetStacks(self:GetCaster()) then
             ApplyDamage( self.damageTable )
         end
+        if enemy:IsRealHero() then
+            AddPassiveStack(self:GetCaster())
+        end
     end
 
-    self:GetParent():SpendMana( self:GetAbility():GetSpecialValueFor("manacost") * self:GetStackCount(), self:GetAbility() )
-    self:SetStackCount(self:GetStackCount()*2)
+    self:GetParent():SpendMana(self:GetAbility():GetSpecialValueFor("manacost"), self:GetAbility() )
 end
 
-
-
-
-
+LinkLuaModifier("modifier_generic_knockback_lua", "modifiers/modifier_generic_knockback_lua.lua", LUA_MODIFIER_MOTION_BOTH )
 LinkLuaModifier( "modifier_Overlord_spell_12", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
 
 Overlord_spell_12 = class({})
@@ -1555,103 +1308,91 @@ function Overlord_spell_12:GetCastRange(location, target)
 end
 
 function Overlord_spell_12:GetManaCost(level)
-    return self:GetCaster():GetMaxMana()*0.20
+    return self:GetCaster():GetMaxMana() / 100 * self:GetSpecialValueFor("manacost")
 end
 
 function Overlord_spell_12:OnSpellStart()
-    if IsServer() then
-        local radius = 450
-        local range = 1400 + GetOverlordPassiveValue(self:GetCaster(), 100)
+    if not IsServer() then return end
+    local perc_range = self:GetSpecialValueFor("perc_range")
+    local radius = self:GetSpecialValueFor("radius")
+    local range = self:GetSpecialValueFor("range") + GetOverlordPassiveValue(self:GetCaster(), perc_range)
 
-        local flag = 0
-        if self:GetCaster():HasTalent("special_bonus_birzha_overlord_anime_5") then
-            flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
-        end
+    local flag = 0
 
-        self.tornado = 
-        {
-            Ability = self,
-            bDeleteOnHit   = false,
-            EffectName =  "particles/units/heroes/hero_invoker/invoker_deafening_blast.vpcf",
-            vSpawnOrigin = self:GetCaster():GetOrigin(),
-            fDistance = range,
-            fStartRadius = radius,
-            fEndRadius = radius,
-            iMoveSpeed          = 1500,
-            Source = self:GetCaster(),
-            bHasFrontalCone = false,
-            bReplaceExisting = false,
-            iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
-            iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-            iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1,
-            bVisibleToEnemies = true,
-            iUnitTargetFlags = flag,
-            bProvidesVision = true,
-            iVisionRadius = 250,
-            iVisionTeamNumber = self:GetCaster():GetTeamNumber(),
-        }
-        local target_point = self:GetCursorPosition()
-        local caster_point = self:GetCaster():GetAbsOrigin() 
-        local point_difference_normalized   = (target_point - caster_point):Normalized()
-
-        if target_point == caster_point then
-            point_difference_normalized = self:GetCaster():GetForwardVector()
-        else
-            point_difference_normalized = (target_point - caster_point):Normalized()
-        end
-
-        local projectile_vvelocity          = point_difference_normalized * 1500
-        projectile_vvelocity.z = 0
-        self.tornado.vVelocity  = projectile_vvelocity
-        local tornado_projectile = ProjectileManager:CreateLinearProjectile(self.tornado)
-        self:GetCaster():EmitSound("overlord_spell12")
+    if self:GetCaster():HasTalent("special_bonus_birzha_overlord_anime_5") then
+        flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
     end
+
+    local tornado = 
+    {
+        Ability = self,
+        bDeleteOnHit   = false,
+        EffectName =  "particles/units/heroes/hero_invoker/invoker_deafening_blast.vpcf",
+        vSpawnOrigin = self:GetCaster():GetOrigin(),
+        fDistance = range,
+        fStartRadius = radius,
+        fEndRadius = radius,
+        iMoveSpeed = 1500,
+        Source = self:GetCaster(),
+        bHasFrontalCone = false,
+        bReplaceExisting = false,
+        iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+        iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+        iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1,
+        bVisibleToEnemies = true,
+        iUnitTargetFlags = flag,
+        bProvidesVision = true,
+        iVisionRadius = 250,
+        iVisionTeamNumber = self:GetCaster():GetTeamNumber(),
+        ExtraData = { x = self:GetCaster():GetOrigin().x, y = self:GetCaster():GetOrigin().y }
+    }
+
+    local target_point = self:GetCursorPosition()
+    local caster_point = self:GetCaster():GetAbsOrigin() 
+    local point_difference_normalized   = (target_point - caster_point):Normalized()
+
+    if target_point == caster_point then
+        point_difference_normalized = self:GetCaster():GetForwardVector()
+    else
+        point_difference_normalized = (target_point - caster_point):Normalized()
+    end
+
+    local projectile_vvelocity = point_difference_normalized * 1500
+
+    projectile_vvelocity.z = 0
+
+    tornado.vVelocity  = projectile_vvelocity
+
+    local tornado_projectile = ProjectileManager:CreateLinearProjectile(tornado)
+
+    self:GetCaster():EmitSound("overlord_spell12")
 end
 
-
-
-
-function Overlord_spell_12:OnProjectileHit( target, vLocation )
+function Overlord_spell_12:OnProjectileHit_ExtraData(target, vLocation, extradata)
     if not IsServer() then return end
     if target ~= nil then
-
-        local distance = (target:GetAbsOrigin() - vLocation):Length2D()
+        local start_location = Vector(extradata.x,extradata.y,0)
+        local perc_range = self:GetSpecialValueFor("perc_range")
+        local range = self:GetSpecialValueFor("range") + GetOverlordPassiveValue(self:GetCaster(), perc_range)
+        local distance = (vLocation - start_location):Length2D()
+        local knockback_distance = range - distance
         local direction = (target:GetAbsOrigin() - vLocation):Normalized()
-        local bump_point = vLocation - direction * (distance + 200)
 
+        local knockback = target:AddNewModifier( self:GetCaster(), self, "modifier_generic_knockback_lua", { duration = 0.75, distance = knockback_distance, height = 0, direction_x = direction.x, direction_y = direction.y})
+        local perc_damage = self:GetSpecialValueFor("perc_damage")
         local duration = self:GetSpecialValueFor( "blood_duration" )
-        target:AddNewModifier( self:GetCaster(), self, "modifier_Overlord_spell_12", { duration = duration  } )
+        target:AddNewModifier( self:GetCaster(), self, "modifier_Overlord_spell_12", { duration = duration * (1-target:GetStatusResistance()) } )
 
-        local knockbackProperties =
-        {
-             center_x = bump_point.x,
-             center_y = bump_point.y,
-             center_z = bump_point.z,
-             duration = 0.75,
-             knockback_duration = 0.75,
-             knockback_distance = 700,
-             knockback_height = 0
-        }
-        target:RemoveModifierByName("modifier_knockback")
-        target:AddNewModifier(target, self, "modifier_knockback", knockbackProperties)
+        local damageTable = { attacker = self:GetCaster(), damage = self:GetSpecialValueFor("damage") + GetOverlordPassiveValue(self:GetCaster(), perc_damage), damage_type = DAMAGE_TYPE_MAGICAL, ability = self, victim = target }
 
-        local damageTable = {
-            attacker = self:GetCaster(),
-            damage = self:GetSpecialValueFor("damage"),
-            damage_type = DAMAGE_TYPE_MAGICAL,
-            ability = self,
-            victim = target
-        }
         if GetTargetHealthCheck(target) or GetOverlordPassiveGetStacks(self:GetCaster()) then
             ApplyDamage( damageTable )
-            if target:IsHero() then
-                AddPassiveStack(self:GetCaster())
-            end
+        end
+        if target:IsRealHero() then
+            AddPassiveStack(self:GetCaster())
         end
     end
 end
-
-
 
 modifier_Overlord_spell_12 = class({})
 
@@ -1660,12 +1401,13 @@ function modifier_Overlord_spell_12:IsPurgable()
 end
 
 function modifier_Overlord_spell_12:OnCreated()
+    if not IsServer() then return end
     self.prevLoc = self:GetParent():GetAbsOrigin()
-    self.blood_damage = (self:GetAbility():GetSpecialValueFor("blood_damage") + GetOverlordPassiveValue(self:GetCaster(), 25)) / 100
+    self.blood_damage = self:GetAbility():GetSpecialValueFor("blood_damage") / 100
     self:StartIntervalThink( 0.25 )
 end
 
-function modifier_Overlord_spell_12:GetEffectName()  return "particles/units/heroes/hero_bloodseeker/bloodseeker_rupture.vpcf" end
+function modifier_Overlord_spell_12:GetEffectName() return "particles/units/heroes/hero_bloodseeker/bloodseeker_rupture.vpcf" end
 
 function modifier_Overlord_spell_12:OnRefresh()
     self:OnCreated()
@@ -1675,7 +1417,8 @@ function modifier_Overlord_spell_12:OnIntervalThink()
     if not IsServer() then return end
     local move_damage = CalculateDistance(self.prevLoc, self:GetParent()) * self.blood_damage
     if move_damage > 0 then
-        local damageTable = {
+        local damageTable = 
+        {
             attacker = self:GetCaster(),
             damage = move_damage,
             damage_type = DAMAGE_TYPE_MAGICAL,
@@ -1696,11 +1439,11 @@ function Overlord_spell_13:GetCooldown(level)
 end
 
 function Overlord_spell_13:GetManaCost(level)
-    return self:GetCaster():GetMaxMana()*0.20
+    return self:GetCaster():GetMaxMana() / 100 * self:GetSpecialValueFor("manacost")
 end
 
 function Overlord_spell_13:CastFilterResultTarget( hTarget )
-    if hTarget:IsMagicImmune() and (not self:GetCaster():HasTalent("special_bonus_birzha_overlord_anime_5")) then
+    if hTarget:IsMagicImmune() and (not self:GetCaster():HasTalent("special_bonus_birzha_overlord_anime_6")) then
         return UF_FAIL_MAGIC_IMMUNE_ENEMY
     end
 
@@ -1724,14 +1467,20 @@ function Overlord_spell_13:OnSpellStart()
     if not IsServer() then return end
     local target = self:GetCursorTarget()
 
-    if target:TriggerSpellAbsorb(self) then return end
+    if not self:GetCaster():HasTalent("special_bonus_birzha_overlord_anime_6") then
+        if target:TriggerSpellAbsorb(self) then return end
+    end
 
     local mana = self:GetCaster():GetMaxMana() - target:GetMaxMana()
 
-    local damage = self:GetSpecialValueFor("damage") + (math.abs(mana) * (0.08 + GetOverlordPassiveValue(self:GetCaster(), 0.4)))
+    local base_mana = self:GetSpecialValueFor("base_mana")
+    local perc_mana = self:GetSpecialValueFor("perc_mana")
+
+    local damage = self:GetSpecialValueFor("damage") + (math.abs(mana) * (base_mana + GetOverlordPassiveValue(self:GetCaster(), perc_mana)))
 
     Timers:CreateTimer(0.4, function()
-        local damageTable = {
+        local damageTable = 
+        {
             attacker = self:GetCaster(),
             damage = damage,
             damage_type = DAMAGE_TYPE_MAGICAL,
@@ -1743,18 +1492,16 @@ function Overlord_spell_13:OnSpellStart()
         ParticleManager:SetParticleControl( effect_cast, 1, Vector( 100, 100, 0 ) )
         ParticleManager:SetParticleControl( effect_cast, 2, Vector( 100, 100, 100 ) )
         ParticleManager:ReleaseParticleIndex( effect_cast )
+        target:EmitSound("Hero_ObsidianDestroyer.SanityEclipse.Cast")
+        if target:IsMagicImmune() then return end
         if GetTargetHealthCheck(target) or GetOverlordPassiveGetStacks(self:GetCaster()) then
             ApplyDamage( damageTable )
-            if target:IsHero() then
-                AddPassiveStack(self:GetCaster())
-            end
         end
-        target:EmitSound("Hero_ObsidianDestroyer.SanityEclipse.Cast")
+        if target:IsRealHero() then
+            AddPassiveStack(self:GetCaster())
+        end
     end)
 end
-
-
-
 
 LinkLuaModifier( "modifier_Overlord_spell_14", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
 LinkLuaModifier( "modifier_Overlord_spell_14_use", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
@@ -1764,7 +1511,7 @@ LinkLuaModifier( "modifier_Overlord_spell_14_debuff_magic", "abilities/heroes/ov
 Overlord_spell_14 = class({})
 
 function Overlord_spell_14:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_anime_6")
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_anime_7")
 end
 
 function Overlord_spell_14:IsRefreshable()
@@ -1781,7 +1528,7 @@ function Overlord_spell_14:GetManaCost(level)
 end
 
 function Overlord_spell_14:GetAOERadius()
-    return self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_anime_6", "value2") 
+    return self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_anime_1")
 end
 
 function Overlord_spell_14:GetBehavior()
@@ -1809,13 +1556,10 @@ function Overlord_spell_14:OnSpellStart()
         self.thinker:Destroy()
         return
     end
-    EmitGlobalSound("overlord_spell_14")
-    self.effect = ParticleManager:CreateParticle(
-    "particles/econ/courier/courier_trail_international_2014/courier_international_2014.vpcf",
-    PATTACH_RENDERORIGIN_FOLLOW,
-    self:GetCaster()
-    )
 
+    EmitGlobalSound("overlord_spell_14")
+
+    self.effect = ParticleManager:CreateParticle( "particles/econ/courier/courier_trail_international_2014/courier_international_2014.vpcf", PATTACH_RENDERORIGIN_FOLLOW, self:GetCaster())
     ParticleManager:SetParticleControl( self.effect, 15, Vector( 0, 255, 255 ) )
     ParticleManager:SetParticleControl( self.effect, 16, Vector( 1, 0, 0 ) )
 end
@@ -1837,15 +1581,20 @@ modifier_Overlord_spell_14 = class({})
 
 function modifier_Overlord_spell_14:OnCreated()
     if not IsServer() then return end
+
     self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_Overlord_spell_14_use", {})
-    self.radius = self:GetAbility():GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_anime_6", "value2") 
+
+    self.radius = self:GetAbility():GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_anime_1")
+
     self.damage = GetOverlordPassiveValue(self:GetCaster(), self:GetAbility():GetSpecialValueFor("damage")) / 2
+
     self.origin = self:GetParent():GetOrigin()
+
     local name = "particles/particle_overlord_boom.vpcf"
 
-    if self:GetCaster():HasTalent("special_bonus_birzha_overlord_anime_6") then
-        name = "particles/particle_overlord_boom_talent.vpcf"
-    end
+    --if self:GetCaster():HasTalent("special_bonus_birzha_overlord_anime_6") then
+    --    name = "particles/particle_overlord_boom_talent.vpcf"
+    --end
 
     self.range_pfx = ParticleManager:CreateParticleForTeam(name, PATTACH_ABSORIGIN_FOLLOW, self:GetParent(), self:GetCaster():GetTeamNumber())
     ParticleManager:SetParticleControl(self.range_pfx, 1, Vector(255,255,255))
@@ -1869,61 +1618,43 @@ function modifier_Overlord_spell_14:OnDestroy()
 end
 
 function modifier_Overlord_spell_14:MagicalDamage()
-    local damageTable = {
+    if not IsServer() then return end
+    local damageTable = 
+    {
         attacker = self:GetCaster(),
         damage_type = DAMAGE_TYPE_MAGICAL,
         ability = self:GetAbility(),
     }
-    local flag = 0
-    if self:GetCaster():HasTalent("special_bonus_birzha_overlord_anime_5") then
-        flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
-    end
-    local enemies = FindUnitsInRadius(
-        self:GetCaster():GetTeamNumber(),
-        self.origin,
-        nil,
-        self.radius,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-        flag,
-        0,
-        false
-    )
 
+    local flag = 0
+
+    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self.origin, nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, 0, false)
     for _,enemy in pairs(enemies) do
         damageTable.damage = self.damage
         damageTable.victim = enemy
         if GetTargetHealthCheck(enemy) or GetOverlordPassiveGetStacks(self:GetCaster()) then
             ApplyDamage( damageTable )
-            if enemy:IsHero() then
-                AddPassiveStack(self:GetCaster())
-            end
         end
-        enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_Overlord_spell_14_debuff_magic", {duration = self:GetAbility():GetSpecialValueFor("duration_debuff")})
+        if enemy:IsRealHero() then
+            AddPassiveStack(self:GetCaster())
+        end
+        enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_Overlord_spell_14_debuff_magic", {duration = self:GetAbility():GetSpecialValueFor("duration_debuff") * (1-enemy:GetStatusResistance())})
     end
 end
 
 function modifier_Overlord_spell_14:PhysicalDamage()
-    local damageTable = {
+    if not IsServer() then return end
+
+    local damageTable = 
+    {
         attacker = self:GetCaster(),
         damage_type = DAMAGE_TYPE_PHYSICAL,
         ability = self:GetAbility(),
     }
+
     local flag = 0
-    if self:GetCaster():HasTalent("special_bonus_birzha_overlord_anime_5") then
-        flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
-    end
-    local enemies = FindUnitsInRadius(
-        self:GetCaster():GetTeamNumber(),
-        self.origin,
-        nil,
-        self.radius,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-        flag,
-        0,
-        false
-    )
+
+    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self.origin, nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, 0, false )
 
     for _,enemy in pairs(enemies) do
         damageTable.damage = self.damage
@@ -1931,7 +1662,7 @@ function modifier_Overlord_spell_14:PhysicalDamage()
         if GetTargetHealthCheck(enemy) or GetOverlordPassiveGetStacks(self:GetCaster()) then
             ApplyDamage( damageTable )
         end
-        enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_Overlord_spell_14_debuff_phys", {duration = self:GetAbility():GetSpecialValueFor("duration_debuff")})
+        enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_Overlord_spell_14_debuff_phys", {duration = self:GetAbility():GetSpecialValueFor("duration_debuff") * (1-enemy:GetStatusResistance())})
     end
 end
 
@@ -1943,13 +1674,13 @@ function modifier_Overlord_spell_14_debuff_magic:DeclareFunctions()
 end
 
 function modifier_Overlord_spell_14_debuff_magic:GetModifierMagicalResistanceBonus()
-    return -40
+    return self:GetAbility():GetSpecialValueFor("magic_resistance")
 end
 
 modifier_Overlord_spell_14_debuff_phys = class({})
 
 function modifier_Overlord_spell_14_debuff_phys:OnCreated()
-    self.armor = (self:GetParent():GetPhysicalArmorValue(false) * 0.40) * -1
+    self.armor = (self:GetParent():GetPhysicalArmorValue(false) / 100 * self:GetAbility():GetSpecialValueFor("armor")) * -1
 end
 
 function modifier_Overlord_spell_14_debuff_phys:DeclareFunctions()
@@ -1961,22 +1692,10 @@ function modifier_Overlord_spell_14_debuff_phys:GetModifierPhysicalArmorBonus()
     return self.armor
 end
 
-
-
 modifier_Overlord_spell_14_use = class({})
-
 function modifier_Overlord_spell_14_use:IsHidden() return true end
 function modifier_Overlord_spell_14_use:IsPurgable() return false end
 function modifier_Overlord_spell_14_use:RemoveOnDeath() return false end
-
-
-
-
-
-
-
-
-
 
 LinkLuaModifier( "modifier_Overlord_spell_15_debuff", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
 LinkLuaModifier( "modifier_Overlord_spell_15_cast", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
@@ -1988,7 +1707,8 @@ function Overlord_spell_15:GetCooldown(level)
 end
 
 function Overlord_spell_15:GetCastRange(location, target)
-    return self:GetSpecialValueFor("radius") + GetOverlordPassiveValue(self:GetCaster(), 450)
+    local perc_radius = self:GetSpecialValueFor("perc_radius")
+    return self:GetSpecialValueFor("radius") + GetOverlordPassiveValue(self:GetCaster(), perc_radius)
 end
 
 function Overlord_spell_15:GetManaCost(level)
@@ -1996,35 +1716,42 @@ function Overlord_spell_15:GetManaCost(level)
 end
 
 function Overlord_spell_15:OnSpellStart()
+    if not IsServer() then return end
     self:GetCaster():AddInvul()
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Overlord_spell_15_cast", {duration = 3.25})
     EmitGlobalSound("overlord_spell15_1")
 end
 
 function Overlord_spell_15:OnChannelFinish( bInterrupted )
+    if not IsServer() then return end
+
     self:GetCaster():RemoveModifierByName("modifier_birzha_invul")
     self:GetCaster():RemoveModifierByName("modifier_Overlord_spell_15_cast")
+
     if bInterrupted then return end
-    local radius = self:GetSpecialValueFor("radius") + GetOverlordPassiveValue(self:GetCaster(), 450)
+    local perc_radius = self:GetSpecialValueFor("perc_radius")
+    
+    local radius = self:GetSpecialValueFor("radius") + GetOverlordPassiveValue(self:GetCaster(), perc_radius)
+
     local point = self:GetCaster():GetAbsOrigin() + self:GetCaster():GetForwardVector() * 100
+
     local flag = 0
-    if self:GetCaster():HasTalent("special_bonus_birzha_overlord_anime_5") then
-        flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
-    end
+
     local units = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), point, nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO+DOTA_UNIT_TARGET_BASIC, flag, FIND_CLOSEST, false )
-    local wards_check = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), point, nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_CLOSEST, false )
 
     if self.pfx then
         ParticleManager:DestroyParticle( self.pfx, false )
     end
 
-    for _, ward in pairs(wards_check) do
-        if ward:GetUnitName() == "npc_dota_observer_wards" or ward:GetUnitName() == "npc_dota_sentry_wards" then
-            ward:Kill(self, self:GetCaster())
-        end 
+    -- Разрушение вардов
+    if self:GetCaster():HasTalent("special_bonus_birzha_overlord_anime_2") then
+        local wards_check = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), point, nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_CLOSEST, false )
+        for _, ward in pairs(wards_check) do
+            if ward:GetUnitName() == "npc_dota_observer_wards" or ward:GetUnitName() == "npc_dota_sentry_wards" then
+                ward:Kill(self, self:GetCaster())
+            end 
+        end
     end
-
-
 
     if #units > 0 then
         local last_unit = units[#units]
@@ -2044,10 +1771,8 @@ function Overlord_spell_15:OnChannelFinish( bInterrupted )
 end
 
 modifier_Overlord_spell_15_cast = class({})
-
 function modifier_Overlord_spell_15_cast:IsHidden() return true end
 function modifier_Overlord_spell_15_cast:IsPurgable() return false end
-
 function modifier_Overlord_spell_15_cast:CheckState() return {[MODIFIER_STATE_COMMAND_RESTRICTED] = true} end
 
 modifier_Overlord_spell_15_debuff = class({})
@@ -2069,59 +1794,53 @@ function modifier_Overlord_spell_15_debuff:IsPurgable()
 end
 
 function modifier_Overlord_spell_15_debuff:OnCreated( kv )
-  self.pull_speed = 3000
-
-  if IsServer() then
+    self.pull_speed = 3000
+    if not IsServer() then return end
     self.center = Vector( kv.x, kv.y, kv.z )
     if self:ApplyHorizontalMotionController() == false then
-        if not self:IsNull() then
-            self:Destroy()
-        end
+        self:Destroy()
     end
-  end
 end
 
 function modifier_Overlord_spell_15_debuff:OnDestroy()
-  if IsServer() then
-    FindClearSpaceForUnit(self:GetParent(), self:GetParent():GetAbsOrigin(), true)
-    self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = self:GetAbility():GetSpecialValueFor("stun_duration")})
+    if not IsServer() then return end
 
-    local damageTable = {
+    local perc_damage = self:GetAbility():GetSpecialValueFor("perc_damage")
+
+    FindClearSpaceForUnit(self:GetParent(), self:GetParent():GetAbsOrigin(), true)
+
+    self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = self:GetAbility():GetSpecialValueFor("stun_duration") * (1-self:GetParent():GetStatusResistance())})
+
+    local damageTable = 
+    {
         victim = self:GetParent(),
         attacker = self:GetCaster(),
-        damage = self:GetParent():GetMaxHealth() / 100 * (self:GetAbility():GetSpecialValueFor("damage") + GetOverlordPassiveValue(self:GetCaster(), 1)),
-        damage_type = DAMAGE_TYPE_MAGICAL,
+        damage = self:GetParent():GetMaxHealth() / 100 * (self:GetAbility():GetSpecialValueFor("damage") + GetOverlordPassiveValue(self:GetCaster(), perc_damage)),
+        damage_type = DAMAGE_TYPE_PURE,
         ability = self:GetAbility(),
     }
+
     if GetTargetHealthCheck(self:GetParent()) or GetOverlordPassiveGetStacks(self:GetCaster()) then
         ApplyDamage( damageTable )
-        if self:GetParent():IsHero() then
-            AddPassiveStack(self:GetCaster())
-        end
+    end
+    if self:GetParent():IsRealHero() then
+        AddPassiveStack(self:GetCaster())
     end
 
     self:GetParent():InterruptMotionControllers( true )
-  end
 end
 
 function modifier_Overlord_spell_15_debuff:UpdateHorizontalMotion( me, dt )
-  local target = self:GetParent():GetOrigin()-self.center
-  target.z = 0
-
-  local distance = target:Length2D()
-  local targetL = target:Length2D()-500*dt
-  local targetN = target:Normalized()
-
-
-    if distance<100 then
-        if not self:IsNull() then
-            self:Destroy()
-        end
+    local target = self:GetParent():GetOrigin()-self.center
+    target.z = 0
+    local distance = target:Length2D()
+    local targetL = target:Length2D()-500*dt
+    local targetN = target:Normalized()
+    if distance < 100 then
+        self:Destroy()
     end
-  self:GetParent():SetOrigin( self.center + targetN * targetL )
-
+    self:GetParent():SetOrigin( self.center + targetN * targetL )
 end
-
 
 LinkLuaModifier( "modifier_Overlord_passive", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_NONE )
 
@@ -2134,6 +1853,7 @@ end
 modifier_Overlord_passive = class({})
 
 function modifier_Overlord_passive:OnCreated()
+    if not IsServer() then return end
     self:SetStackCount(0)
     if IsInToolsMode() then
         self:SetStackCount(300)
@@ -2142,19 +1862,18 @@ function modifier_Overlord_passive:OnCreated()
 end
 
 function modifier_Overlord_passive:DeclareFunctions()
-    local decFuncs = {MODIFIER_PROPERTY_MANA_BONUS, MODIFIER_EVENT_ON_ATTACK_ON_ATTACK}
-
+    local decFuncs = {MODIFIER_PROPERTY_MANA_BONUS, MODIFIER_EVENT_ON_ATTACK_LANDED}
     return decFuncs
 end
 
 function modifier_Overlord_passive:GetModifierManaBonus()
     if not self:GetCaster():HasShard() then return 0 end
-    return self:GetStackCount() * 3
+    return self:GetStackCount() * self:GetAbility():GetSpecialValueFor("shard_mana")
 end
 
-
-function modifier_Overlord_passive:OnAttack(params)
+function modifier_Overlord_passive:OnAttackLanded(params)
     if params.attacker == self:GetParent() then
+        if params.attacker:IsIllusion() then return end
         self.attack = self.attack + 1
         if self.attack >= 5 then
             local modifier_passive = self:GetCaster():FindModifierByName("modifier_Overlord_passive")
@@ -2166,58 +1885,14 @@ function modifier_Overlord_passive:OnAttack(params)
     end
 end
 
-function GetOverlordPassiveValue(caster, value)
-    local modifier_count = caster:GetModifierStackCount("modifier_Overlord_passive", caster)
-    if modifier_count then
-        return modifier_count / 100 * value
-    end
-    return 0
-end
-
-
-function GetOverlordPassiveGetStacks(caster)
-    local modifier = caster:FindModifierByName("modifier_Overlord_passive")
-    if modifier then
-        if modifier:GetStackCount() >= 300 then
-            return true
-        end
-    end
-    return false
-end
-
-
-
-function GetTargetHealthCheck(target)
-    if target:GetMaxHealth() / 100 * 70 > target:GetHealth() then
-        return true
-    end
-    return false
-end
-
-function AddPassiveStack(caster)
-    if caster:HasModifier("modifier_fountain_passive_invul") then return end
-    local modifier_passive = caster:FindModifierByName("modifier_Overlord_passive")
-    if modifier_passive then
-        modifier_passive:IncrementStackCount()
-    end
-end
-
-
-
-
-
-
-
-
 LinkLuaModifier( "modifier_Overlord_spell_ultimate", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
 LinkLuaModifier( "modifier_Overlord_spell_ultimate_aura_thinker", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
 LinkLuaModifier( "modifier_Overlord_spell_ultimate_aura", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
 
-
 Overlord_spell_ultimate = class({})
 
 function Overlord_spell_ultimate:GetCooldown(level)
-    return 90 / self:GetCaster():GetCooldownReduction()
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_overlord_anime_8")
 end
 
 function Overlord_spell_ultimate:IsRefreshable()
@@ -2225,6 +1900,7 @@ function Overlord_spell_ultimate:IsRefreshable()
 end
 
 function Overlord_spell_ultimate:OnAbilityPhaseStart()
+    if not IsServer() then return end
     if self:GetCaster():HasModifier("modifier_fountain_passive_invul") then
         return false
     end
@@ -2234,6 +1910,7 @@ function Overlord_spell_ultimate:OnAbilityPhaseStart()
 end
 
 function Overlord_spell_ultimate:OnAbilityPhaseInterrupted()
+    if not IsServer() then return end
     self:GetCaster():StopSound("overlord_ultimate_start")
 end
 
@@ -2242,12 +1919,13 @@ function Overlord_spell_ultimate:GetManaCost(level)
 end
 
 function Overlord_spell_ultimate:OnSpellStart()
-
+    if not IsServer() then return end
     local health_damage = self:GetCaster():GetMaxHealth() / 100 * self:GetSpecialValueFor("health")
     local mana_damage = self.mana
     local damage = (health_damage + mana_damage) / 100 * self:GetSpecialValueFor("damage")
 
-    local damageTable = {
+    local damageTable =
+     {
         victim = self:GetCaster(),
         attacker = self:GetCaster(),
         damage = health_damage,
@@ -2255,6 +1933,7 @@ function Overlord_spell_ultimate:OnSpellStart()
         ability = self,
         damage_flags = DOTA_DAMAGE_FLAG_NON_LETHAL + DOTA_DAMAGE_FLAG_HPLOSS + DOTA_DAMAGE_FLAG_NO_DAMAGE_MULTIPLIERS,
     }
+
     ApplyDamage(damageTable)
 
     local clock = CreateUnitByName("npc_dummy_unit", Vector(0,0,0), false, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
@@ -2264,19 +1943,16 @@ end
 modifier_Overlord_spell_ultimate = class({})
 
 function modifier_Overlord_spell_ultimate:IsHidden() return true end
+function modifier_Overlord_spell_ultimate:IsPurgable() return false end
 
 function modifier_Overlord_spell_ultimate:OnCreated(table)
     if not IsServer() then return end
-    self.alive_time = 12
+    self.alive_time = self:GetAbility():GetSpecialValueFor("duration")
     self.damage = table.damage + GetOverlordPassiveValue(self:GetCaster(), self:GetAbility():GetSpecialValueFor("damage_perc"))
     local interval = 1
-    if self:GetCaster():HasTalent("special_bonus_birzha_overlord_anime_4") then
-        interval = 0.5
-        self.damage = self.damage / 3
-    end
-    self.damage = self.damage / 8
+    self.damage = self.damage / self:GetAbility():GetSpecialValueFor("damage_duration")
     self.effect_check = 0
-    self.talent = self:GetCaster():HasTalent("special_bonus_birzha_overlord_anime_4")
+    self.talent = false
     self:StartIntervalThink(interval)
     local vector = self:GetParent():GetForwardVector()
     vector.y = vector.y-90
@@ -2287,8 +1963,6 @@ function modifier_Overlord_spell_ultimate:OnCreated(table)
     ParticleManager:SetParticleControl( self.effect_cast, 2, Vector( 2, 0, 0 ) )
     EmitGlobalSound("overlord_ultimate_time")
 end
-
-
 
 function modifier_Overlord_spell_ultimate:OnIntervalThink(table)
     if not IsServer() then return end
@@ -2333,7 +2007,7 @@ function modifier_Overlord_spell_ultimate:OnIntervalThink(table)
     end
 
     if self.alive_time <= 0 then
-        local thinker = CreateModifierThinker(self:GetCaster(), self:GetAbility(), "modifier_Overlord_spell_ultimate_aura_thinker", {duration = 6.1, damage = self.damage}, Vector(0,0,0), self:GetCaster():GetTeamNumber(), false)
+        local thinker = CreateModifierThinker(self:GetCaster(), self:GetAbility(), "modifier_Overlord_spell_ultimate_aura_thinker", {duration = self:GetAbility():GetSpecialValueFor("damage_duration") + 0.1, damage = self.damage}, Vector(0,0,0), self:GetCaster():GetTeamNumber(), false)
         self:GetParent():Destroy()
         if not self:IsNull() then
             self:Destroy()
@@ -2342,10 +2016,12 @@ function modifier_Overlord_spell_ultimate:OnIntervalThink(table)
 end
 
 function modifier_Overlord_spell_ultimate:DeclareFunctions()
-    local decFuncs = {MODIFIER_PROPERTY_VISUAL_Z_DELTA,
-                      MODIFIER_PROPERTY_MODEL_CHANGE,
-                  MODIFIER_PROPERTY_MODEL_SCALE}
-
+    local decFuncs = 
+    {
+        MODIFIER_PROPERTY_VISUAL_Z_DELTA,
+        MODIFIER_PROPERTY_MODEL_CHANGE,
+        MODIFIER_PROPERTY_MODEL_SCALE
+    }
     return decFuncs
 end
 
@@ -2362,10 +2038,13 @@ function modifier_Overlord_spell_ultimate:GetModifierModelScale( params )
 end
 
 function modifier_Overlord_spell_ultimate:CheckState()
-    return {
+    return 
+    {
         [MODIFIER_STATE_INVULNERABLE] = true,
         [MODIFIER_STATE_NO_HEALTH_BAR] = true,
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+        [MODIFIER_STATE_NOT_ON_MINIMAP] = true,
+        [MODIFIER_STATE_UNSELECTABLE] = true,
     }
 end
 
@@ -2385,15 +2064,13 @@ function modifier_Overlord_spell_ultimate_aura_thinker:OnIntervalThink(table)
     if not self:GetCaster():IsAlive() then self:GetParent():Destroy() return end
     StopGlobalSound("overlord_ultimate_damage")
     local flag = 0
-    if self:GetCaster():HasTalent("special_bonus_birzha_overlord_anime_8") then
-        flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
-    end
     local units = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), Vector(0,0,0), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO+DOTA_UNIT_TARGET_BASIC, flag, FIND_CLOSEST, false )
     if not self:GetCaster():HasModifier("modifier_fountain_passive_invul") then
         EmitGlobalSound("overlord_ultimate_damage")
         for _, unit in pairs(units) do
             if not unit:IsBoss() and not unit:HasModifier("modifier_fountain_passive_invul") then
-                local damageTable = {
+                local damageTable = 
+                {
                     victim = unit,
                     attacker = self:GetCaster(),
                     damage =  self.damage,
@@ -2436,11 +2113,35 @@ function modifier_Overlord_spell_ultimate_aura:IsPurgable()
     return false
 end
 
+function GetOverlordPassiveValue(caster, value)
+    local modifier_count = caster:GetModifierStackCount("modifier_Overlord_passive", caster)
+    if modifier_count then
+        return modifier_count / 100 * value
+    end
+    return 0
+end
 
+function GetOverlordPassiveGetStacks(caster)
+    local modifier = caster:FindModifierByName("modifier_Overlord_passive")
+    if modifier then
+        if modifier:GetStackCount() >= 300 then
+            return true
+        end
+    end
+    return false
+end
 
+function GetTargetHealthCheck(target)
+    if target:GetMaxHealth() / 100 * 70 > target:GetHealth() then
+        return true
+    end
+    return false
+end
 
-
-
-
-
-
+function AddPassiveStack(caster)
+    if caster:HasModifier("modifier_fountain_passive_invul") then return end
+    local modifier_passive = caster:FindModifierByName("modifier_Overlord_passive")
+    if modifier_passive then
+        modifier_passive:IncrementStackCount()
+    end
+end

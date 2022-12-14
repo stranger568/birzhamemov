@@ -23,10 +23,8 @@ function azazin_teama:OnSpellStart()
         Vector(0, -108, 0),
     }
 
-    local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_siren/naga_siren_mirror_image.vpcf", PATTACH_ABSORIGIN, self:GetCaster())
-
     for i = 1, image_count do
-        local illusions = CreateIllusions( self:GetCaster(), self:GetCaster(), {duration=duration,outgoing_damage=image_out_dmg,incoming_damage=incoming_damage}, 1, 1, true, true ) 
+        local illusions = BirzhaCreateIllusion( self:GetCaster(), self:GetCaster(), {duration=duration,outgoing_damage=image_out_dmg,incoming_damage=incoming_damage}, 1, 1, true, true ) 
         for k, illusion in pairs(illusions) do
             local pos = self:GetCaster():GetAbsOrigin() + vRandomSpawnPos[i]
             FindClearSpaceForUnit(illusion, pos, true)
@@ -34,10 +32,7 @@ function azazin_teama:OnSpellStart()
             ParticleManager:ReleaseParticleIndex(particle_2)
         end
     end
-    if particle then
-        ParticleManager:DestroyParticle(particle, false)
-        ParticleManager:ReleaseParticleIndex(particle)
-    end
+
     self:GetCaster():Stop()
     self:GetCaster():EmitSound("azazinfriends")
 end
@@ -65,53 +60,47 @@ function modifier_azazin_gayaura:IsPurgable()
 end
 
 function modifier_azazin_gayaura:DeclareFunctions()
-    local funcs = {
-        MODIFIER_EVENT_ON_TAKEDAMAGE
+    local funcs = 
+    {
+        MODIFIER_EVENT_ON_TAKEDAMAGE,
+        MODIFIER_PROPERTY_TOTAL_CONSTANT_BLOCK,
     }
     return funcs
 end
 
-function modifier_azazin_gayaura:OnTakeDamage (event)
-    if event.unit == self:GetParent() then
-        local caster = self:GetParent()
-        local post_damage = event.damage
-        local original_damage = event.original_damage
-        local ability = self:GetAbility()
-        local damage_reflect_pct = (ability:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_azazin_5")) * 0.01
-        local radius = ability:GetSpecialValueFor("radius")
-        if self:GetParent():PassivesDisabled() or self:GetParent():IsIllusion() then return end
-        if caster:IsAlive() then
-            caster:SetHealth(caster:GetHealth() + (post_damage * damage_reflect_pct) )
-        end
+function modifier_azazin_gayaura:OnTakeDamage(params)
+    if params.unit ~= self:GetParent() then return end
+    if params.attacker == self:GetParent() then return end
+    if self:GetParent():PassivesDisabled() then return end
+    if self:GetParent():IsIllusion() then return end
 
-        local units = FindUnitsInRadius(
-            self:GetParent():GetTeamNumber(),
-            self:GetParent():GetAbsOrigin(),
-            nil,
-            radius,
-            DOTA_UNIT_TARGET_TEAM_ENEMY,
-            DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-            DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-            FIND_ANY_ORDER,
-            false
-        )
-        if original_damage > 10000 then
-            ApplyDamage({victim = event.attacker, attacker = caster, ability = self:GetAbility(), damage = damage, damage_flags = DOTA_DAMAGE_FLAG_REFLECTION + DOTA_DAMAGE_FLAG_NO_SPELL_LIFESTEAL + DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION, damage_type = DAMAGE_TYPE_PURE })   
-            return
+    local damage_reflect_pct = (self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_azazin_7") ) / 100
+    local radius = self:GetAbility():GetSpecialValueFor("radius")
+
+    local units = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_ANY_ORDER, false )
+    
+    if (params.original_damage > self:GetParent():GetHealth() or params.original_damage > 10000) and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then
+        ApplyDamage({victim = params.attacker, attacker = self:GetParent(), ability = self:GetAbility(), damage = params.original_damage * damage_reflect_pct, damage_flags = DOTA_DAMAGE_FLAG_REFLECTION + DOTA_DAMAGE_FLAG_NO_SPELL_LIFESTEAL + DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION, damage_type = params.damage_type })
+        return
+    end
+
+    for _,unit in pairs(units) do
+        if bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_HPLOSS) ~= DOTA_DAMAGE_FLAG_HPLOSS and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then
+            local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_spectre/spectre_dispersion.vpcf", PATTACH_POINT_FOLLOW, self:GetParent() )
+            ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
+            ParticleManager:SetParticleControl(particle, 1, unit:GetAbsOrigin())
+            ParticleManager:SetParticleControl(particle, 2, self:GetParent():GetAbsOrigin())
+            ApplyDamage({victim = unit, attacker = self:GetParent(), ability = self:GetAbility(), damage = params.original_damage * damage_reflect_pct, damage_flags = DOTA_DAMAGE_FLAG_REFLECTION + DOTA_DAMAGE_FLAG_NO_SPELL_LIFESTEAL + DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION, damage_type = params.damage_type })
         end
-        for _,unit in pairs(units) do
-            if bit.band(event.damage_flags, DOTA_DAMAGE_FLAG_HPLOSS) ~= DOTA_DAMAGE_FLAG_HPLOSS and bit.band(event.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then
-                local vCaster = caster:GetAbsOrigin()
-                local vUnit = unit:GetAbsOrigin()
-                local distance = (vUnit - vCaster):Length2D()
-                local damage = original_damage * damage_reflect_pct
-                local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_spectre/spectre_dispersion.vpcf", PATTACH_POINT_FOLLOW, caster )
-                ParticleManager:SetParticleControl(particle, 0, vCaster)
-                ParticleManager:SetParticleControl(particle, 1, vUnit)
-                ParticleManager:SetParticleControl(particle, 2, vCaster)
-                ApplyDamage({victim = unit, attacker = caster, ability = self:GetAbility(), damage = damage, damage_flags = DOTA_DAMAGE_FLAG_REFLECTION + DOTA_DAMAGE_FLAG_NO_SPELL_LIFESTEAL + DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION, damage_type = DAMAGE_TYPE_PURE })
-            end
-        end
+    end
+end
+
+function modifier_azazin_gayaura:GetModifierTotal_ConstantBlock(params)
+    if not IsServer() then return end
+    if params.damage <= 0 then return end
+    if bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_HPLOSS) ~= DOTA_DAMAGE_FLAG_HPLOSS and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then
+        local damage_reflect_pct = ( self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_azazin_7") ) / 100
+        return params.damage * damage_reflect_pct
     end
 end
 
@@ -129,14 +118,14 @@ function azazin_agressive:GetManaCost(level)
 end
 
 function azazin_agressive:GetCastRange(location, target)
-    return self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_azazin_2")
+    return self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_azazin_4")
 end
-
 
 function azazin_agressive:OnAbilityPhaseInterrupted()
     if not IsServer() then return end
-    StopSoundOn( "Hero_Axe.BerserkersCall.Start", self:GetCaster() )
+    self:GetCaster():StopSound("Hero_Axe.BerserkersCall.Start")
 end
+
 function azazin_agressive:OnAbilityPhaseStart()
     self:GetCaster():EmitSound("Hero_Axe.BerserkersCall.Start")
     return true
@@ -145,8 +134,8 @@ end
 function azazin_agressive:OnSpellStart()
     local caster = self:GetCaster()
     local point = caster:GetOrigin()
-    local radius = self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_azazin_2")
-    local duration = self:GetSpecialValueFor("duration")
+    local radius = self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_azazin_4")
+    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_azazin_5")
     local enemies = FindUnitsInRadius( caster:GetTeamNumber(), point, nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false )
 
     caster:AddNewModifier( caster, self, "modifier_azazin_agressive", { duration = duration } )
@@ -158,6 +147,7 @@ function azazin_agressive:OnSpellStart()
     end
 
     self:GetCaster():EmitSound("Hero_Axe.Berserkers_Call")
+
     local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_axe/axe_beserkers_call_owner.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
     ParticleManager:SetParticleControlEnt( particle, 1, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_mouth", Vector(0,0,0), true )
     ParticleManager:ReleaseParticleIndex( particle )
@@ -174,7 +164,7 @@ end
 
 function azazin_agressive:IllusionCast(illusion)
     local duration = self:GetSpecialValueFor("duration")
-    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), illusion:GetAbsOrigin(), nil, 200, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false )
+    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), illusion:GetAbsOrigin(), nil, self:GetAbility():GetSpecialValueFor("illusion_radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false )
     illusion:AddNewModifier( illusion, self, "modifier_azazin_agressive", { duration = duration } )
     for _,enemy in pairs(enemies) do
         if not enemy:IsDuel() then
@@ -214,7 +204,7 @@ function modifier_azazin_agressive:DeclareFunctions()
 end
 
 function modifier_azazin_agressive:GetModifierPhysicalArmorBonus()
-    return self:GetAbility():GetSpecialValueFor( "bonus_armor" )
+    return self:GetAbility():GetSpecialValueFor( "bonus_armor" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_azazin_2")
 end
 
 modifier_azazin_agressive_debuff = class({})
@@ -248,8 +238,19 @@ function modifier_azazin_agressive_debuff:OnRemoved()
     self:GetParent():SetForceAttackTarget( nil )
 end
 
+function modifier_azazin_agressive_debuff:DeclareFunctions()
+    return {
+        MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS
+    }
+end
+
+function modifier_azazin_agressive_debuff:GetModifierMagicalResistanceBonus()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_azazin_6")
+end
+
 function modifier_azazin_agressive_debuff:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_COMMAND_RESTRICTED] = true,
         [MODIFIER_STATE_TAUNTED] = true,
     }
@@ -279,7 +280,7 @@ end
 
 function Azazin_Spinner:OnSpellStart()
     local caster = self:GetCaster()
-    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_azazin_4")
+    local duration = self:GetSpecialValueFor("duration")
     caster:EmitSound("azazin")
     caster:AddNewModifier( caster, self, "modifier_azazin_spinner", { duration = duration } )
 end
@@ -296,7 +297,7 @@ end
 
 function modifier_azazin_spinner:OnCreated( kv )
     if not IsServer() then return end
-    local damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_azazin_3")
+    local damage = self:GetAbility():GetSpecialValueFor("damage")
     local radius = self:GetAbility():GetSpecialValueFor("spinner_radius")
 
     if self:GetParent():HasScepter() then
@@ -304,31 +305,43 @@ function modifier_azazin_spinner:OnCreated( kv )
     end
 
     local spinner_damage_tick = self:GetAbility():GetSpecialValueFor("spinner_damage_tick")
+
     damage = damage * spinner_damage_tick
-    self.damageTable = {
+
+    self.damageTable = 
+    {
         attacker = self:GetParent(),
         damage = damage,
-        damage_type = DAMAGE_TYPE_MAGICAL,
+        damage_type = DAMAGE_TYPE_PURE,
         ability = self:GetAbility(),
     }
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_azazin_8") then
+        self.damageTable.damage_type = DAMAGE_TYPE_MAGICAL
+    end
+
     self.particle = ParticleManager:CreateParticle( "particles/blue_fury/juggernaut_blade_fury.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
     ParticleManager:SetParticleControl( self.particle, 5, Vector( radius, 0, 0 ) )
     self:AddParticle( self.particle, false, false, -1, false, false )
+
     self:StartIntervalThink(spinner_damage_tick)
 end
 
 function modifier_azazin_spinner:OnDestroy( kv )
     if not IsServer() then return end
-    StopSoundOn( "azazin", self:GetParent() )
+    self:GetParent():StopSound("azazin")
 end
 
 function modifier_azazin_spinner:OnIntervalThink()
     if not IsServer() then return end
+
     local radius = self:GetAbility():GetSpecialValueFor("spinner_radius")
+
     if self:GetParent():HasScepter() then
-        radius = 500
+        radius = self:GetAbility():GetSpecialValueFor("scepter_radius")
         ParticleManager:SetParticleControl( self.particle, 5, Vector( radius, 0, 0 ) )
     end
+
     local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetParent():GetOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_ANY_ORDER, false )
     for _,enemy in pairs(enemies) do
         self.damageTable.victim = enemy
@@ -345,11 +358,18 @@ function modifier_azazin_spinner:OnIntervalThink()
 end
 
 function modifier_azazin_spinner:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_MAGIC_IMMUNE] = true,
         [MODIFIER_STATE_SILENCED] = true,
         [MODIFIER_STATE_DISARMED] = true,
     }
+    if self:GetCaster():HasTalent("special_bonus_birzha_azazin_3") then
+        state = 
+        {
+            [MODIFIER_STATE_MAGIC_IMMUNE] = true,
+        }
+    end
 
     return state
 end

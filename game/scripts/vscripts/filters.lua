@@ -146,7 +146,8 @@ function BirzhaGameMode:DamageFilter( filterTable  )
 	end
 
     for _, mod_return in pairs(modifiers_return_victim) do
-	   	if victim:HasModifier(mod_return) then
+	   	if victim:HasModifier(mod_return) and victim.overlord_kill == nil then
+	   		print("999")
 	    	return false
 	    end
 	end

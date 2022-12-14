@@ -5,26 +5,29 @@ LinkLuaModifier( "modifier_freddy_fear", "abilities/heroes/freddy.lua", LUA_MODI
 LinkLuaModifier( "modifier_freddy_screamer_effect_webm", "abilities/heroes/freddy.lua", LUA_MODIFIER_MOTION_BOTH )
 LinkLuaModifier( "modifier_freddy_screamer_effect_webm_cooldown", "abilities/heroes/freddy.lua", LUA_MODIFIER_MOTION_BOTH )
 LinkLuaModifier( "modifier_freddy_costume_launch", "abilities/heroes/freddy.lua", LUA_MODIFIER_MOTION_BOTH )
+LinkLuaModifier( "modifier_freddy_scream_fear", "abilities/heroes/freddy.lua", LUA_MODIFIER_MOTION_BOTH )
 
 freddy_scream = class({})
 
 function freddy_scream:GetCooldown(iLevel)
-	return self.BaseClass.GetCooldown( self, iLevel ) + self:GetCaster():FindTalentValue("special_bonus_birzha_freddy_2")
+	return self.BaseClass.GetCooldown( self, iLevel ) + self:GetCaster():FindTalentValue("special_bonus_birzha_freddy_1")
 end
 
 function freddy_scream:OnSpellStart()
 	if not IsServer() then return end
+
 	local target = self:GetCursorTarget()
-	local damage_duration = self:GetSpecialValueFor("debuff_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_freddy_1")
+
+	if target:TriggerSpellAbsorb(self) then return nil end
+
+	local damage_duration = self:GetSpecialValueFor("debuff_duration")
 	local fear_duration = self:GetSpecialValueFor("fear_duration")
 	local damage = self:GetSpecialValueFor("damage_interval")
 
-	if target:HasModifier("modifier_freddy_fear") then
-		damage = damage * 2
-	end
-
 	if target:HasModifier("modifier_freddy_heart_death") then
-		damage = damage * 3
+		damage = damage * self:GetSpecialValueFor("damage_multiple_2")
+	elseif target:HasModifier("modifier_freddy_fear") then
+		damage = damage * self:GetSpecialValueFor("damage_multiple")
 	end
 
 	self:GetCaster():EmitSound("freddy_screamer")
@@ -40,7 +43,7 @@ function freddy_scream:OnSpellStart()
 
 	ApplyDamage({attacker = self:GetCaster(), victim = target, ability = self, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
 
-	target:AddNewModifier(self:GetCaster(), self, "modifier_freddy_scream_damage", {duration = damage_duration})
+	target:AddNewModifier(self:GetCaster(), self, "modifier_freddy_scream_damage", {duration = damage_duration * (1 - target:GetStatusResistance())})
 
 	if target:HasModifier("modifier_freddy_heart_death") then
 		local modifier = target:FindModifierByName("modifier_freddy_heart_death")
@@ -48,8 +51,46 @@ function freddy_scream:OnSpellStart()
 			modifier:ForceRefresh()
 		end
 	else
-		target:AddNewModifier(self:GetCaster(), self, "modifier_freddy_fear", {duration = fear_duration})
+		target:AddNewModifier(self:GetCaster(), self, "modifier_freddy_fear", {duration = fear_duration * (1-target:GetStatusResistance())})
 	end
+end
+
+modifier_freddy_scream_fear = class({})
+
+function modifier_freddy_scream_fear:IsPurgable()
+    return false
+end
+
+function modifier_freddy_scream_fear:IsHidden()
+    return true
+end
+
+function modifier_freddy_scream_fear:OnCreated()
+    if not IsServer() then return end
+    local pos = (self:GetParent():GetAbsOrigin() - self:GetCaster():GetAbsOrigin())
+    pos.z = 0
+    pos = pos:Normalized()
+    self.position = self:GetParent():GetAbsOrigin() + pos * 3000
+    self:GetParent():MoveToPosition( self.position )
+end
+
+function modifier_freddy_scream_fear:OnIntervalThink()
+    if not IsServer() then return end
+    self:GetParent():MoveToPosition( self.position )
+end
+
+function modifier_freddy_scream_fear:OnDestroy()
+    if not IsServer() then return end
+    self:GetParent():Stop()
+end
+
+function modifier_freddy_scream_fear:CheckState()
+    local state = 
+    {
+        [MODIFIER_STATE_COMMAND_RESTRICTED] = true,
+        [MODIFIER_STATE_FEARED] = true,
+    }
+    return state
 end
 
 modifier_freddy_scream_damage = class({})
@@ -69,7 +110,14 @@ end
 
 function modifier_freddy_scream_damage:OnIntervalThink()
 	if not IsServer() then return end
-	ApplyDamage({attacker = self:GetCaster(), victim = self:GetParent(), ability = self:GetAbility(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL})
+	ApplyDamage({attacker = self:GetCaster(), victim = self:GetParent(), ability = self:GetAbility(), damage = self.damage * 0.5, damage_type = DAMAGE_TYPE_MAGICAL})
+end
+
+function modifier_freddy_scream_damage:CheckState()
+	if not self:GetCaster():HasTalent("special_bonus_birzha_freddy_4") then return end
+	return {
+		[MODIFIER_STATE_PASSIVES_DISABLED] = true
+	}
 end
 
 -- ОБЫЧНЫЙ ИСПУГ
@@ -87,7 +135,6 @@ function modifier_freddy_screamer_effect_webm_cooldown:IsHidden() return true en
 function modifier_freddy_screamer_effect_webm_cooldown:IsPurgable() return false end
 
 modifier_freddy_screamer_effect_webm = class({})
-
 function modifier_freddy_screamer_effect_webm:IsPurgable() return false end
 function modifier_freddy_screamer_effect_webm:IsHidden() return true end
 function modifier_freddy_screamer_effect_webm:OnCreated()
@@ -139,42 +186,56 @@ function modifier_freddy_surprice:OnIntervalThink()
 	if not self.active then return end
 	local units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
 	if #units <= 0 then return end
+
 	local particle = ParticleManager:CreateParticle("particles/freddy/toy_screamstart.vpcf", PATTACH_WORLDORIGIN, self:GetParent())
 	ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
+	ParticleManager:ReleaseParticleIndex(particle)
+
 	self:GetParent():EmitSound("freddy_surprice")
+
 	self:GetParent():EmitSound("freddy_screamer")
+
 	self.active = false
+
 	self:GetParent():SetModel("models/freddy/box_open.vmdl")
     self:GetParent():SetOriginalModel("models/freddy/box_open.vmdl")
-	for _, unit in pairs(units) do
 
+	for _, unit in pairs(units) do
 		if self:GetCaster():HasShard() then
 			local ability_ultimate = self:GetCaster():FindAbilityByName("freddy_costume_launch")
 			if ability_ultimate and ability_ultimate:GetLevel() > 0 then
 				local duration = ability_ultimate:GetSpecialValueFor("duration")
-				unit:AddNewModifier(self:GetCaster(), ability_ultimate, "modifier_freddy_costume_launch", {duration = duration})
+				unit:AddNewModifier(self:GetCaster(), ability_ultimate, "modifier_freddy_costume_launch", {duration = duration * (1-unit:GetStatusResistance())})
 			end
 		end
+
 		if not unit:HasModifier("modifier_freddy_screamer_effect_webm_cooldown") then
 			unit:AddNewModifier(self:GetCaster(), nil, "modifier_freddy_screamer_effect_webm", {duration = 1.5})
 			unit:AddNewModifier(self:GetCaster(), nil, "modifier_freddy_screamer_effect_webm_cooldown", {duration = 20})
 		end
+
+		if self:GetCaster():HasTalent("special_bonus_birzha_freddy_3") then
+			unit:AddNewModifier(self:GetParent(), nil, "modifier_freddy_scream_fear", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_freddy_3") * (1 - unit:GetStatusResistance())})
+		end
+
 		if unit:HasModifier("modifier_freddy_heart_death") then
-			ApplyDamage({attacker = self:GetCaster(), victim = unit, ability = self:GetAbility(), damage = self.damage * 2, damage_type = DAMAGE_TYPE_MAGICAL})
+			ApplyDamage({attacker = self:GetCaster(), victim = unit, ability = self:GetAbility(), damage = self.damage * self:GetAbility():GetSpecialValueFor("damage_multiple"), damage_type = DAMAGE_TYPE_MAGICAL})
 		else
 			ApplyDamage({attacker = self:GetCaster(), victim = unit, ability = self:GetAbility(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL})
 		end
 
 		if unit:HasModifier("modifier_freddy_fear") or unit:HasModifier("modifier_freddy_heart_death") then
 			unit:RemoveModifierByName("modifier_freddy_fear")
-			unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_freddy_heart_death", {duration = self.duration})
+			unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_freddy_heart_death", {duration = self.duration * (1-unit:GetStatusResistance())})
 		end
 	end
+
 	self:GetParent():RemoveModifierByName("modifier_kill")
 end
 
 function modifier_freddy_surprice:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_NO_HEALTH_BAR] = true,
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
         [MODIFIER_STATE_STUNNED] = true,
@@ -182,8 +243,8 @@ function modifier_freddy_surprice:CheckState()
         [MODIFIER_STATE_UNSELECTABLE] = true,
         [MODIFIER_STATE_OUT_OF_GAME] = true,
         [MODIFIER_STATE_UNTARGETABLE] = true,
+        [MODIFIER_STATE_NOT_ON_MINIMAP] = true,
     }
-
     return state
 end
 
@@ -192,39 +253,34 @@ LinkLuaModifier( "modifier_freddy_toreador_visual", "abilities/heroes/freddy.lua
 
 freddy_toreador = class({})
 
-freddy_toreador.bonus_damage = 0
-
 function freddy_toreador:GetIntrinsicModifierName()
 	return "modifier_freddy_toreador_visual"
 end
 
 function freddy_toreador:OnSpellStart()
 	if not IsServer() then return end
-	local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_freddy_3")
+	local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_freddy_2")
 	local bonus_damage = self:GetSpecialValueFor("bonus_damage")
+
+	local modifier_freddy_toreador_visual = self:GetCaster():FindModifierByName("modifier_freddy_toreador_visual")
+	if modifier_freddy_toreador_visual then
+		modifier_freddy_toreador_visual:SetStackCount(modifier_freddy_toreador_visual:GetStackCount() + bonus_damage)
+	end
+
 	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_freddy_toreador", {duration = duration})
-	self.bonus_damage = self.bonus_damage + bonus_damage
 end
 
 modifier_freddy_toreador_visual = class({})
 
 function modifier_freddy_toreador_visual:IsPurgable() return false end
-function modifier_freddy_toreador_visual:OnCreated()
-	if not IsServer() then return end
-	self:StartIntervalThink(FrameTime())
-end
-
-function modifier_freddy_toreador_visual:OnIntervalThink()
-	if not IsServer() then return end
-	self:SetStackCount(self:GetAbility().bonus_damage)
-end
+function modifier_freddy_toreador_visual:IsHidden() return self:GetStackCount() == 0 end
 
 modifier_freddy_toreador = class({})
 
 function modifier_freddy_toreador:IsPurgable() return false end
 
 function modifier_freddy_toreador:OnCreated()
-	self.damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetAbility().bonus_damage + self:GetCaster():FindTalentValue("special_bonus_birzha_freddy_4")
+	self.damage = self:GetAbility():GetSpecialValueFor("damage")
 	self.radius = self:GetAbility():GetSpecialValueFor("radius")
 	self.clicker_fix = false
 	if not IsServer() then return end
@@ -232,14 +288,14 @@ function modifier_freddy_toreador:OnCreated()
 end
 
 function modifier_freddy_toreador:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_EVENT_ON_ORDER,
         MODIFIER_PROPERTY_MOVESPEED_LIMIT,
         MODIFIER_PROPERTY_INVISIBILITY_LEVEL,
 		MODIFIER_EVENT_ON_ATTACK,
 		MODIFIER_EVENT_ON_ABILITY_EXECUTED,
     }
-
     return funcs
 end
 
@@ -307,32 +363,49 @@ function modifier_freddy_toreador:OnAbilityExecuted(keys)
 end
 
 function modifier_freddy_toreador:CheckState()
-    return {
+    return 
+    {
         [MODIFIER_STATE_INVISIBLE] = true,
     }
 end
 
 function modifier_freddy_toreador:OnDestroy()
 	if not IsServer() then return end
+
 	StopGlobalSound("freddy_tor")
+
 	local particle = ParticleManager:CreateParticle("particles/freddy/freddy_aoe_fear.vpcf", PATTACH_WORLDORIGIN, self:GetParent())
 	ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
 	ParticleManager:SetParticleControl(particle, 1, Vector(self.radius,1,1))
+
 	EmitSoundOnLocationWithCaster( self:GetCaster():GetOrigin(), "freddy_screamer", self:GetCaster() )
+
 	local units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
+
+	local bonus_damage = 0
+	local modifier_freddy_toreador_visual = self:GetCaster():FindModifierByName("modifier_freddy_toreador_visual")
+	if modifier_freddy_toreador_visual then
+		bonus_damage = modifier_freddy_toreador_visual:GetStackCount()
+		if self:GetCaster():HasTalent("special_bonus_birzha_freddy_6") then
+			bonus_damage = bonus_damage * self:GetCaster():FindTalentValue("special_bonus_birzha_freddy_6")
+		end
+	end
+
 	for _, unit in pairs(units) do
 		if not unit:HasModifier("modifier_freddy_screamer_effect_webm_cooldown") then
 			unit:AddNewModifier(self:GetCaster(), nil, "modifier_freddy_screamer_effect_webm", {duration = 1.5})
 			unit:AddNewModifier(self:GetCaster(), nil, "modifier_freddy_screamer_effect_webm_cooldown", {duration = 20})
 		end
-		ApplyDamage({attacker = self:GetCaster(), victim = unit, ability = self:GetAbility(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL})
+
+		ApplyDamage({attacker = self:GetCaster(), victim = unit, ability = self:GetAbility(), damage = self.damage + bonus_damage, damage_type = DAMAGE_TYPE_MAGICAL})
+
 		if unit:HasModifier("modifier_freddy_heart_death") then
 			local modifier = unit:FindModifierByName("modifier_freddy_heart_death")
 			if modifier then
 				modifier:ForceRefresh()
 			end
 		else
-			unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_freddy_fear", {duration = 10})
+			unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_freddy_fear", {duration = 10 * (1-unit:GetStatusResistance())})
 		end
 	end
 end
@@ -349,7 +422,8 @@ function freddy_costume_launch:OnSpellStart()
 	direction.z = 0
 	direction = direction:Normalized()
 
-	local info = {
+	local info = 
+	{
 		Source = self:GetCaster(),
 		Ability = self,
 		vSpawnOrigin = self:GetCaster():GetOrigin(),
@@ -367,6 +441,7 @@ function freddy_costume_launch:OnSpellStart()
 		bProvidesVision = false,
 		bDeleteOnHit = true,
 	}
+
 	ProjectileManager:CreateLinearProjectile(info)
 end
 
@@ -374,7 +449,7 @@ function freddy_costume_launch:OnProjectileHit(hTarget, vLocation)
 	if not hTarget then return end
 	if hTarget:HasModifier("modifier_freddy_costume_active") then return end
 	local duration = self:GetSpecialValueFor("duration")
-	hTarget:AddNewModifier(self:GetCaster(), self, "modifier_freddy_costume_launch", {duration = duration})
+	hTarget:AddNewModifier(self:GetCaster(), self, "modifier_freddy_costume_launch", {duration = duration * (1-hTarget:GetStatusResistance())})
 	return true
 end
 
@@ -406,21 +481,20 @@ function freddy_costume_active:OnAbilityPhaseStart()
         end
     end
 
-    print(use)
-
 	return use
 end
 
 function freddy_costume_active:OnSpellStart()
 	if not IsServer() then return end
-	local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_freddy_6")
-	local damage_per_health = self:GetSpecialValueFor("damage_per_health") + self:GetCaster():FindTalentValue("special_bonus_birzha_freddy_5")
+	local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_freddy_8")
+	local damage_per_health = self:GetSpecialValueFor("damage_per_health") + self:GetCaster():FindTalentValue("special_bonus_birzha_freddy_7")
     local units = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, -1, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_CLOSEST, false )
     for _, unit in pairs(units) do
         local mod = unit:FindModifierByName("modifier_freddy_costume_launch")
         if mod and not mod:IsNull() then
         	local particle = ParticleManager:CreateParticle("particles/freddy/spring_effect.vpcf", PATTACH_ABSORIGIN_FOLLOW, unit)
         	ParticleManager:SetParticleControl(particle, 0, unit:GetAbsOrigin())
+        	ParticleManager:ReleaseParticleIndex(particle)
         	mod:Destroy()
         	unit:EmitSound("freddy_costume_active")
         	local damage = unit:GetMaxHealth() / 100 * damage_per_health
@@ -481,7 +555,7 @@ function modifier_freddy_costume_active_bunny:IsPurgable() return false end
 
 function modifier_freddy_costume_active_bunny:OnCreated()
 	if IsServer() then
-		self.leash_distance = 2000
+		self.leash_distance = self:GetAbility():GetSpecialValueFor("radius_scepter_2")
 		self.ForwardVector = self:GetParent():GetForwardVector()
 		self.returningToLeash = false
 		self:StartIntervalThink(1.0)
@@ -507,7 +581,7 @@ end
 
 function modifier_freddy_costume_active_bunny:OnAttackLanded(params)
 	if params.attacker == self:GetParent() then
-		local damage = params.target:GetMaxHealth() / 100 * 5
+		local damage = params.target:GetMaxHealth() / 100 * self:GetAbility():GetSpecialValueFor("scepter_damage")
 		ApplyDamage({attacker = self:GetCaster(), victim = params.target, damage = damage, damage_type = DAMAGE_TYPE_PHYSICAL})
 	end
 end

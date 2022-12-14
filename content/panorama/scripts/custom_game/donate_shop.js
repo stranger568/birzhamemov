@@ -1,16 +1,27 @@
 var parentHUDElements = $.GetContextPanel().GetParent().GetParent().GetParent().FindChild("HUDElements").FindChildTraverse("MenuButtons");
-if ($("#ShopButton")) {
-	if (parentHUDElements.FindChildTraverse("ShopButton")){
-		$("#ShopButton").DeleteAsync( 0 );
-	} else {
-		$("#ShopButton").SetParent(parentHUDElements);
+
+if (parentHUDElements)
+{
+	if ($("#ShopButton")) {
+		if (parentHUDElements.FindChildTraverse("ShopButton")){
+			$("#ShopButton").DeleteAsync( 0 );
+		} else {
+			$("#ShopButton").SetParent(parentHUDElements);
+		}
 	}
-}
-if ($("#BirzhaPlusButton")) {
-	if (parentHUDElements.FindChildTraverse("BirzhaPlusButton")){
-		$("#BirzhaPlusButton").DeleteAsync( 0 );
-	} else {
-		$("#BirzhaPlusButton").SetParent(parentHUDElements);
+	if ($("#BirzhaPlusButton")) {
+		if (parentHUDElements.FindChildTraverse("BirzhaPlusButton")){
+			$("#BirzhaPlusButton").DeleteAsync( 0 );
+		} else {
+			$("#BirzhaPlusButton").SetParent(parentHUDElements);
+		}
+	}
+	if ($("#BattlepassButton")) {
+		if (parentHUDElements.FindChildTraverse("BattlepassButton")){
+			$("#BattlepassButton").DeleteAsync( 0 );
+		} else {
+			$("#BattlepassButton").SetParent(parentHUDElements);
+		}
 	}
 }
 
@@ -18,11 +29,6 @@ var dotaHudChatControls = $.GetContextPanel().GetParent().GetParent().GetParent(
 $("#SmilesButton").SetParent(dotaHudChatControls);
 dotaHudChatControls.MoveChildBefore(dotaHudChatControls.FindChildTraverse("SmilesButton"), dotaHudChatControls.FindChildTraverse("ChatEmoticonButton"))
 dotaHudChatControls.FindChildTraverse("ChatEmoticonButton").style.visibility = "collapse"
-
-
-
-
-
 
 var toggle = false;
 var first_time = false;
@@ -40,8 +46,8 @@ var button_donate_link_3 = "https://bmemov.ru/donate/bitcoins/"
 	// ID ПРЕДМЕТА для проверки или для добавления в базу,ВАЛЮТА,СТОИМОСТЬ,ИКОНКА(именно название png файла),переменная названия в локализации, можно покупать много раз или один раз(проверка на покупку в базе)
 
 var Items_recomended = [
-	["21", "gold", "300", "subscribe", "subscribe_1", false],
-	["34", "gold", "500", "item_for_sobolev", "item_for_sobolev", false],
+	["21", "gold", "500", "subscribe", "subscribe_1", false],
+	["34", "gold", "1000", "item_for_sobolev", "item_for_sobolev", false],
 	["29", "gold", "2500", "item_for_papich", "item_for_papich", false],
 	["33", "gold", "2500", "item_for_druzhko", "item_for_druzhko", false],
 	["27", "gold", "2500", "item_for_never", "item_for_never", false],
@@ -64,77 +70,74 @@ var Items_dogecoins = [
 //////////МАССИВ ПИТОМЦЕВ///////////
 
 var Items_pets = [
-	["1", "gold", "100", "pet_1", "pet_1", false], 
-	["2", "gem", "150", "pet_2", "pet_2", false],
-	["3", "gem", "150", "pet_3", "pet_3", false],
-	["4", "gold", "200", "pet_4", "pet_4", false],
-	["5", "gold", "200", "pet_5", "pet_5", false],
-	["6", "gold", "200", "pet_6", "pet_6", false],
-	["7", "gold", "200", "pet_7", "pet_7", false],
-	["8", "gold", "500", "pet_8", "pet_8", false],
-	["9", "gold", "100", "pet_9", "pet_9", false],
-	["10", "gold", "100", "pet_10", "pet_10", false],
-	["11", "gold", "200", "pet_11", "pet_11", false],
-	["12", "gold", "200", "pet_12", "pet_12", false],
-	["13", "gold", "100", "pet_13", "pet_13", false],
-	["14", "gold", "100", "pet_14", "pet_14", false],
-	["15", "gold", "200", "pet_15", "pet_15", false],
-	["16", "gold", "200", "pet_16", "pet_16", false],
-	["17", "gold", "50", "pet_17", "pet_17", false],
-	["18", "gold", "50", "pet_18", "pet_18", false],
-	["19", "gold", "100", "pet_19", "pet_19", false],
+	["1", "gem", "1500", "pet_1", "pet_1", false], 
+	["2", "gem", "1500", "pet_2", "pet_2", false],
+	["3", "gem", "1500", "pet_3", "pet_3", false],
+	["4", "gem", "1500", "pet_4", "pet_4", false],
+	["5", "gem", "1500", "pet_5", "pet_5", false],
+	["6", "gem", "1500", "pet_6", "pet_6", false],
+	["7", "gem", "1500", "pet_7", "pet_7", false],
+	["8", "gem", "1500", "pet_8", "pet_8", false],
+	["9", "gem", "1500", "pet_9", "pet_9", false],
+	["10", "gem", "1500", "pet_10", "pet_10", false],
+	["11", "gem", "1500", "pet_11", "pet_11", false],
+	["12", "gem", "1500", "pet_12", "pet_12", false],
+	["13", "gem", "1500", "pet_13", "pet_13", false],
+	["14", "gem", "1500", "pet_14", "pet_14", false],
+	["15", "gem", "1500", "pet_15", "pet_15", false],
+	["16", "gem", "1500", "pet_16", "pet_16", false],
+	["17", "gem", "1500", "pet_17", "pet_17", false],
+	["18", "gem", "1500", "pet_18", "pet_18", false],
+	["19", "gem", "1500", "pet_19", "pet_19", false],
 ]
 
 //////////МАССИВ ЭФФЕКТОВ///////////
 
-var Items_effects = [
-	["20", "gem", "250", "particle_1", "particle_1", false],
-	["40", "gem", "500", "particle_2", "particle_2", false],
-	["41", "gold", "500", "particle_3", "particle_3", false],
-	["42", "gold", "500", "particle_4", "particle_4", false],
-
-	["43", "gold", "1000", "particle_5", "particle_5", false],
-	["44", "gold", "1000", "particle_6", "particle_6", false],
-	["45", "gem", "250", "particle_7", "particle_7", false],
-	["46", "gem", "250", "particle_8", "particle_8", false],
-
-	["47", "gem", "250", "particle_9", "particle_9", false],
-	["48", "gem", "250", "particle_10", "particle_10", false],
-	["49", "gold", "1000", "particle_11", "particle_11", false],
-	["50", "gold", "250", "particle_12", "particle_12", false],
-
-	["51", "gold", "250", "particle_13", "particle_13", false],
+var Items_effects = 
+[
+	["20", "gem", "2000", "particle_1", "particle_1", false],
+	["40", "gem", "2000", "particle_2", "particle_2", false],
+	["41", "gem", "2000", "particle_3", "particle_3", false],
+	["42", "gem", "2000", "particle_4", "particle_4", false],
+	["43", "gem", "2000", "particle_5", "particle_5", false],
+	["44", "gem", "2000", "particle_6", "particle_6", false],
+	["45", "gem", "2000", "particle_7", "particle_7", false],
+	["46", "gem", "2000", "particle_8", "particle_8", false],
+	["47", "gem", "2000", "particle_9", "particle_9", false],
+	["48", "gem", "2000", "particle_10", "particle_10", false],
+	["49", "gem", "2000", "particle_11", "particle_11", false],
+	["50", "gem", "2000", "particle_12", "particle_12", false],
+	["51", "gem", "2000", "particle_13", "particle_13", false],
 ]
 
 //////////МАССИВ ПОДПИСКИ///////////
 
 var Items_subscribe = [
-	["21", "gold", "300", "subscribe", "subscribe_1", false],
-	["135", "gold", "1500", "subscribe", "subscribe_2", false],
+	["21", "gold", "500", "subscribe", "subscribe_1", false],
+	["135", "gold", "2500", "subscribe", "subscribe_2", false],
 ]
 
 
 var Items_heroes = [
-	["22", "gem", "200", "item_for_scp", "item_for_scp", false],
+	["22", "gem", "500", "item_for_scp", "item_for_scp", false],
 	["23", "gold", "1500", "item_for_silvername", "item_for_silvername", false],
 	["24", "gold", "1000", "item_for_gorin", "item_for_gorin", false],
 	["25", "gold", "2500", "item_for_fatmum", "item_for_fatmum", false],
-	["26", "gold", "2000",  "item_for_kurumi", "item_for_kurumi", false],
+	["26", "gold", "2500",  "item_for_kurumi", "item_for_kurumi", false],
 	["27", "gold", "2500", "item_for_never", "item_for_never", false],
 	["28", "gold", "1500", "item_for_valakas", "item_for_valakas", false],
 	["29", "gold", "2500", "item_for_papich", "item_for_papich", false],
-	["30", "gold", "800", "item_for_johncena", "item_for_johncena", false],
-	["31", "gold", "800", "item_for_jew", "item_for_jew", false],
+	["30", "gold", "1500", "item_for_johncena", "item_for_johncena", false],
+	["31", "gold", "1000", "item_for_jew", "item_for_jew", false],
 	["32", "gold", "500", "item_for_poroshenko", "item_for_poroshenko", false],
 	["33", "gold", "2500", "item_for_druzhko", "item_for_druzhko", false],
 	["34", "gold", "1000", "item_for_sobolev", "item_for_sobolev", false],
-	["126", "gold", "1500", "item_for_ayano", "item_for_ayano", false],
-
-	["35", "gem", "200", "item_for_knuckles", "item_for_knuckles", false],
+	["126", "gold", "2500", "item_for_ayano", "item_for_ayano", false],
+	["35", "gem", "500", "item_for_knuckles", "item_for_knuckles", false],
 	["36", "gem", "500", "item_for_bigrussianboss", "item_for_bigrussianboss", false],
-	["37", "gem", "1000", "item_for_versuta", "item_for_versuta", false],
-	["38", "gem", "1000", "item_for_robbie", "item_for_robbie", false],
-	["39", "gem", "500", "item_for_fatmum_2", "item_for_fatmum_2", false],
+	["37", "gem", "2000", "item_for_versuta", "item_for_versuta", false],
+	["38", "gem", "2000", "item_for_robbie", "item_for_robbie", false],
+	["39", "gem", "1000", "item_for_fatmum_2", "item_for_fatmum_2", false],
 	["130", "gem", "2000", "item_for_boy", "item_for_boy", false],
 ]
 
@@ -154,119 +157,101 @@ var Items_currency = [
 	["0", "gold", "6225", "donate_50_2", "Ddonate_dogecoin_4", true],
 ]
 
-var Items_sounds = [
-	["52",  "gem", "100", "sound_1", "sounds_1", false], 
-	["53",  "gold", "50", "sound_2", "sounds_2", false], 
-	["54",  "gold", "50", "sound_3", "sounds_3", false], 
-	["55",  "gem", "50", "sound_4", "sounds_4", false],
-
-	["56",  "gold", "50", "sound_5", "sounds_5", false], 
-	["57",  "gold", "50", "sound_6", "sounds_6", false], 
-	["58",  "gold", "50", "sound_7", "sounds_7", false], 
-	["59",  "gold", "50", "sound_8", "sounds_8", false], 
-
-	["60",  "gold", "50", "sound_9", "sounds_9", false], 
-	["61",  "gold", "50", "sound_10", "sounds_10", false], 
-	["62",  "gold", "50", "sound_11", "sounds_11", false], 
-	["63",  "gem", "25", "sound_12", "sounds_12", false], 
-
-	["64",  "gold", "25", "sound_13", "sounds_13", false], 
+var Items_sounds = 
+[
+	["52",  "gold", "100", "sound_1", "sounds_1", false], 
+	["53",  "gold", "100", "sound_2", "sounds_2", false], 
+	["54",  "gold", "100", "sound_3", "sounds_3", false], 
+	["55",  "gold", "100", "sound_4", "sounds_4", false],
+	["56",  "gold", "100", "sound_5", "sounds_5", false], 
+	["57",  "gold", "100", "sound_6", "sounds_6", false], 
+	["58",  "gold", "100", "sound_7", "sounds_7", false], 
+	["59",  "gold", "100", "sound_8", "sounds_8", false], 
+	["60",  "gold", "200", "sound_9", "sounds_9", false], 
+	["61",  "gold", "100", "sound_10", "sounds_10", false], 
+	["62",  "gold", "100", "sound_11", "sounds_11", false], 
+	["63",  "gold", "100", "sound_12", "sounds_12", false], 
+	["64",  "gold", "100", "sound_13", "sounds_13", false], 
 	["65",  "gold", "100", "sound_14", "sounds_14", false], 
-	["66",  "gold", "50", "sound_15", "sounds_15", false], 
-	["67",  "gold", "50", "sound_16", "sounds_16", false],
-
-	["68",  "gold", "100", "sound_17", "sounds_17", false], 
-	["69",  "gold", "50", "sound_18", "sounds_18", false], 
+	["66",  "gold", "100", "sound_15", "sounds_15", false], 
+	["67",  "gold", "100", "sound_16", "sounds_16", false],
+	["68",  "gold", "200", "sound_17", "sounds_17", false], 
+	["69",  "gold", "100", "sound_18", "sounds_18", false], 
 	["70",  "gold", "200", "sound_19", "sounds_19", false], 
-	["71",  "gold", "50", "sound_20", "sounds_20", false], 
-
-	["72",  "gold", "50", "sound_21", "sounds_21", false], 
-	["73",  "gold", "50", "sound_22", "sounds_22", false], 
-	["74",  "gold", "200", "sound_23", "sounds_23", false], 
-	["75",  "gold", "100", "sound_24", "sounds_24", false],
-
-	["76",  "gold", "50", "sound_25", "sounds_25", false], 
-	["77",  "gold", "200", "sound_26", "sounds_26", false], 
+	["71",  "gold", "100", "sound_20", "sounds_20", false], 
+	["72",  "gold", "100", "sound_21", "sounds_21", false], 
+	["73",  "gold", "100", "sound_22", "sounds_22", false], 
+	["74",  "gold", "500", "sound_23", "sounds_23", false], 
+	["75",  "gold", "200", "sound_24", "sounds_24", false],
+	["76",  "gold", "200", "sound_25", "sounds_25", false], 
+	["77",  "gold", "500", "sound_26", "sounds_26", false], 
 	["78",  "gold", "100", "sound_27", "sounds_27", false], 
-	["79",  "gold", "200", "sound_28", "sounds_28", false], 
-
+	["79",  "gold", "100", "sound_28", "sounds_28", false], 
 	["80",  "gold", "100", "sound_29", "sounds_29", false], 
 	["81",  "gold", "500", "sound_30", "sounds_30", false], 
-	["82",  "gold", "200", "sound_31", "sounds_31", false], 
-	["83",  "gem", "50", "sound_32", "sounds_32", false], 
-
-	["84",  "gem", "50", "sound_33", "sounds_33", false], 
-	["85",  "gem", "50", "sound_34", "sounds_34", false], 
-	["86",  "gem", "50", "sound_35", "sounds_35", false], 
-	["87",  "gem", "100", "sound_36", "sounds_36", false], 
-
-	["113",  "gold", "800", "sound_37", "sounds_37", false], 
-	["114",  "gem", "500", "sound_38", "sounds_38", false], 
-
-
-
-
-	["118",  "gold", "500", "sound", "sounds_39", false], 
-	["119",  "gem",  "50", "sound", "sounds_40", false], 
-	["120",  "gold", "50", "sound", "sounds_41", false], 
-	["121",  "gold", "50", "sound", "sounds_42", false], 
-	["122",  "gold", "100", "sound", "sounds_43", false], 
-	["123",  "gold", "2000", "sound", "sounds_44", false], 
-
-
-	["131",  "gold", "500", "sound", "sounds_45", false], 
-	["132",  "gold", "50", "sound", "sounds_46", false], 
-	["133",  "gold", "500", "sound", "sounds_47", false], 
-	["134",  "gold", "200", "sound", "sounds_48", false], 
+	["82",  "gold", "500", "sound_31", "sounds_31", false], 
+	["83",  "gold", "100", "sound_32", "sounds_32", false], 
+	["84",  "gold", "100", "sound_33", "sounds_33", false], 
+	["85",  "gold", "100", "sound_34", "sounds_34", false], 
+	["86",  "gold", "100", "sound_35", "sounds_35", false], 
+	["87",  "gold", "200", "sound_36", "sounds_36", false], 
+	["113", "gold", "1000", "sound_37", "sounds_37", false], 
+	["114", "gold", "100", "sound_38", "sounds_38", false], 
+	["118", "gold", "200", "sound", "sounds_39", false], 
+	["119", "gold", "100", "sound", "sounds_40", false], 
+	["120", "gold", "100", "sound", "sounds_41", false], 
+	["121", "gold", "100", "sound", "sounds_42", false], 
+	["122", "gold", "100", "sound", "sounds_43", false], 
+	["123", "gold", "2000", "sound", "sounds_44", false], 
+	["131", "gold", "200", "sound", "sounds_45", false], 
+	["132", "gold", "100", "sound", "sounds_46", false], 
+	["133", "gold", "200", "sound", "sounds_47", false], 
+	["134", "gold", "100", "sound", "sounds_48", false], 
 ]
 
-var Items_sprays = [
-	["88",  "gem", "50", "spray_1", "spray_1", false], 
-	["89",  "gold", "50", "spray_2", "spray_2", false], 
-	["90",  "gem", "25", "spray_3", "spray_3", false], 
-	["91",  "gem", "25", "spray_4", "spray_4", false], 
-
-	["92",  "gold", "50", "spray_5", "spray_5", false], 
-	["93",  "gem", "50", "spray_6", "spray_6", false], 
-	["94",  "gold", "50", "spray_7", "spray_7", false], 
-	["95",  "gold", "50", "spray_8", "spray_8", false],
-
-	["96",  "gem", "25", "spray_9", "spray_9", false], 
-	["97",  "gem", "50", "spray_10", "spray_10", false], 
-	["98",  "gold", "50", "spray_11", "spray_11", false], 
-	["99",  "gold", "50", "spray_12", "spray_12", false], 
-
-	["100",  "gold", "100", "spray_13", "spray_13", false], 
-	["101",  "gem", "50", "spray_14", "spray_14", false], 
-	["102",  "gold", "25", "spray_15", "spray_15", false], 
-	["103",  "gold", "50", "spray_16", "spray_16", false],
-
-	["104",  "gem", "25", "spray_17", "spray_17", false], 
-	["105",  "gem", "50", "spray_18", "spray_18", false], 
-	["106",  "gem", "50", "spray_19", "spray_19", false], 
-	["107",  "gem", "50", "spray_20", "spray_20", false],
-
-	["108",  "gem", "25", "spray_21", "spray_21", false], 
-	["109",  "gem", "25", "spray_22", "spray_22", false], 
-	["110",  "gem", "50", "spray_23", "spray_23", false], 
-	["111",  "gem", "5", "spray_24", "spray_24", false],  
+var Items_sprays = 
+[
+	["88",  "gem", "100", "spray_1", "spray_1", false], 
+	["89",  "gem", "100", "spray_2", "spray_2", false], 
+	["90",  "gem", "100", "spray_3", "spray_3", false], 
+	["91",  "gem", "100", "spray_4", "spray_4", false], 
+	["92",  "gem", "100", "spray_5", "spray_5", false], 
+	["93",  "gem", "100", "spray_6", "spray_6", false], 
+	["94",  "gem", "100", "spray_7", "spray_7", false], 
+	["95",  "gem", "100", "spray_8", "spray_8", false],
+	["96",  "gem", "100", "spray_9", "spray_9", false], 
+	["97",  "gem", "100", "spray_10", "spray_10", false], 
+	["98",  "gem", "100", "spray_11", "spray_11", false], 
+	["99",  "gem", "100", "spray_12", "spray_12", false], 
+	["100",  "gem", "100", "spray_13", "spray_13", false], 
+	["101",  "gem", "100", "spray_14", "spray_14", false], 
+	["102",  "gem", "100", "spray_15", "spray_15", false], 
+	["103",  "gem", "100", "spray_16", "spray_16", false],
+	["104",  "gem", "100", "spray_17", "spray_17", false], 
+	["105",  "gem", "100", "spray_18", "spray_18", false], 
+	["106",  "gem", "100", "spray_19", "spray_19", false], 
+	["107",  "gem", "100", "spray_20", "spray_20", false],
+	["108",  "gem", "100", "spray_21", "spray_21", false], 
+	["109",  "gem", "100", "spray_22", "spray_22", false], 
+	["110",  "gem", "100", "spray_23", "spray_23", false], 
+	["111",  "gem", "100", "spray_24", "spray_24", false],  
 ]
 
-var Items_borders = [ 
-	["112",  "gold", "1000", "border_1", "border_1", false], 
+var Items_borders = 
+[ 
+	["112",  "gold", "1500", "border_1", "border_1", false], 
 	["115",  "gem", "1000", "border_2", "border_2", false], 
-	["116",  "gold", "1000", "border_3", "border_3", false], 
-	["117",  "gold", "1000", "border_4", "border_4", false], 
-
-	["127",  "gold", "1000", "border_5", "border_5", false], 
-	["128",  "gold", "1000", "border_6", "border_6", false], 
+	["116",  "gold", "1500", "border_3", "border_3", false], 
+	["117",  "gold", "1500", "border_4", "border_4", false], 
+	["127",  "gold", "1500", "border_5", "border_5", false], 
+	["128",  "gold", "1500", "border_6", "border_6", false], 
 	["129",  "gem", "1000", "border_7", "border_7", false], 
-	["164",  "gold", "1000", "border_8", "border_8", false], 
+	["164",  "gold", "1500", "border_8", "border_8", false], 
 ]
 
 var Items_toys = [ 
 	["124",  "gold", "500", "toys_1", "toys_1", false], 
-	["125",  "gem", "1500", "toys_2", "toys_2", false], 
+	["125",  "gem", "500", "toys_2", "toys_2", false], 
 ]
 
 var sounds_lotereya =
@@ -461,6 +446,51 @@ function InitItems() {
 	$('#DogeCoinsItems').RemoveAndDeleteChildren()
 	$('#ToysDonateItems').RemoveAndDeleteChildren()
 
+	Items_pets.sort(function (a, b) 
+	{
+	  	return Number(a[2])-Number(b[2])
+	});
+
+	Items_effects.sort(function (a, b) 
+	{
+	  	return Number(a[2])-Number(b[2])
+	});
+
+	Items_heroes.sort(function (a, b) 
+	{
+	  	return Number(a[2])-Number(b[2])
+	});
+
+	Items_sounds.sort(function (a, b) 
+	{
+	  	return Number(a[2])-Number(b[2])
+	});
+
+	Items_dogecoins.sort(function (a, b) 
+	{
+	  	return Number(a[2])-Number(b[2])
+	});
+
+	Items_borders.sort(function (a, b) 
+	{
+	  	return Number(a[2])-Number(b[2])
+	});
+
+	Items_sprays.sort(function (a, b) 
+	{
+	  	return Number(a[2])-Number(b[2])
+	});
+
+	Items_toys.sort(function (a, b) 
+	{
+	  	return Number(a[2])-Number(b[2])
+	});
+
+	for (var i = 0; i < Items_heroes.length; i++) {
+		CreateItemInShop($('#AllDonateItems'), Items_heroes, i)
+		CreateItemInShop($('#HeroesDonateItems'), Items_heroes, i)
+	}
+
 	for (var i = 0; i < Items_pets.length; i++) {
 		CreateItemInShop($('#AllDonateItems'), Items_pets, i)
 		CreateItemInShop($('#PetsDonateItems'), Items_pets, i)
@@ -474,11 +504,6 @@ function InitItems() {
 	for (var i = 0; i < Items_subscribe.length; i++) {
  		CreateItemInShop($('#AllDonateItems'), Items_subscribe, i)
  		CreateItemInShop($('#SubscribeDonateItems'), Items_subscribe, i)
-	}
-
-	for (var i = 0; i < Items_heroes.length; i++) {
-		CreateItemInShop($('#AllDonateItems'), Items_heroes, i)
-		CreateItemInShop($('#HeroesDonateItems'), Items_heroes, i)
 	}
 
 	for (var i = 0; i < Items_sounds.length; i++) {
@@ -510,7 +535,8 @@ function InitItems() {
 	}
 }
 
-function InitInventory() {
+function InitInventory() 
+{
 	$('#CouriersPanel').RemoveAndDeleteChildren()
 	$('#EffectsPanel').RemoveAndDeleteChildren()
 	$('#BannersPanel').RemoveAndDeleteChildren()
@@ -698,7 +724,7 @@ function SetItemBuyFunction(panel, table){
 
     panel.SetPanelEvent("onactivate", function() { 
     	$("#info_item_buy").style.visibility = "visible"
-
+    	$("#ItemNameInfo").html = true
     	$("#ItemNameInfo").text = $.Localize( "#" + table[4] )
 
     	if (table[4].indexOf("donate") !== 0) {
@@ -726,6 +752,15 @@ function SetItemBuyFunction(panel, table){
 
 			BuyItemPanel.SetPanelEvent("onactivate", function() { BuyItemFunction(panel, table); CloseItemInfo(); } );
 		} else {
+
+			var birzhainfo = CustomNetTables.GetTableValue("birzhainfo", String(Players.GetLocalPlayer()))
+			if (birzhainfo)
+			{
+				$("#ItemNameInfo").text = $.Localize( "#" + table[4] ) + "<br>" + $.Localize("#your_id") + birzhainfo.steamid
+			} else {
+				$("#ItemNameInfo").text = $.Localize( "#" + table[4] )
+			}
+			
 
 			$("#ItemInfoBody").style.flowChildren = "right"
 
@@ -874,12 +909,21 @@ function BuyItemFunction(panel, table) {
 
 //////////// ФУНКЦИЯ УСТАНОВКИ БАЛАНСА ПРИ ПЕРВОМ ОТКРЫТИИ /////////
 
-function SetMainCurrency() {
+function SetMainCurrency() 
+{
 	var player_table = CustomNetTables.GetTableValue("birzhashop", String(Players.GetLocalPlayer()))
 
 	if ((typeof player_table.doge_coin !== 'undefined') && (typeof player_table.birzha_coin !== 'undefined')) {
 		$("#Currency").text = String(player_table.birzha_coin)
 		$("#Currency2").text = 	String(player_table.doge_coin)	
+		if ($("#CurrencyBP"))
+		{
+			$("#CurrencyBP").text = String(player_table.birzha_coin)
+		}
+		if ($("#Currency2BP"))
+		{
+			$("#Currency2BP").text = 	String(player_table.doge_coin)
+		}	
 	}
 } 
 
@@ -889,9 +933,17 @@ function SetCurrency(data) {
 	if (data) {
 		if (typeof data.bitcoin !== 'undefined') {
 			$("#Currency").text = String(data.bitcoin)
+			if ($("#CurrencyBP"))
+			{
+				$("#CurrencyBP").text = String(data.bitcoin)
+			}
 		}
 		if (typeof data.dogecoin !== 'undefined') {
 			$("#Currency2").text = 	String(data.dogecoin)	
+			if ($("#Currency2BP"))
+			{
+				$("#Currency2BP").text = 	String(data.dogecoin)
+			}	
 		}
 	}
 }
@@ -1119,46 +1171,14 @@ function CreateChatWheelSelectItem(id, label, item)
 	})
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 var toggle_birzhaplus = false;
 var first_time_birzhaplus = false;
 var cooldown_panel_birzhaplus = false
 
-function ToggleBattlepass() {
+GameUI.CustomUIConfig().OpenBirzhaPlus = function ToggleBattlepass() {
     if (toggle_birzhaplus === false) {
     	if (cooldown_panel_birzhaplus == false) {
+    		SetMainCurrency()
     		Game.EmitSound("ui_goto_player_page")
 	        toggle_birzhaplus = true;
 	        if (first_time_birzhaplus === false) {
@@ -1404,13 +1424,52 @@ function Init() {
     	HeroRank.AddClass('HeroRank');
 
 		var rank_player = $.CreatePanel('Panel', HeroRank, 'rank_player');
-		rank_player.style.width = "32px"
-		rank_player.style.height = "32px"
-		rank_player.style.align = "center center"
+		rank_player.style.width = "30px"
+		rank_player.style.height = "30px"
+		rank_player.style.align = "center top"
 		rank_player.style.backgroundImage = 'url("file://{images}/custom_game/hero_rank/' + GetHeroRankIcon(GetHeroLevel(hero[7])) + '.png")'
 		rank_player.style.backgroundSize = "100%"
+
+		var rank_progress_panel = $.CreatePanel('Panel', HeroRank, "");
+		rank_progress_panel.AddClass('rank_progress_panel');
+
+		var rank_progress_panel_back = $.CreatePanel('Panel', rank_progress_panel, "");
+		rank_progress_panel_back.AddClass('rank_progress_panel_back');
+
+		var rank_progress_panel_front = $.CreatePanel('Panel', rank_progress_panel, "");
+		rank_progress_panel_front.AddClass('rank_progress_panel_front');
+		rank_progress_panel_front.style.width = GetHeroExpProgress(hero[7])
+
+		var rank_progress_label = $.CreatePanel('Label', HeroRank, "");
+		rank_progress_label.AddClass('rank_progress_label'); 
+		if (GetHeroLevel(hero[7]) >= 30)
+		{
+			rank_progress_panel_front.style.width = "100%"
+			rank_progress_label.text = GetHeroLevel(hero[7]) + " " + $.Localize("#Info_HInfo_HeroRank")
+		} else {
+			rank_progress_label.text = GetHeroLevel(hero[7]) + " " + $.Localize("#Info_HInfo_HeroRank") + " " + "( " + GetHeroExp(hero[7]) + " )"
+		}
+		
 	}
 }
+
+function GetHeroExp(exp)
+{
+    let level = exp % 1000 + " / 1000"
+    return level
+} 
+
+function GetHeroExpProgress(exp)
+{
+    let level = exp % 1000
+    var percent = ((1000-level)*100)/1000
+
+    if (percent >= 0) {
+        return (100 - percent) +'%';
+    } else {
+        return '0%'
+    }
+} 
 
 function ChangeHeroTable(table, num) {
 
@@ -1465,7 +1524,11 @@ function GetHeroLevel(exp)
 
 function GetHeroRankIcon(level)
 {
-    if (level >= 10) {
+    if (level >= 30) {
+        return "rank_7"
+    } else if (level >= 20) {
+        return "rank_6"
+    } else if (level >= 10) {
         return "rank_5"
     } else if (level >= 7) {
         return "rank_4"
@@ -1713,4 +1776,80 @@ function ToggleMapBPUS(button, map_name)
 		    label_block_rating_2.text = String(table.mmr[map_name][i])
 		}
 	}
+}
+
+
+
+
+var toggle_battlepass = false;
+var first_time_battlepass = false;
+var cooldown_panel_battlepass = false
+
+GameUI.CustomUIConfig().OpenBattlePass = function OpenBattlePass() {
+    if (toggle_battlepass === false) {
+    	if (cooldown_panel_battlepass == false) {
+    		SetMainCurrency()
+    		Game.EmitSound("ui_goto_player_page")
+	        toggle_battlepass = true;
+	        if (first_time_battlepass === false) {
+	            first_time_battlepass = true;
+	            $("#BattlePassWindow").AddClass("sethidden");
+	            BattlePassInit();
+	        }  
+	        if ($("#BattlePassWindow").BHasClass("sethidden")) {
+	            $("#BattlePassWindow").RemoveClass("sethidden");
+	        }
+	        $("#BattlePassWindow").AddClass("setvisible");
+	        $("#BattlePassWindow").style.visibility = "visible"
+	        cooldown_panel_battlepass = true
+	        $.Schedule( 0.503, function(){
+	        	cooldown_panel_battlepass = false
+	        })
+	    }
+    } else {
+    	if (cooldown_panel_battlepass == false) {
+    		Game.EmitSound("ui_goto_player_page")
+	        toggle_battlepass = false;
+	        if ($("#BattlePassWindow").BHasClass("setvisible")) {
+	            $("#BattlePassWindow").RemoveClass("setvisible");
+	        }
+	        $("#BattlePassWindow").AddClass("sethidden");
+	        cooldown_panel_battlepass = true
+	        $.Schedule( 0.503, function(){
+	        	cooldown_panel_battlepass = false
+	        	$("#BattlePassWindow").style.visibility = "collapse"
+			})
+		}
+    }
+}
+
+function BattlePassInit()
+{
+	var table = CustomNetTables.GetTableValue('birzhainfo', String(Players.GetLocalPlayer()))
+	if (table) 
+	{
+		if (table && table.has_battlepass == 1)
+		{
+			$("#BuyBattlePass").style.visibility = "collapse"
+			$("#PreBuyLabel").text = $.Localize("#ty_preorder")
+		}
+	}
+} 
+
+function BPPreOrderBuy(valute)
+{
+	var player_table = CustomNetTables.GetTableValue("birzhashop", String(Players.GetLocalPlayer()))
+
+	if ((typeof player_table.doge_coin !== 'undefined') && (typeof player_table.birzha_coin !== 'undefined')) 
+	{
+		GameEvents.SendCustomGameEventToServer( "donate_shop_bp_preorder", {currency : valute } );
+		LoadingCreated()
+	}
+
+	$.Schedule( 0.25, function(){
+		InitMainPanel()
+		InitItems()
+		InitInventory()
+		BattlePassInit()
+	})
 }

@@ -1,12 +1,11 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_birzha_bashed", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier("modifier_stray_rat_poison_debuff", "abilities/heroes/stray", LUA_MODIFIER_MOTION_NONE)
-
+LinkLuaModifier( "modifier_stray_rat_poison_debuff", "abilities/heroes/stray", LUA_MODIFIER_MOTION_NONE)
 
 stray_rat_poison = class({})
 
 function stray_rat_poison:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_stray_3")
 end
 
 function stray_rat_poison:GetManaCost(level)
@@ -17,14 +16,40 @@ function stray_rat_poison:GetCastRange(location, target)
     return self.BaseClass.GetCastRange(self, location, target)
 end
 
+function stray_rat_poison:CastFilterResultTarget( hTarget )
+    if hTarget:IsMagicImmune() and (not self:GetCaster():HasTalent("special_bonus_birzha_stray_6")) then
+        return UF_FAIL_MAGIC_IMMUNE_ENEMY
+    end
+
+    if not IsServer() then return UF_SUCCESS end
+    local nResult = UnitFilter(
+        hTarget,
+        self:GetAbilityTargetTeam(),
+        self:GetAbilityTargetType(),
+        self:GetAbilityTargetFlags(),
+        self:GetCaster():GetTeamNumber()
+    )
+
+    if nResult ~= UF_SUCCESS then
+        return nResult
+    end
+
+    return UF_SUCCESS
+end
+
 function stray_rat_poison:OnSpellStart()
     if not IsServer() then return end
+
     local target = self:GetCursorTarget()
+
     if target:TriggerSpellAbsorb( self ) then return end
+
     self:GetCaster():EmitSound("StrayOne")
+
     self:GetCaster():EmitSound("Hero_Winter_Wyvern.SplinterBlast.Cast")
 
-    local info = {
+    local info = 
+    {
         EffectName = "particles/stray/stray_rat_poison.vpcf",
         Dodgeable = true,
         Ability = self,
@@ -34,24 +59,29 @@ function stray_rat_poison:OnSpellStart()
         iMoveSpeed = 1000,
         Source = self:GetCaster(),
         iVisionTeamNumber = self:GetCaster():GetTeamNumber(),
-        Target = self:GetCursorTarget(),
+        Target = target,
         bReplaceExisting = false,
     }
+
     ProjectileManager:CreateTrackingProjectile(info)
 end
 
 function stray_rat_poison:OnProjectileHit(target,_)
     if target ~= nil and target:IsAlive() then
+
+        if not self:GetCaster():HasTalent("special_bonus_birzha_stray_6") then
+            if target:IsMagicImmune() then return end
+        end
+
         local duration = self:GetSpecialValueFor( "duration" )
         local damage = self:GetSpecialValueFor( "damage" )
 
-        if self:GetCaster():HasScepter() then
-            damage = damage + self:GetCaster():GetIntellect() * self:GetSpecialValueFor("int_multiplier")
-        end
-
         target:AddNewModifier(self:GetCaster(), self, "modifier_stray_rat_poison_debuff", {duration = duration * (1 - target:GetStatusResistance())})
+
         target:EmitSound("GypsyDebosh")
+
         ApplyDamage({attacker = self:GetCaster(), victim = target, ability = self, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
+
         target:EmitSound("Hero_Winter_Wyvern.SplinterBlast.Target");
     end
 end
@@ -69,29 +99,28 @@ end
 function modifier_stray_rat_poison_debuff:OnCreated()
     if not IsServer() then return end
     self:StartIntervalThink(1)
-    self.slow_hit_particle = ParticleManager:CreateParticle("particles/stray/stray_rat_poison_slow.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent());
-    ParticleManager:SetParticleControl(self.slow_hit_particle, 0, self:GetParent():GetAbsOrigin());
-end
-
-function modifier_stray_rat_poison_debuff:OnDestroy() 
-    if IsServer() then 
-        if self.slow_hit_particle then
-            ParticleManager:DestroyParticle(self.slow_hit_particle, false)
-        end
-    end
+    local particle = ParticleManager:CreateParticle("particles/stray/stray_rat_poison_slow.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+    ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
+    self:AddParticle(particle, false, false, -1, false, false)
 end
 
 function modifier_stray_rat_poison_debuff:OnIntervalThink()
     if not IsServer() then return end
-    local damage_think = self:GetAbility():GetSpecialValueFor( "damage_think" )
-    if self:GetParent():HasModifier("modifier_stray_shveps_debuff") then
-        damage_think = damage_think + 100
+    local damage_think = self:GetAbility():GetSpecialValueFor( "damage_think" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_stray_1")
+
+    local modifier_stray_shveps_debuff = self:GetParent():FindModifierByName("modifier_stray_shveps_debuff")
+    if modifier_stray_shveps_debuff then
+        local ability = modifier_stray_shveps_debuff:GetAbility()
+        if ability and ability:GetLevel() > 0 then
+            damage_think = damage_think + ability:GetSpecialValueFor("rat_poison_bonus_damage")
+        end
     end
+
     ApplyDamage({attacker = self:GetCaster(), victim = self:GetParent(), ability = self:GetAbility(), damage = damage_think, damage_type = DAMAGE_TYPE_MAGICAL})
 end
 
 function modifier_stray_rat_poison_debuff:DeclareFunctions()
-    local decFuncs = {MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,}
+    local decFuncs = {MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE}
     return decFuncs
 end
 
@@ -101,6 +130,7 @@ end
 
 LinkLuaModifier("modifier_stray_rat", "abilities/heroes/stray.lua", LUA_MODIFIER_MOTION_HORIZONTAL)
 LinkLuaModifier("modifier_stray_rat_damage", "abilities/heroes/stray.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_stray_rat_debuff", "abilities/heroes/stray.lua", LUA_MODIFIER_MOTION_NONE)
 
 stray_rat = class({})
 
@@ -109,7 +139,7 @@ function stray_rat:GetCooldown(level)
 end
 
 function stray_rat:GetCastRange(location, target)
-    return self.BaseClass.GetCastRange(self, location, target) + self:GetCaster():FindTalentValue("special_bonus_birzha_stray_1")
+    return self.BaseClass.GetCastRange(self, location, target)
 end
 
 function stray_rat:GetManaCost(level)
@@ -119,24 +149,27 @@ end
 function stray_rat:OnSpellStart()
     if not IsServer() then return end
     local point = self:GetCursorPosition()
+
     local direction = (point-self:GetCaster():GetOrigin())
-    local dist = math.max( math.min( 1000+self:GetCaster():FindTalentValue("special_bonus_birzha_stray_1"), direction:Length2D() ), 200 )
+    local dist = math.max( math.min( 1000, direction:Length2D() ), 200 )
     direction.z = 0
     direction = direction:Normalized()
+
     local target_pos = GetGroundPosition( self:GetCaster():GetOrigin() + direction*dist, nil )
-    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_stray_rat", {
-        duration    = math.min((point - self:GetCaster():GetAbsOrigin()):Length2D(), self:GetCastRange( self:GetCaster():GetOrigin(), self:GetCaster() )) / 3000,
-        x           = point.x,
-        y           = point.y,
-        z           = point.z
-    })
+
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_stray_rat", { duration = math.min((point - self:GetCaster():GetAbsOrigin()):Length2D(), self:GetCastRange( self:GetCaster():GetOrigin(), self:GetCaster() )) / 3000, x = point.x, y = point.y, z = point.z})
+
     self:GetCaster():StartGestureWithPlaybackRate( ACT_DOTA_CAST_ABILITY_2, 3 )
+
     local effect_cast = ParticleManager:CreateParticle(  "particles/units/heroes/hero_void_spirit/astral_step/void_spirit_astral_step.vpcf", PATTACH_WORLDORIGIN, self:GetCaster() )
     ParticleManager:SetParticleControl( effect_cast, 0, self:GetCaster():GetOrigin() )
     ParticleManager:SetParticleControl( effect_cast, 1, target_pos )
     ParticleManager:ReleaseParticleIndex( effect_cast )
+
     EmitSoundOnLocationWithCaster( self:GetCaster():GetOrigin(), "Hero_VoidSpirit.AstralStep.Start", self:GetCaster() )
+
     self:GetCaster():EmitSound("StrayTwo")
+
     EmitSoundOnLocationWithCaster( target_pos, "Hero_VoidSpirit.AstralStep.End", self:GetCaster() )
 end
 
@@ -169,14 +202,20 @@ function modifier_stray_rat:GetAuraRadius()
     return 150
 end
 
+function modifier_stray_rat:GetAuraDuration()
+    return 0
+end
+
 function modifier_stray_rat:GetEffectName()
     return "particles/units/heroes/hero_faceless_void/faceless_void_time_walk.vpcf" end
 
 function modifier_stray_rat:GetEffectAttachType()
-    return PATTACH_ABSORIGIN_FOLLOW end
+    return PATTACH_ABSORIGIN_FOLLOW 
+end
 
 function modifier_stray_rat:CheckState()
-    return {
+    return 
+    {
         [MODIFIER_STATE_STUNNED]            = true,
         [MODIFIER_STATE_INVULNERABLE]       = true,
         [MODIFIER_STATE_NO_UNIT_COLLISION]  = true
@@ -229,26 +268,32 @@ function modifier_stray_rat_damage:IsPurgable() return false end
 function modifier_stray_rat_damage:IsHidden() return true end
 
 function modifier_stray_rat_damage:OnCreated()
-    if IsServer() then
-        local damage = self:GetAbility():GetSpecialValueFor("damage")
-        if self:GetCaster():HasScepter() then
-            damage = damage + self:GetCaster():GetIntellect() * self:GetAbility():GetSpecialValueFor("int_multiplier")
-        end
-        local damageTable = {victim = self:GetParent(),
-                            attacker = self:GetCaster(),
-                            damage = damage,
-                            ability = self:GetAbility(),
-                            damage_type = DAMAGE_TYPE_MAGICAL,
-                            }
-        ApplyDamage(damageTable)
-        local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_void_spirit/astral_step/void_spirit_astral_step_impact.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
-        ParticleManager:ReleaseParticleIndex( effect_cast )
+    if not IsServer() then return end
+    local damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_stray_2")
+    ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), damage = damage, ability = self:GetAbility(), damage_type = DAMAGE_TYPE_MAGICAL})
+    if self:GetCaster():HasTalent("special_bonus_birzha_stray_4") then
+        self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_stray_rat_debuff", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_stray_4", "value2")})
     end
+    local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_void_spirit/astral_step/void_spirit_astral_step_impact.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
+    ParticleManager:ReleaseParticleIndex( effect_cast )
 end
 
+modifier_stray_rat_debuff = class({}) 
+
+function modifier_stray_rat_debuff:DeclareFunctions()
+    local funcs = 
+    {
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+    }
+
+    return funcs
+end
+
+function modifier_stray_rat_debuff:GetModifierMoveSpeedBonus_Percentage()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_stray_4")
+end
 
 LinkLuaModifier("modifier_stray_kill_stealer", "abilities/heroes/stray", LUA_MODIFIER_MOTION_NONE)
-
 
 stray_kill_stealer = class({})
 
@@ -265,20 +310,19 @@ function stray_kill_stealer:GetCastRange(location, target)
 end
 
 function stray_kill_stealer:OnSpellStart()
-    if IsServer() then
-        local caster = self:GetCaster()
-        local target = self:GetCursorTarget()
-        local ability = self
-        if target:TriggerSpellAbsorb(self) then return nil end
-        caster:EmitSound("Hero_Necrolyte.ReapersScythe.Cast")
-        target:EmitSound("Hero_Necrolyte.ReapersScythe.Target")
-        local stun_duration = self:GetSpecialValueFor("duration")
-        target:AddNewModifier(caster, self, "modifier_stray_kill_stealer", {duration = stun_duration})
-        if self:GetCaster():HasShard() then
-            Timers:CreateTimer(0.25, function()
-                target:AddNewModifier(caster, ability, "modifier_stray_kill_stealer", {duration = stun_duration})
-            end)
-        end
+    if not IsServer() then return end
+    local target = self:GetCursorTarget()
+    if target:TriggerSpellAbsorb(self) then return nil end
+    self:GetCaster():EmitSound("Hero_Necrolyte.ReapersScythe.Cast")
+    target:EmitSound("Hero_Necrolyte.ReapersScythe.Target")
+
+    local stun_duration = self:GetSpecialValueFor("duration")
+    target:AddNewModifier(self:GetCaster(), self, "modifier_stray_kill_stealer", {duration = stun_duration})
+
+    if self:GetCaster():HasShard() then
+        Timers:CreateTimer(0.25, function()
+            target:AddNewModifier(self:GetCaster(), self, "modifier_stray_kill_stealer", {duration = stun_duration})
+        end)
     end
 end
 
@@ -297,8 +341,7 @@ function modifier_stray_kill_stealer:OnCreated()
         local target = self:GetParent()
         self.ability = self:GetAbility()
         self.damage = self.ability:GetSpecialValueFor("damage")
-        self.damage_per_health = self.ability:GetSpecialValueFor("damage_per_health") + self:GetCaster():FindTalentValue("special_bonus_birzha_stray_2")
-
+        self.damage_per_health = self.ability:GetSpecialValueFor("damage_per_health") + self:GetCaster():FindTalentValue("special_bonus_birzha_stray_8")
         local stun_fx = ParticleManager:CreateParticle("particles/generic_gameplay/generic_stunned.vpcf", PATTACH_OVERHEAD_FOLLOW, target)
         self:AddParticle(stun_fx, false, false, -1, false, false)
         local scythe_fx = ParticleManager:CreateParticle("particles/stray/stray_thirt.vpcf", PATTACH_ABSORIGIN_FOLLOW, target)
@@ -316,8 +359,7 @@ function modifier_stray_kill_stealer:OnRefresh()
         local target = self:GetParent()
         self.ability = self:GetAbility()
         self.damage = self.ability:GetSpecialValueFor("damage")
-        self.damage_per_health = self.ability:GetSpecialValueFor("damage_per_health")
-
+        self.damage_per_health = self.ability:GetSpecialValueFor("damage_per_health") + self:GetCaster():FindTalentValue("special_bonus_birzha_stray_8")
         local stun_fx = ParticleManager:CreateParticle("particles/generic_gameplay/generic_stunned.vpcf", PATTACH_OVERHEAD_FOLLOW, target)
         self:AddParticle(stun_fx, false, false, -1, false, false)
         local scythe_fx = ParticleManager:CreateParticle("particles/stray/stray_thirt.vpcf", PATTACH_ABSORIGIN_FOLLOW, target)
@@ -358,9 +400,9 @@ end
 
 function modifier_stray_kill_stealer:CheckState()
     local state =
-        {
-            [MODIFIER_STATE_STUNNED] = true
-        }
+    {
+        [MODIFIER_STATE_STUNNED] = true
+    }
     return state
 end
 
@@ -383,24 +425,6 @@ function modifier_stray_kill_stealer:OnDestroy()
     end
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 LinkLuaModifier("modifier_stray_donate_music", "abilities/heroes/stray", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_stray_donate_music_two", "abilities/heroes/stray", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_stray_donate_music_three", "abilities/heroes/stray", LUA_MODIFIER_MOTION_NONE)
@@ -419,7 +443,8 @@ function stray_donate_music:OnSpellStart()
     if not IsServer() then return end
     local duration = self:GetSpecialValueFor("duration")
 
-    local modifiers = {
+    local modifiers = 
+    {
         "modifier_stray_donate_music",
         "modifier_stray_donate_music_two",
         "modifier_stray_donate_music_three",
@@ -428,11 +453,12 @@ function stray_donate_music:OnSpellStart()
     self:GetCaster():RemoveModifierByName("modifier_stray_donate_music")
     self:GetCaster():RemoveModifierByName("modifier_stray_donate_music_two")
     self:GetCaster():RemoveModifierByName("modifier_stray_donate_music_three")
-    if self:GetCaster():HasTalent("special_bonus_birzha_stray_3") then
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_stray_7") then
         self.modifier = self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_stray_donate_music", { duration = duration } )
         self.modifier = self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_stray_donate_music_two", { duration = duration } )
         self.modifier = self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_stray_donate_music_three", { duration = duration } )
-        if self:GetCaster():HasTalent("special_bonus_birzha_stray_3") then
+        if self:GetCaster():HasTalent("special_bonus_birzha_stray_7") then
             self:GetCaster():EmitSound("StrayWow")
         end
     else
@@ -451,7 +477,7 @@ function modifier_stray_donate_music:OnCreated()
     self.interval = 0.5
     if not IsServer() then return end
     self:GetParent():EmitSound("Hero_Rattletrap.Battery_Assault")
-    if not self:GetCaster():HasTalent("special_bonus_birzha_stray_3") then
+    if not self:GetCaster():HasTalent("special_bonus_birzha_stray_7") then
         self:GetParent():EmitSound("StrayUltimateone")
     end
     self:OnIntervalThink()
@@ -469,18 +495,18 @@ function modifier_stray_donate_music:OnIntervalThink()
     if #enemies >= 1 then
         enemies[1]:EmitSound("Hero_Rattletrap.Battery_Assault_Impact")
         ParticleManager:SetParticleControl(particle2, 1, enemies[1]:GetAbsOrigin())
-            local damageTable = {
-                victim          = enemies[1],
-                damage          = damage,
-                damage_type     = DAMAGE_TYPE_MAGICAL,
-                damage_flags    = DOTA_DAMAGE_FLAG_NONE,
-                attacker        = self:GetCaster(),
-                ability         = self:GetAbility()
-            }
+        local damageTable = {
+            victim          = enemies[1],
+            damage          = damage,
+            damage_type     = DAMAGE_TYPE_MAGICAL,
+            damage_flags    = DOTA_DAMAGE_FLAG_NONE,
+            attacker        = self:GetCaster(),
+            ability         = self:GetAbility()
+        }
 
-            ApplyDamage(damageTable)
-        
-            enemies[1]:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = 0.1})
+        ApplyDamage(damageTable)
+    
+        enemies[1]:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = 0.1 * (1-enemies[1]:GetStatusResistance())})
     else
         ParticleManager:SetParticleControl(particle2, 1, self:GetParent():GetAbsOrigin() + RandomVector(RandomInt(0, 128)))
     end
@@ -493,7 +519,7 @@ function modifier_stray_donate_music:OnDestroy()
     
     self:GetParent():StopSound("Hero_Rattletrap.Battery_Assault")
     self:GetParent():StopSound("StrayUltimateone")
-    if self:GetCaster():HasTalent("special_bonus_birzha_stray_3") then
+    if self:GetCaster():HasTalent("special_bonus_birzha_stray_7") then
         self:GetCaster():StopSound("StrayWow")
     end
 end
@@ -507,7 +533,6 @@ function modifier_stray_donate_music:GetModifierStatusResistanceStacking( params
     return self:GetAbility():GetSpecialValueFor( "resistone" )
 end
 
-
 modifier_stray_donate_music_two = class({})
 
 function modifier_stray_donate_music_two:IsPurgable() return false end
@@ -515,7 +540,7 @@ function modifier_stray_donate_music_two:IsHidden() return false end
 
 function modifier_stray_donate_music_two:OnCreated()
     if not IsServer() then return end
-    if not self:GetCaster():HasTalent("special_bonus_birzha_stray_3") then
+    if not self:GetCaster():HasTalent("special_bonus_birzha_stray_7") then
         self:GetParent():EmitSound("StrayUltimatetwo")
     end
 end
@@ -529,33 +554,14 @@ function modifier_stray_donate_music_two:DeclareFunctions()
     }
 end
 
-function modifier_stray_donate_music_two:OnAttackLanded( keys )
-    if IsServer() then
-        local attacker = self:GetParent()
-
-        if attacker ~= keys.attacker then
-            return
-        end
-
-        if attacker:IsIllusion() then
-            return
-        end
-
-        local target = keys.target
-        if attacker:GetTeam() == target:GetTeam() then
-            return
-        end 
-        if target:IsOther() then
-            return nil
-        end
-
-        local duration = self:GetAbility():GetSpecialValueFor("bashduration")
-        local chance = self:GetAbility():GetSpecialValueFor("bashchance")
-        local random = RandomInt(1, 100)
-
-        if random <= chance then    
-            target:AddNewModifier(attacker, nil, "modifier_birzha_bashed", {duration = duration})
-        end
+function modifier_stray_donate_music_two:OnAttackLanded( params )
+    if not IsServer() then return end
+    if params.attacker ~= self:GetParent() then return end
+    if params.target:IsWard() then return end
+    local duration = self:GetAbility():GetSpecialValueFor("bashduration")
+    local chance = self:GetAbility():GetSpecialValueFor("bashchance")
+    if RollPercentage(chance) then    
+        params.target:AddNewModifier(params.attacker, self:GetAbility(), "modifier_birzha_bashed", {duration = duration * (1-params.target:GetStatusResistance())})
     end
 end
 
@@ -566,12 +572,10 @@ end
 function modifier_stray_donate_music_two:OnDestroy()
     if not IsServer() then return end
     self:GetParent():StopSound("StrayUltimatetwo")
-    if self:GetCaster():HasTalent("special_bonus_birzha_stray_3") then
+    if self:GetCaster():HasTalent("special_bonus_birzha_stray_7") then
         self:GetCaster():StopSound("StrayWow")
     end
 end
-
-
 
 modifier_stray_donate_music_three = class({})
 
@@ -581,37 +585,32 @@ function modifier_stray_donate_music_three:IsHidden() return false end
 function modifier_stray_donate_music_three:OnCreated()
     if not IsServer() then return end
     self:SetStackCount(0)
-    if not self:GetCaster():HasTalent("special_bonus_birzha_stray_3") then
+    if not self:GetCaster():HasTalent("special_bonus_birzha_stray_7") then
         self:GetParent():EmitSound("StrayUltimatethree")
     end
 end
 
-
 function modifier_stray_donate_music_three:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE,
         MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
-
     }
 
     return funcs
 end
 
 function modifier_stray_donate_music_three:GetModifierPreAttack_CriticalStrike( params )
+    if not IsServer() then return end
+    if params.attacker ~= self:GetParent() then return end
+    if params.target:IsWard() then return end
     local stack_count = self:GetAbility():GetSpecialValueFor("stacks")
     local crit = self:GetAbility():GetSpecialValueFor("critical")
-    if not IsServer() then return end
-    if params.target:IsOther() then
-        return nil
-    end
-
+    self:SetStackCount(self:GetStackCount() + 1)
     if self:GetStackCount() >= stack_count then
         self:SetStackCount(0)
         return crit
     end
-
-    self:SetStackCount(self:GetStackCount() + 1)
-    return 0
 end
 
 function modifier_stray_donate_music_three:GetModifierMoveSpeedBonus_Percentage( params )
@@ -621,15 +620,10 @@ end
 function modifier_stray_donate_music_three:OnDestroy()
     if not IsServer() then return end
     self:GetParent():StopSound("StrayUltimatethree")
-    if self:GetCaster():HasTalent("special_bonus_birzha_stray_3") then
+    if self:GetCaster():HasTalent("special_bonus_birzha_stray_7") then
         self:GetCaster():StopSound("StrayWow")
     end
 end
-
-
-
-
-
 
 LinkLuaModifier("modifier_stray_shveps_debuff", "abilities/heroes/stray", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_stray_shveps_buff", "abilities/heroes/stray", LUA_MODIFIER_MOTION_NONE)
@@ -658,15 +652,7 @@ end
 
 function stray_shveps:OnSpellStart()
     if not IsServer() then return end
-    CreateModifierThinker(
-        self:GetCaster(), -- player source
-        self, -- ability source
-        "modifier_stray_shveps_thinker", -- modifier name
-        { duration = self:GetSpecialValueFor("duration") }, -- kv
-        self:GetCursorPosition(),
-        self:GetCaster():GetTeamNumber(),
-        false
-    )
+    CreateModifierThinker( self:GetCaster(), self, "modifier_stray_shveps_thinker", { duration = self:GetSpecialValueFor("duration") }, self:GetCursorPosition(), self:GetCaster():GetTeamNumber(), false)
     self:GetCaster():EmitSound("stray_scepter")
 end
 
@@ -677,12 +663,12 @@ function modifier_stray_shveps_thinker:OnCreated( kv )
     if not IsServer() then return end
     self:StartIntervalThink( 0.5 )
     self:PlayEffects()
-    EmitSoundOn("stray_shveps", self:GetParent())
+    self:GetParent():EmitSound("stray_shveps")
 end
 
 function modifier_stray_shveps_thinker:OnDestroy( kv )
     if not IsServer() then return end
-    StopSoundOn("stray_shveps", self:GetParent())
+    self:GetParent():StopSound("stray_shveps")
 end
 
 function modifier_stray_shveps_thinker:IsAura()
@@ -698,7 +684,7 @@ function modifier_stray_shveps_thinker:GetAuraRadius()
 end
 
 function modifier_stray_shveps_thinker:GetAuraSearchTeam()
-    return DOTA_UNIT_TARGET_TEAM_BOTH
+    return DOTA_UNIT_TARGET_TEAM_FRIENDLY
 end
 
 function modifier_stray_shveps_thinker:GetAuraSearchType()
@@ -711,10 +697,10 @@ end
 
 function modifier_stray_shveps_thinker:OnIntervalThink()
     if not IsServer() then return end
-    local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NO_INVIS, FIND_ANY_ORDER, false)
+    local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, FIND_ANY_ORDER, false)
     for _, enemy in pairs(enemies) do
-        if  not enemy:HasModifier("modifier_stray_shveps_debuff") or enemy:HasModifier("modifier_stray_rat_poison_debuff") then
-            enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_stray_shveps_debuff", {duration = self:GetAbility():GetSpecialValueFor("duration")})
+        if not enemy:HasModifier("modifier_stray_shveps_debuff") or enemy:HasModifier("modifier_stray_rat_poison_debuff") then
+            enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_stray_shveps_debuff", {duration = self:GetAbility():GetSpecialValueFor("duration") * (1-enemy:GetStatusResistance())})
         end
     end   
 end
@@ -725,14 +711,7 @@ function modifier_stray_shveps_debuff:OnCreated( kv )
     local damage = self:GetAbility():GetSpecialValueFor( "damage" )
     self.magic_resist = self:GetAbility():GetSpecialValueFor( "magic_resistance" )
     if not IsServer() then return end
-    self.damageTable = {
-        victim = self:GetParent(),
-        attacker = self:GetCaster(),
-        damage = damage * 0.5,
-        damage_type = self:GetAbility():GetAbilityDamageType(),
-        ability = self:GetAbility(),
-    }
-    EmitSoundOn("stray_shveps", self:GetParent())
+    self.damageTable = { victim = self:GetParent(), attacker = self:GetCaster(), damage = damage * 0.5, damage_type = self:GetAbility():GetAbilityDamageType(), ability = self:GetAbility() }
     self:StartIntervalThink( 0.5 )
 end
 
@@ -742,8 +721,16 @@ function modifier_stray_shveps_debuff:OnRefresh( kv )
     self.magic_resist = self:GetAbility():GetSpecialValueFor( "magic_resistance" )
 end
 
+function modifier_stray_shveps_debuff:CheckState()
+    return 
+    {
+        [MODIFIER_STATE_DISARMED] = true,
+    }
+end
+
 function modifier_stray_shveps_debuff:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS
     }
 
@@ -755,6 +742,7 @@ function modifier_stray_shveps_debuff:GetModifierMagicalResistanceBonus()
 end
 
 function modifier_stray_shveps_debuff:OnIntervalThink()
+    if not IsServer() then return end
     ApplyDamage( self.damageTable )
 end
 
@@ -775,23 +763,13 @@ end
 
 modifier_stray_shveps_buff = class({})
 
-function modifier_stray_shveps_buff:IsHidden() return true end
-
-function modifier_stray_shveps_buff:CheckState()
-    if self:GetParent():GetTeamNumber() == self:GetCaster():GetTeamNumber() then return end
-    return {
-        [MODIFIER_STATE_DISARMED] = true,
-    }
-end
-
 function modifier_stray_shveps_buff:DeclareFunctions()
-    return {
+    return 
+    {
         MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT
     }
 end
 
-
 function modifier_stray_shveps_buff:GetModifierConstantHealthRegen()
-    if self:GetParent():GetTeamNumber() ~= self:GetCaster():GetTeamNumber() then return end
     return self:GetAbility():GetSpecialValueFor("health_regeneration")
 end

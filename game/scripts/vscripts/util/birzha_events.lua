@@ -21,18 +21,21 @@ function BirzhaEvents:OnDisconnect(params)
         if leave_timer_player <= 0 then
             BirzhaEvents.BIRZHA_PLAYER_CONNECT_INFO[player_id].connection = "abandoned"
             BirzhaEvents:AddPlayerFullDisconnectDebuff(hero_player, player_id)
+            BirzhaGameMode:PlayerLeaveUpdateMaxScore()
             return nil 
         end
 
         if PlayerResource:GetConnectionState(player_id) == nil then
             BirzhaEvents.BIRZHA_PLAYER_CONNECT_INFO[player_id].connection = "abandoned"
             BirzhaEvents:AddPlayerFullDisconnectDebuff(hero_player, player_id)
+            BirzhaGameMode:PlayerLeaveUpdateMaxScore()
             return nil
         end
 
         if PlayerResource:GetConnectionState(player_id) ~= nil and (PlayerResource:GetConnectionState(player_id) == DOTA_CONNECTION_STATE_NOT_YET_CONNECTED or PlayerResource:GetConnectionState(player_id) == DOTA_CONNECTION_STATE_ABANDONED or PlayerResource:GetConnectionState(player_id) == DOTA_CONNECTION_STATE_UNKNOWN ) then
             BirzhaEvents.BIRZHA_PLAYER_CONNECT_INFO[player_id].connection = "abandoned"
             BirzhaEvents:AddPlayerFullDisconnectDebuff(hero_player, player_id)
+            BirzhaGameMode:PlayerLeaveUpdateMaxScore()
             return nil
         end
 
@@ -55,7 +58,7 @@ function BirzhaEvents:AddPlayerFullDisconnectDebuff(hero, player_id)
         if BirzhaEvents.BIRZHA_PLAYER_CONNECT_INFO[player_id].connection == "connected" then return nil end
         local table_pick_state = CustomNetTables:GetTableValue("game_state", "pickstate")
         if table_pick_state and table_pick_state.v and table_pick_state.v == "ended" then
-            if hero then
+            if hero and not hero:IsNull() then
                 if hero:IsIllusion() then 
                     hero:ForceKill(false)
                     return 

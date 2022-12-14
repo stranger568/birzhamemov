@@ -20,9 +20,9 @@ function modifier_saitama_fast_attack:IsPurgable() return false end
 
 function modifier_saitama_fast_attack:OnCreated()
 	if not IsServer() then return end
-	self.attack_count = self:GetAbility():GetSpecialValueFor("attack_count") + self:GetCaster():FindTalentValue("special_bonus_birzha_saitama_6")
-	self.base_damage = self:GetAbility():GetSpecialValueFor("base_damage")
-	self.damage_from_attack = self:GetAbility():GetSpecialValueFor("damage_from_attack") - self:GetCaster():FindTalentValue("special_bonus_birzha_saitama_1")
+	self.attack_count = self:GetAbility():GetSpecialValueFor("attack_count") + self:GetCaster():FindTalentValue("special_bonus_birzha_saitama_4")
+	self.base_damage = self:GetAbility():GetSpecialValueFor("base_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_saitama_1")
+	self.damage_from_attack = self:GetAbility():GetSpecialValueFor("damage_from_attack")
 	self.attack_current = 0
 	self.anim = ACT_DOTA_ATTACK
 	self:StartIntervalThink(0.15)
@@ -52,32 +52,21 @@ function modifier_saitama_fast_attack:OnIntervalThink()
 
 	local units = FindUnitsInLine(self:GetParent():GetTeamNumber(), self:GetCaster():GetAbsOrigin() + self:GetParent():GetForwardVector(), (self:GetCaster():GetAbsOrigin() + self:GetParent():GetForwardVector() * self:GetParent():Script_GetAttackRange()), self:GetParent(), 100, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE)
 	for _, unit in pairs(units) do
-		self:GetCaster():PerformAttack( unit, false, true, true, false, false, false, false )
+        ApplyDamage( { victim = unit, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_PHYSICAL, ability = nil } )
+        if self:GetCaster():HasTalent("special_bonus_birzha_saitama_7") then
+			self:GetCaster():PerformAttack(unit, true, true, true, false, false, true, true)
+		end
 	end
 end
 
 function modifier_saitama_fast_attack:DeclareFunctions()
-	local funcs = {
+	local funcs = 
+	{
 		MODIFIER_PROPERTY_DISABLE_TURNING,
 		MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE,
-		MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE,
-		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
 		MODIFIER_PROPERTY_FIXED_ATTACK_RATE
 	}
-
 	return funcs
-end
-
-function modifier_saitama_fast_attack:GetModifierDamageOutgoing_Percentage( params )
-	if IsServer() then
-		return self.damage_from_attack
-	end
-end
-
-function modifier_saitama_fast_attack:GetModifierPreAttack_BonusDamage( params )
-	if IsServer() then
-		return self.base_damage * 100 / (100+self.damage_from_attack)
-	end
 end
 
 function modifier_saitama_fast_attack:GetModifierDisableTurning()
@@ -100,17 +89,8 @@ LinkLuaModifier("modifier_saitama_jump", "abilities/heroes/saitama.lua", LUA_MOD
 
 saitama_jump = class({})
 
-function saitama_jump:GetCastRange(vLocation, hTarget)
-	local cast_range = 250 + self:GetSpecialValueFor("limeter_castrange") * self:GetCaster():GetModifierStackCount("modifier_saitama_lemiter", self:GetCaster())
-	if cast_range > 900 then
-		cast_range = 900
-	end
-
-	return cast_range
-end
-
 function saitama_jump:GetAOERadius()
-    return self:GetSpecialValueFor("radius")
+    return self:GetSpecialValueFor("radius") + (self:GetSpecialValueFor("limeter_radius") * self:GetCaster():GetModifierStackCount("modifier_saitama_lemiter", self:GetCaster()))
 end
 
 function saitama_jump:GetCooldown(level)
@@ -235,7 +215,7 @@ function modifier_saitama_jump:UpdateVerticalMotion( me, dt )
 		me:SetOrigin( vNewPos )
 		if bLanded == true then
 			if self.bHorizontalMotionInterrupted == false then
-				local radius = self:GetAbility():GetSpecialValueFor("radius")
+				local radius = self:GetAbility():GetSpecialValueFor("radius") + (self:GetAbility():GetSpecialValueFor("limeter_radius") * self:GetCaster():GetModifierStackCount("modifier_saitama_lemiter", self:GetCaster()))
 				local damage = self:GetAbility():GetSpecialValueFor("damage")
 				local stun_duration = self:GetAbility():GetSpecialValueFor("stun_duration")
 				local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_marci/marci_rebound_bounce_impact.vpcf", PATTACH_WORLDORIGIN, nil )
@@ -247,7 +227,7 @@ function modifier_saitama_jump:UpdateVerticalMotion( me, dt )
 				EmitSoundOnLocationWithCaster( self:GetParent():GetAbsOrigin(), "Hero_Marci.Rebound.Impact", self:GetParent() )
 				local units = FindUnitsInRadius( self:GetCaster():GetTeam(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, FIND_ANY_ORDER, false )
 				for _, unit in pairs(units) do
-					unit:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_birzha_stunned", {duration = stun_duration})
+					unit:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_birzha_stunned", {duration = stun_duration * (1 - unit:GetStatusResistance()) })
 					ApplyDamage({ victim = unit, attacker = self:GetParent(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility() })
 				end
 			end
@@ -280,14 +260,20 @@ LinkLuaModifier("modifier_saitama_buff", "abilities/heroes/saitama.lua", LUA_MOD
 
 saitama_kick = class({})
 
+function saitama_kick:GetCooldown(level)
+    return self.BaseClass.GetCooldown(self, level) + (self:GetCaster():GetModifierStackCount("modifier_saitama_lemiter", self:GetCaster()) * self:GetCaster():FindTalentValue("special_bonus_birzha_saitama_3"))
+end
+
 function saitama_kick:OnSpellStart()
 	if not IsServer() then return end
-	if self:GetCaster():HasModifier("modifier_saitama_buff") then
-		self:GetCaster():RemoveModifierByName("modifier_saitama_buff")
-	else
-		self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_saitama_buff", {})
+	local target = self:GetCursorTarget()
+	if target:TriggerSpellAbsorb(self) then return end
+	local dirX = target:GetOrigin().x-self:GetCaster():GetOrigin().x
+	local dirY = target:GetOrigin().y-self:GetCaster():GetOrigin().y
+	local modifier_saitama_kick = self:GetCaster():FindModifierByName("modifier_saitama_kick")
+	if modifier_saitama_kick then
+		modifier_saitama_kick:Kick( target, dirX, dirY )
 	end
-	self:EndCooldown()
 end
 
 modifier_saitama_buff = class({})
@@ -305,7 +291,8 @@ function modifier_saitama_kick:IsHidden() return true end
 function modifier_saitama_kick:IsPurgable() return false end
 
 function modifier_saitama_kick:DeclareFunctions()
-	return {
+	return 
+	{
 		MODIFIER_EVENT_ON_ATTACK_LANDED
 	}
 end
@@ -316,7 +303,8 @@ function modifier_saitama_kick:OnAttackLanded(params)
 	if not self:GetAbility():IsFullyCastable() then return end
 	if params.attacker:IsBoss() then return end
 	local distance_min = self:GetAbility():GetSpecialValueFor("radius_damage")
-	if not self:GetParent():HasModifier("modifier_saitama_buff") then return end
+	if self:GetAbility():GetAutoCastState() then return end
+	if params.attacker:IsMagicImmune() then return end
 	local distance = (self:GetParent():GetAbsOrigin() - params.attacker:GetAbsOrigin()):Length2D()
 	if distance <= distance_min then
 		self:GetAbility():UseResources(false, false, true)
@@ -327,7 +315,7 @@ function modifier_saitama_kick:OnAttackLanded(params)
 end
 
 function modifier_saitama_kick:Kick( target, x, y )
-	local distance = 100 + self:GetAbility():GetSpecialValueFor("limeter_radius") * self:GetParent():GetModifierStackCount("modifier_saitama_lemiter", self:GetParent())
+	local distance = self:GetAbility():GetSpecialValueFor("radius_kick")
 	local base_damage = self:GetAbility():GetSpecialValueFor("base_damage")
 	local damage_from_attack = self:GetAbility():GetSpecialValueFor("damage_from_attack")
 	local damage = base_damage + (self:GetParent():GetAverageTrueAttackDamage(nil) / 100 * damage_from_attack)
@@ -371,9 +359,9 @@ function saitama_kick:OnProjectileHit_ExtraData( hTarget, vLocation, extraData )
 	}
 	ApplyDamage(damageTable)
     if not hTarget:HasModifier("modifier_saitama_kick_debuff") then
-	   hTarget:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", { duration = extraData.stun, }  )
+	   hTarget:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", { duration = extraData.stun * ( 1 - hTarget:GetStatusResistance()) }  )
     end
-	EmitSoundOn( "Hero_EarthSpirit.BoulderSmash.Damage", hTarget )
+	hTarget:EmitSound("Hero_EarthSpirit.BoulderSmash.Damage")
 	return false
 end
 
@@ -382,7 +370,7 @@ function modifier_saitama_kick:PlayEffects2( target, direction, duration )
 	ParticleManager:SetParticleControlForward( effect_cast, 1, direction )
 	ParticleManager:SetParticleControl( effect_cast, 2, Vector( duration, 0, 0 ) )
 	ParticleManager:ReleaseParticleIndex( effect_cast )
-	EmitSoundOn( "saitama_kick", target )
+	target:EmitSound("saitama_kick")
 end
 
 modifier_saitama_kick_debuff = class({})
@@ -434,7 +422,7 @@ end
 function modifier_saitama_kick_debuff:OnDestroy( kv )
 	if IsServer() then
 		local stun_duration = self:GetAbility():GetSpecialValueFor("stun_duration")
-		self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", { duration = stun_duration }  )
+		self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", { duration = stun_duration * ( 1 - self:GetParent():GetStatusResistance()) }  )
 		self:GetParent():InterruptMotionControllers( true )
 	end
 end
@@ -471,6 +459,12 @@ function modifier_saitama_kick_debuff:GetOverrideAnimation()
 	return ACT_DOTA_FLAIL
 end
 
+
+
+
+
+
+
 LinkLuaModifier("modifier_saitama_react", "abilities/heroes/saitama.lua", LUA_MODIFIER_MOTION_BOTH )
 
 saitama_react = class({})
@@ -500,7 +494,8 @@ function modifier_saitama_react:IsHidden() return true end
 function modifier_saitama_react:IsPurgable() return false end
 
 function modifier_saitama_react:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_AVOID_DAMAGE
     }
     return funcs
@@ -509,6 +504,7 @@ end
 function modifier_saitama_react:GetModifierAvoidDamage(keys)
     if not IsServer() then return end
     if not self:GetCaster():HasScepter() then return 0 end
+    if self:GetParent():PassivesDisabled() then return end
     local chance = self:GetAbility():GetSpecialValueFor( "chance" )
     if IsInToolsMode() then
     	chance = 100
@@ -577,11 +573,11 @@ function modifier_saitama_lemiter:OnTakeDamage(params)
 end
 
 function modifier_saitama_lemiter:GetModifierDamageOutgoing_Percentage()
-	return (self:GetAbility():GetSpecialValueFor("damage_per_stack")  + self:GetCaster():FindTalentValue("special_bonus_birzha_saitama_3") ) * self:GetStackCount()
+	return (self:GetAbility():GetSpecialValueFor("damage_per_stack")  + self:GetCaster():FindTalentValue("special_bonus_birzha_saitama_5") ) * self:GetStackCount()
 end
 
 function modifier_saitama_lemiter:GetModifierIncomingDamage_Percentage()
-	return (self:GetAbility():GetSpecialValueFor("resist_per_stack")  + self:GetCaster():FindTalentValue("special_bonus_birzha_saitama_4") ) * self:GetStackCount()
+	return (self:GetAbility():GetSpecialValueFor("resist_per_stack")  + self:GetCaster():FindTalentValue("special_bonus_birzha_saitama_6") ) * self:GetStackCount()
 end
 
 LinkLuaModifier("modifier_saitama_punch", "abilities/heroes/saitama.lua", LUA_MODIFIER_MOTION_BOTH)
@@ -689,23 +685,22 @@ function saitama_punch:OnProjectileHit_ExtraData(target, location, ExtraData)
 	local end_distance = Vector(ExtraData.x, ExtraData.y, ExtraData.z) + direction * range
 	local distance = (target:GetAbsOrigin() - end_distance):Length2D()
 	local duration = self:GetSpecialValueFor("knockback_duration") *  (distance / range)
-	local critical_damage = (self:GetSpecialValueFor("damage")  + self:GetCaster():FindTalentValue("special_bonus_birzha_saitama_5") ) *  (distance / range)
-	print(distance / range)
+	local critical_damage = (self:GetSpecialValueFor("damage")  + self:GetCaster():FindTalentValue("special_bonus_birzha_saitama_8") ) *  (distance / range)
 
 	if distance / range <= 1 and distance / range >= 0.8 then
-		critical_damage = (self:GetSpecialValueFor("damage")  + self:GetCaster():FindTalentValue("special_bonus_birzha_saitama_5") ) * 1
+		critical_damage = (self:GetSpecialValueFor("damage")  + self:GetCaster():FindTalentValue("special_bonus_birzha_saitama_8") ) * 1
 	end
 
 	if distance / range <= 0.8 and distance / range >= 0.6 then
-		critical_damage = (self:GetSpecialValueFor("damage")  + self:GetCaster():FindTalentValue("special_bonus_birzha_saitama_5") ) * 0.8
+		critical_damage = (self:GetSpecialValueFor("damage")  + self:GetCaster():FindTalentValue("special_bonus_birzha_saitama_8") ) * 0.8
 	end
 
 	if distance / range <= 0.6 and distance / range >= 0.4 then
-		critical_damage = (self:GetSpecialValueFor("damage")  + self:GetCaster():FindTalentValue("special_bonus_birzha_saitama_5") ) * 0.6
+		critical_damage = (self:GetSpecialValueFor("damage")  + self:GetCaster():FindTalentValue("special_bonus_birzha_saitama_8") ) * 0.6
 	end
 
 	if distance / range < 0.4 then
-		critical_damage = (self:GetSpecialValueFor("damage")  + self:GetCaster():FindTalentValue("special_bonus_birzha_saitama_5") ) * 0.4
+		critical_damage = (self:GetSpecialValueFor("damage")  + self:GetCaster():FindTalentValue("special_bonus_birzha_saitama_8") ) * 0.4
 	end
 
 	local damage = self:GetCaster():GetAverageTrueAttackDamage(nil) / 100 * critical_damage

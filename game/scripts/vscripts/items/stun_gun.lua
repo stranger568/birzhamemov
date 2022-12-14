@@ -10,109 +10,89 @@ end
 
 modifier_item_stun_gun = class({})
 
+function modifier_item_stun_gun:IsHidden() return true end
+function modifier_item_stun_gun:IsPurgable() return false end
+function modifier_item_stun_gun:IsPurgeException() return false end
+function modifier_item_stun_gun:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
+
 function modifier_item_stun_gun:OnCreated()
-	self.damage = self:GetAbility():GetSpecialValueFor("bonus_damage")
-	self.attackspeed = self:GetAbility():GetSpecialValueFor("bonus_attack_speed")
-	self.strength = self:GetAbility():GetSpecialValueFor("bonus_strength")
-	self.intellect = self:GetAbility():GetSpecialValueFor("bonus_int")
-	self.mana_regen = self:GetAbility():GetSpecialValueFor("bonus_mana_regen")
-	self.attack_activate = false
-end
-
-function modifier_item_stun_gun:IsHidden()
-	return true
-end
-
-function modifier_item_stun_gun:IsPurgable()
-    return false
+	self.attack_record = {}
 end
 
 function modifier_item_stun_gun:DeclareFunctions()
-return 	{
-			MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
-			MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-			MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
-			MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
-			MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,
-			MODIFIER_EVENT_ON_ATTACK_LANDED,
-			MODIFIER_EVENT_ON_ATTACK,
-			MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE,
-		}
+	return 	
+	{
+		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
+		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
+		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
+		MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,
+		MODIFIER_EVENT_ON_ATTACK_LANDED,
+		MODIFIER_EVENT_ON_ATTACK,
+		MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE,
+	}
 end
 
 function modifier_item_stun_gun:GetModifierPreAttack_BonusDamage()
-	return self.damage
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("bonus_damage")
 end
 
 function modifier_item_stun_gun:GetModifierAttackSpeedBonus_Constant()
-	return self.attackspeed
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("bonus_attack_speed")
 end
 
 function modifier_item_stun_gun:GetModifierBonusStats_Strength()
-	return self.strength
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("bonus_strength")
 end
 
 function modifier_item_stun_gun:GetModifierBonusStats_Intellect()
-	return self.intellect
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("bonus_int")
 end
 
 function modifier_item_stun_gun:GetModifierConstantManaRegen()
-	return self.mana_regen
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("bonus_mana_regen")
 end
 
-function modifier_item_stun_gun:OnAttackLanded( keys )
-	if IsServer() then
-		local attacker = self:GetParent()
+function modifier_item_stun_gun:OnAttackLanded( params )
+	if not IsServer() then return end
+	if params.attacker ~= self:GetParent() then return end
+	if params.target:IsWard() then return end
+	if params.attacker:IsIllusion() then return end
+	if params.attacker:GetUnitName() == "npc_palnoref_chariot_illusion" then return end
+	if params.attacker:GetUnitName() == "npc_palnoref_chariot_illusion_2" then return end
+	if self:GetParent():FindAllModifiersByName("modifier_item_stun_gun")[1] ~= self then return end
 
-		if attacker ~= keys.attacker then
-			return
-		end
+	local chance = self:GetAbility():GetSpecialValueFor("chance")
 
-		if attacker:IsIllusion() then
-			return
-		end
-
-		local target = keys.target
-		if attacker:GetTeam() == target:GetTeam() then
-			return
-		end	
-
-		if attacker:GetUnitName() == "npc_palnoref_chariot_illusion" then return end
-		if attacker:GetUnitName() == "npc_palnoref_chariot_illusion_2" then return end
-
-		local ability = self:GetAbility()
-		local chance = ability:GetSpecialValueFor("chance")
-
-		if self.attack_activate then
-			self.attack_activate = false
-			if not attacker:IsRangedAttacker() then
-				if self:GetAbility():IsFullyCastable() then
-					ability:UseResources(false,false,true)
-					attacker:AddNewModifier(attacker, ability, "modifier_item_stun_gun_haste", {duration = 1})
-				end
+	if self.attack_record[params.record] ~= nil then
+		if not params.attacker:IsRangedAttacker() then
+			if self:GetAbility():IsFullyCastable() then
+				self:GetAbility():UseResources(false,false,true)
+				params.attacker:AddNewModifier(params.attacker, self:GetAbility(), "modifier_item_stun_gun_haste", {duration = 1})
 			end
-			LaunchLightning(attacker, target, ability, 200, 650)
 		end
+		LaunchLightning(params.attacker, params.target, self:GetAbility(), self:GetAbility():GetSpecialValueFor("damage"), self:GetAbility():GetSpecialValueFor("radius"))
 	end
 end
 
 function modifier_item_stun_gun:GetModifierPreAttack_CriticalStrike(params)
-	if self.attack_activate then 
-		if RollPercentage(5) then
-			self.attack_activate = false
-		end
-		return 
-	end
-	if self:GetParent():IsIllusion() then
-		return
-	end
+	if self:GetParent():IsIllusion() then return end
+	if self:GetParent():FindAllModifiersByName("modifier_item_stun_gun")[1] ~= self then return end
+
 	local chance = self:GetAbility():GetSpecialValueFor("chance")
+
 	if self:GetAbility():IsFullyCastable() and (not self:GetCaster():IsRangedAttacker()) then
-		chance = 100
+		chance = self:GetAbility():GetSpecialValueFor("maximum_chance_tooltip")
 	end
+
 	if RollPercentage(chance) then
-		self.attack_activate = true
-		return 200
+		self.attack_record[params.record] = true
+		return self:GetAbility():GetSpecialValueFor("crit")
 	end
 end
 
@@ -123,21 +103,19 @@ function modifier_item_stun_gun_haste:IsHidden()
 end
 
 function modifier_item_stun_gun_haste:DeclareFunctions()
-	local decFuns =
-		{
-			MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-			MODIFIER_EVENT_ON_ATTACK
-		}
-	return decFuns
+	return
+	{
+		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+		MODIFIER_EVENT_ON_ATTACK
+	}
 end
 
-function modifier_item_stun_gun_haste:OnAttack(keys)
-	if self:GetParent() == keys.attacker then
-		keys.target:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_item_stun_gun_debuff_slow", {duration = 0.8})
-		if not self:IsNull() then
-            self:Destroy()
-        end
+function modifier_item_stun_gun_haste:OnAttack(params)
+	if params.attacker ~= self:GetParent() then return end
+	if not params.target:IsWard() then
+		params.target:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_item_stun_gun_debuff_slow", {duration = 0.8})
 	end
+    self:Destroy()
 end
 
 function modifier_item_stun_gun_haste:GetModifierAttackSpeedBonus_Constant()
@@ -146,20 +124,16 @@ end
 
 modifier_item_stun_gun_debuff_slow = class({})
 
-function modifier_item_stun_gun_debuff_slow:IsDebuff()
- 	return true
-end
-
 function modifier_item_stun_gun_debuff_slow:DeclareFunctions()
-	local decFuns =
-		{
-			MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
-		}
-	return decFuns
+	return
+	{
+		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
+	}
 end
 
 function modifier_item_stun_gun_debuff_slow:GetModifierMoveSpeedBonus_Percentage()
-	return -100
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("enemy_slow")
 end
 
 function LaunchLightning(caster, target, ability, damage, bounce_radius)
@@ -171,12 +145,16 @@ function LaunchLightning(caster, target, ability, damage, bounce_radius)
 	if caster:HasItemInInventory("item_maelstrom") or caster:HasItemInInventory("item_mjollnir") then
 		return
 	end
+
 	if caster:GetUnitName() == "npc_dota_hero_void_spirit" then
 		caster:EmitSound("van_stungun")
 	end
+
 	caster:EmitSound("Item.Maelstrom.Chain_Lightning")
 	target:EmitSound("Item.Maelstrom.Chain_Lightning.Jump")
+
 	ZapThem(caster, ability, caster, target, damage)
+
 	while #search_sources > 0 do
 		if caster:IsNull() then return end
 		for potential_source_index, potential_source in pairs(search_sources) do
@@ -211,15 +189,15 @@ function ZapThem(caster, ability, source, target, damage)
 
 	if caster:IsRealHero() then
 		if caster:GetPrimaryAttribute() == 0 then
-			damage = damage + (caster:GetStrength() * 0.75)
+			damage = damage + (caster:GetStrength() * ability:GetSpecialValueFor("attribute_mult"))
 		end
 
 		if caster:GetPrimaryAttribute() == 1 then
-			damage = damage + (caster:GetAgility() * 0.75)
+			damage = damage + (caster:GetAgility() * ability:GetSpecialValueFor("attribute_mult"))
 		end
 
 		if caster:GetPrimaryAttribute() == 2 then
-			damage = damage + (caster:GetIntellect() * 0.75)
+			damage = damage + (caster:GetIntellect() * ability:GetSpecialValueFor("attribute_mult"))
 		end
 	end
 

@@ -1,6 +1,6 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier("modifier_face_ShopGucci", "abilities/heroes/face.lua", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_face_ShopGucci_debuff", "abilities/heroes/face.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier( "modifier_face_ShopGucci", "abilities/heroes/face.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier( "modifier_face_ShopGucci_debuff", "abilities/heroes/face.lua", LUA_MODIFIER_MOTION_NONE)
 
 Face_ShopGucci = class({})
 
@@ -16,7 +16,7 @@ function Face_ShopGucci:OnSpellStart()
     local caster = self:GetCaster()
     local ability = self
     if not IsServer() then return end
-    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_face_1")
+    local duration = self:GetSpecialValueFor("duration")
     ParticleManager:CreateParticle( "particles/units/heroes/hero_night_stalker/nightstalker_ulti.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
     self:GetCaster():EmitSound("face1")
     self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_face_ShopGucci", { duration = duration } )
@@ -35,7 +35,8 @@ end
 
 
 function modifier_face_ShopGucci:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_MODEL_CHANGE,
         MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT,
         MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE,
@@ -45,12 +46,12 @@ function modifier_face_ShopGucci:DeclareFunctions()
 end
 
 function modifier_face_ShopGucci:GetModifierMoveSpeedBonus_Constant()
-    return 300
+    return self:GetAbility():GetSpecialValueFor("bonus_speed")
 end
 
 function modifier_face_ShopGucci:GetModifierMoveSpeed_Absolute()
     if not self:GetCaster():HasScepter() then return end
-    return 625
+    return self:GetAbility():GetSpecialValueFor("scepter_speed")
 end
 
 
@@ -59,24 +60,15 @@ function modifier_face_ShopGucci:GetModifierModelChange()
 end
 
 function modifier_face_ShopGucci:CheckState()
-    local funcs = {
+    local funcs = 
+    {
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
     }
     return funcs
 end
 
 function modifier_face_ShopGucci:OnIntervalThink()
-    local enemies = FindUnitsInRadius(
-        self:GetCaster():GetTeamNumber(),
-        self:GetParent():GetOrigin(),
-        nil,
-        150,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-        0,
-        0,
-        false
-    )
+    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetParent():GetOrigin(), nil, 150, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
 
     local target = nil
     for _,enemy in pairs(enemies) do
@@ -86,12 +78,7 @@ function modifier_face_ShopGucci:OnIntervalThink()
     end
 
     if target then
-        target:AddNewModifier(
-            self:GetParent(),
-            self:GetAbility(),
-            "modifier_face_ShopGucci_debuff",
-            { duration = 1 }
-        )
+        target:AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_face_ShopGucci_debuff", { duration = 1 } )
     end
 end
 
@@ -106,34 +93,34 @@ function modifier_face_ShopGucci_debuff:IsPurgable()
 end
 
 function modifier_face_ShopGucci_debuff:OnCreated()
-    self.damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_face_2")
-
-
-    self.damage = self.damage + (self:GetCaster():GetStrength() * self:GetAbility():GetSpecialValueFor("str_multi"))
-
-
-
     if not IsServer() then return end
+    local damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_face_2")
+    local end_damage = damage + (self:GetCaster():GetStrength() * self:GetAbility():GetSpecialValueFor("str_multi"))
+    local stun_duration = self:GetAbility():GetSpecialValueFor("stun_duration")
+
     local knockback =
     {
-        knockback_duration = 0.5,
-        duration = 0.5,
+        knockback_duration = stun_duration * (1 - self:GetParent():GetStatusResistance()),
+        duration = stun_duration * (1 - self:GetParent():GetStatusResistance()),
         knockback_distance = 2,
         knockback_height = 25,
     }
+
     if self:GetParent():HasModifier("modifier_knockback") then
         self:GetParent():RemoveModifierByName("modifier_knockback")
     end
-    self.damageTable = {
-        victim = self:GetParent(),
-        attacker = self:GetCaster(),
-        damage = self.damage,
-        damage_type = DAMAGE_TYPE_MAGICAL,
-        ability = self:GetAbility(),
-    }
-    ApplyDamage( self.damageTable )
+
+    ApplyDamage( { victim = self:GetParent(), attacker = self:GetCaster(), damage = end_damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility() } )
+
     self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_knockback", knockback)
 end
+
+
+
+
+
+
+
 
 LinkLuaModifier("modifier_face_hate_debuff", "abilities/heroes/face.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_face_hate_buff", "abilities/heroes/face.lua", LUA_MODIFIER_MOTION_NONE)
@@ -149,7 +136,7 @@ function Face_Hate:GetCooldown(level)
 end
 
 function Face_Hate:GetCastRange(location, target)
-    return self.BaseClass.GetCastRange(self, location, target)
+    return self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_face_1")
 end
 
 function Face_Hate:GetManaCost(level)
@@ -157,53 +144,26 @@ function Face_Hate:GetManaCost(level)
 end
 
 function Face_Hate:OnSpellStart()
-    local radius = self:GetSpecialValueFor("radius")
-    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_face_3")
+    local radius = self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_face_1")
+    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_face_5")
     if not IsServer() then return end
-    local enemies = FindUnitsInRadius(
-        self:GetCaster():GetTeamNumber(),
-        self:GetCaster():GetOrigin(),
-        nil,
-        radius,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-        0,
-        0,
-        false
-    )
+
+    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetCaster():GetOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
 
     self:GetCaster():EmitSound("face2")
 
     for _,enemy in pairs(enemies) do
         if not enemy:IsDuel() then
-            enemy:AddNewModifier(
-                self:GetCaster(),
-                self,
-                "modifier_face_hate_debuff",
-                { duration = duration }
-            )
+            enemy:AddNewModifier( self:GetCaster(), self, "modifier_face_hate_debuff", { duration = duration } )
         end
     end
 
     if #enemies > 0 then
-        self:GetCaster():AddNewModifier(
-            self:GetCaster(),
-            self,
-            "modifier_face_hate_buff",
-            { duration = duration }
-        )
+        self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_face_hate_buff", { duration = duration } )
     end
 
     local particle = ParticleManager:CreateParticle( "particles/face/1.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
-    ParticleManager:SetParticleControlEnt(
-        particle,
-        1,
-        self:GetCaster(),
-        PATTACH_POINT_FOLLOW,
-        "attach_mouth",
-        Vector(0,0,0),
-        true
-    )
+    ParticleManager:SetParticleControlEnt( particle, 1, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_mouth", Vector(0,0,0), true )
     ParticleManager:ReleaseParticleIndex( particle )
 end
 
@@ -245,17 +205,31 @@ function modifier_face_hate_debuff:OnRemoved()
 end
 
 function modifier_face_hate_debuff:CheckState()
-    local state = {
+    local state = 
+    {
         [MODIFIER_STATE_COMMAND_RESTRICTED] = true,
         [MODIFIER_STATE_TAUNTED] = true,
     }
-
     return state
 end
 
 function modifier_face_hate_debuff:GetStatusEffectName()
     return "particles/status_fx/status_effect_beserkers_call.vpcf"
 end
+
+function modifier_face_hate_debuff:DeclareFunctions()
+    local funcs = 
+    {
+        MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE
+    }
+
+    return funcs
+end
+
+function modifier_face_hate_debuff:GetModifierDamageOutgoing_Percentage()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_face_3")
+end
+
 
 modifier_face_hate_buff = class({})
 
@@ -264,7 +238,8 @@ function modifier_face_hate_buff:IsPurgable()
 end
 
 function modifier_face_hate_buff:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_EVENT_ON_TAKEDAMAGE,
     }
 
@@ -277,6 +252,21 @@ function modifier_face_hate_buff:OnTakeDamage( params )
         self:GetParent():Heal(params.damage*2, self:GetAbility())
     end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 LinkLuaModifier("modifier_face_tombstone", "abilities/heroes/face.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_birzha_undying_tombstone_zombie_modifier", "abilities/heroes/face.lua", LUA_MODIFIER_MOTION_NONE)
@@ -337,13 +327,13 @@ function modifier_face_tombstone:CheckState()
 end
 
 function modifier_face_tombstone:DeclareFunctions()
-    local decFuncs = {
+    local decFuncs = 
+    {
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
         MODIFIER_EVENT_ON_ATTACK_LANDED
     }
-
     return decFuncs
 end
 
@@ -362,6 +352,7 @@ end
 function modifier_face_tombstone:OnAttackLanded(keys)
     if not IsServer() then return end
     if keys.target == self:GetParent() then
+        if self:GetCaster():HasTalent("special_bonus_birzha_face_8") then return end
         self.health = self.health - 1
         self:GetParent():SetHealth(self.health)
         if self.health <= 0 then
@@ -373,7 +364,7 @@ end
 function modifier_face_tombstone:OnCreated()
     if not IsServer() then return end
     self.radius = self:GetAbility():GetSpecialValueFor( "radius" )
-    self.health = self:GetAbility():GetSpecialValueFor( "tombstone_health" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_face_4")
+    self.health = self:GetAbility():GetSpecialValueFor( "tombstone_health" )
     self.zombie_interval = self:GetAbility():GetSpecialValueFor( "zombie_interval" )
     self:GetParent():SetBaseMaxHealth(self.health)
     self:StartIntervalThink( self.zombie_interval )
@@ -381,24 +372,13 @@ end
 
 function modifier_face_tombstone:OnDestroy()
     if not IsServer() then return end
-    local zombies = FindUnitsInRadius(
-        self:GetParent():GetTeamNumber(),
-        Vector(0,0,0),
-        nil,
-        FIND_UNITS_EVERYWHERE,
-        DOTA_UNIT_TARGET_TEAM_FRIENDLY,
-        DOTA_UNIT_TARGET_BASIC,
-        DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-        0,
-        false
-    )
+    local zombies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), Vector(0,0,0), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false )
     for _,zombie in pairs( zombies ) do
         if zombie:GetUnitName() == "npc_dota_face_zombie" then
-            zombie:AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_kill", { duration = 0.1 } )
+            zombie:ForceKill(false)
         end
     end
 end
-
 
 function modifier_face_tombstone:OnIntervalThink()
     if not IsServer() then return end
@@ -410,6 +390,8 @@ function modifier_face_tombstone:OnIntervalThink()
             Zombie:FindAbilityByName( "undying_tombstone_zombie_deathstrike" ):SetLevel(self:GetAbility():GetLevel())
             Zombie:SetAggroTarget(enemy)
             Zombie:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_undying_tombstone_zombie_modifier", {enemy_entindex = enemy:entindex()})
+            Zombie:SetBaseDamageMax(Zombie:GetBaseDamageMax() + self:GetCaster():FindTalentValue("special_bonus_birzha_face_6") )
+            Zombie:SetBaseDamageMax(Zombie:GetBaseDamageMax() + self:GetCaster():FindTalentValue("special_bonus_birzha_face_6") )
         end
     end
 end
@@ -446,6 +428,16 @@ function modifier_birzha_undying_tombstone_zombie_modifier:OnIntervalThink()
     end
 end
 
+
+
+
+
+
+
+
+
+
+
 LinkLuaModifier("modifier_face_esketit", "abilities/heroes/face.lua", LUA_MODIFIER_MOTION_NONE)
 
 face_esketit = class({})
@@ -463,22 +455,18 @@ function face_esketit:GetManaCost(level)
 end
 
 function face_esketit:OnSpellStart()
+    if not IsServer() then return end
     local caster = self:GetCaster()
     local duration = self:GetSpecialValueFor("duration")
+
     local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_lycan/lycan_howl_cast.vpcf", PATTACH_ABSORIGIN, caster)
     ParticleManager:SetParticleControl(particle, 0 , caster:GetAbsOrigin())
     ParticleManager:SetParticleControl(particle, 1 , caster:GetAbsOrigin())
     ParticleManager:SetParticleControl(particle, 2 , caster:GetAbsOrigin())
-    local allies = FindUnitsInRadius(caster:GetTeamNumber(),
-                                    caster:GetAbsOrigin(),
-                                    nil,
-                                    FIND_UNITS_EVERYWHERE,
-                                    DOTA_UNIT_TARGET_TEAM_FRIENDLY,
-                                    DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-                                    DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
-                                    FIND_ANY_ORDER,
-                                    false)
+
+    local allies = FindUnitsInRadius(caster:GetTeamNumber(), caster:GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_ANY_ORDER, false )
     EmitGlobalSound("faceeskatit")
+
     for _, ally in pairs(allies) do
         ally:AddNewModifier(caster, self, "modifier_face_esketit", {duration = duration})   
     end
@@ -498,7 +486,7 @@ end
 function modifier_face_esketit:OnIntervalThink()
     if not IsServer() then return end
     if self:GetCaster():HasScepter() then
-        self:GetParent():Heal(self:GetParent():GetMaxHealth()*0.01, self:GetAbility())
+        self:GetParent():Heal(self:GetParent():GetMaxHealth() / 100 * self:GetAbility():GetSpecialValueFor("scepter_regen"), self:GetAbility())
     end
 end
 
@@ -507,10 +495,11 @@ function modifier_face_esketit:GetEffectName()
 end
 
 function modifier_face_esketit:DeclareFunctions()     
-    local decFuncs =    {
-    MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-    MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
-    MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
+    local decFuncs =    
+    {
+        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+        MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
+        MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
     }       
     return decFuncs         
 end
@@ -526,6 +515,15 @@ end
 function modifier_face_esketit:GetModifierConstantHealthRegen()
     return self:GetAbility():GetSpecialValueFor("hp_regen")
 end
+
+
+
+
+
+
+
+
+
 
 LinkLuaModifier("modifier_face_newsong", "abilities/heroes/face.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_face_newsong_shard", "abilities/heroes/face.lua", LUA_MODIFIER_MOTION_NONE)
@@ -550,7 +548,7 @@ end
 
 function Face_NewSong:OnSpellStart()
     if not IsServer() then return end
-    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_face_5")
+    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_face_7")
     self:GetCaster():EmitSound("faceult")
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_face_newsong", {duration = duration}) 
 end
@@ -662,7 +660,7 @@ function modifier_face_newsong:OnIntervalThink()
 end
 
 function modifier_face_newsong:Knock()
-    local damage = self:GetAbility():GetSpecialValueFor("damage")
+    local damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_face_4")
     damage = damage + (self:GetCaster():GetStrength() * self:GetAbility():GetSpecialValueFor("str_multi"))
     if self:GetParent():HasScepter() then self.radius = 900 else self.radius = 700 end
     if not IsServer() then return end

@@ -1,8 +1,12 @@
+LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
+
+LinkLuaModifier( "modifier_gypsy_tabor_illusion","abilities/heroes/gypsy.lua",LUA_MODIFIER_MOTION_NONE)
+
 gypsy_tabor = class({})
 
-LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier("modifier_gypsy_tabor_illusion","abilities/heroes/gypsy.lua",LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_gypsy_tabor_samosud","abilities/heroes/gypsy.lua",LUA_MODIFIER_MOTION_NONE)
+function gypsy_tabor:GetCooldown(level)
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_gypsy_2")
+end
 
 function gypsy_tabor:OnSpellStart()
 	if not IsServer() then return end
@@ -14,17 +18,16 @@ function gypsy_tabor:OnSpellStart()
 	local count_chance_illusions = self:GetSpecialValueFor( "illusion_count" )
 	local damage_chance_illusions = self:GetSpecialValueFor( "illusion_damage_out" ) - 100
 
-
 	self:GetCaster():EmitSound("GypsyTabor")
 
-	local main_illusions = CreateIllusions( self:GetCaster(), target, {duration=illusion_duration,outgoing_damage=main_illusion_damage,incoming_damage=illusion_damage_in}, 1, 100, true, true ) 
+	local main_illusions = BirzhaCreateIllusion( self:GetCaster(), target, {duration=illusion_duration,outgoing_damage=main_illusion_damage,incoming_damage=illusion_damage_in}, 1, 100, true, true ) 
 	for _, main_illusion in pairs(main_illusions) do
 		main_illusion:RemoveDonate()
 		main_illusion:AddNewModifier(self:GetCaster(), self, "modifier_gypsy_tabor_illusion", {})
 	end
 
 	if RollPercentage(chance) then
-		local chance_illusions = CreateIllusions( self:GetCaster(), target, {duration=illusion_duration,outgoing_damage=damage_chance_illusions,incoming_damage=illusion_damage_in}, count_chance_illusions, 100, true, true ) 
+		local chance_illusions = BirzhaCreateIllusion( self:GetCaster(), target, {duration=illusion_duration,outgoing_damage=damage_chance_illusions,incoming_damage=illusion_damage_in}, count_chance_illusions, 100, true, true ) 
 		for _, chance_illusion in pairs(chance_illusions) do
 			chance_illusion:RemoveDonate()
 			chance_illusion:AddNewModifier(self:GetCaster(), self, "modifier_gypsy_tabor_illusion", {})
@@ -71,40 +74,22 @@ function modifier_gypsy_gipnoz_attack:DeclareFunctions()
 	}
 end
 
-function modifier_gypsy_gipnoz_attack:OnAttackLanded( keys )
+function modifier_gypsy_gipnoz_attack:OnAttackLanded( params )
 	if not IsServer() then return end
-	local attacker = self:GetParent()
-
-	if attacker ~= keys.attacker then
-		return
-	end
-
-	if attacker:IsIllusion() then
-		return
-	end
-
-	if not keys.target:IsRealHero() then
-		return
-	end
-
-	if keys.target:IsIllusion() then
-		return
-	end
-
-	local target = keys.target
-	if attacker:GetTeam() == target:GetTeam() then
-		return
-	end	
+	if params.attacker ~= self:GetParent() then return end
+	if params.attacker:IsIllusion() then return end
+	if params.attacker:PassivesDisabled() then return end
+	if params.target:IsWard() then return end	
+	if not params.target:IsRealHero() then return end
 
 	local stats_steal = self:GetAbility():GetSpecialValueFor("stats_steal")
 	local armor_steal = self:GetAbility():GetSpecialValueFor("armor_steal")
-	local duration = self:GetAbility():GetSpecialValueFor("duration_debuff")
+	local duration = self:GetAbility():GetSpecialValueFor("duration_debuff") + self:GetCaster():FindTalentValue("special_bonus_birzha_gypsy_6")
 
-	attacker:AddNewModifier(attacker, self:GetAbility(), "modifier_gypsy_gipnoz_buff", {duration = duration, stats_steal = stats_steal, armor_steal = armor_steal})
-	target:AddNewModifier(attacker, self:GetAbility(), "modifier_gypsy_gipnoz_debuff", {duration = duration, stats_steal = stats_steal, armor_steal = armor_steal})
-
-	attacker:AddNewModifier(attacker, self:GetAbility(), "modifier_gypsy_gipnoz_buff_hud", {})
-	target:AddNewModifier(attacker, self:GetAbility(), "modifier_gypsy_gipnoz_debuff_hud", {})
+	params.attacker:AddNewModifier(params.attacker, self:GetAbility(), "modifier_gypsy_gipnoz_buff", {duration = duration})
+	params.target:AddNewModifier(params.attacker, self:GetAbility(), "modifier_gypsy_gipnoz_debuff", {duration = duration})
+	params.attacker:AddNewModifier(params.attacker, self:GetAbility(), "modifier_gypsy_gipnoz_buff_hud", {duration = duration})
+	params.target:AddNewModifier(params.attacker, self:GetAbility(), "modifier_gypsy_gipnoz_debuff_hud", {duration = duration})
 end
 
 modifier_gypsy_gipnoz_buff_hud = class({})
@@ -117,15 +102,34 @@ end
 function modifier_gypsy_gipnoz_buff_hud:OnIntervalThink()
 	if not IsServer() then return end
 	local modifiers = self:GetParent():FindAllModifiersByName("modifier_gypsy_gipnoz_buff")
-	local stack_count = 0
-	for _, modifier in pairs(modifiers) do
-		stack_count = stack_count + modifier:GetStackCount()
-	end
-	if stack_count <= 0 then
-		self:Destroy()
-	else
-		self:SetStackCount(stack_count)
-	end
+	self:SetStackCount(#modifiers)
+end
+
+function modifier_gypsy_gipnoz_buff_hud:DeclareFunctions()
+	return 
+	{
+		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
+		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
+		MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
+		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
+
+	}
+end
+
+function modifier_gypsy_gipnoz_buff_hud:GetModifierPhysicalArmorBonus()
+    return self:GetStackCount() * self:GetAbility():GetSpecialValueFor("armor_steal")
+end
+
+function modifier_gypsy_gipnoz_buff_hud:GetModifierBonusStats_Strength()
+    return self:GetStackCount() * self:GetAbility():GetSpecialValueFor("stats_steal")
+end
+
+function modifier_gypsy_gipnoz_buff_hud:GetModifierBonusStats_Agility()
+    return self:GetStackCount() * self:GetAbility():GetSpecialValueFor("stats_steal")
+end
+
+function modifier_gypsy_gipnoz_buff_hud:GetModifierBonusStats_Intellect()
+    return self:GetStackCount() * self:GetAbility():GetSpecialValueFor("stats_steal")
 end
 
 modifier_gypsy_gipnoz_debuff_hud = class({})
@@ -138,15 +142,34 @@ end
 function modifier_gypsy_gipnoz_debuff_hud:OnIntervalThink()
 	if not IsServer() then return end
 	local modifiers = self:GetParent():FindAllModifiersByName("modifier_gypsy_gipnoz_debuff")
-	local stack_count = 0
-	for _, modifier in pairs(modifiers) do
-		stack_count = stack_count + modifier:GetStackCount()
-	end
-	if stack_count <= 0 then
-		self:Destroy()
-	else
-		self:SetStackCount(stack_count)
-	end
+	self:SetStackCount(#modifiers)
+end
+
+function modifier_gypsy_gipnoz_debuff_hud:DeclareFunctions()
+	return 
+	{
+		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
+		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
+		MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
+		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
+
+	}
+end
+
+function modifier_gypsy_gipnoz_debuff_hud:GetModifierPhysicalArmorBonus()
+    return (self:GetStackCount() * self:GetAbility():GetSpecialValueFor("armor_steal") ) * -1
+end
+
+function modifier_gypsy_gipnoz_debuff_hud:GetModifierBonusStats_Strength()
+    return (self:GetStackCount() * self:GetAbility():GetSpecialValueFor("stats_steal") ) * -1
+end
+
+function modifier_gypsy_gipnoz_debuff_hud:GetModifierBonusStats_Agility()
+    return (self:GetStackCount() * self:GetAbility():GetSpecialValueFor("stats_steal") ) * -1
+end
+
+function modifier_gypsy_gipnoz_debuff_hud:GetModifierBonusStats_Intellect()
+    return (self:GetStackCount() * self:GetAbility():GetSpecialValueFor("stats_steal") ) * -1
 end
 
 modifier_gypsy_gipnoz_buff = class({})
@@ -155,40 +178,8 @@ function modifier_gypsy_gipnoz_buff:IsHidden()
 	return true
 end
 
-function modifier_gypsy_gipnoz_buff:OnCreated(kv)
-	if not IsServer() then return end
-	self:SetStackCount(kv.armor_steal)
-end
-
 function modifier_gypsy_gipnoz_buff:GetAttributes()
     return MODIFIER_ATTRIBUTE_MULTIPLE
-end
-
-function modifier_gypsy_gipnoz_buff:DeclareFunctions()
-	return 
-	{
-		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
-		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
-		MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
-		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
-
-	}
-end
-
-function modifier_gypsy_gipnoz_buff:GetModifierPhysicalArmorBonus()
-    return self:GetStackCount()
-end
-
-function modifier_gypsy_gipnoz_buff:GetModifierBonusStats_Strength()
-    return self:GetStackCount()
-end
-
-function modifier_gypsy_gipnoz_buff:GetModifierBonusStats_Agility()
-    return self:GetStackCount()
-end
-
-function modifier_gypsy_gipnoz_buff:GetModifierBonusStats_Intellect()
-    return self:GetStackCount()
 end
 
 modifier_gypsy_gipnoz_debuff = class({})
@@ -197,53 +188,9 @@ function modifier_gypsy_gipnoz_debuff:IsHidden()
 	return true
 end
 
-function modifier_gypsy_gipnoz_debuff:OnCreated(kv)
-	if not IsServer() then return end
-	self:SetStackCount(kv.armor_steal)
-end
-
 function modifier_gypsy_gipnoz_debuff:GetAttributes()
     return MODIFIER_ATTRIBUTE_MULTIPLE
 end
-
-function modifier_gypsy_gipnoz_debuff:DeclareFunctions()
-	return 
-	{
-		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
-		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
-		MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
-		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
-
-	}
-end
-
-function modifier_gypsy_gipnoz_debuff:GetModifierPhysicalArmorBonus()
-    return self:GetStackCount() * -1
-end
-
-function modifier_gypsy_gipnoz_debuff:GetModifierBonusStats_Strength()
-    return self:GetStackCount() * -1
-end
-
-function modifier_gypsy_gipnoz_debuff:GetModifierBonusStats_Agility()
-    return self:GetStackCount() * -1
-end
-
-function modifier_gypsy_gipnoz_debuff:GetModifierBonusStats_Intellect()
-    return self:GetStackCount() * -1
-end
-
-
-
-
-
-
-
-
-
-
-
-
 
 LinkLuaModifier( "modifier_gypsy_lucky", "abilities/heroes/gypsy.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_gypsy_lucky_use", "abilities/heroes/gypsy.lua", LUA_MODIFIER_MOTION_NONE )
@@ -256,7 +203,8 @@ end
 
 modifier_gypsy_lucky = class({})
 
-modifier_gypsy_lucky.one_target = {
+modifier_gypsy_lucky.one_target = 
+{
 	["ogre_magi_fireblast_custom"] = true,
 	["ogre_magi_unrefined_fireblast_custom"] = true,
 }
@@ -269,25 +217,11 @@ function modifier_gypsy_lucky:IsHidden()
 	return true
 end
 
-function modifier_gypsy_lucky:OnCreated( kv )
-	self.chance_2 = self:GetAbility():GetSpecialValueFor( "chance_multi_1" )
-	self.chance_3 = self:GetAbility():GetSpecialValueFor( "chance_multi_2" )
-	self.chance_4 = self:GetAbility():GetSpecialValueFor( "chance_multi_3" )
-	self.chance_5 = self:GetAbility():GetSpecialValueFor( "chance_multi_4" )
-end
-
-function modifier_gypsy_lucky:OnRefresh( kv )
-	self.chance_2 = self:GetAbility():GetSpecialValueFor( "chance_multi_1" )
-	self.chance_3 = self:GetAbility():GetSpecialValueFor( "chance_multi_2" )
-	self.chance_4 = self:GetAbility():GetSpecialValueFor( "chance_multi_3" )
-	self.chance_5 = self:GetAbility():GetSpecialValueFor( "chance_multi_4" )
-end
-
 function modifier_gypsy_lucky:DeclareFunctions()
-	local funcs = {
+	local funcs = 
+	{
 		MODIFIER_EVENT_ON_ABILITY_FULLY_CAST,
 	}
-
 	return funcs
 end
 
@@ -305,6 +239,11 @@ function modifier_gypsy_lucky:OnAbilityFullyCast( params )
 
 	local target = params.target
 	local multicast_multi = 1
+
+	self.chance_2 = self:GetAbility():GetSpecialValueFor( "chance_multi_1" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_gypsy_8")
+	self.chance_3 = self:GetAbility():GetSpecialValueFor( "chance_multi_2" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_gypsy_8")
+	self.chance_4 = self:GetAbility():GetSpecialValueFor( "chance_multi_3" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_gypsy_8")
+	self.chance_5 = self:GetAbility():GetSpecialValueFor( "chance_multi_4" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_gypsy_8")
 
 	if RollPseudoRandomPercentage(self.chance_5, 6, self:GetParent()) then 
 		multicast_multi = 5 
@@ -328,8 +267,6 @@ function modifier_gypsy_lucky:OnAbilityFullyCast( params )
 
 	self:GetCaster():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_gypsy_lucky_use", { ability = params.ability:entindex(), target = target:entindex(), multicast = multicast_multi, delay = delay, single = single, } )
 end
-
-
 
 modifier_gypsy_lucky_use = class({})
 
@@ -440,105 +377,6 @@ function modifier_gypsy_lucky_use:PlayEffects( value )
 	self:GetParent():EmitSound("GypsyMulticast")
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 LinkLuaModifier( "gypsy_steal_lua", "abilities/heroes/gypsy.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "gypsy_steal_hidden", "abilities/heroes/gypsy.lua", LUA_MODIFIER_MOTION_NONE )
 
@@ -598,10 +436,10 @@ function gypsy_steal:OnSpellStart()
 		return
 	end
 
-	local duration_silence = self:GetSpecialValueFor("duration_silence")
+	local duration_silence = self:GetSpecialValueFor("duration_silence") + self:GetCaster():FindTalentValue("special_bonus_birzha_gypsy_5")
 
 	if caster:GetTeamNumber() ~= target:GetTeamNumber() then
-		target:AddNewModifier(caster, self, "modifier_silence", {duration = duration_silence})
+		target:AddNewModifier(caster, self, "modifier_silence", {duration = duration_silence * (1-target:GetStatusResistance())})
 	end
 
 	self.stolenSpell = {}
@@ -723,40 +561,6 @@ function gypsy_steal:ForgetSpell()
 		self.currentSpell = nil
 	end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function gypsy_steal:GetAT()
 	if self.abilityTable==nil then
@@ -881,6 +685,10 @@ function gypsy_steal_lua:IsPurgable()
 	return false
 end
 
+function gypsy_steal_lua:RemoveOnDeath()
+	return not self:GetCaster():HasTalent("special_bonus_birzha_gypsy_1")
+end
+
 function gypsy_steal_lua:OnDestroy( kv )
 	self:GetAbility():ForgetSpell()
 end
@@ -913,6 +721,8 @@ end
 function gypsy_steal_hidden:DeclareFunctions()
 	local funcs = {
 		MODIFIER_EVENT_ON_ABILITY_FULLY_CAST,
+		MODIFIER_EVENT_ON_MODIFIER_ADDED,
+		MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE
 	}
 
 	return funcs
@@ -936,6 +746,25 @@ end
 
 function gypsy_steal_hidden:OnAbilityFullyCast( params )
 	if IsServer() then
+
+		if params.unit == self:GetParent() then
+			if self:GetParent():HasTalent("special_bonus_birzha_gypsy_3") then
+				if params.ability then
+					if params.ability == self:GetAbility().currentSpell then
+						if params.ability:GetCooldownTimeRemaining() > 0 then
+							if params.ability:GetCooldownTimeRemaining() - (params.ability:GetCooldown(params.ability:GetLevel() - 1) / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_gypsy_3")) > 0 then
+								local new_cooldown = params.ability:GetCooldownTimeRemaining() - (params.ability:GetCooldown(params.ability:GetLevel() - 1) / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_gypsy_3"))
+								params.ability:EndCooldown()
+								params.ability:StartCooldown(new_cooldown)
+							else
+								params.ability:EndCooldown()
+							end
+						end
+					end
+				end
+			end
+		end
+
 		if params.unit==self:GetParent() and (not params.ability:IsItem()) then
 			return
 		end
@@ -950,7 +779,8 @@ function gypsy_steal_hidden:OnAbilityFullyCast( params )
 			return
 		end
 
-		local useless_abilities = {
+		local useless_abilities = 
+		{
 			"haku_mask",
 			"aang_quas",
 			"aang_wex",
@@ -987,6 +817,7 @@ function gypsy_steal_hidden:OnAbilityFullyCast( params )
 			"jull_steal_time",
 			"pyramide_passive",
 			"pucci_restart_world",
+			"haku_help",
 			"pucci_time_acceleration",
 			"Overlord_one_book",
 			"Overlord_two_book",
@@ -1038,6 +869,53 @@ function gypsy_steal_hidden:OnAbilityFullyCast( params )
 end
 
 
+function gypsy_steal_hidden:GetModifierTotalDamageOutgoing_Percentage(params)
+	if params.damage_category == DOTA_DAMAGE_CATEGORY_SPELL then 
+		if params.inflictor ~= nil then
+			if params.inflictor == self:GetAbility().currentSpell then
+				if self:GetParent():HasTalent("special_bonus_birzha_gypsy_7") then
+					return self:GetCaster():FindTalentValue("special_bonus_birzha_gypsy_7")
+				end
+			end
+		end
+	end
+end
+
+function gypsy_steal_hidden:OnModifierAdded(params)
+	if not IsServer() then return end
+	if params.unit == self:GetParent() then return end
+	if params.added_buff:GetCaster() ~= self:GetParent() then return end
+	if not params.added_buff:IsDebuff() then return end
+	if params.added_buff:GetDuration() <= 0 then return end
+	if params.added_buff:GetName() == "modifier_cyclone" then return end
+	if params.added_buff:GetName() == "modifier_eul_cyclone" then return end
+	if params.added_buff:GetName() == "modifier_eul_cyclone_thinker" then return end
+	if params.added_buff:GetName() == "modifier_eul_wind_waker_thinker" then return end
+	if params.added_buff:GetName() == "modifier_wind_waker" then return end
+	if params.added_buff:GetAbility() ~= self:GetAbility().currentSpell then return end
+	if not self:GetParent():HasTalent("special_bonus_birzha_gypsy_4") then return end
+	local new_duration = params.added_buff:GetDuration() + (params.added_buff:GetDuration() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_gypsy_4"))
+	params.added_buff:SetDuration(new_duration, true)
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1065,15 +943,13 @@ function gypsy_debosh:OnInventoryContentsChanged()
     end
 end
 
-modifier_gypsy_debosh_caster_debuff = class({})
-modifier_gypsy_debosh_target_debuff = class({})
-
 function gypsy_debosh:OnSpellStart()
 	if not IsServer() then return end
 	local target = self:GetCursorTarget()
 	local debuff_duration = self:GetSpecialValueFor( "debuff_duration" )
 
-	local info = {
+	local info = 
+	{
 		EffectName = "particles/gypsy/skill_debosh.vpcf",
 		Dodgeable = true,
 		Ability = self,
@@ -1086,8 +962,11 @@ function gypsy_debosh:OnSpellStart()
 		Target = target,
 		bReplaceExisting = false,
 	}
+
 	local bottle = ProjectileManager:CreateTrackingProjectile(info)
-	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_gypsy_debosh_caster_debuff", {duration = debuff_duration})
+
+	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_gypsy_debosh_caster_debuff", {duration = debuff_duration * (1-self:GetCaster():GetStatusResistance())})
+
 	self:GetCaster():EmitSound("GypsyDebosh")
 end
 
@@ -1095,14 +974,18 @@ function gypsy_debosh:OnProjectileHit(target,_)
 	if target ~= nil and target:IsAlive() then
 
 		local stun_duration = self:GetSpecialValueFor( "stun_duration" )
+
 		target:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = stun_duration * (1 - target:GetStatusResistance())})
 
 		local bonus_damage = self:GetSpecialValueFor( "bonus_damage" )
+
 		local damage = self:GetSpecialValueFor( "damage" )
+
 		local modifier = target:FindModifierByName( "modifier_gypsy_debosh_target_debuff" )
+
 		local effect_duration = self:GetSpecialValueFor( "effect_duration" )
 
-		target:AddNewModifier(self:GetCaster(), self, "modifier_gypsy_debosh_target_debuff", {duration = effect_duration})
+		target:AddNewModifier(self:GetCaster(), self, "modifier_gypsy_debosh_target_debuff", {duration = effect_duration * (1-target:GetStatusResistance())})
 
 		local modifier = target:FindModifierByName("modifier_gypsy_debosh_target_debuff")
 
@@ -1112,9 +995,12 @@ function gypsy_debosh:OnProjectileHit(target,_)
 		end
 
 		target:EmitSound("GypsyDebosh")
+
 		ApplyDamage({attacker = self:GetCaster(), victim = target, ability = self, damage = full_damage, damage_type = DAMAGE_TYPE_PURE})
 	end
 end
+
+modifier_gypsy_debosh_target_debuff = class({})
 
 function modifier_gypsy_debosh_target_debuff:IsHidden()
 	return false
@@ -1131,6 +1017,8 @@ function modifier_gypsy_debosh_target_debuff:OnRefresh()
 	if not IsServer() then return end
 	self:IncrementStackCount()
 end
+
+modifier_gypsy_debosh_caster_debuff = class({})
 
 function modifier_gypsy_debosh_caster_debuff:DeclareFunctions()
 	return {MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,MODIFIER_PROPERTY_MISS_PERCENTAGE }
