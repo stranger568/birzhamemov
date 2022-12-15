@@ -21,7 +21,6 @@ function BirzhaEvents:OnDisconnect(params)
         if leave_timer_player <= 0 then
             BirzhaEvents.BIRZHA_PLAYER_CONNECT_INFO[player_id].connection = "abandoned"
             BirzhaEvents:AddPlayerFullDisconnectDebuff(hero_player, player_id)
-            BirzhaGameMode:PlayerLeaveUpdateMaxScore()
             return nil 
         end
 

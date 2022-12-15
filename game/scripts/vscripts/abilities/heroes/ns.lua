@@ -457,7 +457,7 @@ function modifier_ns_kbu_duration:OnDeath(keys)
                     self.parent:RemoveModifierByName("modifier_ns_kbu_duration")
                     if keys.attacker ~= self:GetParent() then
                         if not self.parent:HasScepter() then
-                            self.parent:BirzhaTrueKill( self:GetAbility(), self:GetCaster() )
+                            self.parent:BirzhaTrueKill( self:GetAbility(), keys.attacker )
                         end
                     end
                 end

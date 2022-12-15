@@ -1131,14 +1131,14 @@ function BirzhaGameMode:PlayerLeaveUpdateMaxScore()
 
 	local maps_scores_change = 
 	{
-		["birzhamemov_solo"] = 5,
-		["birzhamemov_duo"] = 5,
-		["birzhamemov_trio"] = 5,
-		["birzhamemov_5v5v5"] = 7,
-		["birzhamemov_5v5"] = 7,
+		["birzhamemov_solo"] = 2,
+		["birzhamemov_duo"] = 2,
+		["birzhamemov_trio"] = 2,
+		["birzhamemov_5v5v5"] = 4,
+		["birzhamemov_5v5"] = 4,
 		["birzhamemov_zxc"] = 0,
-		["birzhamemov_samepick"] = 7,
-		["birzhamemov_wtf"] = 5,
+		["birzhamemov_samepick"] = 4,
+		["birzhamemov_wtf"] = 4,
 	}
 
 	local maps_scores = 
@@ -1156,7 +1156,7 @@ function BirzhaGameMode:PlayerLeaveUpdateMaxScore()
 	local new_kills = current_max_kills - maps_scores_change[GetMapName()]
 
 	if leader_max_kills >= new_kills then
-		new_kills = new_kills + ( maps_scores_change[GetMapName()] / 2 )
+		new_kills = leader_max_kills + math.floor(( maps_scores_change[GetMapName()] / 2 ))
 	end
 
 	if new_kills > maps_scores[GetMapName()] then

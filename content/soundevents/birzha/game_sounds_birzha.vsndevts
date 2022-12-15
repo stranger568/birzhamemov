@@ -1,70 +1,6 @@
 <!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
 {
-    danilone = 
-    {
-        type = "dota_src1_3d"
-        vsnd_files = 
-        [
-            "sounds/birzha/danil_one.vsnd",
-        ]
-        volume = "4.000000"
-        pitch_rand_min = "-0.050000"
-        pitch_rand_max = "0.050000"
-        pitch = "1.000000"
-        soundlevel = "100.000000"
-        distance_max = "1600.000000"
-        event_type = "1.000000"
-        vsnd_duration = 1.776000
-    }
-    daniltwo = 
-    {
-        type = "dota_src1_3d"
-        vsnd_files = 
-        [
-            "sounds/birzha/danil_cast.vsnd",
-        ]
-        volume = "4.000000"
-        pitch_rand_min = "-0.050000"
-        pitch_rand_max = "0.050000"
-        pitch = "1.000000"
-        soundlevel = "100.000000"
-        distance_max = "1600.000000"
-        event_type = "1.000000"
-        vsnd_duration = 1.344000
-    }
-    danilthee = 
-    {
-        type = "dota_src1_3d"
-        vsnd_files = 
-        [
-            "sounds/birzha/danil_passive.vsnd",
-        ]
-        volume = "4.000000"
-        pitch_rand_min = "-0.050000"
-        pitch_rand_max = "0.050000"
-        pitch = "1.000000"
-        soundlevel = "100.000000"
-        distance_max = "1600.000000"
-        event_type = "1.000000"
-        vsnd_duration = 2.520000
-    }
-    danilfour = 
-    {
-        type = "dota_src1_3d"
-        vsnd_files = 
-        [
-            "sounds/birzha/danil_stun.vsnd",
-        ]
-        volume = "1.000000"
-        pitch_rand_min = "-0.050000"
-        pitch_rand_max = "0.050000"
-        pitch = "1.000000"
-        soundlevel = "100.000000"
-        distance_max = "1600.000000"
-        event_type = "1.000000"
-        vsnd_duration = 2.016000
-    }
-    animerem = 
+    "animerem" = 
     {
         type = "dota_src1_3d"
         vsnd_files = 
@@ -80,7 +16,7 @@
         distance_max = "1600.000000"
         event_type = "1.000000"
         vsnd_duration = 21.216000
-    }
+    }  
     papichsolo = 
     {
         type = "dota_src1_3d"
@@ -294,8 +230,8 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/tusk/snowball_stun01.vsnd",
-            "sounds/birzha/weapons/hero/tusk/snowball_stun02.vsnd",
+            "sounds/weapons/hero/tusk/snowball_stun01.vsnd",
+            "sounds/weapons/hero/tusk/snowball_stun02.vsnd",
         ]
         volume = "2.000000"
         pitch_rand_min = "-0.050000"
@@ -1544,7 +1480,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/megumin/ep10_shriek.vsnd",
+            "sounds/megumin/ep10_shriek.vsnd",
         ]
         volume = "5.000000"
         pitch_rand_min = "-0.050000"
@@ -2693,7 +2629,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/shredder/chakra_cast.vsnd",
+            "sounds/weapons/hero/shredder/chakra_cast.vsnd",
         ]
         volume = "0.500000"
         pitch_rand_min = "-0.050000"
@@ -2920,7 +2856,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/ogre_magi/ignite_cast.vsnd",
+            "sounds/weapons/hero/ogre_magi/ignite_cast.vsnd",
         ]
         volume = "1.500000"
         pitch_rand_min = "-0.050000"
@@ -2952,7 +2888,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/ogre_magi/multicast02.vsnd",
+            "sounds/weapons/hero/ogre_magi/multicast02.vsnd",
         ]
         volume = "2.500000"
         pitch_rand_min = "-0.050000"
@@ -2985,7 +2921,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/tusk/snowball_stun02.vsnd",
+            "sounds/weapons/hero/tusk/snowball_stun02.vsnd",
         ]
         volume = "5.500000"
         pitch_rand_min = "-0.050000"
@@ -3033,7 +2969,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/elder_titan/echo_stomp_cast.vsnd",
+            "sounds/weapons/hero/elder_titan/echo_stomp_cast.vsnd",
         ]
         volume = "0.500000"
         pitch_rand_min = "-0.050000"
@@ -3081,7 +3017,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/shadowshaman/shackle_cast.vsnd",
+            "sounds/weapons/hero/shadowshaman/shackle_cast.vsnd",
         ]
         volume = "1.500000"
         pitch_rand_min = "-0.050000"
@@ -3097,7 +3033,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/oracle/purifying_damage.vsnd",
+            "sounds/weapons/hero/oracle/purifying_damage.vsnd",
         ]
         volume = "1.500000"
         pitch_rand_min = "-0.050000"
@@ -6404,7 +6340,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/weaver/swarm_cast.vsnd",
+            "sounds/weapons/hero/weaver/swarm_cast.vsnd",
         ]
         volume = "1.000000"
         pitch_rand_min = "-0.050000"
@@ -6420,7 +6356,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/weaver/swarm_projectile.vsnd",
+            "sounds/weapons/hero/weaver/swarm_projectile.vsnd",
         ]
         volume = "1.000000"
         pitch_rand_min = "-0.050000"
@@ -6436,7 +6372,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/weaver/swarm_attach.vsnd",
+            "sounds/weapons/hero/weaver/swarm_attach.vsnd",
         ]
         volume = "1.000000"
         pitch_rand_min = "-0.050000"
@@ -6452,7 +6388,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/nyx/burrow_in.vsnd",
+            "sounds/weapons/hero/nyx/burrow_in.vsnd",
         ]
         volume = "1.000000"
         pitch_rand_min = "-0.050000"
@@ -6468,7 +6404,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/nyx/burrow_out.vsnd",
+            "sounds/weapons/hero/nyx/burrow_out.vsnd",
         ]
         volume = "1.000000"
         pitch_rand_min = "-0.050000"
@@ -6484,7 +6420,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/dazzle/poison_cast.vsnd",
+            "sounds/weapons/hero/dazzle/poison_cast.vsnd",
         ]
         volume = "1.000000"
         pitch_rand_min = "-0.050000"
@@ -6500,7 +6436,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/dark_seer/ion_shell_cast_ti8.vsnd",
+            "sounds/weapons/hero/dark_seer/ion_shell_cast_ti8.vsnd",
         ]
         volume = "1.000000"
         pitch_rand_min = "-0.050000"
@@ -6516,7 +6452,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/dark_seer/ion_shell_stop_ti8.vsnd",
+            "sounds/weapons/hero/dark_seer/ion_shell_stop_ti8.vsnd",
         ]
         volume = "1.000000"
         pitch_rand_min = "-0.050000"
@@ -6532,7 +6468,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/juggernaut/sword_swing_special.vsnd",
+            "sounds/weapons/hero/juggernaut/sword_swing_special.vsnd",
         ]
         volume = "1.000000"
         pitch_rand_min = "-0.050000"
@@ -6548,7 +6484,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/phantom_assassin/fan_of_knives.vsnd",
+            "sounds/weapons/hero/phantom_assassin/fan_of_knives.vsnd",
         ]
         volume = "1.000000"
         pitch_rand_min = "-0.050000"
@@ -6564,7 +6500,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/templar_assassin/attack6.vsnd",
+            "sounds/weapons/hero/templar_assassin/attack6.vsnd",
         ]
         volume = "1.000000"
         pitch_rand_min = "-0.050000"
@@ -6596,7 +6532,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/snapfire/cookie_cast.vsnd",
+            "sounds/weapons/hero/snapfire/cookie_cast.vsnd",
         ]
         volume = "1.000000"
         pitch_rand_min = "-0.050000"
@@ -6612,7 +6548,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/snapfire/cookie_impact.vsnd",
+            "sounds/weapons/hero/snapfire/cookie_impact.vsnd",
         ]
         volume = "1.000000"
         pitch_rand_min = "-0.050000"
@@ -6628,7 +6564,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/dark_seer/dota_dark_seer_ion_shield_startup.vsnd",
+            "sounds/weapons/hero/dark_seer/dota_dark_seer_ion_shield_startup.vsnd",
         ]
         volume = "1.000000"
         pitch_rand_min = "-0.050000"
@@ -7297,7 +7233,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/ambient/tut_gate_metal_open01.vsnd",
+            "sounds/ambient/tut_gate_metal_open01.vsnd",
         ]
         volume = "5.000000"
         pitch_rand_min = "-0.050000"
@@ -7313,7 +7249,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/ui/inventory/metalblade_pickup_02.vsnd",
+            "sounds/ui/inventory/metalblade_pickup_02.vsnd",
         ]
         volume = "5.000000"
         pitch_rand_min = "-0.050000"
@@ -7329,7 +7265,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/huskar/pre_attack_01.vsnd",
+            "sounds/weapons/hero/huskar/pre_attack_01.vsnd",
         ]
         volume = "5.000000"
         pitch_rand_min = "-0.050000"
@@ -7345,7 +7281,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/skeleton_king/attack03.vsnd",
+            "sounds/weapons/hero/skeleton_king/attack03.vsnd",
         ]
         volume = "5.000000"
         pitch_rand_min = "-0.050000"
@@ -7361,7 +7297,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/phantom_assassin/coup_de_grace.vsnd",
+            "sounds/weapons/hero/phantom_assassin/coup_de_grace.vsnd",
         ]
         volume = "5.000000"
         pitch_rand_min = "-0.050000"
@@ -7409,7 +7345,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/earthshaker/gravelmaw_cast.vsnd",
+            "sounds/weapons/hero/earthshaker/gravelmaw_cast.vsnd",
         ]
         volume = "3.000000"
         pitch_rand_min = "-0.050000"
@@ -7425,7 +7361,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/elder_titan/spirit_buff.vsnd",
+            "sounds/weapons/hero/elder_titan/spirit_buff.vsnd",
         ]
         volume = "3.000000"
         pitch_rand_min = "-0.050000"
@@ -7441,7 +7377,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/zuus/lightning_bolt.vsnd",
+            "sounds/weapons/hero/zuus/lightning_bolt.vsnd",
         ]
         volume = "3.000000"
         pitch_rand_min = "-0.050000"
@@ -7473,7 +7409,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/magnataur/shockwave_particle_anvil.vsnd",
+            "sounds/weapons/hero/magnataur/shockwave_particle_anvil.vsnd",
         ]
         volume = "2.000000"
         pitch_rand_min = "-0.050000"
@@ -7489,7 +7425,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/grimstroke/dark_artistry_damage.vsnd",
+            "sounds/weapons/hero/grimstroke/dark_artistry_damage.vsnd",
         ]
         volume = "2.000000"
         pitch_rand_min = "-0.050000"
@@ -7505,7 +7441,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/huskar/inner_fire.vsnd",
+            "sounds/weapons/hero/huskar/inner_fire.vsnd",
         ]
         volume = "2.000000"
         pitch_rand_min = "-0.050000"
@@ -7521,7 +7457,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/alchemist/berserk_potion_cast.vsnd",
+            "sounds/weapons/hero/alchemist/berserk_potion_cast.vsnd",
         ]
         volume = "0.500000"
         pitch_rand_min = "-0.050000"
@@ -7569,7 +7505,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/marci/unleash_cast.vsnd",
+            "sounds/weapons/hero/marci/unleash_cast.vsnd",
         ]
         volume = "2.000000"
         pitch_rand_min = "-0.050000"
@@ -7585,7 +7521,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/grimstroke/dark_artistry_projectile.vsnd",
+            "sounds/weapons/hero/grimstroke/dark_artistry_projectile.vsnd",
         ]
         volume = "2.000000"
         pitch_rand_min = "-0.050000"
@@ -7601,7 +7537,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/doom_bringer/infernal_blade_target.vsnd",
+            "sounds/weapons/hero/doom_bringer/infernal_blade_target.vsnd",
         ]
         volume = "2.000000"
         pitch_rand_min = "-0.050000"
@@ -7617,7 +7553,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/pangolier/shield.vsnd",
+            "sounds/weapons/hero/pangolier/shield.vsnd",
         ]
         volume = "2.000000"
         pitch_rand_min = "-0.050000"
@@ -7633,7 +7569,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/brewmaster/thunder_clap.vsnd",
+            "sounds/weapons/hero/brewmaster/thunder_clap.vsnd",
         ]
         volume = "2.000000"
         pitch_rand_min = "-0.050000"
@@ -7649,7 +7585,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/queenofpain/shard_blink_out.vsnd",
+            "sounds/weapons/hero/queenofpain/shard_blink_out.vsnd",
         ]
         volume = "2.000000"
         pitch_rand_min = "-0.050000"
@@ -7665,7 +7601,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/sniper/attack_dt20.vsnd",
+            "sounds/weapons/hero/sniper/attack_dt20.vsnd",
         ]
         volume = "2.000000"
         pitch_rand_min = "-0.050000"
@@ -7681,7 +7617,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/elder_titan/echo_stomp_cast.vsnd",
+            "sounds/weapons/hero/elder_titan/echo_stomp_cast.vsnd",
         ]
         volume = "2.000000"
         pitch_rand_min = "-0.050000"
@@ -7697,7 +7633,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/elder_titan/spirit_cast.vsnd",
+            "sounds/weapons/hero/elder_titan/spirit_cast.vsnd",
         ]
         volume = "2.000000"
         pitch_rand_min = "-0.050000"
@@ -7713,7 +7649,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/marci/rebound_cast.vsnd",
+            "sounds/weapons/hero/marci/rebound_cast.vsnd",
         ]
         volume = "1.000000"
         pitch_rand_min = "-0.050000"
@@ -7729,7 +7665,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/antimage/blink_in_persona.vsnd",
+            "sounds/weapons/hero/antimage/blink_in_persona.vsnd",
         ]
         volume = "1.000000"
         pitch_rand_min = "-0.050000"
@@ -7892,7 +7828,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/items/force_field_cast.vsnd",
+            "sounds/items/force_field_cast.vsnd",
         ]
         volume = "6.000000"
         pitch_rand_min = "-0.050000"
@@ -7989,7 +7925,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/techies/land_mine_primed.vsnd",
+            "sounds/weapons/hero/techies/land_mine_primed.vsnd",
         ]
         volume = "2.000000"
         pitch_rand_min = "-0.050000"
@@ -8005,7 +7941,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/techies/land_mine01.vsnd",
+            "sounds/weapons/hero/techies/land_mine01.vsnd",
         ]
         volume = "2.000000"
         pitch_rand_min = "-0.050000"
@@ -8021,7 +7957,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/techies/stasis_trap.vsnd",
+            "sounds/weapons/hero/techies/stasis_trap.vsnd",
         ]
         volume = "2.000000"
         pitch_rand_min = "-0.050000"
@@ -8037,7 +7973,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/visage/stun.vsnd",
+            "sounds/weapons/hero/visage/stun.vsnd",
         ]
         volume = "2.000000"
         pitch_rand_min = "-0.050000"
@@ -8053,7 +7989,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/snapfire/cookie_projectile.vsnd",
+            "sounds/weapons/hero/snapfire/cookie_projectile.vsnd",
         ]
         volume = "2.000000"
         pitch_rand_min = "-0.050000"
@@ -8069,7 +8005,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/snapfire/lizard_blob_impact.vsnd",
+            "sounds/weapons/hero/snapfire/lizard_blob_impact.vsnd",
         ]
         volume = "1.000000"
         pitch_rand_min = "-0.050000"
@@ -8085,7 +8021,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/tinker/laser.vsnd",
+            "sounds/weapons/hero/tinker/laser.vsnd",
         ]
         volume = "0.500000"
         pitch_rand_min = "-0.050000"
@@ -8119,7 +8055,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/void_spirit/pulse_ring.vsnd",
+            "sounds/weapons/hero/void_spirit/pulse_ring.vsnd",
         ]
         volume = "2.500000"
         pitch_rand_min = "-0.050000"
@@ -8135,7 +8071,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/void_spirit/dissimilate_stun.vsnd",
+            "sounds/weapons/hero/void_spirit/dissimilate_stun.vsnd",
         ]
         volume = "1.500000"
         pitch_rand_min = "-0.050000"
@@ -8151,7 +8087,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/elder_titan/earth_split_destroy01.vsnd",
+            "sounds/weapons/hero/elder_titan/earth_split_destroy01.vsnd",
         ]
         volume = "1.500000"
         pitch_rand_min = "-0.050000"
@@ -8317,7 +8253,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/techies/remote_mine01.vsnd",
+            "sounds/weapons/hero/techies/remote_mine01.vsnd",
         ]
         volume = "2.500000"
         pitch_rand_min = "-0.050000"
@@ -8333,7 +8269,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/techies/stasis_trap.vsnd",
+            "sounds/weapons/hero/techies/stasis_trap.vsnd",
         ]
         volume = "2.500000"
         pitch_rand_min = "-0.050000"
@@ -8349,10 +8285,10 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/marci/attack01.vsnd",
-            "sounds/birzha/weapons/hero/marci/attack02.vsnd",
-            "sounds/birzha/weapons/hero/marci/attack03.vsnd",
-            "sounds/birzha/weapons/hero/marci/attack04.vsnd",
+            "sounds/weapons/hero/marci/attack01.vsnd",
+            "sounds/weapons/hero/marci/attack02.vsnd",
+            "sounds/weapons/hero/marci/attack03.vsnd",
+            "sounds/weapons/hero/marci/attack04.vsnd",
         ]
         volume = "2.500000"
         pitch_rand_min = "-0.050000"
@@ -8368,7 +8304,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/tusk/punch_target.vsnd",
+            "sounds/weapons/hero/tusk/punch_target.vsnd",
         ]
         volume = "1.500000"
         pitch_rand_min = "-0.050000"
@@ -8384,7 +8320,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/leshrac/split_earth_tormented.vsnd",
+            "sounds/weapons/hero/leshrac/split_earth_tormented.vsnd",
         ]
         volume = "2.500000"
         pitch_rand_min = "-0.050000"
@@ -8400,7 +8336,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/windrunner/focus_fire.vsnd",
+            "sounds/weapons/hero/windrunner/focus_fire.vsnd",
         ]
         volume = "2.500000"
         pitch_rand_min = "-0.050000"
@@ -8416,10 +8352,10 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/windrunner/powershot_damage01.vsnd",
-            "sounds/birzha/weapons/hero/windrunner/powershot_damage02.vsnd",
-            "sounds/birzha/weapons/hero/windrunner/powershot_damage03.vsnd",
-            "sounds/birzha/weapons/hero/windrunner/powershot_damage04.vsnd",
+            "sounds/weapons/hero/windrunner/powershot_damage01.vsnd",
+            "sounds/weapons/hero/windrunner/powershot_damage02.vsnd",
+            "sounds/weapons/hero/windrunner/powershot_damage03.vsnd",
+            "sounds/weapons/hero/windrunner/powershot_damage04.vsnd",
         ]
         volume = "2.500000"
         pitch_rand_min = "-0.050000"
@@ -8435,7 +8371,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/skeleton_king/attack01_ti8.vsnd",
+            "sounds/weapons/hero/skeleton_king/attack01_ti8.vsnd",
         ]
         volume = "2.500000"
         pitch_rand_min = "-0.050000"
@@ -8482,7 +8418,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/ui/menu/menu_quit.vsnd",
+            "sounds/ui/menu/menu_quit.vsnd",
         ]
         volume = "5.500000"
         pitch_rand_min = "-0.050000"
@@ -8515,7 +8451,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/physics/deaths/specials/gyrocopter_death.vsnd",
+            "sounds/physics/deaths/specials/gyrocopter_death.vsnd",
         ]
         volume = "5.500000"
         pitch_rand_min = "-0.050000"
@@ -8531,7 +8467,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/riki/sleep_dart_cast.vsnd",
+            "sounds/weapons/hero/riki/sleep_dart_cast.vsnd",
         ]
         volume = "1.000000"
         pitch_rand_min = "-0.050000"
@@ -8563,7 +8499,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/tinker/matrix_grid.vsnd",
+            "sounds/weapons/hero/tinker/matrix_grid.vsnd",
         ]
         volume = "1.000000"
         pitch_rand_min = "-0.050000"
@@ -8579,7 +8515,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/disruptor/thunder_strike_target.vsnd",
+            "sounds/weapons/hero/disruptor/thunder_strike_target.vsnd",
         ]
         volume = "1.000000"
         pitch_rand_min = "-0.050000"
@@ -8595,7 +8531,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/disruptor/thunderator.vsnd",
+            "sounds/weapons/hero/disruptor/thunderator.vsnd",
         ]
         volume = "1.000000"
         pitch_rand_min = "-0.050000"
@@ -8611,7 +8547,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/zuus/arc_lightning.vsnd",
+            "sounds/weapons/hero/zuus/arc_lightning.vsnd",
         ]
         volume = "1.000000"
         pitch_rand_min = "-0.050000"
@@ -8899,7 +8835,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/vo/tidehunter/tide_anger_05.vsnd",
+            "sounds/vo/tidehunter/tide_anger_05.vsnd",
         ]
         volume = "5.000000"
         pitch_rand_min = "-0.050000"
@@ -9194,7 +9130,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/grimstroke/dark_artistry_projectile.vsnd",
+            "sounds/weapons/hero/grimstroke/dark_artistry_projectile.vsnd",
         ]
         volume = "4.000000"
         pitch_rand_min = "0.000000"
@@ -9210,7 +9146,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/bane/brain_sap.vsnd",
+            "sounds/weapons/hero/bane/brain_sap.vsnd",
         ]
         volume = "4.000000"
         pitch_rand_min = "-0.500000"
@@ -9290,7 +9226,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/weapons/hero/earthshaker/arcana_slam_small.vsnd",
+            "sounds/weapons/hero/earthshaker/arcana_slam_small.vsnd",
         ]
         volume = "1.000000"
         pitch_rand_min = "0.000000"
@@ -9306,7 +9242,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/tereshin_talent",
+            "sounds/birzha/tereshin_talent.vsnd",
         ]
         volume = "5.000000"
         pitch_rand_min = "-0.050000"
@@ -9322,7 +9258,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/papich_stream",
+            "sounds/birzha/papich_stream.vsnd",
         ]
         volume = "3.000000"
         pitch_rand_min = "-0.050000"
@@ -9338,7 +9274,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/vjlink_krik",
+            "sounds/birzha/vjlink_krik.vsnd",
         ]
         volume = "3.000000"
         pitch_rand_min = "-0.050000"
@@ -9354,7 +9290,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/pocik_uebu",
+            "sounds/birzha/pocik_uebu.vsnd",
         ]
         volume = "10.000000"
         pitch_rand_min = "-0.050000"
@@ -9370,7 +9306,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/sobolev_shift",
+            "sounds/birzha/sobolev_shift.vsnd",
         ]
         volume = "5.000000"
         pitch_rand_min = "-0.050000"
@@ -9385,7 +9321,7 @@
         type = "dota_src1_3d"
         vsnd_files = 
         [
-            "sounds/birzha/sobolev_bic",
+            "sounds/birzha/sobolev_bic.vsnd",
         ]
         volume = "5.000000"
         pitch_rand_min = "-0.050000"

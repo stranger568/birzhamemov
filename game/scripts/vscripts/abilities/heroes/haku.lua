@@ -272,6 +272,8 @@ end
 function modifier_marci_companion_run_custom:OnDestroy()
 	if not IsServer() then return end	
 	self:GetParent():RemoveHorizontalMotionController( self )
+	self:GetParent():FadeGesture(ACT_DOTA_RUN)
+	self:GetParent():FadeGesture(ACT_DOTA_ATTACK)
 
 	if self.interrupted then return end
 
@@ -281,6 +283,8 @@ function modifier_marci_companion_run_custom:OnDestroy()
 
 
 	local arc = self:GetParent():AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_generic_arc_marci",{ dir_x = self.direction.x,dir_y = self.direction.y,duration = self.duration,distance = self.distance,height = self.height,fix_end = false,isStun = true,isForward = true,activity = ACT_DOTA_ATTACK})
+
+	local caster = self:GetParent()
 
 	arc:SetEndCallback( function( interrupted )
 		self.ability:DealDamage()

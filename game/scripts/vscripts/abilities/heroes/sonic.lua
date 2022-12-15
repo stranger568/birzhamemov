@@ -70,7 +70,7 @@ function modifier_sonic_dash:GetMotionControllerPriority() return DOTA_MOTION_CO
 function modifier_sonic_dash:CheckState()
     return 
     {
-        [MODIFIER_STATE_ROOTED] = true,
+        [MODIFIER_STATE_STUNNED] = true,
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
         [MODIFIER_STATE_IGNORING_MOVE_AND_ATTACK_ORDERS] = true,
     }
@@ -93,7 +93,7 @@ function modifier_sonic_dash:OnCreated(params)
 end
 
 function modifier_sonic_dash:OnIntervalThink()
-    if not self:CheckMotionControllers() or self:GetParent():IsStunned() then
+    if not self:CheckMotionControllers() then
         if not self:IsNull() then
             FindClearSpaceForUnit(self:GetParent(), self:GetParent():GetAbsOrigin(), true)
             self:Destroy()

@@ -46,6 +46,8 @@ require('util/custom_selection')
 
 
 function Precache( context )
+	PrecacheResource( "soundfile", "soundevents/birzha/game_sounds_birzha.vsndevts", context ) 
+	
   	local heroes = LoadKeyValues("scripts/npc/dota_heroes.txt")
 
   	for k,v in pairs(heroes) do
@@ -78,9 +80,7 @@ function Precache( context )
 	local items = LoadKeyValues("scripts/npc/npc_items_custom.txt")
 	for k,v in pairs(items) do
 	  	PrecacheItemByNameSync(k, context)
-	end
-
-	PrecacheResource( "soundfile", "soundevents/birzha/game_sounds_birzha.vsndevts", context )  
+	end 
 end
 
 function Activate()
@@ -91,7 +91,7 @@ function Activate()
 end
 
 function BirzhaGameMode:InitGameMode()
-	XP_PER_LEVEL_TABLE = {0,200,600,1080,1680,2300,3940,4600,5280,6080,6900,7740,8740,9865,11215,12490,13790,15115,16515,18005,19505,21255,23255,25505,28005,32005,37005,43005,50005}
+	XP_PER_LEVEL_TABLE = {0,240,640,1160,1760,2440,3200,4000,4900,5900,7000,8200,9500,10900,12400,14000,15700,17500,19400,21400,23600,26000,28600,31400,34400,38400,43400,49400,56400,63900}
 	GameRules:GetGameModeEntity():SetUseCustomHeroLevels(true)
 	if IsInToolsMode() then
 		XP_PER_LEVEL_TABLE = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
