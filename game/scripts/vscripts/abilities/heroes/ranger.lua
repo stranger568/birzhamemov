@@ -74,7 +74,7 @@ function Ranger_NailGun:OnProjectileHit( target, vLocation )
         {
             victim = target,
             attacker = self:GetCaster(),
-            damage = self:GetCaster():GetAverageTrueAttackDamage(nil) / 100 * multi,
+            damage = self:GetCaster():GetAttackDamage() / 100 * multi,
             damage_type = damage_type,
             ability = self
         }
@@ -83,10 +83,6 @@ function Ranger_NailGun:OnProjectileHit( target, vLocation )
 
         if self:GetCaster():HasShard() then
             target:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", { duration = self:GetSpecialValueFor("shard_stun_duration") * (1-target:GetStatusResistance()) } )
-        end
-        local modifier_ranger_QuadDamage_buff = self:GetCaster():FindModifierByName("modifier_ranger_QuadDamage_buff")
-        if modifier_ranger_QuadDamage_buff then
-            modifier_ranger_QuadDamage_buff:MinusCharge()
         end
     end
     return true
@@ -178,16 +174,11 @@ function Ranger_GrenadeLauncher:OnProjectileHit( target, vLocation )
         local units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), target:GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false)
 
         for i,unit in ipairs(units) do
-            ApplyDamage({ victim = unit, attacker = self:GetCaster(), damage = (self:GetCaster():GetAverageTrueAttackDamage(nil) / 100 * multi) + base_dmg, damage_type = DAMAGE_TYPE_MAGICAL, ability = self })
+            ApplyDamage({ victim = unit, attacker = self:GetCaster(), damage = (self:GetCaster():GetAttackDamage() / 100 * multi) + base_dmg, damage_type = DAMAGE_TYPE_MAGICAL, ability = self })
             unit:AddNewModifier( self:GetCaster(), self, "modifier_Ranger_GrenadeLauncher_debuff", { duration = duration * (1-unit:GetStatusResistance()) } )
             if self:GetCaster():HasTalent("special_bonus_birzha_ranger_5") then
                 unit:AddNewModifier( self:GetCaster(), self, "modifier_Ranger_GrenadeLauncher_armor_debuff", { duration = self:GetCaster():FindTalentValue("special_bonus_birzha_ranger_5", "value2") * (1-unit:GetStatusResistance()) } )
             end
-        end 
-
-        local modifier_ranger_QuadDamage_buff = self:GetCaster():FindModifierByName("modifier_ranger_QuadDamage_buff")
-        if modifier_ranger_QuadDamage_buff then
-            modifier_ranger_QuadDamage_buff:MinusCharge()
         end
     end
     return true

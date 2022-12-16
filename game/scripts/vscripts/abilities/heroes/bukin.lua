@@ -390,7 +390,9 @@ function modifier_Bukin_Spears:OnAttackLanded( params )
         modifier:SetStackCount(modifier:GetStackCount() + stack)
     else
         modifier = params.target:AddNewModifier( params.attacker, self:GetAbility(), "modifier_Bukin_Spears_debuff", { duration = duration } )
-        modifier:SetStackCount(stack)
+        if modifier then
+            modifier:SetStackCount(stack)
+        end
     end
 
     params.target:EmitSound("Hero_Huskar.Burning_Spear")

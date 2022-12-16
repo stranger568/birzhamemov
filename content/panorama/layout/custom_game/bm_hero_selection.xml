@@ -31,7 +31,7 @@
  
 			<Panel id="StateInfoGlobal" class="StateInfoGlobalClass">
 				<Panel style="horizontal-align: center;">
-					<DOTAParticleScenePanel class="pick_timer_particle" particleName="particles/hero_selection/time_fx.vpcf" particleOnly="true" cameraOrigin="0 0 165" lookAt="0 0 0" fov="65" squarePixels="true" startActive="true"/>
+					<DOTAParticleScenePanel id="pick_timer_particle" class="pick_timer_particle" particleName="particles/hero_selection/time_fx.vpcf" particleOnly="true" cameraOrigin="0 0 165" lookAt="0 0 0" fov="65" squarePixels="true" startActive="true"/>
 					<Label id="PickTimer" class="PickTimerClass" text="" />
 				</Panel>
 			</Panel>

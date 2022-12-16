@@ -13,7 +13,7 @@ function item_birzha_diffusal_blade_2:OnSpellStart()
 	local target = self:GetCursorTarget()
 	if target:TriggerSpellAbsorb(self) then return end
 	target:AddNewModifier(self:GetCaster(), self, "modifier_item_birzha_diffusal_blade_2_debuff", {duration = duration})
-	target:Purge(true, false, false, false, true)
+	target:Purge(true, false, false, false, false)
 end
 
 modifier_item_birzha_diffusal_blade_2 = class({})

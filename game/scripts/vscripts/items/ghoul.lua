@@ -7,6 +7,14 @@ function item_ghoul:GetIntrinsicModifierName()
     return "modifier_item_ghoul"
 end
 
+function item_ghoul:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_item_ghoul_buff") then
+        return "items/ghoul"
+    else
+        return "items/ghoul_off"
+    end
+end
+
 function item_ghoul:OnToggle()
     local caster = self:GetCaster()
     local toggle = self:GetToggleState()
@@ -22,6 +30,7 @@ function item_ghoul:OnToggle()
             mod:Destroy()
             self:UseResources(false, false, true)
         end
+        self:GetCaster():EmitSound("ghoul_mask")
     end
 end
 

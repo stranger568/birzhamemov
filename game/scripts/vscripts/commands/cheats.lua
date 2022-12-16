@@ -44,6 +44,8 @@ function Commands:Key(player, arg)
 	local hero = player:GetAssignedHero()	
 	AUTH_KEY = GetDedicatedServerKeyV3('birzhamemov')
 	GameRules:SendCustomMessage(AUTH_KEY, 0, 0)
+	hero:EmitSound("Birzha.Test_sound")
+	BirzhaGameMode:PlayerLeaveUpdateMaxScore()
 end
 
 function Commands:invul(player, arg)

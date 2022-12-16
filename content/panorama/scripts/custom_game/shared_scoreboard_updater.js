@@ -10,7 +10,30 @@ function _ScoreboardUpdater_SetTextSafe( panel, childName, textValue )
 	
 	childPanel.text = textValue;
 }
-
+ 
+function HighlightByParty(player_id, party_icon) 
+{
+    if (party_icon)
+    {
+	    var party_map = CustomNetTables.GetTableValue("game_state", "party_map")
+	    if (party_map != undefined)
+	    {   
+		    var party_id = party_map[player_id];
+			if (party_id != undefined && parseInt(party_id)>0 && parseInt(party_id) <= 10) 
+			{
+				party_icon.SetHasClass("NoParty",false)
+				party_icon.SetHasClass("Party_" + party_id, true);
+				party_icon.style.visibility = "visible"
+			} else {
+				party_icon.SetHasClass("NoParty", true);
+				party_icon.style.visibility = "collapse"
+			}
+		} else {
+			party_icon.SetHasClass("NoParty", true);
+			party_icon.style.visibility = "collapse"
+		}
+	}
+}
 
 function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContainer, playerId, localPlayerTeamId )
 {
@@ -44,6 +67,12 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 			ultStateOrTime = Game.GetPlayerUltimateStateOrTime( playerId );
 		}
 		goldValue = playerInfo.player_gold;
+
+
+		if (playerPanel.FindChildInLayoutFile("PartyIcon_team"))
+		{
+			HighlightByParty(playerId, playerPanel.FindChildInLayoutFile("PartyIcon_team"));
+		}
 		
 		playerPanel.SetHasClass( "player_dead", ( playerInfo.player_respawn_seconds >= 0 ) );
 		playerPanel.SetHasClass( "local_player_teammate", isTeammate && ( playerId != Game.GetLocalPlayerID() ) );

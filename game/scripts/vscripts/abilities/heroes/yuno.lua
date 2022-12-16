@@ -119,8 +119,6 @@ function modifier_yuno_sharpness_axe:GetModifierProcAttack_BonusDamage_Pure(para
     local damage = 0
     local base_damage = self:GetAbility():GetSpecialValueFor("base_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_yuno_2")
 
-    print(params.original_damage)
-
     damage = base_damage
 
     if self:GetCaster():HasTalent("special_bonus_birzha_yuno_7") then

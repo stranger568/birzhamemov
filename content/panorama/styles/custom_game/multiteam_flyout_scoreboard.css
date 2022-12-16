@@ -4,7 +4,19 @@
 #AssistsContainer,
 #MmrContainer{height: 100%;}.ScoreboardPanel{background-color: BACKGROUND_COLOR;margin-top: 1px;margin-left: 1px;}.LegendPanel{margin-top: 1px;margin-left: 1px;}.ScoreboardPanel Label{font-size: 30px;text-shadow: 2px 2px 2px black;}.UltimateIndicatorShared{margin-left: 44px;margin-top: 2px;vertical-align: center;width: 20px;height: 20px;background-size: 20px;background-repeat: no-repeat;background-position: 50% 50%;}#Level{vertical-align: center;horizontal-align: center;color: #898b8c;}#Kills,
 #Deaths,
-#Assists{vertical-align: center;font-size: 18px;text-align: center;margin-top: 3px;width: 100%;}#Mmr{vertical-align: center;font-size: 18px;text-align: center;margin-top: 3px;width: 100%;color: gradient( linear, 90% 80%, 30% 20%, from( white ), to( #00ff48 ) );}#PlayerName{color: white;font-size: 14px;margin-bottom: -4px;margin-top: 0px;white-space: nowrap;}#HeroNameAndDescription{color: #898b8c;font-size: 13px;text-shadow: 2px 2px 2px black;margin-top: -1px;}#MuteButton{margin-right: 0px;margin-top: 0px;horizontal-align: right;vertical-align: top;width: 18px;height: 18px;background-size: 100%;background-repeat: no-repeat;background-position: 50% 50%;background-image: url("s2r://panorama/images/custom_game/button_audio_o_png.vtex");opacity: 0.8;}.is_local_player #MuteButton{visibility: collapse;}#MuteButton:hover{opacity: 1;}.player_muted #MuteButton{background-image: url("s2r://panorama/images/custom_game/button_audio_of_png.vtex");}#TeammateGoldAmount{margin-right: -1px;margin-bottom: -2px;vertical-align: bottom;horizontal-align: right;color: #ffd300;font-size: 13px;text-shadow: 2px 2px 2px black;visibility: collapse;}.local_player_team #TeammateGoldAmount{visibility: visible;}#PlayerDetailsContainer{height: 100%;}#PlayerAndHeroName{flow-children: down;padding-left: 8px;}.is_local_player #Kills,
+#Assists{vertical-align: center;font-size: 18px;text-align: center;margin-top: 3px;width: 100%;}#Mmr{vertical-align: center;font-size: 18px;text-align: center;margin-top: 3px;width: 100%;color: gradient( linear, 90% 80%, 30% 20%, from( white ), to( #00ff48 ) );}#PlayerName{color: white;font-size: 14px;margin-bottom: -4px;margin-top: 0px;white-space: nowrap;}#HeroNameAndDescription{color: #898b8c;font-size: 13px;text-shadow: 2px 2px 2px black;margin-top: -1px;}
+
+
+#MuteButton{z-index:2;margin-right: 0px;margin-top: 0px;horizontal-align: right;vertical-align: top;width: 16px;height: 16px;background-size: 100%;background-repeat: no-repeat;background-position: 50% 50%;background-image: url("s2r://panorama/images/custom_game/button_audio_o_png.vtex");opacity: 0.8;}
+
+.is_local_player #MuteButton{visibility: collapse;}
+#MuteButton:hover{opacity: 1;}
+.player_muted #MuteButton{z-index:2;background-image: url("s2r://panorama/images/custom_game/button_audio_of_png.vtex");}
+
+
+#TeammateGoldAmount{margin-right: -1px;margin-bottom: -2px;vertical-align: bottom;horizontal-align: right;color: #ffd300;font-size: 13px;text-shadow: 2px 2px 2px black;visibility: collapse;}.local_player_team #TeammateGoldAmount{visibility: visible;}#PlayerDetailsContainer{height: 100%;}#PlayerAndHeroName{flow-children: down;padding-left: 8px;}.is_local_player #Kills,
+
+
 .is_local_player #Deaths,
 .is_local_player #Assists,
 .is_local_player #Level,
@@ -39,4 +51,80 @@
 
 .ReportIcon:active {
 	brightness: 0.5;
+}
+
+.Party_1
+{
+  	wash-color: #01df3a;
+}
+
+.Party_2
+{
+  	wash-color: #d7df01;
+}
+
+.Party_3
+{
+  	wash-color: #df0101;
+ }
+
+.Party_4
+{
+  	wash-color: #2e2efe;
+}
+
+.Party_5
+{
+  	wash-color: #58d3f7;
+}
+
+.Party_6
+{
+  	wash-color: #ff8000;
+}
+
+.Party_7
+{
+  	wash-color: #00ffff;
+}
+
+.Party_8
+{
+  	wash-color: #04b404;
+}
+
+.Party_9
+{
+  	wash-color: #bf00ff;
+}
+
+.Party_10
+{
+  	wash-color: #088a68;
+}
+
+.Party_11
+{
+ 	wash-color: #86b404;
+}
+
+.Party_12
+{
+  	wash-color: #82fa58;
+}
+
+.NoParty
+{
+  	wash-color: white;
+}
+
+.PartyIcon
+{
+  background-image: url("s2r://panorama/images/control_icons/ghostfriend_inactive_psd.vtex");
+  background-size: 100%;
+  height: 14px;
+  width: 20px;
+  align: right bottom;
+  margin-right: 4px;
+  margin-bottom: 0px;
 }

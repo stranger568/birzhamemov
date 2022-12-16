@@ -3685,8 +3685,8 @@
 		"ItemResult"					"item_mem_chebureksword"
 		"ItemRequirements"
 		{
-			"01"						"item_mem_sange;item_mem_cheburek;item_mem_yasha"
-			"02"						"item_mem_sange_yasha;item_mem_cheburek"
+			"01"						"item_mem_sange_yasha;item_mem_cheburek"
+			"02"						"item_mem_sange;item_mem_cheburek;item_mem_yasha"
 		}
 	}
 	
@@ -3766,7 +3766,7 @@
 			"stack_duration"		"5.0"
 			
 			"bonus_int"				"16"
-			"spell_amplify"			"8"
+			"spell_amplify"			"12"
 			"mana_regen_increase"	"50"
 		}
 	}
@@ -3798,11 +3798,11 @@
 			"stack_duration"		"5.0"
 
 			"bonus_strength"		"16"
-			"effect_resistance"		"12"
-			"health_regen_increase"	"20"
+			"effect_resistance"		"20"
+			"health_regen_increase"	"22"
 			"bonus_attack_speed"	"15"
 			"bonus_agility"			"16"
-			"bonus_ms"				"8"
+			"bonus_ms"				"10"
 		}
 	}
 
@@ -3833,14 +3833,14 @@
 			"max_stacks"			"5"
 			"stack_duration"		"5.0"
 
-			"bonus_strength"		"16"
-			"effect_resistance"		"12"
-			"health_regen_increase"	"20"
-			"bonus_attack_speed"	"15"
-			"bonus_agility"			"16"
-			"bonus_ms"				"8"
-			"bonus_int"				"16"
-			"spell_amplify"			"8"
+			"bonus_strength"		"20"
+			"effect_resistance"		"20"
+			"health_regen_increase"	"22"
+			"bonus_attack_speed"	"20"
+			"bonus_agility"			"20"
+			"bonus_ms"				"10"
+			"bonus_int"				"20"
+			"spell_amplify"			"15"
 			"mana_regen_increase"	"50"
 		}
 	}

@@ -548,10 +548,7 @@ function modifier_polnaref_ragess:DeclareFunctions()
 end
 
 function modifier_polnaref_ragess:GetModifierBaseAttackTimeConstant()
-    if self:GetCaster():HasTalent("special_bonus_birzha_polnaref_6") then
-        return self:GetCaster():FindTalentValue("special_bonus_birzha_polnaref_6")
-    end
-    return self:GetAbility():GetSpecialValueFor("attack_speed")
+    return self:GetAbility():GetSpecialValueFor("attack_speed") + self:GetCaster():FindTalentValue("special_bonus_birzha_polnaref_6")
 end
 
 function modifier_polnaref_ragess:GetEffectName()

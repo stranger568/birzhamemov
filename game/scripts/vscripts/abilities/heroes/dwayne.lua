@@ -653,6 +653,7 @@ function modifier_dwayne_stone_passive:OnAttackLanded( params )
         if self:GetParent():PassivesDisabled() then return end
         if params.target:IsWard() then return end
         if params.no_attack_cooldown then return end
+        if not self:GetAbility():IsFullyCastable() then return end
         local count = self:GetAbility():GetSpecialValueFor("stone_count")
         local stone_ability = self:GetParent():FindAbilityByName("dwayne_throw_stone")
         if stone_ability and stone_ability:GetLevel() > 0 then
@@ -666,6 +667,7 @@ function modifier_dwayne_stone_passive:OnAttackLanded( params )
         if self:GetParent():PassivesDisabled() then return end
         if params.target:IsWard() then return end
         if params.no_attack_cooldown then return end
+        if not self:GetAbility():IsFullyCastable() then return end
         local count = self:GetAbility():GetSpecialValueFor("stone_count")
         local stone_ability = self:GetParent():FindAbilityByName("dwayne_throw_stone")
         if stone_ability and stone_ability:GetLevel() > 0 then

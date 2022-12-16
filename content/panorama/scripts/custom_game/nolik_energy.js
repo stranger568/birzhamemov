@@ -1,7 +1,11 @@
 var parentHUDElements = $.GetContextPanel().GetParent().GetParent().GetParent().FindChild("HUDElements");
-var center_block = parentHUDElements.FindChildTraverse("center_block");
-$.GetContextPanel().SetParent(center_block);
+if (parentHUDElements)
+{
+    var center_block = parentHUDElements.FindChildTraverse("center_block");
+    $.GetContextPanel().SetParent(center_block);
+}
 
+ 
 UpdateHeroHudBuffs();
 UpdateHeroHudBuffs2();
 

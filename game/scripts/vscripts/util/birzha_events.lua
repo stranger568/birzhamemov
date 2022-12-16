@@ -26,15 +26,15 @@ function BirzhaEvents:OnDisconnect(params)
 
         if PlayerResource:GetConnectionState(player_id) == nil then
             BirzhaEvents.BIRZHA_PLAYER_CONNECT_INFO[player_id].connection = "abandoned"
-            BirzhaEvents:AddPlayerFullDisconnectDebuff(hero_player, player_id)
             BirzhaGameMode:PlayerLeaveUpdateMaxScore()
+            BirzhaEvents:AddPlayerFullDisconnectDebuff(hero_player, player_id)
             return nil
         end
 
         if PlayerResource:GetConnectionState(player_id) ~= nil and (PlayerResource:GetConnectionState(player_id) == DOTA_CONNECTION_STATE_NOT_YET_CONNECTED or PlayerResource:GetConnectionState(player_id) == DOTA_CONNECTION_STATE_ABANDONED or PlayerResource:GetConnectionState(player_id) == DOTA_CONNECTION_STATE_UNKNOWN ) then
             BirzhaEvents.BIRZHA_PLAYER_CONNECT_INFO[player_id].connection = "abandoned"
-            BirzhaEvents:AddPlayerFullDisconnectDebuff(hero_player, player_id)
             BirzhaGameMode:PlayerLeaveUpdateMaxScore()
+            BirzhaEvents:AddPlayerFullDisconnectDebuff(hero_player, player_id)
             return nil
         end
 

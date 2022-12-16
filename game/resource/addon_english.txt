@@ -1345,7 +1345,7 @@
 "DOTA_Tooltip_ability_item_lostvane_custom_bonus_attack_speed"						"+$attack"
 "DOTA_Tooltip_ability_item_lostvane_custom_bonus_ms"								"%+$move_speed"
 "DOTA_Tooltip_ability_item_lostvane_custom_bonus_intellect"						"+$int"
-"DOTA_Tooltip_ability_item_lostvane_custom_Lore"									"Прекрасная сапфировая мантия, которую королевы носили из поколения в поколение"
+"DOTA_Tooltip_ability_item_lostvane_custom_Lore"									"Данный предмет создан благодаря <font color='#fffc00'>Happy</font>"
 
 "DOTA_Tooltip_modifier_item_lostvane_custom_custom_passive_aura"								"Лоствейн"
 "DOTA_Tooltip_modifier_item_lostvane_custom_custom_passive_aura_Description"					"Наносимый урон увеличен на %dMODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE%%%"
@@ -3762,7 +3762,7 @@
 "DOTA_Tooltip_ability_special_bonus_birzha_goku_5"					"-{s:value} сек. к перезарядке Super Saiyan"
 "DOTA_Tooltip_ability_special_bonus_birzha_goku_6"					" +{s:value} к дальности и +{s:value2} к радиусу Kamehameha"
 "DOTA_Tooltip_ability_special_bonus_birzha_goku_7"					"Улучшение Мерные атаки"
-"DOTA_Tooltip_ability_special_bonus_birzha_goku_1_description"		"Оглушает на {s:value} сек. и добавляет еще один круг разломов"
+"DOTA_Tooltip_ability_special_bonus_birzha_goku_7_description"		"Оглушает на {s:value} сек. и добавляет еще один круг разломов"
 "DOTA_Tooltip_ability_special_bonus_birzha_goku_8"					"+{s:value}% доп. атрибутов от Super Saiyan"
 
 //=================================================================================================================
@@ -5703,7 +5703,7 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_polnaref_3" 				"{s:value}% урона Silver Chariot от урона героя"
 "DOTA_Tooltip_Ability_special_bonus_birzha_polnaref_4" 				"+{s:value}% вампиризма Боевой опыт"
 "DOTA_Tooltip_Ability_special_bonus_birzha_polnaref_5" 				"{s:value}% скорости атаки Silver Chariot от скорости Атаки героя"
-"DOTA_Tooltip_Ability_special_bonus_birzha_polnaref_6" 				"Polnaref's Rage уменьшает БАТ до {s:value}"
+"DOTA_Tooltip_Ability_special_bonus_birzha_polnaref_6" 				"Polnaref's Rage уменьшает БАТ на {s:value}"
 "DOTA_Tooltip_Ability_special_bonus_birzha_polnaref_7" 				"-{s:value} сек. перезарядки Silver Chariot Rapier"
 "DOTA_Tooltip_Ability_special_bonus_birzha_polnaref_8" 				"-{s:value} сек. перезарядки Silver Chariot Requiem"
 

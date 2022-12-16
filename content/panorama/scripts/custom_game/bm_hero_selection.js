@@ -111,8 +111,6 @@ function BirzhaHeroSelectionLoad()
         return
     }
 
-    $.Msg("dadadad")
-
     StealButtonsAndChat();
 
     $.Schedule( 1, function()
@@ -196,9 +194,21 @@ function HeroSelectionEnd()
 
     $.Schedule(1.5, function() 
     {
-        if ($("#BGScene"))
+        if ($("#MovieBackground"))
         {
-            $("#BGScene").DeleteAsync(0)
+            $("#MovieBackground").DeleteAsync(1.5)
+        }
+        if ($("#pick_timer_particle"))
+        {
+            $("#pick_timer_particle").DeleteAsync(1.5)
+        }
+        if ($("#MovieBackground2"))
+        {
+            $("#MovieBackground2").DeleteAsync(1.5)
+        }
+        if ($("#MovieBackground2"))
+        {
+            $("#MovieBackground2").DeleteAsync(1.5)
         }
         $.GetContextPanel().style.opacity = "0"
     })

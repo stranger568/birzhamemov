@@ -3,8 +3,10 @@ BirzhaData.url = '91.219.192.6'  -- сайт с бд
 
 -------------------------------------------------------------------------------
 
-
 BirzhaData.PLAYERS_GLOBAL_INFORMATION = {}
+BirzhaData.PARTY_NUMBER = 0
+BirzhaData.PARTY_LIST = {}
+BirzhaData.PARTY_NUMBER_LIST = {}
 
 function BirzhaData:RegisterPlayerSiteInfo(player_id)
     if not PlayerResource:IsValidPlayerID(player_id) then return end
@@ -58,6 +60,17 @@ function BirzhaData:RegisterPlayerSiteInfo(player_id)
         }
 
         BirzhaData.PLAYERS_GLOBAL_INFORMATION[id] = new_player_information
+
+        if PlayerResource:GetPartyID(player_id) and tostring(PlayerResource:GetPartyID(player_id))~="0" then
+            local sPartyID = tostring(PlayerResource:GetPartyID(player_id))
+            if BirzhaData.PARTY_LIST[sPartyID]==nil then
+                BirzhaData.PARTY_NUMBER = BirzhaData.PARTY_NUMBER + 1
+                BirzhaData.PARTY_LIST[sPartyID] = BirzhaData.PARTY_NUMBER
+            end     
+            BirzhaData.PARTY_NUMBER_LIST[player_id] = BirzhaData.PARTY_LIST[sPartyID]
+        end
+        
+        CustomNetTables:SetTableValue("game_state", "party_map", BirzhaData.PARTY_NUMBER_LIST)
 
        -- Фейк игрок
        --BirzhaData.PLAYERS_GLOBAL_INFORMATION[1] = {
@@ -156,10 +169,10 @@ function BirzhaData.PostHeroesInfo()
                 deaths = PlayerResource:GetDeaths(id)
                 kills = PlayerResource:GetKills(id)
             end
-            if PLAYERS[ id ].picked_hero ~= nil and (player_info.games_calibrating[13] or 10) <= 0 then
+            if PLAYERS[ id ].picked_hero ~= nil then
                 local name = tostring(PLAYERS[ id ].picked_hero)
-                local win = ((function(id) if BirzhaData.GetMmrByTeamPlace(id) >= 0 then return 1 end return 0 end)(id))
-                local lose = ((function(id) if BirzhaData.GetMmrByTeamPlace(id) >= 0 then return 0 end return 1 end)(id))
+                local win = ((function(id) if BirzhaData.GetHeroWinPlace(id) >= 0 then return 1 end return 0 end)(id))
+                local lose = ((function(id) if BirzhaData.GetHeroWinPlace(id) >= 0 then return 0 end return 1 end)(id))
                 local hero_table = {
                     hero = name,
                     games = 1,
@@ -183,7 +196,7 @@ function BirzhaData.PostHeroPlayerHeroInfo()
 
     for id, player_info in pairs(BirzhaData.PLAYERS_GLOBAL_INFORMATION) do
         if PLAYERS[ id ] then
-            if PLAYERS[ id ].picked_hero ~= nil and (player_info.games_calibrating[13] or 10) <= 0 then
+            if PLAYERS[ id ].picked_hero ~= nil then
                 local steamid = player_info.steamid
                 local name = tostring(PLAYERS[ id ].picked_hero)
                 local deaths = 1
@@ -192,8 +205,8 @@ function BirzhaData.PostHeroPlayerHeroInfo()
                     deaths = PlayerResource:GetDeaths(id)
                     kills = PlayerResource:GetKills(id)
                 end
-                local win = ((function(id) if BirzhaData.GetMmrByTeamPlace(id) >= 0 then return 1 end return 0 end)(id))
-                local experience = ((function(id) if BirzhaData.GetMmrByTeamPlace(id) >= 0 then return 100 end return 10 end)(id))
+                local win = ((function(id) if BirzhaData.GetHeroWinPlace(id) >= 0 then return 1 end return 0 end)(id))
+                local experience = ((function(id) if BirzhaData.GetHeroWinPlace(id) >= 0 then return 100 end return 10 end)(id))
 
                 if tonumber(player_info.bp_days) <= 0 then
                     experience = 0
@@ -574,6 +587,57 @@ BirzhaData.rating_table_low_5000_player_low = {
     },
 }
 
+BirzhaData.rating_hero_winrate = 
+{
+    ['birzhamemov_solo'] = 
+    {
+        [1] =  1,
+        [2] =  1,
+        [3] =  1,
+        [4] =  1,
+        [5] =  -1,
+        [6] =  -1,
+        [7] =  -1,
+        [8] =  -1,
+    },
+    ['birzhamemov_duo'] = {
+        [1] = 1,
+        [2] = 1,
+        [3] = 1,
+        [4] = -1,
+    },
+    ['birzhamemov_trio'] = {
+        [1] = 1,
+        [2] = 1,
+        [3] = 1,
+        [4] = -1,
+    },
+    ['birzhamemov_5v5v5'] = {
+        [1] = 1,
+        [2] = 1,
+        [3] = -1,
+    },
+    ['birzhamemov_5v5'] = {
+        [1] = 1,
+        [2] = -1,
+    },
+    ['birzhamemov_zxc'] = {
+        [1] = 1,
+        [2] = -1,
+    },
+    ['birzhamemov_wtf'] = 
+    {
+        [1] =  1,
+        [2] =  1,
+        [3] =  1,
+        [4] =  1,
+        [5] =  -1,
+        [6] =  -1,
+        [7] =  -1,
+        [8] =  -1,
+    },
+}
+
 -- Функции вычисления рейтинга и догекоинсов для челиков ------------------------------
 
 function BirzhaData.GetDogeCoins(id)
@@ -614,10 +678,7 @@ function BirzhaData.GetDogeCoins(id)
     return coin
 end
 
-
-
 function BirzhaData.GetMmrByTeamPlace(id)
-
     if IsPlayerAbandoned(id) then
         CustomNetTables:SetTableValue('bonus_rating', tostring(id), {mmr = -50})
         return -50
@@ -790,3 +851,40 @@ function BirzhaData.GetMmrByTeamPlace(id)
     return 0
 end
 
+function BirzhaData.GetHeroWinPlace(id)
+    local winer_table = CustomNetTables:GetTableValue("birzha_mmr", "game_winner")
+
+    local get_team_place = 
+    function(t)
+        local team = {}
+        local teams_table = {2,3,6,7,8,9,10,11,12,13}
+        for _, i in ipairs(teams_table) do
+            local table_team_score = CustomNetTables:GetTableValue("game_state", tostring(i))
+            if table_team_score then
+                table.insert(team, {id = i, kills = table_team_score.kills} )
+            end
+        end    
+        table.sort( team, function(x,y) return y.kills < x.kills end )
+        for i = 1, #team do
+            if team[i].id == t then
+                return i
+            end    
+        end    
+    end
+
+    local place = get_team_place(PlayerResource:GetTeam(id))
+
+    if winer_table then
+        if PlayerResource:GetTeam(id) == winer_table.t then
+            place = 1
+        end
+    end
+
+    local bonus_mmr = BirzhaData.rating_hero_winrate[GetMapName()][place]
+
+    if place and place ~= nil then
+        return bonus_mmr
+    end
+
+    return 0
+end

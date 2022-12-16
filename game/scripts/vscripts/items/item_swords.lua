@@ -964,7 +964,7 @@ end
 
 function item_lostvane_custom:OnSpellStart()
 	if not IsServer() then return end
-    self:GetCaster():EmitSound("DOTA_Item.Manta.Activate")
+    self:GetCaster():EmitSound("lostvane_item")
     self:GetCaster():Purge(false, true, false, false, false)
     if not self:GetCaster():IsRealHero() then return end
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_item_lostvane_custom_custom_invulnerable", {duration = self:GetSpecialValueFor("invuln_duration")})

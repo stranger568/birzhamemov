@@ -413,3 +413,81 @@
 }
 
 
+
+
+
+.Party_1
+{
+  	wash-color: #01df3a;
+}
+
+.Party_2
+{
+  	wash-color: #d7df01;
+}
+
+.Party_3
+{
+  	wash-color: #df0101;
+ }
+
+.Party_4
+{
+  	wash-color: #2e2efe;
+}
+
+.Party_5
+{
+  	wash-color: #58d3f7;
+}
+
+.Party_6
+{
+  	wash-color: #ff8000;
+}
+
+.Party_7
+{
+  	wash-color: #00ffff;
+}
+
+.Party_8
+{
+  	wash-color: #04b404;
+}
+
+.Party_9
+{
+  	wash-color: #bf00ff;
+}
+
+.Party_10
+{
+  	wash-color: #088a68;
+}
+
+.Party_11
+{
+ 	wash-color: #86b404;
+}
+
+.Party_12
+{
+  	wash-color: #82fa58;
+}
+
+.NoParty
+{
+  	wash-color: white;
+}
+
+.PartyIcon
+{
+  background-image: url("s2r://panorama/images/control_icons/ghostfriend_inactive_psd.vtex");
+  background-size: 100%;
+  height: 14px;
+  width: 20px;
+  align: right bottom;
+  margin-right: 4px;
+  margin-bottom: 0px;
+}

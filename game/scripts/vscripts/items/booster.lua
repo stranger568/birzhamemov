@@ -16,10 +16,10 @@ function modifier_item_mana_booster:IsPurgeException() return false end
 function modifier_item_mana_booster:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_mana_booster:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
         MODIFIER_PROPERTY_MANA_BONUS,
     }
-
     return funcs
 end
 

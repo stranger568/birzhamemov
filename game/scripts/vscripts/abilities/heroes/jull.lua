@@ -293,7 +293,7 @@ LinkLuaModifier("modifier_jull_in_time_buff", "abilities/heroes/jull", LUA_MODIF
 jull_in_time = class({})
 
 function jull_in_time:GetManaCost(level)
-    return self:GetCaster():GetMaxMana() / 100 * (self:GetSpecialValueFor("manacost") + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_2"))
+    return self.BaseClass.GetManaCost(self, level) + (self:GetCaster():GetMaxMana() / 100 * (self:GetSpecialValueFor("manacost") + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_2")))
 end
 
 function jull_in_time:GetIntrinsicModifierName()

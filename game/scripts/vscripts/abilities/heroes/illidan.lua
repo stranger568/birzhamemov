@@ -69,6 +69,7 @@ function illidan_dive:OnSpellStart()
         if self:GetCaster():HasTalent("special_bonus_birzha_illidan_4") then
             target:AddNewModifier(self:GetCaster(), self, "modifier_illidan_dive_armor", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_illidan_4", "value2") * (1 - target:GetStatusResistance())})
         end
+        FindClearSpaceForUnit(self:GetCaster(), self:GetParent():GetAbsOrigin(), true)
     end
 
     knockback:SetEndCallback( callback )

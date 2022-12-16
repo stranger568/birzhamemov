@@ -375,6 +375,9 @@ function modifier_mina_passive_shard:GetModifierProcAttack_BonusDamage_Magical( 
     if self:GetParent():HasTalent("special_bonus_birzha_mina_8") then return end
     local bonus_damage = self:GetAbility():GetSpecialValueFor("damage")
     local chance = self:GetAbility():GetSpecialValueFor("chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_mina_3")
+    if self:GetParent():IsIllusion() then
+    	bonus_damage = bonus_damage * 0.20
+    end
     if RollPercentage(chance) then
         params.target:EmitSound("Hero_Techies.RemoteMine.Detonate")
         local nfx = ParticleManager:CreateParticle('particles/units/heroes/hero_gob_squad/kamikaze_explosion.vpcf', PATTACH_ABSORIGIN_FOLLOW, params.target)
@@ -394,6 +397,9 @@ function modifier_mina_passive_shard:GetModifierProcAttack_BonusDamage_Pure( par
     if not self:GetParent():HasTalent("special_bonus_birzha_mina_8") then return end
     local bonus_damage = self:GetAbility():GetSpecialValueFor("damage")
     local chance = self:GetAbility():GetSpecialValueFor("chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_mina_3")
+    if self:GetParent():IsIllusion() then
+    	bonus_damage = bonus_damage * 0.20
+    end
     if RollPercentage(chance) then
         params.target:EmitSound("Hero_Techies.RemoteMine.Detonate")
         local nfx = ParticleManager:CreateParticle('particles/units/heroes/hero_gob_squad/kamikaze_explosion.vpcf', PATTACH_ABSORIGIN_FOLLOW, params.target)
