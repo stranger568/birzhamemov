@@ -68,7 +68,8 @@ function CustomPick:RegisterPlayerInfo( pid )
     if PlayerResource:GetSteamAccountID( pid ) == 0 then return end
     if PlayerResource:GetSteamAccountID( pid ) == "0" then return end
 	
-	local pinfo = PLAYERS[ pid ] or {
+	local pinfo = PLAYERS[ pid ] or 
+	{
 		bRegistred = false,
 		bLoaded = false,
 		ban_count = 1,
@@ -76,9 +77,9 @@ function CustomPick:RegisterPlayerInfo( pid )
 		partyid = tonumber(tostring(PlayerResource:GetPartyID(pid))),
 		picked_hero = nil,
 		token_used = false,
-		pet = nil,
-		border = nil,
-		effect=nil,
+		pet = 0,
+		border = 0,
+		effect=0,
 		selected_hero = nil,
 	}
 	

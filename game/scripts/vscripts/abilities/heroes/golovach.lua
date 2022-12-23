@@ -55,8 +55,10 @@ function modifier_LenaGolovach_Donate:OnIntervalThink()
     local donatetarget = -self:GetAbility():GetSpecialValueFor( "money" ) - self:GetCaster():FindTalentValue("special_bonus_birzha_golovach_2")
     if not IsServer() then return end
     if self:GetCaster():PassivesDisabled() then return end
-    self:GetCaster():ModifyGold(donatecaster, false, 0)
-    self:GetParent():ModifyGold(donatetarget, false, 0)
+    if self:GetParent():IsRealHero() then
+        self:GetCaster():ModifyGold(donatecaster, false, 0)
+        self:GetParent():ModifyGold(donatetarget, false, 0)
+    end
 end
 
 LinkLuaModifier( "modifier_taunt_golovach", "abilities/heroes/golovach.lua", LUA_MODIFIER_MOTION_NONE )
@@ -398,12 +400,12 @@ function LenaGolovach_Radio:OnSpellStart()
         "modifier_LenaGolovach_Radio_movespeed",
         "modifier_LenaGolovach_Radio_health",
         "modifier_LenaGolovach_Radio_baseattack",
-        "modifier_LenaGolovach_Radio_god",
     }
 
     for i = 0, 1 do
         caster:AddNewModifier( caster, self, table.remove(modifiers, RandomInt(1, #modifiers)), { duration = duration } )   
     end
+    
     caster:EmitSound("golovachsmeh") 
 end
 

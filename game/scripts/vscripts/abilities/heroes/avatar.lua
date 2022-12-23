@@ -927,7 +927,9 @@ function modifier_aang_ice_wall_thinker:OnIntervalThink()
     for _,enemy in pairs(enemies) do
         if not self.targets[enemy] then
             self.targets[enemy] = true
-            self.damageTable.victim = enemy
+            if not enemy:IsMagicImmune() then
+                self.damageTable.victim = enemy
+            end
             ApplyDamage( self.damageTable )
             local duration = self:GetRemainingTime()
             enemy:AddNewModifier( self.caster, self:GetAbility(), "modifier_aang_ice_wall", { duration = duration * (1-enemy:GetStatusResistance()) })
@@ -1107,7 +1109,9 @@ function modifier_aang_vacuum:OnDestroy()
         damage_type = self.abilityDamageType,
         ability = self:GetAbility(),
     }
-    ApplyDamage(damageTable)
+    if not self:GetParent():IsMagicImmune() then
+        ApplyDamage(damageTable)
+    end
 end
 
 function modifier_aang_vacuum:DeclareFunctions()
@@ -1182,7 +1186,9 @@ function aang_fast_hit:OnSpellStart()
                 damage_type = damage_type,
                 ability = self,
             }
-            self.damageTable.victim = enemy
+            if not enemy:IsMagicImmune() then
+                self.damageTable.victim = enemy
+            end
             ApplyDamage( self.damageTable )
         end
     end
@@ -1261,7 +1267,9 @@ function aang_jumping:OnSpellStart()
         local stun_duration = ability_manager:GetValueWex(self, self:GetCaster(), "stun_duration")
         local damage = ability_manager:GetValueWex(self, self:GetCaster(), "damage")
         enemy:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = stun_duration * (1-enemy:GetStatusResistance()) })
-        ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self})
+        if not enemy:IsMagicImmune() then
+            ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self})
+        end
     end
 end
 
@@ -1364,7 +1372,9 @@ function modifier_agility_toss:OnCreated( kv )
                 damage_type = DAMAGE_TYPE_MAGICAL,
                 ability = self:GetAbility()
             }
-            ApplyDamage(damageTable)
+            if not unit:IsMagicImmune() then
+                ApplyDamage(damageTable)
+            end
         end
         GridNav:DestroyTreesAroundPoint( self.parent:GetOrigin(), 270, false )
         self.parent:EmitSound("Ability.TossImpact")

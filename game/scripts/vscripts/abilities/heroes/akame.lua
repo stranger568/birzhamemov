@@ -484,7 +484,7 @@ function Akame_jump:OnSpellStart()
 	local point = self:GetCaster():GetAbsOrigin() + direction
     
     local knockback = self:GetCaster():AddNewModifier(
-        self,
+        self:GetCaster(),
         self,
         "modifier_generic_knockback_lua",
         {
@@ -527,7 +527,10 @@ function Akame_cursed_blade:OnSpellStart()
 
     self:GetCaster():EmitSound("Hero_Juggernaut.BladeDance")
 
-	self:StartAttack(ldirection)
+    local index = DoUniqueString("index")
+    self[index] = {}
+
+	self:StartAttack(ldirection, index)
 
     if self:GetCaster():HasTalent("special_bonus_birzha_akame_5") then
         local angle = 30
@@ -535,12 +538,12 @@ function Akame_cursed_blade:OnSpellStart()
         for i = 1, hook_count do
             local newAngle = angle * math.ceil(i / 2) * (-1)^i
             local newDir = RotateVector2DPudge( ldirection, ToRadians( newAngle ) )
-            self:StartAttack(newDir)
+            self:StartAttack(newDir, index)
         end
     end
 end
 
-function Akame_cursed_blade:StartAttack(direction)
+function Akame_cursed_blade:StartAttack(direction, index)
     if not IsServer() then return end
     local projectile =
     {
@@ -560,6 +563,7 @@ function Akame_cursed_blade:StartAttack(direction)
         bDeleteOnHit        = false,
         vVelocity           = Vector(direction.x,direction.y,0) * 3000,
         bProvidesVision     = false,
+        ExtraData           = {index = index}
     }
     ProjectileManager:CreateLinearProjectile(projectile)
 end
@@ -584,13 +588,37 @@ function CalculateDirection(ent1, ent2)
     return direction:Normalized()
 end
 
-function Akame_cursed_blade:OnProjectileHit(target, vLocation)
+function Akame_cursed_blade:OnProjectileHit_ExtraData(target, vLocation, ExtraData)
     if not IsServer() then return end
-    if target == nil then return end
-    local agi_mult = self:GetSpecialValueFor("agility_attack") + self:GetCaster():FindTalentValue("special_bonus_birzha_akame_2")
-    local damage = (self:GetCaster():GetAgility() * agi_mult) + self:GetCaster():GetAverageTrueAttackDamage(nil)
-    ApplyDamage({ victim = target, attacker = self:GetCaster(), ability = self, damage = damage, damage_type = DAMAGE_TYPE_PHYSICAL})
-    self:GetCaster():PerformAttack(target, true, true, true, true, false, true, true)
+    if target ~= nil then
+
+    	local was_hit = false
+        for _, stored_target in ipairs(self[ExtraData.index]) do
+            if target == stored_target then
+                was_hit = true
+                break
+            end
+        end
+
+        if was_hit then
+            return nil
+        end
+
+        table.insert(self[ExtraData.index],target)
+
+        print("damage")
+
+	    local agi_mult = self:GetSpecialValueFor("agility_attack") + self:GetCaster():FindTalentValue("special_bonus_birzha_akame_2")
+	    local damage = (self:GetCaster():GetAgility() * agi_mult) + self:GetCaster():GetAverageTrueAttackDamage(nil)
+	    ApplyDamage({ victim = target, attacker = self:GetCaster(), ability = self, damage = damage, damage_type = DAMAGE_TYPE_PHYSICAL})
+	    self:GetCaster():PerformAttack(target, true, true, true, true, false, true, true)
+	else
+		self[ExtraData.index]["count"] = self[ExtraData.index]["count"] or 0
+        self[ExtraData.index]["count"] = self[ExtraData.index]["count"] + 1
+        if self[ExtraData.index]["count"] == ExtraData.card_count then
+            self[ExtraData.index] = nil
+        end
+	end
 end
 
 modifier_akame_cursed_blade = class({}) 

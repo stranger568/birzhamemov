@@ -191,10 +191,10 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 
 .ButtonMap_2
 {
-	width: 151.4px;
+	width: 181.4px;
 	margin-left: 10px;
 	margin-right: 10px;
-	height: 25px;
+	height: 30px;
 	vertical-align: center;
 	border-radius: 5px;
 	background-color: gradient( linear, 0% 0%, 100% 100%, from( #401b80 ), color-stop( 0.5, #763fdb ), to( #401b80 ) );
@@ -211,8 +211,7 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 
 .ButtonMapSelect
 {
-	height: 40px;
-	brightness:1.2;
+	brightness:1.4;
 }
 
 .ButtonMapLabel

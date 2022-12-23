@@ -190,25 +190,24 @@ function BirzhaGameMode:OnNPCSpawned( event )
 	   		end
 	   		player.BirzhaFirstSpawned = true
 
-		   	if playerSteamID == 141989146 then
-			    local buildings = FindUnitsInRadius( player:GetTeamNumber(), player:GetAbsOrigin(), nil, 5000, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BUILDING, DOTA_UNIT_TARGET_FLAG_INVULNERABLE, 0, false )
-			    local fountain = nil
-			    for _,building in pairs(buildings) do
-			        if building:GetClassname()=="ent_dota_fountain" then
-			            fountain = building
-			            break
-			        end
-			    end
-			    if fountain ~= nil then
-					local npc_unit_roga = CreateUnitByName( "npc_unit_roga", Vector( 0, 0, 0 ), true, nil, nil, DOTA_TEAM_NEUTRALS )
-					npc_unit_roga:AddNewModifier( npc_unit_roga, nil, "modifier_birzha_donater", {} )
-
-					fountain.horns = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/roga/roga.vmdl"})
-					fountain.horns:FollowEntity(fountain, true)
-					local forward = (Vector(0,0,0) - fountain.horns:GetAbsOrigin()):Normalized()
-					fountain.horns:SetForwardVector(forward)
-				end
-			end
+		   	--if playerSteamID == 141989146 then
+			--    local buildings = FindUnitsInRadius( player:GetTeamNumber(), player:GetAbsOrigin(), nil, 5000, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BUILDING, DOTA_UNIT_TARGET_FLAG_INVULNERABLE, 0, false )
+			--    local fountain = nil
+			--    for _,building in pairs(buildings) do
+			--        if building:GetClassname()=="ent_dota_fountain" then
+			--            fountain = building
+			--            break
+			--        end
+			--    end
+			--    if fountain ~= nil then
+			--		local npc_unit_roga = CreateUnitByName( "npc_unit_roga", Vector( 0, 0, 0 ), true, nil, nil, DOTA_TEAM_NEUTRALS )
+			--		npc_unit_roga:AddNewModifier( npc_unit_roga, nil, "modifier_birzha_donater", {} )
+			--		fountain.horns = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/roga/roga.vmdl"})
+			--		fountain.horns:FollowEntity(fountain, true)
+			--		local forward = (Vector(0,0,0) - fountain.horns:GetAbsOrigin()):Normalized()
+			--		fountain.horns:SetForwardVector(forward)
+			--	end
+			--end
 
 	   		local player_table = CustomNetTables:GetTableValue('birzhainfo', tostring(playerID))
 	   		if player_table then
@@ -305,19 +304,40 @@ function BirzhaGameMode:OnEntityKilled( event )
 			   		hero:EmitSound("travoman_kill")
 			   	end
 
+			   	local bonus = false
 
+			   	local attacker_kills = 0
+			   	local target_kills = 0
 
+			   	local team = {}
+			    local teams_table = {2,3,6,7,8,9,10,11,12,13}
 
+			    for _, i in ipairs(teams_table) do
+			        local table_team_score = CustomNetTables:GetTableValue("game_state", tostring(i))
+			        if table_team_score then
+			            table.insert(team, {id = i, kills = table_team_score.kills} )
+			        end
+			    end  
 
+			    table.sort( team, function(x,y) return y.kills < x.kills end )
 
+			    for _, team_info in pairs(team) do
+			    	if team_info.id == killedUnit:GetTeamNumber() then
+			    		target_kills = team_info.kills
+			    	end
+			    	if team_info.id == hero:GetTeamNumber() then
+			    		attacker_kills = team_info.kills
+			    	end
+			    end
 
+			    if target_kills > attacker_kills then
+			    	bonus = true
+			    end
 
-
-
-				if killedUnit:GetTeam() == self.leadingTeam and self.isGameTied == false and game_time >= 5 then
+				if bonus and (game_time >= 5 or IsInToolsMode()) then
 					local memberID = hero:GetPlayerID()
-					local gold = 250 + (250 * game_time / 10)
-					local exp = 500 * game_time / 5
+					local gold = (250 + (250 * game_time / 10)) + ((target_kills - attacker_kills) * 50)
+					local exp = (500 * (game_time / 5)) + ((target_kills - attacker_kills) * 100)
 					PlayerResource:ModifyGold( memberID, gold, true, 0 )
 					hero:AddExperience( exp, 0, false, false )
 					local name = hero:GetClassname()
@@ -337,7 +357,6 @@ function BirzhaGameMode:OnEntityKilled( event )
 	        if modifier_passive then
 	            modifier_passive:SetStackCount(modifier_passive:GetStackCount()+5)
 	        end
-
 
 			local allHeroes = HeroList:GetAllHeroes()
 			for _,attacker in pairs( allHeroes ) do
@@ -543,8 +562,6 @@ function BirzhaGameMode:OnHeroInGame(hero)
 			hero.NevermoreHead:FollowEntity(hero, true)
 			hero.NevermoreArms = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/shadow_fiend/arms_deso/arms_deso.vmdl"})
 			hero.NevermoreArms:FollowEntity(hero, true)
-			hero.NevermoreRocks = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/heroes/shadow_fiend/fx_rocks.vmdl"})
-			hero.NevermoreRocks:FollowEntity(hero, true)
 
 			Timers:CreateTimer(0.25, function()
 				local desolator = ParticleManager:CreateParticle("particles/never_arcana/desolationhadow_fiend_desolation_ambient.vpcf", PATTACH_CUSTOMORIGIN, hero)
@@ -1087,6 +1104,10 @@ function BirzhaGameMode:EndGame( victoryTeam )
 		GameRules:SetGameWinner( victoryTeam )
 		return
 	end
+
+	Timers:CreateTimer(1, function()
+		GameRules:SetGameWinner( victoryTeam )
+	end)
 	
 	if BirzhaData:GetPlayerCount() > 5 or IsInToolsMode() then
 		if GetMapName() == "birzhamemov_wtf" then
@@ -1101,8 +1122,6 @@ function BirzhaGameMode:EndGame( victoryTeam )
 		BirzhaData.PostHeroesInfo()
 		BirzhaData.PostHeroPlayerHeroInfo()
 	end
-
-	GameRules:SetGameWinner( victoryTeam )
 end
 
 function BirzhaGameMode:AddScoreToTeam( Team, AddScore )

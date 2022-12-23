@@ -1746,7 +1746,6 @@ function ToggleMapBPUS(button, map_name)
 	$("#5v5v5_plus").SetHasClass( "ButtonMapSelect", false );
 	$("#5v5_plus").SetHasClass( "ButtonMapSelect", false );
 	$("#zxc_plus").SetHasClass( "ButtonMapSelect", false );
-	$("#wtf_plus").SetHasClass( "ButtonMapSelect", false );
 	Game.EmitSound("ui_topmenu_select")
 	$("#" + button).SetHasClass( "ButtonMapSelect", true );
 

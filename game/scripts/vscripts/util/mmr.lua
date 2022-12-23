@@ -7,6 +7,7 @@ BirzhaData.PLAYERS_GLOBAL_INFORMATION = {}
 BirzhaData.PARTY_NUMBER = 0
 BirzhaData.PARTY_LIST = {}
 BirzhaData.PARTY_NUMBER_LIST = {}
+BirzhaData.Localize_text = LoadKeyValues("scripts/hero_name_localize.txt")
 
 function BirzhaData:RegisterPlayerSiteInfo(player_id)
     if not PlayerResource:IsValidPlayerID(player_id) then return end
@@ -69,7 +70,7 @@ function BirzhaData:RegisterPlayerSiteInfo(player_id)
             end     
             BirzhaData.PARTY_NUMBER_LIST[player_id] = BirzhaData.PARTY_LIST[sPartyID]
         end
-        
+
         CustomNetTables:SetTableValue("game_state", "party_map", BirzhaData.PARTY_NUMBER_LIST)
 
        -- Фейк игрок
@@ -157,7 +158,8 @@ function BirzhaData.PostData()
 end
 
 function BirzhaData.PostHeroesInfo()
-    local post_heroes_data = {
+    local post_heroes_data = 
+    {
         heroes = {},
     }
 
@@ -173,8 +175,14 @@ function BirzhaData.PostHeroesInfo()
                 local name = tostring(PLAYERS[ id ].picked_hero)
                 local win = ((function(id) if BirzhaData.GetHeroWinPlace(id) >= 0 then return 1 end return 0 end)(id))
                 local lose = ((function(id) if BirzhaData.GetHeroWinPlace(id) >= 0 then return 0 end return 1 end)(id))
-                local hero_table = {
+                local hero_name_rus = "error"
+                if BirzhaData.Localize_text ~= nil and name ~= nil and BirzhaData.Localize_text[name] ~= nil then
+                    hero_name_rus = BirzhaData.Localize_text[name]
+                end
+                local hero_table = 
+                {
                     hero = name,
+                    hero_name_rus = hero_name_rus,
                     games = 1,
                     deaths = deaths,
                     kills = kills,
@@ -190,7 +198,8 @@ function BirzhaData.PostHeroesInfo()
 end
 
 function BirzhaData.PostHeroPlayerHeroInfo()
-    local post_player_info = {
+    local post_player_info = 
+    {
         heroes = {},
     }
 
@@ -212,7 +221,8 @@ function BirzhaData.PostHeroPlayerHeroInfo()
                     experience = 0
                 end
 
-                local hero_table = {
+                local hero_table = 
+                {
                     steamid = steamid,
                     games = 1,
                     hero = name,

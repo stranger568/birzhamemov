@@ -448,16 +448,20 @@ function jull_light_future:OnSpellStart()
     local point = self:GetCursorPosition()
     local direction = (point - self:GetCaster():GetAbsOrigin()):Normalized()
     local point_spawn = self:GetCaster():GetAbsOrigin() + direction * 150
+
+
     
     local modifiers = self:GetCaster():FindAllModifiersByName("modifier_jull_light_future_passive_charge")
 
     if #modifiers > 0 then
         table.sort( modifiers, function(x,y) return y:GetRemainingTime() < x:GetRemainingTime() end )
 
-        if #modifiers > 1 and modifiers[#modifiers] and not modifiers[#modifiers]:IsNull() then
+        if #modifiers > 0 and modifiers[#modifiers] and not modifiers[#modifiers]:IsNull() then
             modifiers[#modifiers]:Destroy()
         end
     end
+
+    print("дада")
 
     self:CreateLaser(point_spawn, direction)
 end

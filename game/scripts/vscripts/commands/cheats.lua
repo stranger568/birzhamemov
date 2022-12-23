@@ -34,9 +34,7 @@ end
 
 function Commands:plusmmr(player, arg)
 	if not IsAdmin(player) then return end
-	BirzhaData.PostData()
 	BirzhaData.PostHeroesInfo()
-	BirzhaData.PostHeroPlayerHeroInfo()
 end
 
 function Commands:Key(player, arg)

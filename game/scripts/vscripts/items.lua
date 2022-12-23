@@ -69,34 +69,48 @@ function BirzhaGameMode:WarnItem()
 	end)
 end
 
+LinkLuaModifier("modifier_generic_knockback_lua", "modifiers/modifier_generic_knockback_lua.lua", LUA_MODIFIER_MOTION_BOTH )
+
 function BirzhaGameMode:SpawnItem()
 	local newItem = CreateItem( "item_treasure_chest", nil, nil )
 	local drop = CreateItemOnPositionForLaunch( Vector(0,0,800), newItem )
 	newItem:LaunchLootInitialHeight( false, 0, 50, 0.25, Vector(0,0,800) )
 
 	Timers:CreateTimer(0.25, function()
+
 		CustomGameEventManager:Send_ServerToAllClients( "item_has_spawned", {} )
+
 		EmitGlobalSound( "chest_dropped" )
+
 		local effect_cast = ParticleManager:CreateParticle( "particles/econ/items/earthshaker/earthshaker_arcana/earthshaker_arcana_aftershock_v2.vpcf", PATTACH_CUSTOMORIGIN, nil )
 		ParticleManager:SetParticleControl( effect_cast, 0, Vector(0,0,100) )
 		ParticleManager:SetParticleControl( effect_cast, 1, Vector( 200, 200, 200 ) )
 		ParticleManager:ReleaseParticleIndex( effect_cast )
-		local targets = FindUnitsInRadius(DOTA_TEAM_NOTEAM,Vector(0,0,100),nil,300,DOTA_UNIT_TARGET_TEAM_BOTH,DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE ,FIND_ANY_ORDER,false)
+
+		local targets = FindUnitsInRadius(DOTA_TEAM_NOTEAM, Vector(0,0,100), nil, 300, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_ANY_ORDER, false)
+		
 		for _,unit in pairs(targets) do
-			local distance = (unit:GetAbsOrigin() - Vector(0,0,100)):Length2D()
-			local direction = (unit:GetAbsOrigin() - Vector(0,0,100)):Normalized()
-			local bump_point = Vector(0,0,100) - direction * (distance + 250)
-			local knockbackProperties =
-			{
-				center_x = bump_point.x,
-				center_y = bump_point.y,
-				center_z = bump_point.z,
-				duration = 0.2,
-				knockback_duration = 0.2,
-				knockback_distance = 600,
-				knockback_height = 100
-			}
-			unit:AddNewModifier( unit, nil, "modifier_knockback", knockbackProperties )
+			local direction = unit:GetAbsOrigin() - Vector(0,0,0)
+			direction.z = 0
+			direction = direction:Normalized()
+			local knockback = unit:AddNewModifier(
+		        unit,
+		        nil,	
+		        "modifier_generic_knockback_lua",
+		        {
+		            direction_x = direction.x,
+		            direction_y = direction.y,
+		            distance = 400,
+		            height = 100,	
+		            duration = 0.2,
+		            IsStun = true,
+		        }
+		    )
+		    local callback = function( bInterrupted )
+		    	unit:Stop()
+		    	FindClearSpaceForUnit(unit, unit:GetAbsOrigin(), true)
+		    end
+		    knockback:SetEndCallback( callback )
 		end
 	end)
 end
@@ -244,39 +258,6 @@ function BirzhaGameMode:SpecialItemAdd( event )
 		"item_skadi",
 		"item_mjollnir",
 	}
-
-	if GetMapName() ~= "birzhamemov_5v5" then
-		tier4 = 
-		{
-			"item_bristback",
-			"item_crysdalus",
-			"item_ultimate_scepter",
-			"item_ultimate_mem",
-			"item_globus",
-			"item_mystic_booster",
-			"item_magic_daedalus",
-			"item_radiance_2",
-			"item_butter2",
-			"item_brain_burner",
-			"item_birzha_diffusal_blade_2",
-			"item_refresher",
-			"item_sheepstick",
-			"item_silver_edge",
-			"item_ethereal_blade_custom",
-			"item_radiance",
-			"item_monkey_king_bar",
-			"item_greater_crit",
-			"item_butterfly",
-			"item_abyssal_blade",
-			"item_heart",
-			"item_bloodstone",
-			"item_assault",
-			"item_satanic",
-			"item_skadi",
-			"item_mjollnir",
-		}
-	end
-
 
 	local tiers_list_items = {}
 	tiers_list_items[1] = PickRandomShuffle( tier1, self.tier1ItemBucket )

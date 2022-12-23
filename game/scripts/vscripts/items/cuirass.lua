@@ -518,7 +518,7 @@ function modifier_item_ship_magic_armor:OnDestroy()
 	end
 end
 
-function modifier_item_cuirass_3:DeclareFunctions()
+function modifier_item_ship_magic_armor:DeclareFunctions()
 	return {
 		MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
 		MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,	
@@ -530,37 +530,37 @@ function modifier_item_cuirass_3:DeclareFunctions()
 	}
 end
 
-function modifier_item_cuirass_3:GetModifierAttackSpeedBonus_Constant()
+function modifier_item_ship_magic_armor:GetModifierAttackSpeedBonus_Constant()
     if not self:GetAbility() then return end
     return self:GetAbility():GetSpecialValueFor("bonus_attack_speed")
 end
 
-function modifier_item_cuirass_3:GetModifierConstantHealthRegen()
+function modifier_item_ship_magic_armor:GetModifierConstantHealthRegen()
     if not self:GetAbility() then return end
     return self:GetAbility():GetSpecialValueFor("health_regen")
 end
 
-function modifier_item_cuirass_3:GetModifierMagicalResistanceBonus()
+function modifier_item_ship_magic_armor:GetModifierMagicalResistanceBonus()
     if not self:GetAbility() then return end
     return self:GetAbility():GetSpecialValueFor("magical_resistance")
 end
 
-function modifier_item_cuirass_3:GetModifierBonusStats_Intellect()
+function modifier_item_ship_magic_armor:GetModifierBonusStats_Intellect()
     if not self:GetAbility() then return end
     return self:GetAbility():GetSpecialValueFor("bonus_int")
 end
 
-function modifier_item_cuirass_3:GetModifierConstantManaRegen()
+function modifier_item_ship_magic_armor:GetModifierConstantManaRegen()
     if not self:GetAbility() then return end
     return self:GetAbility():GetSpecialValueFor("mana_regen")
 end
 
-function modifier_item_cuirass_3:GetModifierPreAttack_BonusDamage()
+function modifier_item_ship_magic_armor:GetModifierPreAttack_BonusDamage()
     if not self:GetAbility() then return end
     return self:GetAbility():GetSpecialValueFor("bonus_damage")
 end
 
-function modifier_item_cuirass_3:GetModifierPhysicalArmorBonus()
+function modifier_item_ship_magic_armor:GetModifierPhysicalArmorBonus()
     if not self:GetAbility() then return end
     return self:GetAbility():GetSpecialValueFor("bonus_armor")
 end

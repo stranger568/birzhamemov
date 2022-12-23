@@ -163,9 +163,6 @@
 						<Panel id="zxc_plus" class="ButtonMap_2" onactivate="ToggleMapBPUS('zxc_plus', 'birzhamemov_zxc');">
 							<Label class="ButtonMapLabel" text="ZXC" />
 						</Panel>
-						<Panel id="wtf_plus" class="ButtonMap_2" onactivate="ToggleMapBPUS('wtf_plus', 'birzhamemov_wtf');">
-							<Label class="ButtonMapLabel" text="WTF" />
-						</Panel>
 					</Panel>
 
 					<Panel id="AllRatingSeasons" />

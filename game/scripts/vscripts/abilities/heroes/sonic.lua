@@ -24,7 +24,7 @@ function sonic_dash:OnSpellStart()
     local flag = 0
 
     if self:GetCaster():HasShard() then
-        if RollPercentage(self:GetAbility():GetSpecialValueFor("shard_chance")) then
+        if RollPercentage(self:GetSpecialValueFor("shard_chance")) then
             flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
         end
     end

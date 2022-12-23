@@ -11,6 +11,7 @@
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
 	}
 	
+	"item_vambrace" "REMOVE"
 	"item_sange" "REMOVE"
 	"item_yasha" "REMOVE"
 	"item_recipe_sange" "REMOVE"

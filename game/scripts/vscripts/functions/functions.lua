@@ -18,11 +18,6 @@ function CDOTA_BaseNPC:HasTalent(talentName)
     if self:HasAbility(talentName) then
         local ability = self:FindAbilityByName(talentName)
         if ability and ability:GetLevel() > 0 then
-            --local modifier = "modifier_birzha_"..talentName
-            --if not self:HasModifier(modifier) then
-            --    LinkLuaModifier( modifier, "modifiers/modifier_talents", LUA_MODIFIER_MOTION_NONE )
-            --    self:AddNewModifier(self, ability, modifier, {})
-            --end
             return true
         end
     end
@@ -43,30 +38,36 @@ function CDOTA_BaseNPC:BirzhaTrueKill(ability, killer)
     if ability~= nil and ability:IsNull() then ability = nil end
     if killer ~= nil and killer:IsNull() then killer = nil end
     self:Kill(ability, killer)
-    local modifiers_to_remove = {
-        "modifier_Overlord_spell_10_invul",
-        "modifier_Overlord_spell_10_buff",
-        "modifier_item_uebator_active",
-        "modifier_LenaGolovach_Radio_god",
-        "modifier_kurumi_god",
-        "modifier_Felix_WaterShield",
-        "modifier_ExplosionMagic_immunity",
-        "modifier_item_nimbus_active",
-        "modifier_haku_help",
-        "modifier_item_birzha_blade_mail_active",
-        "modifier_invulnerable",
-        "modifier_item_aeon_disk_buff",
-        "modifier_papich_reincarnation_wraith_form",
-        "modifier_pucci_passive_wave_immortality",
-        "modifier_polnaref_requeim",
-        "modifier_homunculus_iborn_immortality_active",
-    }
-    for k, v in pairs(modifiers_to_remove) do
-        if self:HasModifier(v) then
-            self:RemoveModifierByName(v)
+    if self:IsAlive() then
+        local modifiers_to_remove = 
+        {
+            "modifier_Overlord_spell_10_invul",
+            "modifier_Overlord_spell_10_buff",
+            "modifier_item_uebator_active",
+            "modifier_LenaGolovach_Radio_god",
+            "modifier_kurumi_god",
+            "modifier_Felix_WaterShield",
+            "modifier_ExplosionMagic_immunity",
+            "modifier_item_nimbus_active",
+            "modifier_haku_help",
+            "modifier_item_birzha_blade_mail_active",
+            "modifier_invulnerable",
+            "modifier_item_aeon_disk_buff",
+            "modifier_papich_reincarnation_wraith_form",
+            "modifier_pucci_passive_wave_immortality",
+            "modifier_polnaref_requeim",
+            "modifier_homunculus_iborn_immortality_active",
+            "modifier_scp682_ultimate",
+            "modifier_overlord_terror_legion_talent",
+            "polnaref_requeim",
+        }
+        for k, v in pairs(modifiers_to_remove) do
+            if self:HasModifier(v) then
+                self:RemoveModifierByName(v)
+            end
         end
+        self:Kill(ability, killer)
     end
-    self:Kill(ability, killer)
 end
 
 

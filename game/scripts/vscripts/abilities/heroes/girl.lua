@@ -15,6 +15,10 @@ function girl_blood_controll:OnSpellStart()
     local point = self:GetCursorPosition()
     local distance = self:GetSpecialValueFor("range") + self:GetCaster():FindTalentValue("special_bonus_birzha_girl_1")
 
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = point + self:GetCaster():GetForwardVector()
+    end
+
     local spawnPos = self:GetCaster():GetOrigin()
 
     local direction = point-spawnPos

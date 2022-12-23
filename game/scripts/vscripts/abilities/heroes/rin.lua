@@ -457,6 +457,8 @@ function modifier_rin_satana_explosion:OnIntervalThink()
 
         local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetOrigin(), self:GetCaster(), -1, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE, FIND_ANY_ORDER, false )
 
+        local streak = 0
+
         for _,enemy in pairs( enemies ) do
             if enemy ~= nil and not enemy:HasModifier("modifier_fountain_passive_invul") then
                 local vDirection = enemy:GetAbsOrigin() - self:GetCaster():GetOrigin()
@@ -481,7 +483,12 @@ function modifier_rin_satana_explosion:OnIntervalThink()
                 self:GetParent():EmitSound( "Hero_DoomBringer.InfernalBlade.PreAttack" )
 
                 ProjectileManager:CreateLinearProjectile( info )
-                break
+
+                streak = streak + 1
+                
+                if streak >= 2 then
+                    break
+                end
             end
         end
     end
@@ -515,7 +522,7 @@ function rin_satana_explosion:OnProjectileHit( target, vLocation )
         target:EmitSound("Hero_Jakiro.LiquidFire")
     end
 
-    return true
+    return false
 end
 
 

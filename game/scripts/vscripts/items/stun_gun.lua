@@ -200,6 +200,6 @@ function ZapThem(caster, ability, source, target, damage)
 			damage = damage + (caster:GetIntellect() * ability:GetSpecialValueFor("attribute_mult"))
 		end
 	end
-
+	
 	ApplyDamage({attacker = caster, victim = target, ability = ability, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
 end

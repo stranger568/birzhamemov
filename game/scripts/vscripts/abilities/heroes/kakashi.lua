@@ -735,7 +735,9 @@ function kakashi_lightning:OnProjectileHit(hTarget, vLocation)
     if hTarget then 
         local damage = ability_manager:GetValueExort(self, self:GetCaster(), "base_damage")
         local duration = ability_manager:GetValueExort(self, self:GetCaster(), "debuff_duration")
-        ApplyDamage({victim = hTarget, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self})
+        if not hTarget:IsMagicImmune() then
+            ApplyDamage({victim = hTarget, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self})
+        end
         hTarget:AddNewModifier(self:GetCaster(), self, "modifier_kakashi_lightning_debuff", {duration = duration * (1-hTarget:GetStatusResistance())})
     end
 end 
@@ -1257,7 +1259,9 @@ function modifier_kakashi_shadow_clone:WatchLogic()
         if not self.units_active[enemy:entindex()] then
             self.units_active[enemy:entindex()] = enemy
             self:SetDuration( self.duration + 0.1, false )
-            ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
+            if not enemy:IsMagicImmune() then
+                ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
+            end
             for _, enemy_new in pairs(enemies) do
                 enemy_new:AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_kakashi_shadow_clone_pull", { duration = self.duration, pos_x = self.origin.x, pos_y = self.origin.y, pull = 60, } )
             end
@@ -1408,7 +1412,9 @@ function kakashi_tornado:OnProjectileHit( target, vLocation )
         local duration = self:GetSpecialValueFor( "duration" )
         local damage = ability_manager:GetValueWex(self, self:GetCaster(), "damage")
 
-        ApplyDamage({victim = target, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self})
+        if not target:IsMagicImmune() then
+            ApplyDamage({victim = target, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self})
+        end
 
         target:EmitSound("Hero_Invoker.Tornado")
 
@@ -1573,8 +1579,9 @@ function kakashi_graze_wave:OnSpellStart()
         ParticleManager:SetParticleControl( effect_cast, 1, new_origin )
         ParticleManager:SetParticleControl( effect_cast, 2, Vector( duration, 0, 0 ) )
         ParticleManager:ReleaseParticleIndex( effect_cast )
-
-        ApplyDamage({ victim = target, attacker = self:GetCaster(), damage = damage, damage_type = self:GetAbilityDamageType(), ability = self, })
+        if not target:IsMagicImmune() then
+            ApplyDamage({ victim = target, attacker = self:GetCaster(), damage = damage, damage_type = self:GetAbilityDamageType(), ability = self, })
+        end
         target:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = duration * (1-target:GetStatusResistance())})
         FindClearSpaceForUnit(target, new_origin, true)
     end
@@ -1694,6 +1701,27 @@ function kakashi_susano:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end
 
+function kakashi_susano:CastFilterResultTarget( hTarget )
+    if hTarget:IsMagicImmune() and hTarget:GetTeamNumber() ~= self:GetCaster():GetTeamNumber() and (not self:GetCaster():HasTalent("special_bonus_birzha_kakashi_8")) then
+        return UF_FAIL_MAGIC_IMMUNE_ENEMY
+    end
+
+    if not IsServer() then return UF_SUCCESS end
+    local nResult = UnitFilter(
+        hTarget,
+        self:GetAbilityTargetTeam(),
+        self:GetAbilityTargetType(),
+        self:GetAbilityTargetFlags(),
+        self:GetCaster():GetTeamNumber()
+    )
+
+    if nResult ~= UF_SUCCESS then
+        return nResult
+    end
+
+    return UF_SUCCESS
+end
+
 function kakashi_susano:OnSpellStart()
     if not IsServer() then return end
     local target = self:GetCursorTarget()
@@ -1743,12 +1771,18 @@ end
 
 function modifier_kakashi_susano_ally:OnIntervalThink()
     if not IsServer() then return end
-    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
+    local flag = 0
+    if self:GetCaster():HasTalent("special_bonus_birzha_kakashi_8") then
+        flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
+    end
+    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, 0, false )
     for _, enemy in pairs(enemies) do
         if enemy ~= self:GetParent() and not self.targets[enemy:entindex()] then
             self.targets[enemy:entindex()] = true
             enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = self.stun_duration * (1-enemy:GetStatusResistance())})
-            ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
+            if not enemy:IsMagicImmune() then
+                ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
+            end
         end
     end
 end
@@ -1906,7 +1940,9 @@ function modifier_kakashi_ligning_sphere:OnIntervalThink()
         ParticleManager:SetParticleControl(particle, 2, Vector(self:GetParent():GetAbsOrigin().x, self:GetParent():GetAbsOrigin().y, self:GetParent():GetAbsOrigin().z))
         if not self:GetParent():IsMagicImmune() or self:GetCaster():HasTalent("special_bonus_birzha_kakashi_7") then
             self:GetParent():EmitSound("Hero_Zuus.LightningBolt")
-            ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), damage = self.damage, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility()})
+            if not self:GetParent():IsMagicImmune() then
+                ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), damage = self.damage, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility()})
+            end
             self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_kakashi_ligning_sphere_debuff", {duration = self.duration * (1-self:GetParent():GetStatusResistance())})
         end
         self:Destroy()
@@ -2045,7 +2081,9 @@ function modifier_kakashi_meteor_thinker:MeteorDamage()
             ParticleManager:SetParticleControl( thunder, 0, enemy:GetAbsOrigin() + Vector( 0, 0, 1000 ) )
             ParticleManager:SetParticleControl( thunder, 1, enemy:GetAbsOrigin())
             enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = duration * (1-enemy:GetStatusResistance())})
-            ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility()})
+            if not enemy:IsMagicImmune() then
+                ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility()})
+            end
         end
     end
 end

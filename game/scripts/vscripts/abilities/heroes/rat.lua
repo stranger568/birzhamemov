@@ -95,7 +95,7 @@ function modifier_rat_courier_infection_unit:OnCreated(params)
     self.destroy_attacks            = params.destroy_attacks
 
     if self:GetCaster():HasShard() then
-        self.destroy_attack = self.destroy_attacks + self:GetSpecialValueFor("shard_bonus_attack")
+        self.destroy_attack = self.destroy_attacks + self:GetAbility():GetSpecialValueFor("shard_bonus_attack")
     end
 
     self.target                     = EntIndexToHScript(params.target_entindex)
@@ -634,7 +634,7 @@ function rat_poison_explosion:OnSpellStart()
     if not IsServer() then return end
     local radius = self:GetSpecialValueFor("radius")
     local duration = self:GetSpecialValueFor("duration")
-    local units = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_CLOSEST, false )
+    local units = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, -1, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_CLOSEST, false )
     for _, unit in pairs(units) do
         local mod = unit:FindModifierByName("modifier_rat_passive_stack")
         if mod and not mod:IsNull() then

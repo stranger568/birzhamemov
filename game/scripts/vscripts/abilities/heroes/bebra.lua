@@ -208,12 +208,12 @@ LinkLuaModifier( "modifier_thomas_ability_two_two", "abilities/heroes/bebra.lua"
 LinkLuaModifier( "modifier_thomas_ability_two_two_debuff", "abilities/heroes/bebra.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier( "modifier_thomas_ability_two_two_telega", "abilities/heroes/bebra.lua", LUA_MODIFIER_MOTION_NONE)
 
-function thomas_ability_two_two:GetAOERadius() return 750 end
+function thomas_ability_two_two:GetAOERadius() return 600 end
 
 function thomas_ability_two_two:OnSpellStart()
     if not IsServer() then return end
     local point = self:GetCursorPosition()
-    local radius = 250
+    local radius = 200
     local vector = GetGroundPosition(point + Vector(0, radius, 0), nil)
     local duration_debuff = self:GetSpecialValueFor("duration_debuff") + self:GetCaster():FindTalentValue("special_bonus_birzha_shelby_6")
     local count = 10
@@ -259,7 +259,7 @@ function modifier_thomas_ability_two_two:GetModifierAura()
 end
 
 function modifier_thomas_ability_two_two:GetAuraRadius()
-    return 250
+    return 200
 end
 
 function modifier_thomas_ability_two_two:GetAuraDuration() return 0 end
@@ -314,7 +314,7 @@ function modifier_thomas_ability_two_two_telega:OnIntervalThink()
             ParticleManager:SetParticleControl( telega_particle, 0, origin_damage)
             ParticleManager:SetParticleControl( telega_particle, 3, origin_damage)
             EmitSoundOnLocationWithCaster( origin_damage, "Hero_Tidehunter.ArmsOfTheDeep.Stun", caster )
-            local enemies = FindUnitsInRadius(caster:GetTeamNumber(), origin_damage, nil, 400, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false)
+            local enemies = FindUnitsInRadius(caster:GetTeamNumber(), origin_damage, nil, 300, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false)
             for _, enemy in pairs(enemies) do
                 local stun_duration = ability:GetSpecialValueFor("stun_duration")
                 local damage = ability:GetSpecialValueFor("damage")

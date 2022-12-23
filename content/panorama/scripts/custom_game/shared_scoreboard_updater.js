@@ -17,7 +17,7 @@ function HighlightByParty(player_id, party_icon)
     {
 	    var party_map = CustomNetTables.GetTableValue("game_state", "party_map")
 	    if (party_map != undefined)
-	    {   
+	    {
 		    var party_id = party_map[player_id];
 			if (party_id != undefined && parseInt(party_id)>0 && parseInt(party_id) <= 10) 
 			{

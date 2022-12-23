@@ -1591,7 +1591,7 @@
 "DOTA_Tooltip_modifier_item_nuts_buff_Description"	"Скорость атаки увеличена на %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%, скорость передвижения увеличена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT%, но герой обезмолвлен"
 
 "DOTA_Tooltip_Ability_item_ghoul"			"Маска Гуля"
-"DOTA_Tooltip_ability_item_ghoul_Description"					"<h1>Переключаемая: Dead Inside</h1>В маске гуля герой получает эффект Dead Inside. Эффект дарует +%bonus_damage_active% урона, +%spell_amplify_active%%% к урону от способностей, +%movespeed_active% к скорости передвижения, +%bonus_attack_speed_active% к скорости атаки, -%cast_point_active%%% длительности произнесения заклинаний, +%bonus_str_active% силы, %lifesteal_active%%% вампиризма от атак, %magic_lifesteal_active%%% вампиризма от способностей, -%armor_active% к броне и %damage_per_second_active% урона в секунду\n<h1>Пассивное: Повышение ранга</h1>Если вы имеете включенный эффект Dead Inside, то любое убийство героя пополняет заряд маски<br><br>Каждый заряд увеличивает бонусы от эффекта Dead Inside:<br>+%damage_per_charge% к урону за заряд<br>+%magic_damage_per_charge%%% к магическому урону за заряд<br>+%lifesteal_per_charge%%% вампиризма за заряд<br>+%spell_lifesteal_per_charge%%% вампиризм от способностей за заряд<br><br>С шансом 10% может поставить паузу при убийстве противника"
+"DOTA_Tooltip_ability_item_ghoul_Description"					"<h1>Переключаемая: Dead Inside</h1>В маске гуля герой получает эффект Dead Inside. Эффект дарует +%bonus_damage_active% урона, +%movespeed_active% к скорости передвижения, +%bonus_attack_speed_active% к скорости атаки, -%cast_point_active%%% длительности произнесения заклинаний, +%bonus_str_active% силы, %lifesteal_active%%% вампиризма от атак, %magic_lifesteal_active%%% вампиризма от способностей, -%armor_active% к броне и %damage_per_second_active% урона в секунду\n<h1>Пассивное: Повышение ранга</h1>Если вы имеете включенный эффект Dead Inside, то любое убийство героя пополняет заряд маски<br><br>Каждый заряд увеличивает бонусы от эффекта Dead Inside:<br>+%damage_per_charge% к урону за заряд<br>+%lifesteal_per_charge%%% вампиризма за заряд<br>+%spell_lifesteal_per_charge%%% вампиризм от способностей за заряд<br><br>С шансом 10% может поставить паузу при убийстве противника"
 "DOTA_Tooltip_ability_item_ghoul_Lore"						"Данный предмет создан благодаря <font color='#fffc00'>Ghoul SSS+ rank</font>"
 "DOTA_Tooltip_ability_item_ghoul_bonus_attack_speed"			"+$attack"
 "DOTA_Tooltip_ability_item_ghoul_bonus_damage"				"+$damage"
@@ -2252,6 +2252,7 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_vjlink_4" 		"Ты дудосер дает сопротивление к магии"
 "DOTA_Tooltip_Ability_special_bonus_birzha_vjlink_4_description"	"Дает {s:value}% сопротивление к магии за эффект способности"
 "DOTA_Tooltip_Ability_special_bonus_unique_keeper_of_the_light_13" 		"{s:value} заряда Прием питона"
+"DOTA_Tooltip_ability_special_bonus_unique_keeper_of_the_light_13_description"			""
 "DOTA_Tooltip_Ability_special_bonus_birzha_vjlink_6" 		"Направленный Прием питона"
 "DOTA_Tooltip_Ability_special_bonus_birzha_vjlink_7" 		"+{s:value}% вампиризма Разбитые зубы"
 "DOTA_Tooltip_Ability_special_bonus_birzha_vjlink_8" 		"AOE Прием питона"
@@ -2642,6 +2643,7 @@
 "DOTA_Tooltip_modifier_venom_reproduction_debuff_Description"		"Сопротивление эффектам уменьшено на %dMODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING%%%, Магическое сопротивление уменьшено на %dMODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS%%%, Броня уменьшена на %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%, скорость передвижения уменьшена %dMODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT%, здоровье уменьшено на %dMODIFIER_PROPERTY_HEALTH_BONUS%, регенерация здоровья уменьшена на %dMODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT%"
 
 "DOTA_Tooltip_ability_special_bonus_unique_death_prophet_5"				"-{s:value} сек. перезарядки Tentacle"
+"DOTA_Tooltip_ability_special_bonus_unique_death_prophet_5_description"			""
 "DOTA_Tooltip_ability_special_bonus_birzha_venom_2"						"+{s:value} к урону Tentacle"
 "DOTA_Tooltip_ability_special_bonus_birzha_venom_3"						"-{s:value} сек. к интервалу Sadist"
 "DOTA_Tooltip_ability_special_bonus_birzha_venom_4"						"+{s:value}% вампиризма от Sadist"
@@ -2649,6 +2651,7 @@
 "DOTA_Tooltip_ability_special_bonus_birzha_venom_6"						"+{s:value} к урону Punishment"
 "DOTA_Tooltip_ability_special_bonus_birzha_venom_8"						"Hunger сквозь иммунитет к магии"
 "DOTA_Tooltip_ability_special_bonus_unique_batrider_5"					"2 заряда Tentacle"
+"DOTA_Tooltip_ability_special_bonus_unique_batrider_5_description"			""
 
 //=================================================================================================================
 // Juggernaut | Азазин | Azazin
@@ -2760,7 +2763,7 @@
 "DOTA_Tooltip_ability_special_bonus_birzha_tailer_1"				"+{s:value} брони Уплотнение"
 "DOTA_Tooltip_ability_special_bonus_birzha_tailer_2"				"-{s:value} сек. перезарядки Уплотнение"
 "DOTA_Tooltip_ability_special_bonus_birzha_tailer_3"				"+{s:value} к блокированию урона Уплотнение"
-"DOTA_Tooltip_ability_special_bonus_birzha_tailer_4"				"-{s:value} приделу урона Уплотнение"
+"DOTA_Tooltip_ability_special_bonus_birzha_tailer_4"				"-{s:value} пределу урона Уплотнение"
 "DOTA_Tooltip_ability_special_bonus_birzha_tailer_5"				"+{s:value} атак для уничтожения Бургер Кинг"
 "DOTA_Tooltip_ability_special_bonus_birzha_tailer_6"				"+{s:value} сек. длительности Бургер Кинг"
 "DOTA_Tooltip_ability_special_bonus_birzha_tailer_7"				"Удвоение брони от Уплотнение"
@@ -2843,6 +2846,7 @@
 "Dota_Tooltip_Ability_special_bonus_birzha_kaneki_6" 				"+{s:value}% к шансу Видоизменение"
 "Dota_Tooltip_Ability_special_bonus_birzha_kaneki_7" 				"Гуль без перезарядки"
 "Dota_Tooltip_Ability_special_bonus_unique_keeper_of_the_light_11" 	"2 заряда Выпустить Кагуне"
+"Dota_Tooltip_Ability_special_bonus_unique_keeper_of_the_light_11_description"				""
 
 //=================================================================================================================
 // Нолик
@@ -3694,6 +3698,7 @@
 
 "DOTA_Tooltip_ability_special_bonus_birzha_ruby_1"				"+{s:value} урона Ranged Mode"
 "DOTA_Tooltip_ability_special_bonus_unique_keeper_of_the_light_4"				"-{s:value} сек. перезарядки Ranged Mode"
+"Dota_Tooltip_Ability_special_bonus_unique_keeper_of_the_light_4_description"				""
 "DOTA_Tooltip_ability_special_bonus_birzha_ruby_3"				"+{s:value}% доп. физического урона целям Серебрянные глаза"
 "DOTA_Tooltip_ability_special_bonus_birzha_ruby_4"				"+{s:value}% урона иллюзии от Проявление"
 "DOTA_Tooltip_ability_special_bonus_birzha_ruby_5"				"Rose Strike становится активной"
@@ -3701,6 +3706,7 @@
 "DOTA_Tooltip_ability_special_bonus_birzha_ruby_6"				"+{s:value}% шанса при атаке Rose Strike"
 "DOTA_Tooltip_ability_special_bonus_birzha_ruby_7"				"Ranged mode наносит урон от атак"
 "DOTA_Tooltip_ability_special_bonus_unique_keeper_of_the_light_5"				"2 заряда Ranged Mode"
+"Dota_Tooltip_Ability_special_bonus_unique_keeper_of_the_light_5_description"				""
 
 //=================================================================================================================
 // Son Goku
@@ -3895,6 +3901,7 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_pistoletov_2" 				"+{s:value} сек. длительности Смертельная битва"
 "DOTA_Tooltip_Ability_special_bonus_birzha_pistoletov_3" 				"+{s:value} сек. длительности оглушения Прыжок на дельфине"
 "DOTA_Tooltip_Ability_special_bonus_unique_keeper_of_the_light_3" 		"-4 сек. перезарядки Прыжок на дельфине"
+"Dota_Tooltip_Ability_special_bonus_unique_keeper_of_the_light_3_description"				""
 "DOTA_Tooltip_Ability_special_bonus_birzha_pistoletov_5" 				"+{s:value} радиус Прыжок на дельфине"
 "DOTA_Tooltip_Ability_special_bonus_birzha_pistoletov_6" 				"+{s:value}% регенерации здоровья от Трах Тибидох"
 "DOTA_Tooltip_Ability_special_bonus_birzha_pistoletov_7" 				"+{s:value} Брони и +{s:value2} силы во время Смертельная Битва"
@@ -4294,6 +4301,7 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_durov_5" 	"+{s:value} урона Наехать на полицейского"
 "DOTA_Tooltip_Ability_special_bonus_birzha_durov_6" 	"+{s:value}% урон иллюзий VPN"
 "DOTA_Tooltip_Ability_special_bonus_unique_keeper_of_the_light_2" 	"2 Заряда Наехать на полицейского"
+"Dota_Tooltip_Ability_special_bonus_unique_keeper_of_the_light_2_description"				""
 "DOTA_Tooltip_Ability_special_bonus_birzha_durov_8" 	"+{s:value}% шанс Выбросить деньги"
 
 //=================================================================================================================
@@ -4404,11 +4412,14 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_akame_1" 			"+{s:value} к дальности Рывок"
 "DOTA_Tooltip_Ability_special_bonus_birzha_akame_2" 			"+{s:value} множитель ловкости Проклятый клинок"
 "DOTA_Tooltip_Ability_special_bonus_unique_naga_siren" 			"2 Заряда Отскок"
+"Dota_Tooltip_Ability_special_bonus_unique_naga_siren_description"				""
 "DOTA_Tooltip_Ability_special_bonus_birzha_akame_4" 			"+{s:value}% урона от атаки Рывок"
 "DOTA_Tooltip_Ability_special_bonus_birzha_akame_5" 			"+{s:value} доп. атаки Проклятый клинок"
 "DOTA_Tooltip_Ability_special_bonus_birzha_akame_6" 			"+{s:value} атака Серия ударов"
 "DOTA_Tooltip_Ability_special_bonus_unique_naga_siren_2" 		"2 Заряда послеобраз"
+"Dota_Tooltip_Ability_special_bonus_unique_naga_siren_2_description"				""
 "DOTA_Tooltip_Ability_special_bonus_unique_naga_siren_3" 		"2 Заряда Рывок"
+"Dota_Tooltip_Ability_special_bonus_unique_naga_siren_3_description"				""
 
 //=================================================================================================================
 // Vengeful Spirit | Широ | Shiro
@@ -5395,7 +5406,7 @@
 "DOTA_Tooltip_Ability_rin_blackish_critical_chance"			"%ШАНС КРИТ. АТАКИ:"
 
 "DOTA_Tooltip_Ability_rin_satana_explosion" 				"Взрыв Сатаны"
-"DOTA_Tooltip_Ability_rin_satana_explosion_Description" 	"Выпускает в случайных противников <font color='#00D4FF'>Разрез синего пламени</font> текущего уровня"
+"DOTA_Tooltip_Ability_rin_satana_explosion_Description" 	"Выпускает в 2 случайных противников <font color='#00D4FF'>Разрез синего пламени</font> текущего уровня, которые находятся в вашем обзоре"
 "DOTA_Tooltip_Ability_rin_satana_explosion_duration" 		"ДЛИТЕЛЬНОСТЬ:"
 "DOTA_Tooltip_Ability_rin_satana_explosion_interval" 		"ИНТЕРВАЛ:"
 "DOTA_Tooltip_Ability_rin_satana_explosion_lore"			"Данный герой создан благодаря <font color='#fffc00'>Xelisum</font>"
@@ -6075,7 +6086,7 @@
 "DOTA_Tooltip_modifier_golovach_rocket_Description" 		"Выпускает ракеты"
 
 "DOTA_Tooltip_Ability_LenaGolovach_Radio" 					"Рофлы с Радио"
-"DOTA_Tooltip_Ability_LenaGolovach_Radio_Description" 		"Головач услышав рофл с радио начинает сильно рофлить и получает два из 5 бонусов на время. Бонусы: <font color='#00D4FF'>Дополнительный урон</font>, <font color='#00D4FF'>здоровье</font>, <font color='#00D4FF'>скорость атаки</font>, <font color='#00D4FF'>скорость передвижения</font> и <font color='#00D4FF'>бессмертие</font>"
+"DOTA_Tooltip_Ability_LenaGolovach_Radio_Description" 		"Головач услышав рофл с радио начинает сильно рофлить и получает два из 5 бонусов на время. Бонусы: <font color='#00D4FF'>Дополнительный урон</font>, <font color='#00D4FF'>здоровье</font>, <font color='#00D4FF'>скорость атаки</font> и <font color='#00D4FF'>скорость передвижения</font>"
 "DOTA_Tooltip_Ability_LenaGolovach_Radio_duration" 			"ДЛИТЕЛЬНОСТЬ:"
 "DOTA_Tooltip_Ability_LenaGolovach_Radio_damage" 			"УРОН:"
 "DOTA_Tooltip_Ability_LenaGolovach_Radio_health" 			"ЗДОРОВЬЕ:"
@@ -6104,7 +6115,7 @@
 "Dota_Tooltip_Ability_special_bonus_birzha_golovach_4" 						"-{s:value} сек. перезарядки Рофлы С радио"
 "Dota_Tooltip_Ability_special_bonus_birzha_golovach_5" 						"Таунт взрывается"
 "Dota_Tooltip_Ability_special_bonus_birzha_golovach_5_description" 			"По окончанию Таунт взрывается и наносит {s:value}% от макс. здоровья"
-"Dota_Tooltip_Ability_special_bonus_birzha_golovach_6" 						"+{s:value}множитель ловкости Ракеты на Е"
+"Dota_Tooltip_Ability_special_bonus_birzha_golovach_6" 						"+{s:value} множитель ловкости Ракеты на Е"
 "Dota_Tooltip_Ability_special_bonus_birzha_golovach_7" 						"Таунт возвращает урон"
 "Dota_Tooltip_Ability_special_bonus_birzha_golovach_7_description" 			"Возвращает {s:value}% входящего урона"
 "Dota_Tooltip_Ability_special_bonus_birzha_golovach_8" 						"+{s:value} сек. длительности Рофлы с радио"
@@ -6424,8 +6435,7 @@
 "DOTA_Tooltip_ability_rat_passive_scepter_description"									"Увеличивает урон способности на %scepter_bonus_damage%"
 
 "DOTA_Tooltip_ability_rat_poison_explosion"												"Вспышка заражения"
-"DOTA_Tooltip_ability_rat_poison_explosion_Description"									"Крыса взрывает все эффекты Чумы у героев вокруг себя. Если противник выживает, то на его месте появляется ядовитое облако, которое переодически наносит урон и накладывает заряд Чумы"
-"DOTA_Tooltip_ability_rat_poison_explosion_radius"										"РАДИУС ВЗРЫВА:"
+"DOTA_Tooltip_ability_rat_poison_explosion_Description"									"Крыса взрывает все эффекты Чумы. Если противник выживает, то на его месте появляется ядовитое облако, которое переодически наносит урон и накладывает заряд Чумы"
 "DOTA_Tooltip_ability_rat_poison_explosion_cloud_radius"								"РАДИУС ОБЛАКА:"
 "DOTA_Tooltip_ability_rat_poison_explosion_damage"										"УРОН ОБЛАКА В СЕКУНДУ:"
 "DOTA_Tooltip_ability_rat_poison_explosion_duration"									"ДЛИТЕЛЬНОСТЬ ОБЛАКА:"
@@ -6738,7 +6748,8 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_stray_3" 		"-{s:value} сек. перезарядки Крысинный яд"
 "DOTA_Tooltip_Ability_special_bonus_birzha_stray_4" 		"Крыса замедляет скорость передвижения"
 "DOTA_Tooltip_Ability_special_bonus_birzha_stray_4_description" 		"Замедляет цель на {s:value}%. Длительность {s:value2} сек."
-"DOTA_Tooltip_Ability_special_bonus_unique_riki_9" 		"+1 заряд Крыса"
+"DOTA_Tooltip_Ability_special_bonus_unique_riki_9" 				"+1 заряд Крыса"
+"DOTA_Tooltip_ability_special_bonus_unique_riki_9_description"			""
 "DOTA_Tooltip_Ability_special_bonus_birzha_stray_6" 		"Крысинный Яд сквозь иммунитет к магии"
 "DOTA_Tooltip_Ability_special_bonus_birzha_stray_7" 		"Все эффекты музыка от донатера"
 "DOTA_Tooltip_Ability_special_bonus_birzha_stray_8" 		"+{s:value}% порог здоровья для убийства Киллстиллер"
@@ -7119,6 +7130,7 @@
 "DOTA_Tooltip_ability_special_bonus_birzha_megumin_5"						"+{s:value} сек. длительность оглушения Взрывной метеор"
 "DOTA_Tooltip_ability_special_bonus_birzha_megumin_6"						"+{s:value} лучей Армагеддон"
 "DOTA_Tooltip_ability_special_bonus_unique_invoker_8"						"2 заряда взрывной метеор"
+"DOTA_Tooltip_ability_special_bonus_unique_invoker_8_description"			""
 "DOTA_Tooltip_ability_special_bonus_birzha_megumin_8"						"+{s:value} сек. длительности Магия взрывов"
 
 //=================================================================================================================
@@ -7482,6 +7494,7 @@
 "DOTA_Tooltip_ability_special_bonus_birzha_freddy_3"								"Подарок ловушка накладывает страх на {s:value} сек."
 "DOTA_Tooltip_ability_special_bonus_birzha_freddy_4"								"Скример отключает пассивные способности"
 "DOTA_Tooltip_Ability_special_bonus_unique_invoker_5"								"2 заряда Подарок ловушка"
+"DOTA_Tooltip_ability_special_bonus_unique_invoker_5_description"					""
 "DOTA_Tooltip_ability_special_bonus_birzha_freddy_6"								"Удвоение доп. урона Марш тореадора"
 "DOTA_Tooltip_ability_special_bonus_birzha_freddy_7"								"+{s:value}% урона Захлопнуть костюмы"
 "DOTA_Tooltip_ability_special_bonus_birzha_freddy_8"								"+{s:value} сек. длительности Захлопнуть костюмы"
@@ -7563,6 +7576,7 @@
 "DOTA_Tooltip_ability_special_bonus_birzha_travoman_1"										"-{s:value} сек. перезарядки Гнев небес"
 "DOTA_Tooltip_ability_special_bonus_birzha_travoman_2"										"Разрушитель трона наносит физический урон"
 "DOTA_Tooltip_ability_special_bonus_unique_invoker_4"										"+2 заряда Разрушитель трона"
+"DOTA_Tooltip_ability_special_bonus_unique_invoker_4_description"							""
 "DOTA_Tooltip_ability_special_bonus_birzha_travoman_4"										"Гнев с небес не наносит урон Травоману"
 "DOTA_Tooltip_ability_special_bonus_birzha_travoman_5"										"Гнев с небес оглушает на {s:value} сек."
 "DOTA_Tooltip_ability_special_bonus_birzha_travoman_6"										"Звук из преисподней запрещает использовать предметы"
@@ -8382,8 +8396,10 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_doljan_3"				"+{s:value} кража силы Троллинг"
 "DOTA_Tooltip_Ability_special_bonus_birzha_doljan_4"				"+{s:value} доп. интеллект Задавить интеллектом"
 "DOTA_Tooltip_Ability_special_bonus_unique_invoker_9"				"+2 заряда Хлебнуть водяры"
+"DOTA_Tooltip_ability_special_bonus_unique_invoker_9_description"	""
 "DOTA_Tooltip_Ability_special_bonus_birzha_doljan_6"				"-{s:value} сек. перезарядки Троллинг"
 "DOTA_Tooltip_Ability_special_bonus_unique_invoker_10"				"2 заряда Зачитать реп"
+"DOTA_Tooltip_ability_special_bonus_unique_invoker_10_description"	""
 "DOTA_Tooltip_Ability_special_bonus_birzha_doljan_8"				"Зачитать реп наносит атаки"
 
 "DOTA_Tooltip_ability_Doljan_Intellect_scepter_description"			"Способность становится активной. Лишает противников %mana_burn%%% максимальной маны и наносит магический урон равный формуле %damage_burn% + Интеллект Должанского * %scepter_int_multiple%"
@@ -8599,13 +8615,15 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_kakashi_1"					"+{s:value} сек. длительности Молния"
 "DOTA_Tooltip_Ability_special_bonus_birzha_kakashi_2"					"+{s:value} сек. длительности Водяной клон"
 "DOTA_Tooltip_Ability_special_bonus_unique_invoker_1"					"2 заряда Райкири"
+"DOTA_Tooltip_ability_special_bonus_unique_invoker_1_description"			""
 "DOTA_Tooltip_Ability_special_bonus_unique_invoker_2"					"2 заряда Псевдотелепортация"
+"DOTA_Tooltip_ability_special_bonus_unique_invoker_2_description"			""
 "DOTA_Tooltip_Ability_special_bonus_birzha_kakashi_5"					"Неограниченное количество эффектов на цели Тайфун"
 "DOTA_Tooltip_Ability_special_bonus_birzha_kakashi_6"					"Применение способностей дает заряд Тайфун"
 "DOTA_Tooltip_Ability_special_bonus_birzha_kakashi_7"					"Сила Райтон"
-"DOTA_Tooltip_Ability_special_bonus_birzha_kakashi_7_Description"		"Способности из 2+ сфер Райтон сквозь иммунитет к магии"
+"DOTA_Tooltip_Ability_special_bonus_birzha_kakashi_7_Description"		"Способности из 2+ сфер Райтон сквозь иммунитет к магии. Урон не проходит сквозь иммунитет к магии"
 "DOTA_Tooltip_Ability_special_bonus_birzha_kakashi_8"					"Сила Дотон"
-"DOTA_Tooltip_Ability_special_bonus_birzha_kakashi_8_Description"		"Способности из 2+ сфер Дотон сквозь иммунитет к магии"		
+"DOTA_Tooltip_Ability_special_bonus_birzha_kakashi_8_Description"		"Способности из 2+ сфер Дотон сквозь иммунитет к магии. Урон не проходит сквозь иммунитет к магии"		
 
 //=================================================================================================================
 // AVATAR
@@ -8733,12 +8751,15 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_avatar_2"				"+{s:value} урон Быстрый удар"
 "DOTA_Tooltip_Ability_special_bonus_birzha_avatar_3"				"+{s:value} сек. длительность оглушения Стены льда"
 "DOTA_Tooltip_Ability_special_bonus_unique_invoker_11"				"2 заряда Быстрый удар"
+"DOTA_Tooltip_ability_special_bonus_unique_invoker_11_description"	""
 "DOTA_Tooltip_Ability_special_bonus_unique_invoker_12"				"2 заряда Выпад"
+"DOTA_Tooltip_ability_special_bonus_unique_invoker_12_description"	""
 "DOTA_Tooltip_Ability_special_bonus_unique_invoker_13"				"2 заряда Бросок"
+"DOTA_Tooltip_ability_special_bonus_unique_invoker_13_description"	""
 "DOTA_Tooltip_Ability_special_bonus_birzha_avatar_7"				"Сила Воды"
-"DOTA_Tooltip_Ability_special_bonus_birzha_avatar_7_Description"	"Способности из 2+ сфер воды сквозь иммунитет к магии, кроме способности выпад"
+"DOTA_Tooltip_Ability_special_bonus_birzha_avatar_7_Description"	"Способности из 2+ сфер воды сквозь иммунитет к магии. Урон не проходит сквозь иммунитет к магии"
 "DOTA_Tooltip_Ability_special_bonus_birzha_avatar_8"				"Сила Земли"
-"DOTA_Tooltip_Ability_special_bonus_birzha_avatar_8_Description"	"Способности из 2+ сфер земли сквозь иммунитет к магии"
+"DOTA_Tooltip_Ability_special_bonus_birzha_avatar_8_Description"	"Способности из 2+ сфер земли сквозь иммунитет к магии. Урон не проходит сквозь иммунитет к магии"
 
 //=================================================================================================================
 // Overlord anime

@@ -5,7 +5,11 @@ saitama_fast_attack = class({})
 
 function saitama_fast_attack:OnSpellStart()
 	if not IsServer() then return end
-	local direction = self:GetCursorPosition() - self:GetCaster():GetAbsOrigin()
+	local point = self:GetCursorPosition()
+	if point == self:GetCaster():GetAbsOrigin() then
+		point = point + self:GetCaster():GetForwardVector()
+	end
+	local direction = point - self:GetCaster():GetAbsOrigin()
 	direction.z = 0
 	direction = direction:Normalized()
 	self:GetCaster():SetForwardVector(direction)

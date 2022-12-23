@@ -113,7 +113,7 @@ function megumin_meteor:OnSpellStart()
         EffectName          = "particles/booom/megumin/meteor/megumin_meteor.vpcf",
 		vSpawnOrigin		= caster_loc,
 		fDistance			= 800,
-		fStartRadius		= 115,
+		fStartRadius		= 120,
 		fEndRadius			= 120,
 		Source				= caster,
 		bHasFrontalCone		= false,

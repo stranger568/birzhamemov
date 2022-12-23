@@ -46,8 +46,6 @@ end
 
 function modifier_item_magic_crystalis:GetModifierTotalDamageOutgoing_Percentage(params)
     if params.damage_category == DOTA_DAMAGE_CATEGORY_SPELL then 
-        if self:GetParent():FindAllModifiersByName("modifier_item_magic_crystalis")[1] ~= self then return end
-        if self:GetParent():HasModifier("modifier_item_magic_daedalus") then return end
         if params.inflictor ~= nil and params.inflictor:GetName() == "Ricardo_KokosMaslo" then return end
         if params.original_damage < 100 then return end
         if bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION) ~= DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_NO_DAMAGE_MULTIPLIERS) ~= DOTA_DAMAGE_FLAG_NO_DAMAGE_MULTIPLIERS then
@@ -133,8 +131,6 @@ end
 
 function modifier_item_magic_daedalus:GetModifierTotalDamageOutgoing_Percentage(params)
     if params.damage_category == DOTA_DAMAGE_CATEGORY_SPELL then 
-        if self:GetParent():FindAllModifiersByName("modifier_item_magic_daedalus")[1] ~= self then return end
-        if params.inflictor ~= nil and params.inflictor:GetName() == "Ricardo_KokosMaslo" then return end
         if params.original_damage < 100 then return end
         if bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION) ~= DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_NO_DAMAGE_MULTIPLIERS) ~= DOTA_DAMAGE_FLAG_NO_DAMAGE_MULTIPLIERS then
             if RollPercentage(self:GetAbility():GetSpecialValueFor("chance")) then

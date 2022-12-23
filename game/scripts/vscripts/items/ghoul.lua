@@ -116,9 +116,9 @@ function modifier_item_ghoul_buff:OnIntervalThink()
 end
 
 function modifier_item_ghoul_buff:DeclareFunctions()
-    return {
+    return 
+    {
         MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
-        MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE,
         MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT,
         MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
         MODIFIER_PROPERTY_CASTTIME_PERCENTAGE,
@@ -126,18 +126,12 @@ function modifier_item_ghoul_buff:DeclareFunctions()
         MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
         MODIFIER_EVENT_ON_TAKEDAMAGE,
         MODIFIER_EVENT_ON_HERO_KILLED,
-
     }
 end
 
 function modifier_item_ghoul_buff:GetModifierPreAttack_BonusDamage()
     local stacks = self:GetAbility():GetSpecialValueFor("damage_per_charge") * self:GetAbility():GetCurrentCharges()
     return self:GetAbility():GetSpecialValueFor("bonus_damage_active") + stacks
-end
-
-function modifier_item_ghoul_buff:GetModifierSpellAmplify_Percentage()
-    local stacks = self:GetAbility():GetSpecialValueFor("magic_damage_per_charge") * self:GetAbility():GetCurrentCharges()
-    return self:GetAbility():GetSpecialValueFor("spell_amplify_active") + stacks
 end
 
 function modifier_item_ghoul_buff:GetModifierMoveSpeedBonus_Constant()

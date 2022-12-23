@@ -388,7 +388,7 @@ end
 function modifier_horo_forest_wisdom:OnIntervalThink()
     if not IsServer() then return end
     self.evasion = 0
-    local trees = GridNav:GetAllTreesAroundPoint(self:GetParent():GetAbsOrigin(), 300, false)
+    local trees = GridNav:GetAllTreesAroundPoint(self:GetParent():GetAbsOrigin(), self.radius, false)
     if #trees > 0 then
         self.evasion = self:GetAbility():GetSpecialValueFor('bonus_evasion')
     end

@@ -1642,6 +1642,7 @@
 		"ItemCost"						"1375"
 		"ItemShopTags"					"str;damage;hard_to_tag"
 		"ItemQuality"					"epic"
+		"AbilityManaCost"				"50"
 		"ItemAliases"					"bkb;black king bar;baldezh"
 		"ItemSellable"					"1"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
@@ -1650,7 +1651,7 @@
 		{
 			"bonus_strength"				"6"
 			"bonus_damage"					"9"
-			"duration"						"4"
+			"duration"						"3"
 		}
 	}
 
@@ -1662,22 +1663,23 @@
 		"Model"							"models/props_gameplay/red_box.vmdl" 
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
 		"AbilityTextureName"			"items/baldezh2"
-		"AbilitySharedCooldown" 	"baldezh"
+		"AbilitySharedCooldown" 		"baldezh"
 		"AbilityCastPoint"              "0"
-		"AbilityCooldown"				"30"
+		"AbilityCooldown"				"26"
 		"AbilityManaCost"				"0"
 		"ItemCost"						"1375"
 		"ItemShopTags"					"str;damage;hard_to_tag"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"bkb;black king bar"
 		"ItemSellable"					"1"
+		"AbilityManaCost"				"50"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
 		
 		"AbilityValues"
 		{
 			"bonus_strength"				"18"
 			"bonus_damage"					"27"
-			"duration"						"8"
+			"duration"						"5"
 		}
 	}
 
@@ -1692,20 +1694,21 @@
 		"AbilitySharedCooldown" 		"baldezh"
 		"FightRecapLevel"				"2"
 		"AbilityCastPoint"              "0"
-		"AbilityCooldown"				"24"
+		"AbilityCooldown"				"22"
 		"AbilityManaCost"				"0"
 		"ItemCost"						"1375"
 		"ItemShopTags"					"str;damage;hard_to_tag"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"bkb;black king bar"
 		"ItemSellable"					"1"
+		"AbilityManaCost"				"50"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
 		
 		"AbilityValues"
 		{
 			"bonus_strength"				"12"
 			"bonus_damage"					"18"
-			"duration"						"6"
+			"duration"						"4"
 		}
 	}
 	
@@ -2963,14 +2966,14 @@
 			"bonus_strength"			"15"
 			"bonus_int"					"10"
 			"bonus_mana_regen"			"1.5"
-			"chance"					"25"
-			"crit"						"200"
+			"chance"					"30"
+			"crit"						"160"
 			"damage"					"200"
 			"duration"					"0.8"
 			"radius"					"650"
 			"enemy_slow"				"-100"
 			"maximum_chance_tooltip"	"100"
-			"attribute_mult"			"0.75"	
+			"attribute_mult"			"0.5"	
 		}
 	}
 
@@ -3103,7 +3106,7 @@
 			"magdmg_min"			"-6"
 			"magdmg_max"			"8"
 			"lifesteal"				"15"
-			"cooldown"				"-5"
+			"cooldown"				"5"
 			"evasion"				"15"
 			"all_stats"				"20"
 			"resist"				"15"
@@ -3170,7 +3173,7 @@
 			"magdmg_min"			"-15"
 			"magdmg_max"			"20"
 			"lifesteal"				"30"
-			"cooldown"				"-10"
+			"cooldown"				"10"
 			"evasion"				"30"
 			"all_stats"				"40"
 			"resist"				"30"
@@ -4117,7 +4120,6 @@
 			"bonus_hp_regen"		"6"
 			"lifesteal"				"20"
 			"bonus_damage_active"			"40"
-			"spell_amplify_active"	"10"
 			"movespeed_active"			"30"
 			"cast_point_active"		"15"
 			"bonus_str_active"				"30"
@@ -4127,7 +4129,6 @@
 			"damage_per_second_active"				"100"
 			"bonus_attack_speed_active"				"80"
 			"damage_per_charge"			"1"
-			"magic_damage_per_charge"			"0.5"
 			"lifesteal_per_charge"			"1"
 			"spell_lifesteal_per_charge"			"1.5"
 		}

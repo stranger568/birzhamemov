@@ -131,7 +131,7 @@ function modifier_yuno_sharpness_axe:GetModifierProcAttack_BonusDamage_Pure(para
         damage = damage * (shard_modifier:GetStackCount() + 1)
     end
 
-    if self:GetCaster():HasShard() then
+    if self:GetCaster():HasScepter() then
         params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_yuno_sharpness_axe_effect_stack", {duration = self:GetAbility():GetSpecialValueFor("shard_duration") * (1-params.target:GetStatusResistance())})
         params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_yuno_sharpness_axe_effect", {duration = self:GetAbility():GetSpecialValueFor("shard_duration") * (1-params.target:GetStatusResistance())})
     end
@@ -255,7 +255,7 @@ LinkLuaModifier( "modifier_yuno_time_lapse", "abilities/heroes/yuno", LUA_MODIFI
 yuno_time_lapse = class({})
 
 function yuno_time_lapse:GetCooldown(level)
-    if self:GetCaster():HasScepter() then
+    if self:GetCaster():HasShard() then
         return self:GetSpecialValueFor("cooldown_scepter")
     end
     return self.BaseClass.GetCooldown( self, level )
