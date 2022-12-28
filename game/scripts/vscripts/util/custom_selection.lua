@@ -51,14 +51,15 @@ BIRZHA_PLUS_HEROES =
 	"npc_dota_hero_pudge",
 	--------------------------------------
 	"npc_dota_hero_nevermore",
-	"npc_dota_hero_slardar",
-	"npc_dota_hero_slark",
 	"npc_dota_hero_chaos_knight",
-	"npc_dota_hero_antimage",
-	"npc_dota_hero_arc_warden",
 	"npc_dota_hero_serega_pirat",
-	"npc_dota_hero_phantom_lancer",
-	"npc_dota_hero_venomancer",
+	"npc_dota_hero_oracle",
+	"npc_dota_hero_dawnbreaker",
+	"npc_dota_hero_sven",
+	"npc_dota_hero_queenofpain",
+	"npc_dota_hero_thomas_bebra",
+	"npc_dota_hero_phantom_assassin",
+	"npc_dota_hero_centaur",
 }
 
 function CustomPick:RegisterPlayerInfo( pid )
@@ -346,6 +347,13 @@ function CustomPick:StartTimer( delay, fExpire )
 			delay_int = new_delay_int
 			CustomGameEventManager:Send_ServerToAllClients( 'birzha_pick_timer_upd', { timer = delay_int })
 		end
+
+		if PICK_STATE == BIRZHA_PICK_STATE_BAN then
+			for pid, pinfo in pairs( PLAYERS ) do
+				CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(pid), 'ban_count_changed', {count = pinfo.ban_count})
+			end
+		end
+
 		return tick_interval
 	end )
 end

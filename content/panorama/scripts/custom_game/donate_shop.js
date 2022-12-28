@@ -1524,19 +1524,19 @@ function GetHeroLevel(exp)
 
 function GetHeroRankIcon(level)
 {
-    if (level >= 30) {
+    if (level >= 35) {
         return "rank_7"
-    } else if (level >= 20) {
+    } else if (level >= 30) {
         return "rank_6"
-    } else if (level >= 10) {
+    } else if (level >= 25) {
         return "rank_5"
-    } else if (level >= 7) {
+    } else if (level >= 20) {
         return "rank_4"
-    } else if (level >= 5) {
+    } else if (level >= 15) {
         return "rank_3"
-    } else if (level >= 3) {
+    } else if (level >= 10) {
         return "rank_2"
-    } else if (level >= 1) {
+    } else if (level >= 5) {
         return "rank_1"
     } else {
         return "rank_0"

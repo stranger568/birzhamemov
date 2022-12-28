@@ -442,7 +442,7 @@ function Ruby_RoseStrike:StartWheel(attacker)
         ApplyDamage( { victim = enemy, attacker = attacker, damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self, damage_flags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES } )
     end
 
-    if attacker:IsIllusion() then
+    if not attacker:IsIllusion() then
         self:UseResources( false, false, true )
     end
 

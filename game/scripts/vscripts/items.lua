@@ -10,7 +10,7 @@ function BirzhaGameMode:SpawnGoldEntity( spawnPoint )
 	EmitGlobalSound("Item.PickUpGemWorld")
 	local newItem = CreateItem( "item_bag_of_gold", nil, nil )
 	local drop = CreateItemOnPositionForLaunch( spawnPoint, newItem )
-	local dropRadius = RandomFloat( self.m_GoldRadiusMin, self.m_GoldRadiusMax )
+	local dropRadius = RandomFloat( self.m_GoldRadiusMin+200, self.m_GoldRadiusMax )
 	newItem:LaunchLootInitialHeight( false, 0, 500, 0.75, spawnPoint + RandomVector( dropRadius ) )
 	newItem:SetContextThink( "KillLoot", function() return self:KillLoot( newItem, drop ) end, 20 )
 end
@@ -59,7 +59,13 @@ function BirzhaGameMode:WarnItem()
 
 	CreateModifierThinker( nil, nil, "modifier_birzha_map_center_vision", { duration = 12, radius = self.effectradius }, spawnLocation, DOTA_TEAM_NEUTRALS, false )
 
-	local effect_spawn = ParticleManager:CreateParticle( "particles/particle_spawn_item_birzha.vpcf", PATTACH_CUSTOMORIGIN, nil )
+	local particle = "particles/particle_spawn_item_birzha.vpcf"
+
+	if self.winter_mode then
+		particle = "particles/particle_spawn_item_birzha_winter.vpcf"
+	end
+
+	local effect_spawn = ParticleManager:CreateParticle( particle, PATTACH_CUSTOMORIGIN, nil )
 	ParticleManager:SetParticleControl( effect_spawn, 0, GetGroundPosition(Vector(0, 0, 0), nil) )
 	ParticleManager:SetParticleControl( effect_spawn, 1, GetGroundPosition(Vector(0, 0, 0), nil) )
 
@@ -72,9 +78,69 @@ end
 LinkLuaModifier("modifier_generic_knockback_lua", "modifiers/modifier_generic_knockback_lua.lua", LUA_MODIFIER_MOTION_BOTH )
 
 function BirzhaGameMode:SpawnItem()
-	local newItem = CreateItem( "item_treasure_chest", nil, nil )
-	local drop = CreateItemOnPositionForLaunch( Vector(0,0,800), newItem )
-	newItem:LaunchLootInitialHeight( false, 0, 50, 0.25, Vector(0,0,800) )
+
+	local item_name = "item_treasure_chest"
+	local particle = "particles/econ/items/earthshaker/earthshaker_arcana/earthshaker_arcana_aftershock_v2.vpcf"
+	local spawnLocation = Vector(0,0,800)
+	local visual = Vector(0,0,100)
+
+	if self.winter_mode then
+		visual = Vector(0,-300,100)
+		spawnLocation = Vector(0,-300,0)
+		particle = "particles/econ/items/earthshaker/earthshaker_arcana/earthshaker_arcana_aftershock.vpcf"
+		item_name = "item_treasure_chest_winter"
+
+		local dropRadius = RandomFloat( self.m_GoldRadiusMin+200, self.m_GoldRadiusMax )
+		local end_pos = Vector(0,0,0) + RandomVector( dropRadius )
+
+		local newItem = CreateItem( item_name, nil, nil )
+		local drop = CreateItemOnPositionForLaunch( Vector(0,0,0), newItem )
+		newItem:LaunchLootInitialHeight( false, 0, 350, 0.25, end_pos )
+
+		Timers:CreateTimer(0.25, function()
+
+			CustomGameEventManager:Send_ServerToAllClients( "item_has_spawned", {} )
+
+			EmitGlobalSound( "chest_dropped" )
+
+			local effect_cast = ParticleManager:CreateParticle( particle, PATTACH_CUSTOMORIGIN, nil )
+			ParticleManager:SetParticleControl( effect_cast, 0, end_pos )
+			ParticleManager:SetParticleControl( effect_cast, 1, Vector( 200, 200, 200 ) )
+			ParticleManager:ReleaseParticleIndex( effect_cast )
+
+			local targets = FindUnitsInRadius(DOTA_TEAM_NOTEAM, end_pos, nil, 300, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_ANY_ORDER, false)
+			
+			for _,unit in pairs(targets) do
+				local direction = unit:GetAbsOrigin() - end_pos
+				direction.z = 0
+				direction = direction:Normalized()
+				local knockback = unit:AddNewModifier(
+			        unit,
+			        nil,	
+			        "modifier_generic_knockback_lua",
+			        {
+			            direction_x = direction.x,
+			            direction_y = direction.y,
+			            distance = 400,
+			            height = 100,	
+			            duration = 0.2,
+			            IsStun = true,
+			        }
+			    )
+			    local callback = function( bInterrupted )
+			    	unit:Stop()
+			    	FindClearSpaceForUnit(unit, unit:GetAbsOrigin(), true)
+			    end
+			    knockback:SetEndCallback( callback )
+			end
+		end)
+		
+		return
+	end
+
+	local newItem = CreateItem( item_name, nil, nil )
+	local drop = CreateItemOnPositionForLaunch( Vector(0,0,0), newItem )
+	newItem:LaunchLootInitialHeight( false, 0, 350, 0.25, spawnLocation )
 
 	Timers:CreateTimer(0.25, function()
 
@@ -82,15 +148,15 @@ function BirzhaGameMode:SpawnItem()
 
 		EmitGlobalSound( "chest_dropped" )
 
-		local effect_cast = ParticleManager:CreateParticle( "particles/econ/items/earthshaker/earthshaker_arcana/earthshaker_arcana_aftershock_v2.vpcf", PATTACH_CUSTOMORIGIN, nil )
-		ParticleManager:SetParticleControl( effect_cast, 0, Vector(0,0,100) )
+		local effect_cast = ParticleManager:CreateParticle( particle, PATTACH_CUSTOMORIGIN, nil )
+		ParticleManager:SetParticleControl( effect_cast, 0, visual )
 		ParticleManager:SetParticleControl( effect_cast, 1, Vector( 200, 200, 200 ) )
 		ParticleManager:ReleaseParticleIndex( effect_cast )
 
-		local targets = FindUnitsInRadius(DOTA_TEAM_NOTEAM, Vector(0,0,100), nil, 300, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_ANY_ORDER, false)
+		local targets = FindUnitsInRadius(DOTA_TEAM_NOTEAM, visual, nil, 300, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_ANY_ORDER, false)
 		
 		for _,unit in pairs(targets) do
-			local direction = unit:GetAbsOrigin() - Vector(0,0,0)
+			local direction = unit:GetAbsOrigin() - visual
 			direction.z = 0
 			direction = direction:Normalized()
 			local knockback = unit:AddNewModifier(
@@ -135,7 +201,6 @@ function BirzhaGameMode:SpecialItemAdd( event )
 		end
 	end
 
-	-- reverse-sort by score
 	table.sort( sortedTeams, function(a,b) return ( a.teamScore > b.teamScore ) end )
 	local n = TableCount( sortedTeams )
 	local leader = sortedTeams[1].teamID
@@ -265,7 +330,6 @@ function BirzhaGameMode:SpecialItemAdd( event )
 	tiers_list_items[3] = PickRandomShuffle( tier3, self.tier3ItemBucket )
 	tiers_list_items[4] = PickRandomShuffle( tier4, self.tier4ItemBucket )
 
-
 	local spawnedItem = ""
 
 	local current_tier = 1
@@ -280,31 +344,33 @@ function BirzhaGameMode:SpecialItemAdd( event )
 		current_tier = 1
 	end
 
-	if GetMapName() == "birzhamemov_solo" then
-		if ownerTeam == leader then
-			if current_tier > 1 then
-				current_tier = current_tier - 1
+	if nCOUNTDOWNTIMER > 300 then
+		if GetMapName() == "birzhamemov_solo" then
+			if ownerTeam == leader then
+				if current_tier > 1 then
+					current_tier = current_tier - 1
+				end
 			end
-		end
-		if ownerTeam == sortedTeams[n].teamID then
-			if current_tier < 4 then
-				current_tier = current_tier + 1
+			if ownerTeam == sortedTeams[n].teamID then
+				if current_tier < 4 then
+					current_tier = current_tier + 1
+				end
 			end
-		end
-		if ownerTeam == sortedTeams[n-1].teamID then
-			if current_tier < 4 then
-				current_tier = current_tier + 1
+			if ownerTeam == sortedTeams[n-1].teamID then
+				if current_tier < 4 then
+					current_tier = current_tier + 1
+				end
 			end
-		end
-	else
-		if ownerTeam == leader then
-			if current_tier > 1 then
-				current_tier = current_tier - 1
+		else
+			if ownerTeam == leader then
+				if current_tier > 1 then
+					current_tier = current_tier - 1
+				end
 			end
-		end
-		if ownerTeam == sortedTeams[n].teamID then
-			if current_tier < 4 then
-				current_tier = current_tier + 1
+			if ownerTeam == sortedTeams[n].teamID then
+				if current_tier < 4 then
+					current_tier = current_tier + 1
+				end
 			end
 		end
 	end

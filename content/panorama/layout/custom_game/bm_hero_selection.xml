@@ -57,7 +57,6 @@
 
 						<Label text="" id="HeroDifficulty" />
 						<Label text="" id="HeroRole" />
-						<Label text="#HeroAviableInBPPlus" html="true" id="HeroAviableInBPPlus" />
 
 						<Panel class="BirzaAbilitiesPanel">
 							<Label class="BirzaAbilitiesLabel"	text="#Pick_abilities" />
@@ -76,6 +75,10 @@
 						<Panel id="RandomButtonWithUnlock" >
 							<Panel class="buttonsrandom">
 								<Button class="PickButtonClass2" id="PickButton">
+									<Panel id="BPHeroBlock" class="BPHeroBlock">
+										<Panel class="BPLogoPick" />
+										<Label text="#HeroAviableInBPPlus" html="true" id="HeroAviableInBPPlus" />
+									</Panel>
 									<Label  id="birzhapickbutton" text = "#birzhabanhero"/>
 								</Button> 
 								<Panel id = "BirzhaRandomButton" class = "BirzhaRBClass">

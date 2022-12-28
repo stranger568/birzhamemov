@@ -32,5 +32,23 @@
 				<Label text="#CustomEndScreenClose" />
 			</Button>
 		</Panel>
+		<Panel class="PlayerHeroStats">
+			<Label class="StatsInfoHeader" text="#HeroProgressBirzha1" />
+			<Panel class="ProgressInfo">
+				<Panel class="HeroImage" id="HeroImage" />
+				<Panel class="ProgressPanel">
+					<Panel class="HeroProgress">
+						<Panel class="HeroProgressBG" />
+						<Panel class="HeroProgressBGActive" id="HeroProgressBGActive" />
+						<Label class="HeroProgressLabel" id="HeroProgressLabel" text="0 / 1000" />
+					</Panel>
+				</Panel>
+				<Panel class="MedalHeroLevel">
+					<Panel class="MedalHeroLevelImage" id="MedalHeroLevelImage"/>
+					<Label class="HeroLevel" id="HeroLevel" text="0" />
+				</Panel>
+			</Panel>
+			<Label class="HasBPToNextLevel" id="HasBPToNextLevel" html="true" text="#bp_level_max_end" />
+		</Panel>
 	</Panel>
 </root>

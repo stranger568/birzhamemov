@@ -210,16 +210,20 @@ function BirzhaData.PostHeroPlayerHeroInfo()
                 local name = tostring(PLAYERS[ id ].picked_hero)
                 local deaths = 1
                 local kills = 1
+
                 if not IsPlayerDisconnected(id) then
                     deaths = PlayerResource:GetDeaths(id)
                     kills = PlayerResource:GetKills(id)
                 end
+
                 local win = ((function(id) if BirzhaData.GetHeroWinPlace(id) >= 0 then return 1 end return 0 end)(id))
                 local experience = ((function(id) if BirzhaData.GetHeroWinPlace(id) >= 0 then return 100 end return 10 end)(id))
 
-                if tonumber(player_info.bp_days) <= 0 then
+                if tonumber(player_info.bp_days) <= 0 and BirzhaData.GetHeroLevel(name, id) >= 5 then
                     experience = 0
                 end
+
+                CustomNetTables:SetTableValue('exp_table', tostring(id), {exp = experience})
 
                 local hero_table = 
                 {
@@ -237,6 +241,18 @@ function BirzhaData.PostHeroPlayerHeroInfo()
     end 
 
     SendData('https://' ..BirzhaData.url .. '/data/post_player_info.php', post_player_info, nil)
+end
+
+function BirzhaData.GetHeroLevel(hero, id)
+    local player_table = CustomNetTables:GetTableValue('birzhainfo', tostring(id))
+    if player_table then
+        for hero_name, info in pairs(player_table.heroes_matches) do
+            if info.hero == hero then
+                return math.floor(info.experience / 1000)
+            end
+        end
+    end
+    return 0
 end
 
 -------------------------------------------------------------------------------------------------------------------

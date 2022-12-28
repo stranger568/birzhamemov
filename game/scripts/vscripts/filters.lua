@@ -315,7 +315,7 @@ function BirzhaGameMode:ExecuteOrderFilter( filterTable )
 		local player = PlayerResource:GetPlayer(filterTable["issuer_player_id_const"])
 		local hero = player:GetAssignedHero()
 
-		if (unit:IsCourier()) and (pickedItem:GetAbilityName() == "item_bag_of_gold" or pickedItem:GetAbilityName() == "item_treasure_chest") then
+		if (unit:IsCourier()) and (pickedItem:GetAbilityName() == "item_bag_of_gold" or pickedItem:GetAbilityName() == "item_treasure_chest" or pickedItem:GetAbilityName() == "item_treasure_chest_winter") then
 			local position = item:GetAbsOrigin()
 			filterTable["position_x"] = position.x
 			filterTable["position_y"] = position.y
@@ -324,7 +324,7 @@ function BirzhaGameMode:ExecuteOrderFilter( filterTable )
 			return true
 		end
 
-		if (not unit:IsRealHero()) and (pickedItem:GetAbilityName() == "item_bag_of_gold" or pickedItem:GetAbilityName() == "item_treasure_chest") then
+		if (not unit:IsRealHero()) and (pickedItem:GetAbilityName() == "item_bag_of_gold" or pickedItem:GetAbilityName() == "item_treasure_chest" or pickedItem:GetAbilityName() == "item_treasure_chest_winter") then
 			if unit:GetUnitName() == "npc_palnoref_chariot" then return true end
 			local position = item:GetAbsOrigin()
 			filterTable["position_x"] = position.x
@@ -334,7 +334,7 @@ function BirzhaGameMode:ExecuteOrderFilter( filterTable )
 			return true
 		end
 
-		if pickedItem:GetAbilityName() == "item_treasure_chest" then
+		if pickedItem:GetAbilityName() == "item_treasure_chest" or pickedItem:GetAbilityName() == "item_treasure_chest_winter" then
 			local player = PlayerResource:GetPlayer(filterTable["issuer_player_id_const"])
 			local hero = player:GetAssignedHero()
 			if hero:GetNumItemsInInventory() < 9 then

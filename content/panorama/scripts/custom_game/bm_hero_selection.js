@@ -582,12 +582,15 @@ function ChangeHeroInfo(hero_name)
     $("#HeroDifficulty").html = true
     $("#HeroRole").html = true
     $('#HeroAviableInBPPlus').html = true
+
+
+
     $("#HeroDifficulty").text = $.Localize("#Pick_HeroDifficulty") + ": " + $.Localize("#" + abilities.difficulty)
     $("#HeroRole").text = $.Localize("#Pick_HeroRole") + ": " + $.Localize("#" +abilities.role_hero)
 
     let bp_hero = false
 
-    SetShowText($("#HeroAviableInBPPlus"), $.Localize("#HeroAviableInBPPlus_description"))
+    SetShowText($("#BPHeroBlock"), $.Localize("#HeroAviableInBPPlus_description"))
     SetShowText($("#HeroRole"), $.Localize("#" + abilities.role_hero + "_description"))
 
     $('#BirzaAbilitiesInfo').RemoveAndDeleteChildren(); 
@@ -597,13 +600,14 @@ function ChangeHeroInfo(hero_name)
     $('#BirzaAbilitiesPanelBonus').style.visibility = "collapse"
     $('#BirzaAbilitiesInfoBonus').style.visibility = "collapse"
 
-    $('#HeroAviableInBPPlus').style.visibility = "collapse"
+    $('#BPHeroBlock').style.visibility = "collapse"
+    $('#birzhapickbutton').style.visibility = "visible"
     
     var hero_list = CustomNetTables.GetTableValue("birzha_pick", "hero_list");
     if (hero_list) {
         for (var d = 1; d <= Object.keys(hero_list.bp_heroes).length; d++)   {
-            if (hero_list.bp_heroes[d] == hero_name) {
-                $('#HeroAviableInBPPlus').style.visibility = "visible"
+            if (hero_list.bp_heroes[d] == hero_name) 
+            {
                 bp_hero = true
             }
         }        
@@ -631,6 +635,20 @@ function ChangeHeroInfo(hero_name)
         SetShowAbDesc(ability_panel, abilities.hidden_table[bonus_ab]);
         $('#BirzaAbilitiesPanelBonus').style.visibility = "visible"
         $('#BirzaAbilitiesInfoBonus').style.visibility = "visible"
+    }
+
+    if (bp_hero)
+    {
+        var p_info = CustomNetTables.GetTableValue('birzhainfo', String(Players.GetLocalPlayer()));
+        if (p_info.bp_days <= 0) 
+        {
+            var game_state_name = CustomNetTables.GetTableValue('game_state', "pickstate_name");
+            if (game_state_name && game_state_name.pickstate_name == "start")
+            {
+                $('#BPHeroBlock').style.visibility = "visible"
+                $('#birzhapickbutton').style.visibility = "collapse"
+            }
+        }
     }
 
     $("#PickButton").SetPanelEvent("onactivate", function() 
@@ -702,6 +720,35 @@ function StartSelection( kv )
     $("#PickState").text = $.Localize("#BIRZHA_PICK_STATE_SELECT");
 
     $("#birzhapickbutton").text = $.Localize("#birzhapickhero");
+
+    if (selected_hero)
+    {
+        var bp_hero = false
+        var hero_list = CustomNetTables.GetTableValue("birzha_pick", "hero_list");
+        if (hero_list) {
+            for (var d = 1; d <= Object.keys(hero_list.bp_heroes).length; d++)   
+            {
+                if (hero_list.bp_heroes[d] == selected_hero) 
+                {
+                    bp_hero = true
+                }
+            }        
+        }
+
+        if (bp_hero)
+        {
+            var p_info = CustomNetTables.GetTableValue('birzhainfo', String(Players.GetLocalPlayer()));
+            if (p_info.bp_days <= 0) 
+            {
+                var game_state_name = CustomNetTables.GetTableValue('game_state', "pickstate_name");
+                if (game_state_name && game_state_name.pickstate_name == "start")
+                {
+                    $('#BPHeroBlock').style.visibility = "visible"
+                    $('#birzhapickbutton').style.visibility = "collapse"
+                }
+            }
+        }
+    }
 
     if (start_voice) 
     {
@@ -1103,7 +1150,8 @@ function SetEffectPanelEvent(panel, effect)
 
 
 
-function ban_count_changed(data) {
+function ban_count_changed(data) 
+{
     var ban_count = data.count
     $("#birzhapickbutton").text = $.Localize("#birzhabanhero") + " " + "(" + data.count + ")";
 }
@@ -1193,19 +1241,19 @@ function GetHeroExpProgress(exp)
 
 function GetHeroRankIcon(level)
 {
-    if (level >= 30) {
+    if (level >= 35) {
         return "rank_7"
-    } else if (level >= 20) {
+    } else if (level >= 30) {
         return "rank_6"
-    } else if (level >= 10) {
+    } else if (level >= 25) {
         return "rank_5"
-    } else if (level >= 7) {
+    } else if (level >= 20) {
         return "rank_4"
-    } else if (level >= 5) {
+    } else if (level >= 15) {
         return "rank_3"
-    } else if (level >= 3) {
+    } else if (level >= 10) {
         return "rank_2"
-    } else if (level >= 1) {
+    } else if (level >= 5) {
         return "rank_1"
     } else {
         return "rank_0"

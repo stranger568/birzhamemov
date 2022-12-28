@@ -954,14 +954,34 @@ visibility: collapse;
 
 #HeroAviableInBPPlus
 {
-	margin-top: 2px;
-	margin-bottom: 10px;
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: bold;
 	color: gold;
+	margin-left: 5px;
 	align: center center;
 	tooltip-position: top;
 }
+
+.BPHeroBlock
+{
+	width: 100%;
+	height: 100%;
+	tooltip-position: top;
+	flow-children: right;
+}
+
+.BPLogoPick
+{
+	background-image:  url("file://{images}/custom_game/birzhapass/passbuttonoff_png.png");
+	background-size: contain;
+    width: 50px;
+    height: 50px;
+    vertical-align: center;
+    margin-left: 10px;
+}
+
+
+
 
 #HeroRankTitle
 {

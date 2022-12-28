@@ -308,6 +308,8 @@ function BirzhaGameMode:OnEntityKilled( event )
 
 			   	local attacker_kills = 0
 			   	local target_kills = 0
+			   	local networth_attacker = 0
+			   	local networth_target = 0
 
 			   	local team = {}
 			    local teams_table = {2,3,6,7,8,9,10,11,12,13}
@@ -330,7 +332,15 @@ function BirzhaGameMode:OnEntityKilled( event )
 			    	end
 			    end
 
-			    if target_kills > attacker_kills then
+			  	if PlayerResource:GetNetWorth(attacker:GetPlayerOwnerID()) ~= nil then
+			  		networth_killer = PlayerResource:GetNetWorth(attacker:GetPlayerOwnerID())
+			  	end
+
+			  	if PlayerResource:GetNetWorth(hero:GetPlayerOwnerID()) ~= nil then
+			  		networth_target = PlayerResource:GetNetWorth(hero:GetPlayerOwnerID())
+			  	end
+
+			    if target_kills > attacker_kills and networth_target > networth_killer then
 			    	bonus = true
 			    end
 
@@ -340,6 +350,11 @@ function BirzhaGameMode:OnEntityKilled( event )
 					local exp = (500 * (game_time / 5)) + ((target_kills - attacker_kills) * 100)
 					PlayerResource:ModifyGold( memberID, gold, true, 0 )
 					hero:AddExperience( exp, 0, false, false )
+				else
+					hero:AddExperience( 100, 0, false, false )
+				end
+
+				if killedUnit:GetTeam() == self.leadingTeam and self.isGameTied == false and game_time >= 5 then
 					local name = hero:GetClassname()
 					local victim = killedUnit:GetClassname()
 					local kill_alert =
@@ -347,8 +362,6 @@ function BirzhaGameMode:OnEntityKilled( event )
 						hero_id = hero:GetUnitName()
 					}
 					CustomGameEventManager:Send_ServerToAllClients( "kill_alert", kill_alert )
-				else
-					hero:AddExperience( 100, 0, false, false )
 				end
 			end
 
@@ -505,6 +518,10 @@ function BirzhaGameMode:OnItemPickUp( event )
 		UTIL_Remove( item )
 	end
 	if event.itemname == "item_treasure_chest" then
+		BirzhaGameMode:SpecialItemAdd( event )
+		UTIL_Remove( item )
+	end
+	if event.itemname == "item_treasure_chest_winter" then
 		BirzhaGameMode:SpecialItemAdd( event )
 		UTIL_Remove( item )
 	end

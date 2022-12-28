@@ -20,5 +20,6 @@
 		"tip_cooldown",
 		"birzha_plus_data",
 		"end_game_items",
+		"exp_table",
 	]
 }

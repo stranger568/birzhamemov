@@ -14,6 +14,8 @@
 "DOTA_Tooltip_ability_item_bag_of_gold_Description"	"Gives 150 gold"
 "DOTA_Tooltip_ability_item_treasure_chest"	"Treasure chest"
 "DOTA_Tooltip_ability_item_treasure_chest_Description"	"Grants a random item based on your position on leaderboard"
+"DOTA_Tooltip_ability_item_treasure_chest_winter"	"New year present"
+"DOTA_Tooltip_ability_item_treasure_chest_winter_Description"	"Grants a random item based on your position on leaderboard"
 "PointsToWin"	"{d:points_to_win} more"
 "PointsToWin_CloseToVictory"	"{d:points_to_win} more"
 "PointsToWin_VeryCloseToVictory"	"{d:points_to_win} more!"
@@ -29,6 +31,7 @@
 "DOTA_Upgrades"	"DOTA ITEMS"
 "DOTA_Shop_Category_Basics"				"BIRZHA ITEMS"
 "DOTA_Shop_Category_Upgrades"			"DOTA ITEMS"
+"bp_level_max_end"						"You have reached maximum level hero<br>For next level, you need to BIRZHA PLUS subscription"
 
 "DOTA_Tooltip_modifier_birzha_stunned"								"Stunned"
 "DOTA_Tooltip_modifier_birzha_stunned_purge"						"Stunned"
@@ -266,7 +269,7 @@
 //=================================================================================================================
 
 "endtimertext"									"Time until end of game <br><br> It starts after fountain is turned off and resets when any hero dies"
-"gametime"										"Time until award <br><br> Reward will appear in center of map <br><br>10 seconds before reward appears, center reveals all invisibility for 12 seconds<br><br>Items are divided into 4 tiers<br>1 Tier - Items from 500 to 1500 gold ( Drop to 6 minutes )<br>2 Tier - Items from 1500 to 3000 gold ( Drop from 6 minutes to 12 minutes )<br>3 Tier - Items from 3000 to 4500 gold ( Drop from 12 minutes to 18 minutes )<br>4 Tier - Items from 4500 to 6000 gold ( Drop from 18 minutes to end )<br><br>The leader always gets an item one tier less than the current one<br><br>Last place in game receives an item one tier higher than current one, in Solo mode, last 2 places"
+"gametime"										"Time until award <br><br> Reward will appear in center of map <br><br>10 seconds before reward appears, center reveals all invisibility for 12 seconds<br><br>Items are divided into 4 tiers<br>1 Tier - Items from 500 to 1500 gold ( Drop to 6 minutes )<br>2 Tier - Items from 1500 to 3000 gold ( Drop from 6 minutes to 12 minutes )<br>3 Tier - Items from 3000 to 4500 gold ( Drop from 12 minutes to 18 minutes )<br>4 Tier - Items from 4500 to 6000 gold ( Drop from 18 minutes to end )<br><br>The leader always gets an item one tier less than the current one<br><br><h1>After 5 minutes</h1>Last place in game receives an item one tier higher than current one, in Solo mode, last 2 places"
 "gametimename"									"Game time <br><br> Day and night change every 5 minutes of game"
 "fountaintime"									"Duration of fountain <br><br> After time ends, fountain stops attacking enemies"
 "gamekills"										"Points to win <br><br>Kill - 1 point<br>Kill Boss - 5 points"
@@ -335,6 +338,7 @@
 "BP_rank_7"						"Monster"
 
 "HeroProgressBirzha"			"Level Progress:"
+"HeroProgressBirzha1"			"Level Progress Hero"
 "HeroProgressBirzhaLevel"		"Level:"
 "Info_HInfo_HeroRank"			"Level"
 
@@ -826,7 +830,7 @@
 "Pick_abilities" "Abilities"
 "Pick_Bonusabilities" "Additional abilities"
 "Pick_AverageRating"	"Avarage Rating: "
-"HeroAviableInBPPlus"	"Temporarily available to owners BIRZHA PLUS <font color='#fff700'>(?)</font>"
+"HeroAviableInBPPlus"	"Available BIRZHA PLUS"
 "HeroAviableInBPPlus_description"	"A subscription can be bought in store ( top left ) after start of game. Bitcoins can be purchased by clicking [+] next to currency in store"
 "Token_Info_Descr" "Double-rated tokens are available to BIRZHA PLUS subscribers<br><br>You get double-rated at the end of the game, both positive and negative<br><br>Tokens are renewed every Monday"
 

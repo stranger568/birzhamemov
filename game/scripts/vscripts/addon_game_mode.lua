@@ -116,6 +116,7 @@ function BirzhaGameMode:InitGameMode()
 	self.m_TeamColors[DOTA_TEAM_CUSTOM_6] = { 27, 192, 216 }
 	self.m_TeamColors[DOTA_TEAM_CUSTOM_7] = { 199, 228, 13 }
 	self.m_TeamColors[DOTA_TEAM_CUSTOM_8] = { 140, 42, 244 }
+	self.winter_mode = true
 
 	for team = 0, (DOTA_TEAM_COUNT-1) do
 		color = self.m_TeamColors[ team ]

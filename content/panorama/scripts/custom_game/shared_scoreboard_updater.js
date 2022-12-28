@@ -793,21 +793,13 @@ function AddHeroLevelRank(id, hero, panel)
 		var player_info = CustomNetTables.GetTableValue('birzhainfo', String(id));
 	    if (player_info)
 	    {
-	        if (player_info.bp_days > 0) {
-	            let hero_information = GetHeroInformation(player_info, hero)
-	            let has_rank = panel.FindChildTraverse("PlayerRank")
-	            if (has_rank)
-	            {
-					has_rank.style.backgroundImage = 'url("file://{images}/custom_game/hero_rank/' + GetHeroRankIcon(GetHeroLevel(hero_information.experience)) + '.png")'
-					has_rank.style.backgroundSize = "100%"
-					has_rank.style.opacity = "1"
-	            }
-	        } else {
-	        	let has_rank = panel.FindChildTraverse("PlayerRank")
-	        	if (has_rank)
-	        	{
-	        		has_rank.style.opacity = "0"
-	        	}
+	        let hero_information = GetHeroInformation(player_info, hero)
+	        let has_rank = panel.FindChildTraverse("PlayerRank")
+	        if (has_rank)
+	        {
+				has_rank.style.backgroundImage = 'url("file://{images}/custom_game/hero_rank/' + GetHeroRankIcon(GetHeroLevel(hero_information.experience), player_info.bp_days) + '.png")'
+				has_rank.style.backgroundSize = "100%"
+				has_rank.style.opacity = "1"
 	        }
 	    }
 	}
@@ -815,7 +807,8 @@ function AddHeroLevelRank(id, hero, panel)
 
 function GetHeroInformation(info, hero)
 {
-    for (var i = 1; i <= Object.keys(info.heroes_matches).length; i++) {
+    for (var i = 1; i <= Object.keys(info.heroes_matches).length; i++) 
+    {
         if (info.heroes_matches[i]["hero"] == hero)
         {
             return info.heroes_matches[i]
@@ -830,21 +823,26 @@ function GetHeroLevel(exp)
     return Math.floor(level)
 } 
 
-function GetHeroRankIcon(level)
+function GetHeroRankIcon(level, days)
 {
-    if (level >= 30) {
+	if (level > 5 && days <= 0)
+	{
+		return "rank_1"
+	}
+
+    if (level >= 35) {
         return "rank_7"
-    } else if (level >= 20) {
+    } else if (level >= 30) {
         return "rank_6"
-    } else if (level >= 10) {
+    } else if (level >= 25) {
         return "rank_5"
-    } else if (level >= 7) {
+    } else if (level >= 20) {
         return "rank_4"
-    } else if (level >= 5) {
+    } else if (level >= 15) {
         return "rank_3"
-    } else if (level >= 3) {
+    } else if (level >= 10) {
         return "rank_2"
-    } else if (level >= 1) {
+    } else if (level >= 5) {
         return "rank_1"
     } else {
         return "rank_0"

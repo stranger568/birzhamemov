@@ -73,9 +73,7 @@ function modifier_klichko_charge_of_darkness:UpdateHorizontalMotion( me, dt )
     if not IsServer() then return end
 
     if not self:GetAbility() then
-        if not self:IsNull() then
-            self:Destroy()
-        end
+        self:Destroy()
         return
     end
 
@@ -83,23 +81,14 @@ function modifier_klichko_charge_of_darkness:UpdateHorizontalMotion( me, dt )
         local new_targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self.target:GetAbsOrigin(), nil, 4000, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE, FIND_CLOSEST, false)
         
         if #new_targets == 0 then
-            if not self:IsNull() then
-                self:Destroy()
-            end
-                return
-            end
+             self:Destroy()
+            return
+        end
         
         for _, target in pairs(new_targets) do 
-            if target ~= self.clothesline_target then
-                self.target = target
-                self.vision_modifier = self.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_klichko_charge_of_darkness_vision", {})
-                break
-            else
-                if not self:IsNull() then
-                    self:Destroy()
-                end
-                return
-            end
+            self.target = target
+            self.vision_modifier = self.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_klichko_charge_of_darkness_vision", {})
+            break
         end
     end
 
@@ -214,12 +203,6 @@ function modifier_klichko_charge_of_darkness:OnOrder(keys)
             if not self:IsNull() then
                 self:Destroy()
             end
-        end
-    elseif keys.unit:GetTeamNumber() == self:GetParent():GetTeamNumber() then
-        if keys.order_type == DOTA_UNIT_ORDER_MOVE_TO_TARGET and keys.target == self:GetParent() then
-            self.attempting_to_board[keys.unit] = true
-        elseif self.attempting_to_board[keys.unit] then
-            self.attempting_to_board[keys.unit] = nil
         end
     end
 end
