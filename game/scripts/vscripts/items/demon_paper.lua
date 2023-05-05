@@ -54,7 +54,7 @@ function modifier_item_demon_paper:OnTakeDamage(params)
     if params.unit:IsWard() then return end
     if params.inflictor == nil and not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then 
         local heal = self:GetAbility():GetSpecialValueFor("bonus_lifesteal") / 100 * params.damage
-        self:GetParent():Heal(heal, nil)
+        self:GetParent():Heal(heal, self:GetAbility())
         local effect_cast = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.attacker )
         ParticleManager:ReleaseParticleIndex( effect_cast )
     end
@@ -91,7 +91,9 @@ function modifier_item_demon_paper_active:DeclareFunctions()
 	return 	
 	{
 		MODIFIER_EVENT_ON_ATTACK_LANDED,
-		MODIFIER_EVENT_ON_TAKEDAMAGE
+		MODIFIER_EVENT_ON_TAKEDAMAGE,
+		MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE,
+		MODIFIER_PROPERTY_ALWAYS_ETHEREAL_ATTACK,
 	}
 end
 
@@ -106,10 +108,31 @@ end
 
 function modifier_item_demon_paper_active:OnTakeDamage(params)
     if not IsServer() then return end
-    if params.attacker == self:GetParent() or params.unit == self:GetParent() then
-        if params.damage_type == 1 then
-        	if params.attacker:HasModifier("modifier_item_birzha_blade_mail_active") or params.unit:HasModifier("modifier_item_birzha_blade_mail_active") then return end
-        	ApplyDamage({attacker = params.attacker, victim = params.unit, ability = params.inflictor, damage = params.original_damage, damage_type = DAMAGE_TYPE_PURE, damage_flag = DOTA_DAMAGE_FLAG_IGNORES_PHYSICAL_ARMOR})
+    if params.unit == self:GetParent() then
+        if params.damage_type == DAMAGE_TYPE_PHYSICAL then
+        	ApplyDamage({attacker = params.attacker, victim = params.unit, ability = params.inflictor, damage = params.original_damage, damage_type = DAMAGE_TYPE_PURE, damage_flags = DOTA_DAMAGE_FLAG_IGNORES_PHYSICAL_ARMOR + DOTA_DAMAGE_FLAG_REFLECTION })
         end
     end
+end
+
+function modifier_item_demon_paper_active:GetAllowEtherealAttack()
+    return 1
+end
+
+function modifier_item_demon_paper_active:GetModifierTotalDamageOutgoing_Percentage( params )
+	if params.damage_type ~= DAMAGE_TYPE_PHYSICAL then return 0 end
+
+	local damageTable = 
+	{
+		victim = params.target,
+		attacker = self:GetParent(),
+		damage = params.original_damage,
+		damage_type = DAMAGE_TYPE_PURE,
+		damage_flag = DOTA_DAMAGE_FLAG_MAGIC_AUTO_ATTACK + DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION + DOTA_DAMAGE_FLAG_NO_SPELL_LIFESTEAL,
+		ability = self:GetAbility()
+	}
+
+	ApplyDamage( damageTable )
+
+	return -1000
 end

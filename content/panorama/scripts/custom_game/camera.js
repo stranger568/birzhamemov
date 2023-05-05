@@ -2,6 +2,7 @@ GameEvents.Subscribe( 'set_camera_target', SetCamera );
 GameEvents.Subscribe( 'chat_birzha_sound', ChatSound );
 GameEvents.Subscribe( 'random_hero_chat', RandomHeroChat );
 GameEvents.Subscribe( 'double_rating_chat', DoubleRatingChat );
+GameEvents.Subscribe( 'win_predict_chat', win_predict_chat );
 GameEvents.Subscribe( 'chat_bm_smile', ChatSmile );
 GameEvents.Subscribe( 'set_player_icon', set_player_icon);
 
@@ -129,6 +130,41 @@ function DoubleRatingChat( data )
 		}
 	})
 }  
+
+function win_predict_chat( data )
+{
+	let dotaHud = $.GetContextPanel().GetParent().GetParent().GetParent()
+	let Hudchat = dotaHud.FindChildTraverse("HudChat")
+	let LinesPanel = Hudchat.FindChildTraverse("ChatLinesPanel")
+
+	let player_name = Players.GetPlayerName( data.id )
+	let hero_name = $.Localize("#birzha_win_predict") + " " + data.count
+	let color = "white;"
+
+	var playerInfo = Game.GetPlayerInfo( data.id );
+	if ( playerInfo )
+	{
+		if ( GameUI.CustomUIConfig().team_colors )
+		{
+			var teamColor = GameUI.CustomUIConfig().team_colors[ playerInfo.player_team_id ];
+			if ( teamColor )
+			{
+				color = teamColor;
+			}
+		}
+	}
+
+	let player_color_style = "font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:" + color
+	let ChatPanelSound = $.CreatePanelWithProperties("Panel", LinesPanel, "", { style:"margin-left:37px;flow-children: right;width:100%;" });
+	let LabelPlayer = $.CreatePanelWithProperties("Label", ChatPanelSound, "", { text:`${player_name}` + ":", style:`${player_color_style}` });
+	let LabelSound = $.CreatePanelWithProperties("Label", ChatPanelSound, "", { text:`${hero_name}`, style:"font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:white;" });
+
+	$.Schedule( 7, function(){
+		if (ChatPanelSound) {
+	    	ChatPanelSound.AddClass('ChatLine');  
+		}
+	})
+} 
 
 function ChatSmile( data )
 {

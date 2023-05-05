@@ -39,7 +39,6 @@ function OnLockAndStartPressed()
 	Game.SetRemainingSetupTime( 4 ); 
 }
 
-
 //--------------------------------------------------------------------------------------------------
 // Handler for when the Cancel and Unlock button is pressed
 //--------------------------------------------------------------------------------------------------

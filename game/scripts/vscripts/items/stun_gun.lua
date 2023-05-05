@@ -69,10 +69,20 @@ function modifier_item_stun_gun:OnAttackLanded( params )
 
 	local chance = self:GetAbility():GetSpecialValueFor("chance")
 
+	if params.no_attack_cooldown then
+		local chance = self:GetAbility():GetSpecialValueFor("chance")
+		if self:GetAbility():IsFullyCastable() and (not self:GetCaster():IsRangedAttacker()) then
+			chance = self:GetAbility():GetSpecialValueFor("maximum_chance_tooltip")
+		end
+		if RollPercentage(chance) then
+			self.attack_record[params.record] = true
+		end
+	end
+
 	if self.attack_record[params.record] ~= nil then
 		if not params.attacker:IsRangedAttacker() then
 			if self:GetAbility():IsFullyCastable() then
-				self:GetAbility():UseResources(false,false,true)
+				self:GetAbility():UseResources(false,false,false,true)
 				params.attacker:AddNewModifier(params.attacker, self:GetAbility(), "modifier_item_stun_gun_haste", {duration = 1})
 			end
 		end

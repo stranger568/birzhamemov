@@ -271,7 +271,8 @@ end
 
 function modifier_monika_concept_ill:GetModifierProcAttack_BonusDamage_Physical( params )
     if not IsServer() then return end
-    if self.ill_count == 1 then return end
+    if self.ill_count == 2 then return end
+    if self.ill_count == 3 then return end
     local illusion_damage = self:GetAbility():GetSpecialValueFor("illusion_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_monika_5")
     self:Destroy()
     return illusion_damage
@@ -279,7 +280,8 @@ end
 
 function modifier_monika_concept_ill:GetModifierProcAttack_BonusDamage_Magical( params )
     if not IsServer() then return end
-    if self.ill_count == 2 then return end
+    if self.ill_count == 1 then return end
+    if self.ill_count == 3 then return end
     local illusion_damage = self:GetAbility():GetSpecialValueFor("illusion_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_monika_5")
     self:Destroy()
     return illusion_damage
@@ -287,7 +289,8 @@ end
 
 function modifier_monika_concept_ill:GetModifierProcAttack_BonusDamage_Pure( params )
     if not IsServer() then return end
-    if self.ill_count == 3 then return end
+    if self.ill_count == 1 then return end
+    if self.ill_count == 2 then return end
     local illusion_damage = self:GetAbility():GetSpecialValueFor("illusion_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_monika_5")
     self:Destroy()
     return illusion_damage
@@ -575,7 +578,7 @@ function monika_perception_teleport:OnSpellStart()
 
 	    ability:EndCooldown()
 
-	    ability:UseResources(false, false, true)
+	    ability:UseResources(false, false, false, true)
 
 		self:GetCaster().teleport_unit:RemoveModifierByName("modifier_monika_ult_casted")
 	end
@@ -596,12 +599,14 @@ end
 
 function modifier_monika_ult_casted:OnDestroy()
 	if not IsServer() then return end
-	self:GetCaster():RemoveModifierByName("modifier_monika_ult_casted")
-	self:GetCaster().teleport_unit:RemoveModifierByName("modifier_monika_ult_casted")
-	self:GetCaster().teleport_unit:EmitSound("Hero_AbyssalUnderlord.DarkRift.Complete")
-	self:GetCaster().teleport_unit = nil
 	if self:GetParent() == self:GetCaster() then
 		self:GetCaster():SwapAbilities("monika_perception_teleport", "monika_perception", false, true)
+	end
+	self:GetCaster().teleport_unit:RemoveModifierByName("modifier_monika_ult_casted")
+	self:GetCaster():RemoveModifierByName("modifier_monika_ult_casted")
+	if self:GetParent() == self:GetCaster() then
+		self:GetCaster().teleport_unit:EmitSound("Hero_AbyssalUnderlord.DarkRift.Complete")
+		self:GetCaster().teleport_unit = nil
 	end
 end
 

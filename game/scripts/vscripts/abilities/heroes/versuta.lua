@@ -45,7 +45,7 @@ function modifier_versuta_dog:OnAttackLanded( params )
         end
     end
 
-    self:GetAbility():UseResources(false, false, true)
+    self:GetAbility():UseResources(false, false, false, true)
     self.particle = ParticleManager:CreateParticle("particles/units/heroes/hero_lion/lion_spell_voodoo.vpcf", PATTACH_CUSTOMORIGIN, params.target)     
     ParticleManager:SetParticleControl(self.particle, 0, params.target:GetAbsOrigin())      
     ParticleManager:ReleaseParticleIndex(self.particle)

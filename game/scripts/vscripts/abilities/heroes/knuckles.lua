@@ -265,6 +265,8 @@ function Knuckles_queens:GetManaCost(level)
     return self.BaseClass.GetManaCost(self, level)
 end
 
+LinkLuaModifier("modifier_heal_uganda_aura", "abilities/heroes/knuckles", LUA_MODIFIER_MOTION_NONE)
+
 function Knuckles_queens:OnSpellStart()
     if not IsServer() then return end
     local Quuens = 
@@ -280,14 +282,76 @@ function Knuckles_queens:OnSpellStart()
     queen:SetControllableByPlayer( self:GetCaster():GetPlayerOwnerID(), true )
     queen:SetOwner(self:GetCaster())
     queen:AddNewModifier(self:GetCaster(), self, "modifier_kill", {duration = duration})
+    queen:AddNewModifier(self:GetCaster(), self, "modifier_heal_uganda_aura", {duration = duration})
 end
-
-LinkLuaModifier("modifier_heal_uganda_aura", "abilities/heroes/knuckles", LUA_MODIFIER_MOTION_NONE)
 
 modifier_heal_uganda_aura = class({})
 
 function modifier_heal_uganda_aura:IsHidden()
     return true
+end
+
+function modifier_heal_uganda_aura:IsPurgeException() return false end
+function modifier_heal_uganda_aura:IsPurgable() return false end
+
+function modifier_heal_uganda_aura:DeclareFunctions()
+    return
+    {
+        MODIFIER_EVENT_ON_DEATH,
+        MODIFIER_EVENT_ON_ATTACKED,
+        MODIFIER_PROPERTY_HEALTHBAR_PIPS,
+        MODIFIER_PROPERTY_DISABLE_HEALING,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
+    }
+end
+
+function modifier_heal_uganda_aura:OnCreated()
+    if not IsServer() then return end
+    self:GetParent():SetBaseMaxHealth(5)
+    self:GetParent():SetMaxHealth(5)
+    self:GetParent():SetHealth(5)
+end
+
+function modifier_heal_uganda_aura:GetModifierHealthBarPips()
+    if IsClient() then
+        return true
+    end
+    if not IsServer() then
+        return true
+    end
+    return true
+end
+
+function modifier_heal_uganda_aura:GetDisableHealing()
+    return 1
+end
+
+function modifier_heal_uganda_aura:GetAbsoluteNoDamageMagical()
+    return 1
+end
+
+function modifier_heal_uganda_aura:GetAbsoluteNoDamagePhysical()
+    return 1
+end
+
+function modifier_heal_uganda_aura:GetAbsoluteNoDamagePure()
+    return 1
+end
+
+function modifier_heal_uganda_aura:OnAttacked(keys)
+    if not IsServer() then return end
+    if keys.target == self:GetParent() then
+        if keys.attacker:IsRealHero() then
+            self:GetParent():SetHealth(self:GetParent():GetHealth() - 1)
+        else
+            self:GetParent():SetHealth(self:GetParent():GetHealth() - 0.5)
+        end
+        if self:GetParent():GetHealth() <= 0 then
+            self:GetParent():Kill(nil, keys.attacker)
+        end
+    end
 end
 
 function modifier_heal_uganda_aura:OnDeath(keys)

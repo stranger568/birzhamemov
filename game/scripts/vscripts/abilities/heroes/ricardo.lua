@@ -210,6 +210,7 @@ function Rikardo_Fire:GetCastRange(location, target)
 end
 
 function Rikardo_Fire:GetIntrinsicModifierName()
+    if self:GetCaster():IsIllusion() then return end
     return "modifier_Rikardo_Fire"
 end
 

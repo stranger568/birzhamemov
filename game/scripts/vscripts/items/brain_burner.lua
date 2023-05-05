@@ -14,7 +14,7 @@ function item_brain_burner:OnSpellStart()
 
 	for _,target in pairs(enemies) do
 		local mana = target:GetMana() / 100 * self:GetSpecialValueFor("mana_burn_active")
-		target:ReduceMana(mana)
+		target:Script_ReduceMana(mana, self)
 	end
 
 	local particle = ParticleManager:CreateParticle("particles/a_item_burner/item_burner.vpcf",  PATTACH_ABSORIGIN, self:GetCaster()) 
@@ -68,8 +68,6 @@ function modifier_item_brain_burner:OnAttackLanded(params)
 	
 	local target = params.target
 
-	print("aa")
-
 	if target:IsMagicImmune() then return end
 
 	local manaburn_pfx = ParticleManager:CreateParticle("particles/generic_gameplay/generic_manaburn.vpcf", PATTACH_ABSORIGIN_FOLLOW, target)
@@ -89,10 +87,10 @@ function modifier_item_brain_burner:OnAttackLanded(params)
 
 	if (target:GetMana() >= manaBurn) then
 		damageTable.damage = manaBurn
-		target:ReduceMana(manaBurn)
+		target:Script_ReduceMana(manaBurn, self:GetAbility())
 	else
 		damageTable.damage = target:GetMana()
-		target:ReduceMana(target:GetMana())
+		target:Script_ReduceMana(target:GetMana(), self:GetAbility())
 	end
 
 	target:EmitSound("ItemBurn")

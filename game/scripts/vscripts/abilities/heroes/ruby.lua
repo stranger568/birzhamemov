@@ -399,6 +399,8 @@ function modifier_Ruby_SilverEyes_petrified:PlayEffects()
     self:GetParent():EmitSound("Hero_Medusa.StoneGaze.Stun")
 end
 
+LinkLuaModifier( "modifier_Ruby_RoseStrike_cooldown", "abilities/heroes/ruby.lua", LUA_MODIFIER_MOTION_NONE )
+
 Ruby_RoseStrike = class({})
 
 function Ruby_RoseStrike:GetBehavior()
@@ -415,7 +417,10 @@ function Ruby_RoseStrike:OnSpellStart()
         local illusions = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, -1, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED, 0, false )
         for _, illusion in pairs(illusions) do
             if illusion:IsIllusion() then
-                illusion:AddNewModifier(self:GetCaster(), self, "modifier_Ruby_RoseStrike_active", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_ruby_5")})
+                local mod = illusion:FindModifierByName("modifier_illusion")
+                if mod and mod:GetCaster() == self:GetCaster() then
+                    illusion:AddNewModifier(self:GetCaster(), self, "modifier_Ruby_RoseStrike_active", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_ruby_5")})
+                end
             end
         end
     end
@@ -442,8 +447,10 @@ function Ruby_RoseStrike:StartWheel(attacker)
         ApplyDamage( { victim = enemy, attacker = attacker, damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self, damage_flags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES } )
     end
 
-    if not attacker:IsIllusion() then
-        self:UseResources( false, false, true )
+    if not self:GetCaster():HasTalent("special_bonus_birzha_ruby_5") then
+        if not attacker:IsIllusion() then
+            self:UseResources( false, false, false, true )
+        end
     end
 
     local particle = ParticleManager:CreateParticle( "particles/econ/items/axe/axe_weapon_bloodchaser/axe_attack_blur_counterhelix_bloodchaser.vpcf", PATTACH_ABSORIGIN_FOLLOW, attacker )
@@ -484,7 +491,11 @@ function modifier_Ruby_RoseStrike:OnAttackLanded( params )
         if self:GetCaster():PassivesDisabled() then return end
         if not self:GetAbility():IsFullyCastable() then return end
         local chance = self:GetAbility():GetSpecialValueFor("trigger_chance2")
-        if self:GetParent():HasTalent("special_bonus_birzha_ruby_5") then return end
+        if self:GetParent():HasModifier("modifier_Ruby_RoseStrike_active") then return end
+        if self:GetCaster():HasTalent("special_bonus_birzha_ruby_5") then
+            if self:GetParent():HasModifier("modifier_Ruby_RoseStrike_cooldown") then return end
+            self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_Ruby_RoseStrike_cooldown", {duration = 1})
+        end
         if RollPercentage(chance) then
             self:GetAbility():StartWheel(self:GetParent())
         end
@@ -494,7 +505,11 @@ function modifier_Ruby_RoseStrike:OnAttackLanded( params )
         if self:GetCaster():PassivesDisabled() then return end
         if not self:GetAbility():IsFullyCastable() then return end
         local chance = self:GetAbility():GetSpecialValueFor("trigger_chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_ruby_6")
-        if self:GetParent():HasTalent("special_bonus_birzha_ruby_5") then return end
+        if self:GetParent():HasModifier("modifier_Ruby_RoseStrike_active") then return end
+        if self:GetCaster():HasTalent("special_bonus_birzha_ruby_5") then
+            if self:GetParent():HasModifier("modifier_Ruby_RoseStrike_cooldown") then return end
+            self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_Ruby_RoseStrike_cooldown", {duration = 1})
+        end
         if RollPercentage(chance) then
             self:GetAbility():StartWheel(self:GetParent())
         end
@@ -521,9 +536,9 @@ function modifier_Ruby_RoseStrike_active:OnIntervalThink()
 
     local radius = self:GetAbility():GetSpecialValueFor( "radius" )
 
-    local damage = self:GetAbility():GetSpecialValueFor( "damage" ) * 0.4
+    local damage = self:GetAbility():GetSpecialValueFor( "damage" )
 
-    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetCaster():GetOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false )
+    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetParent():GetOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false )
 
     for _,enemy in pairs(enemies) do
         ApplyDamage( { victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility(), damage_flags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES } )
@@ -531,7 +546,8 @@ function modifier_Ruby_RoseStrike_active:OnIntervalThink()
 end
 
 function modifier_Ruby_RoseStrike_active:DeclareFunctions()
-    return {
+    return 
+    {
         MODIFIER_PROPERTY_OVERRIDE_ANIMATION
     }
 end
@@ -539,3 +555,8 @@ end
 function modifier_Ruby_RoseStrike_active:GetOverrideAnimation()
     return ACT_DOTA_CAST_ABILITY_6
 end
+
+modifier_Ruby_RoseStrike_cooldown = class({})
+function modifier_Ruby_RoseStrike_cooldown:IsHidden() return true end
+function modifier_Ruby_RoseStrike_cooldown:IsPurgable() return false end
+function modifier_Ruby_RoseStrike_cooldown:IsPurgeException() return false end

@@ -78,7 +78,7 @@ end
 function modifier_nolik_tech:OnDestroy()
 	if not IsServer() then return end
 	self:GetAbility():SetActivated(true)
-	self:GetAbility():UseResources(false, false, true)
+	self:GetAbility():UseResources(false, false, false, true)
 end
 
 function modifier_nolik_tech:DeclareFunctions()

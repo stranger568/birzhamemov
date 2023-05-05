@@ -659,7 +659,7 @@ function modifier_dwayne_stone_passive:OnAttackLanded( params )
         if stone_ability and stone_ability:GetLevel() > 0 then
             stone_ability:ThrowStone(params.attacker, count)
         end
-        self:GetAbility():UseResources(false, false, true)
+        self:GetAbility():UseResources(false, false, false, true)
     end
 
     if params.attacker == self:GetParent() then
@@ -673,7 +673,7 @@ function modifier_dwayne_stone_passive:OnAttackLanded( params )
         if stone_ability and stone_ability:GetLevel() > 0 then
             stone_ability:ThrowStone(params.target, count)
         end
-        self:GetAbility():UseResources(false, false, true)
+        self:GetAbility():UseResources(false, false, false, true)
     end
 end
 

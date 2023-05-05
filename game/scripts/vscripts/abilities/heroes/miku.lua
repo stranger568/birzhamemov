@@ -273,7 +273,7 @@ function modifier_Miku_HealSound:OnAttackLanded( params )
 			local fullheal = heal + (unit:GetMaxHealth() * heal_percent)
 			unit:Heal(fullheal, self:GetAbility())
 		end	       
-        self:GetAbility():UseResources(false,false,true)
+        self:GetAbility():UseResources(false, false, false,true)
         self:GetParent():EmitSound("MikuUhh")
     end
 end
@@ -370,7 +370,7 @@ function modifier_Miku_DanceSong_debuff:OnIntervalThink()
 
 	if ( self:GetParent():GetMana() >= reduce_mana ) then
 
-		self:GetParent():ReduceMana(reduce_mana)
+		self:GetParent():Script_ReduceMana(reduce_mana, self:GetAbility())
 
 		if self:GetCaster():GetMana() < self:GetCaster():GetMaxMana() then
 			self:GetCaster():GiveMana(reduce_mana)

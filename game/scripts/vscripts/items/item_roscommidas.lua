@@ -37,6 +37,8 @@ function item_roscom_midas:OnSpellStart()
 
     if target:TriggerSpellAbsorb(self) then return end
 
+    donate_shop:QuestProgress(23, self:GetCaster():GetPlayerOwnerID(), 1)
+
 	target:EmitSound("DOTA_Item.Hand_Of_Midas")
 
 	local midas_particle = ParticleManager:CreateParticle("particles/roscommidas/roscom_midas.vpcf", PATTACH_ABSORIGIN_FOLLOW, target)	

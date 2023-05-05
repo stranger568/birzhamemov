@@ -106,6 +106,8 @@ function megumin_meteor:OnSpellStart()
     else
         direction = (target_loc - caster_loc):Normalized()
     end
+
+    self.meteor_quest = 0
 	
     local projectile =
     {
@@ -140,6 +142,11 @@ function megumin_meteor:OnProjectileHit(target, location)
 	local fire_duration = self:GetSpecialValueFor("fire_duration")
 	
     if target then
+    	self.meteor_quest = self.meteor_quest + 1
+    	if self.meteor_quest == 2 then
+    		donate_shop:QuestProgress(45, self:GetCaster():GetPlayerOwnerID(), 1)
+    		self.meteor_quest = 0
+    	end
 		target:EmitSound("Hero_WarlockGolem.Attack")
 		target:AddNewModifier(caster, self, "modifier_birzha_stunned_purge", {duration = stun_duration * (1-target:GetStatusResistance())})
         ApplyDamage({victim = target, attacker = caster, ability = self, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})

@@ -111,7 +111,7 @@ function SangeAttack(attacker, target, ability, modifier_stacks, modifier_proc)
 	if ability:IsCooldownReady() and RollPercentage(ability:GetSpecialValueFor("proc_chance")) then
 		target:AddNewModifier(attacker, ability, modifier_proc, {duration = ability:GetSpecialValueFor("proc_duration_enemy") * (1 - target:GetStatusResistance())})
 		target:EmitSound("mem.SangeProc")
-		ability:UseResources(false, false, true)
+		ability:UseResources(false, false, false, true)
 	end
 end
 
@@ -278,7 +278,7 @@ function YashaAttack(attacker, ability, modifier_stacks, modifier_proc)
 	if ability:IsCooldownReady() and RollPercentage(ability:GetSpecialValueFor("proc_chance")) then
 		attacker:AddNewModifier(attacker, ability, modifier_proc, {duration = ability:GetSpecialValueFor("proc_duration_self")})
 		attacker:EmitSound("mem.YashaProc")
-		ability:UseResources(false, false, true)
+		ability:UseResources(false, false, false, true)
 	end
 end
 
@@ -431,7 +431,7 @@ function CheburekAttack(attacker, target, ability, modifier_stacks, modifier_pro
 	if ability:IsCooldownReady() and RollPercentage(ability:GetSpecialValueFor("proc_chance")) then
 		target:AddNewModifier(attacker, ability, modifier_proc, {duration = ability:GetSpecialValueFor("proc_duration_enemy") * (1 - target:GetStatusResistance())})
 		target:EmitSound("mem.cheburekProc")
-		ability:UseResources(false, false, true)
+		ability:UseResources(false, false, false, true)
 	end
 end
 

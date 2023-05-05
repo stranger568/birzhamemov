@@ -88,8 +88,9 @@ function modifier_item_stone_mask_stats:OnDeath(params)
 	if params.unit ~= self:GetParent() then return end
 	if params.attacker == self:GetParent() then return end
 	if self:GetAbility():GetCurrentCharges() <= 0 then return end
-	local stack = math.max( self:GetAbility():GetCurrentCharges() / 2, 1)
-	self:GetAbility():SetCurrentCharges(stack)
+	local stack = math.max( self:GetAbility():GetCurrentCharges() / 4, 1)
+	local new_stack = math.min(stack, 5)
+	self:GetAbility():SetCurrentCharges(self:GetAbility():GetCurrentCharges() - new_stack)
 end
 
 function modifier_item_stone_mask_stats:OnHeroKilled(params)

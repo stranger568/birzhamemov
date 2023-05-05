@@ -46,7 +46,6 @@ function modifier_Abdulov_DefenceFromMushrooms:DeclareFunctions()
     local funcs = 
     {
         MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
     }
     return funcs
 end
@@ -63,11 +62,6 @@ function modifier_Abdulov_DefenceFromMushrooms:CheckState()
 
     return state
 end
-
-function modifier_Abdulov_DefenceFromMushrooms:GetAbsoluteNoDamageMagical()
-    return 1
-end
-
 
 
 
@@ -444,7 +438,7 @@ function modifier_Abdulov_CutMushrooms:OnAttackLanded( params )
         if self:GetCaster():HasTalent("special_bonus_birzha_abdul_8") then
             params.target:BirzhaTrueKill(self:GetAbility(), self:GetCaster())
         else
-            params.target:Kill(self:GetAbility(), self:GetCaster())
+            ApplyDamage({victim = params.target, attacker = params.attacker, damage = params.target:GetHealth(), damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility()})
         end
 
         return

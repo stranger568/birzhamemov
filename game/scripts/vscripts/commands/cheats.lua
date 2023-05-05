@@ -34,7 +34,7 @@ end
 
 function Commands:plusmmr(player, arg)
 	if not IsAdmin(player) then return end
-	BirzhaData.PostHeroesInfo()
+	BirzhaData.PostHeroPlayerHeroInfo()
 end
 
 function Commands:Key(player, arg)
@@ -95,4 +95,10 @@ end
 function Commands:kick(player, arg)
 	if not IsMod(player) then return end
 	SendToServerConsole('kickid '.. arg[1])
+end
+
+function Commands:report(player, arg)
+	if not IsMod(player) then return end
+	local caster = player:GetAssignedHero()	
+	BirzhaEvents:AddPlayerFullDisconnectDebuff(caster, caster:GetPlayerID())
 end

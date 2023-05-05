@@ -530,6 +530,11 @@ function modifier_jull_light_future_laser:OnIntervalThink()
     end
 
     local flag = 0
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_jull_8") then
+        flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
+    end
+
     local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetParent():GetOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, FIND_CLOSEST, false )
 
     if #enemies == 0 then
@@ -544,10 +549,6 @@ function modifier_jull_light_future_laser:OnIntervalThink()
     self:GetParent():EmitSound("jull_attack")
 
     local damage_type = DAMAGE_TYPE_MAGICAL
-
-    if self:GetCaster():HasTalent("special_bonus_birzha_jull_8") then
-        flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
-    end
 
     local units = FindUnitsInLine(self:GetCaster():GetTeam(), self:GetParent():GetAbsOrigin(), enemies[1]:GetAbsOrigin(), self:GetCaster(), self.width, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, flag)
     for _, enemy in pairs(units) do
@@ -645,6 +646,8 @@ function modifier_jull_light_future_passive:OnAttackLanded( params )
     local target = params.target
 
     self:GetCaster():EmitSound("jull_attack")
+
+    if self:GetParent():IsIllusion() then return end
 
     local damage = self:GetAbility():GetSpecialValueFor("base_damage") + self:GetCaster():GetIntellect() + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_1")
 

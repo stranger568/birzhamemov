@@ -204,18 +204,6 @@ function modifier_sasake_invis_magic_immune:StatusEffectPriority()
     return 99999
 end
 
-function modifier_sasake_invis_magic_immune:DeclareFunctions()
-    local decFuncs = 
-    {
-        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
-    }
-    return decFuncs
-end
-
-function modifier_sasake_invis_magic_immune:GetAbsoluteNoDamageMagical()
-    return 1
-end
-
 modifier_sasake_invis_debuff_slow = class({})
 
 function modifier_sasake_invis_debuff_slow:IsPurgable() return true end

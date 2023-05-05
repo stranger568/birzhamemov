@@ -4,6 +4,7 @@ end
 
 LinkLuaModifier("modifier_blinoid_shop", "modifiers/modifier_blinoid_shop", LUA_MODIFIER_MOTION_BOTH)
 LinkLuaModifier("modifier_penguin_shop", "modifiers/modifier_penguin_shop", LUA_MODIFIER_MOTION_BOTH)
+LinkLuaModifier("modifier_birzha_high_five", "modifiers/modifier_birzha_high_five", LUA_MODIFIER_MOTION_NONE)
 
 function donate_shop:BuyItem(data)
 	if data.PlayerID == nil then return end
@@ -48,8 +49,8 @@ function donate_shop:BuyItem(data)
 			end 
 
 			if (item_id == "0") then
-				player_donate_table.doge_coin = player_donate_table.doge_coin + (tonumber(price) * 2)
-				change_dogecoin_currency = tonumber(price) * 2
+				player_donate_table.doge_coin = player_donate_table.doge_coin + tonumber(price)
+				change_dogecoin_currency = tonumber(price)
 				CustomGameEventManager:Send_ServerToPlayer(player, "shop_set_currency", {bitcoin = player_donate_table.birzha_coin, dogecoin = player_donate_table.doge_coin} )
 				CustomNetTables:SetTableValue('birzhashop', tostring(id), player_donate_table)
 				CustomGameEventManager:Send_ServerToPlayer(player, "shop_accept_notification", {} )
@@ -107,9 +108,9 @@ function donate_shop:PreOrderBattlePass(data)
 	print(currency)
     -- Если покупка за донат валюту
 	if tostring(currency) == "gold" then
-		if tonumber(player_donate_table.birzha_coin) >= 3000 then
-			change_bitcoin_currency = -3000
-			player_donate_table.birzha_coin = player_donate_table.birzha_coin - 3000
+		if tonumber(player_donate_table.birzha_coin) >= 6000 then
+			change_bitcoin_currency = -6000
+			player_donate_table.birzha_coin = player_donate_table.birzha_coin - 6000
 
 			local player_table_info = CustomNetTables:GetTableValue('birzhainfo', tostring(id))
 			if player_table_info then
@@ -125,9 +126,9 @@ function donate_shop:PreOrderBattlePass(data)
 			return
 		end
 	elseif tostring(currency) == "gem" then
-		if tonumber(player_donate_table.doge_coin) >= 3000 then
-			change_dogecoin_currency = -3000
-			player_donate_table.doge_coin = player_donate_table.doge_coin - 3000
+		if tonumber(player_donate_table.doge_coin) >= 12000 then
+			change_dogecoin_currency = -12000
+			player_donate_table.doge_coin = player_donate_table.doge_coin - 12000
 
 			local player_table_info = CustomNetTables:GetTableValue('birzhainfo', tostring(id))
 			if player_table_info then
@@ -156,6 +157,53 @@ function donate_shop:PreOrderBattlePass(data)
 	}
 
 	SendData('https://' ..BirzhaData.url .. '/data/bm_post_buy_battlepass.php', post_data, nil)
+end
+
+function donate_shop:donate_shop_bp_levels(data)
+	if data.PlayerID == nil then return end
+	local id = data.PlayerID
+	local levels = tonumber(data.levels)
+	local player =	PlayerResource:GetPlayer(id)
+	local player_donate_table = CustomNetTables:GetTableValue('birzhashop', tostring(id))
+	local change_bitcoin_currency = 0
+	local change_dogecoin_currency = 0
+
+	local cost = levels * 150
+	local exp = levels * 1000
+
+    -- Если покупка за донат валюту
+	if tonumber(player_donate_table.birzha_coin) >= cost then
+		change_bitcoin_currency = -cost
+		player_donate_table.birzha_coin = player_donate_table.birzha_coin - cost
+
+		local player_table_info = CustomNetTables:GetTableValue('birzhainfo', tostring(id))
+		if player_table_info then
+			player_table_info.battlepass_level = player_table_info.battlepass_level + exp
+			CustomNetTables:SetTableValue('birzhainfo', tostring(id), player_table_info)
+		end
+
+		CustomNetTables:SetTableValue('birzhashop', tostring(id), player_donate_table)
+		CustomGameEventManager:Send_ServerToPlayer(player, "shop_set_currency", {bitcoin = player_donate_table.birzha_coin, dogecoin = player_donate_table.doge_coin} )
+		CustomGameEventManager:Send_ServerToPlayer(player, "shop_accept_notification", {} )
+	else
+		print("ошибка биткоинов мало")
+		CustomGameEventManager:Send_ServerToPlayer(player, "shop_error_notification", {error_name = "shop_no_bitcoin"} )
+		return
+	end
+
+	local post_data = 
+	{
+		player = 
+		{
+			{
+				steamid = PlayerResource:GetSteamAccountID(id),
+				player_bitcoin = change_bitcoin_currency,
+				bonus_exp = exp,
+			}
+		},
+	}
+
+	SendData('https://' ..BirzhaData.url .. '/data/bm_post_buy_battlepass_levels.php', post_data, nil)
 end
 
 function DonateShopIsItemBought(id, item)
@@ -232,6 +280,27 @@ MEMESPASS_PREMIUM_PETS[18] = {
 MEMESPASS_PREMIUM_PETS[19] = {
 	effect = "particles/econ/courier/courier_lockjaw/courier_lockjaw_ambient.vpcf", model = "models/courier/lockjaw/lockjaw.vmdl"
 }
+MEMESPASS_PREMIUM_PETS[187] = {
+	effect = "particles/econ/courier/courier_lockjaw/courier_lockjaw_ambient.vpcf", model = "models/creeps/neutral_creeps/n_creep_troll_skeleton/n_creep_skeleton_melee.vmdl", bonus_model = "models/skelet_head_roflan.vmdl"
+}
+MEMESPASS_PREMIUM_PETS[188] = {
+	effect = "particles/econ/courier/courier_lockjaw/courier_lockjaw_ambient.vpcf", model = "models/items/wraith_king/arcana/wk_arcana_skeleton.vmdl", bonus_model = "models/skelet_head_ebalo.vmdl"
+}
+MEMESPASS_PREMIUM_PETS[189] = {
+	model = "models/pets/amogus/amogus.vmdl"
+}
+MEMESPASS_PREMIUM_PETS[190] = {
+	model = "models/pets/dingus/dingus.vmdl"
+}
+MEMESPASS_PREMIUM_PETS[191] = {
+	model = "models/pets/pochita/pochitafinal.vmdl"
+}
+MEMESPASS_PREMIUM_PETS[192] = {
+	model = "models/pets/squadgame/squadman.vmdl"
+}
+MEMESPASS_PREMIUM_PETS[193] = {
+	model = "models/pets/megumin/megu.vmdl"
+}
 MEMESPASS_PREMIUM_PETS["Insane"] = {
 	effect = "particles/econ/courier/courier_devourling_gold/courier_devourling_gold_ambient.vpcf", model = "models/insane/insane.vmdl"
 }
@@ -257,7 +326,17 @@ function donate_shop:ChangePetPremium(data)
 				if player.pet.particle then
 					ParticleManager:DestroyParticle(player.pet.particle, true)
 				end
-				player.pet.particle = ParticleManager:CreateParticle(MEMESPASS_PREMIUM_PETS[pet_id].effect, PATTACH_ABSORIGIN_FOLLOW, player.pet)				
+				if MEMESPASS_PREMIUM_PETS[pet_id].effect ~= nil then
+					player.pet.particle = ParticleManager:CreateParticle(MEMESPASS_PREMIUM_PETS[pet_id].effect, PATTACH_ABSORIGIN_FOLLOW, player.pet)	
+				end
+				if player.pet.cosmetic_item then
+					player.pet.cosmetic_item:Destroy()
+					player.pet.cosmetic_item = nil
+				end
+				if MEMESPASS_PREMIUM_PETS[pet_id].bonus_model ~= nil then
+					player.pet.cosmetic_item = SpawnEntityFromTableSynchronous("prop_dynamic", {model = MEMESPASS_PREMIUM_PETS[pet_id].bonus_model})
+					player.pet.cosmetic_item:FollowEntity(player.pet, true)
+				end			
 			elseif player.pet and player.pet ~= nil and data.delete_pet == 1 then
 				UTIL_Remove(player.pet)
 				player.pet = nil
@@ -272,9 +351,19 @@ function donate_shop:ChangePetPremium(data)
 				player.pet:AddNewModifier( player.pet, nil, "modifier_birzha_pet", {} )
 				player.pet:SetModel(MEMESPASS_PREMIUM_PETS[pet_id].model)
 				player.pet:SetOriginalModel(MEMESPASS_PREMIUM_PETS[pet_id].model)
-				player.pet.particle = ParticleManager:CreateParticle(MEMESPASS_PREMIUM_PETS[pet_id].effect, PATTACH_ABSORIGIN_FOLLOW, player.pet)	
+				if MEMESPASS_PREMIUM_PETS[pet_id].effect ~= nil then
+					player.pet.particle = ParticleManager:CreateParticle(MEMESPASS_PREMIUM_PETS[pet_id].effect, PATTACH_ABSORIGIN_FOLLOW, player.pet)	
+				end
 				if pet_id == "Insane" then
 					player.pet:SetModelScale(0.6)
+				end
+				if player.pet.cosmetic_item then
+					player.pet.cosmetic_item:Destroy()
+					player.pet.cosmetic_item = nil
+				end
+				if MEMESPASS_PREMIUM_PETS[pet_id].bonus_model ~= nil then
+					player.pet.cosmetic_item = SpawnEntityFromTableSynchronous("prop_dynamic", {model = MEMESPASS_PREMIUM_PETS[pet_id].bonus_model})
+					player.pet.cosmetic_item:FollowEntity(player.pet, true)
 				end
 			end
 		end
@@ -297,10 +386,16 @@ function donate_shop:AddPetFromStart(id)
 			player.pet:AddNewModifier( player.pet, nil, "modifier_birzha_pet", {} )
 			player.pet:SetModel(MEMESPASS_PREMIUM_PETS[pet_id].model)
 			player.pet:SetOriginalModel(MEMESPASS_PREMIUM_PETS[pet_id].model)
-			player.pet.particle = ParticleManager:CreateParticle(MEMESPASS_PREMIUM_PETS[pet_id].effect, PATTACH_ABSORIGIN_FOLLOW, player.pet)	
+			if MEMESPASS_PREMIUM_PETS[pet_id].effect ~= nil then
+				player.pet.particle = ParticleManager:CreateParticle(MEMESPASS_PREMIUM_PETS[pet_id].effect, PATTACH_ABSORIGIN_FOLLOW, player.pet)	
+			end
 			if pet_id == "Insane" then
 				player.pet:SetModelScale(0.6)
 			end
+			if MEMESPASS_PREMIUM_PETS[pet_id].bonus_model ~= nil then
+				local cosmetic_item = SpawnEntityFromTableSynchronous("prop_dynamic", {model = MEMESPASS_PREMIUM_PETS[pet_id].bonus_model})
+				cosmetic_item:FollowEntity(player.pet, true)
+			end	
 		end
 	end
 end
@@ -376,6 +471,25 @@ function donate_shop:SelectVO(keys)
 		"176",
 		"177",
 		"178",
+
+		-- Battle pass
+		"202",
+		"203",
+		"204",
+		"205",
+		"206",
+		"207",
+		"208",
+		"209",
+		"210",
+		"211",
+		"212",
+		"213",
+		"214",
+		"215",
+		"216",
+		"217",
+		"218",
 	}
 
 	local sprays = {
@@ -403,11 +517,20 @@ function donate_shop:SelectVO(keys)
 		"109",
 		"110",
 		"111",
+
+		-- Battle Pass
+		"249",
+		"250",
+		"251",
+		"252",
+		"253",
+		"254",
 	}
 
 	local toys = {
 		"124",
 		"125",
+		"184",
 	}
 
 	local player = PlayerResource:GetPlayer(keys.PlayerID)
@@ -527,6 +650,24 @@ function donate_shop:SelectVO(keys)
 					[176] = "Алло, дайте покачаться",
 					[177] = "Это моя команда",
 					[178] = "Еврейский смех",
+
+					[202] = "Что вы мужички творите",
+					[203] = "Они зарабатывают миллионы",
+					[204] = "Ты оскорбил анимешников",
+					[205] = "Я не сосал член !",
+					[206] = "Мать сдохла?",
+					[207] = "С днем, великой победы",
+					[208] = "Ну заплачь !",
+					[209] = "Ныыа пид..",
+					[210] = "Тупа мочим",
+					[211] = "Дааа.. Нееет..",
+					[212] = "1 человек - 9 хуесосов",
+					[213] = "Как ты заебал",
+					[214] = "Папагемабоди",
+					[215] = "Ммм хуета",
+					[216] = "Это база",
+					[217] = "This is my perfect victory",
+					[218] = "Осууждаю !!!",
 				}
 
 				local hero_name = ""
@@ -655,6 +796,9 @@ function donate_shop:SelectVO(keys)
 					toy_unit:SetNightTimeVisionRange(0)
 					toy_unit:AddNewModifier(toy_unit, nil, "modifier_penguin_shop", {duration = 30})
 				end
+				if keys.num == 184 then
+					PlayerResource:GetSelectedHeroEntity(keys.PlayerID):AddNewModifier(PlayerResource:GetSelectedHeroEntity(keys.PlayerID), nil, "modifier_birzha_high_five", {duration = 20})
+				end
 			end
 		end
 	else
@@ -671,22 +815,20 @@ function donate_shop:change_border_effect(data)
 
 	if player then
 		local hero = player:GetAssignedHero()
-		if hero:GetUnitName() ~= "npc_dota_hero_wisp" then
-			if data.delete_pet == 0 then
-				local table_hero = CustomNetTables:GetTableValue('birzhainfo', tostring(id))
-				if table_hero then
-					table_hero.border_id = border_id
-				end
-				CustomNetTables:SetTableValue('birzhainfo', tostring(id), table_hero)
-				PLAYERS[ id ].border = border_id					
-			elseif data.delete_pet == 1 then
-				local table_hero = CustomNetTables:GetTableValue('birzhainfo', tostring(id))
-				if table_hero then
-					table_hero.border_id = nil
-				end
-				CustomNetTables:SetTableValue('birzhainfo', tostring(id), table_hero)
-				PLAYERS[ id ].border = nil
+		if data.delete_pet == 0 then
+			local table_hero = CustomNetTables:GetTableValue('birzhainfo', tostring(id))
+			if table_hero then
+				table_hero.border_id = border_id
 			end
+			CustomNetTables:SetTableValue('birzhainfo', tostring(id), table_hero)
+			PLAYERS[ id ].border = border_id					
+		elseif data.delete_pet == 1 then
+			local table_hero = CustomNetTables:GetTableValue('birzhainfo', tostring(id))
+			if table_hero then
+				table_hero.border_id = nil
+			end
+			CustomNetTables:SetTableValue('birzhainfo', tostring(id), table_hero)
+			PLAYERS[ id ].border = nil
 		end
 	end
 end
@@ -718,6 +860,8 @@ function donate_shop:PlayerTip(keys)
 
     local id_caster = keys.PlayerID
     local id_target = keys.player_id_tip
+
+    donate_shop:QuestProgress(7, id_caster, 1)
 
     CustomGameEventManager:Send_ServerToAllClients( 'TipPlayerNotification', {player_id_1 = id_caster, player_id_2 = id_target, type = RandomInt(1, 16)})
 
@@ -937,3 +1081,361 @@ function donate_shop:GiveGiftPlayer(id, item_id)
 	}
 	SendData('https://' ..BirzhaData.url .. '/data/bm_post_lottery_item.php', post_data, nil)
 end
+
+
+_G.Quest_Information = 
+{
+	--id, progress, exp
+	--[[ 1 --]] {1, 5, 300}, -- Выиграть 5 игр
+	--[[ 2 --]] {2, 50, 1500}, -- Выиграть 50 игр
+	--[[ 3 --]] {3, 100, 3500}, -- Выиграть 100 игр
+	--[[ 4 --]] {4, 5, 1000}, -- Занять топ 1 в режиме Solo 5 раз 
+	--[[ 5 --]] {5, 25, 2000}, -- Занять топ 1 в режиме Solo 25 раз 
+	--[[ 6 --]] {6, 50, 3000}, -- Занять топ 1 в режиме Solo 50 раз 
+	--[[ 7 --]] {7, 100, 3000},  -- Похвалить игрока 100 раз
+	--[[ 8 --]] {8, 322, 2500},  -- Убейте вражеского героя 322 раза
+	--[[ 9 --]] {9, 100, 1000},  -- Получите 100 зарядов предмета Маска Гуля
+	--[[ 10 --]] {10, 20000, 1000},  -- Восстановите 20000 здоровья
+	--[[ 11 --]] {11, 120, 1500},  -- Продержите противника в оглушении 120 секунд
+	--[[ 12 --]] {12, 25, 500},  -- Убейте 25 героев под действием Балдежа
+	--[[ 13 --]] {13, 80000, 3000},  -- Нанесите 80000 урона подконтрольными юнитами
+	--[[ 14 --]] {14, 160000, 1500},  -- Нанесите 160000 физического урона вражеским героям
+	--[[ 15 --]] {15, 40000, 1500},  -- Нанесите 40000 чистого урона вражеским героям
+	--[[ 16 --]] {16, 50000, 2000},  -- Нанесите 50000 урона вражеским героям с помощью Blade Mail
+	--[[ 17 --]] {17, 80, 2500},  -- Установите 80 Sentry Wards
+	--[[ 18 --]] {18, 50000, 3000},  -- Восстановите 50000 здоровья с помощью вампиризма
+	--[[ 19 --]] {19, 80, 2500},  -- Установите 80 Observer Wards
+	--[[ 20 --]] {20, 10, 5000},  -- Выиграйте 10 игр с двойной ставкой рейтинга
+	--[[ 21 --]] {21, 40000, 750},  -- Восстановить 40000 маны
+	--[[ 22 --]] {22, 25, 1200},  -- Отразите вражеский урон с помощью Нимб Лаптева 25 раз
+	--[[ 23 --]] {23, 100, 1000},  -- Использовать предмет Рука Роскомнадзора 50 раз
+	--[[ 24 --]] {24, 100, 1000},  -- Использовать любой Бургер 50 раз
+	--[[ 25 --]] {25, 10, 500},  -- Использовать Шароебский Гем 10 раз
+	--[[ 26 --]] {26, 150000, 1500},  -- Нанести 150000 критического урона магией
+	--[[ 27 --]] {27, 100, 1000},  -- Использовать Кольцо Вентора 100 раз
+	--[[ 28 --]] {28, 200, 500},  -- Использовать Force Boots или Blink Boots 200 раз
+	--[[ 29 --]] {29, 40000, 700},  -- Нанести 40000 урона с помощью Mega Spinner
+	--[[ 30 --]] {30, 20000, 3000},  -- Заработать 20000 золота от Bitcoin
+	--[[ 31 --]] {31, 20000, 5000},  -- Простоять в кругу 10000 секунд
+	--[[ 32 --]] {32, 50, 2000},  -- Подобрать сундук с предметом 30 раз
+	--[[ 33 --]] {33, 3, 500},  -- Убить босса BristleKek 3 раза
+	--[[ 34 --]] {34, 3, 500},  -- Убить босса LolBlade 3 раза
+	--[[ 35 --]] {35, 20, 1500},  -- Убить Лидера 15 раз
+	--[[ 36 --]] {36, 20, 500},  -- Выиграть тест играя за Big Russian Boss 20 раз
+	--[[ 37 --]] {37, 10, 1000},  -- Убить противника В соляного играя за Папича 10 раз
+	--[[ 38 --]] {38, 50, 750},  -- Попасть хуком играя за Жирная мамка 50 раз
+	--[[ 39 --]] {39, 200, 750},  -- Остановить время играя за Куруми на 200 секунд
+	--[[ 40 --]] {40, 999999, 5000},  -- Пройти расстояние 1000000 
+	--[[ 41 --]] {41, 1000, 1500},  -- Набрать 1000 зарядов Я не тупой играя за Never
+	--[[ 42 --]] {42, 100, 1500},  -- Набрать 100 зарядов Работа играя за Дядя Богдан
+	--[[ 43 --]] {43, 15, 3500},  -- Убить противника на расстояние 2500 с помощью Grenade Launcher играя за Ranger 15 раз
+	--[[ 44 --]] {44, 10, 1000},  -- Убить двух или более противников Космическим ослеплением играя за Зёма 10 раз
+	--[[ 45 --]] {45, 20, 2000},  -- Попасть Метеором по двум целям играя за Мегумин 20 раз
+	--[[ 46 --]] {46, 30, 1000},  -- Убить противника комбинацией Фура и Эль фура играя за Рам 30 раз
+}
+
+_G.Rewards_Information = 
+{
+	--item_id, bitcoins, is_sound, empty 
+	--[[ 1 --]] {184, 0, 0, 0},
+	--[[ 2 --]] {-1, 0, 0, 1},
+	--[[ 3 --]] {187, 0, 0, 0},
+	--[[ 4 --]] {-1, 0, 0, 1},
+	--[[ 5 --]] {229, 100, 0, 0},
+	--[[ 6 --]] {202, 0, 1, 0},
+	--[[ 7 --]] {249, 0, 0, 0},
+	--[[ 8 --]] {220, 0, 0, 0},
+	--[[ 9 --]] {205, 0, 1, 0},
+	--[[ 10 --]] {186, 0, 0, 0},
+	--[[ 11 --]] {230, 100, 0, 0},
+	--[[ 12 --]] {206, 0, 1, 0},
+	--[[ 13 --]] {-1, 0, 0, 1},
+	--[[ 14 --]] {250, 0, 0, 0},
+	--[[ 15 --]] {188, 0, 0, 0},
+	--[[ 16 --]] {231, 100, 0, 0},
+	--[[ 17 --]] {221, 0, 0, 0},
+	--[[ 18 --]] {214, 0, 1, 0},
+	--[[ 19 --]] {-1, 0, 0, 1},
+	--[[ 20 --]] {181, 0, 0, 0},
+	--[[ 21 --]] {232, 100, 0, 0},
+	--[[ 22 --]] {-1, 0, 0, 1},
+	--[[ 23 --]] {222, 0, 0, 0},
+	--[[ 24 --]] {251, 0, 0, 0},
+	--[[ 25 --]] {195, 0, 0, 0},
+	--[[ 26 --]] {233, 100, 0, 0},
+	--[[ 27 --]] {189, 0, 0, 0},
+	--[[ 28 --]] {215, 0, 1, 0},
+	--[[ 29 --]] {-1, 0, 0, 1},
+	--[[ 30 --]] {199, 0, 0, 0},
+	--[[ 31 --]] {-1, 0, 0, 1},
+	--[[ 32 --]] {223, 0, 0, 0},
+	--[[ 33 --]] {211, 0, 1, 0},
+	--[[ 34 --]] {-1, 0, 0, 1},
+	--[[ 35 --]] {234, 100, 0, 0},
+	--[[ 36 --]] {-1, 0, 0, 1},
+	--[[ 37 --]] {216, 0, 1, 0},
+	--[[ 38 --]] {-1, 0, 0, 1},
+	--[[ 39 --]] {224, 0, 0, 0},
+	--[[ 40 --]] {179, 0, 0, 0},
+	--[[ 41 --]] {235, 100, 0, 0},
+	--[[ 42 --]] {207, 0, 1, 0},
+	--[[ 43 --]] {190, 0, 0, 0},
+	--[[ 44 --]] {-1, 0, 0, 1},
+	--[[ 45 --]] {201, 0, 0, 0},
+	--[[ 46 --]] {208, 0, 1, 0},
+	--[[ 47 --]] {252, 0, 0, 0},
+	--[[ 48 --]] {-1, 0, 0, 1},
+	--[[ 49 --]] {225, 0, 0, 0},
+	--[[ 50 --]] {185, 0, 0, 0},
+	--[[ 51 --]] {236, 100, 0, 0},
+	--[[ 52 --]] {253, 0, 0, 0},
+	--[[ 53 --]] {210, 0, 1, 0},
+	--[[ 54 --]] {-1, 0, 0, 1},
+	--[[ 55 --]] {237, 100, 0, 0},
+	--[[ 56 --]] {192, 0, 0, 0},
+	--[[ 57 --]] {238, 100, 0, 0},
+	--[[ 58 --]] {212, 0, 1, 0},
+	--[[ 59 --]] {226, 0, 0, 0},
+	--[[ 60 --]] {183, 0, 0, 0},
+	--[[ 61 --]] {-1, 0, 0, 1},
+	--[[ 62 --]] {-1, 0, 0, 1},
+	--[[ 63 --]] {239, 100, 0, 0},
+	--[[ 64 --]] {204, 0, 1, 0},
+	--[[ 65 --]] {-1, 0, 0, 1},
+	--[[ 66 --]] {196, 0, 0, 0},
+	--[[ 67 --]] {213, 0, 1, 0},
+	--[[ 68 --]] {-1, 0, 0, 1},
+	--[[ 69 --]] {227, 0, 0, 0},
+	--[[ 70 --]] {200, 0, 0, 0},
+	--[[ 71 --]] {240, 100, 0, 0},
+	--[[ 72 --]] {-1, 0, 0, 1},
+	--[[ 73 --]] {219, 0, 0, 0},
+	--[[ 74 --]] {203, 0, 1, 0},
+	--[[ 75 --]] {194, 0, 0, 0},
+	--[[ 76 --]] {241, 100, 0, 0},
+	--[[ 77 --]] {191, 0, 0, 0},
+	--[[ 78 --]] {209, 0, 1, 0},
+	--[[ 79 --]] {-1, 0, 0, 1},
+	--[[ 80 --]] {182, 0, 0, 0},
+	--[[ 81 --]] {242, 100, 0, 0},
+	--[[ 82 --]] {218, 0, 1, 0},
+	--[[ 83 --]] {254, 0, 0, 0},
+	--[[ 84 --]] {-1, 0, 0, 1},
+	--[[ 85 --]] {-1, 0, 0, 1},
+	--[[ 86 --]] {197, 0, 0, 0},
+	--[[ 87 --]] {243, 100, 0, 0},
+	--[[ 88 --]] {-1, 0, 0, 1},
+	--[[ 89 --]] {-1, 0, 0, 1},
+	--[[ 90 --]] {244, 100, 0, 0},
+	--[[ 91 --]] {-1, 0, 0, 1},
+	--[[ 92 --]] {198, 0, 0, 0},
+	--[[ 93 --]] {245, 100, 0, 0},
+	--[[ 94 --]] {246, 100, 0, 0},
+	--[[ 95 --]] {247, 100, 0, 0},
+	--[[ 96 --]] {193, 0, 0, 0},
+	--[[ 97 --]] {228, 0, 0, 0},
+	--[[ 98 --]] {217, 0, 1, 0},
+	--[[ 99 --]] {248, 100, 0, 0},
+	--[[ 100 --]] {180, 0, 0, 0},
+}
+
+CustomNetTables:SetTableValue('battlepass_info', "quests", Quest_Information)
+CustomNetTables:SetTableValue('battlepass_info', "rewards", Rewards_Information)
+
+function donate_shop:QuestProgress(quest_id, player_id, count)
+
+	if GameRules:IsCheatMode() and not IsInToolsMode() then return end
+
+	local birzhainfo = CustomNetTables:GetTableValue('birzhainfo', tostring(player_id))
+    if birzhainfo then
+    	if birzhainfo.has_battlepass == 0 then
+    		return
+    	end
+    else
+    	return
+    end
+
+	local player_table_info = BirzhaData.PLAYERS_BATTLEPASS_INFROMATION[player_id]
+	if player_table_info then
+
+	    local quest_base = FindBirzhaQuest(quest_id)
+	    if quest_base == nil then return end
+
+	    if HasQuests(quest_id, player_id) then
+	    	local quest_key = FindQuestKey(quest_id, player_table_info.quests_list)
+	    	if quest_key ~= nil then
+	    		player_table_info.quests_list[quest_key].quest_progress = math.min(tonumber(quest_base[2]), tonumber(player_table_info.quests_list[quest_key].quest_progress) + count)
+	    		if tonumber(player_table_info.quests_list[quest_key].quest_progress) >= tonumber(quest_base[2]) then
+	    			if tonumber(player_table_info.quests_list[quest_key].quest_complete) == 0 then
+	    				player_table_info.quests_list[quest_key].quest_complete = 1
+	    				player_table_info.new_battlepass_exp = player_table_info.new_battlepass_exp + quest_base[3]
+	    				donate_shop:GiveExpInGame(player_id, quest_base[3])
+	    			end
+				end
+	    	end
+	    else
+	    	local new_quest_info = {}
+	    	new_quest_info.quest_id = quest_id
+	    	new_quest_info.quest_progress = math.min(tonumber(quest_base[2]), tonumber(count))
+	    	new_quest_info.quest_complete = 0
+	    	if count >= quest_base[2] then
+	    		new_quest_info.quest_complete = 1
+	    		player_table_info.new_battlepass_exp = player_table_info.new_battlepass_exp + quest_base[3]
+	    		donate_shop:GiveExpInGame(player_id, quest_base[3])
+	    	end
+	    	table.insert(player_table_info.quests_list, new_quest_info)
+	    end
+	end
+end
+
+function HasQuests(quest_id, player_id)
+	local player_table_info = BirzhaData.PLAYERS_BATTLEPASS_INFROMATION[player_id]
+	if player_table_info then
+		local player_quests_table = player_table_info.quests_list
+		for _, quest_info in pairs(player_quests_table) do
+			if tonumber(quest_info.quest_id) == tonumber(quest_id) then
+				return true
+			end
+		end
+		return false
+	end
+	return false
+end
+
+function FindBirzhaQuest(quest_id)
+	for _, quest_info in pairs(Quest_Information) do
+		if tonumber(quest_info[1]) == tonumber(quest_id) then
+			return quest_info
+		end
+	end
+	return nil
+end
+
+function FindQuestKey(quest_id, tabled)
+	local key = nil
+
+	for k, v in pairs(tabled) do
+		if tonumber(v.quest_id) == tonumber(quest_id) then
+			key = k
+		end
+	end
+
+	return key
+end
+
+function donate_shop:GiveExpInGame(id, exp)
+	local player_table_info = CustomNetTables:GetTableValue('birzhainfo', tostring(id))
+	if player_table_info then
+		player_table_info.battlepass_level = player_table_info.battlepass_level + exp
+		CustomNetTables:SetTableValue('birzhainfo', tostring(id), player_table_info)
+	end
+end
+
+function donate_shop:accept_battlepass_reward(data)
+	if data.PlayerID == nil then return end
+	local id = data.PlayerID
+	local reward_id = data.reward_id
+	local player =	PlayerResource:GetPlayer(id)
+	local player_donate_table = CustomNetTables:GetTableValue('birzhashop', tostring(id))
+
+	local find_rewards = donate_shop:FindRewardsInfo(reward_id)
+
+	if Rewards_Information[find_rewards] == nil then return end
+
+	local info = Rewards_Information[find_rewards]
+
+	-- Прогрузка текущих предметов у игрока --
+	local player_items_table = {}
+
+	for k, v in pairs(player_donate_table.player_items) do
+        table.insert(player_items_table, v)
+    end
+
+    local bonus_bitcoins = 0
+
+    table.insert(player_items_table, reward_id)
+
+    if info[2] ~= 0 then
+    	player_donate_table.birzha_coin = player_donate_table.birzha_coin + tonumber(info[2])
+    	bonus_bitcoins = tonumber(info[2])
+    end
+
+	player_donate_table.player_items = player_items_table
+
+	CustomNetTables:SetTableValue('birzhashop', tostring(id), player_donate_table)
+
+	CustomGameEventManager:Send_ServerToPlayer(player, "shop_set_currency", {bitcoin = player_donate_table.birzha_coin, dogecoin = player_donate_table.doge_coin} )
+
+	local post_data = 
+	{
+		player = {
+			{
+				steamid = PlayerResource:GetSteamAccountID(id),
+				player_bitcoin = bonus_bitcoins,
+				player_dogecoin = 0,
+				item_id = reward_id,
+			}
+		},
+	}
+
+	SendData('https://' ..BirzhaData.url .. '/data/bm_post_buy_item.php', post_data, nil)
+end
+
+function donate_shop:FindRewardsInfo(reward)
+	for id, info in pairs(Rewards_Information) do
+		if info[1] == reward then
+			return id
+		end
+	end
+end
+
+function donate_shop:UpdateBattlePassInfo()
+	for id, info in pairs(BirzhaData.PLAYERS_BATTLEPASS_INFROMATION) do
+		if info then
+			CustomNetTables:SetTableValue('battlepass_info', tostring(id), info)
+		end
+	end
+end
+
+function donate_shop:win_condition_predict(data)
+	if BirzhaData.PLAYERS_GLOBAL_INFORMATION[data.PlayerID] then
+		CustomGameEventManager:Send_ServerToAllClients( 'win_predict_chat', { id = data.PlayerID, count = BirzhaData.PLAYERS_GLOBAL_INFORMATION[data.PlayerID].win_predict })  
+		BirzhaData.PLAYERS_GLOBAL_INFORMATION[data.PlayerID].player_win_predict_active = 1 
+	end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

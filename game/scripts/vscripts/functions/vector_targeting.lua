@@ -100,11 +100,11 @@ function VectorTarget:OnAbilityLearned(event)
 		VectorTarget:UpdateNettable(ability)
 	end
 
-	if event.abilityname == "special_bonus_birzha_shelby_4" then
-		if hero and hero:IsRealHero() then
-			PlayerResource:ModifyGold( playerID, ability:GetSpecialValueFor("value"), true, 0 )
-		end
-	end
+	--if event.abilityname == "special_bonus_birzha_shelby_4" then
+	--	if hero and hero:IsRealHero() then
+	--		PlayerResource:ModifyGold( playerID, ability:GetSpecialValueFor("value"), true, 0 )
+	--	end
+	--end
 end
 
 function VectorTarget:OnItemPickup(event)

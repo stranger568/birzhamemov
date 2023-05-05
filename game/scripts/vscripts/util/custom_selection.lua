@@ -3,6 +3,8 @@ CustomPick = class({})
 LinkLuaModifier( "modifier_birzha_start_movespeed", "modifiers/modifier_birzha_start_movespeed", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_birzha_start_game", "modifiers/modifier_birzha_start_game", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_birzha_happy_tank", "modifiers/modifier_birzha_pet", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_quest_thinker", "modifiers/modifier_quest_thinker", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_quest_thinker_player", "modifiers/modifier_quest_thinker", LUA_MODIFIER_MOTION_NONE )
 
 BIRZHA_PICK_STATE_PLAYERS_LOADED = "BIRZHA_PICK_STATE_PLAYERS_LOADED"
 BIRZHA_PICK_STATE_BAN = "BIRZHA_PICK_STATE_BAN"
@@ -19,7 +21,7 @@ PICK_STATE_STATUS[5] = BIRZHA_PICK_STATE_END
 
 TIME_OF_STATE = {}
 TIME_OF_STATE[1] = 7
-TIME_OF_STATE[2] = 20
+TIME_OF_STATE[2] = 25
 TIME_OF_STATE[3] = 60
 TIME_OF_STATE[4] = 10
 
@@ -41,7 +43,7 @@ _G.IN_STATE = false
 _G.PICK_STATE = BIRZHA_PICK_STATE_PLAYERS_LOADED
 CustomPick.DISCONNECTED = {}
 
-BIRZHA_PLUS_HEROES = 
+_G.BIRZHA_PLUS_HEROES = 
 {
 	-- Всегда уникальные
 	"npc_dota_hero_migi",
@@ -49,17 +51,9 @@ BIRZHA_PLUS_HEROES =
 	"npc_dota_hero_overlord",
 	"npc_dota_hero_silencer",
 	"npc_dota_hero_pudge",
-	--------------------------------------
-	"npc_dota_hero_nevermore",
-	"npc_dota_hero_chaos_knight",
-	"npc_dota_hero_serega_pirat",
-	"npc_dota_hero_oracle",
 	"npc_dota_hero_dawnbreaker",
-	"npc_dota_hero_sven",
-	"npc_dota_hero_queenofpain",
-	"npc_dota_hero_thomas_bebra",
-	"npc_dota_hero_phantom_assassin",
-	"npc_dota_hero_centaur",
+	"npc_dota_hero_oracle",
+	--------------------------------------
 }
 
 function CustomPick:RegisterPlayerInfo( pid )
@@ -106,7 +100,9 @@ function CustomPick:Init()
 	--	PLAYERS[ 4 ] = pinfo_bot
 	--	PLAYERS[ 5 ] = pinfo_bot
 	--end
+end
 
+function CustomPick:StartCheckingToStart()
 	Schedule( 1, function()
 		CustomPick:ServerReady()
 	end )
@@ -181,6 +177,7 @@ function CustomPick:PlayerLoaded( kv )
 		end
 		if PICK_STATE == BIRZHA_PICK_STATE_BAN then
 			CustomGameEventManager:Send_ServerToPlayer( player, 'birzha_pick_ban_start', {})
+			CustomGameEventManager:Send_ServerToPlayer( player, 'birzha_pick_filter_reconnect', {banned = BANNED_HEROES, banned_length = #BANNED_HEROES, picked = PICKED_HEROES, picked_length = #PICKED_HEROES})
 		elseif PICK_STATE == BIRZHA_PICK_STATE_SELECT then
 			CustomGameEventManager:Send_ServerToPlayer( player, 'birzha_pick_start_selection', {} )
 		elseif PICK_STATE == BIRZHA_PICK_STATE_PRE_END then
@@ -283,6 +280,7 @@ function CustomPick:RegisterHeroes()
 end
 
 function CustomPick:StartBanningStage()
+	CustomGameEventManager:Send_ServerToAllClients( 'birzha_pick_filter_reconnect', {banned = BANNED_HEROES, banned_length = #BANNED_HEROES, picked = PICKED_HEROES, picked_length = #PICKED_HEROES})
 	PICK_STATE = BIRZHA_PICK_STATE_BAN
 	CustomNetTables:SetTableValue('game_state', 'pickstate_name', {pickstate_name = 'ban'})
 	CustomGameEventManager:Send_ServerToAllClients( 'birzha_pick_ban_start', {})
@@ -295,10 +293,11 @@ function CustomPick:StartBanningStage()
 		elseif IsDonatorID('vip', pid) then
 			pinfo.ban_count = pinfo.ban_count + 3
 		else
-			CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(pid), 'more_ban_aviable', {})
+			--CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(pid), 'more_ban_aviable', {})
 		end
 		CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(pid), 'ban_count_changed', {count = pinfo.ban_count})
 	end
+	report_system:UpdateReportsInfo()
 end
 
 function CustomPick:ArrayShuffle(array)
@@ -378,8 +377,7 @@ function CustomPick:PlayerSelect( kv )
 		if not pinfo or pinfo.ban_count <= 0 then
 			return
 		end
-		if BANNED_HEROES[kv.hero] == nil then
-			BANNED_HEROES[kv.hero] = true
+		if not IsHeroNotAvailable(kv.hero) then
 			pinfo.ban_count = pinfo.ban_count - 1
 			CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(pid), 'ban_count_changed', {count = pinfo.ban_count})
 			table.insert(BANNED_HEROES, kv.hero)
@@ -461,6 +459,7 @@ function CustomPick:GiveHeroPlayer(id,hero)
 	local new_hero = PlayerResource:GetSelectedHeroEntity(id)
 	if new_hero ~= nil then
 		new_hero:AddNewModifier( new_hero, nil, "modifier_birzha_start_game", {})
+		new_hero:AddNewModifier( new_hero, nil, "modifier_quest_thinker_player", {})
 		PLAYERS[ id ].selected_hero = new_hero
 	end
 end
@@ -590,6 +589,7 @@ function CustomPick:EndSelection()
 	CustomPick.pick_ended = true
 	CustomNetTables:SetTableValue('game_state', 'pickstate', {v = 'ended'})
 	CustomGameEventManager:Send_ServerToAllClients( 'birzha_pick_end', {} )
+	CreateModifierThinker(nil, nil, "modifier_quest_thinker", {}, Vector(0,0,-1000), DOTA_TEAM_NEUTRALS, false)
 	for pid, pinfo in pairs( PLAYERS ) do
 		if not IsPlayerDisconnected(pid) then
 			local hero = PlayerResource:GetSelectedHeroEntity(pid)
@@ -624,6 +624,17 @@ function CustomPick:EndSelection()
 
 	--GameRules:SendCustomMessage("<font color='#58ACFA'>С ДНЕМ ПОБЕДЫ!</font>", 0, 0)
 
+	CustomGameEventManager:Send_ServerToAllClients( 'open_win_predict', {})   
+
+	Timers:CreateTimer({
+		useGameTime = false,
+		endTime = 15,
+		callback = function()
+			CustomGameEventManager:Send_ServerToAllClients( 'close_win_predict', {})  
+			return nil
+		end
+	})
+
 	if IsInToolsMode() then return end
 	Convars:SetFloat("host_timescale", 0.25)
 	Timers:CreateTimer({
@@ -640,7 +651,29 @@ function CustomPick:TokenSet(kv)
 	if kv.PlayerID == nil then return end
 	local pinfo = PLAYERS[ kv.PlayerID ]
     local player_info = CustomNetTables:GetTableValue('birzhainfo', tostring(kv.PlayerID)) or {}
-    if 10 - (player_info.token_used or 0) <= 0 then return end
+
+    local token_count_max = 10
+    local items_token = 
+    {
+    	219,
+		220,
+		221,
+		222,
+		223,
+		224,
+		225,
+		226,
+		227,
+		228,
+    }
+
+    for _, token_item in pairs(items_token) do
+    	if DonateShopIsItemBought(kv.PlayerID, token_item) then
+    		token_count_max = token_count_max + 1
+    	end
+    end
+
+    if token_count_max - (player_info.token_used or 0) <= 0 then return end
 
     if pinfo and pinfo.token_used == false then   
     	CustomGameEventManager:Send_ServerToAllClients( 'double_rating_chat', { id = kv.PlayerID })     
@@ -648,6 +681,8 @@ function CustomPick:TokenSet(kv)
     	CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(kv.PlayerID), 'birzha_token_change', {})
     end                    
 end
+
+
 
 function CustomPick:AddPetFromStart(id)
 	local player_info = CustomNetTables:GetTableValue('birzhainfo', tostring(id))

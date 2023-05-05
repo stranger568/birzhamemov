@@ -1,6 +1,6 @@
 .PlayersTipHistory
 {
-	width: 400px;
+	width: 500px;
 	height: 496px;
 	align: right top;
 	margin-top: 380px;
@@ -14,15 +14,23 @@
 {
 	margin-top: 2px;
 	margin-bottom: 2px;
-	width: 100%;
+	width: 500px;
+	horizontal-align: right;
 	height: 120px;
-	background-image: url("file://{images}/custom_game/tip_background.png");
-    background-size: 100%;
 	opacity: 0;
   	transition-property: transform, opacity, position;
   	transition-duration: 0.5s;
   	transition-timing-function: ease-out;
   	transform: translateX(100px);
+}
+
+.notification_info
+{
+	horizontal-align: right;
+	width: 400px;
+	height: 120px;
+	background-image: url("file://{images}/custom_game/tip_background.png");
+    background-size: 100%;
 }
 
 .visible

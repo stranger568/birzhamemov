@@ -627,6 +627,12 @@ function BirzhaCreateIllusion(v1,v2,v3,v4,v5,v6,v7)
                 end
             end
         end
+        if v2 and v2:HasModifier("modifier_gorin_choose_axe") then
+            local modifier = v2:FindModifierByName("modifier_gorin_choose_axe")
+            if modifier then
+                modifier_illusion = illusion:AddNewModifier(v2, modifier:GetAbility(), "modifier_gorin_choose_axe", {})
+            end
+        end
     end
 
     return illusions

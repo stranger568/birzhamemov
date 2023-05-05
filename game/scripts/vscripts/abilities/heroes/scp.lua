@@ -579,7 +579,7 @@ function scp173_statue_aghanim_teleport:OnSpellStart()
     local ability = self:GetCaster():FindAbilityByName("scp173_statue_aghanim")
     if ability then
         if ability.dummy and not ability.dummy:IsNull() then
-            ability:UseResources(false, false, true)
+            ability:UseResources(false, false, false, true)
             local particle_1 = ParticleManager:CreateParticle("particles/items_fx/abyssal_blink_start.vpcf", PATTACH_WORLDORIGIN, self:GetCaster())
             ParticleManager:SetParticleControl(particle_1, 0, self:GetCaster():GetAbsOrigin())
             FindClearSpaceForUnit(self:GetCaster(), ability.dummy:GetAbsOrigin(), true)

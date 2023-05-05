@@ -58,7 +58,7 @@
 
 	"item_treasure_chest_winter"
 	{
-		"AbilityTextureName"			"items/chest"
+		"AbilityTextureName"			"items/present"
 		"AbilityName"					"item_treasure_chest_winter"
 		"BaseClass"						"item_bag_of_gold"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_ITEM"
@@ -78,7 +78,6 @@
 		"ItemKillable"					"0"
 		"ItemCastOnPickup"				"1"
 		"DisplayOverheadAlertOnReceived" "0"
-		"Effect"                        "particles/winter_fx/winter_present_projectile_glow.vpcf"
 	}
 
 	"item_treasure_chest_bp_fake"
@@ -1027,8 +1026,8 @@
 
 		"AbilityValues"
 		{
-		    "bonus_stats"             "15"
-			"bonus_attack_speed"      "50"
+		    "bonus_stats"             "13"
+			"bonus_attack_speed"      "40"
 			"bonus_movement_speed"	  "45"
 		}
 	}
@@ -1108,6 +1107,7 @@
 			"bonus_int"				"10"
 			"push_length"			"600"
 			"bonus_regen"			"175"
+			"push_time"				"0.5"
 		}
 	}
 	
@@ -1280,6 +1280,7 @@
 		"BaseClass"                     "item_datadriven"
 		"ItemCost"						"550"
 		"ItemRecipe"					"1"
+		"AbilityTextureName"			"item_recipe_hand_of_midas"
 		"ItemResult"					"item_hand_of_midas_custom"
 		"ItemRequirements"
 		{
@@ -1477,7 +1478,7 @@
 		"AbilityValues"
 		{
 			"bonus_attack_speed"	"185"
-			"bonus_damage"			"42"
+			"bonus_damage"			"30"
 			"damage"				"100"
 			"chance"				"80"
 			"movement_speed_slow"	"-20"
@@ -1709,7 +1710,7 @@
 		{
 			"bonus_strength"				"18"
 			"bonus_damage"					"27"
-			"duration"						"5"
+			"duration"						"6"
 		}
 	}
 
@@ -1738,7 +1739,7 @@
 		{
 			"bonus_strength"				"12"
 			"bonus_damage"					"18"
-			"duration"						"4"
+			"duration"						"4.5"
 		}
 	}
 	
@@ -2143,7 +2144,7 @@
 			"hp_loss" 				"10"
 			"duration_satanic" 		"6"
 			"lifesteal_passive" 	"30"
-			"cooldown_grave" 		"90"
+			"cooldown_grave" 		"60"
 		}
     }
 
@@ -2240,12 +2241,12 @@
 		"Model"						"models/props_gameplay/recipe.vmdl"
 		"BaseClass"                 "item_datadriven"
 		"AbilityTextureName"        "item_recipe"
-		"ItemCost"					"1250"
+		"ItemCost"					"2500"
 		"ItemRecipe"				"1"
 		"ItemResult"				"item_cuirass_3"
 		"ItemRequirements"
 		{
-			"01"	"item_mage_slayer;item_pipe"
+			"01"	"item_pipe"
 		}
 	}
 	
@@ -2265,17 +2266,13 @@
 		{
 			"health_regen"					"8.5"
 			"magical_resistance"			"30"
-			"bonus_int"						"10"
-			"mana_regen"					"2"
-			"bonus_damage"					"20"
-			"bonus_attack_speed"			"20"
 
 			"radius"						"1200"
-			"magical_resistance_aura"		"25"
+			"magical_resistance_aura"		"15"
 			"health_regen_aura"				"5"
-			"spell_amplify_aura"			"-35"
+			"enemy_amplify_aura"			"-25"
 
-			"magical_resist_active"			"1000"
+			"magical_resist_active"			"600"
 			"duration"						"12"
 		}
 	}
@@ -2345,18 +2342,14 @@
 		{
 			"health_regen"					"8.5"
 			"magical_resistance"			"30"
-			"bonus_int"						"10"
-			"mana_regen"					"2"
-			"bonus_damage"					"20"
-			"bonus_attack_speed"			"20"
 			"bonus_armor"          			"20"
 
 			"radius"						"1200"
-			"magical_resistance_aura"		"25"
+			"magical_resistance_aura"		"15"
 			"health_regen_aura"				"5"
-			"spell_amplify_aura"			"-35"
+			"enemy_amplify_aura"			"-25"
 
-			"magical_resist_active"			"1000"
+			"magical_resist_active"			"600"
 			"duration"						"12"
 
 			"radius_ship"					"625"
@@ -2996,7 +2989,7 @@
 			"bonus_strength"			"15"
 			"bonus_int"					"10"
 			"bonus_mana_regen"			"1.5"
-			"chance"					"30"
+			"chance"					"25"
 			"crit"						"160"
 			"damage"					"200"
 			"duration"					"0.8"
@@ -3252,6 +3245,7 @@
 			"duration"					"3"
 			"push_length"				"600"
 			"bonus_movespeed_time"		"30"
+			"push_time"					"0.5"
 		}
 	}
 
@@ -3291,7 +3285,7 @@
 			"bonus_mana_regen"		"3"
 			"damage"				"225"
 			"cleave"				"70"
-			"chance"				"15"
+			"chance"				"25"
 			"radius"				"650"
 		}
 	}
@@ -3605,7 +3599,7 @@
 		"ItemKillable"					"0"
 		"ItemHideCharges"				"0"
 		"ItemCost"						"100"
-		"ItemStackable"					"0"
+		"ItemStackable"					"1"
 		"ItemPermanent"					"0"
 		"ItemInitialCharges"			"1"
 		"AbilityCooldown"				"60"
@@ -3657,7 +3651,7 @@
 		"BaseClass"						"item_datadriven"
 		"AbilityTextureName" 			"recipe"
 		"Model"							"models/props_gameplay/recipe.vmdl"
-		"ItemCost"						"600"
+		"ItemCost"						"450"
 		"ItemRecipe"					"1"
 		"ItemResult"					"item_mem_sange"
 		"ItemRequirements"
@@ -3670,7 +3664,7 @@
 	{
 		"BaseClass"						"item_datadriven"
 		"AbilityTextureName" 			"recipe"
-		"ItemCost"						"600"
+		"ItemCost"						"450"
 		"ItemRecipe"					"1"
 		"ItemResult"					"item_mem_yasha"
 		"Model"							"models/props_gameplay/recipe.vmdl"
@@ -3685,7 +3679,7 @@
 		"BaseClass"						"item_datadriven"
 		"AbilityTextureName" 			"recipe"
 		"Model"							"models/props_gameplay/recipe.vmdl"
-		"ItemCost"						"600"
+		"ItemCost"						"450"
 		"ItemRecipe"					"1"
 		"ItemResult"					"item_mem_cheburek"
 		"ItemRequirements"
@@ -4065,7 +4059,7 @@
 	{
 		"BaseClass"                 "item_datadriven"
 		"AbilityTextureName"        "item_recipe"
-		"ItemCost"					"1000"
+		"ItemCost"					"500"
 		"ItemRecipe"				"1"
 		"ItemResult"				"item_stone_mask"
 		"Model"							"models/props_gameplay/recipe.vmdl"
@@ -4148,14 +4142,14 @@
 			"bonus_attack_speed"	"30"
 			"bonus_armor"			"0"
 			"bonus_hp_regen"		"6"
-			"lifesteal"				"20"
+			"lifesteal"				"15"
 			"bonus_damage_active"			"40"
 			"movespeed_active"			"30"
 			"cast_point_active"		"15"
 			"bonus_str_active"				"30"
 			"lifesteal_active"	"15"
-			"magic_lifesteal_active"			"25"
-			"armor_active"		"-2"
+			"magic_lifesteal_active"			"20"
+			"armor_active"		"-8"
 			"damage_per_second_active"				"100"
 			"bonus_attack_speed_active"				"80"
 			"damage_per_charge"			"1"
@@ -4249,6 +4243,7 @@
 			"mana_per_hit"					"50"
 			"mana_per_hit_illusion"			"25"
 			"damage_per_burn"				"1"
+			"slow_movespeed"			"-80"
 		}
 	}
 	
@@ -4387,5 +4382,22 @@
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
 		"ItemContributesToNetWorthWhenDropped"	"0"
 		"IsTempestDoubleClonable"		"0"
+	}
+
+	"item_ananas_custom"
+	{
+		"BaseClass"						"item_lua"
+		"ScriptFile"					"items/ananas.lua"
+		"AbilityTextureName"			"items/ananas"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+		"AbilityCooldown"				"0"
+		"AbilityCastPoint"				"0.0"
+		"AbilityManaCost"				"0"
+		"ItemCost"						"0"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"ShouldBeSuggested"				"1"
+		"ItemInitialCharges"			"1"
+		"ItemStockMax"					"1"
+		"ItemStockTime"					"999999"
 	}
 }

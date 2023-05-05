@@ -1,5 +1,54 @@
 <root>
 	<Panel class="ImagePrecache" hittest="false">
+
+
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_1.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_2.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_3.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_4.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_5.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_6.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_7.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_8.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_9.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_10.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_11.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_12.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_13.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_14.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_15.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_16.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_17.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_18.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_19.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_20.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_21.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_22.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_23.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_24.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_25.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_26.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_27.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_28.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_29.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_30.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_31.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_32.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_33.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_34.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_35.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_36.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_37.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_38.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_39.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_40.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_41.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_42.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_43.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_44.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_45.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/quests/quest_46.png" />
+
 		<Image style="opacity:0;" src="s2r://panorama/images/custom_game/scp/screamer_png.vtex" />
 		<Image style="opacity:0;" src="s2r://panorama/images/custom_game/birzhapass/passbuttonoff_png.vtex" />
 		<Image style="opacity:0;" src="s2r://panorama/images/dpc/supclub_purchase_bg_psd.vtex" />
@@ -31,6 +80,83 @@
 		<Image style="opacity:0;" src="file://{images}/custom_game/shop/itemicon/toys_1.png" />
 		<Image style="opacity:0;" src="file://{images}/custom_game/shop/itemicon/toys_2.png" />
 		<Image style="opacity:0;" src="file://{images}/custom_game/minimap_heroes.png" />
+
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/179.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/180.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/181.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/182.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/183.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/184.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/185.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/186.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/187.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/188.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/189.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/190.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/191.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/192.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/193.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/194.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/195.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/196.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/197.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/198.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/199.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/200.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/201.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/202.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/203.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/204.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/205.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/206.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/207.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/208.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/209.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/210.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/211.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/212.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/213.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/214.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/215.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/216.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/217.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/218.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/219.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/220.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/221.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/222.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/223.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/224.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/225.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/226.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/227.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/228.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/229.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/230.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/231.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/232.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/233.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/234.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/235.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/236.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/237.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/238.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/239.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/240.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/241.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/242.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/243.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/244.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/245.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/246.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/247.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/248.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/249.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/250.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/251.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/252.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/253.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/battlepass/rewards/254.png" />
 
 		<Image style="opacity:0;" src="file://{images}/custom_game/shop/itemicon/item_for_scp.png" />
 		<Image style="opacity:0;" src="file://{images}/custom_game/shop/itemicon/item_for_silvername.png" />
@@ -140,6 +266,14 @@
 		<Image style="opacity:0;" src="file://{images}/custom_game/shop/itemicon/pet_17.png" />
 		<Image style="opacity:0;" src="file://{images}/custom_game/shop/itemicon/pet_18.png" />
 		<Image style="opacity:0;" src="file://{images}/custom_game/shop/itemicon/pet_19.png" />
+
+		<Image style="opacity:0;" src="file://{images}/custom_game/shop/itemicon/pet_187.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/shop/itemicon/pet_188.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/shop/itemicon/pet_189.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/shop/itemicon/pet_190.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/shop/itemicon/pet_191.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/shop/itemicon/pet_192.png" />
+		<Image style="opacity:0;" src="file://{images}/custom_game/shop/itemicon/pet_193.png" />
 
 		<Image style="opacity:0;" src="file://{images}/custom_game/shop/itemicon/particle_1.png" />
 		<Image style="opacity:0;" src="file://{images}/custom_game/shop/itemicon/particle_2.png" />

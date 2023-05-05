@@ -326,14 +326,19 @@ function Bullet_BulletInTheHead:GetBehavior()
 end
 
 function Bullet_BulletInTheHead:GetCooldown(level)
-    if self:GetCaster():HasScepter() then
-        return self.BaseClass.GetCooldown( self, level ) - self:GetSpecialValueFor("scepter_cooldown")
-    end
     return self.BaseClass.GetCooldown( self, level )
 end
 
 function Bullet_BulletInTheHead:GetManaCost(level)
     return self.BaseClass.GetManaCost(self, level)
+end
+
+function Bullet_BulletInTheHead:GetCastPoint()
+    if self:GetCaster():HasScepter() then
+        return 0
+    else 
+        return self.BaseClass.GetCastPoint( self )
+    end
 end
 
 function Bullet_BulletInTheHead:GetCastRange(location, target)

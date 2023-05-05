@@ -65,7 +65,7 @@ function modifier_item_uebator:OnTakeDamage(params)
 		if params.attacker == self:GetParent() and params.unit ~= self:GetParent() and not params.unit:IsWard() then
 			if params.inflictor == nil and not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then 
 				local heal = self:GetAbility():GetSpecialValueFor("lifesteal_passive") / 100 * params.damage
-		        self:GetParent():Heal(heal, nil)
+		        self:GetParent():Heal(heal, self:GetAbility())
 		        local effect_cast = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.attacker )
 		        ParticleManager:ReleaseParticleIndex( effect_cast )
 			end
@@ -82,7 +82,7 @@ function modifier_item_uebator:OnTakeDamage(params)
 					end
 					self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_item_uebator_active", {duration = duration})
 					ParticleManager:CreateParticle("particles/units/heroes/hero_life_stealer/life_stealer_infest_emerge_bloody.vpcf", PATTACH_ABSORIGIN, self:GetParent())
-					self:GetParent():AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_item_uebator_cooldown", {duration = self:GetAbility():GetSpecialValueFor("cooldown_grave")})
+					self:GetParent():AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_item_uebator_cooldown", {duration = self:GetAbility():GetSpecialValueFor("cooldown_grave") * self:GetParent():GetCooldownReduction()})
 					return
 				end
 
@@ -90,7 +90,7 @@ function modifier_item_uebator:OnTakeDamage(params)
 					self:GetParent():SetHealth(self:GetParent():GetMaxHealth() / 100 * hp_loss)
 					self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_item_uebator_active", {duration = duration})
 					ParticleManager:CreateParticle("particles/units/heroes/hero_life_stealer/life_stealer_infest_emerge_bloody.vpcf", PATTACH_ABSORIGIN, self:GetParent())
-					self:GetParent():AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_item_uebator_cooldown", {duration = self:GetAbility():GetSpecialValueFor("cooldown_grave")})
+					self:GetParent():AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_item_uebator_cooldown", {duration = self:GetAbility():GetSpecialValueFor("cooldown_grave") * self:GetParent():GetCooldownReduction()})
 				end
 			end
 		end
@@ -165,7 +165,7 @@ function modifier_item_uebator_satanic:OnTakeDamage(params)
     if params.unit:IsWard() then return end
     if params.inflictor == nil and not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then 
         local heal = self:GetAbility():GetSpecialValueFor("lifesteal") / 100 * params.damage
-        self:GetParent():Heal(heal, nil)
+        self:GetParent():Heal(heal, self:GetAbility())
         local effect_cast = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.attacker )
         ParticleManager:ReleaseParticleIndex( effect_cast )
     end

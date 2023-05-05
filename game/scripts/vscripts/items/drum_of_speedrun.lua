@@ -79,6 +79,12 @@ function modifier_drum_of_speedrun:GetModifierAura()
 	return "modifier_drum_of_speedrun_aura_buff"
 end
 
+function modifier_drum_of_speedrun:IsAura() return true end
+
+function modifier_drum_of_speedrun:GetAuraSearchFlags()
+    return DOTA_UNIT_TARGET_FLAG_INVULNERABLE
+end
+
 modifier_drum_of_speedrun_aura_buff = class({})
 
 function modifier_drum_of_speedrun_aura_buff:DeclareFunctions()
@@ -97,12 +103,11 @@ function modifier_rune_haste_birzha:IsPurgable()
 end
 
 function modifier_rune_haste_birzha:DeclareFunctions()
-	return {MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT }
+	return {MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,MODIFIER_PROPERTY_MOVESPEED_BASE_OVERRIDE }
 end
 
-function modifier_rune_haste_birzha:GetModifierMoveSpeedBonus_Constant()
-	if self:GetParent():HasModifier("modifier_klichko_charge_of_darkness") then return end
-	return 99999999
+function modifier_rune_haste_birzha:GetModifierMoveSpeedOverride()
+	return 550
 end
 
 function modifier_rune_haste_birzha:GetModifierAttackSpeedBonus_Constant()

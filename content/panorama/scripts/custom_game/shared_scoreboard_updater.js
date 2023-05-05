@@ -157,7 +157,44 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 		{
 			if ( playerInfo.player_selected_hero !== "" )
 			{
-				playerPortrait.SetImage( "file://{images}/custom_game/hight_hood/heroes/" + playerInfo.player_selected_hero + ".png" );
+				let no_portrait = true
+				if (playerInfo.player_selected_hero == "npc_dota_hero_pyramide")
+				{
+
+					if (player_has_item(playerId, 181))
+					{
+						playerPortrait.SetImage( "file://{images}/custom_game/hight_hood/heroes/" + playerInfo.player_selected_hero + "_new.png" );
+						no_portrait = false
+					}
+				}
+				if (playerInfo.player_selected_hero == "npc_dota_hero_oracle")
+				{ 
+					if (player_has_item(playerId, 182))
+					{
+						playerPortrait.SetImage( "file://{images}/custom_game/hight_hood/heroes/" + playerInfo.player_selected_hero + "_new.png" );
+						no_portrait = false
+					}
+				}
+				if (playerInfo.player_selected_hero == "npc_dota_hero_faceless_void")
+				{
+					if (player_has_item(playerId, 180))
+					{
+						playerPortrait.SetImage( "file://{images}/custom_game/hight_hood/heroes/" + playerInfo.player_selected_hero + "_new.png" );
+						no_portrait = false
+					}
+				}
+				if (playerInfo.player_selected_hero == "npc_dota_hero_sonic")
+				{
+					if (player_has_item(playerId, 183))
+					{
+						playerPortrait.SetImage( "file://{images}/custom_game/hight_hood/heroes/" + playerInfo.player_selected_hero + "_new.png" );
+						no_portrait = false
+					}
+				}
+				if (no_portrait)
+				{
+					playerPortrait.SetImage( "file://{images}/custom_game/hight_hood/heroes/" + playerInfo.player_selected_hero + ".png" );
+				} 
 			}
 			else
 			{
@@ -265,13 +302,21 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 		}
 	}
 
-	//var report_button_player = playerPanel.FindChildInLayoutFile( "ReportButtonPlayer" );
+	var report_button_player = playerPanel.FindChildInLayoutFile( "ReportButtonPlayer" );
 
-	//if (report_button_player) {
-	//	report_button_player.SetPanelEvent("onactivate", function() { 
-	//		ReportPlayerFunction(playerId)
-	//	} );
-	//}
+	if (report_button_player) 
+	{
+		SetReportPlayerButton(report_button_player, playerId)
+
+		if (Game.GetMapInfo().map_display_name != "birzhamemov_solo")
+		{
+			report_button_player.style.opacity = "0"
+		}
+		if (playerInfo.player_team_id == localPlayerTeamId)
+		{
+			report_button_player.style.opacity = "0"
+		}
+	}
 		
 	var playerItemsContainer = playerPanel.FindChildInLayoutFile( "PlayerItemsContainer" );
     if ( playerItemsContainer )
@@ -310,6 +355,71 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 	_ScoreboardUpdater_SetTextSafe( playerPanel, "PlayerUltimateCooldown", ultStateOrTime );
 }
 
+function SetReportPlayerButton(panel, id)
+{
+	panel.SetPanelEvent("onactivate", function() 
+	{ 
+		SelectReportPlayer(panel, id)
+	});
+	panel.SetPanelEvent('onmouseover', function() 
+	{
+        $.DispatchEvent('DOTAShowTextTooltip', panel, $.Localize("#report_button_description")); 
+    });
+    panel.SetPanelEvent('onmouseout', function() 
+    {
+        $.DispatchEvent('DOTAHideTextTooltip', panel);
+    }); 
+}
+
+function SelectReportPlayer(panel, id)
+{
+	GameEvents.SendCustomGameEventToServer( "player_reported_select", {report_id : id} );
+}
+
+CustomNetTables.SubscribeNetTableListener( "reported_info", UpdateReportVisual );
+
+function UpdateReportVisual(table, key, data ) 
+{
+	if (table == "reported_info") 
+	{
+		if (key == Players.GetLocalPlayer()) 
+		{
+			for ( var i = 0; i < 15; ++ i )
+            {
+				var playerPanelName = "_dynamic_player_" + i;
+				if (playerPanelName) 
+				{
+					var playerPanel = $.GetContextPanel().FindChildTraverse(playerPanelName)
+					if (playerPanel) 
+					{
+						var ReportButtonPlayer = playerPanel.FindChildInLayoutFile( "ReportButtonPlayer" );
+						if (ReportButtonPlayer)
+						{
+							ReportButtonPlayer.SetHasClass("PlayerReported", false)
+						}
+					}
+				}
+			}
+			for (var i = 1; i <= Object.keys(data.reported_info).length; i++) 
+			{
+				var playerPanelName = "_dynamic_player_" + data.reported_info[i];
+				if (playerPanelName) 
+				{
+					var playerPanel = $.GetContextPanel().FindChildTraverse(playerPanelName)
+					if (playerPanel) 
+					{
+						var ReportButtonPlayer = playerPanel.FindChildInLayoutFile( "ReportButtonPlayer" );
+						if (ReportButtonPlayer)
+						{
+							ReportButtonPlayer.SetHasClass("PlayerReported", true)
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
 function ReportPlayerFunction(report_id) {
 	var dotaHud = $.GetContextPanel().GetParent().GetParent().GetParent()
 	var report_panel = dotaHud.FindChildTraverse("ReportPanel")
@@ -342,7 +452,9 @@ function ReportPlayerFunction(report_id) {
 CustomNetTables.SubscribeNetTableListener( "birzhainfo", UpdateBorderPlayer );
 
 function UpdateBorderPlayer(table, key, data ) {
-	if (table == "birzhainfo") {
+	$.Msg("dada")
+	if (table == "birzhainfo") 
+	{
 		//if (key == Players.GetLocalPlayer()) {
 			var playerPanelName = "_dynamic_player_" + key;
 			if (playerPanelName) {
@@ -471,10 +583,8 @@ function _ScoreboardUpdater_UpdateTeamPanel( scoreboardConfig, containerPanel, t
 		var teamColor_GradentFromTransparentLeft = teamPanel.FindChildInLayoutFile( "TeamColor_GradentFromTransparentLeft" );
 		if ( teamColor_GradentFromTransparentLeft )
 		{
-			var gradientText = 'gradient( linear, 0% 0%, 800% 0%, from( #00000000 ), to( ' + teamColor + ' ) );';
-//			$.Msg( gradientText );
-			teamColor_GradentFromTransparentLeft.style.backgroundColor = gradientText;
-		}
+			teamColor_GradentFromTransparentLeft.style.backgroundColor = teamColor;
+		} 
 	}
 	
 	return teamPanel;
@@ -758,8 +868,9 @@ function AddBorderGachi(panel)
 	if (playerPortrait)
 	{
 		var HeroPortrait = playerPortrait.FindChild('HeroIcon');
-		$.CreatePanelWithProperties("DOTAScenePanel", HeroPortrait, "gold_particle", { style: "width:100%;height:100%;align:center center;", map: "heroes", particleonly:"false", camera:"gachi_effect" });
+		//$.CreatePanelWithProperties("DOTAScenePanel", HeroPortrait, "gold_particle", { style: "width:100%;height:100%;align:center center;", renderdeferred: "true", deferredalpha: "true", antialias: "true", hittest: "false", particleonly: "true", map: "heroes", particleonly:"true", camera:"gachi_effect" });
 		var border_bp = $.CreatePanel('Panel', HeroPortrait, 'border_bp');
+		$.CreatePanelWithProperties("DOTAParticleScenePanel", HeroPortrait, "gold_particle", { style: "width:150px;height:200px;", particleName: "particles/borders/border_effect_4.vpcf", particleonly:"true", startActive:"true", cameraOrigin:"0 0 165", lookAt:"0 0 0",  fov:"37", squarePixels:"true" });
 	}
 }
 
@@ -769,8 +880,9 @@ function AddBorderRoflan(panel)
 	if (playerPortrait)
 	{
 		var HeroPortrait = playerPortrait.FindChild('HeroIcon');
-		$.CreatePanelWithProperties("DOTAScenePanel", HeroPortrait, "gold_particle", { style: "width:100%;height:100%;align:center center;", map: "heroes", particleonly:"false", camera:"roflan_effect" });
+		//$.CreatePanelWithProperties("DOTAScenePanel", HeroPortrait, "gold_particle", { style: "width:100%;height:100%;align:center center;", map: "heroes", particleonly:"true", camera:"roflan_effect" });
 		var border_bp = $.CreatePanel('Panel', HeroPortrait, 'border_bp');
+		$.CreatePanelWithProperties("DOTAParticleScenePanel", HeroPortrait, "gold_particle", { style: "width:150px;height:200px;", particleName: "particles/borders/border_effect_5.vpcf", particleonly:"true", startActive:"true", cameraOrigin:"0 0 165", lookAt:"0 0 0",  fov:"35", squarePixels:"true" });
 	}
 }
 
@@ -782,7 +894,8 @@ function AddBorderElectric(panel)
 		var HeroPortrait = playerPortrait.FindChild('HeroIcon');
 		var border_bp = $.CreatePanel('Panel', HeroPortrait, 'border_bp');
 		border_bp.AddClass('border_electric');
-		$.CreatePanelWithProperties("DOTAScenePanel", HeroPortrait, "gold_particle", { style: "width:100%;height:100%;align:center center;", map: "heroes", particleonly:"false", camera:"electric_effect" });
+		//$.CreatePanelWithProperties("DOTAScenePanel", HeroPortrait, "gold_particle", { style: "width:100%;height:100%;align:center center;", map: "heroes", particleonly:"true", camera:"electric_effect" });
+		$.CreatePanelWithProperties("DOTAParticleScenePanel", HeroPortrait, "gold_particle", { style: "width:150px;height:200px;", particleName: "particles/electric_border.vpcf", particleonly:"true", startActive:"true", cameraOrigin:"0 0 165", lookAt:"0 0 0",  fov:"45", squarePixels:"true" });
 	}
 }
 
@@ -873,3 +986,28 @@ function HidePreGamePanels(panel)
 	}
 }
 
+
+
+function player_has_item(id, item_id)
+{
+	var player_table = CustomNetTables.GetTableValue("birzhashop", String(id))
+	if (player_table)
+	{
+		let player_table_js = []
+
+		for (var d = 1; d < 300; d++) 
+		{
+			player_table_js.push(player_table.player_items[d])
+		}
+
+		for ( var item of player_table_js )
+	    {
+	    	if (item == String(item_id))
+	    	{
+	    		return true
+	    	}
+	    }
+	}
+
+	return false
+}

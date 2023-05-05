@@ -157,8 +157,11 @@ function modifier_metagame_mmr:OnCreated( kv )
     self.radius = self:GetAbility():GetSpecialValueFor("radius")
     self:PlayEffects1()
     self:PlayEffects2()
-    self:StartIntervalThink(1)
-    self:OnIntervalThink()
+    --self:StartIntervalThink(1)
+    --self:OnIntervalThink()
+    if self:GetCaster():HasShard() then
+        self:Stun()
+    end
 end
 
 function modifier_metagame_mmr:OnIntervalThink()
@@ -177,10 +180,6 @@ function modifier_metagame_mmr:Stun( shard )
     if not IsServer() then return end
 
     local radius = self.radius
-
-    if self:GetCaster():HasShard() then
-        radius = self:GetAbility():GetSpecialValueFor("radius_shard")
-    end
 
     local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetParent():GetOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
     for _,enemy in pairs(enemies) do
@@ -278,7 +277,7 @@ function modifier_metagame_passive:OnAttackLanded( params )
 
     ProjectileManager:CreateTrackingProjectile(info)
     self:GetCaster():EmitSound("metagame_passive")
-    self:GetAbility():UseResources(false, false, true)
+    self:GetAbility():UseResources(false, false, false, true)
 end
 
 modifier_metagame_passive_debuff = class({})

@@ -757,7 +757,7 @@ function modifier_Vjlink_teeth:GetModifierProcAttack_BonusDamage_Physical( param
     local particle = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
     ParticleManager:ReleaseParticleIndex( particle )
     local damage = params.target:GetHealth() * self.damage
-    self:GetParent():Heal( damage, nil )
+    self:GetParent():Heal( damage, self:GetAbility() )
     return damage
 end
 

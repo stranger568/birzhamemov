@@ -6,7 +6,7 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 Bogdan_Cower = class({}) 
 
 function Bogdan_Cower:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) 
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_bogdan_3")
 end
 
 function Bogdan_Cower:GetManaCost(level)
@@ -99,7 +99,7 @@ end
 Bogdan_key = class({})
 
 function Bogdan_key:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_bogdan_3")
+    return self.BaseClass.GetCooldown( self, level )
 end
 
 function Bogdan_key:GetManaCost(level)
@@ -129,7 +129,7 @@ end
 function Bogdan_key:OnProjectileHit( target, vLocation )
     if not IsServer() then return end
     if target ~= nil and ( not target:IsMagicImmune() ) and ( not target:TriggerSpellAbsorb( self ) ) then
-        local stun_duration = self:GetSpecialValueFor( "stun_duration" )
+        local stun_duration = self:GetSpecialValueFor( "stun_duration" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_bogdan_2")
         local stun_damage = self:GetSpecialValueFor( "damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_bogdan_1")
         local damage = {
             victim = target,
@@ -150,7 +150,7 @@ LinkLuaModifier("modifier_bogdan_aids_debuff", "abilities/heroes/bogdan", LUA_MO
 bogdan_aids = class({}) 
 
 function bogdan_aids:GetCooldown(level)
-    if self:GetCaster():HasTalent("special_bonus_birzha_bogdan_7") then
+    if self:GetCaster():HasScepter() then
         return 0
     end
     return self.BaseClass.GetCooldown( self, level )
@@ -237,7 +237,7 @@ function modifier_bogdan_aids_debuff:GetModifierMoveSpeedBonus_Percentage()
 end
 
 function modifier_bogdan_aids_debuff:GetModifierAttackSpeedBonus_Constant()
-    return self:GetAbility():GetSpecialValueFor( "bonus_attack_speed" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_bogdan_2")
+    return self:GetAbility():GetSpecialValueFor( "bonus_attack_speed" )
 end
 
 function modifier_bogdan_aids_debuff:GetModifierPhysicalArmorBonus()
@@ -264,7 +264,7 @@ LinkLuaModifier("modifier_Bogdan_Ultimate", "abilities/heroes/bogdan", LUA_MODIF
 Bogdan_Ultimate = class({}) 
 
 function Bogdan_Ultimate:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_bogdan_7")
 end
 
 function Bogdan_Ultimate:GetManaCost(level)
@@ -279,6 +279,8 @@ function Bogdan_Ultimate:OnSpellStart()
     else
         self.modifier:IncrementStackCount()
     end
+    donate_shop:QuestProgress(42, self:GetCaster():GetPlayerOwnerID(), 1)
+    self:GetCaster():CalculateStatBonus(true)
 end
 
 modifier_Bogdan_Ultimate = class({})
@@ -329,7 +331,6 @@ end
 function modifier_Bogdan_Ultimate:OnDeath( params )
     if not IsServer() then return end
     if params.unit == self:GetParent() then  
-        if self:GetCaster():HasScepter() then return end
         if self:GetStackCount() > 0 then        
             self:DecrementStackCount()
         end

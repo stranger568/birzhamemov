@@ -245,6 +245,7 @@ function horo_forest_apple:PlayEffects3( target, radius )
 end
 
 LinkLuaModifier("modifier_horo_forest_wisdom", "abilities/heroes/horo", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_horo_forest_wisdom_aura", "abilities/heroes/horo", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_horo_forest_wisdom_buff_scepter", "abilities/heroes/horo", LUA_MODIFIER_MOTION_NONE)
 
 horo_forest_wisdom = class({}) 
@@ -282,6 +283,8 @@ function horo_forest_wisdom:OnSpellStart()
 end
 
 modifier_horo_forest_wisdom_buff_scepter = class({})
+
+function modifier_horo_forest_wisdom_buff_scepter:IsPurgable() return false end
 
 function modifier_horo_forest_wisdom_buff_scepter:GetEffectName()
     return "particles/units/heroes/hero_furion/furion_curse_of_forest_debuff.vpcf"
@@ -340,17 +343,48 @@ end
 
 modifier_horo_forest_wisdom = class({})
 
+function modifier_horo_forest_wisdom:IsPurgable() return false end
+function modifier_horo_forest_wisdom:IsPurgeException() return false end
+
 function modifier_horo_forest_wisdom:IsHidden()
-    if self:GetParent():PassivesDisabled() then return true end
-    if self:GetParent():IsIllusion() then return true end
-    return false
+    return true
 end
 
 function modifier_horo_forest_wisdom:IsPurgable()
     return false
 end
 
-function modifier_horo_forest_wisdom:OnCreated( kv )
+function modifier_horo_forest_wisdom:IsAura()
+    return true
+end
+
+function modifier_horo_forest_wisdom:GetModifierAura()
+    return "modifier_horo_forest_wisdom_aura"
+end
+
+function modifier_horo_forest_wisdom:GetAuraRadius()
+    if self:GetParent():PassivesDisabled() then return 0 end
+    return self.radius
+end
+
+function modifier_horo_forest_wisdom:GetAuraSearchTeam()
+    return DOTA_UNIT_TARGET_TEAM_FRIENDLY
+end
+
+function modifier_horo_forest_wisdom:GetAuraSearchType()
+    return DOTA_UNIT_TARGET_HERO
+end
+
+function modifier_horo_forest_wisdom:GetAuraDuration()
+    return 0
+end
+
+modifier_horo_forest_wisdom_aura = class({})
+
+function modifier_horo_forest_wisdom_aura:IsPurgable() return false end
+function modifier_horo_forest_wisdom_aura:IsPurgeException() return false end
+
+function modifier_horo_forest_wisdom_aura:OnCreated( kv )
     self.radius = self:GetAbility():GetSpecialValueFor( "radius" )
     self.primary_attribute = self:GetAbility():GetSpecialValueFor( "bonus_attribute" )
     self.evasion = 0
@@ -374,18 +408,18 @@ function modifier_horo_forest_wisdom:OnCreated( kv )
     end
 end
 
-function modifier_horo_forest_wisdom:AddCustomTransmitterData()
+function modifier_horo_forest_wisdom_aura:AddCustomTransmitterData()
     return 
     {
         evasion = self.evasion,
     }
 end
 
-function modifier_horo_forest_wisdom:HandleCustomTransmitterData( data )
+function modifier_horo_forest_wisdom_aura:HandleCustomTransmitterData( data )
     self.evasion = data.evasion
 end
 
-function modifier_horo_forest_wisdom:OnIntervalThink()
+function modifier_horo_forest_wisdom_aura:OnIntervalThink()
     if not IsServer() then return end
     self.evasion = 0
     local trees = GridNav:GetAllTreesAroundPoint(self:GetParent():GetAbsOrigin(), self.radius, false)
@@ -395,12 +429,12 @@ function modifier_horo_forest_wisdom:OnIntervalThink()
     self:SendBuffRefreshToClients()
 end
 
-function modifier_horo_forest_wisdom:OnRefresh( kv )
+function modifier_horo_forest_wisdom_aura:OnRefresh( kv )
     self.radius = self:GetAbility():GetSpecialValueFor( "radius" )
     self.primary_attribute = self:GetAbility():GetSpecialValueFor( "bonus_attribute" )
 end
 
-function modifier_horo_forest_wisdom:DeclareFunctions()
+function modifier_horo_forest_wisdom_aura:DeclareFunctions()
     local funcs = 
     {
         MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
@@ -412,55 +446,29 @@ function modifier_horo_forest_wisdom:DeclareFunctions()
     return funcs
 end
 
-function modifier_horo_forest_wisdom:GetModifierEvasion_Constant()
+function modifier_horo_forest_wisdom_aura:GetModifierEvasion_Constant()
     return self.evasion
 end
 
 if IsServer() then
-    function modifier_horo_forest_wisdom:GetModifierBonusStats_Agility()
+    function modifier_horo_forest_wisdom_aura:GetModifierBonusStats_Agility()
         if self:GetParent():PassivesDisabled() then return 0 end
         if self:GetParent():IsIllusion() then return 0 end
         return self.primary_attribute * self.agility
     end
-    function modifier_horo_forest_wisdom:GetModifierBonusStats_Intellect()
+    function modifier_horo_forest_wisdom_aura:GetModifierBonusStats_Intellect()
         if self:GetParent():PassivesDisabled() then return 0 end
         if self:GetParent():IsIllusion() then return 0 end
         return self.primary_attribute * self.intelligence
     end
-    function modifier_horo_forest_wisdom:GetModifierBonusStats_Strength()
+    function modifier_horo_forest_wisdom_aura:GetModifierBonusStats_Strength()
         if self:GetParent():PassivesDisabled() then return 0 end
         if self:GetParent():IsIllusion() then return 0 end
         return self.primary_attribute * self.strength
     end
 end
 
-function modifier_horo_forest_wisdom:IsAura()
-    if self:GetParent():IsIllusion() then return false end
-    return self:GetParent()==self:GetCaster()
-end
-
-function modifier_horo_forest_wisdom:GetModifierAura()
-    return "modifier_horo_forest_wisdom"
-end
-
-function modifier_horo_forest_wisdom:GetAuraRadius()
-    if self:GetParent():PassivesDisabled() then return 0 end
-    return self.radius
-end
-
-function modifier_horo_forest_wisdom:GetAuraSearchTeam()
-    return DOTA_UNIT_TARGET_TEAM_FRIENDLY
-end
-
-function modifier_horo_forest_wisdom:GetAuraSearchType()
-    return DOTA_UNIT_TARGET_HERO
-end
-
-function modifier_horo_forest_wisdom:GetAuraDuration()
-    return 0
-end
-
-function modifier_horo_forest_wisdom:CheckState()
+function modifier_horo_forest_wisdom_aura:CheckState()
     if not self:GetCaster():HasTalent("special_bonus_birzha_horo_2") then return end
     if self:GetParent() ~= self:GetCaster() then return end
     return 
@@ -468,6 +476,15 @@ function modifier_horo_forest_wisdom:CheckState()
         [MODIFIER_STATE_ALLOW_PATHING_THROUGH_TREES] = true
     }
 end
+
+
+
+
+
+
+
+
+
 
 
      

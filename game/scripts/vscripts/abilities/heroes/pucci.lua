@@ -61,7 +61,7 @@ function pucci_time_acceleration:OnSpellStart()
         callback = function()
             Convars:SetFloat("host_timescale", 1)
             ability:SetActivated(true)
-            ability:UseResources(false, false, true)
+            ability:UseResources(false, false, false, true)
             return nil
         end
     })
@@ -380,7 +380,7 @@ function modifier_pucci_passive_wave:OnTakeDamage( params )
         if self:GetStackCount() <= 0 then return end
         if not self:GetAbility():IsFullyCastable() then return end
         if self:GetParent():PassivesDisabled() then return end
-        self:GetAbility():UseResources(false, false, true)
+        self:GetAbility():UseResources(false, false, false, true)
         self:GetParent():AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_pucci_passive_wave_immortality", {duration = self:GetAbility():GetSpecialValueFor("duration")})
         self:DecrementStackCount()
     end

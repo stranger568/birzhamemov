@@ -638,7 +638,7 @@ function modifier_yakubich_stun:OnAttackLanded( keys )
         if self:GetParent():IsIllusion() or self:GetParent():PassivesDisabled() then return end
         if RollPercentage(chance) then
             if keys.attacker:IsMagicImmune() then return end
-            self:GetAbility():UseResources(false, false, true)
+            self:GetAbility():UseResources(false, false, false, true)
             self:GetParent():EmitSound("daladno")
             keys.attacker:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_birzha_stunned_purge", {duration = duration * (1-keys.attacker:GetStatusResistance()) })
             ApplyDamage({ victim = keys.attacker, attacker = self:GetParent(), damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility() })

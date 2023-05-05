@@ -105,6 +105,7 @@ function modifier_never_stupid_steal_target_debuff:IsHidden() return self:GetSta
 
 function modifier_never_stupid_steal_target_debuff:OnCreated()
 	if not IsServer() then return end
+	donate_shop:QuestProgress(41, self:GetCaster():GetPlayerOwnerID(), 1)
 	self:StartIntervalThink(FrameTime())
 end
 
@@ -210,7 +211,7 @@ function modifier_never_spit:GetModifierProcAttack_BonusDamage_Physical( params 
 
 		params.target:EmitSound("neverbash")
 
-		self:GetAbility():UseResources(false, false, true)
+		self:GetAbility():UseResources(false, false, false, true)
 
 		local SpitEffect = ParticleManager:CreateParticle(self.particle_spit, PATTACH_ABSORIGIN, params.target)
 
@@ -375,7 +376,7 @@ function modifier_never_damage:OnTakeDamage(params)
     if not self:GetCaster():HasTalent("special_bonus_birzha_never_2") then return end
     if params.inflictor == nil and not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then 
         local heal = self:GetCaster():FindTalentValue("special_bonus_birzha_never_2") / 100 * params.damage
-        self:GetParent():Heal(heal, nil)
+        self:GetParent():Heal(heal, self:GetAbility())
         local effect_cast = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.attacker )
         ParticleManager:ReleaseParticleIndex( effect_cast )
     end

@@ -181,7 +181,7 @@ function modifier_scp682_rage:OnDestroy()
     self:GetParent():SetForceAttackTargetAlly(nil)
     self:GetParent():Stop()
     self:GetParent():SetRenderColor(255, 255, 255)
-    self:GetAbility():UseResources(false, false, true)
+    self:GetAbility():UseResources(false, false, false, true)
     self:GetParent():RemoveModifierByName("modifier_scp682_rage_magic_immune")
 end
 
@@ -250,18 +250,6 @@ function modifier_scp682_rage_magic_immune:CheckState()
     return {
         [MODIFIER_STATE_MAGIC_IMMUNE] = true
     }
-end
-
-function modifier_scp682_rage_magic_immune:DeclareFunctions()
-    local decFuncs = {
-        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
-    }
-
-    return decFuncs
-end
-
-function modifier_scp682_rage_magic_immune:GetAbsoluteNoDamageMagical()
-    return 1
 end
 
 function modifier_scp682_rage_magic_immune:GetStatusEffectName()
@@ -444,7 +432,7 @@ function modifier_scp682_ultimate:OnTakeDamage(params)
     if params.unit:IsWard() then return end
     if bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then 
         local heal = self:GetAbility():GetSpecialValueFor("lifesteal") / 100 * params.damage
-        self:GetParent():Heal(heal, nil)
+        self:GetParent():Heal(heal, self:GetAbility())
         local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_bloodseeker/bloodseeker_bloodbath.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
         ParticleManager:ReleaseParticleIndex( effect_cast )
     end

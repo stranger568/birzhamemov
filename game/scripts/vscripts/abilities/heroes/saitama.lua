@@ -311,7 +311,7 @@ function modifier_saitama_kick:OnAttackLanded(params)
 	if params.attacker:IsMagicImmune() then return end
 	local distance = (self:GetParent():GetAbsOrigin() - params.attacker:GetAbsOrigin()):Length2D()
 	if distance <= distance_min then
-		self:GetAbility():UseResources(false, false, true)
+		self:GetAbility():UseResources(false, false, false, true)
 		local dirX = params.attacker:GetOrigin().x-self:GetParent():GetOrigin().x
 		local dirY = params.attacker:GetOrigin().y-self:GetParent():GetOrigin().y
 		self:Kick( params.attacker, dirX, dirY )

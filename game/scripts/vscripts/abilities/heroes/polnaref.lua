@@ -95,7 +95,7 @@ end
 
 function modifier_polnaref_scepter_in_stand_buff:OnDestroy()
     if not IsServer() then return end
-    self:GetAbility():UseResources(false, false, true)
+    self:GetAbility():UseResources(false, false, false, true)
     self:GetParent():RemoveNoDraw()
     local ability_stand_spawn = self:GetParent():FindAbilityByName("polnaref_stand")
     if ability_stand_spawn then
@@ -495,7 +495,7 @@ function modifier_polnaref_battle_aura:OnTakeDamage(params)
     if params.unit:IsWard() then return end
     if params.inflictor == nil and not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then 
         local heal = (self:GetAbility():GetSpecialValueFor("lifesteal") +  self:GetCaster():FindTalentValue("special_bonus_birzha_polnaref_4")) / 100 * params.damage
-        self:GetParent():Heal(heal, nil)
+        self:GetParent():Heal(heal, self:GetAbility())
         local effect_cast = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.attacker )
         ParticleManager:ReleaseParticleIndex( effect_cast )
     end
@@ -1024,7 +1024,7 @@ end
 function modifier_polnaref_shoot_debuff:OnDestroy()
     if not IsServer() then return end
     self:GetAbility():SetActivated(true)
-    self:GetAbility():UseResources(false, false, true)
+    self:GetAbility():UseResources(false, false, false, true)
     self:GetCaster():FindAbilityByName("polnaref_rapier"):SetActivated(true)
     if self.sword_on_groud then
         UTIL_Remove(self.sword_on_groud)

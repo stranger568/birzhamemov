@@ -177,6 +177,14 @@ function Ayano_Tranquilizer:OnProjectileHit( target, vLocation )
     if target==nil then return end
     if target:TriggerSpellAbsorb( self ) then return end
     local damage = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_ayano_1")
+
+    if target:HasModifier("modifier_SpotTheTarget_aura") then
+        local Ayano_SpotTheTarget = self:GetCaster():FindAbilityByName("Ayano_SpotTheTarget")
+        if Ayano_SpotTheTarget and Ayano_SpotTheTarget:GetLevel() > 0 then
+            damage = damage * (Ayano_SpotTheTarget:GetSpecialValueFor("tranqul_bonus_dmg"))
+        end
+    end
+
     ApplyDamage({victim = target, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self})
     target:AddNewModifier( self:GetCaster(), self, "modifier_Ayano_Tranquilizer_3", {duration = 1} )
 end
@@ -330,7 +338,7 @@ function modifier_Ayano_WeakMind_passive:OnTakeDamage(params)
     end
 
     if params.inflictor == nil and not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then 
-        params.attacker:Heal(params.damage * heal_multiplier, nil)
+        params.attacker:Heal(params.damage * heal_multiplier, self:GetAbility())
         local effect_cast = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.attacker )
         ParticleManager:ReleaseParticleIndex( effect_cast )
     end
@@ -538,7 +546,7 @@ end
 
 function modifier_SpotTheTarget_talent_crit:GetModifierPreAttack_CriticalStrike(params)
     if params.target == self:GetCaster() and params.target:HasModifier("modifier_SpotTheTarget_aura") then
-        return self:GetParent():FindTalentValue("special_bonus_birzha_ayano_6")
+        return self:GetAbility():GetSpecialValueFor("critical_damage") + self:GetParent():FindTalentValue("special_bonus_birzha_ayano_6")
     else
         self:Destroy()
     end
@@ -549,15 +557,8 @@ function modifier_SpotTheTarget_talent_crit:OnAttackLanded(params)
     self:Destroy()
 end
 
-
-
-
-
-
-
-
 LinkLuaModifier( "modifier_Ayano_LaunchACircularSaw_thinker", "abilities/heroes/ayano.lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_Ayano_LaunchACircularSaw_thinker_disarm", "abilities/heroes/ayano.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_Ayano_LaunchACircularSaw_thinker_stay", "abilities/heroes/ayano.lua", LUA_MODIFIER_MOTION_NONE )
 
 Ayano_LaunchACircularSaw = class({})
 
@@ -587,7 +588,7 @@ function Ayano_LaunchACircularSaw:OnSpellStart()
 
     local duration = (point - self:GetCaster():GetAbsOrigin()):Length2D() / self:GetSpecialValueFor( "speed" )
 
-    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Ayano_LaunchACircularSaw_thinker_disarm", {duration = duration})
+    --self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Ayano_LaunchACircularSaw_thinker_disarm", {duration = duration})
     CreateModifierThinker( self:GetCaster(), self, "modifier_Ayano_LaunchACircularSaw_thinker", { target_x = point.x, target_y = point.y, target_z = point.z}, self:GetCaster():GetOrigin(), self:GetCaster():GetTeamNumber(), false )
 end
 
@@ -611,13 +612,13 @@ function modifier_Ayano_LaunchACircularSaw_thinker:OnCreated( kv )
     self.caught_enemies = {}
     self:StartIntervalThink( self.move_interval )
     self:PlayEffects1()
-    self:GetParent():EmitSound("Hero_Shredder.Chakram")
 end
 
 function modifier_Ayano_LaunchACircularSaw_thinker:OnDestroy()
     if not IsServer() then return end
     self:GetParent():StopSound("Hero_Shredder.Chakram")
-    self:GetParent():RemoveModifierByName("modifier_Ayano_LaunchACircularSaw_thinker_disarm")
+   -- self:GetParent():RemoveModifierByName("modifier_Ayano_LaunchACircularSaw_thinker_disarm")
+    CreateModifierThinker( self:GetCaster(), self:GetAbility(), "modifier_Ayano_LaunchACircularSaw_thinker_stay", { target_x = self:GetParent():GetAbsOrigin().x, target_y = self:GetParent():GetAbsOrigin().y, target_z = self:GetParent():GetAbsOrigin().z, duration = 3}, self:GetParent():GetOrigin(), self:GetCaster():GetTeamNumber(), false )
     UTIL_Remove( self:GetParent() )
 end
 
@@ -635,12 +636,11 @@ function modifier_Ayano_LaunchACircularSaw_thinker:LaunchThink()
 end
 
 function modifier_Ayano_LaunchACircularSaw_thinker:PassLogic( origin )
-    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), origin, nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
+    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), origin, nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false )
     for _,enemy in pairs(enemies) do
         if not self.caught_enemies[enemy] then
             self.caught_enemies[enemy] = true
             self:GetCaster():PerformAttack(enemy, true, true, true, false, false, false, true)
-            --PerformAttack(hTarget, bUseCastAttackOrb, bProcessProcs, bSkipCooldown, bIgnoreInvis, bUseProjectile, bFakeAttack, bNeverMiss)
         end
     end
 end
@@ -663,205 +663,43 @@ function modifier_Ayano_LaunchACircularSaw_thinker:PlayEffects1()
     ParticleManager:SetParticleControl( self.effect_cast, 16, Vector( 1, 1, 1 ) )
     ParticleManager:SetParticleControl( self.effect_cast, 60, Vector( 255, 0, 0 ) )
     ParticleManager:SetParticleControl( self.effect_cast, 61, Vector( 0, 0, 0 ) )
+    self:AddParticle(self.effect_cast, false, false, -1, false, false)
 end
 
-modifier_Ayano_LaunchACircularSaw_thinker_disarm = class({})
+modifier_Ayano_LaunchACircularSaw_thinker_stay = class({})
 
-function modifier_Ayano_LaunchACircularSaw_thinker_disarm:IsHidden() return true end
-function modifier_Ayano_LaunchACircularSaw_thinker_disarm:IsPurgable() return false end
-function modifier_Ayano_LaunchACircularSaw_thinker_disarm:CheckState()
-    return {
-        [MODIFIER_STATE_DISARMED] = true
-    }
+function modifier_Ayano_LaunchACircularSaw_thinker_stay:IsHidden()
+    return true
 end
 
+function modifier_Ayano_LaunchACircularSaw_thinker_stay:IsPurgable()
+    return false
+end
 
+function modifier_Ayano_LaunchACircularSaw_thinker_stay:OnCreated( kv )
+    if not IsServer() then return end
+    self.radius = self:GetAbility():GetSpecialValueFor( "radius" )
+    self.speed = self:GetAbility():GetSpecialValueFor( "speed" )
+    self.point = Vector( kv.target_x, kv.target_y, kv.target_z )
+    self:PlayEffects2()
+    self:StartIntervalThink( 0.5 )
+end
 
+function modifier_Ayano_LaunchACircularSaw_thinker_stay:PlayEffects2()
+    if self.effect_cast then
+        ParticleManager:DestroyParticle( self.effect_cast, false )
+        ParticleManager:ReleaseParticleIndex( self.effect_cast )
+    end
+    self.effect_cast = ParticleManager:CreateParticle( "particles/ayano/pila_launch.vpcf", PATTACH_WORLDORIGIN, nil )
+    ParticleManager:SetParticleControl( self.effect_cast, 0, self:GetParent():GetOrigin() )
+    ParticleManager:SetParticleControl( self.effect_cast, 15, Vector( 255, 0, 0 ) )
+    ParticleManager:SetParticleControl( self.effect_cast, 16, Vector( 1, 1, 1 ) )
+    self:AddParticle(self.effect_cast, false, false, -1, false, false)
+end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
---local model_list = {
---    "models/courier/baby_rosh/babyroshan.vmdl",
---    "models/courier/donkey_trio/mesh/donkey_trio.vmdl",
---    "models/courier/mechjaw/mechjaw.vmdl",
---    "models/courier/huntling/huntling.vmdl",
---    "models/items/courier/devourling/devourling.vmdl",
---    "models/courier/seekling/seekling.vmdl",
---    "models/courier/venoling/venoling.vmdl",
---    "models/items/courier/amaterasu/amaterasu.vmdl",
---    "models/items/courier/beaverknight_s2/beaverknight_s2.vmdl",
---    "models/items/courier/nian_courier/nian_courier.vmdl",
---    "models/items/courier/faceless_rex/faceless_rex.vmdl",
---    "models/pets/icewrack_wolf/icewrack_wolf.vmdl",
---    "models/props_gameplay/chicken.vmdl",
---}
---
---local selection = "models/courier/baby_rosh/babyroshan.vmdl"
---
---LinkLuaModifier("modifier_ayano_mischief", "abilities/heroes/ayano.lua", LUA_MODIFIER_MOTION_NONE)
---LinkLuaModifier("modifier_ayano_mischie_invul", "abilities/heroes/ayano.lua", LUA_MODIFIER_MOTION_NONE)
---
---Ayano_Mischief = class({})
---
---function Ayano_Mischief:OnSpellStart()
---    if self:GetCaster():HasModifier("modifier_ayano_mischief") then
---        self:GetCaster():RemoveModifierByName("modifier_ayano_mischief")
---    else
---        self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_ayano_mischief", {} )
---        self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_ayano_mischie_invul", {duration = 0.2} )
---        self:GetCaster():EmitSound("aynoinvis")
---        self:EndCooldown()
---    end
---end
---
---modifier_ayano_mischief = class({})
---
---function modifier_ayano_mischief:DeclareFunctions()
---    local funcs = {
---        MODIFIER_EVENT_ON_ATTACK_START,
---        MODIFIER_EVENT_ON_TAKEDAMAGE,
---        MODIFIER_EVENT_ON_ABILITY_EXECUTED,
---        MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE,
---        MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE_MIN,
---        MODIFIER_EVENT_ON_ABILITY_EXECUTED,
---        MODIFIER_PROPERTY_MODEL_CHANGE,
---        MODIFIER_PROPERTY_MOVESPEED_LIMIT,
---    }
---
---    return funcs
---end
---
---function modifier_ayano_mischief:Exposed()
---    if self:GetParent():HasModifier("modifier_ayano_mischief") then
---        self:GetParent():RemoveModifierByName("modifier_ayano_mischief")
---        self:GetAbility():UseResources(false, false, true)
---    end
---end
---
---function modifier_ayano_mischief:IsHidden() return true end
---
---function modifier_ayano_mischief:OnAttackStart( keys )
---    if keys.attacker == self:GetParent() then
---        self:Exposed()
---    end
---end
---
---function modifier_ayano_mischief:OnTakeDamage( keys )   
---    if keys.unit == self:GetParent() or keys.attacker == self:GetParent() then
---        self:Exposed()
---    end
---end
---
---function modifier_ayano_mischief:OnAbilityExecuted( params )
---    if IsServer() then
---        local hAbility = params.ability
---        if hAbility == self:GetAbility() then return end
---
---        if hAbility == nil or not ( hAbility:GetCaster() == self:GetParent() ) then
---            return 0
---        end
---
---        self:Exposed()
---    end
---        
---end
---
---function modifier_ayano_mischief:GetEffectName()
---    return "particles/units/heroes/hero_monkey_king/monkey_king_disguise.vpcf"
---end
---
---function modifier_ayano_mischief:CheckState()
---    local state = {
---    [MODIFIER_STATE_NOT_ON_MINIMAP_FOR_ENEMIES] = true,
---    [MODIFIER_STATE_NO_HEALTH_BAR]              = true,
---    [MODIFIER_STATE_LOW_ATTACK_PRIORITY]        = true  }
---    
---    return state
---end
---
---function modifier_ayano_mischief:OnCreated()
---    if not IsServer() then return end
---
---    self.search_range   = 350
---    self.particle       = ""
---    self.model_found    = false
---    self:SetStackCount(200)
---
---    self:GetParent():RemoveDonate()
---    
---    if self:GetParent():HasModifier("modifier_get_xp") then
---        selection = "models/props_gameplay/gold_coin001.vmdl"
---        return
---    end
---
---    local trees = GridNav:GetAllTreesAroundPoint(self:GetParent():GetAbsOrigin(), self.search_range, false)
---    if #trees > 0 then
---        selection = "maps/ti10_assets/trees/ti10_goldenbirch001.vmdl"
---        return
---    end
---    
---    local units = FindUnitsInRadius(self:GetParent():GetTeamNumber(),
---    self:GetParent():GetAbsOrigin(),
---    nil,
---    self.search_range,
---    DOTA_UNIT_TARGET_TEAM_BOTH,
---    DOTA_UNIT_TARGET_HERO,
---    DOTA_UNIT_TARGET_FLAG_NONE,
---    FIND_ANY_ORDER,
---    false)
---    if (#units > 0) then
---        selection = model_list[RandomInt(1, #model_list)]
---        self:SetStackCount(380)
---        return
---    end
---end
---
---function modifier_ayano_mischief:OnRemoved()
---    if not IsServer() then return end
---    local poof = ParticleManager:CreateParticle("particles/units/heroes/hero_monkey_king/monkey_king_disguise.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
---    ParticleManager:SetParticleControl(poof, 0, self:GetParent():GetAbsOrigin())
---    ParticleManager:ReleaseParticleIndex(poof)
---    if PLAYERS[ self:GetParent():GetPlayerID() ] then
---        self:GetParent():AddDonate(PLAYERS[ self:GetParent():GetPlayerID() ].effect)
---    end
---end
---
---function modifier_ayano_mischief:GetModifierModelChange()
---    return selection
---end
---
---function modifier_ayano_mischief:GetModifierMoveSpeed_Absolute()
---    return self:GetStackCount()
---end
---
---function modifier_ayano_mischief:GetModifierMoveSpeed_AbsoluteMin()
---    return self:GetStackCount()
---end
---
---function modifier_ayano_mischief:GetModifierMoveSpeed_Limit()
---    return self:GetStackCount()
---end
---
---modifier_ayano_mischie_invul = class({})
---
---function modifier_ayano_mischie_invul:IsHidden()
---    return true
---end
---
---function modifier_ayano_mischie_invul:CheckState()
---    local state = {
---    [MODIFIER_STATE_INVULNERABLE] = true,}
---    
---    return state
---end
+function modifier_Ayano_LaunchACircularSaw_thinker_stay:OnIntervalThink()
+    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false)
+    for _,enemy in pairs(enemies) do
+        self:GetCaster():PerformAttack(enemy, true, true, true, false, false, false, true)
+    end
+end

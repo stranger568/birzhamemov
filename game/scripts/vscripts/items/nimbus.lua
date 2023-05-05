@@ -12,6 +12,7 @@ end
 function item_nimbus_lapteva:OnSpellStart()
     if not IsServer() then return end
     local duration = self:GetSpecialValueFor("duration")
+    self:GetCaster():EmitSound("Hero_NyxAssassin.SpikedCarapace")
     self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_item_nimbus_active", {duration = duration} )
 end
 
@@ -96,6 +97,11 @@ function modifier_item_nimbus_active:OnCreated()
     if not IsServer() then return end
     self.carapaced_units = {}
     self.caster_stun = true
+    if DonateShopIsItemBought(self:GetParent():GetPlayerOwnerID(), 197) or IsInToolsMode() then
+        local particle = ParticleManager:CreateParticle("particles/nimbus_effect_bp.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+        ParticleManager:SetParticleControlEnt(particle, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
+        self:AddParticle(particle, false, false, -1, false, false)
+    end
 end
 
 function modifier_item_nimbus_active:OnDestroy()
@@ -146,6 +152,8 @@ function modifier_item_nimbus_active:GetModifierTotal_ConstantBlock(params)
 
         self.carapaced_units[ params.attacker:entindex() ] = params.attacker
 		local ability_pucci = self:GetCaster():FindAbilityByName("pucci_restart_world")
+
+        donate_shop:QuestProgress(22, self:GetCaster():GetPlayerOwnerID(), 1)
 
 		if ability_pucci and ability_pucci:GetLevel() > 0 then
 			if ability_pucci.current_quest[4] == false and ability_pucci.current_quest[1] == "pucci_quest_use_nimb" then

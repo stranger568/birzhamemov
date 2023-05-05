@@ -4,6 +4,7 @@ item_birzha_gem = class({})
 
 function item_birzha_gem:OnSpellStart()
 	if not IsServer() then return end
+	donate_shop:QuestProgress(25, self:GetCaster():GetPlayerOwnerID(), 1)
 	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_item_birzha_gem", {})
 	self:SpendCharge()
 end

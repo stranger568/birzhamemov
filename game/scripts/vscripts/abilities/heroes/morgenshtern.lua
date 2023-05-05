@@ -188,12 +188,16 @@ function modifier_morgenshtern_ratata:OnAttack( params )
 	self.records[params.record] = true
 	if params.no_attack_cooldown then return end
 	self:GetParent():EmitSound("Hero_Snapfire.ExplosiveShellsBuff.Attack")
+
 	if self:GetCaster():HasTalent("special_bonus_birzha_morgenshtern_8") then
 		local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self:GetCaster():Script_GetAttackRange(), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES+DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE, 0, false )
 		for _, enemy in pairs(enemies) do
-			self:GetCaster():PerformAttack(enemy, true, true, true, false, true, false, false)
+			if enemy ~= params.target then
+				self:GetCaster():PerformAttack(enemy, true, true, true, false, true, false, false)
+			end
 		end
 	end
+
 	if self:GetStackCount()>0 then
 		self:DecrementStackCount()
 	end
@@ -284,7 +288,7 @@ function modifier_morgenshtern_rich_passive:OnAttackLanded(params)
     if RollPseudoRandomPercentage(chance, 1, self:GetParent()) then
 		self:GetParent():EmitSound("MorgenRich")
         self:GetParent():ModifyGold( money, true, 0 )
-        self:GetAbility():UseResources(false, false, true)
+        self:GetAbility():UseResources(false, false, false, true)
         if not params.target:IsMagicImmune() then
     		params.target:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_morgenshtern_rich_slow", {duration = duration * (1-params.target:GetStatusResistance()) })
     	end

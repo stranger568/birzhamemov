@@ -92,13 +92,16 @@ end
 
 function BirzhaGameMode:InitGameMode()
 	XP_PER_LEVEL_TABLE = {0,240,640,1160,1760,2440,3200,4000,4900,5900,7000,8200,9500,10900,12400,14000,15700,17500,19400,21400,23600,26000,28600,31400,34400,38400,43400,49400,56400,63900}
+
 	GameRules:GetGameModeEntity():SetUseCustomHeroLevels(true)
+
 	if IsInToolsMode() then
 		XP_PER_LEVEL_TABLE = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 		GameRules:GetGameModeEntity():SetCustomHeroMaxLevel( 30 )
 	else
 		GameRules:GetGameModeEntity():SetCustomHeroMaxLevel( 30 )
 	end
+
 	GameRules:GetGameModeEntity():SetCustomXPRequiredToReachNextLevel(XP_PER_LEVEL_TABLE)
 
 	if GameRules:IsCheatMode() then
@@ -116,7 +119,7 @@ function BirzhaGameMode:InitGameMode()
 	self.m_TeamColors[DOTA_TEAM_CUSTOM_6] = { 27, 192, 216 }
 	self.m_TeamColors[DOTA_TEAM_CUSTOM_7] = { 199, 228, 13 }
 	self.m_TeamColors[DOTA_TEAM_CUSTOM_8] = { 140, 42, 244 }
-	self.winter_mode = true
+	self.winter_mode = false
 
 	for team = 0, (DOTA_TEAM_COUNT-1) do
 		color = self.m_TeamColors[ team ]
@@ -247,8 +250,8 @@ function BirzhaGameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetDaynightCycleDisabled(false)
 	GameRules:GetGameModeEntity():SetCustomGameForceHero("npc_dota_hero_wisp")
 	GameRules:GetGameModeEntity():SetModifyGoldFilter(Dynamic_Wrap(self, "ModifyGoldFilter"), self)
-	SendToServerConsole("dota_max_physical_items_purchase_limit 9999")
 
+	SendToServerConsole("dota_max_physical_items_purchase_limit 9999")
 
 	ListenToGameEvent( "game_rules_state_change", Dynamic_Wrap( self, 'OnGameRulesStateChange' ), self )
 	ListenToGameEvent( "npc_spawned", Dynamic_Wrap( self, "OnNPCSpawned" ), self )
@@ -258,20 +261,26 @@ function BirzhaGameMode:InitGameMode()
 	ListenToGameEvent( "dota_npc_goal_reached", Dynamic_Wrap( self, "OnNpcGoalReached" ), self )
 	ListenToGameEvent( "player_chat", Dynamic_Wrap(ChatListener, 'OnPlayerChat'), ChatListener)
 
+	CustomGameEventManager:RegisterListener( "win_condition_predict", Dynamic_Wrap(donate_shop, "win_condition_predict"))
 	CustomGameEventManager:RegisterListener( "change_premium_pet", Dynamic_Wrap(donate_shop, "ChangePetPremium"))
 	CustomGameEventManager:RegisterListener( "change_border_effect", Dynamic_Wrap(donate_shop, "change_border_effect"))
 	CustomGameEventManager:RegisterListener( "donate_shop_buy_item", Dynamic_Wrap(donate_shop, "BuyItem"))
 	CustomGameEventManager:RegisterListener( "donate_shop_bp_preorder", Dynamic_Wrap(donate_shop, "PreOrderBattlePass"))
+	CustomGameEventManager:RegisterListener( "donate_shop_bp_levels", Dynamic_Wrap(donate_shop, "donate_shop_bp_levels"))
+	CustomGameEventManager:RegisterListener( "accept_battlepass_reward", Dynamic_Wrap(donate_shop, "accept_battlepass_reward"))
 	CustomGameEventManager:RegisterListener( "PlayerTip", Dynamic_Wrap(donate_shop, 'PlayerTip'))
 	CustomGameEventManager:RegisterListener( "SelectSmile", Dynamic_Wrap(donate_shop, 'SelectSmile'))
 	CustomGameEventManager:RegisterListener( "LotteryStart", Dynamic_Wrap(donate_shop, 'LotteryStart'))
 	CustomGameEventManager:RegisterListener( "SelectVO", Dynamic_Wrap(donate_shop,'SelectVO'))
 	CustomGameEventManager:RegisterListener( "select_chatwheel_player", Dynamic_Wrap(donate_shop,'SelectChatWheel'))
-	CustomGameEventManager:RegisterListener( "report_player", Dynamic_Wrap(report_system,'ReportPlayer'))
 	CustomGameEventManager:RegisterListener( "SpawnHeroDemo", Dynamic_Wrap(HeroDemo,'SpawnHeroDemo'))
+	CustomGameEventManager:RegisterListener( "player_reported_select", Dynamic_Wrap(report_system, 'player_reported_select'))
 
     local fix_pos_timer = SpawnEntityFromTableSynchronous("info_target", { targetname = "Fix_position" })
     fix_pos_timer:SetThink( FixPosition, FrameTime() )
+
+	local update_battlepass = SpawnEntityFromTableSynchronous("info_target", { targetname = "update_battlepass" })
+    update_battlepass:SetThink( UpdBattlePass, 5 )
 
 	ListenToGameEvent('player_connect_full', Dynamic_Wrap(self, 'OnConnectFull'), self)
 	GameRules:GetGameModeEntity():SetThink( "OnThink", self, 1 )   
@@ -281,19 +290,25 @@ function BirzhaGameMode:ModifyGoldFilter(params)
 	local player_id = params.player_id_const
 	local Player = PlayerResource:GetPlayer(player_id)
 	if Player then
-		local hero = PlayerResource:GetSelectedHeroEntity(player_id)  
-		local ability_modifier_shelby = hero:FindAbilityByName("special_bonus_birzha_shelby_4")
-		if ability_modifier_shelby and ability_modifier_shelby:GetLevel() > 0 and hero:IsRealHero() then
-			if params.reason_const ~= DOTA_ModifyGold_SellItem and params.gold > 0 then
-				params.gold = params.gold * (1 + (ability_modifier_shelby:GetSpecialValueFor("value") / 100))
-			end
-		end
+		--local hero = PlayerResource:GetSelectedHeroEntity(player_id)  
+		--local ability_modifier_shelby = hero:FindAbilityByName("special_bonus_birzha_shelby_4")
+		--if ability_modifier_shelby and ability_modifier_shelby:GetLevel() > 0 and hero:IsRealHero() then
+		--	if params.reason_const ~= DOTA_ModifyGold_SellItem and params.gold > 0 then
+		--		params.gold = params.gold * (1 + (ability_modifier_shelby:GetSpecialValueFor("value") / 100))
+		--	end
+		--end
 	end
 	return true
 end
 
+function UpdBattlePass()
+	donate_shop:UpdateBattlePassInfo()
+	return 5
+end
+
 function FixPosition()
-	local check_modifiers = {
+	local check_modifiers = 
+	{
 		"modifier_girl_charge_of_attack",
 		"modifier_aang_vacuum",
 		"modifier_aang_lunge",
@@ -329,9 +344,11 @@ function FixPosition()
 		"modifier_sonic_crash_generic_arc_lua",
 		"modifier_sonic_gottagofast",
 		"modifier_kaneki_pull_debuff",
+		"modifier_venom_tentacle",
 	}
 
 	local allHeroes = HeroList:GetAllHeroes()
+	
 	for _, hero in pairs(allHeroes) do
 		if hero:IsRealHero() then
 			local return_hero_position = true
@@ -353,6 +370,7 @@ function FixPosition()
 			end
 		end
 	end
+
 	return FrameTime()
 end
 
@@ -497,86 +515,92 @@ function BirzhaGameMode:GatherAndRegisterValidTeams()
 end
 
 function BirzhaGameMode:SpawnContracts()
-	CustomGameEventManager:Send_ServerToAllClients("contract_event_spawn", {} )
-	local spawn_points = {
-		["birzhamemov_solo"] =
-		{
-			Vector(-677.264, 1473.03, 256),
-			Vector(698.379, 1473.03, 256),
-			Vector(1527.58, 707.842, 256),
-			Vector(1534.7, -679.804, 256),
-			Vector(690.966, -1498.83, 256),
-			Vector(-640.588, -1470.73, 256),
-			Vector(-1464.22, -687.853, 256),
-			Vector(-1489.97, 657.538, 256),
-		},
+	--CustomGameEventManager:Send_ServerToAllClients("contract_event_spawn", {} )
+	--local spawn_points = {
+	--	["birzhamemov_solo"] =
+	--	{
+	--		Vector(-677.264, 1473.03, 256),
+	--		Vector(698.379, 1473.03, 256),
+	--		Vector(1527.58, 707.842, 256),
+	--		Vector(1534.7, -679.804, 256),
+	--		Vector(690.966, -1498.83, 256),
+	--		Vector(-640.588, -1470.73, 256),
+	--		Vector(-1464.22, -687.853, 256),
+	--		Vector(-1489.97, 657.538, 256),
+	--	},
+--
+	--	["birzhamemov_wtf"] =
+	--	{
+	--		Vector(-558.305, -1536, 257),
+	--		Vector(768, -1536, 257),
+	--		Vector(1380.82, -636.846, 257),
+	--		Vector(1380.82, 689.458, 257),
+	--		Vector(768, 1415.6, 257),
+	--		Vector(-558.305, 1415.6, 257),
+	--		Vector(-1570.78, 768, 257),
+	--		Vector(-1570.78, -704, 257),
+	--	},
+--
+	--	["birzhamemov_duo"] =
+	--	{
+	--		Vector(2112, -2112, 128),
+	--		Vector(-2112, -2112, 128),
+	--		Vector(-2112, 2112, 128),
+	--		Vector(2112, 2112, 128),
+	--	},
+--
+	--	["birzhamemov_trio"] =
+	--	{
+	--		Vector(2112, -2112, 128),
+	--		Vector(-2112, -2112, 128),
+	--		Vector(-2112, 2112, 128),
+	--		Vector(2112, 2112, 128),
+	--	},
+--
+	--	["birzhamemov_5v5"] =
+	--	{
+	--		Vector(-643.798, 2946.5, 16),
+	--		Vector(687.784, 2884.86, 16),
+	--		Vector(-655.003, -2836.04, 16),
+	--		Vector(706.284, -2866.63, 16),
+	--	},
+--
+	--	["birzhamemov_zxc"] =
+	--	{
+	--		Vector(-643.798, 2946.5, 16),
+	--		Vector(687.784, 2884.86, 16),
+	--		Vector(-655.003, -2836.04, 16),
+	--		Vector(706.284, -2866.63, 16),
+	--	},
+--
+--
+	--	["birzhamemov_5v5v5"] =
+	--	{
+	--		Vector(621.752, -2791.01, 128),
+	--		Vector(-646.064, -2688.01, 128),
+	--		Vector(1925.06, 1770.08, 128),
+	--		Vector(2399.43, 475.853, 128),
+	--		Vector(-1957.1, 1920.64, 128),
+	--		Vector(-2289.82, 621.959, 128),
+	--	},
+	--}
+--
+	--for i=1, 2 do
+	--	local item_contract = CreateItem( "item_birzha_contract", nil, nil )
+	--	local origin = table.remove(spawn_points[GetMapName()], RandomInt(1, #spawn_points[GetMapName()]))
+	--	local drop = CreateItemOnPositionForLaunch( origin, item_contract )
+	--	item_contract:LaunchLootInitialHeight( false, 0, 50, 0.15, origin )
+	--	item_contract:SetContextThink( "KillLoot", function() return self:KillLoot( item_contract, drop ) end, 180 )
+	--	Timers:CreateTimer(1*i, function()
+	--		for team = 2, 13 do
+	--			GameRules:ExecuteTeamPing( team, origin.x, origin.y, nil, 0 )
+	--		end
+	--	end)
+	--end
 
-		["birzhamemov_wtf"] =
-		{
-			Vector(-558.305, -1536, 257),
-			Vector(768, -1536, 257),
-			Vector(1380.82, -636.846, 257),
-			Vector(1380.82, 689.458, 257),
-			Vector(768, 1415.6, 257),
-			Vector(-558.305, 1415.6, 257),
-			Vector(-1570.78, 768, 257),
-			Vector(-1570.78, -704, 257),
-		},
-
-		["birzhamemov_duo"] =
-		{
-			Vector(2112, -2112, 128),
-			Vector(-2112, -2112, 128),
-			Vector(-2112, 2112, 128),
-			Vector(2112, 2112, 128),
-		},
-
-		["birzhamemov_trio"] =
-		{
-			Vector(2112, -2112, 128),
-			Vector(-2112, -2112, 128),
-			Vector(-2112, 2112, 128),
-			Vector(2112, 2112, 128),
-		},
-
-		["birzhamemov_5v5"] =
-		{
-			Vector(-643.798, 2946.5, 16),
-			Vector(687.784, 2884.86, 16),
-			Vector(-655.003, -2836.04, 16),
-			Vector(706.284, -2866.63, 16),
-		},
-
-		["birzhamemov_zxc"] =
-		{
-			Vector(-643.798, 2946.5, 16),
-			Vector(687.784, 2884.86, 16),
-			Vector(-655.003, -2836.04, 16),
-			Vector(706.284, -2866.63, 16),
-		},
-
-
-		["birzhamemov_5v5v5"] =
-		{
-			Vector(621.752, -2791.01, 128),
-			Vector(-646.064, -2688.01, 128),
-			Vector(1925.06, 1770.08, 128),
-			Vector(2399.43, 475.853, 128),
-			Vector(-1957.1, 1920.64, 128),
-			Vector(-2289.82, 621.959, 128),
-		},
-	}
-
-	for i=1, 2 do
-		local item_contract = CreateItem( "item_birzha_contract", nil, nil )
-		local origin = table.remove(spawn_points[GetMapName()], RandomInt(1, #spawn_points[GetMapName()]))
-		local drop = CreateItemOnPositionForLaunch( origin, item_contract )
-		item_contract:LaunchLootInitialHeight( false, 0, 50, 0.15, origin )
-		item_contract:SetContextThink( "KillLoot", function() return self:KillLoot( item_contract, drop ) end, 180 )
-		Timers:CreateTimer(1*i, function()
-			for team = 2, 13 do
-				GameRules:ExecuteTeamPing( team, origin.x, origin.y, nil, 0 )
-			end
-		end)
+	for id, inf in pairs(PLAYERS) do
+		if inf.selected_hero ~= nil then
+			inf.selected_hero:AddItemByName( "item_birzha_contract" )
+		end
 	end
 end

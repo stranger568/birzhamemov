@@ -1,0 +1,84 @@
+.Main
+{
+	width: 100%;
+	height: 100%;
+}
+
+.WinPredict
+{
+	width: 300px;
+	height: 150px;
+	background-color: #000000da;
+	border: 2px solid black;
+	vertical-align: bottom;
+	margin-bottom: 300px;
+	flow-children: down;
+	transform: translateX(-200%);
+	transition-property: transform, position, opacity;
+	transition-duration: 2s;
+	opacity: 0;
+}
+
+.WinPredictTop
+{
+	margin-top: 5px;
+	flow-children: down;
+	horizontal-align: center;
+}
+
+.WinPredictTopLabel
+{
+	horizontal-align: center;
+	margin-top: 5px;
+	color: white;
+	font-family: Radiance;
+}
+
+.WinPredictTopCounterLabel
+{
+	horizontal-align: center;
+	font-size: 28px;
+	font-weight: semi-bold;
+	color: white;
+}
+
+.PariImage
+{
+	background-image: url("file://{images}/custom_game/pari.png");
+    background-size: 100%;
+    width: 130px;
+    height: 40px;
+    horizontal-align: center;
+    visibility: collapse;
+}
+
+.WinPredictButton
+{
+	horizontal-align: center;
+	background-image: url("s2r://panorama/images/dota_plus/relic_agi_button_psd.vtex");
+	background-size: 100%;
+	width: 220px;
+	height: 32px;
+	margin-top: 5px;
+	transition-property: brightness;
+	transition-duration: 0.2s;
+}
+
+.WinPredictButtonLabel
+{
+	color: gradient( linear, 0% 0%, 0% 100%, from( #ffffff ), to( #c2f283 ) );
+	text-shadow: 0px 0px 4px 2.0 #00000088;
+	align: center center;
+	font-size: 18px;
+}
+
+.WinPredictButton:hover
+{
+	brightness: 1.4;
+}
+
+.open
+{
+	transform: translateX(0px);
+	opacity: 1;
+}

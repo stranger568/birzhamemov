@@ -29,9 +29,15 @@ function sonic_dash:OnSpellStart()
         end
     end
 
+    local particle = "particles/sonic/one_skill.vpcf"
+
+    if self:GetCaster():HasModifier("modifier_sonic_arcana") then
+        particle = "particles/sonic_arcana/one_skill.vpcf"
+    end
+
     local info = 
     {
-        EffectName = "particles/sonic/one_skill.vpcf",
+        EffectName = particle,
         Ability = self,
         vSpawnOrigin = self:GetCaster():GetOrigin(), 
         fStartRadius = 100,
@@ -155,7 +161,7 @@ function sonic_crash:OnSpellStart()
             self:PlayEffects4( enemy )
         end
 
-        self:PlayEffects2()
+        self:PlayEffects2(radius)
         FindClearSpaceForUnit(caster, caster:GetAbsOrigin(), true)
         Timers:CreateTimer(0.1, function()
             caster:FadeGesture(ACT_DOTA_CAST_ABILITY_6)
@@ -171,10 +177,22 @@ function sonic_crash:PlayEffects1( modifier )
     self:GetCaster():EmitSound("Hero_Pangolier.TailThump.Cast")
 end
 
-function sonic_crash:PlayEffects2()
+function sonic_crash:PlayEffects2(radius)
     local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_pangolier/pangolier_tailthump.vpcf", PATTACH_WORLDORIGIN, self:GetCaster() )
     ParticleManager:SetParticleControl( effect_cast, 0, self:GetCaster():GetOrigin() )
     ParticleManager:ReleaseParticleIndex( effect_cast )
+
+    if self:GetCaster():HasModifier("modifier_sonic_arcana") then
+        local effect_cast = ParticleManager:CreateParticle( "particles/sonic_arcana/thunder_clap.vpcf", PATTACH_WORLDORIGIN, self:GetCaster() )
+        ParticleManager:SetParticleControl( effect_cast, 0, self:GetCaster():GetOrigin() )
+        ParticleManager:SetParticleControl( effect_cast, 1, self:GetCaster():GetOrigin() )
+        ParticleManager:SetParticleControl( effect_cast, 2, self:GetCaster():GetOrigin() )
+        ParticleManager:SetParticleControl( effect_cast, 4, self:GetCaster():GetOrigin() )
+        ParticleManager:SetParticleControl( effect_cast, 7, Vector(radius,radius,radius) )
+        ParticleManager:ReleaseParticleIndex( effect_cast )
+        self:GetCaster():EmitSound("Hero_Zuus.ArcLightning.Target")
+    end
+    
     self:GetCaster():EmitSound("Hero_Pangolier.TailThump")
 end
 
@@ -283,7 +301,6 @@ function modifier_sonic_crash_generic_arc_lua:CheckState()
         [MODIFIER_STATE_STUNNED] = self.isStun or false,
         [MODIFIER_STATE_COMMAND_RESTRICTED] = self.isRestricted or false,
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
-        [MODIFIER_STATE_INVULNERABLE] = true,
     }
 
     return state
@@ -508,9 +525,21 @@ function modifier_sonic_gottagofast:IsPurgable() return false end
 
 function modifier_sonic_gottagofast:OnCreated()
     if not IsServer() then return end
-    local particle = ParticleManager:CreateParticle("particles/sonic/sonic_gotta.vpcf", PATTACH_POINT_FOLLOW, self:GetParent())
+
+    local particle = "particles/sonic/sonic_gotta.vpcf"
+    local particle_2 = "particles/sonic/sonic_gotta_ambient.vpcf"
+
+    if self:GetCaster():HasModifier("modifier_sonic_arcana") then
+        particle = "particles/sonic_arcana/sonic_gotta.vpcf"
+        particle_2 = "particles/sonic_arcana/sonic_gotta_ambient.vpcf"
+    end
+
+    local particle = ParticleManager:CreateParticle(particle, PATTACH_POINT_FOLLOW, self:GetParent())
     ParticleManager:SetParticleControlEnt(particle, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
     self:AddParticle(particle, false, false, -1, false, false)
+
+    local particle_ambient = ParticleManager:CreateParticle(particle_2, PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+    self:AddParticle(particle_ambient, false, false, -1, false, false)
 end
 
 function modifier_sonic_gottagofast:DeclareFunctions()
@@ -525,14 +554,6 @@ function modifier_sonic_gottagofast:GetModifierMoveSpeedBonus_Constant()
         return self:GetAbility():GetSpecialValueFor("bonus_movespeed") * self:GetCaster():FindTalentValue("special_bonus_birzha_sonic_4")
     end
     return self:GetAbility():GetSpecialValueFor("bonus_movespeed")
-end
-
-function modifier_sonic_gottagofast:GetEffectName()
-    return "particles/units/heroes/hero_troll_warlord/troll_warlord_rampage_attack_speed_buff.vpcf"
-end
-
-function modifier_sonic_gottagofast:GetEffectAttachType()
-    return PATTACH_ABSORIGIN_FOLLOW
 end
 
 function modifier_sonic_gottagofast:CheckState()
@@ -626,6 +647,7 @@ LinkLuaModifier("modifier_sonic_steal_speed_debuff", "abilities/heroes/sonic", L
 sonic_steal_speed = class({})
 
 function sonic_steal_speed:GetIntrinsicModifierName()
+    if self:GetCaster():IsIllusion() then return end
     return "modifier_sonic_steal_speed"
 end
 
@@ -775,6 +797,7 @@ function sonic_fast_sound:GetManaCost(iLevel)
 end
 
 function sonic_fast_sound:GetIntrinsicModifierName()
+    if self:GetCaster():IsIllusion() then return end
     return "modifier_sonic_fast_sound"
 end
 
@@ -787,11 +810,23 @@ function modifier_sonic_fast_sound_active_scepter:OnCreated()
     local parent = self:GetParent()
     local ability = self:GetAbility()
     if not IsServer() then return end
+    Timers:CreateTimer(0, function()
+        if self:GetParent():HasModifier("modifier_sonic_arcana") then
+            self:GetCaster():SetMaterialGroup("arcana")
+        end
+    end)
     self.target = self:GetAbility().target
     self.targets = self:GetAbility():GetSpecialValueFor("max_jumps") - 1
     self.damage = self:GetAbility():GetSpecialValueFor( "active_damage" )
     self.targets_scepter = {}
-    local particle = ParticleManager:CreateParticle("particles/sonic/sonic_gotta.vpcf", PATTACH_POINT_FOLLOW, self:GetParent())
+
+    local particle = "particles/sonic/sonic_gotta.vpcf"
+
+    if self:GetCaster():HasModifier("modifier_sonic_arcana") then
+        particle = "particles/sonic_arcana/sonic_gotta.vpcf"
+    end
+
+    local particle = ParticleManager:CreateParticle(particle, PATTACH_POINT_FOLLOW, self:GetParent())
     ParticleManager:SetParticleControlEnt(particle, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
     self:AddParticle(particle, false, false, -1, false, false)
     self:StartIntervalThink(FrameTime())
@@ -1001,6 +1036,19 @@ function modifier_sonic_fast_sound_active:IsHidden() return true end
 
 function modifier_sonic_fast_sound_active:OnCreated()
     if not IsServer() then return end
+    Timers:CreateTimer(0, function()
+        if self:GetParent():HasModifier("modifier_sonic_arcana") then
+            self:GetCaster():SetMaterialGroup("arcana")
+        end
+    end)
+
+    if self:GetCaster():HasModifier("modifier_sonic_arcana") then
+        local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_brewmaster/brewmaster_fire_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
+        ParticleManager:SetParticleControl( effect_cast, 60, Vector(255,255,0) )
+        ParticleManager:SetParticleControl( effect_cast, 61, Vector(1,1,1) )
+        self:AddParticle(effect_cast, false, false, -1, false, false)
+    end
+
     self.radius = self:GetAbility():GetSpecialValueFor("radius")
     self.damage_units = {}
     self:StartIntervalThink(0.1)
@@ -1031,7 +1079,13 @@ function modifier_sonic_fast_sound_active:OnIntervalThink()
             damageTable.victim = enemy
             ApplyDamage(damageTable)
             enemy:EmitSound("Hero_Pangolier.Gyroshell.Carom")
-            local particle = ParticleManager:CreateParticle("particles/sonic/sound_damage.vpcf", PATTACH_ABSORIGIN_FOLLOW, enemy)
+            local particle = "particles/sonic/sound_damage.vpcf"
+
+            if self:GetCaster():HasModifier("modifier_sonic_arcana") then
+                particle = "particles/sonic_arcana/sound_damage.vpcf"
+            end
+
+            local particle = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW, enemy)
             ParticleManager:SetParticleControl(particle, 0, enemy:GetAbsOrigin())
         end
     end
@@ -1050,4 +1104,41 @@ end
 
 function modifier_sonic_fast_sound_active:GetModifierModelChange()
     return "models/sonic/sonic_ball.vmdl"
+end
+
+function sonic_dash:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_sonic_arcana") then
+        return "sonic/dash_new"
+    end
+    return "sonic/dash"
+end
+function sonic_crash:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_sonic_arcana") then
+        return "sonic/crash_new"
+    end
+    return "sonic/crash"
+end
+function sonic_gottagofast:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_sonic_arcana") then
+        return "sonic/gottagofast_new"
+    end
+    return "sonic/gottagofast"
+end
+function sonic_steal_speed:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_sonic_arcana") then
+        return "sonic/steal_speed_new"
+    end
+    return "sonic/steal_speed"
+end
+function sonic_passive:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_sonic_arcana") then
+        return "sonic/passive_new"
+    end
+    return "sonic/passive"
+end
+function sonic_fast_sound:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_sonic_arcana") then
+        return "sonic/fast_sound_new"
+    end
+    return "sonic/fast_sound"
 end

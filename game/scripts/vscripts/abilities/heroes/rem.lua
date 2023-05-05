@@ -151,7 +151,11 @@ function rem_morgenshtern:GetManaCost(level)
 end
 
 function rem_morgenshtern:GetCastRange(location, target)
-    return self.BaseClass.GetCastRange(self, location, target)
+    local bonus = 0
+    if self:GetCaster():HasScepter() then
+        bonus = self:GetSpecialValueFor("bonus_cast_range_scepter")
+    end
+    return self.BaseClass.GetCastRange(self, location, target) + bonus
 end
 
 function rem_morgenshtern:OnAbilityPhaseStart()
@@ -172,18 +176,23 @@ function rem_morgenshtern:OnSpellStart()
     self:GetCaster():EmitSound("Hero_Rattletrap.Hookshot.Fire")
     self.direction = (self:GetCursorPosition() - self:GetCaster():GetAbsOrigin()):Normalized()
     self.direction.z = 0
+
+    local bonus = 0
+    if self:GetCaster():HasScepter() then
+        bonus = self:GetSpecialValueFor("bonus_cast_range_scepter")
+    end
     
-    local hookshot_duration = (self:GetSpecialValueFor("cast_range") / self:GetSpecialValueFor("speed")) * 2
+    local hookshot_duration = ((self:GetSpecialValueFor("cast_range") + self:GetCaster():GetCastRangeBonus() + bonus) / self:GetSpecialValueFor("speed")) * 2
     local hookshot_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_rattletrap/rattletrap_hookshot.vpcf", PATTACH_CUSTOMORIGIN, nil)
-    ParticleManager:SetParticleControlEnt(hookshot_particle, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_weapon", self:GetCaster():GetAbsOrigin(), true)
-    ParticleManager:SetParticleControl(hookshot_particle, 1, self:GetCaster():GetAbsOrigin() + self.direction * self:GetSpecialValueFor("cast_range"))
+    ParticleManager:SetParticleControlEnt(hookshot_particle, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetCaster():GetAbsOrigin(), true)
+    ParticleManager:SetParticleControl(hookshot_particle, 1, self:GetCaster():GetAbsOrigin() + self.direction * (self:GetSpecialValueFor("cast_range") + self:GetCaster():GetCastRangeBonus() + bonus))
     ParticleManager:SetParticleControl(hookshot_particle, 2, Vector(self:GetSpecialValueFor("speed"), 0, 0))
     ParticleManager:SetParticleControl(hookshot_particle, 3, Vector(hookshot_duration, 0, 0))
     
     local linear_projectile = {
         Ability             = self,
         vSpawnOrigin        = self:GetCaster():GetAbsOrigin(),
-        fDistance           = self:GetSpecialValueFor("cast_range"),
+        fDistance           = self:GetSpecialValueFor("cast_range") + bonus + self:GetCaster():GetCastRangeBonus(),
         fStartRadius        = self:GetSpecialValueFor("latch_radius"),
         fEndRadius          = self:GetSpecialValueFor("latch_radius"),
         Source              = self:GetCaster(),
@@ -238,10 +247,14 @@ function rem_morgenshtern:OnProjectileHit_ExtraData(hTarget, vLocation, ExtraDat
             if (self:GetCaster():GetAbsOrigin() - hTarget:GetAbsOrigin()):Length2D() > self:GetSpecialValueFor("latch_radius") then
                 self:GetCaster():EmitSound("Hero_Rattletrap.Hookshot.Retract")
             end
+            local bonus = 0
+            if self:GetCaster():HasScepter() then
+                bonus = self:GetSpecialValueFor("bonus_cast_range_scepter")
+            end
             ParticleManager:SetParticleControlEnt(ExtraData.hookshot_particle, 1, hTarget, PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", hTarget:GetAbsOrigin(), true)
             self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_rem_morgenshtern", 
             {
-                duration        = (self:GetSpecialValueFor("cast_range") + self:GetCaster():GetCastRangeBonus()) / self:GetSpecialValueFor("speed"),
+                duration        = ((self:GetSpecialValueFor("cast_range") + bonus) + self:GetCaster():GetCastRangeBonus()) / self:GetSpecialValueFor("speed"),
                 latch_radius    = self:GetSpecialValueFor("latch_radius"),
                 stun_radius     = self:GetSpecialValueFor("stun_radius"),
                 stun_duration   = self:GetSpecialValueFor("duration"),

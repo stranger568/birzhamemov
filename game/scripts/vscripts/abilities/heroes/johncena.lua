@@ -303,7 +303,7 @@ function modifier_JohnCena_greater_bash:OnAttackLanded(params)
 
     if RollPercentage(chance) then 
         self:GetAbility():Bash(params.target, params.attacker)
-        self:GetAbility():UseResources(false, false, true)
+        self:GetAbility():UseResources(false, false, false, true)
     end
 end
 
@@ -355,6 +355,10 @@ end
 function JohnCena_Grab:OnSpellStart()
     if not IsServer() then return end
 
+    if self:GetCaster():GetUnitName() ~= "npc_dota_hero_tiny" then
+        return
+    end
+
     if self:GetCaster():HasModifier("modifier_JohnCena_Grabbed_buff") then
         self.throw_speed = 2500
         self.impact_radius = self:GetSpecialValueFor( "radius_scepter" )
@@ -391,11 +395,12 @@ function JohnCena_Grab:OnSpellStart()
         return
     end
 
+    self.target = self:GetCursorTarget()
+    if self.target:TriggerSpellAbsorb(self) then return end
     local duration = self:GetSpecialValueFor( "duration" )
     local particle = ParticleManager:CreateParticle( "particles/test_particle/generic_attack_crit_blur.vpcf", PATTACH_CUSTOMORIGIN, self:GetCaster() )
     ParticleManager:SetParticleControlEnt( particle, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack2", self:GetCaster():GetOrigin(), true )
     ParticleManager:ReleaseParticleIndex( particle )
-    self.target = self:GetCursorTarget()
     self.buff = self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_JohnCena_Grabbed_buff", { duration = duration } )
     self.debuff = self.target:AddNewModifier( self:GetCaster(), self, "modifier_JohnCena_Grabbed_debuff", {duration = duration} ) 
     self:GetCaster():EmitSound("sena")
@@ -562,7 +567,7 @@ function modifier_JohnCena_Grabbed_debuff:OnDestroy()
     if not IsServer() then return end
     self:GetParent():RemoveHorizontalMotionController( self )
     self:GetParent():RemoveVerticalMotionController( self )
-    self:GetAbility():UseResources(false, false, true)
+    self:GetAbility():UseResources(false, false, false, true)
 end
 
 function modifier_JohnCena_Grabbed_debuff:UpdateHorizontalMotion( me, dt )

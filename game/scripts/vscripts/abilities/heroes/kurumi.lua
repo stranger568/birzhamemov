@@ -225,18 +225,6 @@ function modifier_kurumi_god_magic_immune:CheckState()
     }
 end
 
-function modifier_kurumi_god_magic_immune:DeclareFunctions()
-    local decFuncs = {
-        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
-    }
-
-    return decFuncs
-end
-
-function modifier_kurumi_god_magic_immune:GetAbsoluteNoDamageMagical()
-    return 1
-end
-
 function modifier_kurumi_god_magic_immune:GetStatusEffectName()
     return "particles/status_fx/status_effect_avatar.vpcf"
 end
@@ -384,6 +372,16 @@ function modifier_kurumi_zafkiel_aura:DeclareFunctions()
     return funcs
 end
 
+function modifier_kurumi_zafkiel_aura:OnCreated()
+    if not IsServer() then return end
+    self:StartIntervalThink(1)
+end
+
+function modifier_kurumi_zafkiel_aura:OnIntervalThink()
+    if not IsServer() then return end
+    donate_shop:QuestProgress(39, self:GetCaster():GetPlayerOwnerID(), 1)
+end
+
 function modifier_kurumi_zafkiel_aura:OnTakeDamage(params)
     if not IsServer() then return end
     if self:GetParent() ~= params.attacker then return end
@@ -392,7 +390,7 @@ function modifier_kurumi_zafkiel_aura:OnTakeDamage(params)
     if params.unit:IsWard() then return end
     if params.inflictor == nil and not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then 
         local heal = self:GetAbility():GetSpecialValueFor("lifesteal") / 100 * params.damage
-        self:GetParent():Heal(heal, nil)
+        self:GetParent():Heal(heal, self:GetAbility())
         local effect_cast = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.attacker )
         ParticleManager:ReleaseParticleIndex( effect_cast )
     end
@@ -413,7 +411,10 @@ function modifier_kurumi_zafkiel_aura:GetAuraSearchType()
 end
 
 function modifier_kurumi_zafkiel_aura:GetAuraSearchFlags()
-    return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE
+    if self:GetCaster():HasTalent("special_bonus_birzha_kurumi_6") then
+        return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE
+    end
+    return DOTA_UNIT_TARGET_FLAG_NOT_MAGIC_IMMUNE_ALLIES
 end
 
 function modifier_kurumi_zafkiel_aura:GetModifierAura()
@@ -424,7 +425,7 @@ function modifier_kurumi_zafkiel_aura:GetAuraDuration() return 0 end
 
 function modifier_kurumi_zafkiel_aura:GetAuraEntityReject(target)
     if not IsServer() then return end
-    if target == self:GetCaster() or (target:IsIllusion() and target:GetPlayerOwnerID() == self:GetCaster():GetPlayerOwnerID()) then
+    if target == self:GetCaster() or (target:IsIllusion() and target:GetPlayerOwnerID() == self:GetCaster():GetPlayerOwnerID()) or target:HasModifier("modifier_Dio_Za_Warudo") then
         return true
     else
         return false

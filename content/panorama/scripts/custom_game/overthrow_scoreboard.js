@@ -247,7 +247,7 @@ function AddHeroInPanel(data)
 
 		var HeroImage = $.CreatePanel("Panel", Hero, "HeroImage");
 		HeroImage.AddClass("HeroIcon");
-		HeroImage.style.backgroundImage = 'url("file://{images}/custom_game/hight_hood/heroes/' + data.hero + '.png")'
+		HeroImage.style.backgroundImage = 'url("file://{images}/custom_game/cm/heroes_pick/' + data.hero + '.png")'
 
 		var HeroName = $.CreatePanel("Label", Hero, "HeroName");
 		HeroName.AddClass("HeroName");
@@ -259,7 +259,6 @@ function RemoveHeroPanel(data)
 {
 	if ($("#HeroIcons"))
 	{
-		$.Msg("dada", " ", $("#HeroIcons").FindChildTraverse("hero_name_" + data.hero))
 		$("#HeroIcons").FindChildTraverse("hero_name_" + data.hero).DeleteAsync(0.1)
 	}	
 }

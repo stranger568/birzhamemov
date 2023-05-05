@@ -3,7 +3,7 @@ LinkLuaModifier( "modifier_garold_pain_debuff", "abilities/heroes/garold.lua", L
 Garold_pain = class({})
 
 function Garold_pain:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_garold_3")
+    return self.BaseClass.GetCooldown( self, level )
 end
 
 function Garold_pain:GetCastRange(location, target)
@@ -30,6 +30,17 @@ function Garold_pain:OnSpellStart()
 
     if self:GetCaster():HasTalent("special_bonus_birzha_garold_1") then
         radius = self:GetCaster():FindTalentValue("special_bonus_birzha_garold_1")
+    end
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_garold_4") then
+        local modifier_Garold_StealPain_stack = self:GetCaster():FindModifierByName("modifier_Garold_StealPain_stack")
+        if modifier_Garold_StealPain_stack then
+            if modifier_Garold_StealPain_stack:GetStackCount() > 0 then
+                local stack = modifier_Garold_StealPain_stack:GetStackCount() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_garold_4")
+                modifier_Garold_StealPain_stack:SetStackCount(modifier_Garold_StealPain_stack:GetStackCount() - stack)
+                damage = damage + stack
+            end
+        end
     end
 
     local particle = ParticleManager:CreateParticle( "particles/garold/garold_pain.vpcf", PATTACH_POINT_FOLLOW, target )
@@ -106,7 +117,7 @@ function Garold_StealPain:OnSpellStart()
     if not IsServer() then return end
     local modifier = self:GetCaster():FindModifierByName( "modifier_Garold_StealPain_stack" )
     local stack_count = modifier:GetStackCount() / 100
-    local damage_persentage = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_garold_5")
+    local damage_persentage = self:GetSpecialValueFor("damage")
     local radius = self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_garold_7")
 
     local targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_ANY_ORDER, false)
@@ -126,7 +137,7 @@ end
 function Garold_StealPain:StartScepter(damage)
     if not IsServer() then return end
     local stack_count = damage / 100
-    local damage_persentage = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_garold_5")
+    local damage_persentage = self:GetSpecialValueFor("damage")
     local radius = self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_garold_7")
     local targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_ANY_ORDER, false)
     for _,unit in pairs(targets) do
@@ -192,6 +203,16 @@ function modifier_Garold_StealPain_stack:OnTakeDamage( params )
 
     local max_stacks = self:GetAbility():GetSpecialValueFor("damagestack")
 
+    if self:GetCaster():HasTalent("special_bonus_birzha_garold_5") then
+        local modifier_joy_stats = self:GetCaster():FindModifierByName("modifier_joy_stats")
+        if modifier_joy_stats then
+            if modifier_joy_stats:GetStackCount() > 0 then
+                local stack = modifier_joy_stats:GetStackCount() * self:GetCaster():FindTalentValue("special_bonus_birzha_garold_5")
+                max_stacks = max_stacks + stack
+            end
+        end
+    end
+
     if (self:GetStackCount() + params.damage) > max_stacks then
         self:SetStackCount(max_stacks)
         return
@@ -233,6 +254,7 @@ function modifier_Garold_HidePain_passive:DeclareFunctions()
         MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
         MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
         MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT,
     }
     return funcs
 end
@@ -250,7 +272,7 @@ function modifier_Garold_HidePain_passive:OnAttackLanded( params )
 
     local max_stack = self:GetAbility():GetSpecialValueFor("maxstack") + self:GetCaster():FindTalentValue("special_bonus_birzha_garold_2")
 
-    local duration = self:GetAbility():GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_garold_4")
+    local duration = self:GetAbility():GetSpecialValueFor("duration")
 
     if self:GetStackCount() < max_stack then
         self:GetParent():AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_Garold_HidePain_stats", { duration = duration } )
@@ -271,6 +293,11 @@ end
 function modifier_Garold_HidePain_passive:GetModifierMagicalResistanceBonus()
     if self:GetParent():IsIllusion() or self:GetParent():PassivesDisabled() then return end
     return self:GetStackCount() * self:GetAbility():GetSpecialValueFor("magicarmor")
+end
+
+function modifier_Garold_HidePain_passive:GetModifierMoveSpeedBonus_Constant()
+    if self:GetParent():IsIllusion() or self:GetParent():PassivesDisabled() then return end
+    return self:GetStackCount() * self:GetCaster():FindTalentValue("special_bonus_birzha_garold_3")
 end
 
 function modifier_Garold_HidePain_passive:RemoveStack()

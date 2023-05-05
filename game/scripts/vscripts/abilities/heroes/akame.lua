@@ -168,7 +168,7 @@ function modifier_akame_slice_damage:OnCreated()
 	if not IsServer() then return end
 	local base_damage = self:GetAbility():GetSpecialValueFor("base_damage")
 
-    local percent_damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_akame_4")
+    local percent_damage = self:GetAbility():GetSpecialValueFor("damage")
 
     local agi_mult = self:GetAbility():GetSpecialValueFor("agi_mult")
 
@@ -226,7 +226,14 @@ function Akame_Obraz:GetManaCost(level)
 end
 
 function Akame_Obraz:GetCastRange(location, target)
-    return self.BaseClass.GetCastRange(self, location, target)
+    return self.BaseClass.GetCastRange(self, location, target) + self:GetCaster():FindTalentValue("special_bonus_birzha_akame_2")
+end
+
+function Akame_Obraz:GetBehavior()
+	if self:GetCaster():HasTalent("special_bonus_birzha_akame_4") then
+		return DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR_UNIT_TARGET + DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING + DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES
+	end
+	return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET + DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING + DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES
 end
 
 function Akame_Obraz:GetIntrinsicModifierName()
@@ -237,16 +244,36 @@ function Akame_Obraz:OnSpellStart()
     if not IsServer() then return end
 
     local target = self:GetCursorTarget()
+    local duration = self:GetSpecialValueFor("duration")
+    local illusion_damage_in = self:GetSpecialValueFor("illusion_damage_in") - 100
+    local illusion_damage = self:GetSpecialValueFor("illusion_damage") - 100
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_akame_4") and target == nil then
+    	local point = self:GetCursorPosition()
+		self:GetCaster():EmitSound("Hero_Antimage.Blink_in")
+
+	    local particle = ParticleManager:CreateParticle("particles/items_fx/abyssal_blink_end.vpcf", PATTACH_WORLDORIGIN, self:GetCaster())
+	    ParticleManager:SetParticleControl(particle, 0, self:GetCaster():GetAbsOrigin())
+
+	    local illusion = BirzhaCreateIllusion( self:GetCaster(), self:GetCaster(), {duration=duration,outgoing_damage=illusion_damage,incoming_damage=illusion_damage_in}, 1, 1, true, true )  
+
+	    for k, v in pairs(illusion) do
+	        v:AddNewModifier(self:GetCaster(), self, "modifier_akame_obraz_illusion", {})
+	    end 
+
+	    self:GetCaster():SetAbsOrigin(point)
+	    FindClearSpaceForUnit(self:GetCaster(), point, true)
+
+	    local particle = ParticleManager:CreateParticle("particles/items_fx/abyssal_blink_end.vpcf", PATTACH_WORLDORIGIN, self:GetCaster())
+	    ParticleManager:SetParticleControl(particle, 0, self:GetCaster():GetAbsOrigin())
+    	return
+    end
 
     local victim_angle = target:GetAnglesAsVector()
     local victim_forward_vector = target:GetForwardVector()
     local victim_angle_rad = victim_angle.y*math.pi/180
     local victim_position = target:GetAbsOrigin()
     local attacker_new = Vector(victim_position.x - 100 * math.cos(victim_angle_rad), victim_position.y - 100 * math.sin(victim_angle_rad), 0)
-
-    local duration = self:GetSpecialValueFor("duration")
-    local illusion_damage_in = self:GetSpecialValueFor("illusion_damage_in") - 100
-    local illusion_damage = self:GetSpecialValueFor("illusion_damage") - 100
 
     if target:TriggerSpellAbsorb( self ) then return end
 
@@ -298,7 +325,7 @@ LinkLuaModifier( "modifier_akame_attack_series_passive_haste", "abilities/heroes
 akame_attack_series = class({})
 
 function akame_attack_series:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_akame_6")
 end
 
 function akame_attack_series:GetCastRange(location, target)
@@ -316,9 +343,9 @@ function akame_attack_series:OnSpellStart()
 	self:GetCaster():AddNewModifier(self:GetCaster(), self, 'modifier_akame_attack_series', {})
 end
 
-function akame_attack_series:GetIntrinsicModifierName() 
-	return "modifier_akame_attack_series_passive"
-end
+--function akame_attack_series:GetIntrinsicModifierName() 
+--	return "modifier_akame_attack_series_passive"
+--end
 
 modifier_akame_attack_series_passive = class({})
 
@@ -401,7 +428,7 @@ function modifier_akame_attack_series:OnCreated()
 	self.target = self:GetAbility().target
 	self.start_angle = self:GetParent():GetAngles()
 	self.start_pos = self:GetParent():GetAbsOrigin()
-	self.attack_count = self:GetAbility():GetSpecialValueFor('series_count') + self:GetCaster():FindTalentValue("special_bonus_birzha_akame_6")
+	self.attack_count = self:GetAbility():GetSpecialValueFor('series_count')
 	self:StartIntervalThink(0.1)
 end
 
@@ -439,7 +466,7 @@ function modifier_akame_attack_series:OnIntervalThink()
 	ParticleManager:SetParticleControl(crit_pfx, 0, self:GetParent():GetAbsOrigin())
 	ParticleManager:ReleaseParticleIndex(crit_pfx)
 
-    ApplyDamage({ victim = self.target, attacker = self:GetParent(), ability = self:GetAbility(), damage = damage, damage_type = DAMAGE_TYPE_PHYSICAL })
+    ApplyDamage({ victim = self.target, attacker = self:GetParent(), ability = self:GetAbility(), damage = damage, damage_type = DAMAGE_TYPE_PHYSICAL, damage_flags = DOTA_DAMAGE_FLAG_NO_SPELL_LIFESTEAL + DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION })
 
 	self:GetParent():PerformAttack(self.target, true, true, true, true, false, true, true)
 
@@ -496,8 +523,14 @@ function Akame_jump:OnSpellStart()
         }
     )
 
+    ParticleManager:ProjectileDodge(self:GetCaster())
+
     local callback = function( bInterrupted )
     	self:GetCaster():Stop()
+    end
+
+    if self:GetCaster():HasShard() then
+    	self:GetCaster():Purge(false, true, false, false, false)
     end
 
     knockback:SetEndCallback( callback )
@@ -507,6 +540,10 @@ LinkLuaModifier("modifier_akame_cursed_blade", "abilities/heroes/akame", LUA_MOD
 LinkLuaModifier("modifier_cursed_blade_debuff", "abilities/heroes/akame", LUA_MODIFIER_MOTION_NONE)
 
 Akame_cursed_blade = class({}) 
+
+function Akame_cursed_blade:GetCooldown(level)
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_akame_5")
+end
 
 function Akame_cursed_blade:GetIntrinsicModifierName()
     return "modifier_akame_cursed_blade"
@@ -532,15 +569,15 @@ function Akame_cursed_blade:OnSpellStart()
 
 	self:StartAttack(ldirection, index)
 
-    if self:GetCaster():HasTalent("special_bonus_birzha_akame_5") then
-        local angle = 30
-        local hook_count = 2
-        for i = 1, hook_count do
-            local newAngle = angle * math.ceil(i / 2) * (-1)^i
-            local newDir = RotateVector2DPudge( ldirection, ToRadians( newAngle ) )
-            self:StartAttack(newDir, index)
-        end
-    end
+    --if self:GetCaster():HasTalent("special_bonus_birzha_akame_5") then
+    --    local angle = 30
+    --    local hook_count = 2
+    --    for i = 1, hook_count do
+    --        local newAngle = angle * math.ceil(i / 2) * (-1)^i
+    --        local newDir = RotateVector2DPudge( ldirection, ToRadians( newAngle ) )
+    --        self:StartAttack(newDir, index)
+    --    end
+    --end
 end
 
 function Akame_cursed_blade:StartAttack(direction, index)
@@ -608,7 +645,7 @@ function Akame_cursed_blade:OnProjectileHit_ExtraData(target, vLocation, ExtraDa
 
         print("damage")
 
-	    local agi_mult = self:GetSpecialValueFor("agility_attack") + self:GetCaster():FindTalentValue("special_bonus_birzha_akame_2")
+	    local agi_mult = self:GetSpecialValueFor("agility_attack")
 	    local damage = (self:GetCaster():GetAgility() * agi_mult) + self:GetCaster():GetAverageTrueAttackDamage(nil)
 	    ApplyDamage({ victim = target, attacker = self:GetCaster(), ability = self, damage = damage, damage_type = DAMAGE_TYPE_PHYSICAL})
 	    self:GetCaster():PerformAttack(target, true, true, true, true, false, true, true)
@@ -666,6 +703,8 @@ function modifier_cursed_blade_debuff:DeclareFunctions()
     {
 		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+		MODIFIER_PROPERTY_HP_REGEN_AMPLIFY_PERCENTAGE,
+
 	}
 	return decFuncs
 end
@@ -687,6 +726,13 @@ function modifier_cursed_blade_debuff:GetModifierMoveSpeedBonus_Percentage()
 end
 
 function modifier_cursed_blade_debuff:Custom_HealAmplifyReduce()
+	if self:GetCaster():HasShard() then
+		return self:GetAbility():GetSpecialValueFor('heal_ruin')
+	end
+	return 0
+end
+
+function modifier_cursed_blade_debuff:GetModifierHPRegenAmplify_Percentage()
 	if self:GetCaster():HasShard() then
 		return self:GetAbility():GetSpecialValueFor('heal_ruin')
 	end

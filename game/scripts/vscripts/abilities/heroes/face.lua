@@ -182,20 +182,13 @@ end
 
 function modifier_face_hate_debuff:OnIntervalThink( kv )
     if not IsServer() then return end
-    if FountainTimer then
-        if FountainTimer <= 0 then
-            if not self:GetCaster():IsAlive() then
-                if not self:IsNull() then
-                    self:Destroy()
-                end
-            end
-            return
-        end
-    end
     if self:GetCaster():HasModifier("modifier_fountain_passive_invul") or (not self:GetCaster():IsAlive()) then
         if not self:IsNull() then
             self:Destroy()
         end
+    else
+        self:GetParent():SetForceAttackTarget( self:GetCaster() )
+        self:GetParent():MoveToTargetToAttack( self:GetCaster() )
     end
 end
 

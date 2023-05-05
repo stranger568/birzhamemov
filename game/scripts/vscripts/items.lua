@@ -138,9 +138,43 @@ function BirzhaGameMode:SpawnItem()
 		return
 	end
 
+	local dropRadius = RandomFloat( self.m_GoldRadiusMin+200, self.m_GoldRadiusMax+200)
+	local end_pos = Vector(0,0,0)
+
+	local particle_l = ParticleManager:CreateParticle("particles/spawn_chect_knockback.vpcf", PATTACH_WORLDORIGIN, nil)
+    ParticleManager:SetParticleControl(particle_l, 0, Vector(0,0,200))
+    ParticleManager:SetParticleControl(particle_l, 60, Vector(255,140,0))
+    ParticleManager:SetParticleControl(particle_l, 61, Vector(1,1,1))
+    ParticleManager:ReleaseParticleIndex( particle_l )
+
+	local targets = FindUnitsInRadius(DOTA_TEAM_NOTEAM, visual, nil, 300, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_ANY_ORDER, false)
+	for _,unit in pairs(targets) do
+		local direction = unit:GetAbsOrigin() - visual
+		direction.z = 0
+		direction = direction:Normalized()
+		local knockback = unit:AddNewModifier(
+	        unit,
+	        nil,	
+	        "modifier_generic_knockback_lua",
+	        {
+	            direction_x = direction.x,
+	            direction_y = direction.y,
+	            distance = 400,
+	            height = 100,	
+	            duration = 0.25,
+	            IsStun = true,
+	        }
+	    )
+	    local callback = function( bInterrupted )
+	    	unit:Stop()
+	    	FindClearSpaceForUnit(unit, unit:GetAbsOrigin(), true)
+	    end
+	    knockback:SetEndCallback( callback )
+	end
+
 	local newItem = CreateItem( item_name, nil, nil )
-	local drop = CreateItemOnPositionForLaunch( Vector(0,0,0), newItem )
-	newItem:LaunchLootInitialHeight( false, 0, 350, 0.25, spawnLocation )
+	local drop = CreateItemOnPositionForLaunch( Vector(0,0,800), newItem )
+	newItem:LaunchLootInitialHeight( false, 0, 50, 0.25, Vector(0,0,800) )
 
 	Timers:CreateTimer(0.25, function()
 
@@ -149,35 +183,9 @@ function BirzhaGameMode:SpawnItem()
 		EmitGlobalSound( "chest_dropped" )
 
 		local effect_cast = ParticleManager:CreateParticle( particle, PATTACH_CUSTOMORIGIN, nil )
-		ParticleManager:SetParticleControl( effect_cast, 0, visual )
+		ParticleManager:SetParticleControl( effect_cast, 0, Vector(0,0,100) )
 		ParticleManager:SetParticleControl( effect_cast, 1, Vector( 200, 200, 200 ) )
 		ParticleManager:ReleaseParticleIndex( effect_cast )
-
-		local targets = FindUnitsInRadius(DOTA_TEAM_NOTEAM, visual, nil, 300, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_ANY_ORDER, false)
-		
-		for _,unit in pairs(targets) do
-			local direction = unit:GetAbsOrigin() - visual
-			direction.z = 0
-			direction = direction:Normalized()
-			local knockback = unit:AddNewModifier(
-		        unit,
-		        nil,	
-		        "modifier_generic_knockback_lua",
-		        {
-		            direction_x = direction.x,
-		            direction_y = direction.y,
-		            distance = 400,
-		            height = 100,	
-		            duration = 0.2,
-		            IsStun = true,
-		        }
-		    )
-		    local callback = function( bInterrupted )
-		    	unit:Stop()
-		    	FindClearSpaceForUnit(unit, unit:GetAbsOrigin(), true)
-		    end
-		    knockback:SetEndCallback( callback )
-		end
 	end)
 end
 
@@ -216,7 +224,6 @@ function BirzhaGameMode:SpecialItemAdd( event )
 		"item_bracer",
 		"item_ring_of_aquila",
 		"item_arcane_boots",
-		"item_hood_of_defiance",
 		"item_mekansm",
 		"item_lifesteal",
 		"item_veil_of_discord",

@@ -13,7 +13,7 @@ function SilverName_TopDeck:GetCooldown(level)
     if self:GetCaster():HasModifier("modifier_silver_owl_buff") then
         return 0
     end
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_silver_1", "value2")
 end
 
 function SilverName_TopDeck:GetManaCost(level)
@@ -59,7 +59,7 @@ function modifier_silver_TopDeck_active:OnDestroy()
     ParticleManager:SetParticleControl( nFXIndex, 1, Vector(radius, radius, radius ) )
     ParticleManager:ReleaseParticleIndex( nFXIndex )
 
-    local damage = self:GetCaster():GetAverageTrueAttackDamage(nil) / 100 * self:GetAbility():GetSpecialValueFor("crit")
+    local damage = self:GetCaster():GetAverageTrueAttackDamage(nil) / 100 * (self:GetAbility():GetSpecialValueFor("crit") + self:GetCaster():FindTalentValue("special_bonus_birzha_silver_4"))
 
     local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), origin, nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false )
 
@@ -91,10 +91,10 @@ function modifier_silver_TopDeck:GetModifierPreAttack_CriticalStrike(params)
     if self:GetParent():PassivesDisabled() then return end
     if params.target:IsWard() then return end
     if not self:GetParent():HasModifier("modifier_silver_owl_buff") then return end
-    local chance = self:GetAbility():GetSpecialValueFor("chance")
+    local chance = self:GetAbility():GetSpecialValueFor("chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_silver_1")
 
     if RollPercentage(chance) then
-        return self:GetAbility():GetSpecialValueFor("crit")
+        return self:GetAbility():GetSpecialValueFor("crit") + self:GetCaster():FindTalentValue("special_bonus_birzha_silver_4")
     end
 end
 
@@ -167,7 +167,7 @@ function SilverName_Screamer:OnProjectileHit( target, vLocation )
 end
 
 function SilverName_Screamer:Scream(point)
-    local duration = self:GetSpecialValueFor("duration")
+    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_silver_5")
     local radius = self:GetSpecialValueFor("radius")
     local damage = self:GetSpecialValueFor("damage")
 
@@ -225,19 +225,9 @@ end
 function modifier_silver_screamer:OnDestroy()
     if not IsServer() then return end
     self:GetParent():Stop()
-    if self:GetCaster():HasTalent("special_bonus_birzha_silver_5") then
-        self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_silver_screamer_silence", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_silver_5") * (1 - self:GetParent():GetStatusResistance()) })
-    end
-end
-
-function modifier_silver_screamer:DeclareFunctions()
-    return {
-        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
-    }
-end
-
-function modifier_silver_screamer:GetModifierMoveSpeedBonus_Percentage()
-    return self:GetCaster():FindTalentValue("special_bonus_birzha_silver_1")
+    --if self:GetCaster():HasTalent("special_bonus_birzha_silver_5") then
+    --    self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_silver_screamer_silence", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_silver_5") * (1 - self:GetParent():GetStatusResistance()) })
+    --end
 end
 
 modifier_silver_screamer_silence = class({})
@@ -288,10 +278,6 @@ function SilverName_Papaz:OnSpellStart()
     GridNav:DestroyTreesAroundPoint(point, radius, false)
 
     local flag = 0
-
-    if self:GetCaster():HasScepter() then
-        flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
-    end
 
     local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), point, nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, FIND_ANY_ORDER, false)
 
@@ -441,7 +427,7 @@ end
 
 function modifier_silver_owl_talent:OnIntervalThink()
 	if not IsServer() then return end
-	if self:GetParent():HasTalent("special_bonus_birzha_silver_4") then
+	if self:GetParent():HasScepter() then
 		if not GameRules:IsDaytime() then
 			if not self:GetParent():HasModifier("modifier_silver_owl_buff") then 
                 local modifier = self:GetParent():AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_silver_owl_buff", {}) 

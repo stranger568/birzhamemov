@@ -86,7 +86,9 @@ end
 function modifier_jew_flame_guard:DeclareFunctions()
     local funcs = 
     {
-        MODIFIER_PROPERTY_AVOID_DAMAGE
+        MODIFIER_PROPERTY_AVOID_DAMAGE,
+        MODIFIER_PROPERTY_INCOMING_SPELL_DAMAGE_CONSTANT,
+        MODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_CONSTANT,
     }
     return funcs
 end
@@ -108,6 +110,20 @@ function modifier_jew_flame_guard:GetModifierAvoidDamage(keys)
         return 1
     else
         return 0
+    end
+end
+
+function modifier_jew_flame_guard:GetModifierIncomingSpellDamageConstant()
+    if (not IsServer()) then
+        return self:GetStackCount()
+    end
+end
+
+function modifier_jew_flame_guard:GetModifierIncomingPhysicalDamageConstant()
+    if (not IsServer()) then
+        if self:GetCaster():HasTalent("special_bonus_birzha_evrei_8") then
+            return self:GetStackCount()
+        end
     end
 end
 
@@ -481,7 +497,7 @@ function modifier_evrei_gold:OnIntervalThink()
     local money = self:GetAbility():GetSpecialValueFor("money_amount") + self:GetCaster():FindTalentValue("special_bonus_birzha_evrei_4")
     if self:GetParent():IsIllusion() then return end
     if self:GetAbility():IsFullyCastable() then
-        self:GetAbility():UseResources(false, false, true)
+        self:GetAbility():UseResources(false, false, false, true)
         self:GetParent():ModifyGold( money, true, 0 )
         self:GetParent():EmitSound("DOTA_Item.Hand_Of_Midas")
         if DonateShopIsItemBought(self:GetParent():GetPlayerID(), 31) then

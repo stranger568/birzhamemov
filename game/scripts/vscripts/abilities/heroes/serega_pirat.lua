@@ -18,23 +18,19 @@ function serega_pirat_bike:OnSpellStart()
 	local release_ability = self:GetCaster():FindAbilityByName( "serega_pirat_bike_release" )
 	
 	if release_ability then
-		release_ability:UseResources( false, false, true )
+		release_ability:UseResources( false, false, false, true )
 	end
 
 	self:GetCaster():EmitSound("pirat_bike")
 
 	local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_phantom_assassin_persona/pa_persona_phantom_strike_start.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
 	ParticleManager:SetParticleControl(particle, 0, self:GetCaster():GetAbsOrigin())
-
-	self:GetCaster():SwapAbilities( "serega_pirat_bike", "serega_pirat_bike_release", false, true )
 end
 
 function serega_pirat_bike:OnChargeFinish( interrupt, target )
 	if not IsServer() then return end
 
 	local caster = self:GetCaster()
-
-	self:GetCaster():SwapAbilities( "serega_pirat_bike_release", "serega_pirat_bike", false, true )
 
 	local max_duration = self:GetSpecialValueFor( "chargeup_time" )
 	local max_distance = self:GetSpecialValueFor( "max_distance" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_serega_pirat_1")
@@ -93,6 +89,8 @@ function modifier_serega_pirat_bike_cast:OnCreated( kv )
 	self:PlayEffects1()
 	self:PlayEffects2()
 
+	self:GetCaster():SwapAbilities( "serega_pirat_bike", "serega_pirat_bike_release", false, true )
+
 	if self:GetParent().pirat_item_weapon and self:GetParent().pirat_item_offhand and self:GetParent().pirat_item_shoulder and self:GetParent().pirat_item_head and self:GetParent().pirat_item_belt and self:GetParent().pirat_item_arms and self:GetParent().pirat_item_armor then
 		self:GetParent().pirat_item_weapon:Destroy()
 		self:GetParent().pirat_item_offhand:Destroy()
@@ -129,6 +127,8 @@ function modifier_serega_pirat_bike_cast:OnRemoved()
 	self:GetParent().pirat_item_armor:FollowEntity(self:GetParent(), true)
 
 	self:GetParent():RemoveGesture(ACT_DOTA_CAST_ABILITY_2)
+
+	self:GetCaster():SwapAbilities( "serega_pirat_bike_release", "serega_pirat_bike", false, true )
 
 	if not self.charge_finish then
 		self:GetAbility():OnChargeFinish( false, self.target )
@@ -680,10 +680,6 @@ function modifier_serega_pirat_tilt_rotate:IsHidden()
 	return true
 end
 
-function modifier_serega_pirat_tilt_rotate:AllowIllusionDuplicate()
-	return true
-end
-
 function modifier_serega_pirat_tilt_rotate:OnCreated( kv )
 	self.bonus_damage = 0
 	self.bonus_damage_time = 0
@@ -783,6 +779,7 @@ function modifier_serega_pirat_radiance:GetModifierProcAttack_BonusDamage_Physic
 
 	if self:GetParent():PassivesDisabled() then return end
 	if params.target:IsWard() then return end
+	if params.target:IsMagicImmune() then return end
 
 	local target = params.target
 
@@ -796,7 +793,7 @@ function modifier_serega_pirat_radiance:GetModifierProcAttack_BonusDamage_Physic
 	end
 
 	local mana_burn =  target:GetMaxMana() / 100 * mana_burn_passive
-	target:ReduceMana( mana_burn )
+	target:Script_ReduceMana( mana_burn, self:GetAbility() )
 
 	local effect_cast = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_manaburn.vpcf", PATTACH_ABSORIGIN, target )
 	ParticleManager:ReleaseParticleIndex( effect_cast )
@@ -806,7 +803,7 @@ function modifier_serega_pirat_radiance:GetModifierProcAttack_BonusDamage_Physic
 	if self:GetAbility():IsFullyCastable() and not self:GetParent():IsIllusion() and target:IsHero() then
 		self:GetCaster():EmitSound("pirat_radiance")
 		params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_serega_pirat_radiance_debuff", {duration = radiance_burn_duration})
-		self:GetAbility():UseResources(false, false, true)
+		self:GetAbility():UseResources(false, false, false, true)
 	end
 
 	return mana_burn * mana_burn_damage

@@ -18,7 +18,7 @@ function modifier_item_birzha_contract_passive_for_cd:IsPurgable() return false 
 
 function modifier_item_birzha_contract_passive_for_cd:OnCreated()
     if not IsServer() then return end
-    self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_item_birzha_contract_caster_cd", {duration = 240})
+    --self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_item_birzha_contract_caster_cd", {duration = 240})
 end
 
 function modifier_item_birzha_contract_caster_cd:IsPurgable() return false end
@@ -160,7 +160,8 @@ function modifier_item_birzha_contract_target:OnDestroy()
 	if not IsServer() then return end
 	local mod = self:GetParent():FindModifierByName("modifier_item_birzha_contract_cooldown")
 	if mod then
-		mod:SetDuration(240, true)
+		--mod:SetDuration(240, true)
+        mod:Destroy()
 	end
 	CustomGameEventManager:Send_ServerToAllClients( "contract_hero_delete", {hero = self:GetParent():GetUnitName()} )
 end

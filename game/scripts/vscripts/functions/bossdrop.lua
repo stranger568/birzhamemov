@@ -51,6 +51,9 @@ function modifier_boss_drop:OnDeath(params)
 				local RoshanSpawnPoint = Entities:FindByName( nil, "RoshanSpawn" ):GetAbsOrigin()
 				local Boss = CreateUnitByName("npc_dota_bristlekek", RoshanSpawnPoint, false, nil, nil, DOTA_TEAM_NEUTRALS)
 			end)
+			if attacker:IsRealHero() then
+				donate_shop:QuestProgress(33, attacker:GetPlayerOwnerID(), 1)
+			end
 		elseif self:GetParent():GetUnitName() == "npc_dota_LolBlade" then
 			local spawnPointChest = self:GetParent():GetAbsOrigin()
 			--local BossDrop = CreateItem( "item_crysdalus", nil, nil )
@@ -59,6 +62,7 @@ function modifier_boss_drop:OnDeath(params)
 			local attacker = params.attacker
 			local team = attacker:GetTeam()
 			local AllHeroes = HeroList:GetAllHeroes()
+
 			--for count, hero in ipairs(AllHeroes) do
 			--	if hero:GetTeam() == team and hero:IsRealHero() then
 			--		hero:ModifyGold( 500, true, 0 )
@@ -72,6 +76,9 @@ function modifier_boss_drop:OnDeath(params)
 				local RoshanSpawnPoint = Entities:FindByName( nil, "RoshanSpawn2" ):GetAbsOrigin()
 				local Boss = CreateUnitByName("npc_dota_LolBlade", RoshanSpawnPoint, false, nil, nil, DOTA_TEAM_NEUTRALS)
 			end)
+			if attacker:IsRealHero() then
+				donate_shop:QuestProgress(34, attacker:GetPlayerOwnerID(), 1)
+			end
 		end
 	end	
 end
@@ -113,7 +120,7 @@ function modifier_lolblade_Reflection:OnIntervalThink()
 	local heroes = FindUnitsInRadius(caster:GetTeamNumber(),caster:GetAbsOrigin(), nil, 600, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NOT_CREEP_HERO,FIND_ANY_ORDER, false)
 	if #heroes == 0 then return end
 	if self:GetAbility():IsFullyCastable() then
-		self:GetAbility():UseResources(false, false, true)
+		self:GetAbility():UseResources(false, false, false, true)
 		for _,hero in pairs(heroes) do
 			local illusions = BirzhaCreateIllusion( self:GetCaster(), hero, {duration=3,outgoing_damage=0,incoming_damage=0}, 1, 1, true, true ) 
 			for k, illusion in pairs(illusions) do
@@ -187,7 +194,7 @@ function modifier_quill_spray_boss:OnIntervalThink()
 	local stack_damage = self:GetAbility():GetSpecialValueFor("quill_stack_damage")
 	local max_damage = self:GetAbility():GetSpecialValueFor("max_damage")
 	if self:GetAbility():IsFullyCastable() then
-		self:GetAbility():UseResources(false, false, true)
+		self:GetAbility():UseResources(false, false, false, true)
 		if not self:GetParent():IsAlive() then return end
 		local targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(),
 		self:GetParent():GetAbsOrigin(),

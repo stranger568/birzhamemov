@@ -136,7 +136,7 @@ function modifier_klichko_charge_of_darkness:OnDestroy()
     self:GetParent():RemoveHorizontalMotionController( self )
     if self:GetAbility() then
         self:GetAbility():SetActivated(true)
-        self:GetAbility():UseResources(false, false, true)
+        self:GetAbility():UseResources(false, false, false, true)
     end
     self:GetParent():StopSound("Hero_Spirit_Breaker.ChargeOfDarkness.FP")
     self:GetParent():StartGesture(ACT_DOTA_SPIRIT_BREAKER_CHARGE_END)

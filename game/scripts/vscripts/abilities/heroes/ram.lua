@@ -1,6 +1,7 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_ram_fura_lift", "abilities/heroes/ram.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_ram_fura_combination", "abilities/heroes/ram.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_ram_fura_combination_quest", "abilities/heroes/ram.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier("modifier_generic_knockback_lua", "modifiers/modifier_generic_knockback_lua.lua", LUA_MODIFIER_MOTION_BOTH )
 
 ram_fura = class({})
@@ -70,7 +71,7 @@ function ram_fura:OnProjectileHit( target, vLocation )
         local duration = self:GetSpecialValueFor( "duration" )
         target:EmitSound("Hero_Invoker.Tornado")
         target:AddNewModifier( self:GetCaster(), self, "modifier_ram_fura_lift", { duration = duration * (1-target:GetStatusResistance())  } )
-        local knockback = target:AddNewModifier( self:GetCaster(), self, "modifier_generic_knockback_lua", { duration = duration * (1-target:GetStatusResistance()), distance = 0, height = 500})
+        local knockback = target:AddNewModifier( self:GetCaster(), self, "modifier_generic_knockback_lua", { duration = duration * (1-target:GetStatusResistance()), distance = 0, height = 500, IsStun = true})
 
         if self:GetCaster():HasTalent("special_bonus_birzha_ram_3") then
             target:Purge(true, false, false, false, false)
@@ -80,6 +81,7 @@ function ram_fura:OnProjectileHit( target, vLocation )
             if self:GetCaster():HasTalent("special_bonus_birzha_ram_6") then
                 target:AddNewModifier( self:GetCaster(), self, "modifier_ram_fura_combination", { duration = self:GetCaster():FindTalentValue("special_bonus_birzha_ram_6", "value2")  } )
             end
+            target:AddNewModifier( self:GetCaster(), self, "modifier_ram_fura_combination_quest", { duration = self:GetCaster():FindTalentValue("special_bonus_birzha_ram_6", "value2")  } )
             local damage = self:GetSpecialValueFor( "damage" )
             ApplyDamage({victim = target, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self})
             if self:GetCaster():HasScepter() then
@@ -96,6 +98,11 @@ function modifier_ram_fura_combination:IsHidden() return true end
 function modifier_ram_fura_combination:IsPurgable() return false end
 function modifier_ram_fura_combination:RemoveOnDeath() return false end
 
+modifier_ram_fura_combination_quest = class({})
+function modifier_ram_fura_combination_quest:IsHidden() return true end
+function modifier_ram_fura_combination_quest:IsPurgable() return false end
+function modifier_ram_fura_combination_quest:RemoveOnDeath() return false end
+
 modifier_ram_fura_lift = class({})
 
 function modifier_ram_fura_lift:IsHidden() return true  end
@@ -108,6 +115,7 @@ function modifier_ram_fura_lift:CheckState()
 		[MODIFIER_STATE_STUNNED] = true,
 		[MODIFIER_STATE_ROOTED] = true,
 		[MODIFIER_STATE_DISARMED] = true,
+        [MODIFIER_STATE_SILENCED] = true,
 		[MODIFIER_STATE_NO_HEALTH_BAR] = true,
 		[MODIFIER_STATE_MAGIC_IMMUNE] = true,
 		[MODIFIER_STATE_ATTACK_IMMUNE] = true,
@@ -220,8 +228,12 @@ function ram_ElFura:OnProjectileHit_ExtraData(target, location, ExtraData)
             if target:HasModifier("modifier_ram_fura_combination") then
                 target:RemoveModifierByName("modifier_ram_fura_combination")
                 damage = damage + ( damage / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_ram_6"))
-                print(damage)
             end
+        end
+
+        if target:HasModifier("modifier_ram_fura_combination_quest") then
+            target:RemoveModifierByName("modifier_ram_fura_combination_quest")
+            donate_shop:QuestProgress(46, self:GetCaster():GetPlayerOwnerID(), 1)
         end
 
         ApplyDamage({victim = target, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self})

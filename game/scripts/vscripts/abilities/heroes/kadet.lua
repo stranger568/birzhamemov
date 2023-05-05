@@ -389,7 +389,7 @@ function modifier_kadet_razogrev_caster:OnTakeDamage(params)
         print(params.record, self.record)
         if params.record ~= self.record then return end
         local heal = (self:GetAbility():GetSpecialValueFor("lifesteal") + self:GetCaster():FindTalentValue("special_bonus_birzha_kadet_1")) / 100 * params.damage
-        self:GetParent():Heal(heal, nil)
+        self:GetParent():Heal(heal, self:GetAbility())
         local effect_cast = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.attacker )
         ParticleManager:ReleaseParticleIndex( effect_cast )
         self:Destroy()

@@ -447,14 +447,17 @@ function modifier_tailer_damageblock:OnTakeDamage( params )
 	if not self.parent:IsAlive() then return end
     if params.attacker:GetUnitName() == "dota_fountain" then return end
     if params.attacker:IsBoss() then return end
-	self:StartIntervalThink( self.reset + self:GetCaster():FindTalentValue("special_bonus_birzha_tailer_2") )
-	self.damage = self.damage + params.damage
-	if self.damage < (self.purge + self:GetCaster():FindTalentValue("special_bonus_birzha_tailer_4")) then return end
-	self.damage = 0
-	self:IncrementStackCount()
-	self.parent:Purge( false, true, false, true, true )
-	local effect_cast = ParticleManager:CreateParticle( "particles/tailer/damage_block.vpcf", PATTACH_ABSORIGIN_FOLLOW, self.parent )
-	ParticleManager:ReleaseParticleIndex( effect_cast )
+    if self:GetAbility():IsFullyCastable() then
+		self:StartIntervalThink( self.reset + self:GetCaster():FindTalentValue("special_bonus_birzha_tailer_2") )
+		self.damage = self.damage + params.damage
+		if self.damage < (self.purge + self:GetCaster():FindTalentValue("special_bonus_birzha_tailer_4")) then return end
+		self.damage = 0
+		self:IncrementStackCount()
+		self.parent:Purge( false, true, false, true, true )
+		local effect_cast = ParticleManager:CreateParticle( "particles/tailer/damage_block.vpcf", PATTACH_ABSORIGIN_FOLLOW, self.parent )
+		ParticleManager:ReleaseParticleIndex( effect_cast )
+		self:GetAbility():StartCooldown(self.reset + self:GetCaster():FindTalentValue("special_bonus_birzha_tailer_2"))
+	end
 end
 
 function modifier_tailer_damageblock:GetModifierPhysical_ConstantBlock()
@@ -504,6 +507,7 @@ end
 modifier_tailer_doubleform = class({})
 
 function modifier_tailer_doubleform:IsPurgable() return false end
+function modifier_tailer_doubleform:AllowIllusionDuplicate() return true end
 
 function modifier_tailer_doubleform:OnCreated()
 	self.bonus_strength_kv = self:GetAbility():GetSpecialValueFor("bonus_strength")
@@ -520,6 +524,8 @@ function modifier_tailer_doubleform:OnCreated()
 	self.zhir_item:FollowEntity(self:GetParent(), true)
 	self.distance = 0
 	self.currentpos = self:GetParent():GetOrigin()
+
+	if self:GetParent():IsIllusion() then return end
 
 	Timers:CreateTimer(FrameTime(), function()
 		self:GetParent():StartGesture(ACT_DOTA_CAST_ABILITY_4)
@@ -578,6 +584,7 @@ end
 
 function modifier_tailer_doubleform:OnIntervalThink()
 	if not IsServer() then return end
+	if self:GetParent():IsIllusion() then return end
 	self.bonus_strength = 0
 	self.bonus_strength = self:GetParent():GetStrength() / 100 * self.bonus_strength_kv
 	self:GetCaster():CalculateStatBonus(true)

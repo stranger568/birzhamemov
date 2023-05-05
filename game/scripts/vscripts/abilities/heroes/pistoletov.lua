@@ -315,7 +315,7 @@ function modifier_pistoletov_deathfight:OnDestroy()
     end
     self:GetParent():SetForceAttackTarget(nil)
     if self:GetParent() == self:GetCaster() then
-        self:GetAbility():UseResources(false, false, true)
+        self:GetAbility():UseResources(false, false, false, true)
     end
 end
 
@@ -442,7 +442,7 @@ function modifier_pistoletov_TrahTibidoh:OnTakeDamage( params )
     if self:GetAbility():IsFullyCastable() then
         if RollPercentage(chance) then
             self:GetParent():EmitSound("PistoletovTrah")
-            self:GetAbility():UseResources(false,false,true)
+            self:GetAbility():UseResources(false,false,false,true)
             self:GetParent():Heal(fullheal, self:GetAbility())
             self:GetParent():AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_pistoletov_TrahTibidoh_armor", { duration = duration } )
             self:IncrementStackCount()

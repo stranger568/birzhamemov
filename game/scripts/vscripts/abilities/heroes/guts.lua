@@ -381,10 +381,10 @@ function modifier_guts_InimitableTactician:GetModifierProcAttack_Feedback( param
 			local damage = self:GetAbility():GetSpecialValueFor("damage_per_burn")
 			if (params.target:GetMana() >= reduce) then
 				damageTable.damage = reduce * damage
-				params.target:ReduceMana(reduce)
+				params.target:Script_ReduceMana(reduce, self:GetAbility())
 			else
 				damageTable.damage = params.target:GetMana() * damage
-				params.target:ReduceMana(reduce)
+				params.target:Script_ReduceMana(reduce, self:GetAbility())
 			end
 			ApplyDamage(damageTable)
 		end

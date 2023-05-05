@@ -31,32 +31,142 @@
 
 
 		<Panel id="BattlePassWindow" hittest="false">
-			<Panel id="BattlePassWindowNoActive">
-				<Panel class="BattlePassLogo">
-					<Panel class="CloseBattlepass" onactivate="GameUI.CustomUIConfig().OpenBattlePass();"/>
-				</Panel>
-				<Panel class="BattlePassLogoCenter">
-					<Label text = "BATTLE" class = "BattlePassLogoText"/>	
-					<Panel id="BattlePassIcon" class="BattlePassIcon"/>
-					<Label text = "PASS" class = "BattlePassLogoText"/>	
-				</Panel>
-				<Label id="PreBuyLabel" html="true" class="PreBuyLabel" text="#preorder" />
-				<Panel id="BuyBattlePass" class="BuyBattlePass">
-					<Panel class="BuyPanel">
-						<Panel class="BattlePassIconBit" />
-						<Label class="BattlePassPrice" text="3000" />
-						<Panel class="BuyBattlePassButton" onactivate="BPPreOrderBuy('gold');">
-							<Label class="BuyBattlePassButtonLabel" text="Купить"/>
+				<Panel class="BuyBPPanel" id="BuyBPPanel">
+					<Panel class="CloseBattlepass" onactivate="CloseBPBuy();"/>
+					<Label text = "#bm_buy_battlepass" class = "BattlePassLogoText"/>
+					<Panel class="BuyBattlePass">
+						<Panel class="BuyPanel">
+							<Panel class="BattlePassIconBit" />
+							<Label class="BattlePassPrice" text="6000" />
+							<Panel class="BuyBattlePassButton" onactivate="BPPreOrderBuy('gold');">
+								<Label class="BuyBattlePassButtonLabel" text="#shop_buy"/>
+							</Panel>
 						</Panel>
-					</Panel>
-					<Panel class="BuyPanel">
-						<Panel class="BattlePassIconDoge" />
-						<Label class="BattlePassPrice" text="3000" />
-						<Panel class="BuyBattlePassButton" onactivate="BPPreOrderBuy('gem');">
-							<Label class="BuyBattlePassButtonLabel" text="Купить"/>
+						<Panel class="BuyPanel">
+							<Panel class="BattlePassIconDoge" />
+							<Label class="BattlePassPrice" text="12000" />
+							<Panel class="BuyBattlePassButton" onactivate="BPPreOrderBuy('gem');">
+								<Label class="BuyBattlePassButtonLabel" text="#shop_buy"/>
+							</Panel>
 						</Panel>
 					</Panel>
 				</Panel>
+
+				<Panel class="BuyBPPanelLevels" id="BuyBPLevelsPanel">
+					<Panel class="CloseBattlepass" onactivate="CloseBPLevelsBuy();"/>
+					<Label text = "#bm_buy_battlepass_levels" class = "BattlePassLogoText"/>
+					<Panel class="BuyLevelsSSas">
+						<Panel class="BuyLevelsPanelInfo">
+							<Panel class="BuyLevelsCost">
+								<Panel class="BuyLevelsBitcoinIcon"/>
+								<Label class="BuyLevelsBitcoinLabel" id="BuyLevelsBitcoinLabel" text="150" />
+							</Panel>
+							<Panel class="BuyLevelsPanel">
+								<Panel class="ArrowUpLevels" onactivate="UpLevelsBuy();"/>
+								<Label class="LevelsUpCount" id="LevelsUpCount" text="1"/>
+								<Panel class="ArrowDownLevels" onactivate="DownLevelsBuy();"/>
+							</Panel>
+						</Panel>
+						<Panel class="BuyBattlePassButton" style="margin-top:50px;" onactivate="BuyLevelsBP();">
+							<Label class="BuyBattlePassButtonLabel" text="#shop_buy"/>
+						</Panel>
+					</Panel>
+				</Panel>
+
+				<Panel id="BattlePassWindow_TopPlayers" class="BattlePassWindow_Panel">
+					<Panel class="TopPlayersHeader">
+						<Label class="TopPlayersHeaderLabel1" text="#bm_battlepass_info_player" />
+						<Label class="TopPlayersHeaderLabel2" text="#bm_battlepass_info_level" />
+					</Panel>
+					<Panel class="TopPlayersMain" id="TopPlayersMain"/>
+				</Panel>
+
+				<Panel id="BattlePassWindow_Quests" class="BattlePassWindow_Panel">
+					<Panel class="QuestsMain" id="QuestsMain" />
+				</Panel>
+
+				<Panel id="BattlePassWindow_HeroChallenge" class="BattlePassWindow_Panel">
+					<Panel class="HeroChallengeMain">
+						<Panel class="StrengthHeroes" id="StrengthHeroes">
+							<DOTAParticleScenePanel id="variantButtonSmoke" squarePixels="true" hittest="false" particleName="particles/ui/ui_accept_billow_smoke.vpcf" particleonly="true" cameraOrigin="0 0 0" lookAt="0 0 0" fov="90" />
+							<Panel class="HeroesChallengePanel" id="StrengthHeroes2" />
+						</Panel>
+						<Panel class="AgilityHeroes" id="AgilityHeroes">
+							<DOTAParticleScenePanel id="variantButtonSmoke" squarePixels="true" hittest="false" particleName="particles/ui/ui_accept_billow_smoke.vpcf" particleonly="true" cameraOrigin="0 0 0" lookAt="0 0 0" fov="90" />
+							<Panel class="HeroesChallengePanel" id="AgilityHeroes2" />
+						</Panel>
+						<Panel class="IntellectHeroes" id="IntellectHeroes">
+							<DOTAParticleScenePanel id="variantButtonSmoke" squarePixels="true" hittest="false" particleName="particles/ui/ui_accept_billow_smoke.vpcf" particleonly="true" cameraOrigin="0 0 0" lookAt="0 0 0" fov="90" />
+							<Panel class="HeroesChallengePanel" id="IntellectHeroes2" />
+						</Panel>
+					</Panel>
+				</Panel>
+
+				<Panel id="BattlePassWindow_Main" class="BattlePassWindow_Panel">
+					<Panel class="BattlePassUltimateRewardsPreview">
+						<Panel class="BattlePassUltimateRewardsPreview1">
+							<Label class="RewardLevelDesc" text="#bm_battlepass_info_20level" />
+							<Label class="RewardDescName" text="#bm_battlepass_info_20level_name" />
+						</Panel>
+						<Panel class="BattlePassUltimateRewardsPreview2">
+							<Label class="RewardLevelDesc" text="#bm_battlepass_info_40level" />
+							<Label class="RewardDescName" text="#bm_battlepass_info_40level_name" />
+						</Panel>
+						<Panel class="BattlePassUltimateRewardsPreview3">
+							<Label class="RewardLevelDesc" text="#bm_battlepass_info_60level" />
+							<Label class="RewardDescName" text="#bm_battlepass_info_60level_name" />
+						</Panel>
+						<Panel class="BattlePassUltimateRewardsPreview4">
+							<Label class="RewardLevelDesc" text="#bm_battlepass_info_80level" />
+							<Label class="RewardDescName" text="#bm_battlepass_info_80level_name" />
+						</Panel>
+						<Panel class="BattlePassUltimateRewardsPreview5">
+							<Label class="RewardLevelDesc" text="#bm_battlepass_info_100level" />
+							<Label class="RewardDescName" text="#bm_battlepass_info_100level_name" />
+						</Panel>
+					</Panel>
+					<Panel class="BattlePassRewards" id="BattlePassRewards"/>
+					<Panel class="BattlePassPlayerInfo">
+						<Panel class="BattlePassPlayerInfoLevel">
+							<Panel class="BattlePassPlayerInfoLevelCenter">
+								<Label class="BattlePassPlayerInfoLevelLabeltext" text="#bm_battlepass_info_level" />
+								<Label class="BattlePassPlayerInfoLevelLabel" id="BattlePassPlayerInfoLevelLabel" text="0" />
+								<ProgressBar id="LevelProgressBar" class="LevelProgressBar" value="0" max="1000">
+									<DOTAParticleScenePanel id="ProgressBurner" hittest="false" particleName="particles/ui/ui_progressbar_burner.vpcf" particleonly="true" cameraOrigin="-350 0 0" lookAt="0 -350 0" fov="90" squarePixels="true" />
+								</ProgressBar>
+								<Label class="BattlePassPlayerInfoExpLabel" id="BattlePassPlayerInfoExpLabel" text="0 / 1000" />
+							</Panel>
+						</Panel>
+						<Panel class="BuyBPandBuyLevel">
+							<Panel class="BuyBPandBuyLevelCenter">
+								<Panel class="ButtonBuyLevels" id="ButtonBuyLevels" onactivate="OpenBPLevelsBuy();">
+									<Label class="ButtonBuyLevelsLabel" text="#bm_buy_battlepass_levels" />
+								</Panel>
+								<Panel class="ButtonBuyBp" id="ButtonBuyBp" onactivate="OpenBPBuy();">
+									<Label class="ButtonBuyLevelsLabel" text="#bm_buy_battlepass" />
+								</Panel>
+							</Panel>
+						</Panel>
+					</Panel>
+				</Panel>
+			<Panel class="BattlePassMenu">
+				<Panel id="Button_Main" class="Button_Main ButtonBP_Selected" onactivate="SwitchBattlePassMenu('Button_Main', 'BattlePassWindow_Main');">
+					<Panel class="BGButton_Selected" />
+					<Label class="ButtonBP_Label" text="#bm_battlepass_info_menu_main"/>
+				</Panel>
+				<Panel id="Button_Quests" class="Button_Quests" onactivate="SwitchBattlePassMenu('Button_Quests', 'BattlePassWindow_Quests');">
+					<Panel class="BGButton_Selected" />
+					<Label class="ButtonBP_Label" text="#bm_battlepass_info_menu_quest"/>
+				</Panel>
+				<Panel id="Button_HeroChallenge" class="Button_HeroChallenge" onactivate="SwitchBattlePassMenu('Button_HeroChallenge', 'BattlePassWindow_HeroChallenge');">
+					<Panel class="BGButton_Selected" />
+					<Label class="ButtonBP_Label_2" text="#bm_battlepass_info_menu_catacomb"/>
+				</Panel>
+				<Panel id="Button_TopPlayers" class="Button_TopPlayers" onactivate="SwitchBattlePassMenu('Button_TopPlayers', 'BattlePassWindow_TopPlayers');">
+					<Panel class="BGButton_Selected" />
+					<Label class="ButtonBP_Label_2" text="#bm_battlepass_info_menu_players"/>
+				</Panel>
+				<Panel class="CloseBattlepass_2" onactivate="GameUI.CustomUIConfig().OpenBattlePass();"/>
 			</Panel>
 		</Panel>
 
@@ -81,7 +191,6 @@
 					</Panel>
 				</Panel>
 				<Panel id="TableInfoPlayer">
-					<Label class="PanelInfo" text="#PlayerStats" />
 					<Panel id="PlayerInfo">
 						<Panel id="PlayerCircleWinrate">
 							<Panel class="WinrateLabelPanel">
@@ -188,22 +297,12 @@
 							</Panel>
 							<Panel class="CurrencyIconMain" />
 						</Panel>
-
-						<Panel class="DonateShopCurrencyMain2">
-							<Panel class="DonateShopCurrency2">
-								<Label id="Currency2BP" text="0" class="GoldText2" />
-								<Panel class="DonateShopGiveDonate2">
-									<Panel class="PlusLabel2" onactivate="ToggleShop();SwitchTab('ItemsContainer', 'DonateItemsButton');SwitchShopTab('CurrencysDonateItems', 'CurrencyButton');"/>
-								</Panel>
-							</Panel>
-							<Panel class="CurrencyIconMain2" />
-						</Panel>
 					</Panel>
 
 					<Panel class="CloseBattlepass" onactivate="GameUI.CustomUIConfig().OpenBirzhaPlus();"/>
 				</Panel>
 				<Panel style="flow-children:right;">
-					<DOTAScenePanel id="PlusLogoScene" camera="shot_camera" map="scenes/plus_logo" renderdeferred="true" deferredalpha="true" antialias="true" hittest="false" particleonly="false" />
+					<DOTAScenePanel id="PlusLogoScene" camera="shot_camera" map="scenes/plus_logo" renderdeferred="true" deferredalpha="true" antialias="true" hittest="false" particleonly="true" />
 					<Panel style="width:650px;flow-children:down;">
 						<Label class="HeaderBirzhaPlusBuy" text="#subscribe_big_name" />
 						<Label class="HeaderBirzhaPlusBuyDescription" html="true" text="#subscribe_big_name_description" />
@@ -312,7 +411,7 @@
 
 			<Panel id="ItemsContainer" class="DonateShopPanelSecond">
 				<Panel id="MenuItems">
-					<Panel class="ItemsCategoryButton" onactivate="SwitchShopTab('AllDonateItems', 'AllItemsButton');" id="AllItemsButton"> <Label text="#shop_all" class="ButtonText" /> </Panel>
+					<Panel class="ItemsCategoryButton selected_menu_shop" onactivate="SwitchShopTab('AllDonateItems', 'AllItemsButton');" id="AllItemsButton"> <Label text="#shop_all" class="ButtonText" /> </Panel>
 					<Panel class="ItemsCategoryButton" onactivate="SwitchShopTab('DogeCoinsItems', 'DogeCoinsItemsButton');" id="DogeCoinsItemsButton"> <Label text="#shop_dogecoinsitems" class="ButtonText" /> </Panel>
 					<Panel class="ItemsCategoryButton" onactivate="SwitchShopTab('HeroesDonateItems', 'HeroesItemsButton');" id="HeroesItemsButton"> <Label text="#shop_heroesitems" class="ButtonText" /> </Panel>
 					<Panel class="ItemsCategoryButton" onactivate="SwitchShopTab('PetsDonateItems', 'PetsButton');" id="PetsButton"> <Label text="#shop_pets" class="ButtonText" /> </Panel>
@@ -470,6 +569,9 @@
 
 			<Panel id="ChatWheelBirzhaContainer" class="DonateShopPanelSecond">
 				<Panel id="ChatWheelContents">
+					<Panel class="ButtonInfo">
+						<Label class="ButtonInfoLabel" id="ButtonInfoLabelWheel" text="" />
+					</Panel>
 					<Panel class="TopBottomFlow" id="ChatWheelWheelPanel">
 						<Panel id="TopChatWheelPanel">
 							<Button class="ChatWheelButton" id="ChatWheelButton6" onactivate="OpenSelectChatWheel( 7 );" >

@@ -493,6 +493,7 @@ function modifier_zema_cosmic_blindness_hole:OnCreated( kv )
 	self.interval = 1
 	self.ticks = math.floor(self:GetDuration()/self.interval+0.5)
 	self.tick = 0
+	self.quest_tick = true
 	local damage = self:GetAbility():GetSpecialValueFor( "damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_zema_6")
 	self.damageTable = { attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility() }
 	self:StartIntervalThink( self.interval )
@@ -524,6 +525,13 @@ function modifier_zema_cosmic_blindness_hole:OnIntervalThink()
 	end
 
 	self.tick = self.tick+1
+
+	if #enemies >= 2 then
+		if self.quest_tick then
+			self.quest_tick = false
+			donate_shop:QuestProgress(44, self:GetCaster():GetPlayerOwnerID(), 1)
+		end
+	end
 end
 
 function modifier_zema_cosmic_blindness_hole:IsAura()

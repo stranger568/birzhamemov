@@ -18,13 +18,13 @@ function AbilitiesCooldownCheck() {
 			for (var i = 0; i < Entities.GetAbilityCount(ent); i++) {
 				var ability = Entities.GetAbility(ent, i);
 
-				if (ability !== -1 && !_.startsWith(Abilities.GetAbilityName(ability), "special_bonus_") && !Abilities.IsHidden(ability)) {
+				if (ability !== -1 && Abilities.GetAbilityName(ability).indexOf('special_bonus_') == -1 && !Abilities.IsHidden(ability)) {
 					EntityAbilities.push(ability);
 					EntityAbilitiesNames.push(Abilities.GetAbilityName(ability));
 				}
 			}
 			var AbilityBox = $("#AbilityBox");
-			if (!_.isEqual(EntityAbilitiesNames, AbilityBox.EntityAbilitiesNames) || AbilityBox.GetChildCount() <= 0) {
+			if (!isEqual(EntityAbilitiesNames, AbilityBox.EntityAbilitiesNames) || AbilityBox.GetChildCount() <= 0) {
 				AbilityBox.RemoveAndDeleteChildren();
 				for (k in EntityAbilities) {
 					var ability = EntityAbilities[k];
@@ -88,6 +88,30 @@ function AbilitiesCooldownCheck() {
 	$.Schedule(0.2, AbilitiesCooldownCheck);
 }
 
+function isEqual(a, b)
+{
+    if (a instanceof Array && b instanceof Array)
+    {
+        if (a.length !== b.length) {
+            return false;
+        }
+ 
+        for (var i = 0; i < a.length; i++)
+        {
+            if (!isEqual(a[i], b[i])) {
+                return false;
+            }
+        }
+ 
+        return true;
+    }
+ 
+    return a === b;
+}
+
 (function() {
 	AbilitiesCooldownCheck();
 })();
+
+
+

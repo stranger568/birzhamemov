@@ -238,7 +238,7 @@ end
 function modifier_gitelman_chain_manabreak:OnIntervalThink()
     if not IsServer() then return end
     local mana = self:GetCaster():GetMaxMana() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_gitelman_1")
-    self:GetParent():ReduceMana(mana*0.5)
+    self:GetParent():Script_ReduceMana(mana*0.5, self:GetAbility())
 end
 
 modifier_gitelman_chain_damage = class({})

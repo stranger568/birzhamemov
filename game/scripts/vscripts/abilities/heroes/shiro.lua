@@ -363,7 +363,9 @@ end
 function modifier_shiro_shield_buff:DeclareFunctions()
     local funcs = 
     {
-        MODIFIER_PROPERTY_TOTAL_CONSTANT_BLOCK
+        MODIFIER_PROPERTY_TOTAL_CONSTANT_BLOCK,
+        MODIFIER_PROPERTY_INCOMING_SPELL_DAMAGE_CONSTANT,
+        MODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_CONSTANT,
     }
     return funcs
 end
@@ -389,6 +391,18 @@ function modifier_shiro_shield_buff:GetModifierTotal_ConstantBlock(kv)
                 return original_shield_amount
             end
         end
+    end
+end
+
+function modifier_shiro_shield_buff:GetModifierIncomingSpellDamageConstant()
+    if (not IsServer()) then
+        return self:GetStackCount()
+    end
+end
+
+function modifier_shiro_shield_buff:GetModifierIncomingPhysicalDamageConstant()
+    if (not IsServer()) then
+        return self:GetStackCount()
     end
 end
 

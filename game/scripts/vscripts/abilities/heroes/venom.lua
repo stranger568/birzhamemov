@@ -10,11 +10,7 @@ LinkLuaModifier( "modifier_venom_hunger_visual_buff",  "abilities/heroes/venom.l
 venom_hunger = class({})
 
 function venom_hunger:GetCastRange(location, target)
-	local cast_range = 0
-	if self:GetCaster():HasScepter() then
-		cast_range = 100
-	end
-    return self.BaseClass.GetCastRange(self, location, target) + cast_range
+    return self.BaseClass.GetCastRange(self, location, target)
 end
 
 function venom_hunger:GetCooldown(level)
@@ -55,8 +51,12 @@ function venom_hunger:OnChannelFinish(bInterrupted)
 	end
 	if bInterrupted then return end
 
-	if not self:GetCaster():HasTalent("special_bonus_birzha_venom_8") then
-		if self.target:IsMagicImmune() then return end
+	if self.target:IsMagicImmune() then return end
+
+	local damage_type = DAMAGE_TYPE_MAGICAL
+
+	if self:GetCaster():HasTalent("special_bonus_birzha_venom_8") then
+		damage_type = DAMAGE_TYPE_PURE
 	end
 
 	local damage = self:GetSpecialValueFor("damage")
@@ -68,7 +68,7 @@ function venom_hunger:OnChannelFinish(bInterrupted)
 	if self.target:GetHealthPercent() <= kill_threshold and not self.target:IsBoss() then
 		self.target:Kill(self, self:GetCaster())
 	else
-		ApplyDamage({victim = self.target, attacker = self:GetCaster(), ability = self, damage = damage, damage_type = DAMAGE_TYPE_PURE })
+		ApplyDamage({victim = self.target, attacker = self:GetCaster(), ability = self, damage = damage, damage_type = damage_type })
 	end
 
 	if self.target and not self.target:IsAlive() and self.target:IsRealHero() then
@@ -79,7 +79,7 @@ function venom_hunger:OnChannelFinish(bInterrupted)
 
 		local modifier = self:GetCaster():FindModifierByName("modifier_venom_hunger_visual_buff")
 		if modifier then
-			if modifier:GetStackCount() < self:GetSpecialValueFor("max_stacks") then
+			if (modifier:GetStackCount() < self:GetSpecialValueFor("max_stacks")) or self:GetCaster():HasTalent("special_bonus_birzha_venom_5") then
 				modifier:IncrementStackCount()
 				if IsInToolsMode() then
 					modifier:SetStackCount(20)
@@ -240,8 +240,19 @@ end
 
 LinkLuaModifier("modifier_venom_sadist", "abilities/heroes/venom", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_venom_sadist_debuff", "abilities/heroes/venom", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_venom_sadist_buff", "abilities/heroes/venom", LUA_MODIFIER_MOTION_NONE)
 
 venom_sadist = class({}) 
+
+function venom_sadist:OnSpellStart()
+	if not IsServer() then return end
+	self:GetCaster():EmitSound("venom_sadist_up")
+	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_venom_sadist_buff", {duration = self:GetSpecialValueFor("active_buff_duration")})
+end
+
+modifier_venom_sadist_buff = class({})
+function modifier_venom_sadist_buff:IsPurgable() return false end
+function modifier_venom_sadist_buff:IsPurgeException() return false end
 
 function venom_sadist:GetIntrinsicModifierName()
     return "modifier_venom_sadist"
@@ -281,7 +292,7 @@ function modifier_venom_sadist:GetAuraSearchTeam()
 end
 
 function modifier_venom_sadist:GetAuraSearchType()
-    return DOTA_UNIT_TARGET_ALL
+    return DOTA_UNIT_TARGET_HERO
 end
 
 function modifier_venom_sadist:GetModifierAura()
@@ -321,9 +332,16 @@ function modifier_venom_sadist_debuff:OnIntervalThink()
     local aura_damage = self:GetAbility():GetSpecialValueFor("aura_damage")
 	local aura_damage_lifesteal = self:GetAbility():GetSpecialValueFor("aura_damage_lifesteal") + self:GetCaster():FindTalentValue("special_bonus_birzha_venom_4")
 	if self:GetCaster():HasScepter() then
-		aura_damage = aura_damage + 50
+		aura_damage = aura_damage + 60
 	end
-    local damage_info = ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), ability = self:GetAbility(), damage = aura_damage, damage_flags = DOTA_DAMAGE_FLAG_HPLOSS, damage_type = DAMAGE_TYPE_MAGICAL })
+	if self:GetCaster():HasModifier("modifier_venom_sadist_buff") then
+		aura_damage = aura_damage * self:GetAbility():GetSpecialValueFor("active_buff_multiple")
+	end
+	local damage_type = DAMAGE_TYPE_MAGICAL
+	if self:GetCaster():HasTalent("special_bonus_birzha_venom_2") then
+		damage_type = DAMAGE_TYPE_PURE
+	end
+    local damage_info = ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), ability = self:GetAbility(), damage = aura_damage, damage_flags = DOTA_DAMAGE_FLAG_HPLOSS, damage_type = damage_type })
     local heal = damage_info / 100 * aura_damage_lifesteal
     self:GetCaster():Heal(heal, self:GetAbility())
 end   
@@ -338,7 +356,7 @@ function venom_punishment:GetCastRange(location, target)
 end
 
 function venom_punishment:GetCooldown(level)
-    if self:GetCaster():HasTalent("special_bonus_birzha_venom_5") then
+    if self:GetCaster():HasScepter() then
         return 0
     else
         return self.BaseClass.GetCooldown(self, level)
@@ -412,7 +430,7 @@ function modifier_venom_punishment:OnTakeDamage(params)
 
 			self:GetParent():EmitSound("venom_punish")
 
-			self:GetAbility():UseResources(false, false, true)
+			self:GetAbility():UseResources(false, false, false, true)
 
 			self.damage_threshold = 0
 		end
@@ -518,7 +536,7 @@ function modifier_venom_tentacle:OnCreated(params)
 	if not IsServer() then return end
 
 	self.target = EntIndexToHScript(params.ent_index)
-	self.true_speed = 40
+	self.true_speed = 3000
 	self:StartIntervalThink(FrameTime())
 
 	if params.particle1 then
@@ -530,28 +548,34 @@ function modifier_venom_tentacle:OnCreated(params)
 	end
 
 	local vec = (self.target:GetOrigin() - self:GetCaster():GetAbsOrigin())
-	local hookshot_duration	= vec:Length2D() / 40
+	local hookshot_duration	= vec:Length2D() / 1000
+end
+
+function modifier_venom_tentacle:CheckState()
+	return 
+	{
+		[MODIFIER_STATE_ROOTED] = true,
+		[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+	}
 end
 
 function modifier_venom_tentacle:OnIntervalThink()
 	if not IsServer() then return end
 
 	if self:GetParent():HasModifier("modifier_knockback") then self:Destroy() return end
+	if self:GetParent():HasModifier("modifier_generic_knockback_lua") then self:Destroy() return end
+	if self:GetParent():IsStunned() then self:Destroy() return end
+	if self.target:IsNull() then self:Destroy() return end
+	if not self.target:IsAlive() then self:Destroy() return end
 
 	local vec = (self.target:GetOrigin() - self:GetCaster():GetAbsOrigin()):Normalized()
-
-	if (self:GetCaster():GetOrigin() - self.target:GetOrigin()):Length2D() > 150 then
-		self.true_speed = self.true_speed + 5
-	else
-		self.true_speed = 40
-	end
 
 	if (self:GetCaster():GetOrigin() - self.target:GetOrigin()):Length2D() <= 120 then
 		FindClearSpaceForUnit(self:GetParent(), self:GetParent():GetAbsOrigin(), true)
 		self:GetParent():MoveToPositionAggressive(self:GetParent():GetAbsOrigin())
 		self:Destroy()
 	else
-		self:GetCaster():SetAbsOrigin(self:GetCaster():GetAbsOrigin() + vec * self.true_speed)
+		self:GetCaster():SetAbsOrigin(self:GetCaster():GetAbsOrigin() + vec * (self.true_speed * FrameTime()))
 	end
 end
 
@@ -589,12 +613,12 @@ function modifier_venom_tentacle_damage:IsHidden() return true end
 
 function modifier_venom_tentacle_damage:OnCreated()
 	if not IsServer() then return end
-	local damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_venom_2")
+	local damage = self:GetAbility():GetSpecialValueFor("damage")
 	local duration = self:GetAbility() :GetSpecialValueFor("duration")
+	ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), damage = damage, ability = self:GetAbility(), damage_type = DAMAGE_TYPE_MAGICAL })
 	if not self:GetParent():IsMagicImmune() then
-		ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), damage = damage, ability = self:GetAbility(), damage_type = DAMAGE_TYPE_MAGICAL })
+		self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = duration * (1 - self:GetParent():GetStatusResistance()) })
 	end
-	self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = duration * (1 - self:GetParent():GetStatusResistance()) })
 end
 
 
@@ -646,6 +670,7 @@ function venom_reproduction:OnSpellStart()
 	if target:GetTeamNumber() == self:GetCaster():GetTeamNumber() then
 		target:AddNewModifier(self:GetCaster(), self, "modifier_venom_reproduction_buff", {duration = duration})
 	else
+		if target:TriggerSpellAbsorb(self) then return end
 		target:AddNewModifier(self:GetCaster(), self, "modifier_venom_reproduction_debuff", {duration = duration * (1 - target:GetStatusResistance()) })
 	end
 

@@ -13,7 +13,13 @@ function item_armor_damned:OnSpellStart()
 	local caster	= self:GetCaster()
 	local ability	= self
 
-	local blast_pfx = ParticleManager:CreateParticle("particles/damned_active.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
+    local particle = "particles/damned_active.vpcf"
+
+    if DonateShopIsItemBought(self:GetCaster():GetPlayerOwnerID(), 201) or IsInToolsMode() then
+        particle = "particles/econ/events/fall_2022/shivas/shivas_guard_fall2022_active.vpcf"
+    end
+
+	local blast_pfx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
 	ParticleManager:SetParticleControl(blast_pfx, 0, self:GetCaster():GetAbsOrigin())
 	ParticleManager:SetParticleControl(blast_pfx, 1, Vector(blast_radius, blast_duration * 1.33, blast_speed))
 	ParticleManager:ReleaseParticleIndex(blast_pfx)

@@ -24,13 +24,13 @@ function item_ghoul:OnToggle()
     if toggle then
         self:EndCooldown()
         self.modifier = caster:AddNewModifier( caster, self, "modifier_item_ghoul_buff", {} )
+        self:GetCaster():EmitSound("ghoul_mask")
     else
         local mod = self:GetCaster():FindModifierByName("modifier_item_ghoul_buff")
         if mod then
             mod:Destroy()
-            self:UseResources(false, false, true)
+            self:UseResources(false, false, false, true)
         end
-        self:GetCaster():EmitSound("ghoul_mask")
     end
 end
 
@@ -67,6 +67,7 @@ function modifier_item_ghoul:OnHeroKilled(params)
     if params.attacker == self:GetParent() then
         if params.target == self:GetParent() then return end
         if params.attacker:HasModifier("modifier_item_ghoul_buff") then
+            donate_shop:QuestProgress(9, self:GetParent():GetPlayerOwnerID(), 1)
             self:GetAbility():SetCurrentCharges(self:GetAbility():GetCurrentCharges() + 1)
         end
     end
@@ -92,8 +93,18 @@ function modifier_item_ghoul:OnTakeDamage(params)
     if params.unit:IsWard() then return end
     if params.inflictor == nil and not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then 
         local heal = self:GetAbility():GetSpecialValueFor("lifesteal") / 100 * params.damage
-        self:GetParent():Heal(heal, nil)
-        local effect_cast = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.attacker )
+        self:GetParent():Heal(heal, self:GetAbility())
+
+        local particle = "particles/generic_gameplay/generic_lifesteal.vpcf"
+
+        if DonateShopIsItemBought(self:GetParent():GetPlayerOwnerID(), 195) or IsInToolsMode() then
+            particle = "particles/ghoul_mask_lifesteal.vpcf"
+        end
+
+        local effect_cast = ParticleManager:CreateParticle( particle, PATTACH_ABSORIGIN_FOLLOW, params.attacker )
+        if DonateShopIsItemBought(self:GetParent():GetPlayerOwnerID(), 195) or IsInToolsMode() then
+            ParticleManager:SetParticleControlEnt(effect_cast, 0, params.attacker, PATTACH_POINT_FOLLOW, "attach_hitloc", params.attacker:GetAbsOrigin(), true)
+        end
         ParticleManager:ReleaseParticleIndex( effect_cast )
     end
 end
@@ -106,6 +117,13 @@ end
 
 function modifier_item_ghoul_buff:OnCreated()
     if not IsServer() then return end
+
+    if DonateShopIsItemBought(self:GetParent():GetPlayerOwnerID(), 195) or IsInToolsMode() then
+        local particle = ParticleManager:CreateParticle( "particles/ghoul_mask_effect_bp.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
+        ParticleManager:SetParticleControlEnt(particle, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
+        self:AddParticle(particle, false, false, -1, false, false)
+    end
+
     self:StartIntervalThink(0.1)
     self:OnIntervalThink()
 end
@@ -165,8 +183,16 @@ function modifier_item_ghoul_buff:OnTakeDamage(params)
         if not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then
             local stacks = self:GetAbility():GetSpecialValueFor("lifesteal_per_charge") * self:GetAbility():GetCurrentCharges()
             local lifesteal = (self:GetAbility():GetSpecialValueFor("lifesteal_active")+stacks) / 100
-            self:GetParent():Heal(params.damage * lifesteal, nil)
-            local effect_cast = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.attacker )
+            self:GetParent():Heal(params.damage * lifesteal, self:GetAbility())
+            local particle = "particles/generic_gameplay/generic_lifesteal.vpcf"
+
+            if DonateShopIsItemBought(self:GetParent():GetPlayerOwnerID(), 195) or IsInToolsMode() then
+                particle = "particles/ghoul_mask_lifesteal.vpcf"
+            end
+            local effect_cast = ParticleManager:CreateParticle( particle, PATTACH_ABSORIGIN_FOLLOW, params.attacker )
+            if DonateShopIsItemBought(self:GetParent():GetPlayerOwnerID(), 195) or IsInToolsMode() then
+                ParticleManager:SetParticleControlEnt(effect_cast, 0, params.attacker, PATTACH_POINT_FOLLOW, "attach_hitloc", params.attacker:GetAbsOrigin(), true)
+            end
             ParticleManager:ReleaseParticleIndex( effect_cast )
         end
     else
@@ -181,7 +207,7 @@ function modifier_item_ghoul_buff:OnTakeDamage(params)
             local lifesteal = (self:GetAbility():GetSpecialValueFor("magic_lifesteal_active")+stacks) / 100
             local heal = params.damage * lifesteal
             heal = heal * (bonus_percentage / 100 + 1)
-            self:GetParent():Heal(heal, params.inflictor)
+            self:GetParent():Heal(heal, self:GetAbility())
             local octarine = ParticleManager:CreateParticle( "particles/items3_fx/octarine_core_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.attacker )
             ParticleManager:ReleaseParticleIndex( octarine )
         end
@@ -199,7 +225,7 @@ end
 function modifier_item_ghoul_buff:OnHeroKilled(params)
     if params.attacker == self:GetParent() then
         if params.target == self:GetParent() then return end
-        if RollPercentage(10) and not self:GetParent():IsIllusion() then
+        if (RollPercentage(10) and not self:GetParent():IsIllusion()) or IsInToolsMode() then
             GameRules:GetGameModeEntity():SetPauseEnabled( true )
             PauseGame(true)
             GameRules:GetGameModeEntity():SetPauseEnabled( false )

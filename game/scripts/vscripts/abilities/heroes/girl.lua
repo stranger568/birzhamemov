@@ -181,10 +181,17 @@ function modifier_girl_charge_of_attack:IsMotionController() return true end
 function modifier_girl_charge_of_attack:GetMotionControllerPriority() return DOTA_MOTION_CONTROLLER_PRIORITY_MEDIUM end
 
 function modifier_girl_charge_of_attack:CheckState()
+    if self:GetCaster():HasScepter() then
+        return
+        {
+            [MODIFIER_STATE_STUNNED]            = true,
+            [MODIFIER_STATE_INVULNERABLE]       = true,
+            [MODIFIER_STATE_NO_UNIT_COLLISION]  = true
+        }
+    end
     return 
     {
         [MODIFIER_STATE_STUNNED]            = true,
-        [MODIFIER_STATE_INVULNERABLE]       = true,
         [MODIFIER_STATE_NO_UNIT_COLLISION]  = true
     }
 end

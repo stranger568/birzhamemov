@@ -10,7 +10,8 @@ function item_force_staff_2:OnSpellStart()
     local target = self:GetCursorTarget()
 
     if target == self:GetCaster() then
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, 'modifier_item_forcestaff_active', {push_length = self:GetSpecialValueFor("push_length")})
+        self:GetCaster():EmitSound("DOTA_Item.ForceStaff.Activate")
+        self:GetCaster():AddNewModifier(self:GetCaster(), self, 'modifier_item_forcestaff_active', {push_length = self:GetSpecialValueFor("push_length"), duration = self:GetSpecialValueFor("push_time")})
     else
         self:GetCursorTarget():AddNewModifier(self:GetCaster(), self, 'modifier_item_force_staff_2_pull', {})
         target:EmitSound("DOTA_Item.ForceStaff.Activate")

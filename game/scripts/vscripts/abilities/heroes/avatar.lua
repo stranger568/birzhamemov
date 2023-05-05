@@ -37,7 +37,11 @@ function aang_quas:OnSpellStart()
         "modifier_aang_quas",
         {  }
     )
-    self.invoke:AddOrb( modifier, "particles/units/heroes/hero_invoker/invoker_quas_orb.vpcf" )
+    if self:GetCaster():HasModifier("modifier_avatar_persona") then
+        self.invoke:AddOrb( modifier, "particles/korra/quas_sphere.vpcf" )
+    else
+        self.invoke:AddOrb( modifier, "particles/units/heroes/hero_invoker/invoker_quas_orb.vpcf" )
+    end
 end
 
 function aang_quas:OnUpgrade()
@@ -125,7 +129,11 @@ function aang_wex:OnSpellStart()
         "modifier_aang_wex",
         {  }
     )
-    self.invoke:AddOrb( modifier, "particles/avatar/aang_earth_orb.vpcf" )
+    if self:GetCaster():HasModifier("modifier_avatar_persona") then
+        self.invoke:AddOrb( modifier, "particles/korra/wex_sphere.vpcf" )
+    else
+        self.invoke:AddOrb( modifier, "particles/avatar/aang_earth_orb.vpcf" )
+    end
 end
 
 function aang_wex:OnUpgrade()
@@ -212,7 +220,11 @@ function aang_exort:OnSpellStart()
         "modifier_aang_exort",
         {  }
     )
-    self.invoke:AddOrb( modifier, "particles/units/heroes/hero_invoker/invoker_exort_orb.vpcf" )
+    if self:GetCaster():HasModifier("modifier_avatar_persona") then
+        self.invoke:AddOrb( modifier, "particles/korra/exort_sphere.vpcf" )
+    else
+        self.invoke:AddOrb( modifier, "particles/units/heroes/hero_invoker/invoker_exort_orb.vpcf" )
+    end
 end
 
 function aang_exort:OnUpgrade()
@@ -783,6 +795,8 @@ end
 function modifier_aang_lunge:OnDestroy()
     if IsServer() then
         self:GetCaster():StopSound("AangLunge")
+        self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_1)
+        self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_1_END)
     end
 end
 
@@ -1153,7 +1167,12 @@ end
 
 function aang_fast_hit:OnSpellStart()
     if not IsServer() then return end
-     self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_4, 4)
+
+    if self:GetCaster():HasModifier("modifier_avatar_persona") then
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_4, 2)
+    else
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_4, 4)
+    end
     local radius = self:GetSpecialValueFor( "radius" )
     local radius_hit = self:GetSpecialValueFor( "radius_hit" )
     local duration = ability_manager:GetValueWex(self, self:GetCaster(), "duration")
@@ -1218,7 +1237,11 @@ function aang_jumping:GetCastPoint()
 end
 
 function aang_jumping:OnAbilityPhaseStart()
-    self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_7, 1)
+    if self:GetCaster():HasModifier("modifier_avatar_persona") then
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_7, 15)
+    else
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_7, 1)
+    end
     self.effect = true
     self:GetCaster():EmitSound("Ability.Focusfire")
     Timers:CreateTimer(0.15, function()
@@ -1692,13 +1715,15 @@ function modifier_generic_arc_lua:SetEndCallback( func )
     self.endCallback = func
 end
 
-LinkLuaModifier( "modifier_aang_fire_hit_tp", "abilities/heroes/avatar", LUA_MODIFIER_MOTION_BOTH )
+LinkLuaModifier("modifier_generic_knockback_lua", "modifiers/modifier_generic_knockback_lua.lua", LUA_MODIFIER_MOTION_BOTH )
 
 aang_fire_hit = class({})
 
 function aang_fire_hit:OnAbilityPhaseStart()
-    if self:GetCursorTarget() == nil then
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 3)
+    if IsServer() then
+        if self:GetCursorTarget() ~= nil then
+            self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_2)
+        end
     end
     return true
 end
@@ -1709,6 +1734,15 @@ end
 
 function aang_fire_hit:GetManaCost(level)
     return self.BaseClass.GetManaCost(self, level)
+end
+
+function aang_fire_hit:GetCastAnimation()
+    if not IsServer() then return end
+    if self:GetCursorTarget() == nil or self:GetCursorTarget() ~= self:GetCaster() then
+        return ACT_DOTA_CAST_ABILITY_2
+    else
+        return ACT_DOTA_CAST_ABILITY_4
+    end
 end
 
 function aang_fire_hit:GetCastRange(location, target)
@@ -1726,10 +1760,33 @@ function aang_fire_hit:OnSpellStart()
     local point = self:GetCaster():GetAttachmentOrigin(self:GetCaster():ScriptLookupAttachment("attach_attack1"))
 
     if target and target == self:GetCaster() then
+        
         direction = caster:GetForwardVector() * -1
         point = self:GetCaster():GetAttachmentOrigin(self:GetCaster():ScriptLookupAttachment("attach_hitloc"))
         distance = distance / 2
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_aang_fire_hit_tp", {duration = 0.4})
+
+        local knockback = self:GetCaster():AddNewModifier(
+            self:GetCaster(),
+            self,
+            "modifier_generic_knockback_lua",
+            {
+                direction_x = self:GetCaster():GetForwardVector().x,
+                direction_y = self:GetCaster():GetForwardVector().y,
+                distance = ability_manager:GetValueExort(self, self:GetCaster(), "distance_knockback"),
+                height = 25,   
+                duration = 0.4,
+            }
+        )
+
+        if self:GetCaster():HasModifier("modifier_avatar_persona") then
+            local particle = ParticleManager:CreateParticle("particles/econ/events/fall_2022/forcestaff/forcestaff_base_fall2022.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
+            knockback:AddParticle(particle, false, false, -1, false, false)
+        end
+
+        local callback = function( bInterrupted )
+            self:GetCaster():Stop()
+        end
+        knockback:SetEndCallback( callback )
     else
         if target_loc == caster_loc then
             direction = caster:GetForwardVector()
@@ -1759,6 +1816,7 @@ function aang_fire_hit:OnSpellStart()
 
     ProjectileManager:CreateLinearProjectile(projectile)
     caster:EmitSound("AangFirehit")
+    self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_4)
 end
 
 function aang_fire_hit:OnProjectileHit(target, location)
@@ -1767,61 +1825,6 @@ function aang_fire_hit:OnProjectileHit(target, location)
     local damage = ability_manager:GetValueExort(self, self:GetCaster(), "damage")
     if target then
         ApplyDamage({victim = target, attacker = caster, ability = self, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
-    end
-end
-
-modifier_aang_fire_hit_tp = class({})
-
-function modifier_aang_fire_hit_tp:IsHidden()
-    return true
-end
-
-function modifier_aang_fire_hit_tp:IsDebuff()
-    return true
-end
-
-function modifier_aang_fire_hit_tp:IsStunDebuff()
-    return true
-end
-
-function modifier_aang_fire_hit_tp:IsPurgable()
-    return true
-end
-
-function modifier_aang_fire_hit_tp:OnCreated( kv )
-    self.damage = ability_manager:GetValueExort(self:GetAbility(), self:GetCaster(), "damage")
-    if not IsServer() then return end
-    self.abilityDamageType = self:GetAbility():GetAbilityDamageType()
-    local center = self:GetCaster():GetAbsOrigin()+self:GetCaster():GetForwardVector()*ability_manager:GetValueExort(self:GetAbility(), self:GetCaster(), "distance_knockback")
-    self.direction = center - self:GetParent():GetOrigin()
-    self.speed = self.direction:Length2D()/self:GetDuration()
-    self.direction.z = 0
-    self.direction = self.direction:Normalized()
-    if not self:ApplyHorizontalMotionController() then
-        if not self:IsNull() then
-            self:Destroy()
-        end
-    end
-end
-
-function modifier_aang_fire_hit_tp:OnRefresh( kv )
-    self:OnCreated( kv )
-end
-
-function modifier_aang_fire_hit_tp:OnDestroy()
-    if not IsServer() then return end
-    self:GetParent():RemoveHorizontalMotionController( self )
-    FindClearSpaceForUnit(self:GetParent(), self:GetParent():GetAbsOrigin(), true)
-end
-
-function modifier_aang_fire_hit_tp:UpdateHorizontalMotion( me, dt )
-    local target = me:GetOrigin() + self.direction * self.speed * dt
-    me:SetOrigin( target )
-end
-
-function modifier_aang_fire_hit_tp:OnHorizontalMotionInterrupted()
-    if not self:IsNull() then
-        self:Destroy()
     end
 end
 
@@ -2466,3 +2469,109 @@ function modifier_aang_firestone_motion:OnVerticalMotionInterrupted()
         self:Destroy()
     end
 end
+
+-- Arcana
+
+function aang_quas:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_avatar_persona") then
+        return "aang/quas_new"
+    end
+    return "aang/quas"
+end
+function aang_wex:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_avatar_persona") then
+        return "aang/wex_new"
+    end
+    return "aang/wex"
+end
+function aang_exort:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_avatar_persona") then
+        return "aang/exort_new"
+    end
+    return "aang/exort"
+end
+function aang_invoke:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_avatar_persona") then
+        return "aang/invoke_new"
+    end
+    return "aang/invoke"
+end
+function aang_lunge:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_avatar_persona") then
+        return "aang/lunge_new"
+    end
+    return "aang/lunge"
+end
+function aang_ice_wall:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_avatar_persona") then
+        return "aang/icewall_new"
+    end
+    return "aang/icewall"
+end
+function aang_vacuum:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_avatar_persona") then
+        return "aang/vacuum_new"
+    end
+    return "aang/vacuum"
+end
+function aang_fast_hit:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_avatar_persona") then
+        return "aang/fasthit_new"
+    end
+    return "aang/fasthit"
+end
+function aang_jumping:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_avatar_persona") then
+        return "aang/jumping_new"
+    end
+    return "aang/jumping"
+end
+function aang_agility:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_avatar_persona") then
+        return "aang/agility_new"
+    end
+    return "aang/agility"
+end
+function aang_fire_hit:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_avatar_persona") then
+        return "aang/firehit_new"
+    end
+    return "aang/firehit"
+end
+function aang_lightning:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_avatar_persona") then
+        return "aang/lightning_new"
+    end
+    return "aang/lightning"
+end
+function aang_firestone:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_avatar_persona") then
+        return "aang/firestone_new"
+    end
+    return "aang/firestone"
+end
+function aang_avatar:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_avatar_persona") then
+        return "aang/avatar_new"
+    end
+    return "aang/avatar"
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

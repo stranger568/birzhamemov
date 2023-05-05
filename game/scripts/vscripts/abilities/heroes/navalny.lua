@@ -270,7 +270,7 @@ function modifier_Naval_Youtube:OnIntervalThink()
     local money = self:GetAbility():GetSpecialValueFor( "Gold_Tick" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_navalny_2")
     if self:GetCaster():IsIllusion() then return end
     if self:GetAbility():IsFullyCastable() then
-        self:GetAbility():UseResources(false, false, true)
+        self:GetAbility():UseResources(false, false, false, true)
         self:GetCaster():ModifyGold( money, true, 0 )
         local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_dragon_knight/dragon_knight_transform_red_spotlight.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster()) 
     end

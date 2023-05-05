@@ -327,7 +327,7 @@ function modifier_slidan_suckdick_debuff:OnIntervalThink()
 
     ApplyDamage(damageTable)
 
-    self:GetParent():ReduceMana( self.mana )
+    self:GetParent():Script_ReduceMana( self.mana, self:GetAbility() )
     self:GetCaster():GiveMana( self.mana )
 end
 

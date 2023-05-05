@@ -107,7 +107,9 @@ end
 
 function modifier_fountain_passive_invul:OnIntervalThink()
 	if not IsServer() then return end
-	self:GetParent():RemoveModifierByName("modifier_fountain_invulnerability")
+	if not self:GetParent():HasModifier("modifier_birzha_disconnect") then
+		self:GetParent():RemoveModifierByName("modifier_fountain_invulnerability")
+	end
 end
 
 function modifier_fountain_passive_invul:GetEffectName() return "particles/econ/events/spring_2021/fountain_regen_spring_2021.vpcf" end

@@ -316,7 +316,7 @@ function modifier_migi_inside_parent:GetModifierAvoidDamage(keys)
             local nFXIndex = ParticleManager:CreateParticle( "particles/migi_shield.vpcf", PATTACH_POINT_FOLLOW, self:GetParent() );
             ParticleManager:SetParticleControl( nFXIndex, 0, Vector( 0, 0, -1000 ) )
             ParticleManager:SetParticleControlEnt(nFXIndex, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
-            ab:UseResources(false, false, true)
+            ab:UseResources(false, false, false, true)
             return 1
         else
             return 0

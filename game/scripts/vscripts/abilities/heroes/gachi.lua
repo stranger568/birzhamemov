@@ -144,7 +144,8 @@ end
 function modifier_gachi_armor_buff_scepter:DeclareFunctions()
     local funcs = 
     {
-        MODIFIER_PROPERTY_TOTAL_CONSTANT_BLOCK
+        MODIFIER_PROPERTY_TOTAL_CONSTANT_BLOCK,
+        MODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_CONSTANT,
     }
     return funcs
 end
@@ -168,6 +169,12 @@ function modifier_gachi_armor_buff_scepter:GetModifierTotal_ConstantBlock(kv)
                 return kv.damage
             end
         end
+    end
+end
+
+function modifier_gachi_armor_buff_scepter:GetModifierIncomingPhysicalDamageConstant()
+    if (not IsServer()) then
+        return self:GetStackCount()
     end
 end
 
@@ -245,7 +252,7 @@ function modifier_gachi_hitonass:OnAttackLanded(params)
     if not self:GetAbility():IsFullyCastable() then return end
 
     local duration = self:GetAbility():GetSpecialValueFor("duration")
-    self:GetAbility():UseResources(false, false, true)
+    self:GetAbility():UseResources(false, false, false, true)
     self:GetParent():EmitSound("gachishlep")
 
     local crit_pfx = ParticleManager:CreateParticle("particles/units/heroes/hero_bounty_hunter/bounty_hunter_jinda_slow.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.target)

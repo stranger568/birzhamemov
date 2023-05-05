@@ -158,7 +158,7 @@ function Scream_rush:GetManaCost(level)
 end
 
 function Scream_rush:GetCastRange(location, target)
-    return self:GetSpecialValueFor( "range" )
+    return self:GetSpecialValueFor( "range_cast" )
 end
 
 function Scream_rush:OnSpellStart()
@@ -303,7 +303,7 @@ function modifier_Scream_knife:GetModifierProcAttack_BonusDamage_Pure(params)
 		ParticleManager:SetParticleControlForward( effect_cast, 0, forward )
 		ParticleManager:ReleaseParticleIndex( effect_cast )
 
-		self:GetAbility():UseResources(false, false, true)
+		self:GetAbility():UseResources(false, false, false, true)
 
 		params.target:AddNewModifier(params.attacker, self:GetAbility(), "modifier_Scream_knife_armor", {duration = duration * ( 1 - params.target:GetStatusResistance()) })
 
@@ -465,7 +465,7 @@ function Scream_night_two:OnChannelFinish(bInterrupted)
 		return
 	end
 
-	self:UseResources(false, false, true)
+	self:UseResources(false, false, false, true)
 
 	if not self:GetCaster():HasModifier("modifier_Scream_night") then return end
 

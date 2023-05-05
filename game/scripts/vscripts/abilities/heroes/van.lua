@@ -158,7 +158,7 @@ function van_leatherstuff:OnSpellStart()
         if self:GetCaster():HasTalent("special_bonus_birzha_van_8") then
             self:KnockBack()
         end
-        self:UseResources(false, false, true)
+        self:UseResources(false, false, false, true)
         self:GetCaster():RemoveModifierByName("modifier_van_leatherstuff")
     else
         self:EndCooldown()
@@ -270,7 +270,7 @@ function modifier_van_leatherstuff:OnAttackLanded( params )
         if self:GetCaster():HasTalent("special_bonus_birzha_van_8") then
             self:GetAbility():GiveEffect()
         end
-        self:GetAbility():UseResources(false, false, true)
+        self:GetAbility():UseResources(false, false, false, true)
         self:Destroy()
     end
 end

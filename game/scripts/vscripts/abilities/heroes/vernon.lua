@@ -317,7 +317,7 @@ function modifier_Vernon_power_cogs_power_cogs:OnIntervalThink()
 	local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self.trigger_distance, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MANA_ONLY, FIND_CLOSEST, false)
 	
 	for _, enemy in pairs(enemies) do
-		if self.powered and not enemy:HasModifier("modifier_Vernon_power_cogs_cog_push") and math.abs(AngleDiff(VectorToAngles(self:GetParent():GetForwardVector()).y, VectorToAngles(enemy:GetAbsOrigin() - self:GetParent():GetAbsOrigin()).y)) <= 90 then
+		if self.powered and not enemy:HasModifier("modifier_zema_cosmic_blindness_debuff") and not enemy:HasModifier("modifier_pangolier_gyroshell") and not enemy:HasModifier("modifier_Vernon_power_cogs_cog_push") and math.abs(AngleDiff(VectorToAngles(self:GetParent():GetForwardVector()).y, VectorToAngles(enemy:GetAbsOrigin() - self:GetParent():GetAbsOrigin()).y)) <= 90 then
 			enemy:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_Vernon_power_cogs_cog_push", 
 			{
 				duration	= self.push_duration,
@@ -332,7 +332,7 @@ function modifier_Vernon_power_cogs_power_cogs:OnIntervalThink()
 			end
 			break
 		end
-		if self.powered and not enemy:HasModifier("modifier_Vernon_power_cogs_cog_push_in") and math.abs(AngleDiff(VectorToAngles(self:GetParent():GetForwardVector()).y, VectorToAngles(enemy:GetAbsOrigin() - self:GetParent():GetAbsOrigin()).y)) > 90 then
+		if self.powered and not enemy:HasModifier("modifier_zema_cosmic_blindness_debuff") and not enemy:HasModifier("modifier_pangolier_gyroshell") and not enemy:HasModifier("modifier_Vernon_power_cogs_cog_push_in") and math.abs(AngleDiff(VectorToAngles(self:GetParent():GetForwardVector()).y, VectorToAngles(enemy:GetAbsOrigin() - self:GetParent():GetAbsOrigin()).y)) > 90 then
 			enemy:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_Vernon_power_cogs_cog_push_in", 
 			{
 				duration	= 0.5,
@@ -474,7 +474,7 @@ function modifier_Vernon_power_cogs_cog_push:OnDestroy()
 	
 	ApplyDamage(damageTable)
 	
-	self:GetParent():ReduceMana(self.mana_burn)
+	self:GetParent():Script_ReduceMana(self.mana_burn, self:GetAbility())
 	FindClearSpaceForUnit(self:GetParent(), self:GetParent():GetAbsOrigin(), true)
 
 	GridNav:DestroyTreesAroundPoint(self:GetParent():GetAbsOrigin(), 100, true )
@@ -556,7 +556,7 @@ end
 
 modifier_Vernon_uporstvo = class({})
 
-function modifier_Vernon_power_cogs_power_cogs:IsPurgable()	return false end
+function modifier_Vernon_uporstvo:IsPurgable()	return false end
 function modifier_Vernon_uporstvo:IsHidden() return true end
 
 function modifier_Vernon_uporstvo:OnCreated()
@@ -604,7 +604,7 @@ function modifier_Vernon_uporstvo:GetAbsorbSpell( params )
 		if params.ability:GetCaster():GetTeamNumber() == self:GetParent():GetTeamNumber() then
         	return nil
         end
-		self:GetAbility():UseResources( false, false, true )
+		self:GetAbility():UseResources( false, false, false, true )
 		self:GetParent():EmitSound("VernonSmeh")
 			local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_antimage/antimage_spellshield_reflect.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
 			ParticleManager:SetParticleControlEnt( effect_cast, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetOrigin(), true )

@@ -51,14 +51,6 @@ function BirzhaGameMode:DamageFilter( filterTable  )
     --	end
     --end
 
-    if victim:HasModifier("modifier_birzha_loser") then
-    	filterTable.damage = filterTable.damage * 1.5
-    end
-
-   	if attacker:HasModifier("modifier_birzha_loser") then
-   		filterTable.damage = filterTable.damage * 0.5
-   	end
-
 	if victim:HasModifier("modifier_agility_toss") then
 		if attacker then
 			if attacker:GetUnitName() == "npc_dota_hero_oracle" then
@@ -99,8 +91,18 @@ function BirzhaGameMode:DamageFilter( filterTable  )
 	    end
 	end
 
+	if attacker and attacker.GetPlayerOwnerID and attacker:GetPlayerOwnerID() and attacker:GetOwner() and not attacker:IsHero() then
+		donate_shop:QuestProgress(13, attacker:GetPlayerOwnerID(), math.floor(filterTable.damage))
+    end
 
-
+    if attacker:IsRealHero() then
+    	if damagetype == 1 then
+    		donate_shop:QuestProgress(14, attacker:GetPlayerOwnerID(), math.floor(filterTable.damage))
+    	end
+    	if damagetype == 4 then
+    		donate_shop:QuestProgress(15, attacker:GetPlayerOwnerID(), math.floor(filterTable.damage))
+    	end
+    end
 
 
     --if attacker:HasModifier("modifier_item_sharoeb") then 
@@ -137,17 +139,14 @@ function BirzhaGameMode:DamageFilter( filterTable  )
 		end
 	end
 
-	if attacker:HasModifier("modifier_item_demon_paper_active") or victim:HasModifier("modifier_item_demon_paper_active") then
+	if victim:HasModifier("modifier_item_demon_paper_active") then
 		if damagetype == 1 then
-			if not victim:HasModifier("modifier_item_birzha_blade_mail_active") then
-				return false
-			end
+			return false
 		end
 	end
 
     for _, mod_return in pairs(modifiers_return_victim) do
 	   	if victim:HasModifier(mod_return) and victim.overlord_kill == nil then
-	   		print("999")
 	    	return false
 	    end
 	end
@@ -292,11 +291,11 @@ function BirzhaGameMode:ExecuteOrderFilter( filterTable )
 			if pickedItem == nil then
 				return true
 			end
-			if pickedItem:GetAbilityName() == "item_birzha_contract" then
-				if unit:HasModifier("modifier_item_birzha_contract_caster_cd") then
-					return false
-				end
-			end
+			--if pickedItem:GetAbilityName() == "item_birzha_contract" then
+			--	if unit:HasModifier("modifier_item_birzha_contract_caster_cd") then
+			--		return false
+			--	end
+			--end
 		end
 	end
 
@@ -376,6 +375,7 @@ function BirzhaGameMode:HealingFilter( keys )
 			if heal_amplify ~= 0 then
 				keys.heal = keys.heal * (1 + (heal_amplify * 0.01))
 			end
+			donate_shop:QuestProgress(10, hHealingHero:GetPlayerOwnerID(), math.floor(keys.heal))
 		end
 	end
 
@@ -389,6 +389,38 @@ function BirzhaGameMode:HealingFilter( keys )
 		if heal_amplify_target ~= 0 then
 			keys.heal = keys.heal * (1 + (heal_amplify_target * 0.01))
 		end	
+	end
+
+	if keys["entindex_inflictor_const"] ~= nil and hHealingHero ~= nil then
+		local inflictor_name = EntIndexToHScript( keys["entindex_inflictor_const"] ):GetAbilityName()
+
+		local inflictor_quest = 
+		{
+			["item_nuts"] = true,
+			["item_satanic"] = true,
+			["item_lifesteal"] = true,
+			["item_ghoul"] = true,
+			["item_demon_paper"] = true,
+			["item_uebator"] = true,
+			["Bukin_Rage"] = true,
+			["scp682_ultimate"] = true,
+			["Vjlink_teeth"] = true,
+			["Ayano_WeakMind"] = true,
+			["kaneki_ghoul"] = true,
+			["Valakas_DabDabDab"] = true,
+			["kadet_razogrev"] = true,
+			["Kurumi_Zafkiel"] = true,
+			["polnaref_battle_exp"] = true,
+			["Yuno_Rage"] = true,
+			["haku_aura"] = true,
+			["shelby_ultimate"] = true,
+			["dio_vampire"] = true,
+			["Never_ultimate"] = true,
+		}
+
+		if inflictor_quest[inflictor_name] then
+			donate_shop:QuestProgress(18, hHealingHero:GetPlayerOwnerID(), math.floor(keys.heal))
+		end
 	end
 
 	return true

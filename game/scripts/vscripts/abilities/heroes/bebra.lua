@@ -15,7 +15,7 @@ function thomas_ability_one:GetAOERadius()
 end
 
 function thomas_ability_one:GetCooldown(iLevel)
-    local minus_cooldown = ((self:GetCaster():GetAttackSpeed() * 100) / self:GetSpecialValueFor("attack_speed_cooldown"))
+    local minus_cooldown = ((self:GetCaster():GetAttackSpeed() * 100) / self:GetSpecialValueFor("attack_speed_cooldown")) - (self:GetCaster():FindTalentValue("special_bonus_birzha_shelby_7"))
     return self.BaseClass.GetCooldown( self, iLevel ) - minus_cooldown
 end
 
@@ -25,6 +25,13 @@ function thomas_ability_one:OnSpellStart()
     local radius = self:GetSpecialValueFor("radius")
     local damage = self:GetSpecialValueFor("damage")
     local duration = self:GetSpecialValueFor("duration")
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_shelby_3") then
+        local modifier_shelby_ultimate_passive = self:GetCaster():FindModifierByName("modifier_shelby_ultimate_passive")
+        if modifier_shelby_ultimate_passive then
+            damage = damage + (modifier_shelby_ultimate_passive:GetStackCount() * self:GetCaster():FindTalentValue("special_bonus_birzha_shelby_3"))
+        end
+    end
 
     self:GetCaster():RemoveModifierByName("modifier_item_echo_sabre")
 
@@ -54,7 +61,7 @@ function modifier_thomas_ability_one_debuff:IsPurgable() return true end
 
 function modifier_thomas_ability_one_debuff:OnCreated()
     self.armor_reduction = self:GetAbility():GetSpecialValueFor("armor_reduction") + self:GetCaster():FindTalentValue("special_bonus_birzha_shelby_1")
-    self.magic_reduction = self:GetAbility():GetSpecialValueFor("magic_reduction")
+    self.magic_reduction = self:GetAbility():GetSpecialValueFor("magic_reduction") + self:GetCaster():FindTalentValue("special_bonus_birzha_shelby_2")
     self.armor_minus = 0
     self.armor_minus = self:GetParent():GetPhysicalArmorValue(false) / 100 * self.armor_reduction
     if not IsServer() then return end
@@ -63,7 +70,7 @@ end
 
 function modifier_thomas_ability_one_debuff:OnRefresh()
     self.armor_reduction = self:GetAbility():GetSpecialValueFor("armor_reduction") + self:GetCaster():FindTalentValue("special_bonus_birzha_shelby_1")
-    self.magic_reduction = self:GetAbility():GetSpecialValueFor("magic_reduction")
+    self.magic_reduction = self:GetAbility():GetSpecialValueFor("magic_reduction") + self:GetCaster():FindTalentValue("special_bonus_birzha_shelby_2")
     self.armor_minus = 0
     self.armor_minus = self:GetParent():GetPhysicalArmorValue(false) / 100 * self.armor_reduction
     if not IsServer() then return end
@@ -129,7 +136,7 @@ function modifier_thomas_ability_two_one_gypsy:OnCreated()
     if not IsServer() then return end
     self.damage = (self:GetParent():GetOwner():GetAverageTrueAttackDamage(nil) / 100) * self:GetAbility():GetSpecialValueFor("damage")
     self.attackspeed = (self:GetParent():GetOwner():GetAttackSpeed() * 100) / self:GetAbility():GetSpecialValueFor("attack_speed_mult")
-    self.networth_steal = self:GetAbility():GetSpecialValueFor("gold_steal") + self:GetCaster():FindTalentValue("special_bonus_birzha_shelby_3")
+    self.networth_steal = self:GetAbility():GetSpecialValueFor("gold_steal")
     self:SetHasCustomTransmitterData(true)
     self:StartIntervalThink(0.1)
 end
@@ -198,7 +205,7 @@ function modifier_thomas_ability_two_one:OnDestroy()
     local ability = self:GetCaster():FindAbilityByName("thomas_ability_two_one")
     if ability then
         ability:EndCooldown()
-        ability:UseResources(false, false, true)
+        ability:UseResources(false, false, false, true)
     end
 end
 
@@ -215,7 +222,7 @@ function thomas_ability_two_two:OnSpellStart()
     local point = self:GetCursorPosition()
     local radius = 200
     local vector = GetGroundPosition(point + Vector(0, radius, 0), nil)
-    local duration_debuff = self:GetSpecialValueFor("duration_debuff") + self:GetCaster():FindTalentValue("special_bonus_birzha_shelby_6")
+    local duration_debuff = self:GetSpecialValueFor("duration_debuff")
     local count = 10
 
     self:GetCaster():EmitSound("shelby_2_2")
@@ -411,7 +418,7 @@ end
 
 function shelby_ultimate:OnSpellStart()
     if not IsServer() then return end
-    local duration = self:GetSpecialValueFor("duration")
+    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_shelby_4")
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_shelby_ultimate", {duration = duration})
 end
 
@@ -496,7 +503,7 @@ function modifier_shelby_ultimate:OnTakeDamage(params)
     if params.unit:IsWard() then return end
     if params.inflictor == nil and not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then 
         local heal = self:GetAbility():GetSpecialValueFor("lifesteal") / 100 * params.damage
-        self:GetParent():Heal(heal, nil)
+        self:GetParent():Heal(heal, self:GetAbility())
         local effect_cast = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.attacker )
         ParticleManager:ReleaseParticleIndex( effect_cast )
     end
@@ -543,7 +550,7 @@ function modifier_shelby_ultimate_damage_buff:IsPurgable()
 end
 
 function modifier_shelby_ultimate_damage_buff:OnCreated( kv )
-    self.damage_percentage = (100 - (self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_shelby_8"))) * -1
+    self.damage_percentage = (100 - (self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_shelby_6")) ) * -1
 end
 
 function modifier_shelby_ultimate_damage_buff:DeclareFunctions()
@@ -570,19 +577,6 @@ function modifier_shelby_ultimate_stack:OnCreated(params)
     if not IsServer() then return end
     self.ability_name = params.ability_name
 end
-
-function modifier_shelby_ultimate_stack:DeclareFunctions()
-    return 
-    {
-        MODIFIER_PROPERTY_MOVESPEED_MAX,
-        MODIFIER_PROPERTY_MOVESPEED_LIMIT,
-        MODIFIER_PROPERTY_IGNORE_MOVESPEED_LIMIT,
-    }
-end
-
-function modifier_shelby_ultimate_stack:GetModifierMoveSpeed_Max() return 1000 end
-function modifier_shelby_ultimate_stack:GetModifierMoveSpeed_Limit() return 1000 end
-function modifier_shelby_ultimate_stack:GetModifierIgnoreMovespeedLimit() return 1 end
 
 function modifier_shelby_ultimate_stack:OnDestroy()
     if not IsServer() then return end
@@ -632,23 +626,23 @@ function modifier_shelby_ultimate_passive:DeclareFunctions()
 end
 
 function modifier_shelby_ultimate_passive:GetModifierAttackSpeedBonus_Constant() 
-    return (self:GetAbility():GetSpecialValueFor("attackspeed_stack") + ( self:GetAbility():GetSpecialValueFor("attackspeed_stack") / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_shelby_7"))  ) * self:GetStackCount()
+    return self:GetAbility():GetSpecialValueFor("attackspeed_stack") * self:GetStackCount()
 end
 
 function modifier_shelby_ultimate_passive:GetModifierPreAttack_BonusDamage() 
-    return (self:GetAbility():GetSpecialValueFor("damage_stack") + ( self:GetAbility():GetSpecialValueFor("damage_stack") / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_shelby_7"))  ) * self:GetStackCount()
+    return self:GetAbility():GetSpecialValueFor("damage_stack") * self:GetStackCount()
 end
 
 function modifier_shelby_ultimate_passive:GetModifierMoveSpeedBonus_Percentage() 
-    return (self:GetAbility():GetSpecialValueFor("movespeed_stack") + ( self:GetAbility():GetSpecialValueFor("movespeed_stack") / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_shelby_7"))  ) * self:GetStackCount()
+    return self:GetAbility():GetSpecialValueFor("movespeed_stack") * self:GetStackCount()
 end
 
 function modifier_shelby_ultimate_passive:GetBonusDayVision() 
-    return (self:GetAbility():GetSpecialValueFor("vision_stack") + ( self:GetAbility():GetSpecialValueFor("vision_stack") / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_shelby_7"))  ) * self:GetStackCount()
+    return self:GetAbility():GetSpecialValueFor("vision_stack") * self:GetStackCount()
 end
 
 function modifier_shelby_ultimate_passive:GetBonusNightVision() 
-    return (self:GetAbility():GetSpecialValueFor("vision_stack") + ( self:GetAbility():GetSpecialValueFor("vision_stack") / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_shelby_7"))  ) * self:GetStackCount()
+    return self:GetAbility():GetSpecialValueFor("vision_stack") * self:GetStackCount()
 end
 
 function modifier_shelby_ultimate_passive:OnTakeDamage(params)
@@ -668,7 +662,7 @@ function modifier_shelby_ultimate_passive:OnTakeDamage(params)
     if self.unique_damage_list[ability_name] == nil then
         self.unique_damage_list[ability_name] = true
         local stacks = self:GetCaster():FindAllModifiersByName("modifier_shelby_ultimate_stack")
-        local max_charges = self:GetAbility():GetSpecialValueFor("max_charges")
+        local max_charges = self:GetAbility():GetSpecialValueFor("max_charges") + self:GetCaster():FindTalentValue("special_bonus_birzha_shelby_8")
         if #stacks >= max_charges then
             local modifier_delete = nil
             local lose_time = self:GetAbility():GetSpecialValueFor("charge_duration" )
@@ -768,7 +762,7 @@ function modifier_thomas_ability_three_buff:OnIntervalThink()
             
             ApplyDamage(damageTable)
 
-            target:AddNewModifier(self.caster, self.ability, "modifier_thomas_ability_three_debuff", {duration = (self.ability:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_shelby_2")) * (1-target:GetStatusResistance())})
+            target:AddNewModifier(self.caster, self.ability, "modifier_thomas_ability_three_debuff", {duration = self.ability:GetSpecialValueFor("duration") * (1-target:GetStatusResistance())})
 
             target:EmitSound("Hero_KeeperOfTheLight.Illuminate.Target")
             target:EmitSound("Hero_KeeperOfTheLight.Illuminate.Target.Secondary")

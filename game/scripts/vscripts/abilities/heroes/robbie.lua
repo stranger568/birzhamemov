@@ -136,7 +136,7 @@ function robbie_timeinvis:GetIntrinsicModifierName()
 end
 
 function robbie_timeinvis:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) / ( self:GetCaster():GetCooldownReduction())
+    return (self.BaseClass.GetCooldown( self, level ) / ( self:GetCaster():GetCooldownReduction())) + self:GetCaster():FindTalentValue("special_bonus_birzha_robbie_7")
 end
 
 modifier_robbie_timeinvis = class({})
@@ -176,9 +176,9 @@ function modifier_robbie_timeinvis:GetModifierProcAttack_BonusDamage_Physical(pa
         if self:GetParent():IsIllusion() then return end
     end
 
-    if not self:GetCaster():HasTalent("special_bonus_birzha_robbie_7") then
-        self:GetAbility():UseResources(false,false,true)
-    end
+    --if not self:GetCaster():HasTalent("special_bonus_birzha_robbie_7") then
+        self:GetAbility():UseResources(false,false,false,true)
+    --end
 
     local agility_damage_multiplier = self:GetAbility():GetSpecialValueFor("damage_multiplier") + self:GetCaster():FindTalentValue("special_bonus_birzha_robbie_6")
     local victim_angle = params.target:GetAnglesAsVector().y

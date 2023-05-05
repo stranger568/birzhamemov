@@ -29,70 +29,75 @@
 	}
 })();
 
-var playerInfo = Game.GetPlayerInfo( Players.GetLocalPlayer() );
 
-if ( playerInfo )
+(function()
 {
-	var playerPortrait = $("#HeroImage");
-	var MedalHeroLevelImage = $("#MedalHeroLevelImage");
-	var HeroLevel = $("#HeroLevel");
-	var HeroProgressLabel = $("#HeroProgressLabel");
-	var HeroProgressBGActive = $("#HeroProgressBGActive");
 
-	if ( playerPortrait )
+	var playerInfo = Game.GetPlayerInfo( Players.GetLocalPlayer() );
+
+	if ( playerInfo )
 	{
-		if ( playerInfo.player_selected_hero !== "" )
+		var playerPortrait = $("#HeroImage");
+		var MedalHeroLevelImage = $("#MedalHeroLevelImage");
+		var HeroLevel = $("#HeroLevel");
+		var HeroProgressLabel = $("#HeroProgressLabel");
+		var HeroProgressBGActive = $("#HeroProgressBGActive");
+
+		if ( playerPortrait )
 		{
-			playerPortrait.style.backgroundImage = 'url("file://{images}/custom_game/hight_hood/heroes/' + playerInfo.player_selected_hero + '.png")'
-			playerPortrait.style.backgroundSize = "100%"
-		}
-		else
-		{
-			playerPortrait.style.backgroundImage = 'url("file://{images}/custom_game/unassigned' + '.png")'
-			playerPortrait.style.backgroundSize = "100%"
-		}
-	}
-
-	if (playerInfo.player_selected_hero != "npc_dota_hero_wisp")
-	{
-		var player_info = CustomNetTables.GetTableValue('birzhainfo', String(Players.GetLocalPlayer()));
-	    if (player_info)
-	    {
-	        let hero_information = GetHeroInformation(player_info, playerInfo.player_selected_hero)
-	        if (hero_information != "No")
-	        {
-		        HeroLevel.text = GetHeroLevel(hero_information.experience)
-		        MedalHeroLevelImage.style.backgroundImage = 'url("file://{images}/custom_game/hero_rank/' + GetHeroRankIcon(GetHeroLevel(hero_information.experience)) + '.png")'
-				MedalHeroLevelImage.style.backgroundSize = "100%"
-
-				let exp_percent =  GetHeroExpProgress(hero_information.experience)
-				let exp = GetHeroExp(hero_information.experience)
-
-				if (GetHeroLevel(hero_information.experience) >= 30)
-				{
-					exp_percent = "100%"
-					exp = 1000
-				} 
-
-                HeroProgressBGActive.style['width'] = exp_percent;
-  
-				if (GetHeroLevel(hero_information.experience) >= 5)
-				{
-					if (player_info.bp_days <= 0)
-					{
-						$("#HasBPToNextLevel").style.opacity = "1"
-					}
-				}
-
-				HeroProgressLabel.text = exp + " / 1000"
+			if ( playerInfo.player_selected_hero !== "" )
+			{
+				playerPortrait.style.backgroundImage = 'url("file://{images}/custom_game/hight_hood/heroes/' + playerInfo.player_selected_hero + '.png")'
+				playerPortrait.style.backgroundSize = "100%"
 			}
-	    }
-	}
-	$.Schedule( 1, function()
-	{
-    	Levelup()
-    })
-}
+			else
+			{
+				playerPortrait.style.backgroundImage = 'url("file://{images}/custom_game/unassigned' + '.png")'
+				playerPortrait.style.backgroundSize = "100%"
+			}
+		}
+
+		if (playerInfo.player_selected_hero != "npc_dota_hero_wisp")
+		{
+			var player_info = CustomNetTables.GetTableValue('birzhainfo', String(Players.GetLocalPlayer()));
+		    if (player_info)
+		    {
+		        let hero_information = GetHeroInformation(player_info, playerInfo.player_selected_hero)
+		        if (hero_information != "No")
+		        {
+			        HeroLevel.text = GetHeroLevel(hero_information.experience)
+			        MedalHeroLevelImage.style.backgroundImage = 'url("file://{images}/custom_game/hero_rank/' + GetHeroRankIcon(GetHeroLevel(hero_information.experience)) + '.png")'
+					MedalHeroLevelImage.style.backgroundSize = "100%"
+
+					let exp_percent =  GetHeroExpProgress(hero_information.experience)
+					let exp = GetHeroExp(hero_information.experience)
+
+					if (GetHeroLevel(hero_information.experience) >= 30)
+					{
+						exp_percent = "100%"
+						exp = 1000
+					} 
+
+	                HeroProgressBGActive.style['width'] = exp_percent;
+	  
+					if (GetHeroLevel(hero_information.experience) >= 5)
+					{
+						if (player_info.bp_days <= 0)
+						{
+							$("#HasBPToNextLevel").style.opacity = "1"
+						}
+					}
+
+					HeroProgressLabel.text = exp + " / 1000"
+				}
+		    }
+		}
+		$.Schedule( 2, function()
+		{
+	    	Levelup()
+	    })
+	} 
+})();
 
 function GetHeroExpProgress(exp)
 {
@@ -165,7 +170,7 @@ function Levelup()
 
 	if (exp_level_up > 0)
 	{
-		$.Schedule( 0.1, function()
+		$.Schedule( 0.5, function()
 		{
 	    	LevelUpExpVisual()
 	    })

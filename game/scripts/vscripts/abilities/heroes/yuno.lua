@@ -75,7 +75,7 @@ function modifier_yuno_rage:OnTakeDamage(params)
     if params.unit:IsWard() then return end
     if params.inflictor == nil and not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then 
         local heal = (self:GetAbility():GetSpecialValueFor("lifesteal") + self:GetCaster():FindTalentValue("special_bonus_birzha_yuno_1")) / 100 * params.damage
-        self:GetParent():Heal(heal, nil)
+        self:GetParent():Heal(heal, self:GetAbility())
         local effect_cast = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.attacker )
         ParticleManager:ReleaseParticleIndex( effect_cast )
     end
@@ -119,16 +119,15 @@ function modifier_yuno_sharpness_axe:GetModifierProcAttack_BonusDamage_Pure(para
     local damage = 0
     local base_damage = self:GetAbility():GetSpecialValueFor("base_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_yuno_2")
 
+    local shard_modifier = params.target:FindModifierByName("modifier_yuno_sharpness_axe_effect")
+    if shard_modifier then
+        base_damage = base_damage * (shard_modifier:GetStackCount() + 1)
+    end
+
     damage = base_damage
 
     if self:GetCaster():HasTalent("special_bonus_birzha_yuno_7") then
         damage = damage + (params.original_damage / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_yuno_7"))
-    end
-
-    local shard_modifier = params.target:FindModifierByName("modifier_yuno_sharpness_axe_effect")
-
-    if shard_modifier then
-        damage = damage * (shard_modifier:GetStackCount() + 1)
     end
 
     if self:GetCaster():HasScepter() then

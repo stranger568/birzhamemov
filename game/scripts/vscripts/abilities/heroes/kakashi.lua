@@ -191,17 +191,17 @@ function modifier_kakashi_exort_passive:IsHidden()
     return true
 end
 
-function modifier_kakashi_exort_passive:DeclareFunctions()
-    local funcs = {
-        MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE,
-    }
-
-    return funcs
-end
-
-function modifier_kakashi_exort_passive:GetModifierSpellAmplify_Percentage()
-    return self:GetAbility():GetSpecialValueFor( "bonus_amplify" )
-end
+--function modifier_kakashi_exort_passive:DeclareFunctions()
+--    local funcs = {
+--        MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE,
+--    }
+--
+--    return funcs
+--end
+--
+--function modifier_kakashi_exort_passive:GetModifierSpellAmplify_Percentage()
+--    return self:GetAbility():GetSpecialValueFor( "bonus_amplify" )
+--end
 
 function kakashi_exort:OnSpellStart()
     local caster = self:GetCaster()
@@ -1262,9 +1262,7 @@ function modifier_kakashi_shadow_clone:WatchLogic()
             if not enemy:IsMagicImmune() then
                 ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
             end
-            for _, enemy_new in pairs(enemies) do
-                enemy_new:AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_kakashi_shadow_clone_pull", { duration = self.duration, pos_x = self.origin.x, pos_y = self.origin.y, pull = 60, } )
-            end
+            enemy:AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_kakashi_shadow_clone_pull", { duration = self.duration, pos_x = self.origin.x, pos_y = self.origin.y, pull = 60, } )
         end
     end
 end
@@ -1766,7 +1764,12 @@ function modifier_kakashi_susano_ally:OnCreated()
 end
 
 function modifier_kakashi_susano_ally:OnRefresh()
-    self:OnCreated()
+    self.ally_movespeed = ability_manager:GetValueExort(self:GetAbility(), self:GetCaster(), "ally_movespeed")
+    self.ally_damage_out = ability_manager:GetValueExort(self:GetAbility(), self:GetCaster(), "ally_damage_out")
+    self.radius = self:GetAbility():GetSpecialValueFor("radius")
+    self.stun_duration = ability_manager:GetValueWex(self:GetAbility(), self:GetCaster(), "stun_duration")
+    self.damage = ability_manager:GetValueWex(self:GetAbility(), self:GetCaster(), "damage")
+    if not IsServer() then return end
 end
 
 function modifier_kakashi_susano_ally:OnIntervalThink()
@@ -2253,7 +2256,7 @@ function kakashi_sharingan:OnSpellStart()
     if self.ability_name == "kakashi_ligning_sphere" then
         local sphere = self:GetCaster():FindAbilityByName("kakashi_ligning_sphere")
         if sphere then
-            sphere:UseResources(false, false, true)
+            sphere:UseResources(false, false, false, true)
         end
     end
 

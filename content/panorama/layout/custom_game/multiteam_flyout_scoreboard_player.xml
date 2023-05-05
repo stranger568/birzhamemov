@@ -45,9 +45,9 @@
 			<Panel id="AssistsContainer" class="ScoreCol_Assists ScoreboardPanel">
 				<Label id="Assists" text="999" />
 			</Panel>
-			<!--<Panel id="ReportButtonPlayer" class="ReportButtonPlayer">-->
-			<!--	<Panel class="ReportIcon" />-->
-			<!--</Panel>-->
+			<Panel id="ReportButtonPlayer" class="ReportButtonPlayer">
+				<Panel class="ReportIcon" />
+			</Panel>
 		</Panel>
 		<Panel id="UltimateIndicatorBG" class="UltimateIndicatorShared" />
 		<Panel id="UltimateIndicator" class="UltimateIndicatorShared" />

@@ -184,6 +184,7 @@ if IsServer() then
 		if not parent:IsRealHero() then return end
 		parent:ModifyGold(gold, false, 0)
 		parent:AddExperience(xp, 0, false, false)
+		donate_shop:QuestProgress(31, self:GetParent():GetPlayerOwnerID(), 1)
 	end
 end
 

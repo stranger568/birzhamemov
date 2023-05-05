@@ -4,23 +4,13 @@
 		<include src="s2r://panorama/styles/custom_game/report_panel.vcss_c" />
 	</styles>
 
+	<scripts>
+		<include src="s2r://panorama/scripts/custom_game/report_panel.vjs_c" />
+	</scripts>
+
 	<Panel class="ReportPanelMain" hittest="false">
 		<Panel id="ReportPanel">
-			<Panel class="ReportPanelPlayerInfo">
-				<DOTAAvatarImage steamid="" id="AvatarReportPlayer" />
-				<Label text="NickName" id="NickNameReportPlayer" />
-			</Panel>
-			<Label id="ReportsCount" text="#Report_count" class="ReportsCount" />
-			<Label text="#Report_Info" class="ReportsInfo"/>
-
-			<Panel class="ButtonsReport" >
-				<Panel id="CancelWindow" >
-					<Label text="#Report_Close" class="ButtonText" />
-				</Panel>
-				<Panel id="ReportPlayerButton" >
-					<Label text="#Report_Report" class="ButtonText" />
-				</Panel>
-			</Panel>
+			<Label id="ReportPanelLabel" class="ReportPanelLabel" text="" />
 		</Panel>					
 	</Panel>
 </root>

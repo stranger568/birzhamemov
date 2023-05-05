@@ -30,6 +30,17 @@ function Dio_Kakyoin:OnSpellStart()
 	dirY = target:GetOrigin().y-caster:GetOrigin().y
 	kicked = target
 
+    if DonateShopIsItemBought(self:GetCaster():GetPlayerOwnerID(), 180) then
+        local p = ParticleManager:CreateParticle("particles/dio_arcana/kakyoin_attack_normal_punch.vpcf", PATTACH_ABSORIGIN,self:GetCaster())
+        ParticleManager:SetParticleControl(p, 0,self:GetCaster():GetAbsOrigin())
+        ParticleManager:SetParticleControl(p, 2, target:GetAbsOrigin())
+        ParticleManager:SetParticleControlForward( p, 0, (target:GetOrigin()-self:GetCaster():GetOrigin()):Normalized() )
+        ParticleManager:SetParticleControlForward( p, 2, (target:GetOrigin()-self:GetCaster():GetOrigin()):Normalized() )
+        ParticleManager:SetParticleControlForward( p, 3, (target:GetOrigin()-self:GetCaster():GetOrigin()):Normalized() )
+        ParticleManager:SetParticleControlForward( p, 4, (target:GetOrigin()-self:GetCaster():GetOrigin()):Normalized() )
+        ParticleManager:ReleaseParticleIndex( p )
+    end
+
 	self:Kick( kicked, dirX, dirY )
 
 	target:EmitSound("dioboom")
@@ -229,7 +240,17 @@ function Dio_Wry:OnSpellStart()
 
 	self:GetCaster():EmitSound("diowry")
 
-    local particle = ParticleManager:CreateParticle("particles/dio/dio_wry.vpcf", PATTACH_POINT, self:GetCaster())
+    local particle = "particles/dio/dio_wry.vpcf"
+
+    if DonateShopIsItemBought(self:GetCaster():GetPlayerOwnerID(), 180) then
+        particle = "particles/dio_arcana/wryy_effect.vpcf"
+        local dio_wryy_effect_bonus = ParticleManager:CreateParticle("particles/dio_arcana/dio_wryy_effect_bonus.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
+        ParticleManager:SetParticleControl(dio_wryy_effect_bonus, 0, self:GetCaster():GetAbsOrigin())
+        ParticleManager:SetParticleControl(dio_wryy_effect_bonus, 1, Vector(self:GetSpecialValueFor("radius"), 1, 1))
+        ParticleManager:ReleaseParticleIndex(dio_wryy_effect_bonus)
+    end
+
+    local particle = ParticleManager:CreateParticle(particle, PATTACH_POINT, self:GetCaster())
     ParticleManager:SetParticleControl(particle, 0, self:GetCaster():GetAbsOrigin())
     ParticleManager:SetParticleControl(particle, 1, Vector(self:GetSpecialValueFor("radius"), 1, 1))
     ParticleManager:ReleaseParticleIndex(particle)
@@ -254,7 +275,7 @@ function Dio_Wry:OnSpellStart()
 
 		local digits = string.len( math.floor( mana_to_burn ) ) + 1
 
-		enemy:ReduceMana( mana_to_burn )
+		enemy:Script_ReduceMana( mana_to_burn, self )
 
 		local damageTable = 
         {
@@ -270,7 +291,13 @@ function Dio_Wry:OnSpellStart()
 		ParticleManager:SetParticleControl( numberIndex, 1, Vector( 1, mana_to_burn, 0 ) )
 		ParticleManager:SetParticleControl( numberIndex, 2, Vector( 2.0, digits, 0 ) )
 
-		local burnIndex = ParticleManager:CreateParticle( "particles/dio/dio_wry_debuff.vpcf", PATTACH_ABSORIGIN, enemy )
+        local particle = "particles/dio/dio_wry_debuff.vpcf"
+    
+        if DonateShopIsItemBought(self:GetCaster():GetPlayerOwnerID(), 180) then
+            particle = "particles/dio_arcana/dio/dio_wry_debuff.vpcf"
+        end
+
+		local burnIndex = ParticleManager:CreateParticle( particle, PATTACH_ABSORIGIN, enemy )
         ParticleManager:ReleaseParticleIndex(burnIndex)
     end
 end
@@ -310,13 +337,6 @@ function Dio_Blink:OnSpellStart()
         distance_teleport = range
     end
 
-    local particle_one = ParticleManager:CreateParticle( "particles/dio/antimage_blink_start.vpcf", PATTACH_ABSORIGIN, self:GetCaster() )
-    ParticleManager:SetParticleControl( particle_one, 0, self:GetCaster():GetAbsOrigin() )
-    ParticleManager:SetParticleControlForward( particle_one, 0, direciton:Normalized() )
-    ParticleManager:SetParticleControl( particle_one, 1, self:GetCaster():GetAbsOrigin() + direciton )
-    ParticleManager:ReleaseParticleIndex( particle_one )
-    EmitSoundOnLocationWithCaster( self:GetCaster():GetAbsOrigin(), "Hero_Antimage.Blink_out", self:GetCaster() )
-
     local knockback = self:GetCaster():AddNewModifier(
         self:GetCaster(),
         self,
@@ -329,17 +349,30 @@ function Dio_Blink:OnSpellStart()
         }
     )
 
-    local particle = ParticleManager:CreateParticle("particles/econ/items/faceless_void/faceless_void_arcana/faceless_void_arcana_time_walk.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
+    local particle_jump = "particles/dio/dio_jump.vpcf"
 
-    self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_1)
+    self:GetCaster():EmitSound("Hero_FacelessVoid.TimeWalk.Aeons")
+
+    if DonateShopIsItemBought(self:GetCaster():GetPlayerOwnerID(), 180) then
+        self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_3)
+        particle_jump = "particles/dio_arcana/dio_jump_arcana_preimage.vpcf"
+    else
+        self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_1)
+    end
+
+    local particle = ParticleManager:CreateParticle(particle_jump, PATTACH_ABSORIGIN, self:GetCaster())
+    ParticleManager:SetParticleControl(particle, 0, self:GetCaster():GetAbsOrigin())
+    ParticleManager:SetParticleControl(particle, 1, self:GetCaster():GetAbsOrigin() + direciton * distance_teleport)
+    ParticleManager:SetParticleControlEnt(particle, 2, self:GetCaster(), PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", self:GetCaster():GetForwardVector(), true)
+    ParticleManager:ReleaseParticleIndex(particle)
 
     local callback = function( bInterrupted )
-        if particle then
-            ParticleManager:DestroyParticle(particle, false)
+        if DonateShopIsItemBought(self:GetCaster():GetPlayerOwnerID(), 180) then
+            self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_3)
+            self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_3_END)
         end
         FindClearSpaceForUnit( self:GetCaster(), self:GetCaster():GetAbsOrigin(), true )
         ProjectileManager:ProjectileDodge(self:GetCaster())
-        EmitSoundOnLocationWithCaster( self:GetCaster():GetOrigin(), "Hero_Antimage.Blink_in", self:GetCaster() )
     end
 
     knockback:SetEndCallback( callback )
@@ -437,7 +470,7 @@ function modifier_dio_vampire_stats:OnTakeDamage(params)
     if self:GetParent():PassivesDisabled() then return end
     if params.inflictor == nil and not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then 
         local heal = self:GetAbility():GetSpecialValueFor("lifesteal") / 100 * params.damage
-        self:GetParent():Heal(heal, nil)
+        self:GetParent():Heal(heal, self:GetAbility())
         local effect_cast = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.attacker )
         ParticleManager:ReleaseParticleIndex( effect_cast )
     end
@@ -480,6 +513,9 @@ function Dio_TheWorld:OnUpgrade()
 
         self.the_world:Destroy()
         self.the_world = CreateUnitByName("npc_dio_theworld_"..level, origin_death, true, caster, nil, caster:GetTeamNumber())
+        if DonateShopIsItemBought(self:GetCaster():GetPlayerOwnerID(), 180) then
+            self.the_world:SetOriginalModel("models/dio_arcana/dio_the_world_arcana.vmdl")
+        end
         self.the_world:SetControllableByPlayer(player, true)
         self.the_world:SetOwner(caster)
         self.the_world:AddNewModifier(self:GetCaster(), self, 'modifier_dio_TheWorld', {})
@@ -507,12 +543,19 @@ function Dio_TheWorld:OnSpellStart()
     local origin = caster:GetAbsOrigin() + RandomVector(100)
 
     if self.the_world and IsValidEntity(self.the_world) and self.the_world:IsAlive() then
+        self.the_world:SetForwardVector(self:GetCaster():GetForwardVector())
+        self.the_world:Stop()
         FindClearSpaceForUnit(self.the_world, origin, true)
         self.the_world:SetHealth(self.the_world:GetMaxHealth())
         self.the_world:EmitSound("StandSpawn")
         self.the_world:FindAbilityByName("Dio_Za_Warudo"):SetLevel(level)
     else
         self.the_world = CreateUnitByName("npc_dio_theworld_"..level, origin, true, caster, nil, caster:GetTeamNumber())
+        self.the_world:SetForwardVector(self:GetCaster():GetForwardVector())
+        self.the_world:Stop()
+        if DonateShopIsItemBought(self:GetCaster():GetPlayerOwnerID(), 180) then
+            self.the_world:SetOriginalModel("models/dio_arcana/dio_the_world_arcana.vmdl")
+        end
         self.the_world:SetControllableByPlayer(player, true)
         self.the_world:SetOwner(self:GetCaster())
         self.the_world:AddNewModifier(self:GetCaster(), self, 'modifier_dio_TheWorld', {})
@@ -536,6 +579,19 @@ function modifier_dio_TheWorld:OnCreated(keys)
     self.b_health = self:GetAbility():GetSpecialValueFor("stand_hp")
     self.b_armor = self:GetAbility():GetSpecialValueFor("stand_armor")
     if not IsServer() then return end
+
+    if DonateShopIsItemBought(self:GetCaster():GetPlayerOwnerID(), 180) then
+        local particle = ParticleManager:CreateParticle( "particles/dio_arcana/the_world_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
+        ParticleManager:SetParticleControlEnt( particle, 0, self:GetParent(), PATTACH_ABSORIGIN_FOLLOW, nil, self:GetParent():GetOrigin(), true )
+        self:AddParticle(particle, false, false, -1, false, false)
+
+        local particle_2 = ParticleManager:CreateParticle( "particles/dio_arcana/the_world_ambient_new.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
+        ParticleManager:SetParticleControlEnt( particle_2, 0, self:GetParent(), PATTACH_ABSORIGIN_FOLLOW, nil, self:GetParent():GetOrigin(), true )
+        ParticleManager:SetParticleControlEnt( particle_2, 1, self:GetParent(), PATTACH_ABSORIGIN_FOLLOW, nil, self:GetParent():GetOrigin(), true )
+        ParticleManager:SetParticleControlEnt( particle_2, 3, self:GetParent(), PATTACH_ABSORIGIN_FOLLOW, nil, self:GetParent():GetOrigin(), true )
+        self:AddParticle(particle_2, false, false, -1, false, false)
+    end
+
     self:GetParent():SetBaseDamageMin(self.b_damage)
     self:GetParent():SetBaseDamageMax(self.b_damage)
     self:GetParent():SetBaseMaxHealth(self.b_health)
@@ -676,6 +732,11 @@ end
 
 function modifier_dio_mudamudamuda:OnIntervalThink()
 	if IsServer() then
+        if DonateShopIsItemBought(self:GetCaster():GetPlayerOwnerID(), 180) then
+            local particle = ParticleManager:CreateParticle("particles/dio_arcana/mudamudamuda.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
+            ParticleManager:SetParticleControlEnt( particle, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", Vector(0,0,0), true )
+            ParticleManager:SetParticleControlEnt( particle, 3, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", Vector(0,0,0), true )
+        end
 		self:GetCaster():PerformAttack(self:GetParent(), true, true, true, true, false, false, true)
 	end
 end
@@ -734,7 +795,11 @@ function modifier_Dio_Za_Warudo_aura:OnCreated()
     self.cast_duration = 1
     self.radius_per_time = self.max_radius / (self.cast_duration / FrameTime())
 
-	self.particle = ParticleManager:CreateParticle("particles/dio/dio_sphere_ground.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+    local particle = "particles/dio/dio_sphere_ground.vpcf"
+    if DonateShopIsItemBought(self:GetCaster():GetPlayerOwnerID(), 180) then
+        particle = "particles/dio_arcana/dio_sphere_ground.vpcf"
+    end
+	self.particle = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
 	ParticleManager:SetParticleControl(self.particle, 0, self:GetParent():GetAbsOrigin())
 	ParticleManager:SetParticleControl(self.particle, 1, Vector(self.max_radius, self.max_radius, 1))
 end
@@ -1060,4 +1125,37 @@ function modifier_dio_roller:OnVerticalMotionInterrupted()
     if not self:IsNull() then
         self:Destroy()
     end
+end
+
+-- arcana
+
+function Dio_Kakyoin:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_bp_dio") then
+        return "Dio/Kakyoin_new"
+    end
+    return "Dio/Kakyoin"
+end
+function Dio_Wry:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_bp_dio") then
+        return "Dio/Wry_new"
+    end
+    return "Dio/Wry"
+end
+function Dio_Blink:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_bp_dio") then
+        return "Dio/Blink_new"
+    end
+    return "Dio/Blink"
+end
+function dio_vampire:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_bp_dio") then
+        return "Dio/vampire_new"
+    end
+    return "Dio/vampire"
+end
+function Dio_TheWorld:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_bp_dio") then
+        return "Dio/TheWorld_new"
+    end
+    return "Dio/TheWorld"
 end

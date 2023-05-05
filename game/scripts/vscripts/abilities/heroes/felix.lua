@@ -725,7 +725,9 @@ function modifier_Felix_water_block:DeclareFunctions()
 	return 
 	{
 		MODIFIER_PROPERTY_TOTAL_CONSTANT_BLOCK,
-		MODIFIER_PROPERTY_HEAL_AMPLIFY_PERCENTAGE_TARGET
+		MODIFIER_PROPERTY_HEAL_AMPLIFY_PERCENTAGE_TARGET,
+		MODIFIER_PROPERTY_INCOMING_SPELL_DAMAGE_CONSTANT,
+        MODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_CONSTANT,
 	}
 end
 
@@ -752,4 +754,16 @@ end
 
 function modifier_Felix_NyashaCat:GetModifierHealAmplify_PercentageTarget()
 	return self.heal_b
+end
+
+function modifier_Felix_NyashaCat:GetModifierIncomingSpellDamageConstant()
+    if (not IsServer()) then
+        return self:GetStackCount()
+    end
+end
+
+function modifier_Felix_NyashaCat:GetModifierIncomingPhysicalDamageConstant()
+    if (not IsServer()) then
+        return self:GetStackCount()
+    end
 end

@@ -167,7 +167,7 @@ function RegisterHeroes()
 
 
 
-            for (var i = 1; i < strength_heroes.length; i++) 
+            for (var i = 0; i < strength_heroes.length; i++) 
             {
                 var hero_creating = $("#StrengthSelector").FindChild(strength_heroes[i])
                 if (hero_creating) { return };
@@ -196,7 +196,7 @@ function RegisterHeroes()
             var agi_row = $.CreatePanel("Panel", $("#HeroBirzhaList"), "AgilitySelector" );
 
 
-            for (var i = 1; i < agility_heroes.length; i++) 
+            for (var i = 0; i < agility_heroes.length; i++) 
             {
                 var hero_creating = $("#AgilitySelector").FindChild(agility_heroes[i])
                 if (hero_creating) { return };
@@ -223,7 +223,7 @@ function RegisterHeroes()
             AttributePanelLabelINT.text = $.Localize("#DOTA_Hero_Selection_INT")
             var int_row = $.CreatePanel("Panel", $("#HeroBirzhaList"), "IntellectSelector" );
 
-            for (var i = 1; i < intellect_heroes.length; i++) 
+            for (var i = 0; i < intellect_heroes.length; i++) 
             {
                 var hero_creating = $("#IntellectSelector").FindChild(intellect_heroes[i])
                 if (hero_creating) { return };

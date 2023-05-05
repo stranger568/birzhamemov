@@ -144,7 +144,7 @@ function modifier_olyasha_vzhuh:OnAttack( keys )
                 bProvidesVision = true
             }
             ProjectileManager:CreateTrackingProjectile(projectile_info)                    
-            self:GetAbility():UseResources(false,false,true)
+            self:GetAbility():UseResources(false,false,false,true)
             self:GetParent():EmitSound("Hero_Enchantress.Impetus")
         end
     end

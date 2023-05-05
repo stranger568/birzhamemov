@@ -14,12 +14,25 @@ function Papich_HellFire_Blast:GetManaCost(level)
     return self.BaseClass.GetManaCost(self, level)
 end
 
+function Papich_HellFire_Blast:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_papich_hand_effect") then
+        return "Papich/HellFireBlast_bp"
+    end
+    return "Papich/HellFireBlast"
+end
+
 function Papich_HellFire_Blast:GetCastRange(location, target)
     return self.BaseClass.GetCastRange(self, location, target)
 end
 
 function Papich_HellFire_Blast:OnAbilityPhaseStart()
-    local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_skeletonking/skeletonking_hellfireblast_warmup.vpcf", PATTACH_CUSTOMORIGIN_FOLLOW, self:GetCaster())
+    local particle_effect = "particles/units/heroes/hero_skeletonking/skeletonking_hellfireblast_warmup.vpcf"
+
+    if self:GetCaster():HasModifier("modifier_papich_hand_effect") then
+        particle_effect = "particles/econ/items/wraith_king/wraith_king_arcana/wk_arc_wraithfireblast_cast.vpcf"
+    end
+
+    local particle = ParticleManager:CreateParticle(particle_effect, PATTACH_CUSTOMORIGIN_FOLLOW, self:GetCaster())
     ParticleManager:SetParticleControlEnt(particle, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack2", self:GetCaster():GetAbsOrigin(), true)
     ParticleManager:ReleaseParticleIndex(particle)
     return true
@@ -33,9 +46,16 @@ function Papich_HellFire_Blast:OnSpellStart(new_target)
         target = new_target
     end
     if not IsServer() then return end
+
+    local particle = "particles/papich/skeletonking_hellfireblast.vpcf"
+
+    if self:GetCaster():HasModifier("modifier_papich_hand_effect") then
+        particle = "particles/econ/items/wraith_king/wraith_king_arcana/wk_arc_wraithfireblast.vpcf"
+    end
+
     local info = 
     {
-        EffectName = "particles/papich/skeletonking_hellfireblast.vpcf",
+        EffectName = particle,
         Ability = self,
         iMoveSpeed = 1000,
         Source = self:GetCaster(),
@@ -129,9 +149,23 @@ function modifier_hellfire_blast_slow:OnCreated( kv )
     self.per_damage = self:GetAbility():GetSpecialValueFor( "per_damage" )
     self.move_slow = self:GetAbility():GetSpecialValueFor( "movespeed_slow" )
     self:StartIntervalThink( 1 )
-    local particle = ParticleManager:CreateParticle("particles/papich/skeletonking_hellfireblast_explosion.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+
+    local particle_effect = "particles/papich/skeletonking_hellfireblast_explosion.vpcf"
+    local particle_debuff = "particles/papich/skeletonking_hellfireblast_debuff.vpcf"
+
+    if self:GetCaster():HasModifier("modifier_papich_hand_effect") then
+        particle_effect = "particles/econ/items/wraith_king/wraith_king_arcana/wk_arc_wraithfireblast_explosion.vpcf"
+        particle_debuff = "particles/econ/items/wraith_king/wraith_king_arcana/wk_arc_wraithfireblast_debuff.vpcf"
+    end
+
+    local particle = ParticleManager:CreateParticle(particle_effect, PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
     ParticleManager:SetParticleControlEnt(particle, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
+    ParticleManager:SetParticleControlEnt(particle, 1, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
+    ParticleManager:SetParticleControlEnt(particle, 3, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
     ParticleManager:ReleaseParticleIndex(particle)
+
+    local particle_debuff_off = ParticleManager:CreateParticle(particle_debuff, PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+    self:AddParticle(particle_debuff_off, false, false, -1, false, false)
 end
 
 function modifier_hellfire_blast_slow:OnRefresh( kv )
@@ -162,14 +196,6 @@ function modifier_hellfire_blast_slow:OnIntervalThink()
         ability = self:GetAbility()
     }
     ApplyDamage( damage )
-end
-
-function modifier_hellfire_blast_slow:GetEffectName()
-    return "particles/papich/skeletonking_hellfireblast_debuff.vpcf"
-end
-
-function modifier_hellfire_blast_slow:GetEffectAttachType()
-    return PATTACH_ABSORIGIN_FOLLOW
 end
 
 Papich_reincarnation = class({})
@@ -244,7 +270,7 @@ function modifier_papich_reincarnation_wraith_form_buff:OnTakeDamage(params)
     if params.damage > 0 and self:GetParent():GetHealth() <= 1 and self:GetAbility():IsFullyCastable() then
         self:GetParent():SetHealth(caster_health)
         self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_papich_reincarnation_wraith_form", {duration = duration})
-        self:GetAbility():UseResources(true,false,true)  
+        self:GetAbility():UseResources(true,false,false,true)  
     end          
 end
 
@@ -444,6 +470,7 @@ function modifier_streamsnipers_buff:GetModifierPhysicalArmorBonus()
 end
 
 LinkLuaModifier("modifier_Papich_in_solo",  "abilities/heroes/papich.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_Papich_in_solo_quest",  "abilities/heroes/papich.lua", LUA_MODIFIER_MOTION_NONE)
 
 Papich_in_solo = class({})
 
@@ -502,54 +529,62 @@ function modifier_Papich_in_solo:GetModifierPreAttack_CriticalStrike( params )
     if params.attacker:PassivesDisabled() then return end
     if not self:GetAbility():IsFullyCastable() then return end
 
-    if RollPercentage(chance) and not self:GetParent():IsIllusion() and not params.target:IsBoss() then
+    if RollPseudoRandomPercentage(chance, 921, self:GetCaster()) and not self:GetParent():IsIllusion() and not params.target:IsBoss() then
         if self:GetParent():HasTalent("special_bonus_birzha_papich_7") then
-            self.attach_sound = 0
             self:GetParent():RemoveGesture(ACT_DOTA_ATTACK_EVENT)
             self:GetParent():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK_EVENT, self:GetParent():GetAttackSpeed())
-            self:GetAbility():UseResources(false, false, true)
-            self:GetParent():StopSound("papichwherecrit")
-            self:GetParent():EmitSound("papichcreet")
-            if DonateShopIsItemBought(self:GetCaster():GetPlayerID(), 29) then
-                local niia = ParticleManager:CreateParticle("particles/birzhapass/papich_critical_effect.vpcf", PATTACH_OVERHEAD_FOLLOW, params.target)
-                ParticleManager:SetParticleControl(niia, 0, params.target:GetAbsOrigin())
-                ParticleManager:SetParticleControl(niia, 7, params.target:GetAbsOrigin())
-            end
+            self.attack_record = params.record
+            self.one_shot = true
             return 1000000
         else
             self:GetParent():RemoveGesture(ACT_DOTA_ATTACK_EVENT)
             self:GetParent():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK_EVENT, self:GetParent():GetAttackSpeed())
             self.attack_record = params.record
+            self.one_shot = true
             return
         end
     end
 
     self:GetParent():RemoveGesture(ACT_DOTA_ATTACK_EVENT)
     self:GetParent():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK_EVENT, self:GetParent():GetAttackSpeed())
-    self:GetParent():EmitSound("papichsolo_new")
-    self:GetAbility():UseResources(false, false, true)
+    self.attack_record = params.record
+    self.one_shot = nil
     return crit_mult
 end
 
 function modifier_Papich_in_solo:GetModifierProcAttack_Feedback( params )
     if not IsServer() then return end
+
     local pass = false
-    if self.attack_record and params.record==self.attack_record then
+
+    if self.attack_record and params.record == self.attack_record then
         pass = true
         self.attack_record = nil
     end
 
-    if pass then
-        self.attach_sound = 0
-        self:GetAbility():UseResources(false, false, true)
-        self:GetParent():StopSound("papichwherecrit")
+    if pass and self.one_shot == true then
         self:GetParent():EmitSound("papichcreet")
         if DonateShopIsItemBought(self:GetCaster():GetPlayerID(), 29) then
             local niia = ParticleManager:CreateParticle("particles/birzhapass/papich_critical_effect.vpcf", PATTACH_OVERHEAD_FOLLOW, params.target)
             ParticleManager:SetParticleControl(niia, 0, params.target:GetAbsOrigin())
             ParticleManager:SetParticleControl(niia, 7, params.target:GetAbsOrigin())
         end
-        ApplyDamage({victim = params.target, attacker = self:GetParent(), damage = params.target:GetMaxHealth() / 100 * self:GetAbility():GetSpecialValueFor("damage_chance"), damage_type = DAMAGE_TYPE_PURE, ability = nil}) 
+        params.target:AddNewModifier(self:GetCaster(), self, "modifier_Papich_in_solo_quest", {duration = 5})
+        if self:GetParent():HasTalent("special_bonus_birzha_papich_7") then
+            self.attach_sound = 0
+            self:GetAbility():UseResources(false, false, false, true)
+            self:GetParent():StopSound("papichwherecrit")
+            self.one_shot = nil
+        else
+            self.one_shot = nil
+            self.attach_sound = 0
+            ApplyDamage({victim = params.target, attacker = self:GetParent(), damage = params.target:GetMaxHealth() / 100 * self:GetAbility():GetSpecialValueFor("damage_chance"), damage_type = DAMAGE_TYPE_PURE, ability = nil}) 
+        end
+    elseif pass and self.one_shot == nil then
+        self:GetParent():EmitSound("papichsolo_new")
+        self:GetAbility():UseResources(false, false, false, true)
+        self:GetParent():StopSound("papichwherecrit")
+        self.one_shot = nil
     end
 end
 
@@ -558,3 +593,46 @@ end
 
 
 
+
+
+
+
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+modifier_Papich_in_solo_quest = class({})
+
+function modifier_Papich_in_solo_quest:IsHidden() return true end
+function modifier_Papich_in_solo_quest:IsPurgable() return false end
+function modifier_Papich_in_solo_quest:IsPurgeException() return false end
+
+function modifier_Papich_in_solo_quest:DeclareFunctions()
+    return {
+        MODIFIER_EVENT_ON_DEATH
+    }
+end
+
+function modifier_Papich_in_solo_quest:OnDeath(params)
+    if params.unit == self:GetParent() then
+        if params.attacker == self:GetCaster() then
+            donate_shop:QuestProgress(37, self:GetCaster():GetPlayerOwnerID(), 1)
+        end
+    end
+end
+
+
+
+        

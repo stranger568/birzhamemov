@@ -220,9 +220,8 @@
 				<Label text = "#BestFreeBP" class = "MainTextInformationLeader"/>	
 			</Panel>
 			<Panel class="MainInformation2Leader">
-				<Label text = "#Top100players" class = "MainTextInformation2"/>	
 				<Button class="MainInformationButtonLeader" onactivate="ExternalBrowserGoToURL('https://bmemov.ru/leaderboards/');">
-					<Label text = "#birzhapass_leaderboards"/>
+					<Label text = "#Top100players"/>
 				</Button> 
 			</Panel>
 		</Panel>

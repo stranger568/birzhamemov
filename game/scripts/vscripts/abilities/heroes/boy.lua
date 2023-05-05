@@ -45,16 +45,29 @@ function Pocik_VerySmall:OnProjectileHit_ExtraData(target, vLocation, table)
     if target ~= nil and ( not target:IsMagicImmune() ) and ( not target:TriggerSpellAbsorb( self ) ) then
         local gold_to_damage_ratio = self:GetSpecialValueFor("gold_to_damage_ratio")
         local gold_damage = math.floor(target:GetGold() * gold_to_damage_ratio * 0.01)
+
         if self:GetCaster():HasTalent("special_bonus_birzha_pocik_4") then
             gold_damage = math.floor(self:GetCaster():GetGold() * gold_to_damage_ratio * 0.01)
         end
+
         if self:GetCaster():HasTalent("special_bonus_birzha_pocik_3") then
             local bonus_damage = math.floor(target:GetGold() * self:GetCaster():FindTalentValue("special_bonus_birzha_pocik_3") * 0.01)
             local modifier = self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Pocik_VerySmall_buff", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_pocik_3", "value2"), bonus_damage = bonus_damage})
         end
+
+
+        gold_damage = math.min(gold_damage, 1000)
+
+        if table.scepter == 1 or table.scepter == true then
+            gold_damage = math.min(gold_damage, 250)
+        end
+
         gold_damage = gold_damage + self:GetSpecialValueFor("base_damage")
+
         ApplyDamage({ victim = target, attacker = self:GetCaster(), damage = gold_damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self}) 
+
         target:EmitSound("pocikxyli")
+        
         target:EmitSound("DOTA_Item.Hand_Of_Midas")
     end
 
@@ -143,7 +156,7 @@ function modifier_pocik_bash:GetModifierProcAttack_BonusDamage_Physical(params)
     ParticleManager:SetParticleControl( crit_pfx, 1, params.target:GetOrigin() )
     ParticleManager:ReleaseParticleIndex(crit_pfx)
 
-    self:GetAbility():UseResources(false, false, true)
+    self:GetAbility():UseResources(false, false, false, true)
 
     if self:GetParent():HasModifier("modifier_bp_dangerous_boy") then
         local crit_pfx_item = ParticleManager:CreateParticle("particles/units/heroes/hero_monkey_king/monkey_king_jump_stomp.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.target)
@@ -311,7 +324,7 @@ function modifier_ThisMyPoint_debuff:OnDestroy( params )
     parent:StopSound("Ability.XMark.Target_Movement")
     parent:EmitSound("Ability.XMarksTheSpot.Return")
 
-    self:GetAbility():UseResources(false, false, true)
+    self:GetAbility():UseResources(false, false, false, true)
     if not ( parent:IsInvulnerable() ) then
         local stopOrder =
         {

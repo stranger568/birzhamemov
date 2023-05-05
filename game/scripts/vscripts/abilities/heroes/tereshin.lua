@@ -375,7 +375,7 @@ function modifier_kirill_InjectSynthol:OnIntervalThink()
 
     if self:GetCaster():HasTalent("special_bonus_birzha_tereshin_3") then
         if self:GetCaster():GetMana() > mana then 
-            self:GetCaster():ReduceMana( mana )
+            self:GetCaster():Script_ReduceMana( mana, self:GetAbility() )
             return
         end 
     end

@@ -4,68 +4,192 @@
 	{
 		"drop_rates"
 		{
-			"0:00"
+			"99:00"
 			{
-				"0" "10"
-				"1" "10"
-				"2" "10"
-				"3" "10"
+				"0" "14"
+				"1" "14"
+				"2" "14"
+				"3" "14"
+				"4" "14"
 			}
 		}
-
+		
 		"items"
 		{
+			//"item_keen_optic"				  "0"
+			"item_trusty_shovel"			  "0"
+			"item_arcane_ring"				  "0"			
+			//"item_possessed_mask"			  "0"
+			"item_mysterious_hat"			  "0"
+			"item_unstable_wand"			  "0"
+			"item_pogo_stick"				  "0"							
+			"item_seeds_of_serenity"		  "0"
+			"item_lance_of_pursuit"			  "0"
+			"item_occult_bracelet"			  "0"
+			"item_duelist_gloves"			  "0"
+
+			//"item_ocean_heart"			  "0"
+			"item_broom_handle"				  "0"
+			//"item_chipped_vest"		      "0"
+
+			//"item_royal_jelly"			  "0"
+			"item_faded_broach"				  "0"
+			//"item_ironwood_tree"			  "0"
+			"item_spark_of_courage"		      "0"
 		}
 	}
 	"2"
 	{
 		"drop_rates"
 		{
-			"6:00"
+			"99:00"
 			{
 				"0" "10"
 				"1" "10"
 				"2" "10"
 				"3" "10"
+				"4" "10"
 			}
 		}
 
 		"items"
 		{
+			"item_ring_of_aquila"			  "0"
+			//"item_imp_claw"					  "0"
+			//"item_nether_shawl"				  "0"
+			"item_dragon_scale"				  "0"
+			"item_pupils_gift"				  "0"
+			"item_vambrace"			  "0"
+			//"item_misericorde"				  "0"
+			"item_grove_bow"				  "0"
+			"item_philosophers_stone"				  "0"
+			//"item_essence_ring"				  "0"
+			//"item_paintball"				"0"
+			"item_bullwhip"			  "0"
+			//"item_quicksilver_amulet"				  "0"
+			//"item_dagger_of_ristul"			"0"
+			"item_orb_of_destruction"		  "0"
+			"item_specialists_array"			"0"
+			"item_eye_of_the_vizier"				  "0"
+			"item_vampire_fangs"				  "0"
+			//"item_blighted_spirit"				  "0"
+			"item_gossamer_cape"				  "0"
+						
+
 		}
 	}
 	"3"
-	{	
-		"drop_rates"
-		{
-			"12:00"
-			{
-				"0" "10"
-				"1" "10"
-				"2" "10"
-				"3" "10"
-			}
-		}
-
-		"items"
-		{
-		}
-	}
-	"4"
 	{
 		"drop_rates"
 		{
-			"18:00"
+			"99:00"
 			{
 				"0" "10"
 				"1" "10"
 				"2" "10"
 				"3" "10"
+				"4" "10"
 			}
 		}
 
 		"items"
 		{
+			"item_quickening_charm"			  "0"
+			"item_defiant_shell"			  "0"
+			//"item_black_powder_bag"		  "0"
+			//"item_spider_legs"			  "0"
+			//"item_icarus_wings"			  "0"
+			"item_paladin_sword"			  "0"
+			"item_vindicators_axe"			  "0"
+			"item_dandelion_amulet"			  "0"
+			//"item_orb_of_destruction"		  "0"
+			"item_titan_sliver"				  "0"
+			"item_enchanted_quiver"			  "0"
+			"item_elven_tunic"				  "0"
+			"item_cloak_of_flames"			  "0"
+			"item_ceremonial_robe"			  "0"
+			"item_psychic_headband"			  "0"
+			//"item_slime_vial"				  "0"
+			"item_ogre_seal_totem"			  "0"
+			//"item_quicksilver_amulet"		  "0"
+			//"item_essence_ring"			  "0"
+		}
+	}
+	"4"
+	{	
+		"drop_rates"
+		{
+			"99:00"
+			{
+				"0" "10"
+				"1" "10"
+				"2" "10"
+				"3" "10"
+				"4" "10"
+			}
+		}
+
+		"items"
+		{
+			"item_timeless_relic"			  "0"
+			"item_spell_prism"				  "0"
+			"item_ascetic_cap"				  "0"
+			//"item_heavy_blade"		      "0"
+			//"item_flicker"			      "0"
+			"item_ninja_gear"				  "0"
+			//"item_illusionsts_cape"		  "0"
+			//"item_fortitude_ring"			  "0"
+			//"item_the_leveller"			  "0"
+			//"item_minotaur_horn"			  "0"
+			"item_spy_gadget"				  "0"
+			"item_trickster_cloak"			  "0"
+			"item_stormcrafter"			      "0"
+			"item_penta_edged_sword"		  "0"
+			"item_havoc_hammer"				  "0"
+			
+			//"item_princes_knife"			  "0"
+			//"item_harpoon"			      "0"
+			//"item_barricade"			  	  "0"
+			
+			//"item_horizons_equilibrium"	  "0"
+			"item_mind_breaker"				  "0"
+			"item_martyrs_plate"			  "0"
+		}
+	}
+	"5"
+	{
+		"drop_rates"
+		{
+			"99:00"
+			{
+				"0" "10"
+				"1" "10"
+				"2" "10"
+				"3" "10"
+				"4" "10"
+			}
+		}
+
+		"items"
+		{
+			"item_force_boots"				  "0"
+			"item_desolator_2"				  "0"
+			"item_seer_stone"				  "0"
+			"item_mirror_shield"			  "0"
+			"item_apex"					  	  "0"
+			//"item_ballista"			      "0"
+			"item_demonicon"				  "0"
+			"item_fallen_sky"		  	      "0"
+			"item_force_field"				  "0"
+			"item_pirate_hat"				  "0"
+			"item_ex_machina"				  "0"
+			"item_giants_ring"				  "0"
+			//"item_vengeances_shadow"	      "0"
+			"item_book_of_shadows"			  "0"
+			//"item_manacles_of_power"		  "0"
+			//"item_bottomless_chalice"		  "0"
+			//"item_wand_of_sanctitude"		  "0"
+			
 		}
 	}
 }

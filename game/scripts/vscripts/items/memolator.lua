@@ -251,7 +251,7 @@ function modifier_item_memolator3:OnAttackLanded(params)
 
         params.target:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_birzha_bashed", {duration = stun_duration})
 
-        self:GetAbility():UseResources(false, false, true)
+        self:GetAbility():UseResources(false, false, false, true)
 
         self.critProc = false
     end

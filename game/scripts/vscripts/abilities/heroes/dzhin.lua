@@ -384,3 +384,30 @@ end
 function modifier_dzhin_knifes_debuff:IsPurgable()
     return false
 end
+
+
+
+
+
+
+
+
+
+
+function egor_counting_lua:CastFilterResultTarget(target)
+    if hTarget:GetHealthPercent() > self:GetSpecialValueFor("health_percent") then
+        return UF_FAIL_CUSTOM
+    end
+
+    --return UF_SUCCESS
+    return UF_FAIL_CUSTOM
+end
+
+function egor_counting_lua:GetCustomCastError( hTarget )
+    if self.health_pct > self.need_health_pct then
+        return "#dota_hud_error_error_counting_hp"
+    end
+
+    --return ""
+    return "#dota_hud_error_error_counting_hp"
+end

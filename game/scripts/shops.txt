@@ -58,8 +58,7 @@
 		"item"		"item_memolator3"
 		"item"		"item_frostmorn"
 		"item"		"item_uebator"
-		"item"		"item_mem_sange_yasha"
-		"item"		"item_mem_cheburek"
+		"item"		"item_mem_chebureksword"
 		"item"		"item_stun_gun"
 		"item"		"item_birzha_diffusal_blade_2"		
 		"item"		"item_chill_aquila"	
@@ -119,18 +118,21 @@
 		//"item"		"item_nightfall_striders"
 		"item"		"item_guardian_greaves"
 		"item"		"item_medallion_of_courage"
+		"item"		"item_pavise"
 		"item"		"item_arcane_boots"
 		//"item"		"item_arcane_boots2"
 		"item"		"item_ancient_janggo"
 		"item"		"item_vladmir"	
 		"item"		"item_mekansm"					
-		"item"		"item_pipe"			
+		"item"		"item_pipe"		
+		"item"		"item_harpoon"	
 	}
 				
 	"magics"			
 	{
 		"item"		"item_force_staff"
 		"item"		"item_cyclone"
+		"item"		"item_witch_blade"
 		"item"		"item_dagon"
 		"item"		"item_veil_of_discord"		
 		"item"		"item_rod_of_atos"
@@ -176,7 +178,9 @@
 		"item"		"item_greater_crit"
 		"item"		"item_butterfly"
 		"item"		"item_rapier"
-		"item"		"item_abyssal_blade"					
+		"item"		"item_abyssal_blade"	
+		"item"		"item_revenants_brooch"	
+		"item"		"item_disperser"				
 					
 	}
 		
@@ -192,6 +196,7 @@
  		"item"		"item_mjollnir"
  		"item"		"item_skadi" 
  		"item"		"item_satanic"	
+ 		"item"		"item_phylactery"
 
         "item"		"item_trident"
         "item"		"item_meteor_hammer"

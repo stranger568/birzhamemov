@@ -1289,8 +1289,8 @@
 "DOTA_Tooltip_ability_item_mega_spinner_bonus_attack_speed"	"+$attack"
 "DOTA_Tooltip_ability_item_mega_spinner_bonus_damage"	"+$damage"
 
-"DOTA_tooltip_modifier_item_mega_spinner_slow" "Spinner slow"
-"DOTA_tooltip_modifier_item_mega_spinner_slow_Description" "Reduced attack speed and movement speed"
+"DOTA_tooltip_modifier_item_mega_spinner_slow" 					"Spinner slow"
+"DOTA_tooltip_modifier_item_mega_spinner_slow_Description" 		"Reduced attack speed and movement speed"
 
 "DOTA_Tooltip_ability_item_memolator"	"Memelator"
 "DOTA_Tooltip_ability_item_memolator_Description"	"<h1>Passive: Memelator</h1> Each attack on a target reduces its armor by %curption_per_attack% <br><br> Base armor reduction: %base_coruprion_armor%<br> Maximum armor reduction: %coruprion_armor_max%<br><br>Duration %duration% seconds"

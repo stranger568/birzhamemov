@@ -74,6 +74,9 @@ function modifier_glad_sorry_target:OnIntervalThink( kv )
         if not self:IsNull() then
             self:Destroy()
         end
+    else
+        self:GetParent():SetForceAttackTarget( self:GetCaster() )
+        self:GetParent():MoveToTargetToAttack( self:GetCaster() )
     end
 end
 
@@ -115,6 +118,7 @@ LinkLuaModifier( "modifier_Valakas_DabDabDab", "abilities/heroes/valakas.lua", L
 LinkLuaModifier( "modifier_Valakas_DabDabDab_lifesteal", "abilities/heroes/valakas.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_Valakas_DabDabDab_scepter", "abilities/heroes/valakas.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_Valakas_DabDabDab_debuff", "abilities/heroes/valakas.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_Valakas_DabDabDab_cooldown", "abilities/heroes/valakas.lua", LUA_MODIFIER_MOTION_NONE )
 
 Valakas_DabDabDab = class({})
 
@@ -181,24 +185,31 @@ end
 
 function modifier_Valakas_DabDabDab:OnAttackLanded( params )
     if not IsServer() then return end
-    if params.attacker ~= self:GetParent() then return end
+    if params.attacker == self:GetParent() then return end
+    if params.target ~= self:GetParent() then return end
     if params.target:IsWard() then return end
-    if params.attacker:PassivesDisabled() then return end
+    if params.target:PassivesDisabled() then return end
     if self:GetParent():IsIllusion() then return end
     if self:GetCaster():HasModifier("modifier_Valakas_DabDabDab_scepter") then return end
 
     local chance = self:GetAbility():GetSpecialValueFor("chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_valakas_5")
 
     if RollPercentage(chance) then
-        if self:GetAbility():IsFullyCastable() then
+        if not self:GetParent():HasModifier("modifier_Valakas_DabDabDab_cooldown") then
             if self:GetCaster():HasTalent("special_bonus_birzha_valakas_4") then
                 params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_Valakas_DabDabDab_debuff", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_valakas_4", "value2")})
             end
             self:GetParent():AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_Valakas_DabDabDab_lifesteal", { duration = 1.5 } )
-            self:GetAbility():UseResources(false, false, true)
+            self:GetParent():AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_Valakas_DabDabDab_cooldown", {duration = 1})
         end
     end
 end
+
+modifier_Valakas_DabDabDab_cooldown = class({})
+
+function modifier_Valakas_DabDabDab_cooldown:IsHidden() return true end
+function modifier_Valakas_DabDabDab_cooldown:IsPurgable() return false end
+function modifier_Valakas_DabDabDab_cooldown:IsPurgeException() return false end
 
 modifier_Valakas_DabDabDab_debuff = class({})
 

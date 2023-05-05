@@ -80,19 +80,19 @@ function modifier_Doljan_RapBattle_debuff:OnIntervalThink()
         ApplyDamage({ victim = self:GetParent(), attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility() })
 
         if self:GetCaster():HasModifier("modifier_Doljan_RapBattle_steal_buff") then
-            self:GetCaster():SetModifierStackCount( "modifier_Doljan_RapBattle_steal_buff", self:GetAbility(), current_stack_buff + intellect_bonus )
-            self:GetCaster():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_Doljan_RapBattle_steal_buff", { duration = duration } )
+            local mod = self:GetCaster():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_Doljan_RapBattle_steal_buff", { duration = duration } )
+            mod:AddStack(intellect_bonus)
         else
-            self:GetCaster():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_Doljan_RapBattle_steal_buff", { duration = duration } )
-            self:GetCaster():SetModifierStackCount( "modifier_Doljan_RapBattle_steal_buff", self:GetAbility(), intellect_bonus )
+            local mod = self:GetCaster():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_Doljan_RapBattle_steal_buff", { duration = duration } )
+            mod:AddStack(intellect_bonus)
         end
         
         if self:GetParent():HasModifier("modifier_Doljan_RapBattle_steal_debuff") then
-            self:GetParent():SetModifierStackCount( "modifier_Doljan_RapBattle_steal_debuff", self:GetAbility(), current_stack_debuff + intellect_bonus )
-            self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_Doljan_RapBattle_steal_debuff", { duration = duration } )
+            local mod = self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_Doljan_RapBattle_steal_debuff", { duration = duration } )
+            mod:AddStack(intellect_bonus)
         else
-            self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_Doljan_RapBattle_steal_debuff", { duration = duration } )
-            self:GetParent():SetModifierStackCount( "modifier_Doljan_RapBattle_steal_debuff", self:GetAbility(), intellect_bonus )
+            local mod = self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_Doljan_RapBattle_steal_debuff", { duration = duration } )
+            mod:AddStack(intellect_bonus)
         end
 
         if self:GetCaster():HasTalent("special_bonus_birzha_doljan_8") then
@@ -110,6 +110,17 @@ function modifier_Doljan_RapBattle_steal_buff:IsPurgable()
     return false
 end
 
+function modifier_Doljan_RapBattle_steal_buff:OnCreated()
+    if not IsServer() then return end
+    self.stack = 0
+end
+
+function modifier_Doljan_RapBattle_steal_buff:AddStack(stack)
+    if not IsServer() then return end
+    self.stack = self.stack + stack
+    self:SetStackCount(self.stack)
+end
+
 function modifier_Doljan_RapBattle_steal_buff:DeclareFunctions()
     local declfuncs = {MODIFIER_PROPERTY_STATS_INTELLECT_BONUS}
     return declfuncs
@@ -120,6 +131,17 @@ function modifier_Doljan_RapBattle_steal_buff:GetModifierBonusStats_Intellect()
 end
 
 modifier_Doljan_RapBattle_steal_debuff = class ({})
+
+function modifier_Doljan_RapBattle_steal_debuff:OnCreated()
+    if not IsServer() then return end
+    self.stack = 0
+end
+
+function modifier_Doljan_RapBattle_steal_debuff:AddStack(stack)
+    if not IsServer() then return end
+    self.stack = self.stack + stack
+    self:SetStackCount(self.stack)
+end
 
 function modifier_Doljan_RapBattle_steal_debuff:IsPurgable()
     return false
@@ -386,7 +408,7 @@ function Doljan_Intellect:OnSpellStart()
     for k,enemy in pairs(enemyHeroes) do
         local manaburn = enemy:GetMaxMana() * manaburn_percent
         local manaburn_damage = self:GetSpecialValueFor("damage_burn") + (self:GetCaster():GetIntellect() * self:GetSpecialValueFor("scepter_int_multiple"))
-        enemy:ReduceMana(manaburn)
+        enemy:Script_ReduceMana(manaburn, self)
         ApplyDamage({victim = enemy, attacker = self:GetCaster(), ability = self, damage = manaburn_damage, damage_type = DAMAGE_TYPE_MAGICAL})
         local particle = ParticleManager:CreateParticle("particles/doljan_scepter.vpcf", PATTACH_POINT_FOLLOW, enemy)
         ParticleManager:SetParticleControlEnt(particle, 0, enemy, PATTACH_POINT_FOLLOW, "attach_hitloc", enemy:GetOrigin(), true)

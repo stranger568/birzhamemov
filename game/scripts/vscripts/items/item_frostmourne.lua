@@ -57,7 +57,7 @@ end
 
 function modifier_item_frostmorn:GetModifierConstantManaRegen()
     if self:GetAbility() then
-        return self:GetAbility():GetSpecialValueFor('bonus_mana_regen')
+        return self:GetAbility():GetSpecialValueFor('regenmana')
     end
 end
 

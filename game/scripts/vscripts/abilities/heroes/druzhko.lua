@@ -95,6 +95,9 @@ function druzhko_unstable_magic:OnSpellStart()
                         ability = self,
                     }
                     ApplyDamage(damageTable)
+                    if self:GetCaster():HasTalent("special_bonus_birzha_druzhko_2") then
+                        unit:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", { duration = self:GetCaster():FindTalentValue("special_bonus_birzha_druzhko_2") * (1-unit:GetStatusResistance()) } )
+                    end
                 end
             end)
         end
@@ -126,6 +129,9 @@ function druzhko_unstable_magic:OnSpellStart()
             ability = ability,
         }
         ApplyDamage(damageTable)
+        if self:GetCaster():HasTalent("special_bonus_birzha_druzhko_2") then
+            target:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", { duration = self:GetCaster():FindTalentValue("special_bonus_birzha_druzhko_2") * (1-target:GetStatusResistance()) } )
+        end
     end)
 end
 
@@ -182,14 +188,12 @@ function druzhko_dark_magic:OnSpellStart()
         for _,enemy in pairs(targets) do
             self:PlayEffects( enemy )
             Timers:CreateTimer(0.25, function()
-                if enemy:TriggerSpellAbsorb(self) then return end
-                if enemy:IsRealHero() then
-                    enemy:AddNewModifier( self:GetCaster(), self, "modifier_druzhko_dark_magic_debuff", { duration = 3 } )
-                end
-                damageTable.victim = enemy
-                ApplyDamage(damageTable)
-                if self:GetCaster():HasTalent("special_bonus_birzha_druzhko_2") then
-                    enemy:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", { duration = self:GetCaster():FindTalentValue("special_bonus_birzha_druzhko_2") * (1-enemy:GetStatusResistance()) } )
+                if not enemy:IsMagicImmune() then
+                    if enemy:IsRealHero() then
+                        enemy:AddNewModifier( self:GetCaster(), self, "modifier_druzhko_dark_magic_debuff", { duration = 3 } )
+                    end
+                    damageTable.victim = enemy
+                    ApplyDamage(damageTable)
                 end
             end)
         end
@@ -197,14 +201,12 @@ function druzhko_dark_magic:OnSpellStart()
         self:PlayEffects( target )
         Timers:CreateTimer(0.25, function()
             if target:TriggerSpellAbsorb(self) then return end
+            if target:IsMagicImmune() then return end
             if target:IsRealHero() then
                 target:AddNewModifier( self:GetCaster(), self, "modifier_druzhko_dark_magic_debuff", { duration = 3 } )
             end
             damageTable.victim = target
             ApplyDamage(damageTable)
-            if self:GetCaster():HasTalent("special_bonus_birzha_druzhko_2") then
-                target:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", { duration = self:GetCaster():FindTalentValue("special_bonus_birzha_druzhko_2") * (1-target:GetStatusResistance()) } )
-            end
         end)
     end
 end
@@ -361,7 +363,7 @@ function modifier_druzhko_ice_armor:GetAbsorbSpell( params )
             if params.ability:GetCaster():GetTeamNumber() == self:GetParent():GetTeamNumber() then
                 return nil
             end
-            self:GetAbility():UseResources( false, false, true )
+            self:GetAbility():UseResources( false, false, false, true )
             self:PlayEffects( true )
             return 1
         end
@@ -423,7 +425,7 @@ end
 
 function modifier_druzhko_ice_armor:GetReflectSpell( params )
     if self:GetParent():HasShard() and (not self:GetParent():PassivesDisabled()) and self:GetAbility():IsFullyCastable() then
-        self:GetAbility():UseResources( false, false, true )
+        self:GetAbility():UseResources( false, false, false, true )
         return SpellReflect(self:GetParent(), params)
     end
 end

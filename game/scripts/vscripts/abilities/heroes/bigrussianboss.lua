@@ -309,7 +309,7 @@ function modifier_bigrussianboss_prank:OnIntervalThink()
     end
 
     self:PlayEffects1( self:GetParent() )
-    self:GetAbility():UseResources(false, false, true)
+    self:GetAbility():UseResources(false, false, false, true)
     if not self:IsNull() then
         self:Destroy()
     end
@@ -544,18 +544,6 @@ function modifier_brb_test_magical_immune:CheckState()
     }
 end
 
-function modifier_brb_test_magical_immune:DeclareFunctions()
-    local decFuncs = {
-        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
-    }
-
-    return decFuncs
-end
-
-function modifier_brb_test_magical_immune:GetAbsoluteNoDamageMagical()
-    return 1
-end
-
 function modifier_brb_test_magical_immune:GetStatusEffectName()
     return "particles/status_fx/status_effect_avatar.vpcf"
 end
@@ -669,6 +657,7 @@ function modifier_brb_test:OnDeath( params )
             self:GetCaster():RemoveModifierByName("modifier_brb_test_magical_immune")
             self:GetCaster():EmitSound("Hero_LegionCommander.Duel.Victory")
             local duel_victory_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_legion_commander/legion_commander_duel_victory.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetCaster())
+            donate_shop:QuestProgress(36, self:GetCaster():GetPlayerOwnerID(), 1)
         end
     end
 end

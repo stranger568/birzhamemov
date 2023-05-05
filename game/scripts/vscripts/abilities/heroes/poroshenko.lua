@@ -480,7 +480,8 @@ function modifier_Poroshenko_flag_ukraine:DeclareFunctions()
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
-        MODIFIER_EVENT_ON_ATTACKED
+        MODIFIER_EVENT_ON_ATTACKED,
+        MODIFIER_PROPERTY_DISABLE_HEALING 
     }
     return decFuncs
 end
@@ -494,6 +495,10 @@ function modifier_Poroshenko_flag_ukraine:GetAbsoluteNoDamagePhysical()
 end
 
 function modifier_Poroshenko_flag_ukraine:GetAbsoluteNoDamagePure()
+    return 1
+end
+
+function modifier_Poroshenko_flag_ukraine:GetDisableHealing()
     return 1
 end
 

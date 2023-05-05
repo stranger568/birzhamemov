@@ -156,7 +156,10 @@ function azazin_agressive:OnSpellStart()
         local illusions = FindUnitsInRadius( caster:GetTeamNumber(), caster:GetAbsOrigin(), nil, -1, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED, 0, false )
         for _, illusion in pairs(illusions) do
             if illusion:IsIllusion() then
-                self:IllusionCast(illusion)
+                local mod = illusion:FindModifierByName("modifier_illusion")
+                if mod and mod:GetCaster() == self:GetCaster() then
+                    self:IllusionCast(illusion)
+                end
             end
         end
     end
@@ -164,7 +167,7 @@ end
 
 function azazin_agressive:IllusionCast(illusion)
     local duration = self:GetSpecialValueFor("duration")
-    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), illusion:GetAbsOrigin(), nil, self:GetAbility():GetSpecialValueFor("illusion_radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false )
+    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), illusion:GetAbsOrigin(), nil, self:GetSpecialValueFor("illusion_radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false )
     illusion:AddNewModifier( illusion, self, "modifier_azazin_agressive", { duration = duration } )
     for _,enemy in pairs(enemies) do
         if not enemy:IsDuel() then
@@ -230,6 +233,9 @@ function modifier_azazin_agressive_debuff:OnIntervalThink( kv )
         if not self:IsNull() then
             self:Destroy()
         end
+    else
+        self:GetParent():SetForceAttackTarget( self:GetCaster() )
+        self:GetParent():MoveToTargetToAttack( self:GetCaster() )
     end
 end
 

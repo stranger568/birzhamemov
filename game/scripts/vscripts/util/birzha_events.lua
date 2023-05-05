@@ -54,7 +54,7 @@ end
 function BirzhaEvents:AddPlayerFullDisconnectDebuff(hero, player_id)
     BirzhaDisconnectFunction:AutoWin()
     Timers:CreateTimer(0, function()
-        if BirzhaEvents.BIRZHA_PLAYER_CONNECT_INFO[player_id].connection == "connected" then return nil end
+        if BirzhaEvents.BIRZHA_PLAYER_CONNECT_INFO[player_id] and BirzhaEvents.BIRZHA_PLAYER_CONNECT_INFO[player_id].connection == "connected" then return nil end
         local table_pick_state = CustomNetTables:GetTableValue("game_state", "pickstate")
         if table_pick_state and table_pick_state.v and table_pick_state.v == "ended" then
             if hero and not hero:IsNull() then

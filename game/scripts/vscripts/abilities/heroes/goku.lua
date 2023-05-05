@@ -292,6 +292,7 @@ function modifier_goku_merni_attacks:CheckState()
     {
         [MODIFIER_STATE_DISARMED] = true,
         [MODIFIER_STATE_SILENCED] = true,
+        [MODIFIER_STATE_ROOTED] = true,
         [MODIFIER_STATE_MUTED] = true,
         [MODIFIER_STATE_OUT_OF_GAME] = true,
         [MODIFIER_STATE_INVULNERABLE] = true,
@@ -666,7 +667,7 @@ LinkLuaModifier("modifier_goku_saiyan", "abilities/heroes/goku", LUA_MODIFIER_MO
 goku_saiyan = class({})
 
 function goku_saiyan:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_goku_5")
+    return self.BaseClass.GetCooldown( self, level )
 end
 
 function goku_saiyan:GetManaCost(level)
@@ -778,7 +779,7 @@ function modifier_goku_saiyan:OnAbilityExecuted( params )
 end
 
 function modifier_goku_saiyan:OnCreated()
-    self.amp = self:GetAbility():GetSpecialValueFor("spell_amplify")
+    self.amp = self:GetAbility():GetSpecialValueFor("spell_amplify") + self:GetCaster():FindTalentValue("special_bonus_birzha_goku_5")
 
 
     if not IsServer() then return end
@@ -833,7 +834,7 @@ function modifier_goku_saiyan:OnCreated()
 end
 
 function modifier_goku_saiyan:OnRefresh()
-    self.amp = self:GetAbility():GetSpecialValueFor("spell_amplify")
+    self.amp = self:GetAbility():GetSpecialValueFor("spell_amplify") + self:GetCaster():FindTalentValue("special_bonus_birzha_goku_5")
     self.speed = self:GetAbility():GetSpecialValueFor("bonus_movespeed")
     if not IsServer() then return end
     local bonus = (self:GetAbility():GetSpecialValueFor("bonus_attribute") + self:GetCaster():FindTalentValue("special_bonus_birzha_goku_8")) / 100

@@ -7,7 +7,12 @@ if ($("#LeaderBoardButton")) {
 	}
 }
 
-parentHUDElements.style.marginLeft = "0px";
+if (parentHUDElements)
+{
+	parentHUDElements.style.marginLeft = "0px";
+	parentHUDElements.style.marginTop = "4px";
+	parentHUDElements.style.padding = "0px";
+}
 
 if ($("#ButtonsPanelBackground")) {
 	if (parentHUDElements.FindChildTraverse("ButtonsPanelBackground")){
@@ -125,7 +130,8 @@ function CreatePlayer(table, count)
     let player_rating_panel = $.CreatePanel("Panel", player_panel, "")
 	player_rating_panel.AddClass("MmrInfoTable")
 
-	$.CreatePanelWithProperties("Image", player_rating_panel, "RatingIcon", { class: "MmrLeaderboard", src: "file://{images}/custom_game/birzhapass/mmr_png.png" });
+	let RatingIcon = $.CreatePanel("Panel", player_rating_panel, "")
+	RatingIcon.AddClass("MmrLeaderboard")
 
 	let player_rating = $.CreatePanel("Label", player_rating_panel, "")
 	player_rating.AddClass("TopMmrReatingCount")

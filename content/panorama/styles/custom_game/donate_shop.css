@@ -1,32 +1,35 @@
 #ShopButton
 {
-    margin-left: 290px;
+    margin-left: 280px;
     flow-children: down;
     visibility: visible;
+    vertical-align: center;
 }
 
 #ShopButton:hover .ShopButtonIcon
 {
-    brightness: 2.0;
+    brightness: 1.4;
 }
 
 .ShopButtonIcon {
     background-image: url("file://{images}/custom_game/shop/main_button.png");
     background-size: contain;
-    width: 29px;
-    height:29px;
+    width: 27px;
+    height:27px;
     brightness: 1;
-    wash-color: #CDF;
     opacity: 1;
     horizontal-align: center;
-    img-shadow: 0px 1px 4px 2 black;
+    transition-property: brightness;
+    transition-duration: 0.25s;
 } 
 .ShopButtonLabel {
     color: white;
     horizontal-align: center;
-    font-size: 15px;
-    text-shadow: 1px 1px 1px 2 black;
-    margin-top: 1px;
+    font-size: 12px;
+    text-shadow: 0px 0px 1px 2 black;
+    text-transform: uppercase;
+    margin-top: 2px;
+    text-align: center;
 }
 
 .DonateShopMainPanel {
@@ -172,7 +175,7 @@
 
 .RecomItem {
     width: 200px;
-    height: 170px;
+    height: 180px;
     background-color: #0009;
 
     margin-left: 17px;
@@ -184,13 +187,21 @@
 
     box-shadow: inset gray 0px 0px 2px 0px;
 
-    transition-duration: 0.1s;
-    transition-property: pre-transform-scale2d;
+    transition-duration: 0.25s;
+    transition-property: pre-transform-scale2d, background-color;
     background-size: contain;
 }
 
 .RecomItem:hover {
-    pre-transform-scale2d: 1.02;
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( black ), to( #122b28 ) );
+}
+
+.RecomItem:hover .ItemImage {
+    pre-transform-scale2d: 1.05;
+}
+
+.RecomItem:hover .BuyItemPanel {
+    brightness: 1.2;
 }
 
 .ItemImage {
@@ -199,6 +210,8 @@
     align: center center;
     margin-bottom: 60px;
     background-size: contain;
+    transition-duration: 0.25s;
+    transition-property: pre-transform-scale2d;
 }
 
 .ItemName {
@@ -278,7 +291,8 @@
 
 .DonateShopTopBPCurrency 
 {
-    margin-right: 60px;
+    margin-top: 15px;
+    margin-right: 90px;
     horizontal-align: right;
     flow-children: right;
 }
@@ -472,6 +486,33 @@
     margin-bottom: 5px;
 }
 
+
+.selected_menu_shop 
+{
+    animation-name: BackgroundPulse22;
+    animation-duration: 4s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    border: 1px solid #A3CBEF;
+    box-shadow: 0px 0px 16px 0px #668BBC22;
+}
+
+@keyframes 'BackgroundPulse22'
+{
+    0%
+    {
+        box-shadow: 0px 0px 16px 0px #668BBC22;
+    }
+    50%
+    {
+        box-shadow: 0px 0px 6px 0px #668BBC22;
+    }
+    100%
+    {
+        box-shadow: 0px 0px 16px 0px #668BBC22;
+    }
+}
+
 .ItemShop {
     width: 190px;
     height: 170px;
@@ -480,14 +521,22 @@
     margin-right: 27.5px;
     margin-top: 10px;
     margin-bottom: 10px;
-    transition-duration: 0.1s;
-    transition-property: pre-transform-scale2d;
+    transition-duration: 0.25s;
+    transition-property: pre-transform-scale2d, background-color;
+    border: 1px solid gray;
 }
 
 .ItemShop:hover {
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( black ), to( #122b28 ) );
+}
+
+.ItemShop:hover .ItemImage {
     pre-transform-scale2d: 1.05;
 }
 
+.ItemShop:hover .BuyItemPanel {
+    brightness: 1.2;
+}
 
 .PlayerItemsContainer {
     width: 1200px;
@@ -619,12 +668,26 @@
     margin-right: 25px;
     margin-top: 10px;
     margin-bottom: 10px;
-    transition-duration: 0.1s;
-    transition-property: pre-transform-scale2d;
+    transition-duration: 0.25s;
+    transition-property: pre-transform-scale2d, background-color;
+    border: 1px solid gray;
 }
 
-#AllItemsButton {
-    box-shadow: 0px 0px 1px 1px white;
+.ItemInventory:hover {
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( black ), to( #122b28 ) );
+}
+
+.ItemInventory:hover .ItemImage {
+    pre-transform-scale2d: 1.05;
+}
+
+.ItemInventory:hover .BuyItemPanel {
+    brightness: 1.2;
+}
+
+#AllItemsButton 
+{
+    
 }
 
 
@@ -1442,8 +1505,6 @@ margin: 0px;
 #ChatWheelContents{
 width: 100%;
 align: center center;
-flow-children: right;
-
 }
 #PingWheelContents{
 width: 100%;
@@ -3253,44 +3314,53 @@ visibility: visible;
 
 #BattlepassButton
 {
-    margin-left: 360px;
+    margin-left: 345px;
     flow-children: down;
     visibility: visible;
+    vertical-align: center;
 }
 
 #BattlepassButton:hover .BattlepassButtonIcon
 {
-    brightness: 2.0;
+    brightness: 1.4;
 }
 
 .BattlepassButtonIcon 
 {
     background-image: url("file://{images}/custom_game/battlepass/main_button.png");
-    background-size: contain;
-    width: 29px;
-    height:29px;
+    background-size: 100%;
+    width: 27px;
+    height:27px;
     brightness: 1;
     wash-color: #CDF;
     opacity: 1;
     horizontal-align: center;
-    img-shadow: 0px 1px 4px 2 black;
+    transition-property: brightness;
+    transition-duration: 0.25s;
 } 
 .BattlepassButtonLabel 
 {
     color: white;
     horizontal-align: center;
-    font-size: 15px;
-    text-shadow: 1px 1px 1px 2 black;
-    margin-top: 1px;
+    font-size: 12px;
+    text-shadow: 0px 0px 1px 2 black;
+    text-transform: uppercase;
+    margin-top: 2px;
+    text-align: center;
 }
-#BattlePassWindow {
+
+
+
+
+
+#BattlePassWindow 
+{
     width: 1300px;
     height: 850px;
     background-image: url("file://{images}/custom_game/battlepass/bg.png");
     background-size: 100%;
     align: center center;
     visibility: collapse;
-    flow-children: down;
     transition-property: pre-transform-scale2d;
     transition-duration: 0.5s;
     margin-bottom: 50px;
@@ -3319,48 +3389,697 @@ visibility: visible;
     transition-duration: 0.5s;
 }
 
-#BattlePassWindowNoActive
+.BattlePassMenu
+{
+    height: 146px;
+    width: 100%;
+    background-image: url("file://{images}/custom_game/battlepass/menu_bg.png");
+    background-size: 100%;
+}
+
+.CloseBattlepass_2 
+{
+    width: 35px;
+    height: 35px;
+    margin-right: 20px;
+    margin-top: 20px;
+    horizontal-align: right;
+    background-image: url("s2r://panorama/images/control_icons/x_close_grey_psd.vtex");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    transition-property: brightness, wash-color, img-shadow, pre-transform-scale2d;
+    transition-timing-function: ease;
+    transition-duration: 0.2s;
+
+    brightness: 2;
+}
+
+.CloseBattlepass_2:hover 
+{
+    wash-color: #80F4FF;
+    img-shadow: #80F4FF 0px 0px 4px 0px;
+}
+
+.CloseBattlepass_2:Active 
+{
+    pre-transform-scale2d: 0.9;
+}
+
+.Button_Main
+{
+    margin-top: 1px;
+    width: 220px;
+    height: 78px;
+    margin-left: 83px;
+    transform: skew(19deg);
+}
+
+.Button_Quests
+{
+    margin-top: 1px;
+    width: 210px;
+    height: 78px;
+    margin-left: 304px;
+    transform: skew(18deg);
+}
+
+.Button_HeroChallenge
+{
+    margin-top: 1px;
+    width: 208px;
+    height: 78px;
+    margin-left: 780px;
+    transform: skew(-18deg);
+}
+
+.Button_TopPlayers
+{
+    margin-top: 1px;
+    width: 217px;
+    height: 78px;
+    margin-left: 990px;
+    transform: skew(-19deg);
+}
+
+.ButtonBP_Label
+{
+    align: center center;
+    transform: skew(-19deg);
+    font-size: 24px;
+    font-family: Reaver;
+    text-shadow: -1px 1px 2px 2.0 #000000;
+    transition-property: color;
+    transition-duration: 0.2s;
+    transition-timing-function: linear;
+    color: white;
+}
+
+.ButtonBP_Label_2
+{
+    align: center center;
+    transform: skew(19deg);
+    font-size: 24px;
+    text-shadow: -1px 1px 2px 2.0 #000000;
+    transition-property: color;
+    transition-duration: 0.2s;
+    transition-timing-function: linear;
+    color: white;
+}
+
+.Button_Main:hover .ButtonBP_Label
+{
+    color: gradient( linear, 0% 0%, 0% 100%, from( #aac2c9, to( #d0e6ec ));
+    text-shadow: 0px 0px 3px 3.0 #3382ff18;
+}
+.Button_Quests:hover .ButtonBP_Label
+{
+    color: gradient( linear, 0% 0%, 0% 100%, from( #aac2c9, to( #d0e6ec ));
+    text-shadow: 0px 0px 3px 3.0 #3382ff18;
+}
+.Button_HeroChallenge:hover .ButtonBP_Label_2
+{
+    color: gradient( linear, 0% 0%, 0% 100%, from( #aac2c9, to( #d0e6ec ));
+    text-shadow: 0px 0px 3px 3.0 #3382ff18;
+}
+.Button_TopPlayers:hover .ButtonBP_Label_2
+{
+    color: gradient( linear, 0% 0%, 0% 100%, from( #aac2c9, to( #d0e6ec ));
+    text-shadow: 0px 0px 3px 3.0 #3382ff18;
+}
+
+.BGButton_Selected
+{
+    width: 100%;
+    height: 100%;
+    background-color: gradient( linear, 0% 100%, 0% 100%, from( #0fe0, to( rgba(0, 255, 238, 0.1) ));
+
+    opacity: 0;
+    transition-property: opacity, background-color;
+    transition-duration: 0.2s;
+    transition-timing-function: linear;
+}
+
+.ButtonBP_Selected .BGButton_Selected
+{
+    background-color: gradient( linear, 0% 10%, 0% 100%, from( #0fe0, to( rgba(0, 255, 238, 0.1) ));
+    opacity: 1;
+}
+
+.BattlePassWindow_Panel
+{
+    width: 100%;
+    height: 100%;
+    margin-top: 75px;
+}
+
+.BattlePassPlayerInfo
+{
+    width: 100%;
+    height: 70px;
+    background-color: black;
+    vertical-align: bottom;
+    margin-bottom: 250px;
+    background-color: #0d1c22ff, gradient( radial, 50% 50%, 64px 32px, 320% 370%, from( #0E1619 ), color-stop( 0.3, #0E1619 ), to( #0E1619 ) );
+    box-shadow: black 0px 0px 4px 0px;
+    flow-children: right;
+}
+
+.BattlePassPlayerInfoLevel
+{
+    width: 45%;
+    height: 100%;
+    background-color: #0d1c22ff, gradient( radial, 50% 50%, 64px 32px, 320% 370%, from( #2E7395 ), color-stop( 0.3, #0E1619 ), to( #0E1619 ) );
+    border-top: 1px solid #2E7395;
+    box-shadow: #00000066 0px 0px 16px 0px;
+}
+
+.BattlePassPlayerInfoLevelCenter
+{
+    align: center center;
+    flow-children: right;
+}
+
+.BattlePassPlayerInfoLevelLabeltext
+{
+    font-weight: bold;
+    font-family: Radiance;
+    font-size: 24px;
+    color: white;
+    vertical-align: center;
+    text-shadow: 1px 1px 1px 2 black;
+}
+
+.BattlePassPlayerInfoLevelLabel
+{
+    font-weight: bold;
+    font-family: Reaver;
+    font-size: 34px;
+    vertical-align: center;
+    color: gradient( linear, 0% 30%, 0% 140%, from( #36AEEA ), to( #D8FBFE ) );
+    text-shadow: 0px 2px 5px 3 black;
+    margin-left: 10px;
+}
+
+.LevelProgressBar
+{
+    vertical-align: center;
+    width: 250px;
+    height: 15px;
+    margin-left: 20px;
+    box-shadow: 1px 2px 2px 0 #00000090;
+    background-color: #2f3244;
+}
+
+#LevelProgressBar .ProgressBarLeft
+{
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #2E7395 ), to( #36AEEA ) );
+    z-index: 0;
+
+}
+#LevelProgressBar .ProgressBarRight
+{
+    background-color: #0E1619;
+    z-index: 2;
+}
+#ProgressBurner,.ProgressBurner
+{
+    width: 100%;
+    height: 80px;
+    vertical-align: middle;
+    z-index: 1;
+    wash-color: #36AEEA;
+    brightness: 2;
+}
+.BattlePassPlayerInfoExpLabel
+{
+    vertical-align: center;
+    margin-left: 10px;
+    font-family: Radiance;
+    text-shadow: 0px 0px 3px 2 black;
+}
+
+.BuyBPandBuyLevel
 {
     width: 100%;
     height: 100%;
 }
 
-.BattlePassLogo
+.BuyBPandBuyLevelCenter
 {
+    align: center center;
+    flow-children: right;
+}
+
+.ButtonBuyBp
+{
+    width: 300px;
     height: 50px;
+    vertical-align: center;
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #2E7395 ), to( #36AEEA ) );
+    box-shadow: 0px 0px 5px 3 black;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+.ButtonBuyLevels
+{
+    width: 300px;
+    height: 50px;
+    vertical-align: center;
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #2E7395 ), to( #36AEEA ) );
+    box-shadow: 0px 0px 5px 3 black;
+    border-radius: 5px;
+    margin: 10px;
+}
+.ButtonBuyLevelsLabel
+{
+    align: center center;
+    color: white;
+    text-shadow: 0px 0px 3px 2 black;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.ButtonBuyBp:hover
+{
+    brightness: 1.2;
+}
+
+.ButtonBuyLevels:hover
+{
+    brightness: 1.2;
+}
+
+.BattlePassRewards
+{
+    width: 1300px;
+    height: 250px;
+    background-color: #242E33;
+    vertical-align: bottom;
+    flow-children: right;
+    overflow: scroll squish;
+}
+
+.BattlePassUltimateRewardsPreview
+{
     width: 100%;
+    height: 450px;
+    flow-children: right;
+}
+
+.BattlePassUltimateRewardsPreview1
+{
+    width: 254px;
+    height: 100%;
+    background-image: url("file://{images}/custom_game/battlepass/reward_pyramide_big.png");
+    background-size: 100%;
+    margin: 3px;
+}
+.BattlePassUltimateRewardsPreview2
+{
+    width: 254px;
+    height: 100%;
+    background-image: url("file://{images}/custom_game/battlepass/reward_pudge_big.png");
+    background-size: 100%;
+    margin: 3px;
+}
+.BattlePassUltimateRewardsPreview3
+{
+    width: 254px;
+    height: 100%;
+    background-image: url("file://{images}/custom_game/battlepass/reward_sonic_big.png");
+    background-size: 100%;
+    margin: 3px;
+}
+.BattlePassUltimateRewardsPreview4
+{
+    width: 254px;
+    height: 100%;
+    background-image: url("file://{images}/custom_game/battlepass/reward_korra_big.png");
+    background-size: 100%;
+    margin: 3px;
+}
+.BattlePassUltimateRewardsPreview5
+{
+    width: 254px;
+    height: 100%;
+    background-image: url("file://{images}/custom_game/battlepass/reward_dio_big.png");
+    background-size: 100%;
+    margin: 3px;
+}
+
+
+.BPRewardPanel
+{
+    vertical-align: center;
+    width: 212px;
+    height: 220px;
+    flow-children: down;
+    tooltip-position: top;
+}
+
+.BPRewardPanelImage
+{
+    horizontal-align: center;
+    width: 207px;
+    height: 170px;
+    background-color: gray;
+    background-image: url("file://{images}/custom_game/battlepass/rewards/1.png");
+    background-size: 100%;
+    border: 1px solid white;
+    border-brush: gradient( linear, 0% 20%, 0% 100%, from( #36AEEA ), to( rgba(0,0,0,0.2) ) );
+}
+
+.BPRewardPanelLevelInfo
+{
+    horizontal-align: center;
+    width: 207px;
+    height: 45px;
+    background-color: gradient( linear, 0% 100%, 0% 0%, color-stop(0, #295266 ), color-stop(0.30, #2E7395 ), color-stop(1, #36AEEA ));
+    border: 1px solid white;
+    border-brush: gradient( linear, 20% -50%, 0% 50%, from( #36AEEA ), color-stop(0.5, #2E7395) );
+}
+
+.BPRewardPanelClosed .BPRewardPanelImage
+{
+    brightness: 0.3;
+}
+
+.BPRewardPanelClosed .BPRewardPanelLevelInfo
+{
+    brightness: 0.3;
+}
+
+.BPRewardPanelLevelInfoLabel
+{
+    align: center center;
+    font-family: Reaver;
+    font-weight: bold;
+    font-size: 30px;
+    color: white;
+    text-shadow: 0px 0px 3px 2 black;
+}
+
+.BPRewardPanelSmall
+{
+    vertical-align: center;
+    width: 15px;
+    height: 220px;
+    flow-children: down;
+}
+
+.BPRewardPanelImageSmall
+{
+    horizontal-align: center;
+    width: 10px;
+    height: 170px;
+    background-color: gradient( linear, 0% 30%, 0% 100%, from( #0fe0, to( #295266 ));
+}
+
+.BPRewardPanelLevelInfoSmall
+{
+    horizontal-align: center;
+    width: 10px;
+    height: 45px;
+    background-color: gradient( linear, 0% 100%, 0% 0%, color-stop(0, #295266 ), color-stop(0.30, #2E7395 ), color-stop(1, #36AEEA ));
+    border: 1px solid white;
+    border-brush: gradient( linear, 20% -50%, 0% 50%, from( #36AEEA ), color-stop(0.5, #2E7395) );
+}
+
+.BPRewardPanelClosed .BPRewardPanelImageSmall
+{
+    brightness: 0.3;
+}
+
+.BPRewardPanelClosed .BPRewardPanelLevelInfoSmall
+{
+    brightness: 0.3;
+}
+
+#BattlePassWindow_TopPlayers,
+#BattlePassWindow_Quests,
+#BattlePassWindow_HeroChallenge
+{
+    visibility: collapse;
+}
+
+.TopPlayersHeader
+{
+    background-color: #0e1318fc;
+    width: 600px;
+    height: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.01);
+    horizontal-align: center;
+    margin-top: 50px;
+    flow-children: right;
+}
+
+.TopPlayersMain
+{
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 598px;
+    height: 650px;
+    horizontal-align: center;
+    margin-top: 90px;
+    flow-children: down;
+    overflow: squish scroll;
+}
+
+.TopPlayersHeaderLabel1
+{
+    color: #36AEEA;
+    width: 60%;
+    vertical-align: center;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.6);
+    margin-left: 10px;
+}
+.TopPlayersHeaderLabel2
+{
+    color: #36AEEA;
+    width: 40%;
+    vertical-align: center;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.battlepass_top_player_row
+{
+    width: 100%;
+    height: 64px;
+    background-color: rgba(0, 0, 0, 0.6);
+    flow-children: right;
+    margin: 3px;
+}
+
+.battlepass_top_player_row_place
+{
+    vertical-align: center;
+    color: white;
+    font-family: Reaver;
+    font-size: 30px;
+    width: 40px;
+    text-align: center;
+}
+.battlepass_top_player_row_nickname_avatar
+{
+    flow-children: right;
+    width: 60%;
+    height: 100%;
+    margin-left: 10px;
+}
+#battlepass_top_player_row_avatar
+{
+    width: 64px;
+    height: 64px;
+} 
+.battlepass_top_player_row_nickname
+{
+    vertical-align: center;
+    margin-left: 10px;
+}
+.battlepass_top_player_row_level
+{
+    width: 40%;
+    vertical-align: center;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-family: Reaver;
+    font-size: 34px;
+    color: gradient( linear, 0% 30%, 0% 140%, from( #36AEEA ), to( #D8FBFE ) );
+    text-shadow: 0px 2px 5px 3 black;
+}
+
+.QuestsMain
+{
+    horizontal-align: center;
+    margin-top: 50px;
+    width: 1250px;
+    height: 700px;
+    flow-children: right-wrap;
+    overflow: squish scroll;
+}
+
+.QuestPanel
+{
+    width: 406px;
+    background-color: gradient( linear, 100% 0%, 0% 0%, from( black ), to( #00000044 ) );
+    border-top: 1px solid #ffffff04;
+    box-shadow: 0px 0px 10px #00000055;
+    height: 80px;
+    flow-children: right;
+    margin: 5px;
+}
+
+.QuestImage
+{
+    width: 80px;
+    height: 80px;
+    background-color: gradient( linear, 0% 100%, 0% 0%, from( black ), to( green ) );
+    border-top: 1px solid #ffffff08;
+    border-left: 1px solid #ffffff05;
+    box-shadow: 0px 0px 10px #00000055;
+}
+
+.QuestDesc
+{
+    vertical-align: center;
+    width: 215px;
+    margin-left: 10px;
+    color: #999;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+.QuestProgressPanel
+{
+    width: 100%;
+    height: 100%;
+}
+.QuestCheckBox
+{
+    width: 15px;
+    height: 15px;
+    border: 2px solid #2a81ad;
+    horizontal-align: right;
+    margin-right: 15px;
+    margin-top: 15px;
+}
+.QuestCheckBoxGalka
+{
+    horizontal-align: right;
+    width: 18px;
+    height: 18px;
+    margin-right: 11px;
+    margin-top: 11px; 
+    background-image: url("s2r://panorama/images/control_icons/check_png.vtex");
+    background-size: 100%;
+    wash-color: #0ef;
+    visibility: collapse;
+}
+.QuestProgressLabel
+{
+    font-size: 14px;
+    margin-top: 15px;
+    margin-left: 0px;
+    horizontal-align: right;
+    margin-right: 35px;
+}
+.QuestRewards
+{
+    vertical-align: bottom;
+    horizontal-align: right;
+    margin-right: 15px;
+    margin-bottom: 5px;
+    height: 25px;
+    flow-children: right;
+}
+.QuestRewardImage
+{
+    background-image: url("s2r://panorama/images/status_icons/empty_battle_points_psd.vtex");
+    background-size: 100%;
+    width: 25px;
+    height: 25px;
+    vertical-align: center;
+    wash-color: #36AEEA;
+}
+.QuestRewardLabel
+{
+    vertical-align: center;
+    font-size: 18px;
+    color: #36AEEA;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.BuyBPPanel
+{
+    width: 700px;
+    height: 460px;
+    z-index: 10;
+    align: center center;
+    background-image: url("file://{images}/custom_game/battlepass/bg.png");
+    background-size: 100%;
+    border-top-color: #555555;
+    border-left-color: #494949;
+    border-bottom-color: #333333;
+    border-right-color: #404040;
+    border-style: solid;
+    border-width: 2px;
+    visibility: collapse;
+}
+
+.BuyBPPanelLevels
+{
+    width: 700px;
+    height: 460px;
+    z-index: 10;
+    align: center center;
+    background-image: url("file://{images}/custom_game/battlepass/bg.png");
+    background-size: 100%;
+    border-top-color: #555555;
+    border-left-color: #494949;
+    border-bottom-color: #333333;
+    border-right-color: #404040;
+    border-style: solid;
+    border-width: 2px;
+    visibility: collapse;
 }
 
 .BattlePassLogoText
 {
-    font-size: 42px;
+    font-size: 36px;
     color: gradient( linear, 0% 0%, 0% 100%, from( blue ), to( #84e8f5 ) );
     text-shadow: 1px 1px 1px 1.0 #3b70a1;
     text-align: center;
-    font-weight: bold;
-    align: center center;
+    font-weight: bold; 
+    horizontal-align: center;
+    margin-top: 20px;
     letter-spacing: 2px;
     text-transform: uppercase;
     font-family: Reaver;
-}
-
-.BattlePassLogoCenter
-{
-    horizontal-align: center;
-    margin-top: 10px;
-    flow-children: right;
-}
-
-.BattlePassIcon
-{
-    vertical-align: center;
-    width: 70px;
-    height: 70px;
-    background-size: 100%;
-    margin-left:10px;
-    margin-right: 10px;
-    horizontal-align:right;
-    background-image: url("file://{images}/custom_game/battlepass/battlepass_large.png");
 }
 
 .BuyBattlePass
@@ -3368,6 +4087,7 @@ visibility: visible;
     flow-children: right;
     horizontal-align: center;
     vertical-align: center;
+    margin-top: 40px;
 }
 
 .BuyPanel
@@ -3481,4 +4201,316 @@ visibility: visible;
     {
         box-shadow: 0px 0px 0px 0px #80F4FF00;
     }
+}
+
+.BuyLevelsPanelInfo
+{
+    flow-children: right;
+    width: 100%;
+}
+
+.BuyLevelsCost
+{
+    vertical-align: center;
+    flow-children: right;
+}
+
+.BuyLevelsBitcoinIcon
+{
+    width: 90px;
+    height: 90px;
+    background-image: url("file://{images}/custom_game/shop/gold_icon.png");
+    background-size: 100%;
+}
+
+.BuyLevelsBitcoinLabel
+{
+    vertical-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 36px;
+    margin-left: 15px;
+}
+
+.BuyLevelsPanel
+{
+    vertical-align: center;
+    flow-children: down;
+    horizontal-align: right;
+}
+
+.BuyLevelsSSas
+{
+    flow-children: down;
+    horizontal-align: center;
+    vertical-align: center;
+    margin-top: 100px;
+    width: 300px;
+}
+
+.LevelsUpCount
+{
+    color: white;
+    font-weight: bold;
+    font-family: Reaver;
+    font-size: 36px;
+    color: gradient( linear, 0% 30%, 0% 140%, from( #36AEEA ), to( #D8FBFE ) );
+    text-shadow: 0px 2px 5px 3 black;
+    horizontal-align: center;
+    width: 70px;
+    text-align: center;
+}
+.ArrowUpLevels
+{
+    background-image: url("file://{images}/custom_game/battlepass/arrow.png");
+    background-size: 100%;
+    width: 70px;
+    height: 70px;
+    transform: rotateZ(90deg);
+    horizontal-align: center;
+    wash-color: #36AEEA;
+    img-shadow: 0px 1px 4px 2 black;
+}
+.ArrowDownLevels
+{
+    background-image: url("file://{images}/custom_game/battlepass/arrow.png");
+    background-size: 100%;
+    width: 70px;
+    height: 70px;
+    transform: rotateZ(-90deg);
+    horizontal-align: center;
+    wash-color: #36AEEA;
+    img-shadow: 0px 1px 4px 2 black;
+}
+.ArrowUpLevels:hover
+{
+    wash-color: white;
+}
+.ArrowDownLevels:hover
+{
+    wash-color: white;
+}
+
+.HeroChallengeMain
+{
+    width: 100%;
+    height: 800px;
+    margin-top: 20px;
+    flow-children: down;
+}
+
+.StrengthHeroes
+{
+    margin-top: 10px;
+    width: 100%;
+    height: 235px;
+    background-color: gradient( linear, 0% 0%, 100% 0%, from( #eb36361d ), to( #3648eb00 ) );
+    box-shadow: 0px 0px 4px 3px rgba(0,0,0,0.3);
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+.AgilityHeroes
+{
+    margin-top: 10px;
+    width: 100%;
+    height: 235px;
+    background-color: gradient( linear, 0% 0%, 100% 0%, from( #5aeb361d ), to( #5aeb3600 ) );
+    box-shadow: 0px 0px 4px 3px rgba(0,0,0,0.3);
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+.IntellectHeroes
+{
+    margin-top: 10px;
+    width: 100%;
+    height: 235px;
+    background-color: gradient( linear, 0% 0%, 100% 0%, from( #363ceb1d ), to( #365deb00 ) );
+    box-shadow: 0px 0px 4px 3px rgba(0,0,0,0.3);
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+.StrengthHeroes #variantButtonSmoke
+{
+    width: 100%;
+    height: 100%;
+    wash-color: #EA5136;
+    brightness: 5;
+    opacity: 0.1;
+}
+
+.AgilityHeroes #variantButtonSmoke
+{
+    width: 100%;
+    height: 100%;
+    wash-color: #45eb36;
+    brightness: 5;
+    opacity: 0.1;
+}
+
+.IntellectHeroes #variantButtonSmoke
+{
+    width: 100%;
+    height: 100%;
+    wash-color: #3648eb;
+    brightness: 5;
+    opacity: 0.1;
+}
+
+.HeroesChallengePanel
+{
+    width: 100%;
+    height: 100%;
+    vertical-align: center;
+    flow-children: right;
+    overflow: scroll squish;
+}
+
+.hero_challenge_panel
+{
+    width: 81px;
+    height: 81px;
+    align: center center;
+    border-radius: 50px;
+}
+
+.hero_challenge_panel2
+{
+    width: 128px;
+    height: 128px;
+    vertical-align: center;
+}
+
+.panel_step
+{
+    vertical-align: center;
+    width: 60px;
+    height: 2px;
+    background-color: gray;
+    box-shadow: 0px 0px 3px 0px black;
+}
+
+.HeroesChallengePanel #HorizontalScrollBar
+{
+    height: 1px;
+}
+
+.closed_background_challenge
+{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.86);
+}
+
+.closed_background_challenge_icon
+{
+    background-image: url("s2r://panorama/images/control_icons/lock_large_png.vtex");
+    background-size: 100%;
+    width: 25px;
+    height: 25px;
+    align: center center;
+}
+
+.panel_step_main
+{
+    vertical-align: center;
+}
+
+.panel_step_image
+{
+    background-image: url("s2r://panorama/images/status_icons/empty_battle_points_psd.vtex");
+    background-size: 100%;
+    width: 25px;
+    height: 25px;
+    vertical-align: center;
+    wash-color: #36AEEA;
+    margin-bottom: 30px;
+}
+.panel_step_label
+{
+    margin-left: 25px;
+    font-size: 18px;
+    color: #36AEEA;
+}
+    
+.closed_background_challenge_true
+{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.98);
+}
+
+.closed_background_challenge_icon_true
+{
+    background-image: url("s2r://panorama/images/control_icons/check_png.vtex");
+    background-size: 100%;
+    width: 30px;
+    height: 30px;
+    align: center center;
+    wash-color: #0ef;
+}
+
+
+.RewardLevelDesc
+{
+    horizontal-align: center;
+    vertical-align: bottom;
+    margin-bottom: 56px;
+    color: white;
+    font-weight: bold;
+}
+
+.RewardDescName
+{
+    horizontal-align: center;
+    vertical-align: bottom;
+    margin-bottom: 24px;
+    color: white;
+    font-family: Reaver;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 0px 0px 1px 0 blue;
+}
+
+.BpRewardAcceptButton
+{
+    width: 100%;
+    height: 25px;
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #60862d ), to( #3d5f1c ) );
+    box-shadow: 0px 0px 4px 0px black;
+    vertical-align: bottom;
+}
+
+.BpRewardAcceptButton:hover
+{
+    brightness: 1.2;
+}
+
+.BpRewardAcceptButton:active
+{
+    brightness: 0.8;
+}
+
+.BpRewardAcceptButtonLabel
+{
+    align: center center;
+    color: white;
+    font-family: Reaver;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 14px;
+    text-shadow: 0px 0px 4px 1 black;
+}
+
+.ButtonInfo
+{
+    padding: 25px;
+    margin-left: 20px;
+    background-color: rgba(0,0,0,0.5);
+    border: 1px solid black;
+}
+
+.ButtonInfoLabel
+{
+    color: white;
 }

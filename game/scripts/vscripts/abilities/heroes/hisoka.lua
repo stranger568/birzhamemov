@@ -582,7 +582,7 @@ function modifier_hisoka_bubble_target_active:EndTransition()
             end
         end
         parent:EmitSound("Hero_Rubick.Telekinesis.Target.Stun")
-        ability:UseResources(true, false, true)
+        ability:UseResources(true, false, false, true)
     end
 end
 

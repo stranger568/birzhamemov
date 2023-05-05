@@ -20,13 +20,21 @@ function modifier_item_mega_spinner:OnCreated()
 	self.critProc = false
 end
 
+function modifier_item_mega_spinner:CheckState()
+	local state = {}
+	if IsServer() then
+		state[MODIFIER_STATE_CANNOT_MISS] = self.critProc
+	end
+	return state
+end
+
 function modifier_item_mega_spinner:DeclareFunctions()
 	return {
 		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
 		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
 		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
         MODIFIER_EVENT_ON_ATTACK_LANDED,
-        MODIFIER_EVENT_ON_ATTACK_RECORD,
+        MODIFIER_EVENT_ON_ATTACK_START
 	}
 end
 
@@ -42,20 +50,22 @@ function modifier_item_mega_spinner:GetModifierPreAttack_BonusDamage()
 	end
 end
 
-function modifier_item_mega_spinner:OnAttackRecord(params)
+function modifier_item_mega_spinner:OnAttackStart(params)
 	if not IsServer() then return end
 	if params.attacker ~= self:GetParent() then return end
 	if params.target:IsWard() then return end
 	if self:GetParent():FindAllModifiersByName("modifier_item_mega_spinner")[1] ~= self then return end
 	if RollPercentage( self:GetAbility():GetSpecialValueFor("chance") ) then
 		self.critProc = true
+	else
+		self.critProc = false
 	end
 end
 
 function modifier_item_mega_spinner:OnAttackLanded(params)
 	if params.attacker ~= self:GetParent() then return end
 	if params.target:IsWard() then return end
-
+	if self:GetParent():FindAllModifiersByName("modifier_item_mega_spinner")[1] ~= self then return end
 	if not params.attacker:IsIllusion() and self.critProc and params.attacker:GetUnitName() ~= "npc_palnoref_chariot_illusion" and params.attacker:GetUnitName() ~= "npc_palnoref_chariot_illusion_2" then
 		local duration = self:GetAbility():GetSpecialValueFor("duration")
         local damage = self:GetAbility():GetSpecialValueFor("damage")
@@ -76,24 +86,13 @@ function modifier_item_mega_spinner:OnAttackLanded(params)
 			ParticleManager:SetParticleControl(particle, 0, params.target:GetAbsOrigin())
 		end
 
+		donate_shop:QuestProgress(29, self:GetCaster():GetPlayerOwnerID(), math.floor(damage))
+
         ApplyDamage({victim = params.target, attacker = self:GetParent(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
         params.target:EmitSound("DOTA_Item.MKB.melee")
         params.target:EmitSound("DOTA_Item.MKB.Minibash")
         params.target:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_item_mega_spinner_slow", {duration = duration})
     end
-    if self.critProc then
-		self.critProc = false
-	end
-end
-
-function modifier_item_mega_spinner:CheckState()
-	local state = {}
-	
-	if self.critProc then
-		state = {[MODIFIER_STATE_CANNOT_MISS] = true}
-	end
-
-	return state
 end
 
 modifier_item_mega_spinner_slow = class({})

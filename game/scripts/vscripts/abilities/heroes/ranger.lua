@@ -180,6 +180,11 @@ function Ranger_GrenadeLauncher:OnProjectileHit( target, vLocation )
                 unit:AddNewModifier( self:GetCaster(), self, "modifier_Ranger_GrenadeLauncher_armor_debuff", { duration = self:GetCaster():FindTalentValue("special_bonus_birzha_ranger_5", "value2") * (1-unit:GetStatusResistance()) } )
             end
         end
+
+        local distance = (target:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Length2D()
+        if distance >= 2500 then
+            donate_shop:QuestProgress(43, self:GetCaster():GetPlayerOwnerID(), 1)
+        end
     end
     return true
 end
@@ -241,7 +246,7 @@ function Ranger_ShotGun:OnProjectileHit( target, vLocation )
     if not IsServer() then return end
     if target ~= nil then
         local damage = self:GetSpecialValueFor("base_dmg") + self:GetCaster():FindTalentValue("special_bonus_birzha_ranger_6")
-        ApplyDamage({ victim = target, attacker = self:GetCaster(), damage = self:GetCaster():GetAverageTrueAttackDamage(nil) + damage, damage_type = DAMAGE_TYPE_PHYSICAL })
+        ApplyDamage({ victim = target, attacker = self:GetCaster(), damage = RandomInt(self:GetCaster():GetDamageMax(), self:GetCaster():GetDamageMin()) + damage, damage_type = DAMAGE_TYPE_PHYSICAL })
     end
     return true
 end

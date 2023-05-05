@@ -910,14 +910,40 @@ function pyramide_ultimate:OnSpellStart()
     ParticleManager:ReleaseParticleIndex( nFXIndex )
 end
 
+---- Arcana
 
+function pyramide_wires:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_pyramide_persona") then
+        return "pyramide/wires_blood"
+    end
+    return "pyramide/wires"
+end
 
+function pyramide_sud:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_pyramide_persona") then
+        return "pyramide/suds_blood"
+    end
+    return "pyramide/suds"
+end
 
+function pyramide_fault:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_pyramide_persona") then
+        return "pyramide/fault_blood"
+    end
+    return "pyramide/fault"
+end
 
+function pyramide_passive:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_pyramide_persona") then
+        return "pyramide/passive_blood"
+    end
+    return "pyramide/passive"
+end
 
-
-
-
-
-
+function pyramide_ultimate:GetAbilityTextureName()
+    if self:GetCaster():HasModifier("modifier_pyramide_persona") then
+        return "pyramide/ultimate_blood"
+    end
+    return "pyramide/ultimate"
+end
 

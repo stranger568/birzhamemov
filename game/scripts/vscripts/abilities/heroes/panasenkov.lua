@@ -269,6 +269,7 @@ function Panasenkov_groza:GetCastRange(location, target)
 end
 
 function Panasenkov_groza:GetIntrinsicModifierName()
+	if self:GetCaster():IsIllusion() then return end
 	return "modifier_Panasenkov_groza"
 end
 
@@ -304,7 +305,7 @@ function modifier_Panasenkov_groza:OnIntervalThink()
 		if not target then
 			target = enemies[1]
 		end
-		self:GetAbility():UseResources( false, false, true )
+		self:GetAbility():UseResources( false, false, false, true )
 		target:EmitSound("PasenkovGroza")
 		self.purifying_particle = ParticleManager:CreateParticle("particles/panasenkov/panasenkov_groza.vpcf", PATTACH_ABSORIGIN_FOLLOW, target)
 		ParticleManager:SetParticleControlEnt(self.purifying_particle, 1, target, PATTACH_POINT_FOLLOW, "attach_hitloc", target:GetAbsOrigin(), true)
@@ -363,7 +364,7 @@ function Panasenkov_song:OnToggle()
 			self.modifier:Destroy()
 		end
 		self.modifier = nil
-		self:UseResources(false, false, true)
+		self:UseResources(false, false, false, true)
 	end
 end
 

@@ -92,7 +92,6 @@ function modifier_travoman_land_mines:Explosion()
     local damage_type = DAMAGE_TYPE_MAGICAL
 
     if self:GetCaster():HasTalent("special_bonus_birzha_travoman_2") then
-        flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
         damage_type = DAMAGE_TYPE_PHYSICAL
     end
 

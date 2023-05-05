@@ -713,14 +713,18 @@ function TimerUpd( kv )
 function BanStart()
 {
     $("#PickState").text = $.Localize("#BIRZHA_PICK_STATE_BAN");
+    $("#PickButton").SetHasClass("PickButtonClass2Banned", true)
+    $("#BirzhaRandomButton").SetHasClass("BirzhaRBClassBanned", true)
 }
 
 function StartSelection( kv )
 {
+    $("#PickButton").SetHasClass("PickButtonClass2Banned", false)
+    $("#BirzhaRandomButton").SetHasClass("BirzhaRBClassBanned", false)
     $("#PickState").text = $.Localize("#BIRZHA_PICK_STATE_SELECT");
 
     $("#birzhapickbutton").text = $.Localize("#birzhapickhero");
-
+ 
     if (selected_hero)
     {
         var bp_hero = false
@@ -983,7 +987,48 @@ function CreateTokenPanel()
 
 function getTokens()     
 {
-    return 10;
+    let token_max = 10
+    let token_items = 
+    [
+        219,
+        220,
+        221,
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228,
+    ]
+    for (var i = 0; i < token_items.length; i++) 
+    {
+        if (HasItemInventory(token_items[i]))
+        {
+            token_max = token_max + 1
+        }
+    }
+
+    return token_max
+}
+
+function HasItemInventory(item_id)
+{
+    let player_table = CustomNetTables.GetTableValue("birzhashop", String(Players.GetLocalPlayer()))
+    if (player_table && player_table.player_items)
+    {
+        for (var d = 1; d <= Object.keys(player_table.player_items).length; d++) 
+        {
+            if (player_table.player_items[d])
+            {
+                if (String(player_table.player_items[d]) == String(item_id))
+                {
+                    return true
+                }
+            }
+        }
+    }
+    return false
 }
 
 GameEvents.Subscribe('birzha_token_change', ChangeToken );
@@ -1002,7 +1047,7 @@ function ChangeToken()
  
 function BirzhaShowFiltList(kv) 
 {   
-    for (var i = 1; i <= kv.banned_length; i++) {
+     for (var i = 1; i <= kv.banned_length; i++) {
         var panel = $("#" + kv.banned[i]);
         if (panel)
         {
@@ -1023,6 +1068,7 @@ function BirzhaShowFiltList(kv)
             }         
         }
     } 
+
     for (var i = 1; i <= kv.picked_length; i++) {
         var panel = $("#" + kv.picked[i]);
         if (panel)

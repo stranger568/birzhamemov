@@ -1,11 +1,8 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_gorin_choose_axe", "abilities/heroes/gorin", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier( "modifier_gorin_choose_axe_ranged", "abilities/heroes/gorin", LUA_MODIFIER_MOTION_NONE)
-gorin_choose_axe = class({})
 
-function gorin_choose_axe:ResetToggleOnRespawn()
-    return false
-end
+gorin_choose_axe = class({})
 
 function gorin_choose_axe:GetIntrinsicModifierName()
     return "modifier_gorin_choose_axe_ranged"
@@ -35,12 +32,13 @@ function gorin_choose_axe:OnToggle()
     self:GetCaster():EmitSound("Hero_TrollWarlord.BerserkersRage.Toggle")
 end
 
+
+
 modifier_gorin_choose_axe = class({})
 
 function modifier_gorin_choose_axe:IsHidden() return true end
 function modifier_gorin_choose_axe:IsPurgable() return false end
 function modifier_gorin_choose_axe:RemoveOnDeath() return false end
-function modifier_gorin_choose_axe:AllowIllusionDuplicate() return true end
 function modifier_gorin_choose_axe:IsPurgeException() return false end
 
 function modifier_gorin_choose_axe:OnCreated( kv )
@@ -142,7 +140,6 @@ modifier_gorin_choose_axe_ranged = class({})
 function modifier_gorin_choose_axe_ranged:IsHidden() return true end
 function modifier_gorin_choose_axe_ranged:IsPurgable() return false end
 function modifier_gorin_choose_axe_ranged:RemoveOnDeath() return false end
-function modifier_gorin_choose_axe_ranged:AllowIllusionDuplicate() return true end
 function modifier_gorin_choose_axe_ranged:IsPurgeException() return false end
 function modifier_gorin_choose_axe_ranged:DeclareFunctions()
     local funcs = 

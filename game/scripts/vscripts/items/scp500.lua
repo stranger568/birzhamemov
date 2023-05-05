@@ -60,7 +60,7 @@ function modifier_item_scp500_buff:OnCreated()
     self.damage_reduce = self:GetAbility():GetSpecialValueFor("damage_reduce")
     self.health = (self:GetParent():GetMaxHealth() / 3) * FrameTime()
     self.mana = (self:GetParent():GetMaxMana() / 3) * FrameTime()
-
+    self.attack = false
     self.hp_restore = true
     self.mana_restore = true
     self.cd = 0
@@ -95,9 +95,21 @@ end
 function modifier_item_scp500_buff:DeclareFunctions()
     local funcs = {
         MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE,
+        MODIFIER_EVENT_ON_TAKEDAMAGE,
     }
 
     return funcs
+end
+
+function modifier_item_scp500_buff:OnTakeDamage(params)
+    if not IsServer() then return end
+    if params.unit ~= self:GetParent() then return end
+    if params.attacker == self:GetParent() then return end
+    if self.attack then return end
+    print("lalala")
+    self.attack = true
+    print(self:GetRemainingTime() / 2)
+    self:SetDuration(self:GetRemainingTime() / 2, true)
 end
 
 function modifier_item_scp500_buff:GetModifierIncomingDamage_Percentage()

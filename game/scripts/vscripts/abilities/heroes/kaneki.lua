@@ -58,7 +58,7 @@ function modifier_kaneki_ghoul_stacks:OnAttackLanded(params)
 
 	if self:GetStackCount() == max_stack then
 		if not self:GetCaster():HasTalent("special_bonus_birzha_kaneki_7") then
-			self:GetAbility():UseResources(false, false, true)
+			self:GetAbility():UseResources(false, false, false, true)
 		end
 		self:SetStackCount(0)
 	end
@@ -73,7 +73,7 @@ function modifier_kaneki_ghoul_stacks:OnTakeDamage(params)
     if not self:GetAbility():IsFullyCastable() then return end
     if params.inflictor == nil and not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then 
         local heal = (self:GetAbility():GetSpecialValueFor("heal") + self:GetCaster():FindTalentValue("special_bonus_birzha_kaneki_2")) / 100 * params.damage
-        self:GetParent():Heal(heal, nil)
+        self:GetParent():Heal(heal, self:GetAbility())
         local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_bloodseeker/bloodseeker_bloodbath.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
     	ParticleManager:ReleaseParticleIndex( effect_cast )
     end
@@ -209,7 +209,7 @@ LinkLuaModifier("modifier_kaneki_feeling_debuff_vision", "abilities/heroes/kanek
 kaneki_feeling = class({})
 
 function kaneki_feeling:OnInventoryContentsChanged()
-    if self:GetCaster():HasShard() then
+    if self:GetCaster():HasScepter() then
         self:SetHidden(false)       
         if not self:IsTrained() then
             self:SetLevel(1)
@@ -564,7 +564,7 @@ function modifier_kaneki_pull_debuff:OnIntervalThink()
 
         local duration = self:GetAbility():GetSpecialValueFor("duration")
 
-        if self:GetCaster():HasScepter() then
+        if self:GetCaster():HasShard() then
         	local shard_stun_duration = self:GetAbility():GetSpecialValueFor("shard_stun_duration")
         	duration = duration + shard_stun_duration
         	self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = shard_stun_duration * (1 - self:GetParent():GetStatusResistance()) })

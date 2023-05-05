@@ -14,7 +14,12 @@ LinkLuaModifier( "modifier_gamemode_wtf", "modifiers/modifier_gamemode_wtf", LUA
 LinkLuaModifier( "modifier_bp_sobolev", "modifiers/birzhapass_modifiers/modifier_bp_sobolev", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_bp_mum_arcana", "modifiers/birzhapass_modifiers/modifier_bp_mum_arcana", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_bp_mum_mask", "modifiers/birzhapass_modifiers/modifier_bp_mum_mask", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_bp_dio", "modifiers/birzhapass_modifiers/modifier_bp_dio", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_avatar_persona", "modifiers/birzhapass_modifiers/modifier_avatar_persona", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_pyramide_persona", "modifiers/birzhapass_modifiers/modifier_pyramide_persona", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_sonic_arcana", "modifiers/birzhapass_modifiers/modifier_sonic_arcana", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_bp_johncena", "modifiers/birzhapass_modifiers/modifier_bp_johncena", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_papich_hand_effect", "modifiers/birzhapass_modifiers/modifier_papich_hand_effect", LUA_MODIFIER_MOTION_NONE )
 
 _G.FountainTimer = 900
 _G.EventTimer = 900
@@ -61,6 +66,7 @@ function BirzhaGameMode:OnGameRulesStateChange(params)
 	end
 
 	if nNewState == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
+		CustomPick:StartCheckingToStart()
 		self.countdownEnabled = true
 		CustomGameEventManager:Send_ServerToAllClients( "show_timer", {} )
 		DoEntFire( "center_experience_ring_particles", "Start", "0", 0, self, self  )
@@ -70,6 +76,10 @@ end
 
 function BirzhaGameMode:OnNPCSpawned( event )
 	local player = EntIndexToHScript(event.entindex)
+
+	if player and player:HasModifier("modifier_birzha_disconnect") then
+		player:AddNewModifier(player, nil, "modifier_fountain_invulnerability", {})
+	end
 
 	if player:GetUnitName() == "npc_palnoref_chariot" then
 		if not player.chariot_sword or ( player.chariot_sword and player.chariot_sword == nil )then
@@ -159,6 +169,9 @@ function BirzhaGameMode:OnNPCSpawned( event )
 	   				player:EmitSound("sasake_respawn")
 	   			end
 	   		end
+	   		Timers:CreateTimer(0.5, function()
+	   			player:RemoveModifierByName("modifier_medusa_mana_shield")
+	   		end)
 	   	end
 
 		if FountainTimer <= 0 then
@@ -209,13 +222,12 @@ function BirzhaGameMode:OnNPCSpawned( event )
 			--	end
 			--end
 
-	   		local player_table = CustomNetTables:GetTableValue('birzhainfo', tostring(playerID))
-	   		if player_table then
-	   			if player_table.ban_days and player_table.ban_days > 0 then
-	   				local ban_mod = player:AddNewModifier(player, nil, "modifier_birzha_loser", {})
-	   				ban_mod:SetStackCount(player_table.ban_days)
-	   			end
-	   		end
+	   		if BirzhaData.PLAYERS_GLOBAL_INFORMATION[playerID] then
+				if BirzhaData.PLAYERS_GLOBAL_INFORMATION[playerID].has_report > 0 then
+					local ban_mod = player:AddNewModifier(player, nil, "modifier_birzha_loser", {})
+	   				ban_mod:SetStackCount(BirzhaData.PLAYERS_GLOBAL_INFORMATION[playerID].has_report)
+				end
+			end
 
 	   		if player:GetUnitName() == "npc_dota_hero_treant" then
 	   			player:EmitSound("OverlordSpawn")
@@ -244,8 +256,6 @@ end
 function BirzhaGameMode:OnEntityKilled( event )
 	local killedUnit = EntIndexToHScript( event.entindex_killed )
 	local killedTeam = killedUnit:GetTeam()
-
-
 
   	if not killedUnit.IsRealHero or not killedUnit:IsRealHero() then
   		local panels = WorldPanels.entToPanels[killedUnit]
@@ -299,9 +309,20 @@ function BirzhaGameMode:OnEntityKilled( event )
 
 			   	if killedUnit:GetUnitName() == "npc_dota_hero_travoman" then
 			   		killedUnit:EmitSound("travoman_death")
-			   		print("zvuk")
 			   	elseif hero:GetUnitName() == "npc_dota_hero_travoman" then
 			   		hero:EmitSound("travoman_kill")
+			   	end
+
+			   	if DonateShopIsItemBought(hero:GetPlayerOwnerID(), 194) then
+			   		local particle = ParticleManager:CreateParticle("particles/econ/items/drow/drow_arcana/drow_v2_arcana_revenge_kill_effect_caster.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
+			   		ParticleManager:SetParticleControlEnt(particle, 1, hero, PATTACH_POINT_FOLLOW, nil, hero:GetAbsOrigin(), true)
+			   		ParticleManager:ReleaseParticleIndex(particle)
+			   	end
+
+			   	donate_shop:QuestProgress(8, hero:GetPlayerOwnerID(), 1)
+
+			   	if hero:HasModifier("modifier_item_baldezh_active") then
+			   		donate_shop:QuestProgress(12, hero:GetPlayerOwnerID(), 1)
 			   	end
 
 			   	local bonus = false
@@ -332,15 +353,15 @@ function BirzhaGameMode:OnEntityKilled( event )
 			    	end
 			    end
 
-			  	if PlayerResource:GetNetWorth(attacker:GetPlayerOwnerID()) ~= nil then
-			  		networth_killer = PlayerResource:GetNetWorth(attacker:GetPlayerOwnerID())
-			  	end
-
 			  	if PlayerResource:GetNetWorth(hero:GetPlayerOwnerID()) ~= nil then
-			  		networth_target = PlayerResource:GetNetWorth(hero:GetPlayerOwnerID())
+			  		networth_attacker = PlayerResource:GetNetWorth(hero:GetPlayerOwnerID())
 			  	end
 
-			    if target_kills > attacker_kills and networth_target > networth_killer then
+			  	if PlayerResource:GetNetWorth(killedUnit:GetPlayerOwnerID()) ~= nil then
+			  		networth_target = PlayerResource:GetNetWorth(killedUnit:GetPlayerOwnerID())
+			  	end
+
+			    if target_kills > attacker_kills and networth_target > networth_attacker then
 			    	bonus = true
 			    end
 
@@ -355,6 +376,7 @@ function BirzhaGameMode:OnEntityKilled( event )
 				end
 
 				if killedUnit:GetTeam() == self.leadingTeam and self.isGameTied == false and game_time >= 5 then
+					donate_shop:QuestProgress(35, hero:GetPlayerOwnerID(), 1)
 					local name = hero:GetClassname()
 					local victim = killedUnit:GetClassname()
 					local kill_alert =
@@ -424,23 +446,22 @@ end
 function BirzhaGameMode:SetRespawnTime( killedTeam, killedUnit )
 
 	if killedUnit:HasModifier("modifier_jull_steal_time") then
-		local respawn_time = 10
+		local respawn_time_base = 5
+		local bonus_respawn_time = math.floor(math.min(nCOUNTDOWNTIMER / 240, 8))
 
 		if killedTeam == self.leadingTeam then
 			if nCOUNTDOWNTIMER >= 600 then
-				respawn_time = 20
+				bonus_respawn_time = bonus_respawn_time + 8
 			elseif nCOUNTDOWNTIMER >= 300 then
-				respawn_time = 18
-			elseif nCOUNTDOWNTIMER >= 180 then
-				respawn_time = 16
+				bonus_respawn_time = bonus_respawn_time + 6
 			elseif nCOUNTDOWNTIMER >= 120 then
-				respawn_time = 14
-			elseif nCOUNTDOWNTIMER >= 60 then
-				respawn_time = 12
+				bonus_respawn_time = bonus_respawn_time + 4
 			elseif nCOUNTDOWNTIMER >= 0 then
-				respawn_time = 10
+				bonus_respawn_time = bonus_respawn_time + 0
 			end
 		end
+
+		local respawn_time = respawn_time_base + bonus_respawn_time
 
 		local modifier = killedUnit:FindModifierByName("modifier_jull_steal_time_stack")
 		if modifier then
@@ -463,24 +484,25 @@ function BirzhaGameMode:SetRespawnTime( killedTeam, killedUnit )
 		return
 	end
 
-
-
 	if killedTeam == self.leadingTeam then
+		local respawn_time_base = 5
+		local bonus_respawn_time = math.floor(math.min(nCOUNTDOWNTIMER / 240, 8))
+
 		if nCOUNTDOWNTIMER >= 600 then
-			killedUnit:SetTimeUntilRespawn( 20 )
+			bonus_respawn_time = bonus_respawn_time + 8
 		elseif nCOUNTDOWNTIMER >= 300 then
-			killedUnit:SetTimeUntilRespawn( 18 )
-		elseif nCOUNTDOWNTIMER >= 180 then
-			killedUnit:SetTimeUntilRespawn( 16 )
+			bonus_respawn_time = bonus_respawn_time + 6
 		elseif nCOUNTDOWNTIMER >= 120 then
-			killedUnit:SetTimeUntilRespawn( 14 )
-		elseif nCOUNTDOWNTIMER >= 60 then
-			killedUnit:SetTimeUntilRespawn( 12 )
+			bonus_respawn_time = bonus_respawn_time + 4
 		elseif nCOUNTDOWNTIMER >= 0 then
-			killedUnit:SetTimeUntilRespawn( 10 )
+			bonus_respawn_time = bonus_respawn_time + 0
 		end
-	else 
-		killedUnit:SetTimeUntilRespawn( 10 )
+
+		killedUnit:SetTimeUntilRespawn( respawn_time_base + bonus_respawn_time )
+	else
+		local respawn_time_base = 5
+		local bonus_respawn_time = math.floor(math.min(nCOUNTDOWNTIMER / 240, 8))
+		killedUnit:SetTimeUntilRespawn( respawn_time_base + bonus_respawn_time )
 	end
 end
 
@@ -497,6 +519,7 @@ function BirzhaGameMode:OnItemPickUp( event )
 		owner = owner:GetOwner()
 	end
 	if event.itemname == "item_bag_of_gold" then
+		donate_shop:QuestProgress(30, owner:GetPlayerOwnerID(), 150)
 		PlayerResource:ModifyGold( owner:GetPlayerID(), 150, true, 0 )
 		SendOverheadEventMessage( owner, OVERHEAD_ALERT_GOLD, owner, 150, nil )
 		UTIL_Remove( item )
@@ -518,10 +541,12 @@ function BirzhaGameMode:OnItemPickUp( event )
 		UTIL_Remove( item )
 	end
 	if event.itemname == "item_treasure_chest" then
+		donate_shop:QuestProgress(32, owner:GetPlayerOwnerID(), 1)
 		BirzhaGameMode:SpecialItemAdd( event )
 		UTIL_Remove( item )
 	end
 	if event.itemname == "item_treasure_chest_winter" then
+		donate_shop:QuestProgress(32, owner:GetPlayerOwnerID(), 1)
 		BirzhaGameMode:SpecialItemAdd( event )
 		UTIL_Remove( item )
 	end
@@ -759,6 +784,28 @@ function BirzhaGameMode:OnHeroInGame(hero)
 		end
 	end
 
+	if hero:GetUnitName() == "npc_dota_hero_faceless_void" then
+		if DonateShopIsItemBought(playerID, 180) then
+			hero:SetOriginalModel("models/dio_arcana/dio_arcana.vmdl")
+			hero:SetModelScale(1.03)
+			hero:AddNewModifier(hero, nil, "modifier_bp_dio", {})
+		end
+	end
+
+	if hero:GetUnitName() == "npc_dota_hero_oracle" then
+		if DonateShopIsItemBought(playerID, 182) then
+			hero:SetOriginalModel("models/korra/korra_model.vmdl")
+			hero:AddNewModifier(hero, nil, "modifier_avatar_persona", {})
+		end
+	end
+
+	if hero:GetUnitName() == "npc_dota_hero_sonic" then
+		if DonateShopIsItemBought(playerID, 183) then
+			hero:SetOriginalModel("models/sonic_arcana/sonic_arcana.vmdl")
+			hero:AddNewModifier(hero, nil, "modifier_sonic_arcana", {})
+		end
+	end
+
 	if hero:GetUnitName() == "npc_dota_hero_alchemist" then
 		if DonateShopIsItemBought(playerID, 36) then
 			hero.brb_crown = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/birzhapass/crown_bigrussianboss.vmdl"})
@@ -787,6 +834,33 @@ function BirzhaGameMode:OnHeroInGame(hero)
 			hero.pudge_mask:FollowEntity(hero, true)
 			hero:AddNewModifier( hero, nil, "modifier_bp_mum_mask", {})
 		end
+
+		if DonateShopIsItemBought(playerID, 179) then
+			if hero ~= nil and hero:IsHero() then
+				local children = hero:GetChildren();
+				for k,child in pairs(children) do
+					if child:GetClassname() == "dota_item_wearable" and (string.find(child:GetModelName(), "weapon") == nil and string.find(child:GetModelName(), "hook") == nil) then
+						child:RemoveSelf();
+					elseif child:GetClassname() == "dota_item_wearable" and child:GetModelName() == "models/heroes/pudge/leftweapon.vmdl" then
+						child:RemoveSelf();
+					elseif child:GetClassname() == "dota_item_wearable" and (string.find(child:GetModelName(), "offhand") ~= nil) then
+						child:RemoveSelf();
+					end
+				end
+			end
+			hero.pudge_gopo_back = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/pudge_gopo_set/gopo_back.vmdl"})
+			hero.pudge_gopo_back:FollowEntity(hero, true)
+			hero.pudge_gopo_left_arm = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/heroes/pudge/leftarm.vmdl"})
+			hero.pudge_gopo_left_arm:FollowEntity(hero, true)
+			hero.pudge_gopo_arm = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/pudge_gopo_set/gopo_arm.vmdl"})
+			hero.pudge_gopo_arm:FollowEntity(hero, true)
+			hero.pudge_gopo_head = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/pudge_gopo_set/gopo_head.vmdl"})
+			hero.pudge_gopo_head:FollowEntity(hero, true)
+			hero.pudge_gopo_belt = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/pudge_gopo_set/gopo_belt.vmdl"})
+			hero.pudge_gopo_belt:FollowEntity(hero, true)
+			hero.pudge_gopo_wepon = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/pudge_gopo_set/gopo_wepon.vmdl"})
+			hero.pudge_gopo_wepon:FollowEntity(hero, true)
+		end
 	end
 
 	if hero:GetUnitName() == "npc_dota_hero_bounty_hunter" then
@@ -798,7 +872,7 @@ function BirzhaGameMode:OnHeroInGame(hero)
 	end
 
 	if hero:GetUnitName() == "npc_dota_hero_skeleton_king" then
-		if DonateShopIsItemBought(playerID, 29) then
+		if DonateShopIsItemBought(playerID, 29) or IsInToolsMode() then
 			if hero ~= nil and hero:IsHero() then
 				local children = hero:GetChildren();
 				for k,child in pairs(children) do
@@ -814,13 +888,17 @@ function BirzhaGameMode:OnHeroInGame(hero)
 			hero.PapichHead:FollowEntity(hero, true)
 			hero.PapichPauldrons = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/wraith_king/arcana/wraith_king_arcana_shoulder.vmdl"})
 			hero.PapichPauldrons:FollowEntity(hero, true)
-			hero.PapichPunch = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/wraith_king/blistering_shade/mesh/blistering_shade_alt.vmdl"})
-			hero.PapichPunch:FollowEntity(hero, true)
+
+			if not DonateShopIsItemBought(playerID, 29) then
+				hero.PapichPunch = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/wraith_king/arcana/wraith_king_arcana_arms.vmdl"})
+				hero.PapichPunch:FollowEntity(hero, true)
+			end
+
 			hero.PapichCape = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/wraith_king/arcana/wraith_king_arcana_back.vmdl"})
 			hero.PapichCape:FollowEntity(hero, true)
 			hero.PapichArmor = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/wraith_king/arcana/wraith_king_arcana_armor.vmdl"})
 			hero.PapichArmor:FollowEntity(hero, true)
-			hero.PapichEffect = ParticleManager:CreateParticle("particles/econ/items/wraith_king/wraith_king_ti6_bracer/wraith_king_ti6_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.PapichPunch)
+			hero.SwordEffect = ParticleManager:CreateParticle("particles/econ/items/wraith_king/wraith_king_arcana/wk_arc_weapon.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.PapichBloodShard)
 			hero.HeadEffect = ParticleManager:CreateParticle("particles/econ/items/wraith_king/wraith_king_arcana/wk_arc_ambient_head.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.PapichHead)
 			hero.AmbientEffect = ParticleManager:CreateParticle("particles/econ/items/wraith_king/wraith_king_arcana/wk_arc_ambient.vpcf", PATTACH_POINT_FOLLOW, hero)
 			ParticleManager:SetParticleControl(hero.AmbientEffect, 0, hero:GetAbsOrigin())
@@ -830,6 +908,47 @@ function BirzhaGameMode:OnHeroInGame(hero)
 			ParticleManager:SetParticleControl(hero.AmbientEffect, 4, hero:GetAbsOrigin())
 			ParticleManager:SetParticleControl(hero.AmbientEffect, 5, hero:GetAbsOrigin())
 			ParticleManager:SetParticleControl(hero.AmbientEffect, 6, hero:GetAbsOrigin())
+		end
+
+		if DonateShopIsItemBought(playerID, 198) or IsInToolsMode() then
+			hero.PapichPunch = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/wraith_king/blistering_shade/mesh/blistering_shade_alt.vmdl"})
+			hero.PapichPunch:FollowEntity(hero, true)
+			hero.PapichPunch:SetMaterialGroup("witness")
+			hero.PapichEffect = ParticleManager:CreateParticle("particles/econ/items/wraith_king/wraith_king_ti6_bracer/wraith_king_ti6_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.PapichPunch)
+			hero:AddNewModifier(hero, nil, "modifier_papich_hand_effect", {})
+		end
+		
+	end
+
+	if hero:GetUnitName() == "npc_dota_hero_sniper" then
+		if DonateShopIsItemBought(playerID, 200) or IsInToolsMode() then
+			if hero ~= nil and hero:IsHero() then
+				local children = hero:GetChildren();
+				for k,child in pairs(children) do
+					if child:GetClassname() == "dota_item_wearable" then
+						child:RemoveSelf();
+					end
+				end
+			end
+
+			hero.RangerShoulder = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/sniper/scifi_sniper_test_shoulder/scifi_sniper_test_shoulder.vmdl"})
+			hero.RangerShoulder:FollowEntity(hero, true)
+			hero.RangerHead = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/sniper/scifi_sniper_test_head/scifi_sniper_test_head.vmdl"})
+			hero.RangerHead:FollowEntity(hero, true)
+			hero.RangerGun = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/sniper/scifi_sniper_test_gun/scifi_sniper_test_gun.vmdl"})
+			hero.RangerGun:FollowEntity(hero, true)
+			hero.RangerBack = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/sniper/scifi_sniper_test_back/scifi_sniper_test_back.vmdl"})
+			hero.RangerBack:FollowEntity(hero, true)
+			hero.RangerArms = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/sniper/scifi_sniper_test_arms/scifi_sniper_test_arms.vmdl"})
+			hero.RangerArms:FollowEntity(hero, true)
+			hero:AddActivityModifier("scifi")
+			hero:AddActivityModifier("SCIFI")
+			hero:AddActivityModifier("MGC")
+			hero:SetRangedProjectileName("particles/econ/items/sniper/sniper_fall20_immortal/sniper_fall20_immortal_base_attack.vpcf")
+
+			hero.AmbientEffect1 = ParticleManager:CreateParticle("particles/econ/items/sniper/sniper_fall20_immortal/sniper_fall20_immortal_weapon_ambient.vpcf", PATTACH_POINT_FOLLOW, hero.RangerGun)
+			hero.AmbientEffect2 = ParticleManager:CreateParticle("particles/econ/items/sniper/sniper_fall20_immortal/sniper_fall20_immortal_head.vpcf", PATTACH_POINT_FOLLOW, hero.RangerHead)
+			hero.AmbientEffect3 = ParticleManager:CreateParticle("particles/econ/items/sniper/sniper_fall20_immortal/sniper_fall20_immortal_jetpack.vpcf", PATTACH_POINT_FOLLOW, hero.RangerBack)
 		end
 	end
 
@@ -877,6 +996,13 @@ function BirzhaGameMode:OnHeroInGame(hero)
 	if hero:GetUnitName() == "npc_dota_hero_sand_king" then
 		if DonateShopIsItemBought(playerID, 22) then
 			hero:SetMaterialGroup("event")
+		end
+	end
+
+	if hero:GetUnitName() == "npc_dota_hero_pyramide" then
+		if DonateShopIsItemBought(playerID, 181) then
+			hero:SetMaterialGroup("battlepass")
+			hero:AddNewModifier(hero, nil, "modifier_pyramide_persona", {})
 		end
 	end
 
@@ -1109,6 +1235,9 @@ function BirzhaGameMode:EndGame( victoryTeam )
 			elseif PlayerResource:GetSelectedHeroEntity(id) and PlayerResource:GetSelectedHeroEntity(id):GetUnitName() == "npc_dota_hero_pyramide" then
 				EmitGlobalSound("pyramide_win_sound")
 				break
+			elseif PlayerResource:GetSelectedHeroEntity(id) and PlayerResource:GetSelectedHeroEntity(id):GetUnitName() == "npc_dota_hero_serega_pirat" and (DonateShopIsItemBought(id, 199) or IsInToolsMode()) then
+				EmitGlobalSound("pirat_win")
+				break
 			end
 		end
 	end
@@ -1127,17 +1256,14 @@ function BirzhaGameMode:EndGame( victoryTeam )
 	end)
 	
 	if BirzhaData:GetPlayerCount() > 5 or IsInToolsMode() then
-		if GetMapName() == "birzhamemov_wtf" then
-			CustomNetTables:SetTableValue("birzha_mmr", "game_winner", {t = victoryTeam} )
-			BirzhaData.PostData()
-			GameRules:SetGameWinner( victoryTeam )
-			return
-		end
-
 		CustomNetTables:SetTableValue("birzha_mmr", "game_winner", {t = victoryTeam} )
 		BirzhaData.PostData()
 		BirzhaData.PostHeroesInfo()
 		BirzhaData.PostHeroPlayerHeroInfo()
+		Timers:CreateTimer(0.5, function()
+			BirzhaData:SendBattlePassInformation()
+		end)
+		BirzhaData:SendDataPlayerReports()
 	end
 end
 

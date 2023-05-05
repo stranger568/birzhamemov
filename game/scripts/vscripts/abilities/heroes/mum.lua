@@ -44,7 +44,7 @@ function mum_meat_hook:OnSpellStart()
         end
     end
 
-    self.talent = self:GetCaster():HasTalent("special_bonus_birzha_mum_5")
+    self.talent = false
 
     self.hooks = {}
     
@@ -63,7 +63,7 @@ function mum_meat_hook:OnSpellStart()
         end
     end
 
-    if self:GetCaster():HasScepter() then
+    if self:GetCaster():HasTalent("special_bonus_birzha_mum_8") then
         local angle = 10
         local hook_count = 2
         for i = 1, hook_count do
@@ -197,7 +197,10 @@ function mum_meat_hook:OnProjectileHitHandle( target, position, projectileIndex 
                     self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_mum_meat_hook_buff_talent", {duration = flFollowthroughDuration * 0.95} )
                 end
             else
-                target:AddNewModifier( self:GetCaster(), self, "modifier_mum_meat_hook_debuff", {} )
+                local distance = (target:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Length2D()
+                local flFollowthroughDuration = ( distance / self.hook_speed )
+                local damage = ((distance / 100 * self:GetSpecialValueFor("length_damage"))  / flFollowthroughDuration) * FrameTime()
+                target:AddNewModifier( self:GetCaster(), self, "modifier_mum_meat_hook_debuff", {damage = damage} )
             end
 
             if target:GetTeamNumber() ~= self:GetCaster():GetTeamNumber() then
@@ -588,8 +591,30 @@ function modifier_mum_meat_hook_debuff:RemoveOnDeath()
     return false
 end
 
+function modifier_mum_meat_hook_debuff:OnCreated(params)
+    if not IsServer() then return end
+    self.damage = params.damage
+    if self:GetParent():IsHero() then
+        if DonateShopIsItemBought(self:GetCaster():GetPlayerOwnerID(), 179) then
+            local particle = ParticleManager:CreateParticle("particles/pudge_gopo_particle.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+            ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
+            self:AddParticle(particle, false, false, -1, false, false)
+        end
+    end
+    self:StartIntervalThink(FrameTime())
+end
+
+function modifier_mum_meat_hook_debuff:OnIntervalThink()
+    if not IsServer() then return end
+    if not self:GetCaster():HasScepter() then return end
+    ApplyDamage({ victim = self:GetParent(), attacker = self:GetCaster(), ability = self:GetAbility(), damage = self.damage, damage_type = DAMAGE_TYPE_PURE })
+end
+
 function modifier_mum_meat_hook_debuff:OnDestroy()
     if not IsServer() then return end
+    if self:GetParent():IsRealHero() then
+        donate_shop:QuestProgress(38, self:GetCaster():GetPlayerOwnerID(), 1)
+    end
     FindClearSpaceForUnit(self:GetParent(), self:GetParent():GetAbsOrigin(), false)
     local angel = (self:GetCaster():GetAbsOrigin() - self:GetParent():GetAbsOrigin())
     angel.z = 0
@@ -725,6 +750,8 @@ end
 
 LinkLuaModifier( "modifier_mum_fart", "abilities/heroes/mum.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_fart_aura", "abilities/heroes/mum.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_mum_fart_buff_aura", "abilities/heroes/mum.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_mum_fart_buff", "abilities/heroes/mum.lua", LUA_MODIFIER_MOTION_NONE )
 
 mum_fart = class({})
 
@@ -733,10 +760,7 @@ function mum_fart:GetCooldown(level)
 end
 
 function mum_fart:GetCastRange(location, target)
-    if self:GetCaster():HasTalent("special_bonus_unique_keeper_of_the_light_12") then
-        return self.BaseClass.GetCastRange(self, location, target) * 1.5 
-    end
-    return self.BaseClass.GetCastRange(self, location, target)
+    return self.BaseClass.GetCastRange(self, location, target) * 1.5 
 end
 
 function mum_fart:GetAbilityTextureName()
@@ -747,10 +771,7 @@ function mum_fart:GetAbilityTextureName()
 end
 
 function mum_fart:GetBehavior()
-    if self:GetCaster():HasTalent("special_bonus_unique_keeper_of_the_light_12") then
-        return DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR_AOE
-    end
-    return DOTA_ABILITY_BEHAVIOR_NO_TARGET
+    return DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR_AOE
 end
 
 function mum_fart:GetAOERadius()
@@ -764,26 +785,23 @@ function mum_fart:OnSpellStart()
     local duration = self:GetSpecialValueFor("duration")
     local radius = self:GetSpecialValueFor("radius")
 
-    if self:GetCaster():HasTalent("special_bonus_unique_keeper_of_the_light_12") then
-        point = self:GetCursorPosition()
-        local dummy = CreateUnitByName("npc_dota_companion", point, false, nil, nil, self:GetCaster():GetTeamNumber())
-        dummy:AddNewModifier(self, nil, "modifier_mum_meat_hook_hook_thinker", {})
-        local info = 
-        {
-            EffectName = "particles/econ/items/bristleback/ti7_head_nasal_goo/bristleback_ti7_crimson_nasal_goo_proj.vpcf",
-            Ability = self,
-            iMoveSpeed = 1800,
-            Source = self:GetCaster(),
-            Target = dummy,
-            iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_HITLOCATION
-        }
-        ProjectileManager:CreateTrackingProjectile( info )
-        self:GetCaster():EmitSound("Hero_Pudge.Eject")
-        return
-    end
+    point = self:GetCursorPosition()
+    local dummy = CreateUnitByName("npc_dota_companion", point, false, nil, nil, self:GetCaster():GetTeamNumber())
+    dummy:AddNewModifier(self, nil, "modifier_mum_meat_hook_hook_thinker", {})
+    local info = 
+    {
+        EffectName = "particles/econ/items/bristleback/ti7_head_nasal_goo/bristleback_ti7_crimson_nasal_goo_proj.vpcf",
+        Ability = self,
+        iMoveSpeed = 1800,
+        Source = self:GetCaster(),
+        Target = dummy,
+        iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_HITLOCATION
+    }
+    ProjectileManager:CreateTrackingProjectile( info )
+    self:GetCaster():EmitSound("Hero_Pudge.Eject")
 
-    local thinker = CreateModifierThinker(caster, self, "modifier_mum_fart", {duration = duration, target_point_x = point.x , target_point_y = point.y}, point, caster:GetTeamNumber(), false)
-    thinker:EmitSound("pudgepuk")
+    --local thinker = CreateModifierThinker(caster, self, "modifier_mum_fart", {duration = duration, target_point_x = point.x , target_point_y = point.y}, point, caster:GetTeamNumber(), false)
+    --thinker:EmitSound("pudgepuk")
 end
 
 function mum_fart:OnProjectileHit( target, vLocation )
@@ -792,6 +810,9 @@ function mum_fart:OnProjectileHit( target, vLocation )
         local duration = self:GetSpecialValueFor("duration")
         local radius = self:GetSpecialValueFor("radius")
         local thinker = CreateModifierThinker(self:GetCaster(), self, "modifier_mum_fart", {duration = duration, target_point_x = vLocation.x , target_point_y = vLocation.y}, vLocation, self:GetCaster():GetTeamNumber(), false)
+        if self:GetCaster():HasTalent("special_bonus_birzha_mum_5") then
+            CreateModifierThinker(self:GetCaster(), self, "modifier_mum_fart_buff_aura", {duration = duration, target_point_x = vLocation.x , target_point_y = vLocation.y}, vLocation, self:GetCaster():GetTeamNumber(), false)
+        end
         thinker:EmitSound("pudgepuk")
         UTIL_Remove(target)
     end
@@ -826,9 +847,6 @@ function modifier_mum_fart:GetAuraSearchType()
 end
 
 function modifier_mum_fart:GetAuraSearchFlags()
-    if self:GetCaster():HasTalent("special_bonus_birzha_mum_6") then
-        return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
-    end
     return 0
 end
 
@@ -872,8 +890,79 @@ function modifier_fart_aura:DeclareFunctions()
 end
 
 function modifier_fart_aura:GetModifierMoveSpeedBonus_Percentage()
-    return self.slow + self:GetCaster():FindTalentValue("special_bonus_birzha_mum_2")
+    return self.slow
 end
+
+modifier_mum_fart_buff_aura = class({})
+
+function modifier_mum_fart_buff_aura:IsPurgable() return false end
+function modifier_mum_fart_buff_aura:IsHidden() return true end
+function modifier_mum_fart_buff_aura:IsAura() return true end
+
+function modifier_mum_fart_buff_aura:OnCreated()
+    if not IsServer() then return end
+    self.radius = self:GetAbility():GetSpecialValueFor("radius")
+end
+
+function modifier_mum_fart_buff_aura:GetAuraSearchTeam()
+    return DOTA_UNIT_TARGET_TEAM_FRIENDLY 
+end
+
+function modifier_mum_fart_buff_aura:GetAuraSearchType()
+    return DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO
+end
+
+function modifier_mum_fart_buff_aura:GetAuraSearchFlags()
+    return DOTA_UNIT_TARGET_FLAG_INVULNERABLE
+end
+
+function modifier_mum_fart_buff_aura:GetModifierAura()
+    return "modifier_mum_fart_buff"
+end
+
+function modifier_mum_fart_buff_aura:GetAuraRadius()
+    return self.radius
+end
+
+function modifier_mum_fart_buff_aura:GetAuraEntityReject(hTarget)
+    if not IsServer() then return end
+
+    if hTarget == self:GetCaster() or hTarget:GetOwner() == self:GetCaster() then
+        return false
+    end
+
+    return true
+end
+
+modifier_mum_fart_buff = class({})
+
+function modifier_mum_fart_buff:IsPurgable() return false end
+
+function modifier_mum_fart_buff:DeclareFunctions()
+    local funcs = { MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT}
+    return funcs
+end
+
+function modifier_mum_fart_buff:GetModifierAttackSpeedBonus_Constant()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_mum_5")
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 fut_mum_eat = class({})
 
@@ -889,7 +978,7 @@ function fut_mum_eat:GetAbilityTextureName()
 end
 
 function fut_mum_eat:OnSpellStart()
-    local duration = self:GetSpecialValueFor( "duration" )
+    local duration = self:GetSpecialValueFor( "duration" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_mum_6")
     self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_fut_mum_eat_caster", { duration = duration } )
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_silence_item", {duration=duration})
     self:EmitSound("pudgemeat")
@@ -897,7 +986,7 @@ end
 
 function fut_mum_eat:DealDamage(caster, target, tick)
     if not IsServer() then return end
-    self.base_damage = self:GetSpecialValueFor("base_damage")
+    self.base_damage = self:GetSpecialValueFor("base_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_mum_2")
     self.strength_damage = self:GetSpecialValueFor("strength_damage") / 100
     self.strength_damage =  self.strength_damage * caster:GetStrength()
     self.damage = (self.base_damage + self.strength_damage) * tick

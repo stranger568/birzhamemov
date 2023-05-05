@@ -792,6 +792,7 @@ function modifier_JumpInHead_arena_damage:OnCreated( kv )
     self.aura_origin = self:GetParent():GetOrigin()
 
     if not self.owner then
+        if self:GetParent():HasModifier("modifier_zema_cosmic_blindness_debuff") then return end
         self.aura_origin = Vector( kv.aura_origin_x, kv.aura_origin_y, 0 )
         local direction = self.aura_origin-self:GetParent():GetOrigin()
         direction.z = 0

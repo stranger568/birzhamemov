@@ -26,7 +26,7 @@
 			<Label class="TelegramLabel" text="Telegram Канал создателя с информацией о кастомке и не только" />
 			<Panel class="TelegramIcon" />
 		</Panel>
-		
+
 		<Panel id="InfoWidgets" class="WidgetRow">
             <Panel id="RankedInfo" class="Widget">
                 <Panel id="RankedInfoContainer" class="Hidden WidgetContainer">
@@ -145,21 +145,21 @@
                     </Panel>
                 </Panel>
 				<Panel class="News">
-					<Panel id="TipContainer" onactivate="NextTip()">
+					<Panel id="TipContainer" onactivate="ExternalBrowserGoToURL('https://discord.gg/tzP4SMT')">
 						<Label class="NewWidgetLabel" text="#Sovetsforyou"/>
 						<Panel id="TipText">
-							<Label id="TipLabel" text="#LoadingTip_1"/>
+							<Label id="TipLabel" text="#Sovetsforyou_discord"/>
 						</Panel>
-						<Panel id="NextTip" class="TipButton" onactivate="NextTip()"/>
+						<Panel id="NextTip" class="TipButton"/>
 					</Panel>
-					<Panel id="DonateContainer" onactivate="ExternalBrowserGoToURL('https://www.patreon.com/BirzhaMemov')">
+					<Panel id="DonateContainer" onactivate="ExternalBrowserGoToURL('https://bmemov.ru/donate/')">
 						<Label class="NewWidgetLabel" text="#Contributepanel"/>
 						<Panel id="DonateInformation">
 							<Label id="TipLabel" text="#LoadingDonate"/>
 						</Panel>
 						<Panel id="PassIcon" class="PassIcon"/>
 					</Panel>
-					<Panel id="DonateContainer_2" onactivate="ExternalBrowserGoToURL('https://bmemov.ru/updates/reborn/')">
+					<Panel id="DonateContainer_2" onactivate="ExternalBrowserGoToURL('https://bmemov.ru/updates/march2023/')">
 						<Label class="NewWidgetLabel" text="#Updatename"/>
 						<Panel id="DonateInformation_2">
 							<Label id="TipLabel" text="#Updatedescription"/>

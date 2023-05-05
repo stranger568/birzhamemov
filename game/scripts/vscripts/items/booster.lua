@@ -112,6 +112,7 @@ function modifier_modifier_eul_cyclone_birzha:HorizontalMotion(unit, time)
         self.cyc_pos.z = self.cyc_pos.z - self.step
         self:GetParent():SetAbsOrigin(self.cyc_pos)
     end
+    if self:GetParent():HasModifier("modifier_Zema_Cosmo_Ray_caster_dummy") then self:Destroy() end
 end
 
 function modifier_modifier_eul_cyclone_birzha:OnDestroy()

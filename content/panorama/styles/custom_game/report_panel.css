@@ -5,15 +5,24 @@
 
 #ReportPanel {
     align: center center;
-    width: 500px;
-    height: 300px;
+    width: 90%;
+    height: 90%;
     background-image: url("s2r://panorama/images/conduct/ovw_bg_png.vtex");
     background-color: #000000;
     background-size: cover;
     border: 1px solid #333333;
-    margin-bottom: 10%;
     flow-children: down;
     visibility: collapse;
+}
+
+.ReportPanelLabel
+{
+    align: center center;
+    color: red;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
 }
 
 .ReportPanelPlayerInfo {

@@ -52,10 +52,10 @@ function SwapLeaders(panel, button)
 
 (function()
 {
-    iIndexTip = RandomTipIndex();
-    var sTip = "#LoadingTip_" + iIndexTip;
-    $("#TipLabel").text=$.Localize(sTip);
-    NextTip_Delay();
+    //iIndexTip = RandomTipIndex();
+    //var sTip = "#LoadingTip_" + iIndexTip;
+    //$("#TipLabel").text=$.Localize(sTip);
+    //NextTip_Delay();
     $.CreatePanelWithProperties("MoviePanel", $("#CustomBg"), "Movie", { src: "file://{resources}/videos/custom_game/Loading/outlanders_header.webm", repeat:"true", autoplay:"onload" });
 })();
 

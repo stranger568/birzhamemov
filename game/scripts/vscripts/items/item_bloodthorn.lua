@@ -94,16 +94,16 @@ function modifier_item_bloodthorn_arena:OnAttackLanded(params)
 	if(target:GetMana() >= manaBurn) then
 		damageTable.damage = manaBurn * manaDamage
 		if not self:GetParent():IsIllusion() then
-			target:ReduceMana(manaBurn)
+			target:Script_ReduceMana(manaBurn, self:GetAbility())
 		else
-			target:ReduceMana(self:GetAbility():GetSpecialValueFor("mana_per_hit_illusion"))
+			target:Script_ReduceMana(self:GetAbility():GetSpecialValueFor("mana_per_hit_illusion"), self:GetAbility())
 		end
 	else
 		damageTable.damage = target:GetMana() * manaDamage
 		if not self:GetParent():IsIllusion() then
-			target:ReduceMana(manaBurn)
+			target:Script_ReduceMana(manaBurn, self:GetAbility())
 		else
-			target:ReduceMana(self:GetAbility():GetSpecialValueFor("mana_per_hit_illusion"))
+			target:Script_ReduceMana(self:GetAbility():GetSpecialValueFor("mana_per_hit_illusion"), self:GetAbility())
 		end
 	end
 

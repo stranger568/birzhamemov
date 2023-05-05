@@ -238,7 +238,7 @@ function modifier_ns_TricksMaster:OnIntervalThink()
     if not IsServer() then return end
     if self:GetParent():IsIllusion() then return end
     if self:GetAbility():IsFullyCastable() then
-        self:GetAbility():UseResources(false, false, true)
+        self:GetAbility():UseResources(false, false, false, true)
         local bonus_intellect = self:GetAbility():GetSpecialValueFor("bonus_intellect")
         self:SetStackCount(self:GetStackCount() + bonus_intellect)
     end
