@@ -252,7 +252,6 @@ function modifier_Garold_HidePain_passive:DeclareFunctions()
     {
         MODIFIER_EVENT_ON_ATTACK_LANDED,
         MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
-        MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
         MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,
         MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT,
     }
@@ -283,11 +282,6 @@ end
 function modifier_Garold_HidePain_passive:GetModifierPhysicalArmorBonus()
     if self:GetParent():IsIllusion() or self:GetParent():PassivesDisabled() then return end
     return self:GetStackCount() * self:GetAbility():GetSpecialValueFor("armor")
-end
-
-function modifier_Garold_HidePain_passive:GetModifierConstantHealthRegen()
-    if self:GetParent():IsIllusion() or self:GetParent():PassivesDisabled() then return end
-    return self:GetStackCount() * self:GetAbility():GetSpecialValueFor("regen")
 end
 
 function modifier_Garold_HidePain_passive:GetModifierMagicalResistanceBonus()

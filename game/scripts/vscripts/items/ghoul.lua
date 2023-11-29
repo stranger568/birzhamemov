@@ -67,7 +67,6 @@ function modifier_item_ghoul:OnHeroKilled(params)
     if params.attacker == self:GetParent() then
         if params.target == self:GetParent() then return end
         if params.attacker:HasModifier("modifier_item_ghoul_buff") then
-            donate_shop:QuestProgress(9, self:GetParent():GetPlayerOwnerID(), 1)
             self:GetAbility():SetCurrentCharges(self:GetAbility():GetCurrentCharges() + 1)
         end
     end

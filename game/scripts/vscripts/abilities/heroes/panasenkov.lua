@@ -13,7 +13,7 @@ function Panasenkov_catch:GetManaCost(level)
 end
 
 function Panasenkov_catch:GetCastRange(location, target)
-    return self.BaseClass.GetCastRange(self, location, target) + self:GetCaster():FindTalentValue("special_bonus_birzha_ponasenkov_4")
+    return self.BaseClass.GetCastRange(self, location, target)
 end
 
 function Panasenkov_catch:OnSpellStart()
@@ -197,7 +197,7 @@ end
 
 function Panasenkov_rakom:OnSpellStart()
 	if not IsServer() then return end
-	local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_ponasenkov_3")
+	local duration = self:GetSpecialValueFor("duration")
 
 	if self:GetCaster():HasShard() then
 		local targets = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetCursorPosition(), nil, self:GetSpecialValueFor("shard_radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, 0, 0, false )
@@ -218,7 +218,7 @@ end
 modifier_Panasenkov_rakom = class({})
 
 function modifier_Panasenkov_rakom:IsPurgable()
-	return true
+	return not self:GetCaster():HasTalent("special_bonus_birzha_ponasenkov_4")
 end
 
 function modifier_Panasenkov_rakom:OnCreated()
@@ -342,7 +342,7 @@ LinkLuaModifier( "modifier_Panasenkov_song", "abilities/heroes/panasenkov.lua", 
 Panasenkov_song = class({})
 
 function Panasenkov_song:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_ponasenkov_3")
 end
 function Panasenkov_song:GetManaCost(level)
     return self.BaseClass.GetManaCost(self, level)

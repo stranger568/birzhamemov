@@ -45,29 +45,17 @@ function Pocik_VerySmall:OnProjectileHit_ExtraData(target, vLocation, table)
     if target ~= nil and ( not target:IsMagicImmune() ) and ( not target:TriggerSpellAbsorb( self ) ) then
         local gold_to_damage_ratio = self:GetSpecialValueFor("gold_to_damage_ratio")
         local gold_damage = math.floor(target:GetGold() * gold_to_damage_ratio * 0.01)
-
-        if self:GetCaster():HasTalent("special_bonus_birzha_pocik_4") then
-            gold_damage = math.floor(self:GetCaster():GetGold() * gold_to_damage_ratio * 0.01)
-        end
-
         if self:GetCaster():HasTalent("special_bonus_birzha_pocik_3") then
             local bonus_damage = math.floor(target:GetGold() * self:GetCaster():FindTalentValue("special_bonus_birzha_pocik_3") * 0.01)
             local modifier = self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Pocik_VerySmall_buff", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_pocik_3", "value2"), bonus_damage = bonus_damage})
         end
-
-
         gold_damage = math.min(gold_damage, 1000)
-
         if table.scepter == 1 or table.scepter == true then
             gold_damage = math.min(gold_damage, 250)
         end
-
-        gold_damage = gold_damage + self:GetSpecialValueFor("base_damage")
-
+        gold_damage = gold_damage + self:GetSpecialValueFor("base_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_pocik_6")
         ApplyDamage({ victim = target, attacker = self:GetCaster(), damage = gold_damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self}) 
-
         target:EmitSound("pocikxyli")
-        
         target:EmitSound("DOTA_Item.Hand_Of_Midas")
     end
 
@@ -113,6 +101,7 @@ function modifier_Pocik_VerySmall_buff:GetModifierPreAttack_BonusDamage()
 end
 
 LinkLuaModifier("modifier_pocik_bash", "abilities/heroes/boy.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_pocik_bash_buff", "abilities/heroes/boy.lua", LUA_MODIFIER_MOTION_NONE)
 
 Pocik_pizda = class({})
 
@@ -165,6 +154,10 @@ function modifier_pocik_bash:GetModifierProcAttack_BonusDamage_Physical(params)
         ParticleManager:ReleaseParticleIndex(crit_pfx_item)
     end
 
+    if self:GetCaster():HasTalent("special_bonus_birzha_pocik_4") then
+        self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_pocik_bash_buff", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_pocik_4", "value2")})
+    end
+
     params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_bashed", {duration = duration})
 
     if self:GetCaster():HasScepter() then
@@ -186,6 +179,20 @@ function modifier_pocik_bash:GetModifierProcAttack_BonusDamage_Physical(params)
     end
 
     return damage
+end
+
+modifier_pocik_bash_buff = class({})
+function modifier_pocik_bash_buff:DeclareFunctions()
+    return
+    {
+        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT
+    }
+end
+function modifier_pocik_bash_buff:GetModifierAttackSpeedBonus_Constant()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_pocik_4")
+end
+function modifier_pocik_bash_buff:GetEffectName()
+    return "particles/dangerous_boy_speed_buff.vpcf"
 end
 
 LinkLuaModifier("modifier_ThisMyPoint_debuff", "abilities/heroes/boy.lua", LUA_MODIFIER_MOTION_NONE)
@@ -424,7 +431,7 @@ function modifier_Pocik_penek_passive:OnIntervalThink()
 
     for i,unit in ipairs(units) do
         local radius = self:GetAbility():GetSpecialValueFor( "radius" )
-        local heal_pct = self:GetAbility():GetSpecialValueFor( "pct_heal" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_pocik_6")
+        local heal_pct = self:GetAbility():GetSpecialValueFor( "pct_heal" )
         local heal = unit:GetMaxHealth() / 100 * heal_pct
         local damage_pct = self:GetCaster():FindTalentValue("special_bonus_birzha_pocik_5")
         local target_health_percentage = unit:GetMaxHealth() / 100
@@ -562,7 +569,7 @@ function modifier_Pocik_penek_passive_shard:OnIntervalThink()
 end
 
 function modifier_Pocik_penek_passive_shard:PlayEffects()
-    local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_puck/puck_dreamcoil_tether.vpcf", PATTACH_ABSORIGIN, self:GetParent() )
+    local effect_cast = ParticleManager:CreateParticle( "particles/pocik_tether.vpcf", PATTACH_ABSORIGIN, self:GetParent() )
     ParticleManager:SetParticleControl( effect_cast, 0, self.center )
     ParticleManager:SetParticleControlEnt( effect_cast, 1, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetOrigin(), true )
     self:AddParticle( effect_cast, false, false, -1, false, false )

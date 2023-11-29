@@ -1,4 +1,5 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_gachi_binding", "abilities/heroes/gachi.lua", LUA_MODIFIER_MOTION_NONE )
 
 Gachi_Binding = class({})
 
@@ -14,46 +15,35 @@ function Gachi_Binding:GetManaCost(level)
     return self.BaseClass.GetManaCost(self, level)
 end
 
-function Gachi_Binding:CastFilterResultTarget( hTarget )
-    if hTarget:IsMagicImmune() and (not self:GetCaster():HasShard()) then
-        return UF_FAIL_MAGIC_IMMUNE_ENEMY
-    end
-
-    if not IsServer() then return UF_SUCCESS end
-    local nResult = UnitFilter(
-        hTarget,
-        self:GetAbilityTargetTeam(),
-        self:GetAbilityTargetType(),
-        self:GetAbilityTargetFlags(),
-        self:GetCaster():GetTeamNumber()
-    )
-
-    if nResult ~= UF_SUCCESS then
-        return nResult
-    end
-
-    return UF_SUCCESS
-end
-
 function Gachi_Binding:OnSpellStart()
 	if not IsServer() then return end
 	local target = self:GetCursorTarget()
-	local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_gachi_1")
+	local duration = self:GetSpecialValueFor("duration")
+    local radius = self:GetSpecialValueFor("radius")
+    local has_van = false
 
-    if target:TriggerSpellAbsorb( self ) then
-        return
+    local flag = 0
+    if self:GetCaster():HasShard() then
+        flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
     end
 
-	target:AddNewModifier(self:GetCaster(), self, "modifier_gachi_binding", {duration = duration * (1 - target:GetStatusResistance())})
+	local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NO_INVIS + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE + flag, FIND_ANY_ORDER, false)
+    for i = 1, 2 do
+        local target = enemies[i] 
+		if target then
+            if target:GetUnitName() == "npc_dota_hero_void_spirit" then
+                has_van = true
+            end
+            target:AddNewModifier(self:GetCaster(), self, "modifier_gachi_binding", {duration = duration * (1 - target:GetStatusResistance())})
+		end
+	end
 
-	target:EmitSound("gachifuck")
+	self:GetCaster():EmitSound("gachifuck")
 
-	if target:GetUnitName() == "npc_dota_hero_void_spirit" then
-		target:EmitSound("VanBilly")
+	if has_van then
+		self:GetCaster():EmitSound("VanBilly")
 	end
 end
-
-LinkLuaModifier( "modifier_gachi_binding", "abilities/heroes/gachi.lua", LUA_MODIFIER_MOTION_NONE )
 
 modifier_gachi_binding = class({})
 
@@ -62,6 +52,21 @@ function modifier_gachi_binding:OnCreated()
     local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_treant/treant_overgrowth_vines.vpcf", PATTACH_CUSTOMORIGIN, self:GetParent())
     ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
     self:AddParticle(particle, false, false, -1, false, false)
+    self.damage = self:GetAbility():GetSpecialValueFor("damage") * 0.1
+    self:StartIntervalThink(0.1)
+end
+
+function modifier_gachi_binding:GetEffectName()
+	return "particles/units/heroes/hero_ember_spirit/ember_spirit_searing_chains_debuff.vpcf"
+end
+
+function modifier_gachi_binding:GetEffectAttachType()
+	return PATTACH_ABSORIGIN_FOLLOW
+end
+
+function modifier_gachi_binding:OnIntervalThink()
+    if not IsServer() then return end
+    ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), ability = self:GetAbility(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL})
 end
 
 function modifier_gachi_binding:CheckState()
@@ -126,6 +131,7 @@ modifier_gachi_armor_buff_scepter = class({})
 function modifier_gachi_armor_buff_scepter:IsPurgable() return false end
 
 function modifier_gachi_armor_buff_scepter:OnCreated()
+    self.start_shield = self:GetAbility():GetSpecialValueFor("scepter_damage_inc")
 	if not IsServer() then return end
 	self.damage_absorb = self:GetAbility():GetSpecialValueFor("scepter_damage_inc")
 	self:SetStackCount(self.damage_absorb)
@@ -136,6 +142,7 @@ function modifier_gachi_armor_buff_scepter:OnCreated()
 end
 
 function modifier_gachi_armor_buff_scepter:OnRefresh(keys)
+    self.start_shield = self:GetAbility():GetSpecialValueFor("scepter_damage_inc")
     if not IsServer() then return end
 	self.damage_absorb = self:GetAbility():GetSpecialValueFor("scepter_damage_inc")
 	self:SetStackCount(self.damage_absorb)
@@ -172,8 +179,11 @@ function modifier_gachi_armor_buff_scepter:GetModifierTotal_ConstantBlock(kv)
     end
 end
 
-function modifier_gachi_armor_buff_scepter:GetModifierIncomingPhysicalDamageConstant()
+function modifier_gachi_armor_buff_scepter:GetModifierIncomingPhysicalDamageConstant(params)
     if (not IsServer()) then
+        if params.report_max then
+            return self.start_shield
+        end
         return self:GetStackCount()
     end
 end
@@ -194,17 +204,11 @@ function modifier_gachi_armor_buff:DeclareFunctions()
 end
 
 function modifier_gachi_armor_buff:GetModifierPhysicalArmorBonus()
-    if not self:GetCaster():HasTalent("special_bonus_birzha_gachi_3") then
-        if self:GetParent():PassivesDisabled() then return end
-    end
-    return self:GetAbility():GetSpecialValueFor("armor")
+    return self:GetAbility():GetSpecialValueFor("armor") + self:GetCaster():FindTalentValue("special_bonus_birzha_gachi_2")
 end
 
 function modifier_gachi_armor_buff:GetModifierConstantHealthRegen()
-    if not self:GetCaster():HasTalent("special_bonus_birzha_gachi_3") then
-        if self:GetParent():PassivesDisabled() then return end
-    end
-    return self:GetAbility():GetSpecialValueFor("regen")
+    return self:GetAbility():GetSpecialValueFor("regen") + self:GetCaster():FindTalentValue("special_bonus_birzha_gachi_1")
 end
 
 LinkLuaModifier("modifier_gachi_hitonass", "abilities/heroes/gachi.lua", LUA_MODIFIER_MOTION_NONE)
@@ -261,6 +265,11 @@ function modifier_gachi_hitonass:OnAttackLanded(params)
 
 	params.target:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_gachi_HitOnAss_slow", {duration = duration * (1-params.target:GetStatusResistance())})
 
+    if self:GetCaster():HasTalent("special_bonus_birzha_gachi_3") then
+        local heal = params.damage / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_gachi_3")
+        self:GetCaster():Heal(heal, nil)
+    end
+
     if params.target:IsRealHero() and params.target:GetPlayerID() then
     	local gold = math.min(self:GetAbility():GetSpecialValueFor("gold"), PlayerResource:GetUnreliableGold(params.target:GetPlayerID()))
 		params.target:ModifyGold(-gold, false, 0)
@@ -277,16 +286,12 @@ end
 modifier_gachi_HitOnAss_slow = class({})
 
 function modifier_gachi_HitOnAss_slow:DeclareFunctions()
-    local declfuncs = {MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT}
+    local declfuncs = {MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE}
     return declfuncs
 end
 
 function modifier_gachi_HitOnAss_slow:GetModifierMoveSpeedBonus_Percentage()
     return self:GetAbility():GetSpecialValueFor("bonus_movespeed")
-end
-
-function modifier_gachi_HitOnAss_slow:GetModifierAttackSpeedBonus_Constant()
-    return self:GetCaster():FindTalentValue("special_bonus_birzha_gachi_2")
 end
 
 function modifier_gachi_HitOnAss_slow:StatusEffectPriority()
@@ -330,7 +335,7 @@ function modifier_gachipower:DeclareFunctions()
 end
 
 function modifier_gachipower:GetModifierBonusStats_Agility()
-	return self:GetAbility():GetSpecialValueFor("agility_bonus") + self:GetStackCount()
+	return self:GetAbility():GetSpecialValueFor("agility_bonus") + self:GetStackCount() + self:GetCaster():FindTalentValue("special_bonus_birzha_gachi_4")
 end
 
 function modifier_gachipower:GetEffectName()
@@ -365,7 +370,7 @@ function modifier_gachipower:OnAttackLanded( params )
     if params.target:IsWard() then return end
     if not params.target:IsRealHero() then return end
 
-	local attribute = self:GetAbility():GetSpecialValueFor("attribute") + self:GetCaster():FindTalentValue("special_bonus_birzha_gachi_4")
+	local attribute = self:GetAbility():GetSpecialValueFor("attribute") + self:GetCaster():FindTalentValue("special_bonus_birzha_gachi_4", "value2")
 		
 	if not params.target:HasModifier("modifier_GachiPower_target") then
 		params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_gachipower_target", {})

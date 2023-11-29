@@ -88,11 +88,11 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 
 		if (info)
 		{
-			_ScoreboardUpdater_SetTextSafe( playerPanel, "Mmr", (info.mmr[13] || 0) );
+			_ScoreboardUpdater_SetTextSafe( playerPanel, "Mmr", (info.mmr[GetCurrentSeasonNumber()] || 0) );
 			var mmr_label = GetMmrLabel(playerPanel);
 			if (mmr_label)
 			{
-				mmr_label.text =  'MMR: ' + (info.mmr[13] || 0);
+				mmr_label.text =  'MMR: ' + (info.mmr[GetCurrentSeasonNumber()] || 0);
 			}
 			var bonus_mmr = CustomNetTables.GetTableValue('bonus_rating', String(playerId));
 			if (bonus_mmr)
@@ -115,7 +115,7 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 				_ScoreboardUpdater_SetTextSafe( playerPanel, "DogePlus", bonus_dogecoin.coin );
 			}
 			let rat_clib = " "
-			let calibrating_check = String(info.games_calibrating[13])
+			let calibrating_check = String(info.games_calibrating[GetCurrentSeasonNumber()])
 
 			if (calibrating_check == "undefined")
 			{
@@ -127,7 +127,7 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 				rat_clib = "<font color='gold'>" + "(" + calibrating_check + ")" + "</font>"
 			}
 
-			_ScoreboardUpdater_SetTextSafe( playerPanel, "PlayerMmr", (info.mmr[13] || 2500) + rat_clib);
+			_ScoreboardUpdater_SetTextSafe( playerPanel, "PlayerMmr", (info.mmr[GetCurrentSeasonNumber()] || 2500) + rat_clib);
 		}
 
 		var game_start = CustomNetTables.GetTableValue('game_state', "pickstate");
@@ -139,11 +139,6 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 			}
 		}
 
-		var playernamepanel = playerPanel.FindChildInLayoutFile( "tophud_player_name_panel" );
-		if ( playernamepanel )
-		{
-			playernamepanel.style.backgroundColor = GameUI.CustomUIConfig().team_colors[Players.GetTeam(playerId)] || 'white';
-		}
 		var playername = playerPanel.FindChildInLayoutFile( "tophud_player_name" );
 		if ( playername )
 		{
@@ -255,17 +250,19 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 	}
 
 	var tip_cooldown_label = CustomNetTables.GetTableValue("tip_cooldown", Players.GetLocalPlayer());
-
 	if (tip_cooldown_label)
 	{
-		if (GameUI.IsAltDown() && (playerId != Game.GetLocalPlayerID()) ) {
+		if (GameUI.IsAltDown() && (playerId != Game.GetLocalPlayerID()) ) 
+        {
 			if (!playerPanel.BHasClass("player_connection_abandoned") && !playerPanel.BHasClass("player_connection_failed") && !playerPanel.BHasClass("player_connection_disconnected"))
 			{
 				playerPanel.SetHasClass( "alt_health_check", true );
 			} else {
 				playerPanel.SetHasClass( "alt_health_check", false );
 			}
-		} else {
+		} 
+        else 
+        {
 			playerPanel.SetHasClass( "alt_health_check", false );
 		}  
 		if (tip_cooldown_label.cooldown > 0)
@@ -289,7 +286,9 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 			{
 				playerPanel.FindChildInLayoutFile("TipText").text = min + ':' + sec
 			}
-		} else {
+		} 
+        else 
+        {
 			SetPSelectEvent(playerPanel.FindChildInLayoutFile("TipButtonCustom"), false, playerId)
 			if (playerPanel.FindChildInLayoutFile("TipText"))
 			{
@@ -451,8 +450,8 @@ function ReportPlayerFunction(report_id) {
 
 CustomNetTables.SubscribeNetTableListener( "birzhainfo", UpdateBorderPlayer );
 
-function UpdateBorderPlayer(table, key, data ) {
-	$.Msg("dada")
+function UpdateBorderPlayer(table, key, data ) 
+{
 	if (table == "birzhainfo") 
 	{
 		//if (key == Players.GetLocalPlayer()) {
@@ -556,14 +555,30 @@ function _ScoreboardUpdater_UpdateTeamPanel( scoreboardConfig, containerPanel, t
 		if (game_start.v == "ended")
 		{
 			let table_score_team = CustomNetTables.GetTableValue("game_state", String(teamId))
-			if (table_score_team) {
+			if (table_score_team) 
+            {
 				_ScoreboardUpdater_SetTextSafe( teamPanel, "TeamScore", table_score_team.kills )
+                let teamscorewithimage = teamPanel.FindChildTraverse("TeamScoreWithImage")
+                if (teamscorewithimage)
+                {
+                    teamscorewithimage.style.opacity = "1"
+                }
 			}
 		} else {
 			_ScoreboardUpdater_SetTextSafe( teamPanel, "TeamScore", " " )
+            let teamscorewithimage = teamPanel.FindChildTraverse("TeamScoreWithImage")
+            if (teamscorewithimage)
+            {
+                teamscorewithimage.style.opacity = "0"
+            }
 		}
 	} else {
 		_ScoreboardUpdater_SetTextSafe( teamPanel, "TeamScore", " " )
+        let teamscorewithimage = teamPanel.FindChildTraverse("TeamScoreWithImage")
+        if (teamscorewithimage)
+        {
+            teamscorewithimage.style.opacity = "0"
+        }
 	}
 
 	_ScoreboardUpdater_SetTextSafe( teamPanel, "TeamName", $.Localize( "#" + teamDetails.team_name ) )
@@ -810,7 +825,7 @@ function AddDonateStatus(panel)
 
 		var border_bp = $.CreatePanel('Panel', HeroPortrait, 'border_bp');
 		border_bp.AddClass('border_bp');
-		$.CreatePanelWithProperties("DOTAScenePanel", HeroPortrait, "gold_particle", { style: "width:150px;height:200px;", map: "heroes", particleonly:"false", camera:"bp_effect" });
+		$.CreatePanel("DOTAScenePanel", HeroPortrait, "gold_particle", { style: "width:150px;height:200px;", map: "heroes", particleonly:"false", camera:"bp_effect" });
 	}
 }
 
@@ -823,7 +838,7 @@ function AddBorderSnow(panel)
 		var HeroPortrait = playerPortrait.FindChild('HeroIcon');
 		var border_bp = $.CreatePanel('Panel', HeroPortrait, 'border_bp');
 		border_bp.AddClass('border_snow');
-		$.CreatePanelWithProperties("DOTAScenePanel", HeroPortrait, "gold_particle", { style: "width:150px;height:200px;", map: "heroes", particleonly:"false", camera:"snow_effect" });
+		$.CreatePanel("DOTAScenePanel", HeroPortrait, "gold_particle", { style: "width:150px;height:200px;", map: "heroes", particleonly:"false", camera:"snow_effect" });
 	}
 }
 
@@ -833,7 +848,7 @@ function AddBorderBlackHole(panel)
 	if (playerPortrait)
 	{
 		var HeroPortrait = playerPortrait.FindChild('HeroIcon');
-		$.CreatePanelWithProperties("DOTAParticleScenePanel", HeroPortrait, "gold_particle", { style: "width:150px;height:200px;", particleName: "particles/units/heroes/hero_enigma/enigma_blackhole_l.vpcf", particleonly:"true", startActive:"true", cameraOrigin:"150 150 150", lookAt:"0 0 0",  fov:"50", squarePixels:"false" });
+		$.CreatePanel("DOTAParticleScenePanel", HeroPortrait, "gold_particle", { style: "width:150px;height:200px;", particleName: "particles/units/heroes/hero_enigma/enigma_blackhole_l.vpcf", particleonly:"true", startActive:"true", cameraOrigin:"150 150 150", lookAt:"0 0 0",  fov:"50", squarePixels:"false" });
 		var border_bp = $.CreatePanel('Panel', HeroPortrait, 'border_bp');
 		border_bp.AddClass('border_blackhole');
 	}
@@ -845,7 +860,7 @@ function AddBorderAnimationSnake(panel)
 	if (playerPortrait)
 	{
 		var HeroPortrait = playerPortrait.FindChild('HeroIcon');
-		$.CreatePanelWithProperties("DOTAParticleScenePanel", HeroPortrait, "gold_particle", { style: "width:150px;height:200px;", particleName: "particles/donate/gold_icon_bp_3.vpcf", particleonly:"true", startActive:"true", cameraOrigin:"0 0 165", lookAt:"0 0 0",  fov:"55", squarePixels:"true" });
+		$.CreatePanel("DOTAParticleScenePanel", HeroPortrait, "gold_particle", { style: "width:150px;height:200px;", particleName: "particles/donate/gold_icon_bp_3.vpcf", particleonly:"true", startActive:"true", cameraOrigin:"0 0 165", lookAt:"0 0 0",  fov:"55", squarePixels:"true" });
 	}
 } 
 
@@ -856,7 +871,7 @@ function AddBorderRubickGreen(panel)
 	if (playerPortrait)
 	{
 		var HeroPortrait = playerPortrait.FindChild('HeroIcon');
-		$.CreatePanelWithProperties("DOTAScenePanel", HeroPortrait, "gold_particle", { style: "width:150px;height:200px;", map: "maps/scenes/hud/rubickarcanagreen.vmap", particleonly:"false", camera:"camera_1" });
+		$.CreatePanel("DOTAScenePanel", HeroPortrait, "gold_particle", { style: "width:150px;height:200px;", map: "maps/scenes/hud/rubickarcanagreen.vmap", particleonly:"false", camera:"camera_1" });
 		var border_bp = $.CreatePanel('Panel', HeroPortrait, 'border_bp');
 		border_bp.AddClass('border_rubick');
 	}
@@ -868,9 +883,9 @@ function AddBorderGachi(panel)
 	if (playerPortrait)
 	{
 		var HeroPortrait = playerPortrait.FindChild('HeroIcon');
-		//$.CreatePanelWithProperties("DOTAScenePanel", HeroPortrait, "gold_particle", { style: "width:100%;height:100%;align:center center;", renderdeferred: "true", deferredalpha: "true", antialias: "true", hittest: "false", particleonly: "true", map: "heroes", particleonly:"true", camera:"gachi_effect" });
+		//$.CreatePanel("DOTAScenePanel", HeroPortrait, "gold_particle", { style: "width:100%;height:100%;align:center center;", renderdeferred: "true", deferredalpha: "true", antialias: "true", hittest: "false", particleonly: "true", map: "heroes", particleonly:"true", camera:"gachi_effect" });
 		var border_bp = $.CreatePanel('Panel', HeroPortrait, 'border_bp');
-		$.CreatePanelWithProperties("DOTAParticleScenePanel", HeroPortrait, "gold_particle", { style: "width:150px;height:200px;", particleName: "particles/borders/border_effect_4.vpcf", particleonly:"true", startActive:"true", cameraOrigin:"0 0 165", lookAt:"0 0 0",  fov:"37", squarePixels:"true" });
+		$.CreatePanel("DOTAParticleScenePanel", HeroPortrait, "gold_particle", { style: "width:150px;height:200px;", particleName: "particles/borders/border_effect_4.vpcf", particleonly:"true", startActive:"true", cameraOrigin:"0 0 165", lookAt:"0 0 0",  fov:"37", squarePixels:"true" });
 	}
 }
 
@@ -880,9 +895,9 @@ function AddBorderRoflan(panel)
 	if (playerPortrait)
 	{
 		var HeroPortrait = playerPortrait.FindChild('HeroIcon');
-		//$.CreatePanelWithProperties("DOTAScenePanel", HeroPortrait, "gold_particle", { style: "width:100%;height:100%;align:center center;", map: "heroes", particleonly:"true", camera:"roflan_effect" });
+		//$.CreatePanel("DOTAScenePanel", HeroPortrait, "gold_particle", { style: "width:100%;height:100%;align:center center;", map: "heroes", particleonly:"true", camera:"roflan_effect" });
 		var border_bp = $.CreatePanel('Panel', HeroPortrait, 'border_bp');
-		$.CreatePanelWithProperties("DOTAParticleScenePanel", HeroPortrait, "gold_particle", { style: "width:150px;height:200px;", particleName: "particles/borders/border_effect_5.vpcf", particleonly:"true", startActive:"true", cameraOrigin:"0 0 165", lookAt:"0 0 0",  fov:"35", squarePixels:"true" });
+		$.CreatePanel("DOTAParticleScenePanel", HeroPortrait, "gold_particle", { style: "width:150px;height:200px;", particleName: "particles/borders/border_effect_5.vpcf", particleonly:"true", startActive:"true", cameraOrigin:"0 0 165", lookAt:"0 0 0",  fov:"35", squarePixels:"true" });
 	}
 }
 
@@ -894,8 +909,8 @@ function AddBorderElectric(panel)
 		var HeroPortrait = playerPortrait.FindChild('HeroIcon');
 		var border_bp = $.CreatePanel('Panel', HeroPortrait, 'border_bp');
 		border_bp.AddClass('border_electric');
-		//$.CreatePanelWithProperties("DOTAScenePanel", HeroPortrait, "gold_particle", { style: "width:100%;height:100%;align:center center;", map: "heroes", particleonly:"true", camera:"electric_effect" });
-		$.CreatePanelWithProperties("DOTAParticleScenePanel", HeroPortrait, "gold_particle", { style: "width:150px;height:200px;", particleName: "particles/electric_border.vpcf", particleonly:"true", startActive:"true", cameraOrigin:"0 0 165", lookAt:"0 0 0",  fov:"45", squarePixels:"true" });
+		//$.CreatePanel("DOTAScenePanel", HeroPortrait, "gold_particle", { style: "width:100%;height:100%;align:center center;", map: "heroes", particleonly:"true", camera:"electric_effect" });
+		$.CreatePanel("DOTAParticleScenePanel", HeroPortrait, "gold_particle", { style: "width:150px;height:200px;", particleName: "particles/electric_border.vpcf", particleonly:"true", startActive:"true", cameraOrigin:"0 0 165", lookAt:"0 0 0",  fov:"45", squarePixels:"true" });
 	}
 }
 
@@ -962,15 +977,28 @@ function GetHeroRankIcon(level, days)
     }
 }
 
+var PANORAMA_TIP_COOLDOWN = false
+
 function SetPSelectEvent(panel, cooldown, player_id_tip)
 {
 	if (panel)
 	{
-		if ( cooldown ) { 
+		if ( cooldown ) 
+        { 
 			panel.SetPanelEvent("onactivate", function() {})
 	    	return
 		}
-	    panel.SetPanelEvent("onactivate", function() { 
+	    panel.SetPanelEvent("onactivate", function() 
+        { 
+            if (PANORAMA_TIP_COOLDOWN)
+            {
+                return
+            }
+            PANORAMA_TIP_COOLDOWN = true
+            $.Schedule( 1, function()
+            {
+	        	PANORAMA_TIP_COOLDOWN = false
+	        })
 	        GameEvents.SendCustomGameEventToServer("PlayerTip", {player_id_tip : player_id_tip});
 	        panel.SetPanelEvent("onactivate", function() {})
 	    })
@@ -985,8 +1013,6 @@ function HidePreGamePanels(panel)
 		Hpanel.style.visibility = 'collapse';
 	}
 }
-
-
 
 function player_has_item(id, item_id)
 {
@@ -1008,6 +1034,17 @@ function player_has_item(id, item_id)
 	    	}
 	    }
 	}
-
 	return false
+}
+
+function GetCurrentSeasonNumber()
+{
+	let table = CustomNetTables.GetTableValue("game_state", "birzha_gameinfo")
+	if (table)
+	{
+		if (table.season)
+		{
+			return Number(table.season)
+		}
+	}
 }

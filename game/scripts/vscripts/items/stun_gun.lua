@@ -66,18 +66,7 @@ function modifier_item_stun_gun:OnAttackLanded( params )
 	if params.attacker:GetUnitName() == "npc_palnoref_chariot_illusion" then return end
 	if params.attacker:GetUnitName() == "npc_palnoref_chariot_illusion_2" then return end
 	if self:GetParent():FindAllModifiersByName("modifier_item_stun_gun")[1] ~= self then return end
-
-	local chance = self:GetAbility():GetSpecialValueFor("chance")
-
-	if params.no_attack_cooldown then
-		local chance = self:GetAbility():GetSpecialValueFor("chance")
-		if self:GetAbility():IsFullyCastable() and (not self:GetCaster():IsRangedAttacker()) then
-			chance = self:GetAbility():GetSpecialValueFor("maximum_chance_tooltip")
-		end
-		if RollPercentage(chance) then
-			self.attack_record[params.record] = true
-		end
-	end
+	if params.no_attack_cooldown then return end
 
 	if self.attack_record[params.record] ~= nil then
 		if not params.attacker:IsRangedAttacker() then

@@ -180,11 +180,6 @@ function Ranger_GrenadeLauncher:OnProjectileHit( target, vLocation )
                 unit:AddNewModifier( self:GetCaster(), self, "modifier_Ranger_GrenadeLauncher_armor_debuff", { duration = self:GetCaster():FindTalentValue("special_bonus_birzha_ranger_5", "value2") * (1-unit:GetStatusResistance()) } )
             end
         end
-
-        local distance = (target:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Length2D()
-        if distance >= 2500 then
-            donate_shop:QuestProgress(43, self:GetCaster():GetPlayerOwnerID(), 1)
-        end
     end
     return true
 end
@@ -337,7 +332,7 @@ function Ranger_Jump:OnSpellStart()
     if not IsServer() then return end
     local leap_distance = self:GetSpecialValueFor("leap_distance") + self:GetCaster():FindTalentValue("special_bonus_birzha_ranger_3")
     local effect_cast = ParticleManager:CreateParticle( "particles/ranger_jump_receive.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
-    local knockback = self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_generic_knockback_lua", { distance = leap_distance, height = 200, duration = 0.6, direction_x = self:GetCaster():GetForwardVector().x, direction_y = self:GetCaster():GetForwardVector().y, IsStun = false} )
+    local knockback = self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_generic_knockback_lua", { distance = leap_distance, height = 200, duration = 0.3, direction_x = self:GetCaster():GetForwardVector().x, direction_y = self:GetCaster():GetForwardVector().y, IsStun = false} )
     self:GetCaster():EmitSound("rangerjump")
 
     local callback = function()
@@ -383,7 +378,7 @@ function Ranger_QuadDamage:OnSpellStart()
     if not IsServer() then return end
     self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_ranger_QuadDamage_buff", {} )
     self:GetCaster():EmitSound("rangerultimate")
-    local particle = ParticleManager:CreateParticle("particles/econ/items/earthshaker/earthshaker_totem_ti6/earthshaker_totem_ti6_cast.vpcf", PATTACH_CUSTOMORIGIN_FOLLOW, self:GetCaster())
+    local particle = ParticleManager:CreateParticle("particles/econ/items/earthshaker/earthshaker_totem_ti6/earthshaker_totem_ti6_cast_v2.vpcf", PATTACH_CUSTOMORIGIN_FOLLOW, self:GetCaster())
     ParticleManager:SetParticleControl(particle, 0, self:GetCaster():GetAbsOrigin())
     ParticleManager:ReleaseParticleIndex(particle)
 end

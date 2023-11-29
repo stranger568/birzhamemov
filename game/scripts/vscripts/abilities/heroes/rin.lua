@@ -75,7 +75,7 @@ function blue_incision:OnProjectileHit_ExtraData(target, location, ExtraData)
         ParticleManager:SetParticleControl( fire_pfx, 0, target:GetAbsOrigin() )
         ParticleManager:SetParticleControl( fire_pfx, 1, Vector(200 * 2,0,0) )
         ParticleManager:ReleaseParticleIndex( fire_pfx )
-        if self:GetCaster():HasTalent("special_bonus_birzha_rin_7") then
+        if self:GetCaster():HasTalent("special_bonus_birzha_rin_8") then
             self:GetCaster():PerformAttack(target, true, true, true, false, false, false, true)
         end
         if self:GetCaster():HasShard() then
@@ -402,11 +402,13 @@ function modifier_rin_satana_explosion:OnCreated( kv )
     ParticleManager:SetParticleControl(particle_caster_ground_fx2, 0, self:GetCaster():GetAbsOrigin())
     ParticleManager:ReleaseParticleIndex(particle_caster_ground_fx2)
     self:StartIntervalThink( self.interval )
+    self:GetCaster():StartGesture(ACT_DOTA_OVERRIDE_ABILITY_6)
 end
 
 function modifier_rin_satana_explosion:OnDestroy()
     if not IsServer() then return end
     self:GetCaster():StopSound("rinultimate")
+    self:GetCaster():RemoveGesture(ACT_DOTA_OVERRIDE_ABILITY_6)
 end
 
 function modifier_rin_satana_explosion:DeclareFunctions()

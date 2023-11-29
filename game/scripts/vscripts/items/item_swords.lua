@@ -907,15 +907,7 @@ function modifier_item_manta_custom_invulnerable:OnDestroy()
         end
     end
 
-	if self:GetCaster().lostvane_illusions ~= nil and self:GetCaster().lostvane_illusions[1] then
-		self:GetCaster().lostvane_illusions[1]:ForceKill(false)
-	end
-
-	if self:GetCaster().lostvane_illusions ~= nil and self:GetCaster().lostvane_illusions[2] then
-		self:GetCaster().lostvane_illusions[2]:ForceKill(false)
-	end
-
-    AddFOWViewer(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), self:GetAbility():GetSpecialValueFor("vision_radius"), 1, false)
+    AddFOWViewer(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), self:GetAbility():GetSpecialValueFor("vision_radius"), 1, true)
 
     local damage = self:GetAbility():GetSpecialValueFor("images_do_damage_percent_melee")
 
@@ -971,31 +963,32 @@ function item_lostvane_custom:OnSpellStart()
     ProjectileManager:ProjectileDodge(self:GetCaster())
 end
 
+function item_lostvane_custom:CreateIllusion(count, damage, inc_damage)
+    for i=1, count do
+	    local illusions = BirzhaCreateIllusion(self:GetCaster(), self:GetCaster(), 
+	    {
+	        outgoing_damage = damage,
+	        incoming_damage = inc_damage,
+	        bounty_base     = self:GetCaster():GetLevel()*2, 
+	        bounty_growth   = nil,
+	        outgoing_damage_structure   = nil,
+	        outgoing_damage_roshan      = nil,
+	        duration        = self:GetSpecialValueFor("illusion_duration")
+	    }, 1, 108, true, true)
+	    for _, illusion in pairs(illusions) do
+	    	illusion:AddNewModifier(self:GetCaster(), self, "modifier_item_lostvane_custom_custom_flaso", {})
+	    	illusion.manta = true
+    		illusion:RemoveGesture(ACT_DOTA_SPAWN)
+	    end
+    end
+end
+
 modifier_item_lostvane_custom_custom_passive = class({})
 
 function modifier_item_lostvane_custom_custom_passive:IsHidden() return true end
 function modifier_item_lostvane_custom_custom_passive:IsPurgable() return false end
 function modifier_item_lostvane_custom_custom_passive:IsPurgeException() return false end
 function modifier_item_lostvane_custom_custom_passive:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
-
-function modifier_item_lostvane_custom_custom_passive:OnCreated()
-	if not IsServer() then return end
-	if self:GetCaster().lostvane_illusions == nil then
-		self:GetCaster().lostvane_illusions = {}
-	end
-	self:StartIntervalThink(FrameTime())
-end
-
-function modifier_item_lostvane_custom_custom_passive:OnIntervalThink()
-	if not IsServer() then return end
-	for i = #self:GetCaster().lostvane_illusions, 1, -1 do
-        if self:GetCaster().lostvane_illusions[i] ~= nil then
-            if self:GetCaster().lostvane_illusions[i] and ( self:GetCaster().lostvane_illusions[i]:IsNull() or not self:GetCaster().lostvane_illusions[i]:IsAlive() ) then
-                table.remove(self:GetCaster().lostvane_illusions, i)
-            end
-        end
-    end
-end
 
 function modifier_item_lostvane_custom_custom_passive:DeclareFunctions()
 	local funcs = 
@@ -1005,7 +998,8 @@ function modifier_item_lostvane_custom_custom_passive:DeclareFunctions()
 		MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
 		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
 		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
-		MODIFIER_PROPERTY_ATTACK_RANGE_BONUS_UNIQUE,
+		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
+		MODIFIER_PROPERTY_EVASION_CONSTANT,
 		MODIFIER_EVENT_ON_ATTACK_LANDED,
 	}
 	return funcs
@@ -1036,11 +1030,12 @@ function modifier_item_lostvane_custom_custom_passive:GetModifierBonusStats_Stre
 	return self:GetAbility():GetSpecialValueFor("bonus_strength") 
 end
  
-function modifier_item_lostvane_custom_custom_passive:GetModifierAttackRangeBonusUnique()
-    if not self:GetParent():IsRangedAttacker() then 
-    	return self:GetAbility():GetSpecialValueFor("bonus_ranged_range")
-    end
-    return self:GetAbility():GetSpecialValueFor("bonus_melee_range")
+function modifier_item_lostvane_custom_custom_passive:GetModifierPreAttack_BonusDamage()
+    return self:GetAbility():GetSpecialValueFor("bonus_damage")
+end
+
+function modifier_item_lostvane_custom_custom_passive:GetModifierEvasion_Constant()
+    return self:GetAbility():GetSpecialValueFor("bonus_evasion")
 end
 
 function modifier_item_lostvane_custom_custom_passive:IsAura()
@@ -1050,7 +1045,6 @@ end
 function modifier_item_lostvane_custom_custom_passive:GetModifierAura()
     return "modifier_item_lostvane_custom_custom_passive_aura"
 end
-
 
 function modifier_item_lostvane_custom_custom_passive:GetAuraRadius()
     return -1
@@ -1069,7 +1063,7 @@ function modifier_item_lostvane_custom_custom_passive:GetAuraSearchType()
 end
 
 function modifier_item_lostvane_custom_custom_passive:GetAuraSearchFlags()
-    return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
+    return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE
 end
 
 function modifier_item_lostvane_custom_custom_passive:GetAuraEntityReject(target)
@@ -1078,20 +1072,6 @@ function modifier_item_lostvane_custom_custom_passive:GetAuraEntityReject(target
 	else
 		return true
 	end
-end
-
-modifier_item_lostvane_custom_custom_passive_aura = class({})
-
-function modifier_item_lostvane_custom_custom_passive_aura:DeclareFunctions()
-    return 
-    {
-        MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE
-    }
-end
-
-function modifier_item_lostvane_custom_custom_passive_aura:GetModifierDamageOutgoing_Percentage()
-	if not self:GetAbility() then return end
-    return self:GetAbility():GetSpecialValueFor("illusion_damage_pasisve")
 end
 
 function modifier_item_lostvane_custom_custom_passive:OnAttackLanded( params )
@@ -1114,6 +1094,24 @@ function modifier_item_lostvane_custom_custom_passive:OnAttackLanded( params )
 	end
 
 	YashaAttack(self:GetParent(), self:GetAbility(), "modifier_item_mem_yasha_stacks", "modifier_item_mem_yasha_proc")
+end
+
+modifier_item_lostvane_custom_custom_passive_aura = class({})
+
+function modifier_item_lostvane_custom_custom_passive_aura:OnCreated()
+	if not IsServer() then return end
+	self.damage = self:GetCaster():GetAttackDamage() / 100 * self:GetAbility():GetSpecialValueFor("illusion_damage_pasisve")
+end
+
+function modifier_item_lostvane_custom_custom_passive_aura:DeclareFunctions()
+    return 
+    {
+        MODIFIER_PROPERTY_BASEATTACK_BONUSDAMAGE
+    }
+end
+
+function modifier_item_lostvane_custom_custom_passive_aura:GetModifierBaseAttack_BonusDamage()
+    return self.damage
 end
 
 modifier_item_lostvane_custom_custom_invulnerable = class({})
@@ -1142,65 +1140,26 @@ function modifier_item_lostvane_custom_custom_invulnerable:OnDestroy()
         end
     end
 
-    AddFOWViewer(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), self:GetAbility():GetSpecialValueFor("vision_radius"), 1, false)
-
-    local damage = self:GetAbility():GetSpecialValueFor("images_do_damage_percent_melee")
-
-    if self:GetParent():IsRangedAttacker() then     
-        damage = self:GetAbility():GetSpecialValueFor("images_do_damage_percent_ranged")
-    end
+    AddFOWViewer(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), self:GetAbility():GetSpecialValueFor("vision_radius"), 1, true)
 
     local illusion_duration = self:GetAbility():GetSpecialValueFor("illusion_duration")
 	local illusion_out_damage_one = self:GetAbility():GetSpecialValueFor("illusion_out_damage_one") - 100
 	local illusion_in_damage_one = self:GetAbility():GetSpecialValueFor("illusion_in_damage_one") - 100
 	local illusion_out_damage_two = self:GetAbility():GetSpecialValueFor("illusion_out_damage_two") - 100
 	local illusion_in_damage_two = self:GetAbility():GetSpecialValueFor("illusion_in_damage_two") - 100
-
-	if #self:GetCaster().lostvane_illusions >= 4 then
-		if self:GetCaster().lostvane_illusions[1] then
-			self:GetCaster().lostvane_illusions[1]:ForceKill(false)
-		end
-		if self:GetCaster().lostvane_illusions[2] then
-			self:GetCaster().lostvane_illusions[2]:ForceKill(false)
-		end
-	end
+	local illusion_out_damage_three = self:GetAbility():GetSpecialValueFor("illusion_out_damage_three") - 100
+	local illusion_in_damage_three = self:GetAbility():GetSpecialValueFor("illusion_in_damage_three") - 100
+	local illusion_out_damage_four = self:GetAbility():GetSpecialValueFor("illusion_out_damage_four") - 100
+	local illusion_in_damage_four = self:GetAbility():GetSpecialValueFor("illusion_in_damage_four") - 100
 
 	local caster = self:GetCaster()
 	local ability = self:GetAbility()
 
 	Timers:CreateTimer(0, function()
-		if #caster.lostvane_illusions == 3 then
-			ability:CreateIllusion(1, illusion_out_damage_two, illusion_in_damage_two)
-		elseif #caster.lostvane_illusions == 2 then
-			ability:CreateIllusion(2, illusion_out_damage_two, illusion_in_damage_two)
-		elseif #caster.lostvane_illusions == 1 then
-			ability:CreateIllusion(1, illusion_in_damage_one, illusion_out_damage_one)
-			ability:CreateIllusion(1, illusion_out_damage_two, illusion_in_damage_two)
-		elseif #caster.lostvane_illusions == 0 then
-			ability:CreateIllusion(2, illusion_out_damage_one, illusion_in_damage_one)
-		end
+		ability:CreateIllusion(1, illusion_out_damage_one, illusion_in_damage_one)
+		ability:CreateIllusion(1, illusion_out_damage_two, illusion_in_damage_two)
+		ability:CreateIllusion(1, illusion_out_damage_three, illusion_in_damage_three)
 	end)
-end
-
-function item_lostvane_custom:CreateIllusion(count, damage, inc_damage)
-    for i=1, count do
-	    local illusions = BirzhaCreateIllusion(self:GetCaster(), self:GetCaster(), {
-	        outgoing_damage = damage,
-	        incoming_damage = inc_damage,
-	        bounty_base     = self:GetCaster():GetLevel()*2, 
-	        bounty_growth   = nil,
-	        outgoing_damage_structure   = nil,
-	        outgoing_damage_roshan      = nil,
-	        duration        = self:GetSpecialValueFor("illusion_duration")
-	    }, 1, 108, true, true)
-
-	    for _, illusion in pairs(illusions) do
-	    	illusion:AddNewModifier(self:GetCaster(), self, "modifier_item_lostvane_custom_custom_flaso", {})
-	    	illusion.lostvane = true
-	    	illusion:RemoveGesture(ACT_DOTA_SPAWN)
-	    	table.insert(self:GetCaster().lostvane_illusions, illusion)
-	    end
-    end
 end
 
 function modifier_item_lostvane_custom_custom_invulnerable:CheckState()
@@ -1213,7 +1172,6 @@ function modifier_item_lostvane_custom_custom_invulnerable:CheckState()
         [MODIFIER_STATE_NO_UNIT_COLLISION]  = true
     }
 end
-
 
 modifier_item_lostvane_custom_custom_flaso = class({})
 function modifier_item_lostvane_custom_custom_flaso:IsPurgable() return false end

@@ -331,6 +331,17 @@ function modifier_Miku_DanceSong_aura:GetAuraSearchTeam() return DOTA_UNIT_TARGE
 function modifier_Miku_DanceSong_aura:GetAuraSearchType() return DOTA_UNIT_TARGET_ALL end
 function modifier_Miku_DanceSong_aura:GetModifierAura() return "modifier_Miku_DanceSong_debuff" end
 
+function modifier_Miku_DanceSong_aura:DeclareFunctions()
+    return
+    {
+        MODIFIER_PROPERTY_TRANSLATE_ACTIVITY_MODIFIERS
+    }
+end
+
+function modifier_Miku_DanceSong_aura:GetActivityTranslationModifiers()
+    return "dance"
+end
+
 function modifier_Miku_DanceSong_aura:OnCreated()
 	if not IsServer() then return end
 	self.pfx = ParticleManager:CreateParticle("particles/units/heroes/hero_siren/naga_siren_song_aura.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())

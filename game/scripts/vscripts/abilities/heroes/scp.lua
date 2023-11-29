@@ -466,19 +466,16 @@ function scp173_statue_aghanim:OnSpellStart()
     if not IsServer() then return end
     local modifier = self:GetCaster():FindModifierByName("modifier_scp173_statue_aghanim_origin")
     if modifier then
-
         if self.dummy then
             UTIL_Remove(self.dummy)
         end
-
         local origin = modifier.origin
         local duration = self:GetSpecialValueFor("duration")
-
         self.dummy = CreateUnitByName("npc_dota_companion", origin, false, nil, nil, self:GetCaster():GetTeamNumber())
         self.dummy:SetModelScale(1.7)
         self.dummy:SetForwardVector(self:GetCaster():GetForwardVector())
-        self.dummy:SetOriginalModel("models/models/heroes/scp/scp_173.vmdl")
-        self.dummy:SetModel("models/models/heroes/scp/scp_173.vmdl")
+        self.dummy:SetOriginalModel("models/update_heroes/scp173/scp173.vmdl")
+        self.dummy:SetModel("models/update_heroes/scp173/scp173.vmdl")
         self.dummy:AddNewModifier(self:GetCaster(), self, "modifier_scp173_statue_aghanim_statue", {})
     end
 end

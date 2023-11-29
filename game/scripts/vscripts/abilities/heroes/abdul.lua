@@ -221,6 +221,8 @@ end
 LinkLuaModifier( "modifier_Abdulov_TripToHell", "abilities/heroes/abdul.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_Abdulov_TripToHell_debuff", "abilities/heroes/abdul.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "Abdulov_TripToHell_damage_rooted", "abilities/heroes/abdul.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_Abdulov_TripToHell_thinker_move", "abilities/heroes/abdul.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_Abdulov_TripToHell_thinker_move_buff", "abilities/heroes/abdul.lua", LUA_MODIFIER_MOTION_NONE )
 
 Abdulov_TripToHell = class({})
 
@@ -279,7 +281,9 @@ function modifier_Abdulov_TripToHell:OnCreated( kv )
         for i = 0, amount - 1 do
             local angle = math.rad(360 / amount * i)
             local offset = Vector(math.cos(angle), math.sin(angle), 0) * self.radius
-            local pso = SpawnEntityFromTableSynchronous("point_simple_obstruction", { origin = self:GetParent():GetOrigin() + offset, })
+            local origin = self:GetParent():GetOrigin() + offset
+            local pso = SpawnEntityFromTableSynchronous("point_simple_obstruction", { origin = origin })
+            CreateModifierThinker(self:GetCaster(), self:GetAbility(), "modifier_Abdulov_TripToHell_thinker_move", {duration = self:GetRemainingTime()}, origin, self:GetCaster():GetTeamNumber(), false)
             table.insert(self.blockers, pso)
         end
     end
@@ -377,6 +381,47 @@ function Abdulov_TripToHell_damage_rooted:CheckState()
     return state
 end
 
+modifier_Abdulov_TripToHell_thinker_move = class({})
+function modifier_Abdulov_TripToHell_thinker_move:IsHidden() return true end
+function modifier_Abdulov_TripToHell_thinker_move:IsPurgeException() return false end
+function modifier_Abdulov_TripToHell_thinker_move:IsPurgable() return false end
+function modifier_Abdulov_TripToHell_thinker_move:IsAura()
+    return true
+end
+function modifier_Abdulov_TripToHell_thinker_move:GetModifierAura()
+    return "modifier_Abdulov_TripToHell_thinker_move_buff"
+end
+function modifier_Abdulov_TripToHell_thinker_move:GetAuraRadius()
+    return 100
+end
+function modifier_Abdulov_TripToHell_thinker_move:GetAuraDuration()
+    return 0
+end
+function modifier_Abdulov_TripToHell_thinker_move:GetAuraSearchTeam()
+    return DOTA_UNIT_TARGET_TEAM_FRIENDLY
+end
+function modifier_Abdulov_TripToHell_thinker_move:GetAuraSearchType()
+    return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC
+end
+function modifier_Abdulov_TripToHell_thinker_move:GetAuraSearchFlags()
+    return DOTA_UNIT_TARGET_FLAG_INVULNERABLE
+end
+modifier_Abdulov_TripToHell_thinker_move_buff = class({})
+function modifier_Abdulov_TripToHell_thinker_move_buff:IsHidden() return true end
+function modifier_Abdulov_TripToHell_thinker_move_buff:IsPurgeException() return false end
+function modifier_Abdulov_TripToHell_thinker_move_buff:IsPurgable() return false end
+function modifier_Abdulov_TripToHell_thinker_move_buff:CheckState()
+    return
+    {
+        [MODIFIER_STATE_ALLOW_PATHING_THROUGH_BASE_BLOCKER] = true,
+        [MODIFIER_STATE_FLYING_FOR_PATHING_PURPOSES_ONLY] = true,
+        [MODIFIER_STATE_ALLOW_PATHING_THROUGH_OBSTRUCTIONS] = true,
+        [MODIFIER_STATE_ALLOW_PATHING_THROUGH_FISSURE] = true,
+        [MODIFIER_STATE_ALLOW_PATHING_THROUGH_CLIFFS] = true,
+        [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+    }
+end
+
 LinkLuaModifier( "modifier_Abdulov_CutMushrooms", "abilities/heroes/abdul.lua", LUA_MODIFIER_MOTION_NONE )
 
 Abdulov_CutMushrooms = class({})
@@ -434,13 +479,11 @@ function modifier_Abdulov_CutMushrooms:OnAttackLanded( params )
         ParticleManager:SetParticleControlEnt(particle, 8, params.target, PATTACH_POINT_FOLLOW, "attach_hitloc", params.target:GetAbsOrigin(), true)
         ParticleManager:ReleaseParticleIndex(particle)
         params.attacker:EmitSound("abdulult")
-
         if self:GetCaster():HasTalent("special_bonus_birzha_abdul_8") then
             params.target:BirzhaTrueKill(self:GetAbility(), self:GetCaster())
         else
             ApplyDamage({victim = params.target, attacker = params.attacker, damage = params.target:GetHealth(), damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility()})
         end
-
         return
     end
 

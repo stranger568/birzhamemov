@@ -5,7 +5,7 @@ sasake_one_ability = class({})
 
 function sasake_one_ability:OnSpellStart()
     if not IsServer() then return end
-    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_sasake_4")
+    local duration = self:GetSpecialValueFor("duration")
     self:GetCaster():EmitSound("DOTA_Item.DustOfAppearance.Activate")
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_sasake_gem_aura", {duration = duration})
 end
@@ -50,7 +50,7 @@ function modifier_sasake_gem_aura:GetAuraRadius()
 end
 
 function modifier_sasake_gem_aura:GetModifierStatusResistanceStacking()
-    return self:GetAbility():GetSpecialValueFor( "effect_resistance" )
+    return self:GetAbility():GetSpecialValueFor( "effect_resistance" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_sasake_4")
 end
 
 function modifier_sasake_gem_aura:GetModifierAura()
@@ -84,7 +84,7 @@ end
 function sasake_two_ability:OnSpellStart()
     if not IsServer() then return end
     local duration = self:GetSpecialValueFor("duration")
-    local bkb_duration = self:GetSpecialValueFor("bkb_duration")
+    local bkb_duration = self:GetSpecialValueFor("bkb_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_sasake_8")
     local particle = ParticleManager:CreateParticle("particles/econ/taunts/void_spirit/void_spirit_taunt_dust_impact.vpcf", PATTACH_WORLDORIGIN, nil)
     ParticleManager:SetParticleControl(particle, 0, self:GetCaster():GetAbsOrigin())
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_sasake_invis_magic_immune", {duration = bkb_duration})
@@ -138,7 +138,7 @@ function modifier_sasake_invis:GetModifierInvisibilityLevel()
 end
 
 function modifier_sasake_invis:GetModifierMoveSpeedBonus_Percentage()
-    return self:GetAbility():GetSpecialValueFor("movespeed")
+    return self:GetAbility():GetSpecialValueFor("movespeed") + self:GetCaster():FindTalentValue("special_bonus_birzha_sasake_2")
 end
 
 function modifier_sasake_invis:OnAttack( params )
@@ -216,7 +216,6 @@ function modifier_sasake_invis_debuff_slow:DeclareFunctions()
     local decFuncs = 
     {
         MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
-        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT
     }
 
     return decFuncs
@@ -224,10 +223,6 @@ end
 
 function modifier_sasake_invis_debuff_slow:GetModifierMoveSpeedBonus_Percentage()
     return self.movespeed
-end
-
-function modifier_sasake_invis_debuff_slow:GetModifierAttackSpeedBonus_Constant()
-    return self:GetCaster():FindTalentValue("special_bonus_birzha_sasake_2")
 end
 
 function modifier_sasake_invis_debuff_slow:GetEffectName()
@@ -261,7 +256,6 @@ function modifier_sasake_invis_debuff:CheckState()
 end
 
 LinkLuaModifier("modifier_sasake_agility_bonus", "abilities/heroes/sasake.lua", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_sasake_agility_bonus_talent", "abilities/heroes/sasake.lua", LUA_MODIFIER_MOTION_NONE)
 
 sasake_three_ability = class({})
 
@@ -270,10 +264,6 @@ function sasake_three_ability:OnSpellStart()
     local duration = self:GetSpecialValueFor("duration")
     self:GetCaster():EmitSound("Hero_Warlock.ShadowWordCastBad")
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_sasake_agility_bonus", {duration = duration})
-end
-
-function sasake_three_ability:GetIntrinsicModifierName()
-    return "modifier_sasake_agility_bonus_talent"
 end
 
 modifier_sasake_agility_bonus = class({})
@@ -300,30 +290,6 @@ function modifier_sasake_agility_bonus:GetModifierBonusStats_Agility()
     return self:GetAbility():GetSpecialValueFor("bonus_agility") + self:GetCaster():FindTalentValue("special_bonus_birzha_sasake_5")
 end
 
-modifier_sasake_agility_bonus_talent = class ({})
-
-function modifier_sasake_agility_bonus_talent:IsPurgable() return false end
-function modifier_sasake_agility_bonus_talent:IsHidden() return true end
-
-function modifier_sasake_agility_bonus_talent:DeclareFunctions()
-    local funcs = 
-    {
-        MODIFIER_PROPERTY_AVOID_DAMAGE
-    }
-    return funcs
-end
-
-function modifier_sasake_agility_bonus_talent:GetModifierAvoidDamage(keys)
-    if not IsServer() then return end
-    if self:GetParent():PassivesDisabled() then return end
-    if not self:GetParent():HasTalent("special_bonus_birzha_sasake_8") then return end
-    if RollPercentage(self:GetCaster():FindTalentValue("special_bonus_birzha_sasake_8")) then
-        return 1
-    else
-        return 0
-    end
-end
-
 LinkLuaModifier("modifier_sasake_ultimate_attack", "abilities/heroes/sasake.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_sasake_ultimate_scepter", "abilities/heroes/sasake.lua", LUA_MODIFIER_MOTION_NONE)
 
@@ -340,6 +306,7 @@ end
 function sasake_four_ability:OnSpellStart()
     if not IsServer() then return end
     local target = self:GetCursorTarget()
+    if target:TriggerSpellAbsorb(self) then return end
     self:GetCaster():EmitSound("sasake_ultimate")
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_sasake_ultimate_attack", {target = target:entindex()})
 end

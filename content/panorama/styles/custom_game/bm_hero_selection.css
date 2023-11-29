@@ -1,281 +1,249 @@
-.CustomPick
-{
-	width: 100%;
+.CustomPick {
+    width: 100%;
 
-	height: 100%;
+    height: 100%;
 
-	transition-property: opacity;
+    transition-property: opacity;
 
     transition-duration: 0.5s;
 
 }
 
 
-.BackgroundPick
-{
-	width: 100%;
+.BackgroundPick {
+    width: 100%;
 
-	height: 100%;
+    height: 100%;
 
-	background-color: gradient( linear, 100% 100%, 100% 100%, from( #171A25 ), to( #171A25dd ) );
+    background-color: gradient(linear, 100% 100%, 100% 100%, from(#171A25), to(#171A25dd));
 
 }
 
-.Deletion
-{
-	opacity: 0;
+.Deletion {
+    opacity: 0;
 
 }
 
 .PickAverageRating {
-	color: white;
+    color: white;
 
-	font-weight: bold;
+    font-weight: bold;
 
-	horizontal-align: center;
+    horizontal-align: center;
 
-	margin-top: 5px;
+    margin-top: 5px;
 
-	margin-bottom: 5px;
+    margin-bottom: 5px;
 
-	font-size: 14px;
-
-}
-
-
-.Banned
-{
-wash-color: #FF0000;
-saturation: 0;
-
+    font-size: 14px;
 
 }
 
 
-.Picked
-{
-wash-color: #CCCCCC;
-saturation: 0;
+.Banned {
+    wash-color: #FF0000;
+    saturation: 0;
 
 
 }
 
 
-.PickTimerClass
-{
-	vertical-align: center;
-	font-size:34px;
-	font-weight: bold;
-	color:white;
-	horizontal-align: center;
+.Picked {
+    wash-color: #CCCCCC;
+    saturation: 0;
 
 
 }
 
 
-.PickStateClass
-{
-	font-size:24px;
-	color:white;
-	font-weight: semi-bold;
-	font-family: Reaver;
-	letter-spacing: 2px;
-	horizontal-align: center;
-	margin-top: 5px;
-	text-transform: uppercase;
-}
-
-
-#GeneralPickPanel
-{
-width: 100%;
-flow-children: right;
+.PickTimerClass {
+    vertical-align: center;
+    font-size: 34px;
+    font-weight: bold;
+    color: white;
+    horizontal-align: center;
 
 
 }
 
 
-.HeroesContClass
-{
-width: 1200px;
-height: 1080px;
-margin-left: 35px;
+.PickStateClass {
+    font-size: 24px;
+    color: white;
+    font-weight: semi-bold;
+    font-family: Reaver;
+    letter-spacing: 2px;
+    horizontal-align: center;
+    margin-top: 5px;
+    text-transform: uppercase;
+}
+
+
+#GeneralPickPanel {
+    width: 100%;
+    flow-children: right;
+    transition-property: transform, position, opacity;
+    transition-duration: 0.5s;
+}
+
+
+.HeroesContClass {
+    width: 1200px;
+    height: 1080px;
+    margin-left: 35px;
 
 
 }
 
 
-.AspectRatio4x3 .HeroesContClass
-{
-width: 1000px;
-height: 1400px;
-margin-left: 0px;
+.AspectRatio4x3 .HeroesContClass {
+    width: 1000px;
+    height: 1400px;
+    margin-left: 0px;
 
-pre-transform-scale2d: 0.90;
+    pre-transform-scale2d: 0.90;
 
-margin-top: 10px;
+    margin-top: 10px;
 
 
 }
 
-
-.HeroInfoContClass
+.HeroInfoContClass 
 {
-	opacity: 0;
-
-	width: 720px;
-	height: 1080px;
-	 flow-children: down;
-
+    opacity: 0;
+    width: 550px;
+    height: 770px;
+    margin-top: 15%;
+    flow-children: down;
     transition-property: opacity;
-
     transition-duration: 1s;
-
+    background-color: rgba(0, 0, 0, 0.8);
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    border-brush: gradient(radial, 50% 50%, 0% 0%, 50% 100%, from(black), to(#fff0));
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
 }
-
-
-.AspectRatio4x3 .HeroInfoContClass
-{
-width: 720px;
-height: 1080px;
-
-
-}
-
 
 .attributeStr
 {
-margin-top: -145px;
-width: 22px;
-height: 22px;
-align: left center;
+    margin-top: -145px;
+    width: 22px;
+    height: 22px;
+    align: left center;
+}
+
+
+.attributeAgi {
+    margin-top: 135px;
+    width: 22px;
+    height: 22px;
+    align: left center;
 
 
 }
 
 
-.attributeAgi
-{
-margin-top: 135px;
-width: 22px;
-height: 22px;
-align: left center;
+.attributeInt {
+    margin-top: 465px;
+    width: 22px;
+    height: 22px;
+    align: left center;
 
 
 }
 
 
-.attributeInt
-{
-margin-top: 465px;
-width: 22px;
-height: 22px;
-align: left center;
+.herotypebutton {
+    height: 80px;
+    width: 80px;
+    horizontal-align: center;
+    margin-top: 850px;
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#4c5561), to(#6c7d88));
+    border-top-color: #aaaaaa77;
+    border-left-color: #aaaaaa33;
+    border-bottom-color: #333333;
+    border-right-color: #404040;
+    border: 1px solid;
+    box-shadow: black 0 0 15px;
+    transition-property: brightness;
+    transition-duration: 0.15s;
+    transition-timing-function: ease-in-out;
 
 
 }
 
 
-.herotypebutton
-{
-height: 80px;
-width: 80px;
-horizontal-align: center;
-margin-top: 850px;
-background-color: gradient( linear, 0% 0%, 0% 100%, from( #4c5561 ), to( #6c7d88 ) );
-border-top-color: #aaaaaa77;
-border-left-color: #aaaaaa33;
-border-bottom-color: #333333;
-border-right-color: #404040;
-border: 1px solid;
-box-shadow: black 0 0 15px;
-transition-property: brightness;
-transition-duration: 0.15s;
-transition-timing-function: ease-in-out;
+.herotypebutton Image {
+    align: center center;
 
 
 }
 
 
-.herotypebutton Image
-{
-align: center center;
+.herotypebutton Label {
+    font-weight: bold;
+    font-size: 14px;
+    align: center center;
+    color: white;
 
 
 }
 
 
-.herotypebutton Label
-{
-font-weight: bold;
-font-size: 14px;
-align: center center;
-color: white;
+.herotypebutton .text1 {
+    margin-bottom: 55px;
+    color: #00ff66;
 
 
 }
 
 
-.herotypebutton .text1
-{
-margin-bottom: 55px;
-color: #00ff66;
+.herotypebutton .text2 {
+    margin-top: 55px;
 
 
 }
 
 
-.herotypebutton .text2
-{
-margin-top: 55px;
+.herotypebutton:hover {
+    brightness: 1.8;
 
 
 }
 
 
-.herotypebutton:hover
-{
-brightness: 1.8;
-
+.herotypebutton:active {
+    brightness: 0.8;
 
 }
 
 
-.herotypebutton:active
-{
-	brightness: 0.8;
+.PanelSelector {
+    margin-top: 85px;
+
+    width: 100%;
+    margin-left: 40px;
+    flow-children: down;
 
 }
 
+.AspectRatio4x3 .PanelSelector {
+    margin-top: 0px;
 
-.PanelSelector
-{
-	margin-top: 85px;
-
-	width: 100%;
-	margin-left: 40px;
-	flow-children: down;
-
-}
-
-.AspectRatio4x3 .PanelSelector
-{
-	margin-top: 0px;
-
-	width: 100%;
-	margin-left: 40px;
-	flow-children: down;
+    width: 100%;
+    margin-left: 40px;
+    flow-children: down;
 
 }
 
 
 
-.attributeStr
-{
-margin-top: -145px;
-width: 22px;
-height: 22px;
-align: left center;
+.attributeStr {
+    margin-top: -145px;
+    width: 22px;
+    height: 22px;
+    align: left center;
 
 
 }
@@ -285,136 +253,132 @@ align: left center;
 
 
 
-#AttributePanel {
-	width: 100%;
+.AttributePanel {
+    width: 100%;
 
-	height: 40px;
+    height: 40px;
 
-	flow-children: right;
+    flow-children: right;
 
-	border-bottom: 1px solid #fff;
+    border-bottom: 1px solid #fff;
 
-	margin-top: 10px;
-
-}
-
-#AttributePanelStyle {
-	height: 100%;
-
-	flow-children: right;
-
-	align: center center;
+    margin-top: 10px;
 
 }
 
-#AttributePanelIcon {
-	height: 25px;
+.AttributePanelStyle {
+    height: 100%;
+    flow-children: right;
+    align: center center;
 
-	width: 25px;
+}
 
-	vertical-align: center;
+.AttributePanelIcon {
+    height: 25px;
+
+    width: 25px;
+
+    vertical-align: center;
 
 }
 
 .StrIcon {
-	background-image: url("file://{images}/custom_game/custom_pick/str_png.png");
+    background-image: url("file://{images}/custom_game/custom_pick/str_png.png");
 
-	background-size: 100%;
+    background-size: 100%;
 
 }
 
 .AgiIcon {
-	background-image: url("file://{images}/custom_game/custom_pick/agi_png.png");
+    background-image: url("file://{images}/custom_game/custom_pick/agi_png.png");
 
-	background-size: 100%;
+    background-size: 100%;
 
 }
 
 .IntIcon {
-	background-image: url("file://{images}/custom_game/custom_pick/int_png.png");
+    background-image: url("file://{images}/custom_game/custom_pick/int_png.png");
 
-	background-size: 100%;
+    background-size: 100%;
 
 }
 
-#AttributePanelLabel {
-	font-size: 18px;
+.AttributePanelLabel {
+    font-size: 18px;
 
-	color: white;
+    color: white;
 
-	vertical-align: center;
+    vertical-align: center;
 
-	margin-left: 5px;
+    margin-left: 5px;
 
 }
 
 
 .BirzaAbilitiesPanel {
-	width: 100%;
+    width: 100%;
 
-	height: 40px;
+    height: 40px;
 
-	border-bottom: 1px solid #fff;
+    border-bottom: 1px solid #fff;
 
-	border-brush: gradient( radial, 50% 50%, 0% 0%, 50% 55%, from( white ), to( #fff0 ) );
+    border-brush: gradient(radial, 50% 50%, 0% 0%, 50% 55%, from(white), to(#fff0));
 
-	margin-bottom: 10px;
+    margin-bottom: 10px;
 
 }
 
 .BirzaAbilitiesLabel {
-	color: white;
+    color: white;
 
-	align: center center;
+    align: center center;
 
-	font-size: 18px;
+    font-size: 18px;
 
 }
 
 
 .BirzaAbilitiesPanelBonus {
-	width: 100%;
+    width: 100%;
 
-	height: 30px;
+    height: 30px;
 
-	border-bottom: 1px solid #fff;
+    border-bottom: 1px solid #fff;
 
-	border-brush: gradient( radial, 50% 50%, 0% 0%, 50% 55%, from( gray ), to( #fff0 ) );
+    border-brush: gradient(radial, 50% 50%, 0% 0%, 50% 55%, from(gray), to(#fff0));
 
-	margin-bottom: 10px;
+    margin-bottom: 10px;
 
-	margin-top: 10px;
+    margin-top: 10px;
 
 }
 
 .BirzaAbilitiesLabelBonus {
-	color: white;
+    color: white;
 
-	align: center center;
+    align: center center;
 
-	font-size: 18px;
-
-}
-
-
-
-.attributeAgi
-{
-margin-top: 135px;
-width: 22px;
-height: 22px;
-align: left center;
-
+    font-size: 18px;
 
 }
 
 
-.attributeInt
-{
-margin-top: 465px;
-width: 22px;
-height: 22px;
-align: left center;
+
+.attributeAgi {
+    margin-top: 135px;
+    width: 22px;
+    height: 22px;
+    align: left center;
+
+
+}
+
+
+.attributeInt {
+    margin-top: 465px;
+    width: 22px;
+    height: 22px;
+    align: left center;
 
 
 }
@@ -422,950 +386,792 @@ align: left center;
 
 #StrengthSelector,
 #AgilitySelector,
-#IntellectSelector
-{
-	flow-children: right-wrap;
-	width: 100%;
-	margin-top: 15px;
+#IntellectSelector {
+    flow-children: right-wrap;
+    width: 100%;
+    margin-top: 15px;
 
 }
 
 
-#BirzhaSocialButtonsPanel
-{
-align: center bottom;
-margin-bottom: 50px;
-
-
-}
-
-
-#BirzhaSocialButtons
-{
-flow-children: right;
+#BirzhaSocialButtonsPanel {
+    align: center bottom;
+    margin-bottom: 50px;
 
 
 }
 
 
-#BirzhaSocialButtons Button
-{
-width: 200px;
-height: 65px;
-box-shadow: #111 0 0 15px 0;
-background-position: center center;
-border-radius: 10px;
+#BirzhaSocialButtons {
+    flow-children: right;
 
 
 }
 
 
-.AspectRatio4x3 #BirzhaSocialButtons Button
-{
-width: 140px;
-height: 45px;
-box-shadow: #111 0 0 15px 0;
-background-position: center center;
-border-radius: 10px;
+#BirzhaSocialButtons Button {
+    width: 200px;
+    height: 65px;
+    box-shadow: #111 0 0 15px 0;
+    background-position: center center;
+    border-radius: 10px;
 
 
 }
 
 
-.BirzhaSocialButton
-{
-margin-left: 50px;
-background-size: contain;
+.AspectRatio4x3 #BirzhaSocialButtons Button {
+    width: 140px;
+    height: 45px;
+    box-shadow: #111 0 0 15px 0;
+    background-position: center center;
+    border-radius: 10px;
 
 
 }
 
 
-#BirzhaSocialButtonDota2ru
-{
-background-image: url("s2r://panorama/images/custom_game/loading_screen/dota2ru_png.vtex");
-background-size: contain;
+.BirzhaSocialButton {
+    margin-left: 50px;
+    background-size: contain;
 
 
 }
 
 
-#BirzhaSocialButtonPatreon
-{
-background-image: url("s2r://panorama/images/custom_game/loading_screen/patreon_png.vtex");
-background-size: contain;
+#BirzhaSocialButtonDota2ru {
+    background-image: url("s2r://panorama/images/custom_game/loading_screen/dota2ru_png.vtex");
+    background-size: contain;
 
 
 }
 
 
-#BirzhaSocialButtonVk
-{
-background-image: url("s2r://panorama/images/custom_game/loading_screen/vk_png.vtex");
-background-size: contain;
+#BirzhaSocialButtonPatreon {
+    background-image: url("s2r://panorama/images/custom_game/loading_screen/patreon_png.vtex");
+    background-size: contain;
 
 
 }
 
 
-#BirzhaSocialButtonWiki
-{
-background-image: url("s2r://panorama/images/custom_game/loading_screen/wiki_png.vtex");
-background-size: contain;
+#BirzhaSocialButtonVk {
+    background-image: url("s2r://panorama/images/custom_game/loading_screen/vk_png.vtex");
+    background-size: contain;
 
 
 }
 
 
-#BirzhaSocialButtons Button:hover
-{
-	box-shadow: #6c00ff 0 0 10px 0;
+#BirzhaSocialButtonWiki {
+    background-image: url("s2r://panorama/images/custom_game/loading_screen/wiki_png.vtex");
+    background-size: contain;
+
 
 }
 
 
-.HeroInformation
+#BirzhaSocialButtons Button:hover {
+    box-shadow: #6c00ff 0 0 10px 0;
+
+}
+
+
+.HeroInformation 
 {
-	width: 550px;
-
-	height: 500px;
-
-	horizontal-align: center;
-
-	margin-top: 180px;
-
-	flow-children: down;
-
-	background-color: rgba(0,0,0,0.8);
-
-	border-top: 1px solid #fff;
-
-	border-bottom: 1px solid #fff;
-
-	border-brush: gradient( radial, 50% 50%, 0% 0%, 50% 100%, from( black ), to( #fff0 ) );
-
-	border-radius: 10px;
-
+    horizontal-align: center;
+    flow-children: down;
+    height: 550px;
+    width: 100%;
+    //background-color: red;
 }
 
 #abilities_picked {
-	height: 100px;
+    height: 100px;
 
-	flow-children: right;
+    flow-children: right;
 
-	align: center center;
+    align: center center;
 
 }
 
-.HeroInfoMain
+.HeroInfoMain {
+    margin: 20px;
+
+    align: center center;
+    flow-children: right;
+
+
+}
+
+
+.HeroNameInfoClass {
+    font-size: 28px;
+    color: white;
+    font-weight: bold;
+    horizontal-align: center;
+    vertical-align: center;
+
+    margin-left: 20px;
+
+}
+
+
+.HeroModel {
+    width: 70px;
+    height: 70px;
+    opacity-mask: url("s2r://panorama/images/custom_game/hero_model_png.vtex");
+
+}
+
+
+.BirzhaRBClass {
+    width: 70px;
+    height: 70px;
+    margin-left: 5px;
+    background-size: contain;
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#404D65dd), to(#2B3445dd));
+    border-top: 1px solid #6F819B;
+    border-left: 1px solid #6F819B22;
+    border-right: 1px solid #6F819B11;
+    border-bottom: 1px solid #3F414B33;
+    transition-property: brightness;
+    transition-duration: 0.15s;
+    transition-timing-function: ease-in-out;
+    box-shadow: #0000008f 0px 0px 15px 2px;
+}
+
+.BirzhaRBClassBanned {
+    visibility: collapse;
+}
+
+
+.buttonsrandom {
+    horizontal-align: center;
+    flow-children: right;
+}
+
+
+.RandomIcon {
+    background-image: url("s2r://panorama/images/custom_game/random_dice_png.vtex");
+    align: center center;
+    width: 45px;
+    height: 50px;
+    background-size: 100%;
+
+
+}
+
+
+.BirzhaRBClass:hover {
+    brightness: 1.8;
+
+
+}
+
+
+.BirzhaRBClass:active {
+    brightness: 0.8;
+
+
+}
+
+
+.PickButtonClass2 {
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#404D65dd), to(#2B3445dd));
+    border-top: 1px solid #6F819B;
+    border-left: 1px solid #6F819B22;
+    border-right: 1px solid #6F819B11;
+    border-bottom: 1px solid #3F414B33;
+    box-shadow: #0000008f 0px 0px 15px 2px;
+    width: 365px;
+    height: 70px;
+    transition-property: brightness;
+    transition-duration: 0.15s;
+    transition-timing-function: ease-in-out;
+    horizontal-align: center;
+}
+
+.PickButtonClass2Banned {
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#722217), to(#DD4A29));
+    border-top: 1px solid #ffffff05;
+    border-right: 1px solid #00000088;
+    border-left: 1px solid #ffffff05;
+    border-bottom: 1px solid #00000088;
+    box-shadow: #0000008f 0px 0px 15px 2px;
+    transition-property: brightness;
+    transition-duration: 0.15s;
+    transition-timing-function: ease-in-out;
+    width: 365px;
+    height: 70px;
+}
+
+.BanCountPanel
 {
-	margin: 20px;
+    width: 60px;
+    height: 60px;
+    margin-left: 5px;
+    background-size: contain;
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#722217), to(#DD4A29));
+    border: 1px solid black;
+    box-shadow: #0000008f 0px 0px 15px 2px;
+    vertical-align: center;
+    margin-left: 10px;
+    tooltip-position: top;
+}
 
-	align: center center;
-	flow-children: right;
+.PickButtonClass2 Label {
+    font-size: 36px;
+    color: white;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: bold;
+    horizontal-align: center;
+    text-shadow: 0px 0px 5px 2 black;
+    align: center center;
+}
+
+.PickButtonClass2Banned:hover {
+    brightness: 1.8;
+}
+
+
+.PickButtonClass2Banned:active {
+    brightness: 0.8;
+}
+
+.PickButtonClass2:hover {
+    brightness: 1.8;
 
 
 }
 
-
-.HeroNameInfoClass
+.BannedButtonsPick
 {
-	font-size:28px;
-	color:white;
-	font-weight: bold;
-	horizontal-align: center;
-	vertical-align: center;
-
-	margin-left: 20px;
-
+    flow-children: right;
+    visibility: collapse;
 }
 
-
-.HeroModel
+.ButtonLabelBanned
 {
-	width:70px;
-	height:70px;
-	opacity-mask: url("s2r://panorama/images/custom_game/hero_model_png.vtex");
+    font-size: 36px;
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+    horizontal-align: center;
+    text-shadow: 0px 0px 5px 2 black;
+    align: center center;
+}
+
+.PickButtonClass2:active {
+    brightness: 0.8;
+
 
 }
 
 
-.BirzhaRBClass
+#birzhapickbutton {
+    horizontal-align: right;
+    font-size: 36px;
+    horizontal-align: center;
+
+
+}
+
+
+.TokenPanel {
+    width: 300px;
+
+    height: 45px;
+
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#5Aa15E), to(#87d69533));
+
+    border-top: 1px solid #ffffff44;
+
+    border-right: 1px solid #4e5b60;
+
+    border-left: 1px solid #4e5b60;
+
+    border-bottom: 1px solid #00000088;
+
+    flow-children: right;
+
+    font-weight: bold;
+
+    margin-top: 10px;
+
+    horizontal-align: center;
+
+}
+
+.BottomPanel 
 {
-width: 60px;
-height: 60px;
-background-size: contain;
-background-color: gradient( linear, 0% 0%, 0% 100%, from( #404D65dd ), to( #2B3445dd ) );
-border-top: 1px solid #6F819B;
-border-left: 1px solid #6F819B22;
-border-right: 1px solid #6F819B11;
-border-bottom: 1px solid #3F414B33;
-transition-property: brightness;
-transition-duration: 0.15s;
-transition-timing-function: ease-in-out;
-box-shadow: #0000008f 0px 0px 15px 2px;
-
-
+    horizontal-align: center;
+    flow-children: down;
+    vertical-align: bottom;
+    margin-bottom: 10px;
 }
 
-.BirzhaRBClassBanned
+#RandomButtonWithUnlock 
 {
-	visibility: collapse;
-}
-
-
-.buttonsrandom
-{
-	horizontal-align: center;
-
-	width: 330px;
-
-	flow-children: right;
-
-	margin-top: 10px;
-
-}
-
-
-.RandomIcon
-{
-background-image:url("s2r://panorama/images/custom_game/random_dice_png.vtex");
-align: center center;
-width: 26px;
-height: 30px;
-background-size: contain;
-
-
-}
-
-
-.BirzhaRBClass:hover
-{
-brightness: 1.8;
-
-
-}
-
-
-.BirzhaRBClass:active
-{
-brightness: 0.8;
-
-
-}
-
-
-.PickButtonClass2
-{
-	background-color: gradient( linear, 0% 0%, 0% 100%, from( #404D65dd ), to( #2B3445dd ) );
-	border-top: 1px solid #6F819B;
-	border-left: 1px solid #6F819B22;
-	border-right: 1px solid #6F819B11;
-	border-bottom: 1px solid #3F414B33;
-	box-shadow: #0000008f 0px 0px 15px 2px;
-	width:270px;
-	height:60px;
-	transition-property: brightness;
-	transition-duration: 0.15s;
-	transition-timing-function: ease-in-out;
-	horizontal-align: center;
-}
-
-.PickButtonClass2Banned
-{
-	background-color: gradient( linear, 0% 0%, 0% 100%, from( #722217 ), to( #DD4A29 ) );
-	border-top: 1px solid #ffffff05;
-	border-right: 1px solid #00000088;
-	border-left: 1px solid #ffffff05;
-	border-bottom: 1px solid #00000088;
-	width:330px;
-}
-
-.PickButtonClass2 Label
-{
-font-size: 36px;
-color: white;
-letter-spacing: 2px;
-text-transform: uppercase;
-font-weight: bold;
-horizontal-align: center;
-text-shadow: 0px 0px 5px 2 black;
-align: center center;
-
-
-}
-
-
-.PickButtonClass2:hover
-{
-brightness: 1.8;
-
-
-}
-
-
-.PickButtonClass2:active
-{
-brightness: 0.8;
-
-
-}
-
-
-#birzhapickbutton
-{
-horizontal-align: right;
-font-size: 30px;
-horizontal-align: center;
-
-
-}
-
-
-.TokenPanel
-{
-	width: 300px;
-
-	height: 45px;
-
-	background-color: gradient( linear, 0% 0%, 0% 100%, from( #5Aa15E ), to( #87d69533 ) );
-
-	border-top: 1px solid #ffffff44;
-
-	border-right: 1px solid #4e5b60;
-
-	border-left: 1px solid #4e5b60;
-
-	border-bottom: 1px solid #00000088;
-
-	flow-children: right;
-
-	font-weight: bold;
-
-	margin-top: 10px;
-
-	horizontal-align: center;
-
-}
-
-.BottomPanel {
-	width: 550px;
-
-	horizontal-align: center;
-
-	flow-children: down;
-
-	margin-top: 10px;
-
-	background-color: gradient( linear, 100% 0%, 0% 0%, from( #fff0 ), color-stop( 0.21, rgba(0,0,0,0.7) ), color-stop( 0.79, rgba(0,0,0,0.7) ), to( #fff0 ) );
-
-	border-top: 1px solid #fff;
-
-	border-bottom: 1px solid #fff;
-
-	border-brush: gradient( radial, 50% 50%, 0% 0%, 50% 100%, from( black ), to( #fff0 ) );
-
-}
-
-#RandomButtonWithUnlock {
-	horizontal-align: center;
-
-	flow-children: up;
-
-	margin-top: 10px;
-
-	margin-bottom: 10px;
-
+    horizontal-align: center;
+    flow-children: none;
+    visibility: collapse;
 }
 
 #TokenButtonWithUnlock {
-	horizontal-align: center;
+    horizontal-align: center;
 
-	flow-children: right;
+    flow-children: right;
 
-	margin-top: 10px;
+    margin-top: 10px;
 
-	margin-bottom: 10px;
-
-}
-
-
-.TokenLabel
-{
-font-size: 22px;
-vertical-align: center;
-font-weight: bold;
-color: white;
-margin-left: 3px;
-
+    margin-bottom: 10px;
 
 }
 
 
-.TokenLabelInfo
-{
-font-size: 23px;
-align: center center;
-color: white;
-text-transform: uppercase;
+.TokenLabel {
+    font-size: 22px;
+    vertical-align: center;
+    font-weight: bold;
+    color: white;
+    margin-left: 3px;
 
 
 }
 
 
-.TokenImage
-{
-width: 32px;
-height: 32px;
-vertical-align: center;
-background-image: url("s2r://panorama/images/custom_game/birzhapass/token_png.vtex");
-background-size: contain;
-margin-left: 5px;
+.TokenLabelInfo {
+    font-size: 23px;
+    align: center center;
+    color: white;
+    text-transform: uppercase;
 
 
 }
 
 
-.TokenPanel:hover
-{
-brightness: 1.2;
+.TokenImage {
+    width: 32px;
+    height: 32px;
+    vertical-align: center;
+    background-image: url("s2r://panorama/images/custom_game/birzhapass/token_png.vtex");
+    background-size: contain;
+    margin-left: 5px;
 
 
 }
 
 
-.TokenPanel:active
-{
-brightness: 0.8;
+.TokenPanel:hover {
+    brightness: 1.2;
 
 
 }
 
 
-.aviableforbp
-{
-	font-size: 16px;
+.TokenPanel:active {
+    brightness: 0.8;
 
-	font-weight: bold;
 
-	color: gold;
+}
 
-	align: center center;
+
+.aviableforbp {
+    font-size: 16px;
+
+    font-weight: bold;
+
+    color: gold;
+
+    align: center center;
 
 
 
 }
 
 
-.aviablefordonate
-{
-font-size: 18px;
-font-weight: bold;
-color: red;
-align: center center;
+.aviablefordonate {
+    font-size: 18px;
+    font-weight: bold;
+    color: red;
+    align: center center;
 
 
 }
 
-#HeroDifficulty
-{
-	margin-top: 2px;
+#HeroDifficulty {
+    margin-top: 2px;
 
-	margin-bottom: 10px;
+    margin-bottom: 10px;
 
-	font-size: 18px;
+    font-size: 18px;
 
-	font-weight: bold;
+    font-weight: bold;
 
-	color: white;
+    color: white;
 
-	align: center center;
+    align: center center;
 
 }
 
-#HeroRole
-{
-	margin-top: 2px;
+#HeroRole {
+    margin-top: 2px;
 
-	margin-bottom: 10px;
+    margin-bottom: 10px;
 
-	font-size: 18px;
+    font-size: 18px;
 
-	font-weight: bold;
+    font-weight: bold;
 
-	color: white;
+    color: white;
 
-	align: center center;
+    align: center center;
 
-	tooltip-position: top;
+    tooltip-position: top;
 
 }
 
 #TokenInfo {
-	width: 20px;
+    width: 20px;
 
-	height: 20px;
+    height: 20px;
 
-	background-image: url("s2r://panorama/images/status_icons/information_psd.vtex");
+    background-image: url("s2r://panorama/images/status_icons/information_psd.vtex");
 
-	background-size: 100%;
+    background-size: 100%;
 
-	vertical-align: center;
+    vertical-align: center;
 
-	margin-top: 10px;
+    margin-top: 10px;
 
-	margin-left: 5px;
+    margin-left: 5px;
 
-	wash-color: #404D65dd;
+    wash-color: #404D65dd;
 
-	tooltip-position: bottom;
-
-}
-
-
-
-.hero_select_panel_img
-{
-	width: 70px;
-
-	height: 70px;
-
-	border: 1px solid #38424b;
-
-	box-shadow: 0px 2px 6px 0px #000000a5;
-
-	vertical-align: top;
-
-	background-position: 0px 0px;
-
-	background-size: 100%;
-
-	border-radius: 15px;
-
-	align: center center;
+    tooltip-position: bottom;
 
 }
 
 
-.hero_select_panel
-{
-	width: 79px;
 
-	height: 79px;
+.hero_select_panel_img {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #38424b;
+    box-shadow: 0px 2px 6px 0px #000000a5;
+    vertical-align: top;
+    background-position: 0px 0px;
+    background-size: 100%;
+    border-radius: 15px;
+    align: center center;
+}
 
-	margin: 0px;
+
+.hero_select_panel {
+    width: 79px;
+
+    height: 79px;
+
+    margin: 0px;
 
 }
 
 #DonateIcon {
-	width: 25px;
+    width: 25px;
 
-	height: 25px;
+    height: 25px;
 
-	align: right top;
+    align: right top;
 
-	background-image:  url("file://{images}/custom_game/birzhapass/passbuttonoff_png.png");
+    background-image: url("file://{images}/custom_game/birzhapass/passbuttonoff_png.png");
 
-	background-size: 100%;
+    background-size: 100%;
 
-	img-shadow: 0px 0px 8px 3.0 black;
+    img-shadow: 0px 0px 8px 3.0 black;
 
 }
 
-.RankInfoHero
-{
-	align: left bottom;
+.RankInfoHero {
+    align: left bottom;
 
-	flow-children: up;
+    flow-children: up;
 
 }
 
 .RankIcon {
-	width: 25px;
+    width: 25px;
 
-	height: 25px;
+    height: 25px;
 
-	img-shadow: 0px 0px 8px 3.0 black;
+    img-shadow: 0px 0px 8px 3.0 black;
 
 }
 
 .RankLevel {
-	horizontal-align: center;
+    horizontal-align: center;
 
-	font-size: 12px;
+    font-size: 12px;
 
-	color: white;
+    color: white;
 
-	font-family: Reaver;
+    font-family: Reaver;
 
-	font-weight: bold;
+    font-weight: bold;
 
-	text-shadow: 0px 0px 2px 4.0 black;
-
-}
-
-
-.hero_select_panel:hover
-{
-	brightness: 1.5;
+    text-shadow: 0px 0px 2px 4.0 black;
 
 }
 
 
-.HeroInfoAbilty
-{
-	width: 60px;
-
-	height: 60px;
-
-	border-radius: 15px;
-
-	vertical-align: center;
-
-	margin-left: 5px;
-
-	margin-right: 5px;
-
-	tooltip-position: top;
+.hero_select_panel:hover {
+    brightness: 1.5;
 
 }
 
 
-.HeroInfoAbiltyBonus
-{
-	width: 40px;
+.HeroInfoAbilty {
+    width: 60px;
 
-	height: 40px;
+    height: 60px;
 
-	border-radius: 15px;
+    border-radius: 15px;
 
-	margin-left: 5px;
+    vertical-align: center;
 
-	margin-right: 5px;
+    margin-left: 5px;
 
-	margin-top: 5px;
+    margin-right: 5px;
 
-	margin-bottom: 5px;
-
-	tooltip-position: top;
+    tooltip-position: top;
 
 }
 
 
-#BirzaAbilitiesInfo
-{
-	flow-children: right-wrap;
+.HeroInfoAbiltyBonus {
+    width: 40px;
 
-	horizontal-align: center;
+    height: 40px;
 
-	height: 60px;
+    border-radius: 15px;
 
-	margin-bottom: 10px;
+    margin-left: 5px;
 
-}
+    margin-right: 5px;
 
-#BirzaAbilitiesInfoBonus
-{
-	max-width: 400px;
+    margin-top: 5px;
 
-	flow-children: right-wrap;
+    margin-bottom: 5px;
 
-	horizontal-align: center;
-
-	margin-bottom: 10px;
+    tooltip-position: top;
 
 }
 
 
-#hero_selection_your_hero
-{
-height: 100%;
-width: 100%;
-flow-children: right;
-visibility: collapse;
+#BirzaAbilitiesInfo {
+    flow-children: right-wrap;
 
+    horizontal-align: center;
+
+    height: 60px;
+
+    margin-bottom: 10px;
+
+}
+
+#BirzaAbilitiesInfoBonus {
+    max-width: 400px;
+
+    flow-children: right-wrap;
+
+    horizontal-align: center;
+
+    margin-bottom: 10px;
 
 }
 
 
-.HeroPickedContainer
+#hero_selection_your_hero 
 {
-flow-children: down;
-align: left center;
-width: 600px;
-margin-left: 100px;
-opacity-mask: url("s2r://panorama/images/custom_game/hero_model_png.vtex");
-
-
+    height: 100%;
+    width: 100%;
+    flow-children: right;
+    transition-property: transform, position, opacity;
+    transition-duration: 0.4s;
 }
 
 
-.HeroPickedName
+.HeroPickedContainer {
+    flow-children: down;
+    align: left center;
+    width: 600px;
+    margin-left: 100px;
+}
+
+.hero_preview_panel
 {
-font-size:22px;
-color:white;
-font-weight: bold;
-horizontal-align: center;
-letter-spacing: 1px;
-margin-top: 5px;
-
-
+    width: 600px;
+    height: 600px;
+    opacity-mask: url("s2r://panorama/images/custom_game/hero_model_png.vtex");
 }
 
 
-.BacktoHeroes
-{
-height: 100%;
-width: 100px;
+
+
+
+
+
+
+
+.HeroPickedName {
+    font-size: 22px;
+    color: white;
+    font-weight: bold;
+    horizontal-align: center;
+    letter-spacing: 1px;
+    margin-top: 5px;
 
 
 }
 
 
-.BacktoHeroesArrow
+.BacktoHeroes 
 {
-width: 40px;
-height: 40px;
-horizontal-align: center;
-wash-color: #999;
-background-image: url("s2r://panorama/images/custom_game/arrow_solid_left_png.vtex");
-background-size: contain;
-background-repeat: no-repeat;
-background-position: center;
+    height: 100%;
+    width: 100px;
+    horizontal-align: right;
+}
 
-
+.BacktoHeroesArrow 
+{
+    width: 40px;
+    height: 40px;
+    horizontal-align: center;
+    wash-color: #999;
+    background-image: url("s2r://panorama/images/custom_game/arrow_solid_left_png.vtex");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 
 #BacktoHero .BacktoHeroesArrow
 {
-background-image: url("s2r://panorama/images/custom_game/arrow_solid_right_png.vtex");
+    background-image: url("s2r://panorama/images/custom_game/arrow_solid_right_png.vtex");
+}
+
+#BacktoHero .BacktoHeroes 
+{
+    horizontal-align: left;
+}
+
+
+.BacktoHeroesButton Label 
+{
+    color: #999;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 16px;
+    margin-top: 4px;
+    text-overflow: shrink;
+}
+
+
+.BacktoHeroesButton {
+    vertical-align: middle;
+    width: 90px;
+    flow-children: down;
+    transition-property: opacity;
+    transition-duration: 0.4s;
+    transition-delay: 0.8s;
+    transition-timing-function: ease-in-out;
 
 
 }
 
 
-.BacktoHeroesButton > Label
-{
-color: #999;
-width: 100%;
-text-align: center;
-text-transform: uppercase;
-font-size: 14px;
-margin-top: 4px;
-text-overflow: shrink;
+.BacktoHeroesButton:hover {
+    brightness: 2.0;
 
 
 }
 
 
-.BacktoHeroesButton
+.BacktoHeroesButton:active {
+    brightness: 1.5;
+
+
+}
+
+#BacktoHero
 {
-vertical-align: middle;
-width: 90px;
-flow-children: down;
-padding: 12px;
-transition-property: opacity;
-transition-duration: 0.4s;
-transition-delay: 0.8s;
-transition-timing-function: ease-in-out;
+    opacity: 0;
+}
+
+
+
+.GenPetContClass {
+    height: 200px;
+    margin-bottom: 10px;
+    flow-children: right;
 
 
 }
 
 
-.BacktoHeroesButton:hover
-{
-brightness: 2.0;
+.PetsInfoGeneral {
+    width: 170px;
+    height: 200px;
+    margin-left: 4px;
+    margin-right: 4px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    transition-property: brightness;
+    transition-duration: 0.15s;
+    transition-timing-function: ease-in-out;
 
 
 }
 
 
-.BacktoHeroesButton:active
-{
-brightness: 1.5;
+.PetsInfoGeneralAnimation {
+    transition-property: brightness;
+    transition-duration: 0.15s;
+    transition-timing-function: ease-in-out;
 
 
 }
 
 
-.HeroDonateBlock
-{
-flow-children: down;
-align: center center;
-width: 725px;
-height: 650px;
-margin-left: 100px;
-border: 1px solid black;
-box-shadow: black 0 0 15px;
-background-color: #000E;
-
-border-radius: 10px;
-
-}
-
-
-.HeroDonateBlockButtons
-{
-flow-children: right;
-width: 100%;
-height: 50px;
-border: 1px solid black;
-box-shadow: fill black 0px 0px 8px 0px;
+.PetsInfoGeneralAnimation:hover {
+    brightness: 3;
 
 
 }
 
 
-.HeroDonateBlockButton
-{
-	border-top-left-radius: 10px;
-
-	border-top-right-radius: 10px;
-
-width: 100%;
-height: 50px;
-background-color: gradient( linear, 0% 0%, 0% 100%, from( #5f1c6b ), to( #53198e ) );
-background-image: url("s2r://panorama/images/custom_game/background_play_button_2x_png.vtex");
-background-size: 328px 50px;
+.PetsInfoGeneralAnimation:active {
+    brightness: 1;
 
 
 }
 
 
-.HeroDonateBlockButton:active
-{
-brightness: 1.5;
-sound: "ui_generic_button_click";
+.BattlepassRewardIconCourier_locked {
+    wash-color: #000000a0;
+    brightness: 0.9;
+    border: 2px solid red;
 
 
 }
 
 
-.HeroDonateBlockButton:hover
-{
-brightness: 1.2;
-
-
-}
-
-
-#HeroDonateBlockButtonEffects
-{
-
-
-}
-
-
-.HeroDonateBlockButton Label
-{
-margin-top: 2px;
-text-transform: uppercase;
-color: white;
-horizontal-align: center;
-font-weight: bold;
-font-size: 24px;
-letter-spacing: 2px;
-text-align: center;
-vertical-align: middle;
-text-shadow: 0px 0px 6px 1.0 #000000;
-padding-left: 8px;
-padding-right: 8px;
-padding-top: 2px;
-
-
-}
-
-
-#HeroDonateBlockEffects,
-#HeroDonateBlockPets
-{
-flow-children: right-wrap;
-width: 100%;
-height: 100%;
-margin-top: 5px;
-overflow: squish scroll;
-
-
-}
-
-
-.HeroDonateBlockEffects
-{
-visibility: visible;
-
-
-}
-
-
-.GenPetContClass
-{
-height: 200px;
-margin-bottom: 10px;
-flow-children: right;
-
-
-}
-
-
-.PetsInfoGeneral
-{
-width: 170px;
-height: 200px;
-margin-left: 4px;
-margin-right: 4px;
-border: 1px solid gray;
-border-radius: 5px;
-transition-property: brightness;
-transition-duration: 0.15s;
-transition-timing-function: ease-in-out;
-
-
-}
-
-
-.PetsInfoGeneralAnimation
-{
-transition-property: brightness;
-transition-duration: 0.15s;
-transition-timing-function: ease-in-out;
-
-
-}
-
-
-.PetsInfoGeneralAnimation:hover
-{
-brightness: 3;
-
-
-}
-
-
-.PetsInfoGeneralAnimation:active
-{
-brightness: 1;
-
-
-}
-
-
-.BattlepassRewardIconCourier_locked
-{
-wash-color: #000000a0;
-brightness: 0.9;
-border: 2px solid red;
-
-
-}
-
-
-.PetPanelLocked
-{
-background-color: green;
-width: 50px;
-height: 20px;
+.PetPanelLocked {
+    background-color: green;
+    width: 50px;
+    height: 20px;
 
 
 }
@@ -1375,17 +1181,17 @@ height: 20px;
 #premium,
 #gob,
 #dragonball,
-#leader
-{
-width: 230px;
-height: 230px;
-margin-left: 4px;
-margin-right: 4px;
-margin-top: 4px;
-border-radius: 5px;
-transition-property: brightness;
-transition-duration: 0.15s;
-transition-timing-function: ease-in-out;
+#leader,
+#top_season_13 {
+    width: 230px;
+    height: 230px;
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-top: 4px;
+    border-radius: 5px;
+    transition-property: brightness;
+    transition-duration: 0.15s;
+    transition-timing-function: ease-in-out;
 
 
 }
@@ -1395,114 +1201,101 @@ transition-timing-function: ease-in-out;
 #premium_panel,
 #gob_panel,
 #dragonball_panel,
-#leader_panel
-{
-width: 230px;
-height: 230px;
-margin-left: 4px;
-margin-right: 4px;
-margin-top: 4px;
-border-radius: 5px;
-transition-property: brightness;
-transition-duration: 0.15s;
-transition-timing-function: ease-in-out;
+#leader_panel,
+#top_season_13_panel {
+    width: 230px;
+    height: 230px;
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-top: 4px;
+    border-radius: 5px;
+    transition-property: brightness;
+    transition-duration: 0.15s;
+    transition-timing-function: ease-in-out;
 
 
 }
 
 
-.EffectUnLocked
-{
-border: 1px solid gray;
+.EffectUnLocked {
+    border: 1px solid gray;
 
 
 }
 
 
-.EffectInfoGeneralAnimation
-{
-transition-property: brightness;
-transition-duration: 0.15s;
-transition-timing-function: ease-in-out;
+.EffectInfoGeneralAnimation {
+    transition-property: brightness;
+    transition-duration: 0.15s;
+    transition-timing-function: ease-in-out;
 
 
 }
 
 
-.EffectInfoGeneralAnimation:hover
-{
-brightness: 3;
+.EffectInfoGeneralAnimation:hover {
+    brightness: 3;
 
 
 }
 
 
-.EffectInfoGeneralAnimation:active
-{
-brightness: 1;
+.EffectInfoGeneralAnimation:active {
+    brightness: 1;
 
 
 }
 
 
-.EffectLocked
-{
-wash-color: #000000a0;
-brightness: 0.9;
-border: 1px solid red;
+.EffectLocked {
+    wash-color: #000000a0;
+    brightness: 0.9;
+    border: 1px solid red;
 
 
 }
 
 
-RadioButton:selected
-{
-border-color: #beaee6;
+RadioButton:selected {
+    border-color: #beaee6;
 
 
 }
 
 
-.RadioBox
-{
-visibility: collapse;
+.RadioBox {
+    visibility: collapse;
 
 
 }
 
-#HeroAviableInBPPlus
-{
-	font-size: 16px;
+#HeroAviableInBPPlus {
+    font-size: 16px;
 
-	font-weight: bold;
+    font-weight: bold;
 
-	color: gold;
+    color: gold;
 
-	margin-left: 5px;
+    margin-left: 5px;
 
-	align: center center;
+    align: center center;
 
-	tooltip-position: top;
-
-}
-
-.BPHeroBlock
-{
-	width: 100%;
-
-	height: 100%;
-
-	tooltip-position: top;
-
-	flow-children: right;
+    tooltip-position: top;
 
 }
 
-.BPLogoPick
-{
-	background-image:  url("file://{images}/custom_game/birzhapass/passbuttonoff_png.png");
+.BPHeroBlock {
+    width: 100%;
+    height: 100%;
+    tooltip-position: top;
+    flow-children: right;
+    visibility: collapse;
+}
 
-	background-size: contain;
+.BPLogoPick {
+    background-image: url("file://{images}/custom_game/birzhapass/passbuttonoff_png.png");
+
+    background-size: contain;
 
     width: 50px;
 
@@ -1517,302 +1310,748 @@ visibility: collapse;
 
 
 
-#HeroRankTitle
-{
-	width: 70%;
+#HeroRankTitle {
+    width: 70%;
 
-	height: 30px;
+    height: 30px;
 
-	text-align: center;
+    text-align: center;
 
-	margin-top: 2px;
+    margin-top: 2px;
 
-	margin-bottom: 10px;
+    margin-bottom: 10px;
 
-	font-size: 18px;
+    font-size: 18px;
 
-	font-weight: bold;
+    font-weight: bold;
 
-	color: white;
+    color: white;
 
-	align: center center;
+    align: center center;
 
-	border-bottom: 1px solid #fff;
+    border-bottom: 1px solid #fff;
 
-	border-brush: gradient( radial, 50% 50%, 0% 0%, 50% 55%, from( white ), to( #fff0 ) );
-
-}
-
-#HeroBPProgress
-{
-	margin-top: 1px;
-
-	width: 100%;
-
-	flow-children: down;
+    border-brush: gradient(radial, 50% 50%, 0% 0%, 50% 55%, from(white), to(#fff0));
 
 }
 
-#HeroBPProgressAviableBPPlus
-{
-	margin-top: 2px;
+#HeroBPProgress {
+    margin-top: 1px;
 
-	margin-bottom: 10px;
+    width: 100%;
 
-	font-size: 18px;
-
-	font-weight: bold;
-
-	color: gold;
-
-	align: center center;
-
-	text-align: center;
-
-	width: 70%;
-
-	height: 30px;
-
-	border-bottom: 1px solid #fff;
-
-	border-brush: gradient( radial, 50% 50%, 0% 0%, 50% 55%, from( white ), to( #fff0 ) );
+    flow-children: down;
 
 }
 
-.RankIconPanel
-{
-	align: center center;
+#HeroBPProgressAviableBPPlus {
+    margin-top: 2px;
 
-	flow-children: down;
+    margin-bottom: 10px;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    color: gold;
+
+    align: center center;
+
+    text-align: center;
+
+    width: 70%;
+
+    height: 30px;
+
+    border-bottom: 1px solid #fff;
+
+    border-brush: gradient(radial, 50% 50%, 0% 0%, 50% 55%, from(white), to(#fff0));
 
 }
 
-#RankIcon
+.RankIconPanel {
+    align: center center;
+
+    flow-children: down;
+
+}
+
+#RankIcon {
+    width: 48px;
+
+    height: 48px;
+
+    background-image: url("file://{images}/custom_game/hero_rank/rank_0.png");
+
+    background-size: 100%;
+
+    align: center center;
+
+}
+
+#RankName {
+    margin-top: 2px;
+
+    margin-bottom: 5px;
+
+    font-size: 22px;
+
+    color: white;
+
+    align: center center;
+
+}
+
+
+.HeroExpLabel {
+    font-size: 18px;
+
+    font-weight: bold;
+
+    margin-right: 10px;
+
+    color: white;
+
+}
+
+#HeroExpLabel2 {
+    font-size: 19px;
+
+    color: #dccd83;
+
+}
+
+.HeroLevelProgressBarPanelLabels {
+    flow-children: down;
+
+}
+
+.HeroLevelLabel {
+    font-size: 18px;
+
+    font-weight: bold;
+
+    margin-right: 5px;
+
+    color: white;
+
+}
+
+#HeroLevelLabel2 {
+    font-size: 19px;
+
+    color: #dccd83;
+
+}
+
+#HeroLevelProgressBarPanel {
+    margin-top: 20px;
+
+    flow-children: down;
+
+    align: center center;
+
+}
+
+.ProgressHeroBarPanel {
+    margin-top: 5px;
+
+    width: 300px;
+
+    height: 10px;
+
+    box-shadow: black 0 0px 6px;
+
+    margin-bottom: 5px;
+
+}
+
+.ProgressHeroBarPanelBack {
+    width: 100%;
+
+    height: 100%;
+
+    background-color: gray;
+
+}
+
+#ProgressHeroBarPanelActive {
+    background-color: gradient(linear, 0% 0%, 100% 0%, from(#ae9249), to(#e0c59a));
+
+    height: 100%;
+
+    width: 0%;
+
+}
+
+.repick_hero_panel {
+    width: 300px;
+
+    horizontal-align: center;
+
+    height: 60px;
+
+    margin-bottom: 20px;
+
+    background-size: contain;
+
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#404D65dd), to(#2B3445dd));
+
+    border-top: 1px solid #6F819B;
+
+    border-left: 1px solid #6F819B22;
+
+    border-right: 1px solid #6F819B11;
+
+    border-bottom: 1px solid #3F414B33;
+
+    transition-property: brightness;
+
+    transition-duration: 0.15s;
+
+    transition-timing-function: ease-in-out;
+
+    box-shadow: #0000008f 0px 0px 15px 2px;
+
+}
+
+.repick_hero_panel:hover {
+    brightness: 2;
+
+}
+
+.repick_hero_panel_label {
+    align: center center;
+
+    color: white;
+
+    font-weight: bold;
+
+    font-size: 20px;
+
+}
+
+#MovieBackground2 {
+    width: 100%;
+
+    height: 100%;
+
+    blur: gaussian(5);
+
+    z-index: -20;
+
+}
+
+#MovieBackground {
+    width: 100%;
+
+    height: 100%;
+
+    blur: gaussian(5);
+
+    z-index: -20;
+
+}
+
+.pick_timer_particle {
+    width: 120px;
+
+    height: 120px;
+
+}
+
+.GameInformation {
+    flow-children: down;
+
+    horizontal-align: center;
+
+}
+
+.StateInfoGlobalClass {
+    horizontal-align: left;
+
+    flow-children: down;
+
+    margin-top: 80px;
+
+    margin-left: 40px;
+
+    width: 200px;
+
+}
+
+.AspectRatio4x3 .StateInfoGlobalClass {
+    horizontal-align: left;
+
+    flow-children: down;
+
+    margin-top: 10px;
+
+    margin-left: 100px;
+
+    width: 200px;
+
+}
+
+.panel_with_heroes 
 {
-	width: 48px;
+    flow-children: right-wrap;
+    margin-top: 15px;
+}
+.AllHeroesList
+{
+    flow-children: down;
+}
 
-	height: 48px;
 
-	background-image:  url("file://{images}/custom_game/hero_rank/rank_0.png");
+.close_general_pick
+{
+    transform: translateX(-500%);
+    opacity: 0;
+}
 
+.close_your_hero
+{
+    transform: translateX(500%);
+    opacity: 0;
+}
+
+.ban_panel
+{
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+.pick_panel
+{
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+.Banned .ban_panel
+{
+    opacity: 1;
+}
+.Picked .pick_panel
+{
+    opacity: 1;
+}
+
+
+
+.SearchHero
+{
+    margin-top: 15%;
+    width: 295px;
+    height: 30px;
+    margin-left: 46%;
+    border: 2px solid #a3aaa918;
+    z-index: 5;
+}
+
+.SearchLupa
+{
+    width: 20px;
+    height: 20px;
+    vertical-align: center;
+    margin-right: 10px;
+    horizontal-align: right;
+    background-image: url("s2r://panorama/images/control_icons/icon_search_png.vtex");
+    background-size: 100%;
+}
+
+.SearchHeroEntry
+{
+    width: 100%;
+    margin-left: 2px;
+    vertical-align: center;
+    font-size: 2px;
+    background-color: #00000000;
+    border: 0px solid black;
+    font-size: 16px;
+    font-weight: semi-bold;
+    color: gray;
+}
+
+TextEntry #PlaceholderText
+{
+    vertical-align: center;
+    font-size: 16px;
+    margin-top: -2px;
+    font-weight: semi-bold;
+}
+
+.CloseSearch
+{
+    width: 20px;
+    height: 20px;
+    background-image: url("s2r://panorama/images/control_icons/x_close_grey_psd.vtex"); 
+    background-size: 100%;
+    horizontal-align: right;
+    vertical-align: center;
+    margin-right: 10px;
+    opacity: 0;
+}
+
+.search_close
+{
+    opacity: 0;
+}
+
+.HeroDonateBlock 
+{
+    flow-children: down;
+    horizontal-align: center;
+    width: 900px;
+    height: 700px;
+    box-shadow: inset 0px 1px 0px rgba(238, 245, 255, 0.02);
+    background-color: gradient( radial, 0% 0%, 0% 0%, 140% 100%, from( #202833e4 ), to( #06080e ) );
+}
+
+.HeroDonateBlockButtons 
+{
+    flow-children: right;
+    width: 100%;
+    height: 70px;
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #434f5e5e ), to( #17191f86 ) );
+    box-shadow: inset 0px -1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.HeroDonateBlockButton 
+{
+    width: 290px;
+    height: 60px;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    box-shadow: #0000008f 0px 0px 15px 2px;
+}
+
+.ButtonBackgroundDonate
+{
+    width: 100%;
+    height: 100%;
+    background-image: url("s2r://panorama/images/custom_game/background_play_button_2x_png.vtex");
+    background-size: 100%;
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#5f1c6b), to(#53198e));
+    saturation: 0.5;
+}
+
+.HeroDonateBlockButton_active  .ButtonBackgroundDonate
+{
+    saturation: 0.95;
+}
+
+.HeroDonateBlockButton_selected  .ButtonBackgroundDonate
+{
+    saturation: 1;
+    brightness: 1.4;
+}
+
+.HeroDonateBlockButton_active:active 
+{
+    sound: "ui_generic_button_click";
+}
+
+.HeroDonateBlockButton_active:hover .ButtonBackgroundDonate
+{
+    brightness: 1.4;
+}
+
+.donate_button_label_press 
+{
+    margin-top: 2px;
+    text-transform: uppercase;
+    color: white;
+    horizontal-align: center;
+    font-weight: bold;
+    font-size: 24px;
+    letter-spacing: 2px;
+    text-align: center;
+    vertical-align: middle;
+    text-shadow: 0px 0px 6px 1.0 #000000;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 2px;
+}
+
+.ComingSoon
+{
+    width: 100px;
+    height: 30px;
+    background-color: gradient(linear, 0% 0%, 85% 0%, from(rgba(217, 165, 32, 0.7917)), to(rgba(217, 165, 32, 0.3)));
+    horizontal-align: left;
+    box-shadow: black 0 0 5px;
+}
+
+.ComingSoonLabel
+{
+    align: center center;
+    font-size: 20px;
+    color: white;
+    text-transform: uppercase;
+    font-weight: semi-bold;
+}
+
+.talent_hero_block
+{
+    width: 60px;
+    height: 60px;
+    margin-left: 5px;
+    margin-right: 5px;
+    horizontal-align: center;
+    background-image: url("file://{images}/custom_game/talents.png");
+    background-size: 100%;
+    box-shadow: fill black 0px 0px 10px -2px;
+    border-radius: 150px;
+}
+
+.DoubleRatingPanel
+{
+    width: 900px;
+    height: 200px;
+    margin-bottom: 4%;
+    horizontal-align: center;
+    box-shadow: inset 0px 1px 0px rgba(238, 245, 255, 0.02);
+    background-color: gradient( radial, 0% 0%, 0% 0%, 140% 100%, from( #202833e4 ), to( #06080e ) );
+    margin-top: 5%;
+}
+
+.DoubleRatingPanelHeader
+{
+    background-color: gradient(linear, 0% 0%, 85% 0%, from(rgba(127, 63, 129, 0.792)), to(rgba(157, 109, 185, 0)));
+    width: 50%;
+    height: 30px;
+}
+
+.ItemsBlockInventory
+{
+    margin-top: 7%;
+    margin-left: 7%;
+    vertical-align: center;
+    flow-children: down;
+}
+
+.DoubleRatingLabelHeader
+{
+    margin-left: 6px;
+    vertical-align: center;
+    font-size: 16px;
+    color: white;
+    text-transform: uppercase;
+    font-weight: semi-bold;
+}
+
+.BodyLabelDoubleRating
+{
+    font-size: 18px;
+    color: white;
+    font-weight: semi-bold;
+    margin-top: 40px;
+    margin-left: 20px;
+    width: 100%;
+}
+
+.double_rating_time_info
+{
+    vertical-align: bottom;
+    horizontal-align: right;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    color: gray;
+}
+
+.double_rating_token_has_info
+{
+    flow-children: right;
+    margin-left: 20px;
+    margin-top: 90px;
+}
+
+.double_rating_token_has_info_label
+{
+    color: white;
+    font-weight: semi-bold;
+    vertical-align: bottom;
+}
+
+.double_rating_token_counter
+{
+    color: gold;
+    font-weight: semi-bold;
+    margin-left: 10px;
+    font-size: 26px;
+    vertical-align: bottom;
+}
+
+.double_rating_token_counter_image {
+    width: 34px;
+    height: 34px;
+    vertical-align: center;
+    background-image: url("s2r://panorama/images/custom_game/birzhapass/token_png.vtex");
+    background-size: contain;
+    margin-left: 5px;
+}
+
+.button_double_rating_activate
+{
+    width: 300px;
+    height: 50px;
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #113a13 ), to( #1e812b ) );
+	border: 1px solid #4bea6030;
+    background-image: url("s2r://panorama/images/backgrounds/background_play_button_2x_png.vtex");
+    background-size: cover;
+    margin-top: 135px;
+    margin-left: 20px;
+    saturation: 0;
+}
+
+.button_double_rating_activate_label
+{
+    align: center center;
+    font-size: 22px;
+    font-weight: semi-bold;
+    color: white;
+    text-transform: uppercase;
+    text-shadow: 0px 0px 5px 3.0 #000000;
+}
+
+.button_double_rating_active
+{
+    saturation: 1;
+}
+.button_double_rating_active:hover
+{
+    brightness: 1.2;
+}
+
+.DonateBlockPanelWithItems
+{
+    width: 100%;
+    height: 100%;
+    flow-children: right-wrap;
+    overflow: squish scroll;
+}
+
+#DonateBlockPanelWithItems_3
+{
+    visibility: collapse;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.ItemInventory 
+{
+    width: 190px;
+    height: 170px;
+    background-image: url("file://{images}/custom_game/shop/item_block_nobuy.png");
 	background-size: 100%;
-
-	align: center center;
-
+    margin-left: 17px;
+    margin-right: 17px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    transition-duration: 0.25s;
+    transition-property: pre-transform-scale2d, background-color;
 }
 
-#RankName
+.ItemInventory:hover 
 {
-	margin-top: 2px;
-
-	margin-bottom: 5px;
-
-	font-size: 22px;
-
-	color: white;
-
-	align: center center;
-
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( black ), to( #122b28 ) );
 }
 
-
-.HeroExpLabel
-{
-	font-size: 18px;
-
-	font-weight: bold;
-
-	margin-right: 10px;
-
-	color: white;
-
-}
-#HeroExpLabel2
-{
-	font-size: 19px;
-
-	color: #dccd83;
-
-}
-.HeroLevelProgressBarPanelLabels
-{
-	flow-children: down;
-
-}
-.HeroLevelLabel
-{
-	font-size: 18px;
-
-	font-weight: bold;
-
-	margin-right: 5px;
-
-	color: white;
-
-}
-#HeroLevelLabel2
-{
-	font-size: 19px;
-
-	color: #dccd83;
-
-}
-#HeroLevelProgressBarPanel
-{
-	margin-top: 20px;
-
-	flow-children: down;
-
-	align: center center;
-
-}
-.ProgressHeroBarPanel
-{
-	margin-top: 5px;
-
-	width: 300px;
-
-	height: 10px;
-
-	box-shadow: black 0 0px 6px;
-
-	margin-bottom: 5px;
-
+.ItemInventory:hover .ItemImage {
+    pre-transform-scale2d: 1.05;
 }
 
-.ProgressHeroBarPanelBack
+.ItemInventory:hover .BuyItemPanel {
+    brightness: 1.2;
+}
+.ItemImage 
 {
-	width: 100%;
-
-	height: 100%;
-
-	background-color: gray;
-
+    width: 150px;
+    height: 100px;
+    align: center center;
+    margin-bottom: 60px;
+    background-size: contain;
+    transition-duration: 0.25s;
+    transition-property: pre-transform-scale2d;
 }
 
-#ProgressHeroBarPanelActive
-{
-	background-color: gradient( linear, 0% 0%, 100% 0%, from( #ae9249 ), to( #e0c59a ) );
-
-	height: 100%;
-
-	width: 0%;
-
+.ItemName {
+    text-align: center;
+    font-size: 15px;
+    color: white;
+    font-weight: bold;
+    align: center bottom;
+    margin-bottom: 42px;
+    text-overflow: ellipsis;
+    width: 90%;
+    height: 20px;
+    font-family: Reaver;
 }
 
-.repick_hero_panel
+.BuyItemPanel 
 {
-	width: 300px;
-
-	horizontal-align: center;
-
-	height: 60px;
-
-	margin-bottom: 20px;
-
-	background-size: contain;
-
-	background-color: gradient( linear, 0% 0%, 0% 100%, from( #404D65dd ), to( #2B3445dd ) );
-
-	border-top: 1px solid #6F819B;
-
-	border-left: 1px solid #6F819B22;
-
-	border-right: 1px solid #6F819B11;
-
-	border-bottom: 1px solid #3F414B33;
-
-	transition-property: brightness;
-
-	transition-duration: 0.15s;
-
-	transition-timing-function: ease-in-out;
-
-	box-shadow: #0000008f 0px 0px 15px 2px;
-
+    width: 150px;
+    height: 30px;
+    background-image: url("file://{images}/custom_game/shop/select.png");
+	background-size: 100%;
+    align: center bottom;
+    margin-bottom: 10px;
 }
 
-.repick_hero_panel:hover
+.item_buying
 {
-	brightness: 2;
-
+    background-image: url("file://{images}/custom_game/shop/select_closed.png");
+	background-size: 100%;  
 }
 
-.repick_hero_panel_label
+.item_deactive
 {
-	align: center center;
-
-	color: white;
-
-	font-weight: bold;
-
-	font-size: 20px;
-
+    background-image: url("file://{images}/custom_game/shop/select_deactive.png");
+	background-size: 100%;  
 }
 
-#MovieBackground2
-{
-	width: 100%;
-
-	height: 100%;
-
-	blur: gaussian( 5 );
-
-	z-index: -20;
-
-}
-#MovieBackground
-{
-	width: 100%;
-
-	height: 100%;
-
-	blur: gaussian( 5 );
-
-	z-index: -20;
-
+.ItemPrice{
+    align: center center;
+    flow-children: right;
 }
 
-.pick_timer_particle
+.PriceIcongold 
 {
-	width: 120px;
-
-	height: 120px;
-
+    width: 25px;
+    height: 25px;
+    background-image: url("file://{images}/custom_game/shop/gold_icon.png");
+    background-size: 100%;
+    vertical-align: center;
+    margin-right: 2px;
 }
 
-.GameInformation
+.PriceIcongem 
 {
-	flow-children: down;
-
-	horizontal-align: center;
-
+    width: 25px;
+    height: 25px;
+    background-image: url("file://{images}/custom_game/shop/gem_icon.png");
+    background-size: 100%;
+    vertical-align: center;
+    margin-right: 2px;
 }
 
-.StateInfoGlobalClass
-{
-	horizontal-align: left;
-
-	flow-children: down;
-
-	margin-top: 80px;
-
-	margin-left: 40px;
-
-	width: 200px;
-
-}
-
-.AspectRatio4x3 .StateInfoGlobalClass
-{
-	horizontal-align: left;
-
-	flow-children: down;
-
-	margin-top: 10px;
-
-	margin-left: 100px;
-
-	width: 200px;
-
+.PriceLabel {
+    vertical-align: center;
+    text-align: center;
+    font-size: 15px;
+    color: white;
 }

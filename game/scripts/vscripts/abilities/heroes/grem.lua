@@ -59,7 +59,7 @@ function modifier_grem_creepyappearance_debuff:OnCreated()
 end
 
 function modifier_grem_creepyappearance_debuff:OnIntervalThink()
-    local damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_grem_4")
+    local damage = self:GetAbility():GetSpecialValueFor("damage")
     
     local damageInfo = 
     {
@@ -176,7 +176,7 @@ end
 
 function modifier_grem_impenetrability:GetModifierPhysicalArmorBonus()
     if self:GetParent():IsIllusion() or self:GetParent():PassivesDisabled() then return end
-    return self:GetStackCount() * (self:GetAbility():GetSpecialValueFor("armor") + self:GetCaster():FindTalentValue("special_bonus_birzha_grem_5"))
+    return self:GetStackCount() * self:GetAbility():GetSpecialValueFor("armor")
 end
 
 function modifier_grem_impenetrability:GetModifierConstantHealthRegen()
@@ -320,6 +320,10 @@ function modifier_Grem_HardSkeleton:OnTakeDamage(params)
         damage_flags = DOTA_DAMAGE_FLAG_REFLECTION,
     }
 
+    if not self:GetCaster():HasTalent("special_bonus_birzha_grem_5") then
+        if params.attacker:IsMagicImmune() then return end
+    end
+
     if params.inflictor == nil then 
         ApplyDamage(damageTable) 
         local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_centaur/centaur_return.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
@@ -349,7 +353,7 @@ end
 
 function Grem_DoNothing:OnSpellStart()
     if not IsServer() then return end
-    local duration = self:GetSpecialValueFor("duration")
+    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_grem_4")
     self:GetCaster():Purge( false, true, false, true, false )
     self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_grem_donothing", { duration = duration } )
     self:GetCaster():EmitSound( "Hero_Terrorblade.Sunder.Target" )

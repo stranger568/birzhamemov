@@ -7,7 +7,7 @@ LinkLuaModifier("modifier_jew_flame_guard_shard_debuff", "abilities/heroes/jew",
 jew_flame_guard = class({}) 
 
 function jew_flame_guard:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_evrei_6")
+    return self.BaseClass.GetCooldown( self, level )
 end
 
 function jew_flame_guard:GetManaCost(level)
@@ -15,7 +15,7 @@ function jew_flame_guard:GetManaCost(level)
 end
 
 function jew_flame_guard:GetCastRange(location, target)
-    return self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_evrei_2")
+    return self:GetSpecialValueFor("radius")
 end
 
 function jew_flame_guard:OnSpellStart()
@@ -46,19 +46,46 @@ function modifier_jew_flame_guard:OnCreated(keys)
     if not IsServer() then return end
     self:GetCaster():EmitSound("Hero_EmberSpirit.FlameGuard.Loop") 
     local tick_interval = self:GetAbility():GetSpecialValueFor("tick_interval")
-    local damage = self:GetAbility():GetSpecialValueFor("damage_per_second") + self:GetCaster():FindTalentValue("special_bonus_birzha_evrei_1")
-    local absorb_amount = (self:GetAbility():GetSpecialValueFor("absorb_amount") + self:GetCaster():FindTalentValue("special_bonus_birzha_evrei_3"))
+    local damage = self:GetAbility():GetSpecialValueFor("damage_per_second")
+    if self:GetCaster():HasTalent("special_bonus_birzha_evrei_5") then
+        damage = damage + (self:GetCaster():GetAverageTrueAttackDamage(nil) / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_evrei_5"))
+    end
+    local absorb_amount = self:GetAbility():GetSpecialValueFor("absorb_amount")
+    if self:GetCaster():HasTalent("special_bonus_birzha_evrei_2") then
+        absorb_amount = absorb_amount + (self:GetCaster():GetMaxHealth() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_evrei_2"))
+    end
+    self.start_shield = absorb_amount
     self.damage = damage * tick_interval
     self.remaining_health = absorb_amount
     self:SetStackCount(self.remaining_health)
+    self:SetHasCustomTransmitterData( true )
     self:StartIntervalThink(tick_interval)
+end
+
+function modifier_jew_flame_guard:AddCustomTransmitterData()
+    local data = 
+    {
+        start_shield = self.start_shield,
+    }
+    return data
+end
+
+function modifier_jew_flame_guard:HandleCustomTransmitterData( data )
+    self.start_shield = data.start_shield
 end
 
 function modifier_jew_flame_guard:OnRefresh(keys)
     if not IsServer() then return end
     local tick_interval = self:GetAbility():GetSpecialValueFor("tick_interval")
-    local damage = self:GetAbility():GetSpecialValueFor("damage_per_second") + self:GetCaster():FindTalentValue("special_bonus_birzha_evrei_1")
-    local absorb_amount = (self:GetAbility():GetSpecialValueFor("absorb_amount") + self:GetCaster():FindTalentValue("special_bonus_birzha_evrei_3"))
+    local damage = self:GetAbility():GetSpecialValueFor("damage_per_second")
+    if self:GetCaster():HasTalent("special_bonus_birzha_evrei_5") then
+        damage = damage + (self:GetCaster():GetAverageTrueAttackDamage(nil) / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_evrei_5"))
+    end
+    local absorb_amount = self:GetAbility():GetSpecialValueFor("absorb_amount")
+    if self:GetCaster():HasTalent("special_bonus_birzha_evrei_2") then
+        absorb_amount = absorb_amount + (self:GetCaster():GetMaxHealth() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_evrei_2"))
+    end
+    self.start_shield = absorb_amount
     self.damage = damage * tick_interval
     self.remaining_health = absorb_amount
     self:SetStackCount(self.remaining_health)
@@ -68,11 +95,14 @@ end
 function modifier_jew_flame_guard:OnDestroy()
     if not IsServer() then return end
     self:GetParent():StopSound("Hero_EmberSpirit.FlameGuard.Loop")
+    if self:GetCaster():HasTalent("special_bonus_birzha_evrei_6") then
+        self:GetCaster():Purge(false, true, false, true, true)
+    end
 end
 
 function modifier_jew_flame_guard:OnIntervalThink()
     if not IsServer() then return end
-    local radius = self:GetAbility():GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_evrei_2")
+    local radius = self:GetAbility():GetSpecialValueFor("radius")
     if self.remaining_health <= 0 then
         self:GetParent():RemoveModifierByName("modifier_jew_flame_guard")
     else
@@ -81,6 +111,7 @@ function modifier_jew_flame_guard:OnIntervalThink()
             ApplyDamage({victim = enemy, attacker = self:GetCaster(), ability = self:GetAbility(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL})
         end
     end
+    self:SendBuffRefreshToClients()
 end
 
 function modifier_jew_flame_guard:DeclareFunctions()
@@ -88,7 +119,7 @@ function modifier_jew_flame_guard:DeclareFunctions()
     {
         MODIFIER_PROPERTY_AVOID_DAMAGE,
         MODIFIER_PROPERTY_INCOMING_SPELL_DAMAGE_CONSTANT,
-        MODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_CONSTANT,
+        MODIFIER_PROPERTY_INCOMING_DAMAGE_CONSTANT,
     }
     return funcs
 end
@@ -113,17 +144,23 @@ function modifier_jew_flame_guard:GetModifierAvoidDamage(keys)
     end
 end
 
-function modifier_jew_flame_guard:GetModifierIncomingSpellDamageConstant()
+function modifier_jew_flame_guard:GetModifierIncomingSpellDamageConstant(params)
+    if self:GetCaster():HasTalent("special_bonus_birzha_evrei_8") then return end
     if (not IsServer()) then
+        if params.report_max then
+            return self.start_shield
+        end
         return self:GetStackCount()
     end
 end
 
-function modifier_jew_flame_guard:GetModifierIncomingPhysicalDamageConstant()
+function modifier_jew_flame_guard:GetModifierIncomingDamageConstant(params)
+    if not self:GetCaster():HasTalent("special_bonus_birzha_evrei_8") then return end
     if (not IsServer()) then
-        if self:GetCaster():HasTalent("special_bonus_birzha_evrei_8") then
-            return self:GetStackCount()
+        if params.report_max then
+            return self.start_shield
         end
+        return self:GetStackCount()
     end
 end
 
@@ -149,7 +186,7 @@ function modifier_jew_flame_guard_shard:GetModifierAura()
 end
 
 function modifier_jew_flame_guard_shard:GetAuraRadius()
-    return self:GetAbility():GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_evrei_2")
+    return self:GetAbility():GetSpecialValueFor("radius")
 end
 
 function modifier_jew_flame_guard_shard:GetAuraDuration()
@@ -192,7 +229,7 @@ function modifier_jew_flame_guard_shard_debuff:OnCreated(keys)
     if not IsServer() then return end
     self:GetCaster():EmitSound("Hero_EmberSpirit.FlameGuard.Loop") 
     local tick_interval = self:GetAbility():GetSpecialValueFor("tick_interval")
-    local damage = self:GetAbility():GetSpecialValueFor("damage_per_second") + self:GetCaster():FindTalentValue("special_bonus_birzha_evrei_1")
+    local damage = self:GetAbility():GetSpecialValueFor("damage_per_second")
     self.damage = damage * tick_interval
     self:StartIntervalThink(tick_interval)
 end
@@ -204,7 +241,7 @@ end
 
 function modifier_jew_flame_guard_shard_debuff:OnIntervalThink()
     if not IsServer() then return end
-    local radius = self:GetAbility():GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_evrei_2")
+    local radius = self:GetAbility():GetSpecialValueFor("radius")
     local nearby_enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
     for _, enemy in pairs(nearby_enemies) do
         ApplyDamage({victim = enemy, attacker = self:GetCaster(), ability = self:GetAbility(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL})
@@ -216,6 +253,11 @@ LinkLuaModifier("modifier_evrei_zhad_damage_buff", "abilities/heroes/jew.lua", L
 LinkLuaModifier("modifier_evrei_zhad_damage_debuff", "abilities/heroes/jew.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_evrei_zhad_damage_buff_stack", "abilities/heroes/jew.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_evrei_zhad_damage_debuff_stack", "abilities/heroes/jew.lua", LUA_MODIFIER_MOTION_NONE)
+
+LinkLuaModifier("modifier_evrei_zhad_attack_speed_buff", "abilities/heroes/jew.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_evrei_zhad_attack_speed_debuff", "abilities/heroes/jew.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_evrei_zhad_attack_speed_buff_stack", "abilities/heroes/jew.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_evrei_zhad_attack_speed_debuff_stack", "abilities/heroes/jew.lua", LUA_MODIFIER_MOTION_NONE)
 
 evrei_zhad = class({})
 
@@ -246,7 +288,7 @@ function modifier_evrei_zhad:OnAttackLanded(params)
     if params.target:IsWard() then return end
     if params.target:IsBoss() then return end
 
-    local duration = self:GetAbility():GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_evrei_5")
+    local duration = self:GetAbility():GetSpecialValueFor("duration")
 
     local effect_cast = ParticleManager:CreateParticle( "particles/econ/items/slark/slark_ti6_blade/slark_ti6_blade_essence_shift_gold.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.target )
     ParticleManager:SetParticleControl( effect_cast, 1, self:GetParent():GetOrigin() + Vector( 0, 0, 64 ) )
@@ -254,9 +296,35 @@ function modifier_evrei_zhad:OnAttackLanded(params)
 
     self:GetParent():AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_evrei_zhad_damage_buff_stack", { duration = duration } )
     self:GetParent():AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_evrei_zhad_damage_buff", { duration = duration } )
-
     params.target:AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_evrei_zhad_damage_debuff_stack", { duration = duration * (1-params.target:GetStatusResistance()) } )
     params.target:AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_evrei_zhad_damage_debuff", { duration = duration * (1-params.target:GetStatusResistance()) } )
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_evrei_7") then
+        self:GetParent():AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_evrei_zhad_attack_speed_buff_stack", { duration = duration } )
+        self:GetParent():AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_evrei_zhad_attack_speed_buff", { duration = duration } )
+        params.target:AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_evrei_zhad_attack_speed_debuff_stack", { duration = duration * (1-params.target:GetStatusResistance()) } )
+        params.target:AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_evrei_zhad_attack_speed_debuff", { duration = duration * (1-params.target:GetStatusResistance()) } )
+    end
+end
+
+function modifier_evrei_zhad:AttackTargetSuriken(target)
+    if not IsServer() then return end
+    if target:IsWard() then return end
+    if target:IsBoss() then return end
+    local duration = self:GetAbility():GetSpecialValueFor("duration")
+    local effect_cast = ParticleManager:CreateParticle( "particles/econ/items/slark/slark_ti6_blade/slark_ti6_blade_essence_shift_gold.vpcf", PATTACH_ABSORIGIN_FOLLOW, target )
+    ParticleManager:SetParticleControl( effect_cast, 1, self:GetParent():GetOrigin() + Vector( 0, 0, 64 ) )
+    ParticleManager:ReleaseParticleIndex( effect_cast )
+    self:GetParent():AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_evrei_zhad_damage_buff_stack", { duration = duration } )
+    self:GetParent():AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_evrei_zhad_damage_buff", { duration = duration } )
+    target:AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_evrei_zhad_damage_debuff_stack", { duration = duration * (1-target:GetStatusResistance()) } )
+    target:AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_evrei_zhad_damage_debuff", { duration = duration * (1-target:GetStatusResistance()) } )
+    if self:GetCaster():HasTalent("special_bonus_birzha_evrei_7") then
+        self:GetParent():AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_evrei_zhad_attack_speed_buff_stack", { duration = duration } )
+        self:GetParent():AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_evrei_zhad_attack_speed_buff", { duration = duration } )
+        target:AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_evrei_zhad_attack_speed_debuff_stack", { duration = duration * (1-target:GetStatusResistance()) } )
+        target:AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_evrei_zhad_attack_speed_debuff", { duration = duration * (1-target:GetStatusResistance()) } )
+    end
 end
 
 modifier_evrei_zhad_damage_buff = class({})
@@ -272,17 +340,14 @@ end
 function modifier_evrei_zhad_damage_buff:OnIntervalThink()
     if not IsServer() then return end
     local modifier = self:GetParent():FindAllModifiersByName("modifier_evrei_zhad_damage_buff_stack")
-    local damage_steal = self:GetAbility():GetSpecialValueFor("damage_steal")
-    if self:GetCaster():HasTalent("special_bonus_birzha_evrei_7") then
-        damage_steal = damage_steal * self:GetCaster():FindTalentValue("special_bonus_birzha_evrei_7")
-    end
+    local damage_steal = self:GetAbility():GetSpecialValueFor("damage_steal") + self:GetCaster():FindTalentValue("special_bonus_birzha_evrei_1")
     self:SetStackCount(#modifier * damage_steal)
 end
 
 function modifier_evrei_zhad_damage_buff:DeclareFunctions()
     return 
     {
-        MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE
+        MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
     }
 end
 
@@ -303,10 +368,7 @@ end
 function modifier_evrei_zhad_damage_debuff:OnIntervalThink()
     if not IsServer() then return end
     local modifier = self:GetParent():FindAllModifiersByName("modifier_evrei_zhad_damage_debuff_stack")
-    local damage_steal = self:GetAbility():GetSpecialValueFor("damage_steal")
-    if self:GetCaster():HasTalent("special_bonus_birzha_evrei_7") then
-        damage_steal = damage_steal * self:GetCaster():FindTalentValue("special_bonus_birzha_evrei_7")
-    end
+    local damage_steal = self:GetAbility():GetSpecialValueFor("damage_steal") + self:GetCaster():FindTalentValue("special_bonus_birzha_evrei_1")
     self:SetStackCount(#modifier * damage_steal)
 end
 
@@ -341,6 +403,85 @@ end
 function modifier_evrei_zhad_damage_debuff_stack:IsPurgable() return false end
 
 function modifier_evrei_zhad_damage_debuff_stack:GetAttributes()
+    return MODIFIER_ATTRIBUTE_MULTIPLE
+end
+
+modifier_evrei_zhad_attack_speed_buff = class({})
+
+function modifier_evrei_zhad_attack_speed_buff:IsPurgable() return false end
+function modifier_evrei_zhad_attack_speed_buff:IsHidden() return self:GetStackCount() == 0 end
+
+function modifier_evrei_zhad_attack_speed_buff:OnCreated()
+    if not IsServer() then return end
+    self:StartIntervalThink(FrameTime())
+end
+
+function modifier_evrei_zhad_attack_speed_buff:OnIntervalThink()
+    if not IsServer() then return end
+    local modifier = self:GetParent():FindAllModifiersByName("modifier_evrei_zhad_attack_speed_buff_stack")
+    local damage_steal = self:GetCaster():FindTalentValue("special_bonus_birzha_evrei_7")
+    self:SetStackCount(#modifier * damage_steal)
+end
+
+function modifier_evrei_zhad_attack_speed_buff:DeclareFunctions()
+    return 
+    {
+        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+    }
+end
+
+function modifier_evrei_zhad_attack_speed_buff:GetModifierAttackSpeedBonus_Constant()
+    return self:GetStackCount()
+end
+
+modifier_evrei_zhad_attack_speed_debuff = class({})
+
+function modifier_evrei_zhad_attack_speed_debuff:IsPurgable() return false end
+function modifier_evrei_zhad_attack_speed_debuff:IsHidden() return self:GetStackCount() == 0 end
+
+function modifier_evrei_zhad_attack_speed_debuff:OnCreated()
+    if not IsServer() then return end
+    self:StartIntervalThink(FrameTime())
+end
+
+function modifier_evrei_zhad_attack_speed_debuff:OnIntervalThink()
+    if not IsServer() then return end
+    local modifier = self:GetParent():FindAllModifiersByName("modifier_evrei_zhad_attack_speed_debuff_stack")
+    local damage_steal = self:GetCaster():FindTalentValue("special_bonus_birzha_evrei_7")
+    self:SetStackCount(#modifier * damage_steal)
+end
+
+function modifier_evrei_zhad_attack_speed_debuff:DeclareFunctions()
+    return 
+    {
+        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+    }
+end
+
+function modifier_evrei_zhad_attack_speed_debuff:GetModifierAttackSpeedBonus_Constant()
+    return self:GetStackCount() * -1
+end
+
+modifier_evrei_zhad_attack_speed_buff_stack = class({})
+
+function modifier_evrei_zhad_attack_speed_buff_stack:IsHidden()
+    return true
+end
+function modifier_evrei_zhad_attack_speed_buff_stack:IsPurgable() return false end
+
+function modifier_evrei_zhad_attack_speed_buff_stack:GetAttributes()
+    return MODIFIER_ATTRIBUTE_MULTIPLE
+end
+
+modifier_evrei_zhad_attack_speed_debuff_stack = class({})
+
+function modifier_evrei_zhad_attack_speed_debuff_stack:IsHidden()
+    return true
+end
+
+function modifier_evrei_zhad_attack_speed_debuff_stack:IsPurgable() return false end
+
+function modifier_evrei_zhad_attack_speed_debuff_stack:GetAttributes()
     return MODIFIER_ATTRIBUTE_MULTIPLE
 end
 
@@ -379,7 +520,7 @@ end
 function modifier_evrei_znak:IsPurgable() return false end
 
 function modifier_evrei_znak:DeclareFunctions()
-    local declfuncs = {MODIFIER_PROPERTY_STATS_AGILITY_BONUS, MODIFIER_PROPERTY_STATS_STRENGTH_BONUS}
+    local declfuncs = {MODIFIER_PROPERTY_STATS_AGILITY_BONUS, MODIFIER_PROPERTY_STATS_STRENGTH_BONUS, MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT}
     return declfuncs
 end
 
@@ -391,6 +532,10 @@ end
 function modifier_evrei_znak:GetModifierBonusStats_Strength()
     if self:GetParent():PassivesDisabled() then return end
     return self:GetAbility():GetSpecialValueFor("bonus_strength")
+end
+
+function modifier_evrei_znak:GetModifierAttackSpeedBonus_Constant()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_evrei_3")
 end
 
 function evrei_znak:OnSpellStart()
@@ -457,6 +602,11 @@ function evrei_znak:OnProjectileHit_ExtraData(target, location, ExtraData)
     ApplyDamage({attacker = self:GetCaster(), victim = target, ability = self, damage = scepter_damage, damage_type = DAMAGE_TYPE_MAGICAL})
     target:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = scepter_stun * (1 - target:GetStatusResistance())})
 
+    local modifier_evrei_zhad = self:GetCaster():FindModifierByName("modifier_evrei_zhad")
+    if modifier_evrei_zhad then
+        modifier_evrei_zhad:AttackTargetSuriken(target)
+    end
+
     if ExtraData.count > 0 then
         ExtraData.count = ExtraData.count - 1
         local units = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), target:GetAbsOrigin(), nil, scepter_radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, FIND_CLOSEST, false )
@@ -490,6 +640,24 @@ end
 function modifier_evrei_gold:OnCreated()
     if not IsServer() then return end
     self:StartIntervalThink(FrameTime())
+end
+
+function modifier_evrei_gold:DeclareFunctions()
+    return
+    {
+        MODIFIER_EVENT_ON_DEATH
+    }
+end
+
+function modifier_evrei_gold:OnDeath(params)
+    if not IsServer() then return end
+    if params.attacker == nil then return end
+    if params.unit == self:GetParent() then return end
+    if params.unit:GetTeamNumber() == self:GetCaster():GetTeamNumber() then return end
+    if params.attacker:GetTeamNumber() ~= self:GetParent():GetTeamNumber() then return end
+    if not params.unit:IsRealHero() then return end
+    local bonus_gold_per_kill = self:GetAbility():GetSpecialValueFor("bonus_gold_per_kill")
+    self:GetCaster():ModifyGold(bonus_gold_per_kill, true, 0)
 end
 
 function modifier_evrei_gold:OnIntervalThink()

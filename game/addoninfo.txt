@@ -29,11 +29,11 @@
 			map = "birzhamemov_trio"
 		},
 		{
-			MaxPlayers = 8
+			MaxPlayers = 10
 			map = "birzhamemov_duo"
 		},
 		{
-			MaxPlayers = 8
+			MaxPlayers = 10
 			map = "birzhamemov_solo"
 		},
 		{

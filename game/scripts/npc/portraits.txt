@@ -41,9 +41,9 @@
 		{
 			"default"
 			{
-				"PortraitPosition"		"331.764404 119.020172 150.554466"
+				"PortraitPosition"		"331.764404 119.020172 180.554466"
 				"PortraitAngles"		"354.919342 200.797699 0.000000"
-				"PortraitFOV"		"6.000000"
+				"PortraitFOV"		"10.000000"
 				"PortraitFar"		"1000.000000"
 			}
 		}
@@ -98,7 +98,7 @@
 		"PortraitAmbientDirection"		"-0.080 352.230 213.060"
 		"PortraitAnimationActivity"		"ACT_DOTA_IDLE"
 	}
-	"models/heroes/anime/overlord/overlord2/overlord2.vmdl"
+	"models/update_heroes/overlord_anime/overlord.vmdl"
 	{
 		"PortraitLightPosition"		"106.913757 -64.295067 186.072372"
 		"PortraitLightAngles"		"48.081665 135.670166 0.000000"
@@ -231,44 +231,34 @@
 
 	"models/nolik/nolik.vmdl"
 	{
-		"PortraitLightPosition"		"106.913757 -64.295067 186.072372"
-		"PortraitLightAngles"		"48.081665 135.670166 0.000000"
-		"PortraitLightFOV"		"90.000000"
-		"PortraitLightDistance"		"133.000000"
-		"PortraitLightColor"		"229 239 255"
-		"PortraitShadowColor"		"33 33 33"
+		"PortraitLightPosition"		"-48.21 -7.66 261.47"
+		"PortraitLightAngles"		"132.12 191.71 0.00"
+		"PortraitLightFOV"		"90"
+		"PortraitLightDistance"		"95"
+		"PortraitLightColor"		"165 223 254"
+		"PortraitShadowColor"		"25 25 25"
 		"PortraitShadowScale"		"5.000000"
-		"PortraitAmbientColor"		"99 50 38"
-		"PortraitAmbientScale"		"6.202000"
+		"PortraitAmbientColor"		"69 100 108"
+		"PortraitAmbientScale"		"5.000000"
 		"PortraitSpecularColor"		"251 74 84"
-		"PortraitParticle"		"particles/econ/items/lina/lina_head_headflame/portrait_lina_glow_alt1.vpcf"
-		"PortraitBackgroundTexture"		"materials/portraits_card/portrait_backgrounds/leshrac.vmat"
-		"PortraitLightScale"		"1.950000"
-		"PortraitGroundShadowScale"		"1.500000"
-		"PortraitAmbientDirection"		"-0.546 0.791 0.276"
-		"PortraitAnimationActivity"		"ACT_DOTA_CAPTURE"
+		"PortraitBackgroundTexture"		"materials/vgui/hud/heroportraits/portraitbackground_desert.vmat"
+		"PortraitBackgroundColor1"		".7 .5 1"
+		"PortraitBackgroundColor2"		".3 .5 1"
+		"PortraitBackgroundColor3"		".1 .2 1"
+		"PortraitBackgroundColor4"		".3 .5 1"
+		"PortraitLightScale"		"5.000000"
+
+		"PortraitAnimationActivity"		"ACT_DOTA_IDLE"
 		"cameras"
 		{
 			"default"
 			{
-				"PortraitPosition"		"331.764404 130.020172 93.554466"
+				"PortraitPosition"		"331.764404 80.020172 200.554466"
 				"PortraitAngles"		"354.919342 200.797699 0.000000"
-				"PortraitFOV"		"20.000000"
+				"PortraitFOV"		"50.000000"
 				"PortraitFar"		"1000.000000"
 			}
 		}
-		"PortraitSpecularDirection"		"0.000000 0.000000 -1.000000"
-		"PortraitSpecularPower"		"16.000000"
-		"PortraitBackgroundColor1"		"1.000000 1.000000 1.000000"
-		"PortraitBackgroundColor2"		"1.000000 1.000000 1.000000"
-		"PortraitBackgroundColor3"		"1.000000 1.000000 1.000000"
-		"PortraitBackgroundColor4"		"1.000000 1.000000 1.000000"
-		"PortraitAnimationCycle"		"0.000000"
-		"PortraitAnimationRate"		"1.000000"
-		"PortraitHideHero"		"0"
-		"PortraitHideParticles"		"0"
-		"PortraitHideDropShadow"		"0"
-		"PortraitDesaturateParticles"		"0"
 	}
 	"models/heroes/anime/opm/saitama/saitama.vmdl"
     {
@@ -396,7 +386,7 @@
 		"PortraitHideDropShadow"		"0"
 		"PortraitDesaturateParticles"		"0"
 	}
-	"models/heroes/anime/jojo/white_snake/pucci/pucci.vmdl"
+	"models/update_heroes/pucci/pucci.vmdl"
 	{
 		"PortraitLightPosition"		"106.913757 -64.295067 186.072372"
 		"PortraitLightAngles"		"48.081665 135.670166 0.000000"
@@ -483,7 +473,7 @@
 		"PortraitHideDropShadow"		"0"
 		"PortraitDesaturateParticles"		"0"
 	}
-	"models/migi/migi.vmdl"
+	"models/update_heroes/migi/migi.vmdl"
 	{
 		"PortraitLightPosition"		"106.913757 -64.295067 186.072372"
 		"PortraitLightAngles"		"48.081665 135.670166 0.000000"
@@ -769,7 +759,7 @@
 		"PortraitDesaturateHero"		"1"
 	}
 
-	"models/heroes/anime/berserk/guts/guts.vmdl"
+	"models/update_heroes/guts/guts.vmdl"
 	{
 		"cameras"
 		{
@@ -811,7 +801,7 @@
 		"PortraitDesaturateHero"		"1"
 	}
 
-		"models/heroes/anime/berserk/berserk/berserk.vmdl"
+		"models/update_heroes/guts/guts_form.vmdl"
 	{
 		"cameras"
 		{
@@ -852,13 +842,13 @@
 		"PortraitDesaturateParticles"		"0"
 		"PortraitDesaturateHero"		"1"
 	}
-	"models/kakashi_new/kakashi.vmdl"
+	"models/update_heroes/kakashi/kakashi.vmdl"
 	{
 		"cameras"
 		{
 			"Default"
 			{
-				"PortraitPosition"		"170.799911 -89.415848 210.834023"
+				"PortraitPosition"		"170.799911 -99.415848 210.834023"
 				"PortraitAngles"		"4.090033 149.230042 0.000000"
 				"PortraitFOV"		"20.000000"
 				"PortraitFar"		"1000.000000"
@@ -893,7 +883,7 @@
 		"PortraitDesaturateParticles"		"0"
 		"PortraitDesaturateHero"		"1"
 	}
-	"models/haku/haku_mask.vmdl"
+	"models/update_heroes/haku/haku_with_mask.vmdl"
 	{
 		"cameras"
 		{
@@ -901,7 +891,7 @@
 			{
 				"PortraitPosition"		"170.799911 -99.415848 190.834023"
 				"PortraitAngles"		"4.090033 149.230042 0.000000"
-				"PortraitFOV"		"20.000000"
+				"PortraitFOV"		"15.000000"
 				"PortraitFar"		"1000.000000"
 			}
 		}
@@ -934,15 +924,15 @@
 		"PortraitDesaturateParticles"		"0"
 		"PortraitDesaturateHero"		"1"
 	}
-	"models/haku/haku.vmdl"	
+	"models/update_heroes/haku/haku_without_mask.vmdl"	
 	{
 		"cameras"
 		{
 			"Default"
 			{
-				"PortraitPosition"		"170.799911 -99.415848 190.834023"
+				"PortraitPosition"		"170.799911 -95.415848 190.834023"
 				"PortraitAngles"		"4.090033 149.230042 0.000000"
-				"PortraitFOV"		"20.000000"
+				"PortraitFOV"		"15.000000"
 				"PortraitFar"		"1000.000000"
 			}
 		}
@@ -975,15 +965,15 @@
 		"PortraitDesaturateParticles"		"0"
 		"PortraitDesaturateHero"		"1"
 	}
-	"models/heroes/aang/aang.vmdl"
+	"models/update_heroes/avatar_aang/avatar_aang.vmdl"
 	{
 		"cameras"
 		{
 			"Default"
 			{
-				"PortraitPosition"		"170.799911 -105.415848 105.834023"
+				"PortraitPosition"		"170.799911 -105.415848 170.834023"
 				"PortraitAngles"		"4.090033 149.230042 0.000000"
-				"PortraitFOV"		"8.000000"
+				"PortraitFOV"		"12.000000"
 				"PortraitFar"		"1000.000000"
 			}
 		}
@@ -1022,9 +1012,9 @@
 		{
 			"Default"
 			{
-				"PortraitPosition"		"170.799911 -100.415848 105.834023"
+				"PortraitPosition"		"170.799911 -95.415848 165.834023"
 				"PortraitAngles"		"4.090033 149.230042 0.000000"
-				"PortraitFOV"		"7.000000"
+				"PortraitFOV"		"14.000000"
 				"PortraitFar"		"1000.000000"
 			}
 		}
@@ -1059,7 +1049,7 @@
 	}
 
 
-			"models/heroes/anime/konosuba/megumin/megumin.vmdl"
+			"models/update_heroes/megumin/megumin.vmdl"
 	{
 		"PortraitLightPosition"		"69.29 -11.57 252.09"
 		"PortraitLightAngles"		"56.51 182.29 0.00"
@@ -1093,7 +1083,7 @@
 		}
 	}
 
-		"models/heroes/invoker/invoker.vmdl"
+	"models/update_heroes/ram/ram.vmdl"
 	{
 		"PortraitLightPosition"		"58.31 -7.69 209.67"
 		"PortraitLightAngles"		"28.08 150.08 7.47"
@@ -1113,9 +1103,9 @@
 		{
 			"default"
 			{
-				"PortraitPosition"		"85.65 -29.05 204.45"
+				"PortraitPosition"		"85.65 -29.05 234.45"
 				"PortraitAngles"		"17.70 157.15 0.00"
-				"PortraitFOV"		"19"
+				"PortraitFOV"		"45"
 			}
 		}
 	}
@@ -1278,7 +1268,7 @@
 		"PortraitDesaturateHero"		"1"
 	}
 	
-	"models/heroes/anime/ghoul/kaneki/kaneki_base/kaneki_base.vmdl"
+	"models/update_heroes/ruby/ruby.vmdl"
 	{
 		"cameras"
 		{
@@ -1342,7 +1332,7 @@
 		}
 	}
 	
-	"models/heroes/monika/monika.vmdl"
+	"models/update_heroes/monika/monika.vmdl"
 	{
 		"PortraitLightPosition"		"14.01 -58.95 179.59"
 		"PortraitLightAngles"		"39.61 63.38 0.00"
@@ -1364,7 +1354,7 @@
 		}
 	}
 	
-	"models/heroes/anime/rwby/ruby/ruby_basic.vmdl"
+	"models/update_heroes/kaneki/kaneki.vmdl"
 	{
 		"PortraitLightPosition"		"14.01 -58.95 179.59"
 		"PortraitLightAngles"		"39.61 63.38 0.00"
@@ -1386,7 +1376,7 @@
 		}
 	}
 
-	"models/heroes/anime/rwby/ruby/ruby_skythe.vmdl"
+	"models/update_heroes/kaneki/kaneki_form.vmdl"
 	{
 		"PortraitLightPosition"		"14.01 -58.95 179.59"
 		"PortraitLightAngles"		"39.61 63.38 0.00"
@@ -1552,7 +1542,7 @@
 			}
 		}
 	}
-		"models/items/courier/nilbog/nilbog.vmdl"
+		"models/dimon/dimon_model.vmdl"
 	{
 		"PortraitLightPosition"		"276.429993 -18.010000 333.350006"
 		"PortraitLightAngles"		"33.889999 183.929993 0.000000"
@@ -1737,7 +1727,7 @@
 		"PortraitDesaturateHero"		"1"
 	}
 	
-		"models/heroes/thomas/thomas.vmdl"
+	"models/update_heroes/train_thomas/train_thomas.vmdl"
 	{
 		"cameras"
 		{
@@ -1779,15 +1769,15 @@
 		"PortraitDesaturateHero"		"1"
 	}
 	
-	"models/hero_knuckles.vmdl"
+	"models/update_heroes/knuckles/knuckles.vmdl"
 	{
 		"cameras"
 		{
 			"default"
 			{
-				"PortraitPosition"		"600.000000 -43.000000 -6.000000"
+				"PortraitPosition"		"600.000000 -49.000000 25.000000"
 				"PortraitAngles"		"357.600006 175.899994 0.000000"
-				"PortraitFOV"		"2.000000"
+				"PortraitFOV"		"5.000000"
 				"PortraitFar"		"1000.000000"
 			}
 		}
@@ -1821,7 +1811,7 @@
 		"PortraitDesaturateHero"		"1"
 	}
 	
-	"models/models/heroes/scp/scp_173.vmdl"
+	"models/update_heroes/scp173/scp173.vmdl"
 	{
 		"PortraitLightPosition"		"86.56 23.62 204.19"
 		"PortraitLightAngles"		"158.54 7.73 0.00"
@@ -1849,13 +1839,13 @@
 		}
 	}
 
-	"models/knuckles_tank.vmdl"
+	"models/update_heroes/knuckles/knuckles_tank.vmdl"
 	{
 		"cameras"
 		{
 			"default"
 			{
-				"PortraitPosition"		"600.000000 -43.000000 -12.000000"
+				"PortraitPosition"		"600.000000 -68.000000 57.000000"
 				"PortraitAngles"		"357.600006 175.899994 0.000000"
 				"PortraitFOV"		"2.000000"
 				"PortraitFar"		"1000.000000"
@@ -2064,7 +2054,7 @@
 			}
 		}
 	}
-	"models/heroes/antimage/antimage.vmdl"
+	"models/update_heroes/illidan/illidan_base.vmdl"
 	{
 		"PortraitLightPosition"		"14.01 -58.95 179.59"
 		"PortraitLightAngles"		"39.61 63.38 0.00"
@@ -2089,9 +2079,9 @@
 		{
 			"default"
 			{
-				"PortraitPosition"		"29.12 -146.64 155.75"
-				"PortraitAngles"		"6.12 98.04 0.00"
-				"PortraitFOV"		"16"
+				"PortraitPosition"		"420.05 265.08 -141.20"
+				"PortraitAngles"		"331.40 212.98 0.00"
+				"PortraitFOV"		"4"
 			}
 		}
 	}
@@ -2692,7 +2682,7 @@
 			}
 		}
 	}
-	"models/models/heroes/overlord/minion.vmdl"
+	"models/update_heroes/overlord_game/minion/overlord_minion.vmdl"
 	{
 		"PortraitLightPosition"		"202.70 -23.15 308.17"
 		"PortraitLightAngles"		"54.79 171.70 0.00"
@@ -2720,6 +2710,37 @@
 				"PortraitPosition"		"224.38 -45.94 6.90"
 				"PortraitAngles"		"336.26 166.04 0.00"
 				"PortraitFOV"		"17"
+			}
+		}
+	}
+    "models/update_heroes/ghostface/ghost_face.vmdl"
+	{
+		"PortraitLightPosition"		"202.70 -23.15 308.17"
+		"PortraitLightAngles"		"54.79 171.70 0.00"
+		"PortraitLightFOV"		"63"
+		"PortraitLightDistance"		"214"
+		"PortraitLightColor"		"254 254 254"
+		"PortraitShadowColor"		"0 0 0"
+		"PortraitShadowScale"		"5.000000"
+		"PortraitAmbientColor"		"97 108 79"
+		"PortraitAmbientScale"		"5.000000"
+		"PortraitSpecularColor"		"251 74 84"
+		"PortraitBackgroundTexture"		"materials/vgui/hud/heroportraits/portraitbackground_darkclouds.vmat"
+		"PortraitBackgroundColor1"		"1 .5 0"
+		"PortraitBackgroundColor2"		"1 .6 0"
+		"PortraitBackgroundColor3"		"0 .1 .1"
+		"PortraitBackgroundColor4"		"0 .61 .60"
+		"PortraitLightScale"		"3.550000"
+		"PortraitGroundShadowScale"		"1.500000"
+		"PortraitAmbientDirection"		"-79.360 -81.870 -16.360"
+		"PortraitAnimationActivity"		"ACT_DOTA_IDLE"
+		"cameras"
+		{
+			"default"
+			{
+				"PortraitPosition"		"224.38 -55.94 62.90"
+				"PortraitAngles"		"336.26 166.04 0.00"
+				"PortraitFOV"		"10"
 			}
 		}
 	}
@@ -2990,7 +3011,7 @@
 			}
 		}
 	}
-	"models/heroes/siren/siren.vmdl"
+	"models/update_heroes/akame/akame.vmdl"
 	{
 		"PortraitLightPosition"		"135.22 -30.96 254.48"
 		"PortraitLightAngles"		"38.36 160.38 0.00"
@@ -3016,9 +3037,9 @@
 		{
 			"default"
 			{
-				"PortraitPosition"		"84.41 -39.83 100.65"
+				"PortraitPosition"		"84.41 -34.83 105.65"
 				"PortraitAngles"		"338.42 153.21 350.95"
-				"PortraitFOV"		"17"
+				"PortraitFOV"		"20"
 			}
 		}
 	}
@@ -3993,7 +4014,7 @@
 		}
 	}
 
-	"models/heroes/anime/jojo/the_world/the_world.vmdl"
+	"models/update_heroes/dio_base/dio_the_world.vmdl"
 	{
 		"PortraitLightPosition"		"214.17 -20.99 293.67"
 		"PortraitLightAngles"		"38.24 158.25 0.00"
@@ -4018,7 +4039,7 @@
 		{
 			"Default"
 			{
-				"PortraitPosition"		"67.086113 51.671745 215.598038"
+				"PortraitPosition"		"67.086113 41.671745 195.598038"
 				"PortraitAngles"		"20.789993 221.350098 0.000000"
 				"PortraitFOV"		"18.229000"
 				"PortraitFar"		"1000.000000"
@@ -4053,6 +4074,38 @@
 				"PortraitPosition"		"67.086113 41.671745 195.598038"
 				"PortraitAngles"		"20.789993 221.350098 0.000000"
 				"PortraitFOV"		"18.229000"
+				"PortraitFar"		"1000.000000"
+			}
+		}
+	}
+    "models/update_heroes/dio_base/dio_base.vmdl"
+	{
+		"PortraitLightPosition"		"214.17 -20.99 293.67"
+		"PortraitLightAngles"		"38.24 158.25 0.00"
+		"PortraitLightFOV"		"69"
+		"PortraitLightDistance"		"377"
+		"PortraitLightColor"		"254 223 184"
+		"PortraitShadowColor"		"74 74 74"
+		"PortraitShadowScale"		"5.000000"
+		"PortraitAmbientColor"		"114 97 97"
+		"PortraitAmbientScale"		"5.000000"
+		"PortraitSpecularColor"		"251 74 84"
+		"PortraitBackgroundTexture"		"materials/vgui/hud/heroportraits/portraitbackground_jaoquin.vmat"
+		"PortraitBackgroundColor1"		".6 .7 1"
+		"PortraitBackgroundColor2"		".6 .5 1"
+		"PortraitBackgroundColor3"		".7 .61 1"
+		"PortraitBackgroundColor4"		"1 .6 .2"
+		"PortraitLightScale"		"4.650000"
+		"PortraitGroundShadowScale"		"1.500000"
+		"PortraitAmbientDirection"		"-79.070 -84.150 -25.320"
+		"PortraitAnimationActivity"		"ACT_DOTA_IDLE"
+		"cameras"
+		{
+			"Default"
+			{
+				"PortraitPosition"		"67.086113 51.671745 215.598038"
+				"PortraitAngles"		"20.789993 221.350098 0.000000"
+				"PortraitFOV"		"28.229000"
 				"PortraitFar"		"1000.000000"
 			}
 		}
@@ -4098,7 +4151,7 @@
 		"PortraitDesaturateParticles"		"0"
 		"PortraitDesaturateHero"		"1"
 	}
-	"models/hero_rem/hero_rem_base.vmdl"
+	"models/update_heroes/rem/rem.vmdl"
 	{
 		"PortraitLightPosition"		"54.32 -28.73 186.20"
 		"PortraitLightAngles"		"32.66 172.56 0.00"
@@ -4130,7 +4183,7 @@
 			}
 		}
 	}
-	"models/models/heroes/felix/felix.vmdl"
+	"models/update_heroes/felix/felix.vmdl"
 	{
 		"PortraitLightPosition"		"54.32 -28.73 186.20"
 		"PortraitLightAngles"		"32.66 172.56 0.00"
@@ -4156,13 +4209,13 @@
 		{
 			"default"
 			{
-				"PortraitPosition"		"197.85 -93.32 151.22"
+				"PortraitPosition"		"197.85 -93.32 261.22"
 				"PortraitAngles"		"5.89 154.60 0.00"
-				"PortraitFOV"		"11"
+				"PortraitFOV"		"18"
 			}
 		}
 	}
-	"models/heroes/rin/rin.vmdl"
+	"models/update_heroes/rin/rin.vmdl"
 	{
 		"PortraitLightPosition"		"54.32 -28.73 186.20"
 		"PortraitLightAngles"		"32.66 172.56 0.00"
@@ -4188,13 +4241,13 @@
 		{
 			"default"
 			{
-				"PortraitPosition"		"207.85 -93.32 211.22"
+				"PortraitPosition"		"207.85 -97.32 181.22"
 				"PortraitAngles"		"5.89 154.60 0.00"
-				"PortraitFOV"		"11"
+				"PortraitFOV"		"9"
 			}
 		}
 	}
-	"models/heroes/horo/horo.vmdl"
+	"models/update_heroes/horo/horo.vmdl"
 	{
 		"PortraitLightPosition"		"54.32 -28.73 186.20"
 		"PortraitLightAngles"		"32.66 172.56 0.00"
@@ -4220,13 +4273,13 @@
 		{
 			"default"
 			{
-				"PortraitPosition"		"207.85 -98.32 208.22"
+				"PortraitPosition"		"207.85 -95.32 198.22"
 				"PortraitAngles"		"5.89 154.60 0.00"
 				"PortraitFOV"		"11"
 			}
 		}
 	}
-	"models/heroes/hisoka/hisoka.vmdl"
+	"models/update_heroes/hisoka/hisoka.vmdl"
 	{
 		"PortraitLightPosition"		"54.32 -28.73 186.20"
 		"PortraitLightAngles"		"32.66 172.56 0.00"
@@ -4258,7 +4311,7 @@
 			}
 		}
 	}
-	"models/scp_682/scp_crock_reference.vmdl"
+	"models/update_heroes/scp192/scp192.vmdl"
 	{
 		"PortraitLightPosition"		"54.32 -28.73 186.20"
 		"PortraitLightAngles"		"32.66 172.56 0.00"
@@ -4290,7 +4343,7 @@
 			}
 		}
 	}
-	"models/heroes/shiro/shiro.vmdl"
+	"models/update_heroes/shiro/shiro.vmdl"
 	{
 		"PortraitLightPosition"		"54.32 -28.73 186.20"
 		"PortraitLightAngles"		"32.66 172.56 0.00"
@@ -4316,9 +4369,9 @@
 		{
 			"default"
 			{
-				"PortraitPosition"		"207.85 -94.32 198.22"
+				"PortraitPosition"		"207.85 -90.32 250.22"
 				"PortraitAngles"		"5.89 154.60 0.00"
-				"PortraitFOV"		"11"
+				"PortraitFOV"		"16"
 			}
 		}
 	}
@@ -5162,7 +5215,7 @@
 			}
 		}
 	}
-	"models/heroes/goku/goku.vmdl"
+	"models/update_heroes/goku/goku_base.vmdl"
 	{
 		"PortraitLightPosition"		"52.68 -72.59 237.44"
 		"PortraitLightAngles"		"62.55 118.57 0.00"
@@ -5183,7 +5236,142 @@
 		{
 			"default"
 			{
-				"PortraitPosition"		"274.32 -155.73 115.11"
+				"PortraitPosition"		"274.32 -165.73 95.11"
+				"PortraitAngles"		"348.57 149.22 0.00"
+				"PortraitFOV"		"10"
+			}
+		}
+	}
+    "models/update_heroes/goku/goku_form_1.vmdl"
+	{
+		"PortraitLightPosition"		"52.68 -72.59 237.44"
+		"PortraitLightAngles"		"62.55 118.57 0.00"
+		"PortraitLightFOV"		"61"
+		"PortraitLightDistance"		"196"
+		"PortraitLightColor"		"229 254 249"
+		"PortraitShadowColor"		"131 104 129"
+		"PortraitShadowScale"		"1.200000"
+		"PortraitAmbientColor"		"79 159 194"
+		"PortraitAmbientScale"		"5.000000"
+		"PortraitSpecularColor"		"251 74 84"
+		"PortraitBackgroundTexture"		"materials/vgui/hud/heroportraits/portraitbackground_whiteexteriornight.vmat"
+		"PortraitLightScale"		"2.100000"
+		"PortraitGroundShadowScale"		"1.500000"
+		"PortraitAmbientDirection"		"-53.510 78.600 -133.900"
+		"PortraitAnimationActivity"		"ACT_DOTA_IDLE"
+		"cameras"
+		{
+			"default"
+			{
+				"PortraitPosition"		"274.32 -165.73 95.11"
+				"PortraitAngles"		"348.57 149.22 0.00"
+				"PortraitFOV"		"10"
+			}
+		}
+	}
+    "models/update_heroes/goku/goku_form_2.vmdl"
+	{
+		"PortraitLightPosition"		"52.68 -72.59 237.44"
+		"PortraitLightAngles"		"62.55 118.57 0.00"
+		"PortraitLightFOV"		"61"
+		"PortraitLightDistance"		"196"
+		"PortraitLightColor"		"229 254 249"
+		"PortraitShadowColor"		"131 104 129"
+		"PortraitShadowScale"		"1.200000"
+		"PortraitAmbientColor"		"79 159 194"
+		"PortraitAmbientScale"		"5.000000"
+		"PortraitSpecularColor"		"251 74 84"
+		"PortraitBackgroundTexture"		"materials/vgui/hud/heroportraits/portraitbackground_whiteexteriornight.vmat"
+		"PortraitLightScale"		"2.100000"
+		"PortraitGroundShadowScale"		"1.500000"
+		"PortraitAmbientDirection"		"-53.510 78.600 -133.900"
+		"PortraitAnimationActivity"		"ACT_DOTA_IDLE"
+		"cameras"
+		{
+			"default"
+			{
+				"PortraitPosition"		"274.32 -165.73 95.11"
+				"PortraitAngles"		"348.57 149.22 0.00"
+				"PortraitFOV"		"10"
+			}
+		}
+	}
+    "models/update_heroes/goku/goku_form_3.vmdl"
+	{
+		"PortraitLightPosition"		"52.68 -72.59 237.44"
+		"PortraitLightAngles"		"62.55 118.57 0.00"
+		"PortraitLightFOV"		"61"
+		"PortraitLightDistance"		"196"
+		"PortraitLightColor"		"229 254 249"
+		"PortraitShadowColor"		"131 104 129"
+		"PortraitShadowScale"		"1.200000"
+		"PortraitAmbientColor"		"79 159 194"
+		"PortraitAmbientScale"		"5.000000"
+		"PortraitSpecularColor"		"251 74 84"
+		"PortraitBackgroundTexture"		"materials/vgui/hud/heroportraits/portraitbackground_whiteexteriornight.vmat"
+		"PortraitLightScale"		"2.100000"
+		"PortraitGroundShadowScale"		"1.500000"
+		"PortraitAmbientDirection"		"-53.510 78.600 -133.900"
+		"PortraitAnimationActivity"		"ACT_DOTA_IDLE"
+		"cameras"
+		{
+			"default"
+			{
+				"PortraitPosition"		"274.32 -165.73 95.11"
+				"PortraitAngles"		"348.57 149.22 0.00"
+				"PortraitFOV"		"10"
+			}
+		}
+	}
+    "models/update_heroes/goku/goku_form_4.vmdl"
+	{
+		"PortraitLightPosition"		"52.68 -72.59 237.44"
+		"PortraitLightAngles"		"62.55 118.57 0.00"
+		"PortraitLightFOV"		"61"
+		"PortraitLightDistance"		"196"
+		"PortraitLightColor"		"229 254 249"
+		"PortraitShadowColor"		"131 104 129"
+		"PortraitShadowScale"		"1.200000"
+		"PortraitAmbientColor"		"79 159 194"
+		"PortraitAmbientScale"		"5.000000"
+		"PortraitSpecularColor"		"251 74 84"
+		"PortraitBackgroundTexture"		"materials/vgui/hud/heroportraits/portraitbackground_whiteexteriornight.vmat"
+		"PortraitLightScale"		"2.100000"
+		"PortraitGroundShadowScale"		"1.500000"
+		"PortraitAmbientDirection"		"-53.510 78.600 -133.900"
+		"PortraitAnimationActivity"		"ACT_DOTA_IDLE"
+		"cameras"
+		{
+			"default"
+			{
+				"PortraitPosition"		"274.32 -165.73 95.11"
+				"PortraitAngles"		"348.57 149.22 0.00"
+				"PortraitFOV"		"10"
+			}
+		}
+	}
+    "models/update_heroes/goku/goku_form_5.vmdl"
+	{
+		"PortraitLightPosition"		"52.68 -72.59 237.44"
+		"PortraitLightAngles"		"62.55 118.57 0.00"
+		"PortraitLightFOV"		"61"
+		"PortraitLightDistance"		"196"
+		"PortraitLightColor"		"229 254 249"
+		"PortraitShadowColor"		"131 104 129"
+		"PortraitShadowScale"		"1.200000"
+		"PortraitAmbientColor"		"79 159 194"
+		"PortraitAmbientScale"		"5.000000"
+		"PortraitSpecularColor"		"251 74 84"
+		"PortraitBackgroundTexture"		"materials/vgui/hud/heroportraits/portraitbackground_whiteexteriornight.vmat"
+		"PortraitLightScale"		"2.100000"
+		"PortraitGroundShadowScale"		"1.500000"
+		"PortraitAmbientDirection"		"-53.510 78.600 -133.900"
+		"PortraitAnimationActivity"		"ACT_DOTA_IDLE"
+		"cameras"
+		{
+			"default"
+			{
+				"PortraitPosition"		"274.32 -165.73 95.11"
 				"PortraitAngles"		"348.57 149.22 0.00"
 				"PortraitFOV"		"10"
 			}
@@ -5216,7 +5404,7 @@
 			}
 		}
 	}
-		"models/heroes/goku/goku_one.vmdl"
+	"models/heroes/goku/goku_one.vmdl"
 	{
 		"PortraitLightPosition"		"52.68 -72.59 237.44"
 		"PortraitLightAngles"		"62.55 118.57 0.00"
@@ -5378,7 +5566,7 @@
 			}
 		}
 	}
-	"models/heroes/skeleton_king/skeleton_king.vmdl"
+	"models/update_heroes/hatsune_miku/hatsune_miku.vmdl"
 	{
 		"PortraitLightPosition"		"86.56 23.62 204.19"
 		"PortraitLightAngles"		"158.54 7.73 0.00"
@@ -5405,7 +5593,7 @@
 			}
 		}
 	}
-	"models/models/heroes/overlord/overlord.vmdl"
+	"models/update_heroes/overlord_game/overlord.vmdl"
 	{
 		"PortraitLightPosition"		"86.56 23.62 204.19"
 		"PortraitLightAngles"		"158.54 7.73 0.00"
@@ -5426,7 +5614,7 @@
 		{
 			"default"
 			{
-				"PortraitPosition"		"172.67 16.12 215.71"
+				"PortraitPosition"		"172.67 0.12 185.71"
 				"PortraitAngles"		"3.74 186.09 0.00"
 				"PortraitFOV"		"15"
 			}
@@ -6035,7 +6223,7 @@
 			}
 		}
 	}
-	"models/heroes/life_stealer/life_stealer.vmdl"
+	"models/update_heroes/yuno/yuno.vmdl"
 	{
 		"PortraitLightPosition"		"155.43 -42.27 111.81"
 		"PortraitLightAngles"		"28.08 151.47 0.00"
@@ -6060,9 +6248,9 @@
 		{
 			"default"
 			{
-				"PortraitPosition"		"271.07 -66.48 28.33"
+				"PortraitPosition"		"271.07 -86.48 68.33"
 				"PortraitAngles"		"343.27 161.21 0.00"
-				"PortraitFOV"		"14"
+				"PortraitFOV"		"10"
 			}
 		}
 	}
@@ -7308,7 +7496,7 @@
 			}
 		}
 	}
-	"models/heroes/weaver/weaver.vmdl"
+	"models/update_heroes/kurumi/kurumi_base.vmdl"
 	{
 		"PortraitLightPosition"		"105.19 -70.65 181.23"
 		"PortraitLightAngles"		"65.46 155.62 0.00"
@@ -7333,13 +7521,13 @@
 		{
 			"default"
 			{
-				"PortraitPosition"		"206.97 -54.83 33.68"
+				"PortraitPosition"		"206.97 -74.83 143.68"
 				"PortraitAngles"		"355.70 160.29 0.00"
-				"PortraitFOV"		"29"
+				"PortraitFOV"		"12"
 			}
 		}
 	}
-	"models/heroes/anime/datealive/kurumi/arcana_kurumi/arcana_kurumi.vmdl"
+	"models/update_heroes/kurumi/kurumi_arcana.vmdl"
 	{
 		"PortraitLightPosition"		"105.19 -70.65 181.23"
 		"PortraitLightAngles"		"65.46 155.62 0.00"
@@ -7364,7 +7552,7 @@
 		{
 			"default"
 			{
-				"PortraitPosition"		"206.97 -74.83 129.68"
+				"PortraitPosition"		"206.97 -64.83 129.68"
 				"PortraitAngles"		"355.70 160.29 0.00"
 				"PortraitFOV"		"10"
 			}
@@ -10875,7 +11063,7 @@
 			}
 		}
 	}
-	"models/courier/donkey_crummy_wizard_2014/donkey_crummy_wizard_2014.vmdl"
+	"models/ns/ns_model.vmdl"
 	{
 		"PortraitLightPosition"		"134.62 201.88 301.61"
 		"PortraitLightAngles"		"43.56 237.99 0.00"
@@ -17146,7 +17334,7 @@
 			}
 		}
 	}
-	"models/heroes/terrorblade/terrorblade.vmdl"
+	"models/update_heroes/illidan/illidan_form.vmdl"
 	{
 		"PortraitLightPosition"		"-13.29 -25.07 238.58"
 		"PortraitLightAngles"		"57.26 82.76 0.00"
@@ -17173,9 +17361,9 @@
 		{
 			"default"
 			{
-				"PortraitPosition"		"141.04 -131.41 190.41"
+				"PortraitPosition"		"141.04 -121.41 150.41"
 				"PortraitAngles"		"7.54 135.59 0.00"
-				"PortraitFOV"		"11"
+				"PortraitFOV"		"20"
 			}
 		}
 	}
@@ -21819,7 +22007,7 @@
 			{
 				"PortraitPosition"		"422.84 214.15 87.14"
 				"PortraitAngles"		"355.19 203.35 0.00"
-				"PortraitFOV"		"5"
+				"PortraitFOV"		"10"
 			}
 		}
 	}

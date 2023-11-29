@@ -246,7 +246,7 @@ modifier_thomas_ability_two_two = class({})
 
 function modifier_thomas_ability_two_two:OnCreated()
     if not IsServer() then return end
-    AddFOWViewer(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), 250, 30, true)
+    AddFOWViewer(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), 250, self:GetDuration(), true)
     self:GetParent():SetModel("models/heroes/hoodwink/hoodwink_tree_model.vmdl")
     self:GetParent():SetOriginalModel("models/heroes/hoodwink/hoodwink_tree_model.vmdl")
 end
@@ -606,7 +606,7 @@ function modifier_shelby_ultimate_passive:OnIntervalThink()
     local modifiers = self:GetParent():FindAllModifiersByName("modifier_shelby_ultimate_stack")
     self:SetStackCount(#modifiers)
 
-    if #modifiers >= self.stack_for_active then
+    if #modifiers >= self.stack_for_active or IsInToolsMode() then
         self:GetAbility():SetActivated(true)
     else
         self:GetAbility():SetActivated(false)

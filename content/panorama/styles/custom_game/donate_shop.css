@@ -46,29 +46,29 @@
     visibility: collapse;
     flow-children: down;
     transition-property: pre-transform-scale2d;
-    transition-duration: 0.5s;
+    transition-duration: 0.25s;
     margin-bottom: 50px;
     pre-transform-scale2d: 0;
     transition-property: pre-transform-scale2d;
-    transition-duration: 0.5s;
+    transition-duration: 0.25s;
     border-top-color: #555555;
     border-left-color: #494949;
     border-bottom-color: #333333;
     border-right-color: #404040;
     border-style: solid;
-    border-width: 2px;
+    border-width: 1px;
 }
 
 #DonateShopPanel.sethidden {
     pre-transform-scale2d: 0;
     transition-property: pre-transform-scale2d;
-    transition-duration: 0.5s;
+    transition-duration: 0.25s;
 }
 
 #DonateShopPanel.setvisible {
     pre-transform-scale2d: 1;
     transition-property: pre-transform-scale2d;
-    transition-duration: 0.5s;
+    transition-duration: 0.25s;
 }
 
 #DonateShopTopPanel {
@@ -171,40 +171,35 @@
     horizontal-align: center;
     height: 100%;
     flow-children: right;
+    margin-bottom: 10px;
 }
 
-.RecomItem {
+.RecomItem 
+{
     width: 200px;
-    height: 180px;
-    background-color: #0009;
-
+    height: 200px;
+    background-image: url("file://{images}/custom_game/shop/item_block_nobuy.png");
+	background-size: 100%;
     margin-left: 17px;
     margin-right: 17px;
     margin-top: 15px;
     margin-bottom: 7px;
-
-    border: 1px solid black;
-
-    box-shadow: inset gray 0px 0px 2px 0px;
-
     transition-duration: 0.25s;
     transition-property: pre-transform-scale2d, background-color;
-    background-size: contain;
 }
 
-.RecomItem:hover {
-    background-color: gradient( linear, 0% 0%, 0% 100%, from( black ), to( #122b28 ) );
-}
-
-.RecomItem:hover .ItemImage {
+.RecomItem:hover .ItemImage 
+{
     pre-transform-scale2d: 1.05;
 }
 
-.RecomItem:hover .BuyItemPanel {
+.RecomItem:hover .BuyItemPanel 
+{
     brightness: 1.2;
 }
 
-.ItemImage {
+.ItemImage 
+{
     width: 150px;
     height: 100px;
     align: center center;
@@ -227,14 +222,26 @@
     font-family: Reaver;
 }
 
-.BuyItemPanel {
+.BuyItemPanel 
+{
     width: 150px;
     height: 30px;
-    background-color: gradient( linear, 0% 0%, 0% 100%, from( #60862d ), to( #3d5f1c ) );
-    border-top: 1px solid #ffffff22;
-    border-bottom: 1px solid #00000088;
+    background-image: url("file://{images}/custom_game/shop/select.png");
+	background-size: 100%;
     align: center bottom;
     margin-bottom: 10px;
+}
+
+.item_buying
+{
+    background-image: url("file://{images}/custom_game/shop/select_closed.png");
+	background-size: 100%;  
+}
+
+.item_deactive
+{
+    background-image: url("file://{images}/custom_game/shop/select_deactive.png");
+	background-size: 100%;  
 }
 
 .ItemPrice{
@@ -242,20 +249,24 @@
     flow-children: right;
 }
 
-.PriceIcongold {
+.PriceIcongold 
+{
     width: 25px;
     height: 25px;
     background-image: url("file://{images}/custom_game/shop/gold_icon.png");
     background-size: 100%;
     vertical-align: center;
+    margin-right: 2px;
 }
 
-.PriceIcongem {
+.PriceIcongem 
+{
     width: 25px;
     height: 25px;
     background-image: url("file://{images}/custom_game/shop/gem_icon.png");
     background-size: 100%;
     vertical-align: center;
+    margin-right: 2px;
 }
 
 .PriceLabel {
@@ -284,9 +295,10 @@
 }
 
 .DonateShopTopCurrency {
-    margin-left: 40px;
+    margin-left: 140px;
     vertical-align: center;
     flow-children: right;
+    horizontal-align: right;
 }
 
 .DonateShopTopBPCurrency 
@@ -516,14 +528,14 @@
 .ItemShop {
     width: 190px;
     height: 170px;
-    background-color: #0009;
+    background-image: url("file://{images}/custom_game/shop/item_block_nobuy.png");
+	background-size: 100%;
     margin-left: 27.5px;
     margin-right: 27.5px;
     margin-top: 10px;
     margin-bottom: 10px;
     transition-duration: 0.25s;
     transition-property: pre-transform-scale2d, background-color;
-    border: 1px solid gray;
 }
 
 .ItemShop:hover {
@@ -660,20 +672,22 @@
 
 
 
-.ItemInventory {
+.ItemInventory 
+{
     width: 190px;
     height: 170px;
-    background-color: #0009;
+    background-image: url("file://{images}/custom_game/shop/item_block_nobuy.png");
+	background-size: 100%;
     margin-left: 25px;
     margin-right: 25px;
     margin-top: 10px;
     margin-bottom: 10px;
     transition-duration: 0.25s;
     transition-property: pre-transform-scale2d, background-color;
-    border: 1px solid gray;
 }
 
-.ItemInventory:hover {
+.ItemInventory:hover 
+{
     background-color: gradient( linear, 0% 0%, 0% 100%, from( black ), to( #122b28 ) );
 }
 
@@ -818,7 +832,7 @@
 
 
 
-.IconButton {
+.IconButtonBirzha {
     width: 30px;
     height: 30px;
     horizontal-align: center;
@@ -3239,9 +3253,10 @@ visibility: visible;
 {
     align: center center;
     margin-left: 20px;
-    font-size: 36px;
+    font-size: 56px;
     color: white;
     font-weight: bold;
+    text-transform: uppercase;
 }
 
 .lottery_label
@@ -3301,17 +3316,6 @@ visibility: visible;
     text-shadow: 2px 2px 8px 3.0 #333333b0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 #BattlepassButton
 {
     margin-left: 345px;
@@ -3327,7 +3331,7 @@ visibility: visible;
 
 .BattlepassButtonIcon 
 {
-    background-image: url("file://{images}/custom_game/battlepass/main_button.png");
+    background-image: url("s2r://panorama/images/custom_game/battlepass/main_button_png.vtex");
     background-size: 100%;
     width: 27px;
     height:27px;
@@ -3348,25 +3352,42 @@ visibility: visible;
     margin-top: 2px;
     text-align: center;
 }
+.BirzhaSale 
+{
+    color: gradient(linear, 0% 0%, 0% 100%, from(#FFDB5C), color-stop(0.4, #FFC01E), to(#FFFFFF));
+    horizontal-align: center;
+    font-size: 12px;
+    text-shadow: 0px 0px 1px 2 black;
+    text-transform: uppercase;
+    margin-top: 2px;
+    text-align: center;
+}
 
-
-
-
+.BPIsDie
+{
+    z-index: 55;
+    color: rgb(255, 255, 255);
+    font-size: 22px;
+    text-shadow: 0px 0px 3px 3.0 #000000;
+    horizontal-align: center;
+    margin-top: 70px;
+    background-color: rgba(0, 0, 0, 0.9);
+}
 
 #BattlePassWindow 
 {
     width: 1300px;
     height: 850px;
-    background-image: url("file://{images}/custom_game/battlepass/bg.png");
+    background-image: url("s2r://panorama/images/custom_game/battlepass/bg_png.vtex");
     background-size: 100%;
     align: center center;
     visibility: collapse;
     transition-property: pre-transform-scale2d;
-    transition-duration: 0.5s;
+    transition-duration: 0.25s;
     margin-bottom: 50px;
     pre-transform-scale2d: 0;
     transition-property: pre-transform-scale2d;
-    transition-duration: 0.5s;
+    transition-duration: 0.25s;
     border-top-color: #555555;
     border-left-color: #494949;
     border-bottom-color: #333333;
@@ -3379,21 +3400,21 @@ visibility: visible;
 {
     pre-transform-scale2d: 0;
     transition-property: pre-transform-scale2d;
-    transition-duration: 0.5s;
+    transition-duration: 0.25s;
 }
 
 #BattlePassWindow.setvisible 
 {
     pre-transform-scale2d: 1;
     transition-property: pre-transform-scale2d;
-    transition-duration: 0.5s;
+    transition-duration: 0.25s;
 }
 
 .BattlePassMenu
 {
     height: 146px;
     width: 100%;
-    background-image: url("file://{images}/custom_game/battlepass/menu_bg.png");
+    background-image: url("s2r://panorama/images/custom_game/battlepass/menu_bg_png.vtex");
     background-size: 100%;
 }
 
@@ -3691,7 +3712,7 @@ visibility: visible;
 {
     width: 254px;
     height: 100%;
-    background-image: url("file://{images}/custom_game/battlepass/reward_pyramide_big.png");
+    background-image: url("s2r://panorama/images/custom_game/battlepass/reward_pyramide_big_png.vtex");
     background-size: 100%;
     margin: 3px;
 }
@@ -3699,7 +3720,7 @@ visibility: visible;
 {
     width: 254px;
     height: 100%;
-    background-image: url("file://{images}/custom_game/battlepass/reward_pudge_big.png");
+    background-image: url("s2r://panorama/images/custom_game/battlepass/reward_pudge_big_png.vtex");
     background-size: 100%;
     margin: 3px;
 }
@@ -3707,7 +3728,7 @@ visibility: visible;
 {
     width: 254px;
     height: 100%;
-    background-image: url("file://{images}/custom_game/battlepass/reward_sonic_big.png");
+    background-image: url("s2r://panorama/images/custom_game/battlepass/reward_sonic_big_png.vtex");
     background-size: 100%;
     margin: 3px;
 }
@@ -3715,7 +3736,7 @@ visibility: visible;
 {
     width: 254px;
     height: 100%;
-    background-image: url("file://{images}/custom_game/battlepass/reward_korra_big.png");
+    background-image: url("s2r://panorama/images/custom_game/battlepass/reward_korra_big_png.vtex");
     background-size: 100%;
     margin: 3px;
 }
@@ -3723,7 +3744,7 @@ visibility: visible;
 {
     width: 254px;
     height: 100%;
-    background-image: url("file://{images}/custom_game/battlepass/reward_dio_big.png");
+    background-image: url("s2r://panorama/images/custom_game/battlepass/reward_dio_big_png.vtex");
     background-size: 100%;
     margin: 3px;
 }
@@ -4040,7 +4061,7 @@ visibility: visible;
     height: 460px;
     z-index: 10;
     align: center center;
-    background-image: url("file://{images}/custom_game/battlepass/bg.png");
+    background-image: url("s2r://panorama/images/custom_game/battlepass/bg_png.vtex");
     background-size: 100%;
     border-top-color: #555555;
     border-left-color: #494949;
@@ -4057,7 +4078,7 @@ visibility: visible;
     height: 460px;
     z-index: 10;
     align: center center;
-    background-image: url("file://{images}/custom_game/battlepass/bg.png");
+    background-image: url("s2r://panorama/images/custom_game/battlepass/bg_png.vtex");
     background-size: 100%;
     border-top-color: #555555;
     border-left-color: #494949;
@@ -4262,7 +4283,7 @@ visibility: visible;
 }
 .ArrowUpLevels
 {
-    background-image: url("file://{images}/custom_game/battlepass/arrow.png");
+    background-image: url("s2r://panorama/images/custom_game/battlepass/arrow_png.vtex");
     background-size: 100%;
     width: 70px;
     height: 70px;
@@ -4273,7 +4294,7 @@ visibility: visible;
 }
 .ArrowDownLevels
 {
-    background-image: url("file://{images}/custom_game/battlepass/arrow.png");
+    background-image: url("s2r://panorama/images/custom_game/battlepass/arrow_png.vtex");
     background-size: 100%;
     width: 70px;
     height: 70px;
@@ -4513,4 +4534,13 @@ visibility: visible;
 .ButtonInfoLabel
 {
     color: white;
+}
+
+.PlayerHeroLevel
+{
+    width: 36px;
+    height: 36px;
+    horizontal-align: right;
+    margin-right: 5px;
+    margin-top: 5px;
 }

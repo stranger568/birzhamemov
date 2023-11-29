@@ -53,7 +53,7 @@ function item_ethereal_blade_custom:OnProjectileHit(target, location)
             target:AddNewModifier(self.caster, self, "modifier_item_ethereal_blade_ethereal_custom", {duration = self.duration * (1 - target:GetStatusResistance())})
             local damageTable = {
                 victim          = target,
-                damage          = self.caster:GetPrimaryStatValue() * self.blast_agility_multiplier + self.blast_damage_base,
+                damage          = target:GetPrimaryStatValue() * self.blast_agility_multiplier + self.blast_damage_base,
                 damage_type     = DAMAGE_TYPE_MAGICAL,
                 damage_flags    = DOTA_DAMAGE_FLAG_NONE,
                 attacker        = self.caster,
@@ -69,10 +69,6 @@ end
 
 function modifier_item_ethereal_blade_ethereal_custom:GetStatusEffectName()
     return "particles/status_fx/status_effect_ghost.vpcf"
-end
-
-function modifier_item_ethereal_blade_ethereal_custom:GetTexture()
-    return "item_ethereal_blade"
 end
 
 function modifier_item_ethereal_blade_ethereal_custom:OnCreated()

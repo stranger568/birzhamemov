@@ -684,7 +684,6 @@ function modifier_Felix_water_block:OnCreated()
 		self.heal_b = Felix_NyashaCat:GetSpecialValueFor( "bonus_heal" )
 	end
 	self:SetStackCount(self.damage_absorb)
-
 	self.particle = ParticleManager:CreateParticle("particles/felix_shield.vpcf", PATTACH_POINT_FOLLOW, self:GetParent())
 	if self:GetParent():ScriptLookupAttachment( "attach_hitloc" ) == 0 then
 		ParticleManager:SetParticleControl(self.particle, 1, self:GetParent():GetAbsOrigin() + Vector(0,0,120))
@@ -692,6 +691,8 @@ function modifier_Felix_water_block:OnCreated()
 		ParticleManager:SetParticleControlEnt(self.particle, 1, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", Vector(0,0,0), true )
 	end
 	self:AddParticle(self.particle, false, false, -1, false, false)
+    self.start_shield = self.damage_absorb
+    self:SetHasCustomTransmitterData( true )
 	self:StartIntervalThink(FrameTime())
 end
 
@@ -702,20 +703,31 @@ function modifier_Felix_water_block:OnIntervalThink()
 			ParticleManager:SetParticleControl(self.particle, 1, self:GetParent():GetAbsOrigin() + Vector(0,0,120))
 		end
 	end
+    self:SendBuffRefreshToClients()
+end
+
+function modifier_Felix_water_block:AddCustomTransmitterData()
+    local data = 
+    {
+        start_shield = self.start_shield,
+    }
+    return data
+end
+
+function modifier_Felix_water_block:HandleCustomTransmitterData( data )
+    self.start_shield = data.start_shield
 end
 
 function modifier_Felix_water_block:OnRefresh()
 	if not IsServer() then return end
 	self.heal_b = 0
 	self.damage_absorb = self:GetAbility():GetSpecialValueFor( "base_dmg" ) + ( self:GetCaster():GetIntellect() * self:GetAbility():GetSpecialValueFor( "perc_dmg" ))
-
 	local Felix_NyashaCat = self:GetCaster():FindAbilityByName("Felix_NyashaCat")
-
 	if Felix_NyashaCat and Felix_NyashaCat:GetLevel() > 0 then
 		self.damage_absorb = self.damage_absorb + (self.damage_absorb/100*Felix_NyashaCat:GetSpecialValueFor( "bonus_heal" ))
 		self.heal_b = Felix_NyashaCat:GetSpecialValueFor( "bonus_heal" )
 	end
-
+    self.start_shield = self.damage_absorb
 	self:SetStackCount(self.damage_absorb)
 end
 
@@ -726,8 +738,7 @@ function modifier_Felix_water_block:DeclareFunctions()
 	{
 		MODIFIER_PROPERTY_TOTAL_CONSTANT_BLOCK,
 		MODIFIER_PROPERTY_HEAL_AMPLIFY_PERCENTAGE_TARGET,
-		MODIFIER_PROPERTY_INCOMING_SPELL_DAMAGE_CONSTANT,
-        MODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_CONSTANT,
+        MODIFIER_PROPERTY_INCOMING_DAMAGE_CONSTANT,
 	}
 end
 
@@ -752,18 +763,15 @@ function modifier_Felix_water_block:GetModifierTotal_ConstantBlock(kv)
     end
 end
 
-function modifier_Felix_NyashaCat:GetModifierHealAmplify_PercentageTarget()
+function modifier_Felix_water_block:GetModifierHealAmplify_PercentageTarget()
 	return self.heal_b
 end
 
-function modifier_Felix_NyashaCat:GetModifierIncomingSpellDamageConstant()
+function modifier_Felix_water_block:GetModifierIncomingDamageConstant(params)
     if (not IsServer()) then
-        return self:GetStackCount()
-    end
-end
-
-function modifier_Felix_NyashaCat:GetModifierIncomingPhysicalDamageConstant()
-    if (not IsServer()) then
+        if params.report_max then
+            return self.start_shield
+        end
         return self:GetStackCount()
     end
 end

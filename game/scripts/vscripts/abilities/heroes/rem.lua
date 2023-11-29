@@ -37,7 +37,7 @@ end
 
 function modifier_jump_strike_buff:OnCreated(kv)
     if not IsServer() then return end
-    self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_4)
+    self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_1)
     self.point = Vector(kv.x,kv.y,kv.z)
     local casterLoc = self:GetCaster():GetAbsOrigin()
     self.position = self:GetCaster():GetAbsOrigin()
@@ -161,7 +161,7 @@ end
 function rem_morgenshtern:OnAbilityPhaseStart()
     if not IsServer() then return end
     
-    self:GetCaster():StartGesture(ACT_DOTA_RATTLETRAP_HOOKSHOT_START)
+    self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_2)
     
     return true
 end
@@ -332,7 +332,7 @@ function modifier_rem_morgenshtern:OnDestroy()
         ParticleManager:DestroyParticle(self.particle, false)
         ParticleManager:ReleaseParticleIndex(self.particle)
     end
-    self:GetCaster():StartGesture(ACT_DOTA_RATTLETRAP_HOOKSHOT_END)
+    
         local units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, self.stun_radius, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
     
     for _, unit in pairs(units) do

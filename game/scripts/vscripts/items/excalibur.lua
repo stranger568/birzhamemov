@@ -94,6 +94,7 @@ function modifier_item_excalibur:OnAttackLanded(params)
     if params.attacker:GetUnitName() == "npc_palnoref_chariot_illusion" then return end
     if params.attacker:GetUnitName() == "npc_palnoref_chariot_illusion_2" then return end
     if self:GetParent():FindAllModifiersByName("modifier_item_excalibur")[1] ~= self then return end
+    if params.no_attack_cooldown then return end
 
     if not self:GetParent():IsRangedAttacker() then
         DoCleaveAttack( params.attacker, params.target, self:GetAbility(), params.damage * (self:GetAbility():GetSpecialValueFor("cleave") / 100), 150, 360, 650, "particles/items_fx/battlefury_cleave.vpcf" )

@@ -8,6 +8,7 @@ item_uebator = class({})
 function item_uebator:OnSpellStart() 
 	if not IsServer() then return end
 	local duration_satanic = self:GetSpecialValueFor("duration_satanic")
+	self:GetCaster():Purge(false, true, false, false, false)
 	self:GetCaster():EmitSound("DOTA_Item.Satanic.Activate")
 	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_item_uebator_satanic", {duration = duration_satanic})
 end

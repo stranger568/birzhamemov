@@ -33,7 +33,6 @@ function item_blink_boots:OnSpellStart()
     FindClearSpaceForUnit(self:GetCaster(), target_point, false)
     ProjectileManager:ProjectileDodge(self:GetCaster())
     ParticleManager:CreateParticle("particles/blink/blink_dagger_end.vpcf", PATTACH_ABSORIGIN, self:GetCaster())
-    donate_shop:QuestProgress(28, self:GetCaster():GetPlayerOwnerID(), 1)
 end
 
 function item_blink_boots:GetIntrinsicModifierName()

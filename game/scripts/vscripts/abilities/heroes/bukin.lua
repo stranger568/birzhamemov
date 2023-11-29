@@ -17,33 +17,21 @@ function Bukin_HatTrickLeatherBall:GetManaCost(level)
 end
 
 function Bukin_HatTrickLeatherBall:GetBehavior()
-    if self:GetCaster():HasTalent("special_bonus_birzha_bukin_8") then
-        return DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR_CHANNELLED
-    end
     return DOTA_ABILITY_BEHAVIOR_POINT
 end
 
 function Bukin_HatTrickLeatherBall:GetCastPoint()
-    if self:GetCaster():HasTalent("special_bonus_birzha_bukin_8") then 
-        return 0
-    else 
-        return self.BaseClass.GetCastPoint( self )
-    end
+    return self.BaseClass.GetCastPoint( self )
 end
 
 function Bukin_HatTrickLeatherBall:GetCastAnimation()
-    if self:GetCaster():HasTalent("special_bonus_birzha_bukin_8") then 
-        return 
-    else 
-        return ACT_DOTA_CAST_ABILITY_1
-    end
+    return ACT_DOTA_CAST_ABILITY_1
 end
 
-function Bukin_HatTrickLeatherBall:GetChannelTime()
-    if self:GetCaster():HasTalent("special_bonus_birzha_bukin_8") then
-        return self:GetSpecialValueFor("channel_time_talent")
-    end
-    return self.BaseClass.GetChannelTime(self)
+function Bukin_HatTrickLeatherBall:OnAbilityUpgrade( hAbility )
+	if not IsServer() then return end
+	self.BaseClass.OnAbilityUpgrade( self, hAbility )
+	self:EnableAbilityChargesOnTalentUpgrade( hAbility, "special_bonus_unique_bukin_2" )
 end
 
 function Bukin_HatTrickLeatherBall:OnSpellStart()
@@ -61,32 +49,7 @@ function Bukin_HatTrickLeatherBall:OnSpellStart()
 
     self.direction = direction
 
-    local damage = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_bukin_1")
-
-    if self:GetCaster():HasTalent("special_bonus_birzha_bukin_8") then
-        self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_1)
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 0.1)
-        self:GetCaster():SetForwardVector( direction )
-        self:GetCaster():FaceTowards(target_loc)
-        return
-    end
-
-    self:LaunchBall(damage)
-end
-
-function Bukin_HatTrickLeatherBall:OnChannelFinish(Interrupt)
-    if not IsServer() then return end
-    if not self:GetCaster():IsAlive() then return end
-
-    self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_1)
-    self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 1.3)
-    self:GetCaster():Stop()
-
-    local damage = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_bukin_1")
-
-    if not Interrupt then
-        damage = damage * self:GetSpecialValueFor("damage_multiple_talent")
-    end
+    local damage = self:GetSpecialValueFor("damage")
 
     self:LaunchBall(damage)
 end
@@ -126,8 +89,21 @@ end
 function Bukin_HatTrickLeatherBall:OnProjectileHit_ExtraData(target, location, table)
     if not IsServer() then return end
     local caster = self:GetCaster()
-    local knockback_duration = self:GetSpecialValueFor("knockback_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_bukin_2")
+    local bonus_stun_duration_from_passive = 0
+    if self:GetCaster():HasTalent("special_bonus_birzha_bukin_5") then
+        local modifier_Bukin_Rage = self:GetCaster():FindModifierByName("modifier_Bukin_Rage")
+        if modifier_Bukin_Rage then
+            bonus_stun_duration_from_passive = modifier_Bukin_Rage:GetStackCount() * self:GetCaster():FindTalentValue("special_bonus_birzha_bukin_5")
+        end
+    end
+    local knockback_duration = self:GetSpecialValueFor("knockback_duration") + bonus_stun_duration_from_passive
     if target then
+        if self:GetCaster():HasTalent("special_bonus_birzha_bukin_8") then
+            local modifier_Bukin_Spears = self:GetCaster():FindModifierByName("modifier_Bukin_Spears")
+            if modifier_Bukin_Spears then
+                modifier_Bukin_Spears:OnFireBall(target)
+            end
+        end
         target:AddNewModifier( caster, self, "modifier_Bukin_HatTrickLeatherBall_debuff", {duration = knockback_duration * (1 - target:GetStatusResistance())})
         ApplyDamage({victim = target, attacker = caster, ability = self, damage = table.damage, damage_type = DAMAGE_TYPE_MAGICAL})
     end
@@ -368,11 +344,7 @@ function modifier_Bukin_Spears:OnAttackLanded( params )
     if params.attacker ~= self:GetParent() then return end
     if params.target:IsWard() then return end
 
-    if self:GetCaster():HasTalent("special_bonus_birzha_bukin_5") then
-        if params.attacker:IsIllusion() and not params.attacker:HasModifier("modifier_bukin_clubnogirls") then return end
-    else
-        if params.attacker:IsIllusion() then return end
-    end
+    if params.attacker:IsIllusion() then return end
 
     if params.attacker:PassivesDisabled() then return end
 
@@ -396,6 +368,21 @@ function modifier_Bukin_Spears:OnAttackLanded( params )
     end
 
     params.target:EmitSound("Hero_Huskar.Burning_Spear")
+end
+
+function modifier_Bukin_Spears:OnFireBall(target)
+    local stack = self:GetCaster():FindTalentValue("special_bonus_birzha_bukin_8")
+    local duration = self:GetAbility():GetSpecialValueFor("duration")
+    local modifier = target:FindModifierByName("modifier_Bukin_Spears_debuff")
+    if modifier then
+        target:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_Bukin_Spears_debuff", { duration = duration } )
+        modifier:SetStackCount(modifier:GetStackCount() + stack)
+    else
+        modifier = target:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_Bukin_Spears_debuff", { duration = duration } )
+        if modifier then
+            modifier:SetStackCount(stack)
+        end
+    end
 end
 
 modifier_Bukin_Spears_debuff = class({})
@@ -526,7 +513,8 @@ function modifier_Bukin_Rage:OnTakeDamage(params)
     if params.unit:IsBuilding() then return end
     if params.unit:IsWard() then return end
     if params.inflictor == nil and not self:GetParent():IsIllusion() and not self:GetParent():PassivesDisabled() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then 
-        local heal = ((self:GetAbility():GetSpecialValueFor("lifesteal") / 100) * self:GetStackCount()) * params.damage
+        local lifesteal = (self:GetAbility():GetSpecialValueFor("lifesteal") + self:GetCaster():FindTalentValue("special_bonus_birzha_bukin_1")) / 100
+        local heal = (lifesteal * self:GetStackCount()) * params.damage
         self:GetParent():Heal(heal, self:GetAbility())
         local effect_cast = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.attacker )
         ParticleManager:ReleaseParticleIndex( effect_cast )

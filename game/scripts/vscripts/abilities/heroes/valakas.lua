@@ -65,6 +65,7 @@ function modifier_glad_sorry_target:OnCreated( kv )
     if not IsServer() then return end
     self:GetParent():SetForceAttackTarget( self:GetCaster() )
     self:GetParent():MoveToTargetToAttack( self:GetCaster() )
+    self.damage_interval = 0
     self:StartIntervalThink(FrameTime())
 end
 
@@ -77,6 +78,12 @@ function modifier_glad_sorry_target:OnIntervalThink( kv )
     else
         self:GetParent():SetForceAttackTarget( self:GetCaster() )
         self:GetParent():MoveToTargetToAttack( self:GetCaster() )
+    end
+    self.damage_interval = self.damage_interval + FrameTime()
+    if self.damage_interval >= 1 then
+        self.damage_interval = 0
+        local damage = self:GetAbility():GetSpecialValueFor("damage")
+        ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
     end
 end
 
@@ -118,7 +125,6 @@ LinkLuaModifier( "modifier_Valakas_DabDabDab", "abilities/heroes/valakas.lua", L
 LinkLuaModifier( "modifier_Valakas_DabDabDab_lifesteal", "abilities/heroes/valakas.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_Valakas_DabDabDab_scepter", "abilities/heroes/valakas.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_Valakas_DabDabDab_debuff", "abilities/heroes/valakas.lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_Valakas_DabDabDab_cooldown", "abilities/heroes/valakas.lua", LUA_MODIFIER_MOTION_NONE )
 
 Valakas_DabDabDab = class({})
 
@@ -195,21 +201,12 @@ function modifier_Valakas_DabDabDab:OnAttackLanded( params )
     local chance = self:GetAbility():GetSpecialValueFor("chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_valakas_5")
 
     if RollPercentage(chance) then
-        if not self:GetParent():HasModifier("modifier_Valakas_DabDabDab_cooldown") then
-            if self:GetCaster():HasTalent("special_bonus_birzha_valakas_4") then
-                params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_Valakas_DabDabDab_debuff", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_valakas_4", "value2")})
-            end
-            self:GetParent():AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_Valakas_DabDabDab_lifesteal", { duration = 1.5 } )
-            self:GetParent():AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_Valakas_DabDabDab_cooldown", {duration = 1})
+         if self:GetCaster():HasTalent("special_bonus_birzha_valakas_4") then
+            params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_Valakas_DabDabDab_debuff", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_valakas_4", "value2")})
         end
+        self:GetParent():AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_Valakas_DabDabDab_lifesteal", { duration = 1.5 } )
     end
 end
-
-modifier_Valakas_DabDabDab_cooldown = class({})
-
-function modifier_Valakas_DabDabDab_cooldown:IsHidden() return true end
-function modifier_Valakas_DabDabDab_cooldown:IsPurgable() return false end
-function modifier_Valakas_DabDabDab_cooldown:IsPurgeException() return false end
 
 modifier_Valakas_DabDabDab_debuff = class({})
 
@@ -280,15 +277,12 @@ function modifier_Valakas_DabDabDab_lifesteal:OnTakeDamage(params)
     end
 end
 
-
 modifier_Valakas_DabDabDab_scepter = class({})
 function modifier_Valakas_DabDabDab_scepter:IsPurgable() return false end
 
-
-
-
 LinkLuaModifier( "modifier_valakas_dadaya", "abilities/heroes/valakas.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_valakas_dadaya_stacks", "abilities/heroes/valakas.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_valakas_dadaya_active", "abilities/heroes/valakas.lua", LUA_MODIFIER_MOTION_NONE )
 
 Valakas_DaDaYa = class({})
 
@@ -308,6 +302,14 @@ end
 
 function Valakas_DaDaYa:GetIntrinsicModifierName()
     return "modifier_valakas_dadaya_stacks"
+end
+
+function Valakas_DaDaYa:OnSpellStart()
+    if not IsServer() then return end
+    local duration = self:GetSpecialValueFor("duration")
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_valakas_dadaya_active", {duration = duration})
+    self:GetCaster():EmitSound("gladda")
+    self:GetCaster():EmitSound("Hero_EarthShaker.Totem")
 end
 
 modifier_valakas_dadaya_stacks = class({})
@@ -366,7 +368,6 @@ function modifier_valakas_dadaya:OnHeroKilled( params )
     local target = params.target
     if parent == params.attacker and target:GetTeamNumber() ~= parent:GetTeamNumber() then
         if self:GetParent():IsIllusion() then return end
-        parent:EmitSound("gladda")
         self:IncrementStackCount()
         if self:GetCaster():HasModifier("modifier_bp_valakas_reward") then
             local particle = ParticleManager:CreateParticle( "particles/econ/items/earthshaker/earthshaker_arcana/earthshaker_arcana_blink_end.vpcf", PATTACH_ABSORIGIN_FOLLOW, parent )
@@ -374,6 +375,41 @@ function modifier_valakas_dadaya:OnHeroKilled( params )
             ParticleManager:ReleaseParticleIndex( particle )
         end
     end
+end
+
+modifier_valakas_dadaya_active = class({})
+function modifier_valakas_dadaya_active:IsPurgable() return false end
+function modifier_valakas_dadaya_active:OnCreated( kv )
+	if IsServer() then
+		self:PlayEffects()
+	end
+end
+function modifier_valakas_dadaya_active:PlayEffects()
+	local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_earthshaker/earthshaker_totem_buff.vpcf", PATTACH_POINT_FOLLOW, self:GetParent() )
+	local attach = "attach_attack1"
+	if self:GetCaster():ScriptLookupAttachment( "attach_totem" )~=0 then attach = "attach_totem" end
+	ParticleManager:SetParticleControlEnt( effect_cast, 0, self:GetParent(), PATTACH_POINT_FOLLOW, attach, Vector(0,0,0), true )
+	self:AddParticle( effect_cast, false, false, -1, false, false )
+end
+function modifier_valakas_dadaya_active:GetModifierProcAttack_Feedback( params )
+	if IsServer() then
+		EmitSoundOn( "Hero_EarthShaker.Totem.Attack", params.target )
+		self:Destroy()
+	end
+end
+function modifier_valakas_dadaya_active:DeclareFunctions()
+	local funcs = {
+		MODIFIER_PROPERTY_TRANSLATE_ACTIVITY_MODIFIERS,
+		MODIFIER_PROPERTY_PROCATTACK_FEEDBACK,
+		MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE,
+	}
+	return funcs
+end
+function modifier_valakas_dadaya_active:GetActivityTranslationModifiers()
+	return "enchant_totem"
+end
+function modifier_valakas_dadaya_active:GetModifierDamageOutgoing_Percentage()
+	return self:GetAbility():GetSpecialValueFor("bonus_damage")
 end
 
 LinkLuaModifier( "modifier_Valakas_Gadza", "abilities/heroes/valakas.lua", LUA_MODIFIER_MOTION_NONE )
@@ -454,7 +490,7 @@ function modifier_Valakas_Gadza:OnIntervalThink()
     end
 
     for _,unit in pairs(targets) do
-        ApplyDamage({victim = unit, attacker = self:GetCaster(), damage = damage * 0.4, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
+        ApplyDamage({victim = unit, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
         if self:GetCaster():HasTalent("special_bonus_birzha_valakas_6") then
             unit:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", { duration = self:GetCaster():FindTalentValue("special_bonus_birzha_valakas_6") * (1 - unit:GetStatusResistance()) } )
         end

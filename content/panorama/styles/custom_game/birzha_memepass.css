@@ -1,26 +1,45 @@
-.Leaderboard{width: 100%;height: 100%;}
+.Leaderboard {
+	width: 100%;
+	height: 100%;
+}
 
-#LeaderboardWindow{width: 1300px;height: 800px;background-color: rgba(0, 0, 0, 1);background-image: url("s2r://panorama/images/dpc/supclub_purchase_bg_psd.vtex");background-size: 100% 100%;margin-bottom: 50px;border-top: 2px solid #190217;border-left: 2px solid #190217;border-bottom: 2px solid #190217;border-right: 2px solid #190217;box-shadow: 0px 0px 12px 0px #000000a5;align: center center;flow-children: down;visibility: collapse;pre-transform-scale2d: 0;transition-property: pre-transform-scale2d;transition-duration: 0.5s;}
+#LeaderboardWindow {
+	width: 1300px;
+	height: 800px;
+	background-color: rgba(0, 0, 0, 1);
+	background-image: url("s2r://panorama/images/dpc/supclub_purchase_bg_psd.vtex");
+	background-size: 100% 100%;
+	margin-bottom: 50px;
+	border-top: 2px solid #190217;
+	border-left: 2px solid #190217;
+	border-bottom: 2px solid #190217;
+	border-right: 2px solid #190217;
+	box-shadow: 0px 0px 12px 0px #000000a5;
+	align: center center;
+	flow-children: down;
+	visibility: collapse;
+	pre-transform-scale2d: 0;
+	transition-property: pre-transform-scale2d;
+	transition-duration: 0.25s;
+}
+
 #LeaderboardWindow.sethidden {
-    pre-transform-scale2d: 0;
-    transition-property: pre-transform-scale2d;
-    transition-duration: 0.5s;
+	pre-transform-scale2d: 0;
+	transition-property: pre-transform-scale2d;
+	transition-duration: 0.25s;
 }
 
 #LeaderboardWindow.setvisible {
-    pre-transform-scale2d: 1;
-    transition-property: pre-transform-scale2d;
-    transition-duration: 0.5s;
+	pre-transform-scale2d: 1;
+	transition-property: pre-transform-scale2d;
+	transition-duration: 0.25s;
 }
 
-
-
-#LeaderBoardIcon
-{
+#LeaderBoardIcon {
 	background-image: url("file://{images}/custom_game/trophy_leader_png.png");
 }
 
-.LeaderBoardIcon{
+.LeaderBoardIcon {
 	vertical-align: center;
 	width: 82px;
 	height: 100px;
@@ -28,30 +47,41 @@
 	background-size: 100%;
 }
 
-.Leaderboardblock{height: 560px;flow-children: right;horizontal-align:center;}
+.Leaderboardblock {
+	height: 560px;
+	flow-children: right;
+	horizontal-align: center;
+}
 
-.MainInformationLeader{width: 100%;flow-children: right;align: left center;}
-.MainInformation2Leader{margin-top: 5px;width: 550px;flow-children: down;horizontal-align: center;}
+.MainInformationLeader {
+	width: 100%;
+	flow-children: down;
+	align: left center;
+}
 
+.MainInformation2Leader {
+	margin-top: 5px;
+	width: 550px;
+	flow-children: down;
+	horizontal-align: center;
+}
 
-
-
-.MainInformationButtonLeader{
-	background-color: gradient( linear, 0% 0%, 0% 100%, from( #4d09cadd ), to( #9109ca ) );
+.MainInformationButtonLeader {
+	background-color: gradient(linear, 0% 0%, 0% 100%, from(#4d09cadd), to(#9109ca));
 	border-top: 1px solid #6F819B22;
 	border-left: 1px solid #6F819B22;
 	border-right: 1px solid #6F819B11;
 	border-bottom: 1px solid #3F414B33;
-	width:300px;
-	height:45px;
+	width: 300px;
+	height: 45px;
 	margin-top: 15px;
 	align: center center;
-	transition-property: brightness;transition-duration: 0.15s;transition-timing-function: ease-in-out;}
+	transition-property: brightness;
+	transition-duration: 0.15s;
+	transition-timing-function: ease-in-out;
+}
 
-
-
-
-.MainInformationButtonLeader Label{
+.MainInformationButtonLeader Label {
 	font-size: 18px;
 	color: white;
 	text-transform: uppercase;
@@ -61,59 +91,83 @@
 	align: center center;
 }
 
+.MainInformationButtonLeader:hover {
+	brightness: 1.2;
+}
 
+.MainInformationButtonLeader:active {
+	brightness: 0.8;
+}
 
+#DeveloperInfoContainer {
+	margin-top: 40px;
+	width: 550px;
+	height: 490px;
+	margin-left: 25px;
+	margin-right: 25px;
+	flow-children: down;
+}
 
-.MainInformationButtonLeader:hover{brightness: 1.2;}
+#DonatorInfoContainer {
+	width: 550px;
+	height: 580px;
+	margin-left: 25px;
+	margin-right: 25px;
+}
 
+#DeveloperInfoContainer {
+	overflow: squish scroll;
+}
 
+.InfoLeaderboardblock {
+	width: 100%;
+	height: 40px;
+	background-color: rgba(0, 0, 0, 0.6);
+	border: 1px solid #38424b;
+	margin-top: 40px;
+}
 
+.InfoLeaderboardblockPlayer {
+	font-size: 18px;
+	color: white;
+	align: center center;
+	text-transform: uppercase;
+	font-weight: semi-bold;
+}
 
-.MainInformationButtonLeader:active{brightness: 0.8;}
+.InfoLeaderboardblockCreators {
+	width: 100%;
+	height: 40px;
+	background-color: rgba(0, 0, 0, 0.3);
+	border: 1px solid #38424b;
+}
 
+.PlayerInfoTableCreators {
+	flow-children: right;
+	align: left center;
+	width: 300px;
+	margin-left: 10px;
+}
 
-#DeveloperInfoContainer{margin-top: 40px;width: 550px;height: 490px;margin-left: 25px;margin-right: 25px;flow-children: down;}
-#DonatorInfoContainer{width: 550px;height: 580px;margin-left: 25px;margin-right: 25px;}
+.TopMmrClass {
+	width: 100%;
+	height: 45px;
+	border: 1px solid #38424b;
+	align: left top;
+}
 
-
-
-#DeveloperInfoContainer{overflow: squish scroll;}
-
-
-
-.InfoLeaderboardblock{width: 100%;height: 40px;background-color: rgba(0,0,0,0.6);border:1px solid #38424b;margin-top:40px;}
-
-
-
-
-.InfoLeaderboardblockPlayer{font-size: 18px;color: white;align: center center;text-transform: uppercase;font-weight: semi-bold;}
-
-
-
-
-.InfoLeaderboardblockCreators{width: 100%;height: 40px;background-color: rgba(0,0,0,0.3);border: 1px solid #38424b;}
-
-
-
-
-.PlayerInfoTableCreators{flow-children: right;align: left center;width: 300px;margin-left: 10px;}
-
-.TopMmrClass{width: 100%;height: 45px;border: 1px solid #38424b;align: left top;}
-
-
-.TopMmrClassExclusive
-{
+.TopMmrClassExclusive {
 	width: 100%;
 	height: 45px;
 	border: 1px solid white;
 	align: left top;
-	border-brush: gradient( linear, 30% 100%, 90% 0%, from( #cc8727 ), color-stop( 0.08, #e7a850 ),color-stop( 0.38, #f5d7ad ),color-stop( 0.68, #c0780b ),color-stop( 0.8, #754705 ), to( #643f0b ) );
+	border-brush: gradient(linear, 30% 100%, 90% 0%, from(#cc8727), color-stop(0.08, #e7a850), color-stop(0.38, #f5d7ad), color-stop(0.68, #c0780b), color-stop(0.8, #754705), to(#643f0b));
 }
 
 .ExclusiveDonaterBackground {
 	width: 100%;
 	height: 100%;
-	background-color: gradient( linear, 0% 0%, 0% 100%, from( #d8d2a811 ), to( #d8d2a800 ) );
+	background-color: gradient(linear, 0% 0%, 0% 100%, from(#d8d2a811), to(#d8d2a800));
 	background-image: url("s2r://panorama/images/dpc/supclub_gold_bg_psd.vtex");
 }
 
@@ -121,11 +175,14 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	width: 3px;
 }
 
+.PlayerInfoTable {
+	flow-children: right;
+	align: left center;
+	width: 300px;
+	margin-left: 45px;
+}
 
-.PlayerInfoTable{flow-children: right;align: left center;width: 300px;margin-left: 45px;}
-
-.LabelTopMmrlow
-{
+.LabelTopMmrlow {
 	font-size: 20px;
 	color: white;
 	vertical-align: center;
@@ -136,16 +193,32 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	font-weight: semi-bold;
 }
 
-.AvatarTopMmr{height: 32px;width: 32px;background-size: contain;}
+.AvatarTopMmr {
+	height: 32px;
+	width: 32px;
+	background-size: contain;
+}
 
-.TopMmrNick Label{font-size: 18px;color: #ffffff;vertical-align: center;margin-left: 5px;margin-top: 5px;height:18px;}
+.TopMmrNick Label {
+	font-size: 18px;
+	color: #ffffff;
+	vertical-align: center;
+	margin-left: 5px;
+	margin-top: 5px;
+	height: 18px;
+}
 
-.TopMmrNick{width:100%;}
+.TopMmrNick {
+	width: 100%;
+}
 
-.MmrInfoTable{flow-children: right;margin-left: 450px;margin-top: 5px;}
+.MmrInfoTable {
+	flow-children: right;
+	margin-left: 450px;
+	margin-top: 5px;
+}
 
-.MmrLeaderboard
-{
+.MmrLeaderboard {
 	vertical-align: center;
 	margin-right: 5px;
 	margin-top: 3px;
@@ -155,267 +228,286 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	background-size: 100%;
 }
 
-.TopMmrReatingCount{font-size: 20px;color: white;margin-top: 5px;text-transform: uppercase;font-weight: semi-bold;}
+.TopMmrReatingCount {
+	font-size: 20px;
+	color: white;
+	margin-top: 5px;
+	text-transform: uppercase;
+	font-weight: semi-bold;
+}
 
-.MainTextInformationLeader{text-align: center;font-size: 13px;color: white;align: center center;font-weight: semi-bold;text-transform: uppercase;}
+.MainTextInformationLeader {
+	text-align: center;
+	font-size: 13px;
+	color: white;
+	align: center center;
+	font-weight: semi-bold;
+	text-transform: uppercase;
+}
 
-.MainTextInformation{width: 80%;font-size: 18px;color: #daebff;align: center center;text-align: center;}
+.MainTextInformationLeaderSeason {
+	text-align: center;
+	font-size: 13px;
+	color: white;
+	align: center center;
+	font-weight: semi-bold;
+	text-transform: uppercase;
+}
 
-.MainTextInformation2{text-align: center;font-size: 12px;color: white;align: center top;text-transform: uppercase; margin-bottom: 10px;}
+.MainTextInformation {
+	width: 80%;
+	font-size: 18px;
+	color: #daebff;
+	align: center center;
+	text-align: center;
+}
 
-.Leaderboardlogo{align: center center;margin-top: 20px;width: 100%;}
+.MainTextInformation2 {
+	text-align: center;
+	font-size: 12px;
+	color: white;
+	align: center top;
+	text-transform: uppercase;
+	margin-bottom: 10px;
+}
 
-#PlayersList
-{
+.Leaderboardlogo {
+	align: center center;
+	margin-top: 20px;
+	width: 100%;
+}
+
+#PlayersList {
 	width: 100%;
 	flow-children: down;
-	margin-top:80px;
+	margin-top: 80px;
 }
 
-.ButtonsMaps
-{
+.ButtonsMaps {
 	width: 100%;
 	height: 40px;
-	flow-children:right;
+	flow-children: right;
 }
 
-.ButtonsMapsBplus
+.ButtonsMapsBplus 
 {
-	width: 1200px;
-	horizontal-align:center;
-	height: 40px;
-	flow-children:right;
-	margin-top: 300px;
+	width: 100%;
+	horizontal-align: center;
+	height: 30px;
+	flow-children: right;
 }
 
-#LeaderBoardButton
-{
-    margin-left: 160px;
-    flow-children: down;
-    visibility: visible;
-    vertical-align: center;
+#LeaderBoardButton {
+	margin-left: 160px;
+	flow-children: down;
+	visibility: visible;
+	vertical-align: center;
 }
 
-#LeaderBoardButton:hover .LeaderBoardButtonIcon
-{
-    brightness: 1.4;
+#LeaderBoardButton:hover .LeaderBoardButtonIcon {
+	brightness: 1.4;
 }
 
 .LeaderBoardButtonIcon {
 	background-image: url("s2r://panorama/images/custom_game/icon_trophy_battle_cup_summer_png.vtex");
 	background-size: 100%;
-    width: 27px;
-    height: 27px;
-    brightness: 1;
-    horizontal-align: center;
-    transition-property: brightness;
-    transition-duration: 0.25s;
+	width: 27px;
+	height: 27px;
+	brightness: 1;
+	horizontal-align: center;
+	transition-property: brightness;
+	transition-duration: 0.25s;
 }
+
 .LeaderBoardButtonLabel {
-    color: white;
-    horizontal-align: center;
-    font-size: 12px;
-    text-shadow: 0px 0px 1px 2 black;
-    text-transform: uppercase;
-    margin-top: 2px;
-    text-align: center;
-}
-.ButtonMap
-{
-	width: 72px;
-	margin-left: 10px;
-	margin-right: 10px;
-	height: 25px;
-	vertical-align: bottom;
-	background-color: gradient( linear, 0% 0%, 100% 100%, from( #401b80 ), color-stop( 0.5, #763fdb ), to( #401b80 ) );
-	border: 1px solid #aaabe733;
-	border-top-right-radius: 10px;
-	border-top-left-radius: 10px;
-	transition-property: height;
-    transition-duration: 0.2s;
-    brightness:0.6;
+	color: white;
+	horizontal-align: center;
+	font-size: 12px;
+	text-shadow: 0px 0px 1px 2 black;
+	text-transform: uppercase;
+	margin-top: 2px;
+	text-align: center;
 }
 
-.ButtonMap:hover
-{
-	brightness:1.2;	
-}
-
-.ButtonMap_2
-{
-	width: 181.4px;
-	margin-left: 10px;
-	margin-right: 10px;
+.ButtonMap {
+	width: fill-parent-flow( 1 );
+	margin-left: 5px;
+	margin-right: 5px;
 	height: 30px;
-	vertical-align: center;
-	border-radius: 5px;
-	background-color: gradient( linear, 0% 0%, 100% 100%, from( #401b80 ), color-stop( 0.5, #763fdb ), to( #401b80 ) );
+	vertical-align: bottom;
+	background-color: gradient(linear, 0% 0%, 100% 100%, from(#401b80), color-stop(0.5, #763fdb), to(#401b80));
 	border: 1px solid #aaabe733;
-	transition-property: height;
-    transition-duration: 0.2s;
-    brightness:0.6;
+	transition-property: height, brightness;
+	transition-duration: 0.2s;
+    margin-bottom: 5px;
+	brightness: 0.6;
 }
 
-.ButtonMap_2:hover
-{
-	brightness:1.2;	
+.ButtonMap:hover {
+	brightness: 1.05;
 }
 
-.ButtonMapSelect
+.ButtonMap_2 
 {
-	brightness:1.4;
+	width: 62px;
+	margin-left: 2px;
+	margin-right: 2px;
+	height: 25px;
+	vertical-align: center;
+	background-color: gradient(linear, 0% 0%, 100% 100%, from(#401b80), color-stop(0.5, #763fdb), to(#401b80));
+	border: 1px solid #aaabe733;
+	transition-property: height, brightness;
+	transition-duration: 0.2s;
+	brightness: 0.6;
 }
 
-.ButtonMapLabel
-{
+.ButtonMap_2:hover {
+	brightness: 1.05;
+}
+
+.ButtonMapSelect {
+	brightness: 1.1;
+}
+
+.ButtonMapLabel {
 	color: white;
 	font-weight: bold;
 	align: center center;
 	text-transform: uppercase;
-	font-size: 14px;
+	font-size: 18px;
 }
 
-
-
-
-
-
-
-
-
-.BirzhaPass{
+.BirzhaPass {
 	width: 100%;
 	height: 100%;
 }
 
-#BirzhaPlusButton
-{
-    margin-left: 220px;
-    flow-children: down;
-    visibility: visible;
-    vertical-align: center;
+#BirzhaPlusButton {
+	margin-left: 220px;
+	flow-children: down;
+	visibility: visible;
+	vertical-align: center;
 }
 
-#BirzhaPlusButton:hover .BirzhaPlusButtonIcon
-{
-    brightness: 1.4;
+#BirzhaPlusButton:hover .BirzhaPlusButtonIcon {
+	brightness: 1.4;
 }
 
 .BirzhaPlusButtonIcon {
-	background-image:  url("file://{images}/custom_game/birzhapass/passbuttonoff_png.png");
+	background-image: url("file://{images}/custom_game/birzhapass/passbuttonoff_png.png");
 	background-size: 100%;
-    width: 27px;
-    height: 27px;
-    brightness: 1;
-    horizontal-align: center;
-    transition-property: brightness;
-    transition-duration: 0.25s;
+	width: 27px;
+	height: 27px;
+	brightness: 1;
+	horizontal-align: center;
+	transition-property: brightness;
+	transition-duration: 0.25s;
 }
 
 .BirzhaPlusButtonLabel {
-    color: white;
-    horizontal-align: center;
-    font-size: 12px;
-    text-shadow: 0px 0px 1px 2 black;
-    text-transform: uppercase;
-    margin-top: 2px;
-    text-align: center;
+	color: white;
+	horizontal-align: center;
+	font-size: 12px;
+	text-shadow: 0px 0px 1px 2 black;
+	text-transform: uppercase;
+	margin-top: 2px;
+	text-align: center;
 }
 
-#BirzhaPassWindow {
-    width: 1300px;
-    height: 850px;
-    background-image: url("file://{images}/custom_game/plus/background.png");
-    background-size: 100%;
-    align: center center;
-    visibility: collapse;
-    transition-property: pre-transform-scale2d;
-    transition-duration: 0.5s;
-    margin-bottom: 50px;
-    pre-transform-scale2d: 0;
-    transition-property: pre-transform-scale2d;
-    transition-duration: 0.5s;
-    border-top-color: #555555;
-    border-left-color: #494949;
-    border-bottom-color: #333333;
-    border-right-color: #404040;
-    border-style: solid;
-    border-width: 2px;
+#BirzhaPassWindow 
+{
+	width: 1300px;
+	height: 850px;
+	background-image: url("file://{images}/custom_game/plus/background.png");
+	background-size: 100%;
+	align: center center;
+	visibility: collapse;
+	transition-property: pre-transform-scale2d;
+	transition-duration: 0.25s;
+	margin-bottom: 50px;
+	pre-transform-scale2d: 0;
+	transition-property: pre-transform-scale2d;
+	transition-duration: 0.25s;
+	border-top-color: #555555;
+	border-left-color: #494949;
+	border-bottom-color: #333333;
+	border-right-color: #404040;
+	border-style: solid;
+	border-width: 1px;
 }
 
 #BirzhaPassWindow.sethidden {
-    pre-transform-scale2d: 0;
-    transition-property: pre-transform-scale2d;
-    transition-duration: 0.5s;
+	pre-transform-scale2d: 0;
+	transition-property: pre-transform-scale2d;
+	transition-duration: 0.25s;
 }
 
 #BirzhaPassWindow.setvisible {
-    pre-transform-scale2d: 1;
-    transition-property: pre-transform-scale2d;
-    transition-duration: 0.5s;
+	pre-transform-scale2d: 1;
+	transition-property: pre-transform-scale2d;
+	transition-duration: 0.25s;
 }
 
-.CloseBattlepass {
-    width: 35px;
-    height: 35px;
-    margin-right: 15px;
-    margin-top: 15px;
-    horizontal-align: right;
-    background-image: url("s2r://panorama/images/control_icons/x_close_grey_psd.vtex");
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    transition-property: pre-transform-scale2d, brightness;
-    transition-duration: 0.2s;
-    brightness: 2;
+.CloseBattlepass 
+{
+	width: 35px;
+	height: 35px;
+	margin-right: 15px;
+	margin-top: 15px;
+	horizontal-align: right;
+	background-image: url("s2r://panorama/images/control_icons/x_close_grey_psd.vtex");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	transition-property: pre-transform-scale2d, brightness;
+	transition-duration: 0.2s;
+	brightness: 2;
 }
 
 .CloseBattlepass:hover {
-    brightness: 6;
-    pre-transform-scale2d: 1.05;
+	brightness: 6;
+	pre-transform-scale2d: 1.05;
 }
 
 .CloseBattlepass:Active {
-    pre-transform-scale2d: 0.9;
+	pre-transform-scale2d: 0.9;
 }
 
 .CloseLeaderboard {
-    width: 35px;
-    height: 35px;
-    margin-right: 20px;
-    horizontal-align: right;
-    background-image: url("s2r://panorama/images/control_icons/x_close_grey_psd.vtex");
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    transition-property: pre-transform-scale2d, brightness;
-    transition-duration: 0.2s;
-    brightness: 2;
+	width: 35px;
+	height: 35px;
+	margin-right: 20px;
+	horizontal-align: right;
+	background-image: url("s2r://panorama/images/control_icons/x_close_grey_psd.vtex");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	transition-property: pre-transform-scale2d, brightness;
+	transition-duration: 0.2s;
+	brightness: 2;
 }
 
 .CloseLeaderboard:hover {
-    brightness: 6;
-    pre-transform-scale2d: 1.05;
+	brightness: 6;
+	pre-transform-scale2d: 1.05;
 }
 
 .CloseLeaderboard:Active {
-    pre-transform-scale2d: 0.9;
+	pre-transform-scale2d: 0.9;
 }
 
-.BirzhaPassLogo
-{
+.BirzhaPassLogo {
 	width: 100%;
 	margin-bottom: 10px;
 }
 
-.BirzhaPlusHeader
-{
+.BirzhaPlusHeader {
 	horizontal-align: center;
 	margin-top: 10px;
 	flow-children: right;
 }
 
-.BirzhaPassLogoText{
+.BirzhaPassLogoText {
 	font-size: 42px;
-	color: gradient( linear, 0% 0%, 0% 100%, from( gold ), to( #f5cb84 ) );
+	color: gradient(linear, 0% 0%, 0% 100%, from(gold), to(#f5cb84));
 	text-shadow: 1px 1px 1px 1.0 #a17a3c;
 	text-align: center;
 	font-weight: bold;
@@ -425,10 +517,7 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	font-family: Reaver;
 }
 
-
-
-
-.LeaderBoardLogoText{
+.LeaderBoardLogoText {
 	font-size: 42px;
 	color: white;
 	text-shadow: 1px 1px 1px 4.0 black;
@@ -440,15 +529,20 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	font-family: Reaver;
 }
 
+#PassIcon {
+	horizontal-align: right;
+	background-image: url("s2r://panorama/images/custom_game/birzhapass/passbuttonoff_png.vtex");
+}
 
-
-
-
-
-
-
-#PassIcon{horizontal-align:right;background-image: url("s2r://panorama/images/custom_game/birzhapass/passbuttonoff_png.vtex");}
-.PassIcon{vertical-align: center;width: 80px;height: 80px;background-size: 80% 80%;background-position: 50% 50%;background-repeat: no-repeat;wash-color:white;}
+.PassIcon {
+	vertical-align: center;
+	width: 80px;
+	height: 80px;
+	background-size: 80% 80%;
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	wash-color: white;
+}
 
 #TableInfoPlayer {
 	width: 100%;
@@ -458,10 +552,10 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 #PlayerInfo {
 	horizontal-align: center;
 	flow-children: right;
-    border: 2px solid rgba(0,0,0,0.8);
-    background-color: #0009;
-    width: 100%;
-    height: 100%;
+	border: 2px solid rgba(0, 0, 0, 0.8);
+	background-color: #0009;
+	width: 100%;
+	height: 100%;
 }
 
 .PlayerMainInfo {
@@ -476,7 +570,7 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	flow-children: down;
 	margin-left: 20px;
 	margin-right: 20px;
-	background-color: rgba(0,0,0,0.5);
+	background-color: rgba(0, 0, 0, 0.5);
 	border-bottom: 1px solid gray;
 }
 
@@ -485,14 +579,14 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	flow-children: down;
 	margin-left: 20px;
 	margin-right: 20px;
-	background-color: rgba(0,0,0,0.5);
+	background-color: rgba(0, 0, 0, 0.5);
 	border-bottom: 1px solid gray;
 }
 
 .WhatIsPanel {
 	height: 25px;
 	width: 240px;
-	background-color: rgba(0,0,0,0.6);
+	background-color: rgba(0, 0, 0, 0.6);
 }
 
 .WhatIsPanel Label {
@@ -525,70 +619,75 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	text-transform: uppercase;
 }
 
-.PanelHeroes{
+.PanelHeroes 
+{
 	horizontal-align: center;
 	width: 100%;
 	height: 100%;
 	flow-children: down;
-	border: 2px solid rgba(0,0,0,0.8);
-    background-color: #0009;
 }
 
 .PanelHeroesMain {
-	width:  100%;
+	width: 100%;
 	height: 100%;
 	flow-children: down;
 	overflow: squish scroll;
-	border: 2px solid rgba(0,0,0,0.8);
-    background-color: #0009;
-    horizontal-align: center;
+	horizontal-align: center;
 }
 
-.HeroRow{
+.HeroRow 
+{
 	width: 100%;
-	height: 50px;
-	background-color: gradient( linear, 0% 0%, 100% 0%, from(#401056), color-stop( 0.26, #151c24fc), color-stop( 0.6, #151c24fc), to( #151c24aa ) );
+	height: 34px;
 	margin-bottom: 10px;
 	flow-children: right;
+    background-color: gradient(linear, 0% 0%, 100% 0%, from(rgba(203, 163, 255, 0.034)), to(rgba(33, 27, 45, 0.13)));
+    border: 1px solid white;
+    border-brush: gradient(linear, 0% 0%, 100% 0%, from(rgba(92, 82, 200, 0.5)), to(rgba(33, 27, 45, 0.13)));
 }
 
-.HeroIcon{
-	width: 90px;
+.HeroIconPanel 
+{
+	width: 18%;
 	height: 100%;
-	border-right: 1px solid gray;
+}
+
+.HeroIcon 
+{
+	width: 55px;
+	height: 30px;
+    align: center center;
 }
 
 .HeroName {
 	vertical-align: center;
 	color: white;
 	width: 18%;
-	border-right: 1px solid gray;
 	text-align: center;
 	text-overflow: ellipsis;
-	font-size: 16px;
+	font-size: 12px;
 	text-transform: uppercase;
 	font-size: 14px;
 	letter-spacing: 1px;
 }
 
-.HeroGames {
+.HeroGames 
+{
 	vertical-align: center;
 	color: white;
 	width: 18%;
-	border-right: 1px solid gray;
 	text-align: center;
 	text-transform: uppercase;
-	font-size: 18px;
+	font-size: 16px;
 }
 
 .HeroWinrate {
 	vertical-align: center;
 	color: white;
 	width: 18%;
-	border-right: 1px solid gray;
 	text-align: center;
 	text-transform: uppercase;
-	font-size: 18px;
+	font-size: 16px;
 }
 
 .HeroKD {
@@ -596,9 +695,8 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	vertical-align: center;
 	color: white;
 	text-align: center;
-	border-right: 1px solid gray;
 	text-transform: uppercase;
-	font-size: 18px;
+	font-size: 16px;
 }
 
 .HeroRank {
@@ -612,8 +710,7 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	letter-spacing: 1px;
 }
 
-.rank_progress_panel
-{
+.rank_progress_panel {
 	width: 80%;
 	height: 4px;
 	margin-top: 5px;
@@ -622,32 +719,28 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	z-index: -1;
 }
 
-.rank_progress_panel_front
-{
+.rank_progress_panel_front {
 	width: 50%;
 	height: 100%;
-	background-color: gradient( linear, 0% 0%, 100% 0%, from( #ae9249 ), to( #e0c59a ) );
+	background-color: gradient(linear, 0% 0%, 100% 0%, from(#ae9249), to(#e0c59a));
 }
 
-.rank_progress_panel_back
-{
+.rank_progress_panel_back {
 	width: 100%;
 	height: 100%;
 	background-color: gray;
 }
 
-.rank_progress_label
-{
+.rank_progress_label {
 	font-size: 14px;
 	font-weight: bold;
-	margin-top: 22px;
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
 	align: center center;
 	color: white;
-	text-shadow: 0px 0px 5px 3 black;
+	text-shadow: 0px 0px 1px 3 black;
 }
-
-
-
 
 .BuySubscribe {
 	align: center center;
@@ -658,79 +751,87 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	font-weight: bold;
 }
 
-
-
-
-
-.Row_Info{
-	horizontal-align: center;
+.Row_Info 
+{
 	width: 100%;
-	border-bottom: 1px solid black;
-	height: 30px;	
+	height: 30px;
 	flow-children: right;
-	font-size: 14px;
-	letter-spacing: 1px;
 }
 
-.Info_HeroName {
-	margin-left: 90px;
+.Info_HeroName 
+{
 	vertical-align: center;
-	color: white;
+	color: rgba(255, 255, 255, 0.253);
+	width: 18%;
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 10px;
+    font-weight: semi-bold;
+	letter-spacing: 1px;
+    transition-property: color;
+    transition-duration: 0.2s;
+}
+
+.Info_HeroGames 
+{
+	vertical-align: center;
+	color: rgba(255, 255, 255, 0.253);
 	width: 18%;
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 14px;
+    font-weight: semi-bold;
 	letter-spacing: 1px;
+    transition-property: color;
+    transition-duration: 0.2s;
 }
 
-.Info_HeroGames {
+.Info_HeroWinrate 
+{
 	vertical-align: center;
-	color: white;
+	color: rgba(255, 255, 255, 0.253);
 	width: 18%;
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 14px;
+    font-weight: semi-bold;
 	letter-spacing: 1px;
+    transition-property: color;
+    transition-duration: 0.2s;
 }
 
-.Info_HeroWinrate {
+.Info_HeroKD 
+{
 	vertical-align: center;
-	color: white;
+	color: rgba(255, 255, 255, 0.253);
 	width: 18%;
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 14px;
+    font-weight: semi-bold;
 	letter-spacing: 1px;
+    transition-property: color;
+    transition-duration: 0.2s;
 }
 
-.Info_HeroKD {
+.Info_HeroRank 
+{
 	vertical-align: center;
-	color: white;
-	text-align: center;
-	width: 18%;
-	text-transform: uppercase;
-	font-size: 14px;
-	letter-spacing: 1px;
-}
-
-.Info_HeroRank {
-	vertical-align: center;
-	color: white;
-	text-align: center;
+	color: rgba(255, 255, 255, 0.253);
 	width: 28%;
+	text-align: center;
 	text-transform: uppercase;
-	font-size: 14px;
+	font-size: 10px;
+    font-weight: semi-bold;
 	letter-spacing: 1px;
+    transition-property: color;
+    transition-duration: 0.2s;
 }
 
-.Info_HeroGames:hover,
-.Info_HeroWinrate:hover,
-.Info_HeroKD:hover {
-	brightness: 1.2;
+.Info_HeroGames:hover, .Info_HeroWinrate:hover, .Info_HeroKD:hover 
+{
+	color: white;
 }
-
-
-
 
 
 
@@ -742,16 +843,16 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	margin-top: 55px;
 }
 
-#PlayerCircleWinrateBG{
+#PlayerCircleWinrateBG {
 	align: center center;
 	width: 100%;
 	height: 100%;
 	background-image: url("file://{images}/custom_game/plus/winrate_bg.png");
 	background-size: 100%;
-	z-index: 40; 
+	z-index: 40;
 }
 
-#PlayerCircleWinrateFG{
+#PlayerCircleWinrateFG {
 	align: center center;
 	width: 100%;
 	height: 100%;
@@ -761,7 +862,7 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	transition-property: clip;
 	transition-duration: 1.2s;
 	transition-timing-function: ease-in-out;
-	clip: radial( 50.0% 50.0%, 0.0deg, 0.0deg);
+	clip: radial(50.0% 50.0%, 0.0deg, 0.0deg);
 }
 
 .WinrateLabelPanel {
@@ -770,19 +871,20 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	flow-children: down;
 }
 
-.WinrateLabelText{
+.WinrateLabelText {
 	font-size: 20px;
 	color: white;
 	horizontal-align: center;
 }
-.WinrateLabel{
+
+.WinrateLabel {
 	font-size: 26px;
 	color: white;
 	horizontal-align: center;
 	font-weight: bold;
 }
 
-#MenuPanel{
+#MenuPanel {
 	height: 50px;
 	flow-children: right;
 	horizontal-align: center;
@@ -792,10 +894,10 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 .MenuButtonsPanel {
 	width: 200px;
 	height: 100%;
-	background-color: gradient( linear, 0% 0%, 0% 100%, from( #401056 ), to( black ) );
+	background-color: gradient(linear, 0% 0%, 0% 100%, from(#401056), to(black));
 	box-shadow: 0px 0px 8px black;
 	border: 1px solid #ffffff;
-    border-brush: gradient( linear, 0% 0%, 0% 100%, from( #ae00ff ), to( #40035d ) );
+	border-brush: gradient(linear, 0% 0%, 0% 100%, from(#ae00ff), to(#40035d));
 	margin-left: 20px;
 	margin-right: 20px;
 }
@@ -810,14 +912,14 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 
 .MenuButtonsText {
 	color: white;
-    align: center center;
-    font-size: 16px;
-    letter-spacing: 1px;
-    font-weight: semi-bold;
-    text-shadow: 1px 1px 1px 2 black;
-    margin-top: 1px;
-    font-family: Reaver;
-    text-transform: uppercase;
+	align: center center;
+	font-size: 16px;
+	letter-spacing: 1px;
+	font-weight: semi-bold;
+	text-shadow: 1px 1px 1px 2 black;
+	margin-top: 1px;
+	font-family: Reaver;
+	text-transform: uppercase;
 }
 
 .PanelInfo {
@@ -835,10 +937,9 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	flow-children: down;
 }
 
-.Info_bg
-{
+.Info_bg {
 	background-image: url("file://{images}/custom_game/plus/info_bg.png");
-    background-size: 100%;
+	background-size: 100%;
 	width: 200px;
 	height: 40px;
 	border: 1px solid #aaabe733;
@@ -864,51 +965,51 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	margin-left: 48px;
 }
 
-.MmrSeasonBlock{
-	width: 140px;
-	height: 140px;
-	flow-children: down;
+.MmrSeasonBlock 
+{
+	width: 100%;
+	height: 40px;
+	flow-children: right;
 	margin: 5px;
-	border:1px solid gray;
-	border-brush: gradient( linear, 0% 20%, 0% 100%, from( rgba(0,0,0,0.2) ), to( orange ) );
+    margin-left: 10px;
+    background-color: gradient(linear, 0% 0%, 85% 0%, from(rgba(0, 0, 0, 0.485)), to(rgba(0, 0, 0, 0)));
 }
 
 .MmrBlockPanelSeason 
 {
-	width: 105px;
-	height: 100px;
+	width: 40px;
+	height: 40px;
 	horizontal-align: center;
 	background-image: url("file://{images}/custom_game/plus/season_logo.png");
-    background-size: 100%;
+	background-size: 100%;
 }
 
-.MmrBlockPanel {
-	width: 100%;
-	height: 50%;
-	margin-top: 1px;
+.MmrBlockPanel 
+{
+    vertical-align: center;
+    margin-left: 10px;
 }
 
-.label_block_rating {
-	font-size: 18px;
+.label_block_rating 
+{
+	font-size: 24px;
 	text-align: center;
-	align: center bottom;
-	margin-bottom: 6px;
-	color:  white;
-	font-weight: bold;
-	text-shadow: 0px 0px 1px 1.0 black;
+    vertical-align: center;
+	color: white;
+	font-weight: semi-bold;
+	text-shadow: 0px 0px 1px 3 black;
 }
 
 .label_block_rating_count {
-	font-size: 40px;
+	font-size: 24px;
 	text-align: center;
 	align: center center;
-	color:  white;
+	color: white;
 	font-weight: bold;
 	text-shadow: 0px 0px 5px 8 black;
 	border-radius: 30px;
-	width: 45px;
-	height: 45px;
-	background-blur: gaussian( 1 );
+    width: 100%;
+	background-blur: gaussian(1);
 }
 
 #HeroesInformation {
@@ -917,45 +1018,40 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	visibility: collapse;
 }
 
-#ButtonsPanelBackground
-{
+#ButtonsPanelBackground {
 	align: left top;
 	opacity: 0.5;
 	border: 1px solid white;
-	border-brush: gradient( linear, 0% 0%, 100% 0%, from( #000c ), color-stop( .15, #0000008c ), to( #0000 ) );
+	border-brush: gradient(linear, 0% 0%, 100% 0%, from(#000c), color-stop(.15, #0000008c), to(#0000));
 	z-index: -50;
 	width: 390px;
-	background-color: gradient( linear, 0% 0%, 100% 0%, from( #000c ), color-stop( .75, #0000008c ), to( #0000 ) );
+	background-color: gradient(linear, 0% 0%, 100% 0%, from(#000c), color-stop(.75, #0000008c), to(#0000));
 	height: 47px;
 	visibility: collapse;
 }
 
-#BirzhaPassWindowActive
-{
+#BirzhaPassWindowActive {
 	width: 1300px;
-    height: 850px;
+	height: 850px;
 	flow-children: down;
 }
 
-#BirzhaPassWindowDeactive
-{
+#BirzhaPassWindowDeactive {
 	width: 1300px;
-    height: 850px;
+	height: 850px;
 	flow-children: down;
-    background-image: url("file://{images}/custom_game/plus/background.png");
-    background-size: 100%;
+	background-image: url("file://{images}/custom_game/plus/background.png");
+	background-size: 100%;
 }
 
-#PlusLogoScene
-{
+#PlusLogoScene {
 	width: 600px;
 	height: 600px;
 	transform: rotateY(180deg);
 	margin-left: 10px;
 }
 
-.HeaderBirzhaPlusBuy
-{
+.HeaderBirzhaPlusBuy {
 	font-size: 24px;
 	color: white;
 	text-shadow: 1px 1px 1px 1.0 black;
@@ -967,11 +1063,10 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	horizontal-align: center;
 	margin-top: 50px;
 	border-bottom: 1px solid #fff;
-	border-brush: gradient( radial, 50% 50%, 0% 0%, 90% 55%, from( gold ), to( #fff0 ) );
+	border-brush: gradient(radial, 50% 50%, 0% 0%, 90% 55%, from(gold), to(#fff0));
 }
 
-.HeaderBirzhaPlusBuyDescription
-{
+.HeaderBirzhaPlusBuyDescription {
 	font-size: 15px;
 	color: white;
 	text-shadow: 1px 1px 1px 1.0 black;
@@ -987,10 +1082,10 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	width: 500px;
 	height: 100px;
 	horizontal-align: center;
-	background-color: gradient( linear, 0% 0%, 0% 100%, from( #401056 ), to( black ) );
+	background-color: gradient(linear, 0% 0%, 0% 100%, from(#401056), to(black));
 	box-shadow: 0px 0px 8px black;
 	border: 1px solid #ffffff;
-    border-brush: gradient( linear, 0% 0%, 0% 100%, from( #ae00ff ), to( #40035d ) );
+	border-brush: gradient(linear, 0% 0%, 0% 100%, from(#ae00ff), to(#40035d));
 	margin-top: 60px;
 	margin-bottom: 20px;
 }
@@ -1003,20 +1098,539 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	brightness: 0.5;
 }
 
-.ButtonBuySubscribeHead
-{
-	font-size: 34px;
+.ButtonBuySubscribeHead {
+	font-size: 28px;
 	font-weight: bold;
 	color: white;
+    text-transform: uppercase;
 	horizontal-align: center;
 	margin-top: 10px;
 }
 
-.ButtonBuySubscribeHeadDescirption
-{
+.ButtonBuySubscribeHeadDescirption {
 	font-size: 15px;
 	font-weight: bold;
 	color: white;
 	horizontal-align: center;
-	margin-top: 60px;
+}
+
+.ButtonBuySubscribeCheck 
+{
+	width: 150px;
+	height: 40px;
+	horizontal-align: center;
+	background-color: gradient(linear, 0% 0%, 0% 100%, from(#401056), to(black));
+	box-shadow: 0px 0px 8px black;
+	border: 1px solid #ffffff;
+	border-brush: gradient(linear, 0% 0%, 0% 100%, from(#ae00ff), to(#40035d));
+	margin-top: 20px;
+}
+
+.ButtonBuySubscribeCheck:hover 
+{
+	brightness: 1.3;
+}
+
+.ButtonBuySubscribeCheck:active 
+{
+	brightness: 0.5;
+}
+
+
+.ButtonBuySubscribeCheckMini
+{
+    font-size: 15px;
+	font-weight: bold;
+	color: white;
+	horizontal-align: center;
+    vertical-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+.BirzhaPlusInformationBody 
+{
+    margin-top: 50px;
+	width: 600px;
+	height: 530px;
+    vertical-align: center;
+    margin-left: 40px;
+    margin-right: 40px;
+    border: 1px solid #ffffff;
+	border-brush: gradient(linear, 0% 0%, 0% 100%, from(#ae00ff), to(#40035d));
+}
+
+
+.BirzhaPlusInformationBodyInfo 
+{
+	width: 100%;
+	height: 157px;
+	vertical-align: bottom;
+	background-color: rgba(0, 0, 0, 0.85);
+	flow-children: down;
+}
+
+.BirzhaPlusInformationBodyInfoName 
+{
+	horizontal-align: center;
+	color: white;
+	font-weight: semi-bold;
+	letter-spacing: 1px;
+	font-size: 24px;
+	font-family: 'Radiance';
+	text-transform: uppercase;
+	margin-top: 18px;
+}
+
+.BirzhaPlusInformationBodyInfoDescr 
+{
+	color: rgba(255, 255, 255, 0.7);
+	text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
+	font-size: 16px;
+	font-family: 'Radiance';
+	horizontal-align: center;
+	margin-top: 26px;
+    text-align: center;
+    height: 40px;
+}
+
+.BirzhaPlusInformationBodyInfoNavigation 
+{
+	flow-children: right;
+	horizontal-align: center;
+	margin-top: 7px;
+}
+
+.NavigationWidgets 
+{
+	flow-children: right;
+}
+
+.BirzhaPlusInformationBodyImage
+{
+    width: 100%;
+    height: 100%;
+}
+
+.NavigationArrowLeft 
+{
+	background-image: url("file://{images}/custom_game/arrow_left.png");
+	background-size: 100%;
+	width: 6px;
+	height: 8px;
+	vertical-align: center;
+	margin-right: 5px;
+	wash-color: gray;
+	transition-property: wash-color;
+	transition-duration: 0.1s;
+}
+
+.NavigationArrowRight 
+{
+	background-image: url("file://{images}/custom_game/arrow_right.png");
+	background-size: 100%;
+	width: 6px;
+	height: 8px;
+	vertical-align: center;
+	margin-left: 5px;
+	wash-color: gray;
+	transition-property: wash-color;
+	transition-duration: 0.1s;
+}
+
+.NavigationArrowLeft:hover 
+{
+	wash-color: white;
+}
+
+.NavigationArrowRight:hover 
+{
+	wash-color: white;
+}
+
+.NavigationWidget 
+{
+	width: 6px;
+	height: 6px;
+    border-radius: 6px;
+	background-color: gray;
+	margin: 5px;
+	vertical-align: center;
+}
+
+.NavigationWidget_Active 
+{
+	background-color: rgb(255, 0, 255);
+}
+
+.BPCostMain
+{
+    vertical-align: bottom;
+    horizontal-align: center;
+    margin-bottom: 15px;
+    flow-children: right;
+}
+
+.BPCostImage
+{
+    width: 40px;
+    height: 40px;
+    background-image: url("file://{images}/custom_game/shop/gold_icon.png");
+    background-size: 100%;
+}
+
+.BPCostLabel
+{
+	font-size: 28px;
+	font-family: 'Radiance';
+    text-shadow: 0px 0px 10px 1 rgba(255, 200, 60, 0.2);
+	color: gradient(linear, 0% 0%, 0% 100%,
+			from(#FFDB5C),
+			color-stop(0.8, #FFC01E),
+			to(#FFFFFF));
+    vertical-align: center;
+    font-weight: semi-bold;
+    margin-left: 10px;
+}
+
+.ProfileAndRatingSeasons
+{
+    width: 394px;
+    height: 700px;
+    margin-left: 25px;
+    flow-children: down;
+}
+
+.Profile
+{
+    width: 394px;
+    height: 110px;
+    background-color: gradient(linear, 0% 0%, 85% 0%, from(rgba(73, 59, 102, 1)), to(rgba(51, 37, 78, 0.295)));
+}
+
+.NickNameAndAvatar
+{
+    flow-children: right;
+    margin-top: 15px;
+    width: 100%;
+    height: 80px;
+    margin-left: 15px;
+    background-color: gradient(linear, 0% 0%, 85% 0%, from(rgba(0, 0, 0, 0.685)), to(rgba(0, 0, 0, 0)));
+}
+
+.AvatarProfile
+{
+    width: 64px;
+    height: 64px;
+    margin-top: 5px;
+    border: 2px solid white;
+    margin-left: 5px;
+	border-brush: gradient(radial, 0% 0%, 2% 10%, 100% 100%, from(rgba(127, 10, 150, 0.658)), to(#ffd87600));
+}
+
+.PlayerNameAndRating
+{
+    flow-children: down;
+    vertical-align: center;
+    margin-bottom: 5px;
+    margin-left: 15px;
+}
+
+.PlayerRatingProfile
+{
+    color: #A5B3FF;
+	font-size: 16px;
+	font-family: 'Radiance';
+}
+
+.BirzhaPlusSubscribeInfoLine
+{
+    margin-top: 75px;
+    width: 100%;
+    height: 30px;
+    margin-left: 7px;
+}
+
+.BirzhaPlusSubscribeInfoLineBG
+{
+    width: 100%;
+    height: 20px;
+    vertical-align: center;
+    margin-left: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-color: gradient(linear, 0% 0%, 85% 0%, from(rgba(129, 99, 63, 0.7917)), to(rgba(185, 151, 109, 0)));
+}
+
+.BirzhaPlusSubscribeInfoLineIcon 
+{
+	background-image: url("file://{images}/custom_game/birzhapass/passbuttonoff_png.png");
+	background-size: 100%;
+	width: 27px;
+	height: 27px;
+    vertical-align: center;
+}
+
+.BirzhaPlusSubscribeInfoLineLabel
+{
+    text-shadow: 0px 0px 10px 1 rgb(0, 0, 0);
+	color: gradient(linear, 0% 0%, 0% 100%,
+			from(#FFDB5C),
+			color-stop(0.4, #FFC01E),
+			to(#FFFFFF));
+	font-weight: semi-bold;
+	font-size: 12px;
+    vertical-align: center;
+    margin-left: 30px;
+	font-family: 'Radiance';
+	text-transform: uppercase;
+}
+
+.RatingHistoryList
+{
+    margin-top: 20px;
+    width: 100%;
+    height: 700px;
+    flow-children: down;
+}
+
+.RatingHistoryListHeader
+{
+    width: 100%;
+    height: 30px;
+    background-color: rgba(5, 3, 13, 0.5);
+}
+
+.RatingHistoryListLabel
+{
+    vertical-align: center;
+    margin-left: 15px;
+    font-weight: semi-bold;
+	font-size: 14px;
+    color: #8E8E8E;
+    font-family: 'Radiance';
+	text-transform: uppercase;
+}
+
+.HistoryRatingListMain
+{
+    width: 100%;
+    height: 100%;
+    flow-children: down;
+    background-color: gradient(linear, 0% 0%, 85% 0%, from(rgba(26, 22, 34, 1)), to(rgba(33, 27, 45, 0.59)));
+}
+
+.HistoryRatingListMainInfo
+{
+    width: 100%;
+    height: 100%;
+    flow-children: down;
+    overflow: squish scroll;
+}
+
+.TopHeroesAndHeroesList
+{
+    width: 498px;
+    height: 700px;
+    flow-children: down;
+    margin-left: 15px;
+}
+
+.TopHeroesList
+{
+    width: 100%;
+    flow-children: down;
+}
+
+.TopHeroesListHeader
+{
+    width: 100%;
+    height: 30px;
+    background-color: rgba(5, 3, 13, 0.5);
+}
+
+.TopHeroesListHeaderLabel
+{
+    vertical-align: center;
+    margin-left: 15px;
+    font-weight: semi-bold;
+	font-size: 14px;
+    color: #8E8E8E;
+    font-family: 'Radiance';
+	text-transform: uppercase;
+}
+
+.BestHeroes
+{
+    margin-top: 2px;
+    horizontal-align: center;
+    flow-children: right;
+}
+
+.BestHero
+{
+    width: 162px;
+    height: 162px;
+    margin-right: 2px;
+    margin-left: 2px;
+    border: 1.5px solid white;
+    border-brush: gradient(radial, 0% 0%, 20% 10%, 100% 100%, from(rgba(154, 105, 235, 1)), to(rgba(154, 105, 235, 0)));
+}
+
+.TopHeroesListAll
+{
+    margin-top: 10px;
+    width: 100%;
+    height: 100%;
+    flow-children: down;
+}
+
+.GamesCountBestHero
+{
+    width: 100%;
+    height: 25px;
+    background-color: rgba(0, 0, 0, 0.95);
+    text-align: center;
+    margin-bottom: 30px;
+    vertical-align: bottom;
+}
+.WinCountBestHero
+{
+    width: 100%;
+    height: 25px;
+    background-color: rgba(0, 0, 0, 0.95);
+    text-align: center;
+    vertical-align: bottom;
+}
+.BestHeroImage
+{
+    width: 100%;
+    height: 100%;
+    blur: gaussian( 1.2 );
+}
+.PlayerHeroLevelLabel
+{
+    align: center center;
+    color: white;
+    text-shadow: 0px 0px 5px 4 black;
+    width: 100%;
+    text-align: center;
+    font-weight: semi-bold;
+	font-size: 18px;
+    font-family: 'Radiance';
+	text-transform: uppercase;
+}
+.TopHeroesListAllMain
+{
+    width: 100%;
+    height: 100%;
+    flow-children: down;
+    background-color: gradient(linear, 0% 0%, 100% 0%, from(rgba(26, 22, 34, 1)), to(rgba(33, 27, 45, 0.59)));
+}
+
+.PlayerStatsAll
+{
+    width: 320px;
+    height: 700px;
+    margin-left: 15px;
+    flow-children: down;
+}
+
+.PlayerStatsAllBlocks
+{
+    width: 100%;
+    height: 100%;
+    flow-children: down;
+}
+
+.PlayerStatsAllBlock
+{
+    width: 100%;
+    height: 70px;
+    margin-bottom: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid white;
+    border-brush: gradient(radial, 0% 0%, 20% 10%, 100% 100%, from(rgba(154, 105, 235, 1)), to(rgba(154, 105, 235, 0)));
+    flow-children: right;
+}
+
+.ImageStats
+{
+    width: 48px;
+    height: 48px;
+    margin-left: 20%;
+    vertical-align: center;
+}
+
+.StatsInfo
+{
+    margin-left: 10px;
+    vertical-align: center;
+    flow-children: down;
+}
+
+.StatsInfoLabelMain
+{
+    font-weight: semi-bold;
+	font-size: 14px;
+    font-family: 'Radiance';
+	text-transform: uppercase;
+}
+
+.StatsInfoLabelCount
+{
+    font-weight: semi-bold;
+	font-size: 24px;
+    font-family: 'Radiance';
+	text-transform: uppercase;
+    text-shadow: 0px 0px 10px 1 rgba(177, 60, 255, 0.2);
+	color: gradient(linear, 0% 0%, 0% 100%,
+			from(#800ace),
+			color-stop(0.8, #a51eff),
+			to(#a700a7));
+}
+
+.StatsInfoLabelMainIcon_1
+{
+    background-image: url("file://{images}/custom_game/birzhapass/player_mvp_crown_lg.png");
+	background-size: 100%; 
+}
+.StatsInfoLabelMainIcon_2
+{
+    background-image: url("file://{images}/custom_game/birzhapass/token.png");
+	background-size: 100%; 
+}
+.StatsInfoLabelMainIcon_3
+{
+    background-image: url("file://{images}/custom_game/smiles/BirzhaMertva.png");
+	background-size: 100%; 
+    height: 38px;
+}
+.StatsInfoLabelMainIcon_4
+{
+    background-image: url("file://{images}/custom_game/smiles/Oreh.png");
+	background-size: 100%; 
+}
+.StatsInfoLabelMainIcon_5
+{
+    background-image: url("file://{images}/custom_game/smiles/CatSad.png");
+	background-size: 100%; 
+}
+.StatsInfoLabelMainIcon_6
+{
+    background-image: url("file://{images}/custom_game/birzhapass/drow_arcana_target.png");
+	background-size: 100%; 
+}
+.StatsInfoLabelMainIcon_7
+{
+    background-image: url("file://{images}/custom_game/birzhapass/skull_stroke.png");
+	background-size: 100%; 
+    height: 32px;
 }

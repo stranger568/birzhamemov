@@ -174,7 +174,8 @@ function modifier_nolik_chill:OnIntervalThink()
 
     local modifier_nolik_energy = self:GetParent():FindModifierByName("modifier_nolik_energy")
     if modifier_nolik_energy then
-    	modifier_nolik_energy:EnergyAdded( (modifier_nolik_energy.max_energy + (modifier_nolik_energy.energy_per_level * self:GetParent():GetLevel())) * (self.energy_heal / 100))
+        local energy = (modifier_nolik_energy.max_energy + (modifier_nolik_energy.energy_per_level * self:GetParent():GetLevel())) * (self.energy_heal / 100)
+    	modifier_nolik_energy:EnergyAdded( energy * 0.5 )
     end
 end
 

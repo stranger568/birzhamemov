@@ -56,7 +56,8 @@ function SwapLeaders(panel, button)
     //var sTip = "#LoadingTip_" + iIndexTip;
     //$("#TipLabel").text=$.Localize(sTip);
     //NextTip_Delay();
-    $.CreatePanelWithProperties("MoviePanel", $("#CustomBg"), "Movie", { src: "file://{resources}/videos/custom_game/Loading/outlanders_header.webm", repeat:"true", autoplay:"onload" });
+    LastSeasonPlayers()
+    $.CreatePanel("MoviePanel", $("#CustomBg"), "Movie", { src: "file://{resources}/videos/custom_game/Loading/outlanders_header.webm", repeat:"true", autoplay:"onload" });
 })();
 
 var hittestBlocker = $.GetContextPanel().GetParent().FindChild("SidebarAndBattleCupLayoutContainer");
@@ -65,3 +66,48 @@ if (hittestBlocker) {
     hittestBlocker.hittest = false;
     hittestBlocker.hittestchildren = false;
 }
+
+function LastSeasonPlayers()
+{
+    let last_season_info = CustomNetTables.GetTableValue("game_state", "birzha_top_last_season") 
+    if (last_season_info)
+    {
+        for (var i = 1; i <= Object.keys(last_season_info["birzhamemov_solo"]).length; i++) 
+        {
+            $("#SoloPlayers").FindChildTraverse("Player_"+i).accountid = last_season_info["birzhamemov_solo"][i]["steamid"]
+        }
+        for (var i = 1; i <= Object.keys(last_season_info["birzhamemov_duo"]).length; i++) 
+        {
+            $("#DuoPlayers").FindChildTraverse("Player_"+i).accountid = last_season_info["birzhamemov_duo"][i]["steamid"]
+        }
+        for (var i = 1; i <= Object.keys(last_season_info["birzhamemov_trio"]).length; i++) 
+        {
+            $("#TrioPlayers").FindChildTraverse("Player_"+i).accountid = last_season_info["birzhamemov_trio"][i]["steamid"]
+        }
+        for (var i = 1; i <= Object.keys(last_season_info["birzhamemov_5v5"]).length; i++) 
+        {
+            $("#5v5Players").FindChildTraverse("Player_"+i).accountid = last_season_info["birzhamemov_5v5"][i]["steamid"]
+        }
+        for (var i = 1; i <= Object.keys(last_season_info["birzhamemov_5v5v5"]).length; i++) 
+        {
+            $("#5v5v5Players").FindChildTraverse("Player_"+i).accountid = last_season_info["birzhamemov_5v5v5"][i]["steamid"]
+        }
+        for (var i = 1; i <= Object.keys(last_season_info["birzhamemov_zxc"]).length; i++) 
+        {
+            $("#zxcPlayers").FindChildTraverse("Player_"+i).accountid = last_season_info["birzhamemov_zxc"][i]["steamid"]
+        }
+    }
+    else
+    {
+        $.Schedule(0.1, LastSeasonPlayers)
+    }
+}
+
+
+
+
+
+
+
+
+

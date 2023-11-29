@@ -65,7 +65,6 @@ function modifier_tailer_burger_buff_counter:OnCreated()
 	self.bonus_str = self:GetAbility():GetSpecialValueFor("bonus_str")
 	self.bonus_agi = self:GetAbility():GetSpecialValueFor("bonus_agi")
 	self.bonus_int = self:GetAbility():GetSpecialValueFor("bonus_int")
-	self.attackspeed = self:GetAbility():GetSpecialValueFor("attackspeed")
 	if not IsServer() then return end
 	self:StartIntervalThink(FrameTime())
 end
@@ -95,7 +94,6 @@ function modifier_tailer_burger_buff_counter:DeclareFunctions()
 		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
 		MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
 		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
-		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
 	}
 end
 
@@ -110,37 +108,6 @@ end
 function modifier_tailer_burger_buff_counter:GetModifierBonusStats_Intellect()
 	return self.bonus_int * self:GetStackCount()
 end
-
-function modifier_tailer_burger_buff_counter:GetModifierAttackSpeedBonus_Constant()
-	return self.attackspeed * self:GetStackCount()
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 LinkLuaModifier("modifier_tailer_burgerking_buff", "abilities/heroes/tailer.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_tailer_burgerking_debuff", "abilities/heroes/tailer.lua", LUA_MODIFIER_MOTION_NONE)
@@ -188,13 +155,18 @@ function modifier_tailer_burgerking_buff:DeclareFunctions()
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
-        MODIFIER_PROPERTY_OVERRIDE_ANIMATION
+        MODIFIER_PROPERTY_OVERRIDE_ANIMATION,
+        MODIFIER_PROPERTY_HEALTHBAR_PIPS
 	}
 	return decFuncs
 end
 
 function modifier_tailer_burgerking_buff:CheckState()
 	return {[MODIFIER_STATE_MAGIC_IMMUNE] = true}
+end
+
+function modifier_tailer_burgerking_buff:GetModifierHealthBarPips()
+    return self:GetParent():GetMaxHealth()
 end
 
 function modifier_tailer_burgerking_buff:GetAbsoluteNoDamageMagical()
@@ -224,13 +196,15 @@ function modifier_tailer_burgerking_buff:OnAttackLanded(keys)
             end
             return
         end
+        local new_health = self:GetParent():GetHealth() - self.health_increments
         if keys.attacker:IsRealHero() then
-            self:GetParent():SetHealth(self:GetParent():GetHealth() - (self.health_increments * self.hero_attack_multiplier))
-        else
-            self:GetParent():SetHealth(self:GetParent():GetHealth() - self.health_increments)
+            new_health = self:GetParent():GetHealth() - (self.health_increments * self.hero_attack_multiplier)
         end
-        if self:GetParent():GetHealth() <= 0 then
+        new_health = math.floor(new_health)
+        if new_health <= 0 then
             self:GetParent():Kill(nil, keys.attacker)
+        else
+            self:GetParent():SetHealth(new_health)
         end
     end
 end
@@ -368,29 +342,6 @@ function modifier_tailer_burgerking_buff_hero:OnIntervalThink()
 	end
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 LinkLuaModifier("modifier_tailer_damageblock", "abilities/heroes/tailer.lua", LUA_MODIFIER_MOTION_NONE)
 
 tailer_damageblock = class({})
@@ -478,17 +429,6 @@ function modifier_tailer_damageblock:OnIntervalThink()
 	self:StartIntervalThink( -1 )
 	self.damage = 0
 end
-
-
-
-
-
-
-
-
-
-
-
 
 LinkLuaModifier("modifier_tailer_doubleform", "abilities/heroes/tailer.lua", LUA_MODIFIER_MOTION_NONE)
 

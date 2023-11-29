@@ -244,16 +244,6 @@ function modifier_azazin_agressive_debuff:OnRemoved()
     self:GetParent():SetForceAttackTarget( nil )
 end
 
-function modifier_azazin_agressive_debuff:DeclareFunctions()
-    return {
-        MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS
-    }
-end
-
-function modifier_azazin_agressive_debuff:GetModifierMagicalResistanceBonus()
-    return self:GetCaster():FindTalentValue("special_bonus_birzha_azazin_6")
-end
-
 function modifier_azazin_agressive_debuff:CheckState()
     local state = 
     {
@@ -269,6 +259,8 @@ function modifier_azazin_agressive_debuff:GetStatusEffectName()
 end
 
 LinkLuaModifier( "modifier_azazin_spinner", "abilities/heroes/azazin.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_azazin_spinner_handler", "abilities/heroes/azazin.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_azazin_spinner_debuff", "abilities/heroes/azazin.lua", LUA_MODIFIER_MOTION_NONE )
 
 Azazin_Spinner = class({})
 
@@ -282,6 +274,10 @@ end
 
 function Azazin_Spinner:GetCastRange(location, target)
     return self:GetSpecialValueFor("radius")
+end
+
+function Azazin_Spinner:GetIntrinsicModifierName()
+    return "modifier_azazin_spinner_handler"
 end
 
 function Azazin_Spinner:OnSpellStart()
@@ -305,6 +301,9 @@ function modifier_azazin_spinner:OnCreated( kv )
     if not IsServer() then return end
     local damage = self:GetAbility():GetSpecialValueFor("damage")
     local radius = self:GetAbility():GetSpecialValueFor("spinner_radius")
+    if self:GetCaster():HasTalent("special_bonus_birzha_azazin_6") then
+        damage = damage + (self:GetCaster():GetStrength() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_azazin_6"))
+    end
 
     if self:GetParent():HasScepter() then
         radius = 500
@@ -321,10 +320,6 @@ function modifier_azazin_spinner:OnCreated( kv )
         damage_type = DAMAGE_TYPE_PURE,
         ability = self:GetAbility(),
     }
-
-    if self:GetCaster():HasTalent("special_bonus_birzha_azazin_8") then
-        self.damageTable.damage_type = DAMAGE_TYPE_MAGICAL
-    end
 
     self.particle = ParticleManager:CreateParticle( "particles/blue_fury/juggernaut_blade_fury.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
     ParticleManager:SetParticleControl( self.particle, 5, Vector( radius, 0, 0 ) )
@@ -360,6 +355,9 @@ function modifier_azazin_spinner:OnIntervalThink()
         ParticleManager:SetParticleControl( particle, 4, enemy:GetAbsOrigin() )
         ParticleManager:SetParticleControl( particle, 5, enemy:GetAbsOrigin() )
         ParticleManager:ReleaseParticleIndex( particle )
+        if self:GetCaster():HasTalent("special_bonus_birzha_azazin_8") then
+            enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_azazin_spinner_debuff", {duration = 1})
+        end
     end
 end
 
@@ -367,17 +365,41 @@ function modifier_azazin_spinner:CheckState()
     local state = 
     {
         [MODIFIER_STATE_MAGIC_IMMUNE] = true,
-        [MODIFIER_STATE_SILENCED] = true,
-        [MODIFIER_STATE_DISARMED] = true,
     }
-    if self:GetCaster():HasTalent("special_bonus_birzha_azazin_3") then
-        state = 
-        {
-            [MODIFIER_STATE_MAGIC_IMMUNE] = true,
-        }
-    end
 
     return state
 end
 
+modifier_azazin_spinner_handler = class({})
+function modifier_azazin_spinner_handler:IsPurgable() return false end
+function modifier_azazin_spinner_handler:IsPurgeException() return false end
+function modifier_azazin_spinner_handler:IsHidden() return true end
+function modifier_azazin_spinner_handler:RemoveOnDeath() return false end
+function modifier_azazin_spinner_handler:DeclareFunctions()
+    return
+    {
+        MODIFIER_EVENT_ON_TAKEDAMAGE
+    }
+end
+function modifier_azazin_spinner_handler:OnTakeDamage(params)
+    if not IsServer() then return end
+    if params.unit ~= self:GetParent() then return end
+    if params.attacker == self:GetParent() then return end
+    if not self:GetParent():HasTalent("special_bonus_birzha_azazin_3") then return end
+    if RollPercentage(self:GetCaster():FindTalentValue("special_bonus_birzha_azazin_3")) then
+        if not self:GetCaster():HasModifier("modifier_azazin_spinner") then
+            self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_azazin_spinner", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_azazin_3", "value2")})
+        end
+    end
+end
 
+modifier_azazin_spinner_debuff = class({})
+function modifier_azazin_spinner_debuff:DeclareFunctions()
+    return
+    {
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
+    }
+end
+function modifier_azazin_spinner_debuff:GetModifierMoveSpeedBonus_Percentage()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_azazin_8")
+end

@@ -1,4 +1,4 @@
+require( 'utils/link_modifiers_client' )
 if IsClient() then
-	AbilityKV = LoadKeyValues("scripts/npc/npc_abilities_custom.txt")
-    require( 'functions/functions_client' )
+    require( 'utils/functions_client' )
 end

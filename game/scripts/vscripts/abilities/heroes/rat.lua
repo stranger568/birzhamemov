@@ -95,12 +95,12 @@ function modifier_rat_courier_infection_unit:OnCreated(params)
     self.destroy_attacks            = params.destroy_attacks
 
     if self:GetCaster():HasShard() then
-        self.destroy_attack = self.destroy_attacks + self:GetAbility():GetSpecialValueFor("shard_bonus_attack")
+        self.destroy_attacks = self.destroy_attacks + self:GetAbility():GetSpecialValueFor("shard_bonus_attack")
     end
-
+    self:GetParent():SetBaseMaxHealth(self.destroy_attacks)
     self.target                     = EntIndexToHScript(params.target_entindex)
     self.hero_attack_multiplier     = 2
-    self.health_increments      = self:GetParent():GetMaxHealth() / self.destroy_attacks
+    self.health_increments      = 1
     self:StartIntervalThink(FrameTime())
 end
 
@@ -140,7 +140,8 @@ function modifier_rat_courier_infection_unit:DeclareFunctions()
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
-        MODIFIER_EVENT_ON_ATTACKED
+        MODIFIER_EVENT_ON_ATTACKED,
+        MODIFIER_PROPERTY_HEALTHBAR_PIPS
     }
     return decFuncs
 end
@@ -161,19 +162,21 @@ function modifier_rat_courier_infection_unit:GetAbsoluteNoDamagePure()
     return 1
 end
 
+function modifier_rat_courier_infection_unit:GetModifierHealthBarPips()
+    return self:GetParent():GetMaxHealth()
+end
+
 function modifier_rat_courier_infection_unit:OnAttacked(keys)
     if not IsServer() then return end
     if keys.target == self:GetParent() then
-        if keys.attacker:IsHero() then
-            self:GetParent():SetHealth(self:GetParent():GetHealth() - (self.health_increments))
-        else
-            self:GetParent():SetHealth(self:GetParent():GetHealth() - self.health_increments)
-        end
-        if self:GetParent():GetHealth() <= 0 then
+        local new_health = self:GetParent():GetHealth() - self.health_increments
+        if new_health <= 0 then
             self:GetParent():Kill(nil, keys.attacker)
             if not self:IsNull() then
                 self:Destroy()
             end
+        else
+            self:GetParent():SetHealth(new_health)
         end
     end
 end

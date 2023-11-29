@@ -25,6 +25,12 @@ function Durov_AttackOnPoliceman:OnOwnerDied()
     end
 end
 
+function Durov_AttackOnPoliceman:OnAbilityUpgrade( hAbility )
+	if not IsServer() then return end
+	self.BaseClass.OnAbilityUpgrade( self, hAbility )
+	self:EnableAbilityChargesOnTalentUpgrade( hAbility, "special_bonus_unique_durov_7" )
+end
+
 function Durov_AttackOnPoliceman:OnSpellStart()
     if not IsServer() then return end
     local caster = self:GetCaster()
@@ -379,29 +385,6 @@ function modifier_Durov_omni_slash_caster:CheckState()
     return state
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 LinkLuaModifier("modifier_Durov_DropMoneyInFace_crit_passive", "abilities/heroes/durov.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_Durov_DropMoneyInFace_slow", "abilities/heroes/durov.lua", LUA_MODIFIER_MOTION_NONE)
 
@@ -599,6 +582,7 @@ function modifier_Durov_Vpn_buff_illusion:IsHidden() return true end
 
 function modifier_Durov_Vpn_buff_illusion:OnCreated()
     if not IsServer() then return end
+    self.move = false
     self:StartIntervalThink(FrameTime())
 end
 
@@ -607,6 +591,22 @@ function modifier_Durov_Vpn_buff_illusion:OnIntervalThink()
     if #nearby_enemies > 0 then
         self:GetParent():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, self:GetParent():GetAttackSpeed()*1.2)
         self:GetParent():PerformAttack(nearby_enemies[1], true, true, false, false, false, false, false)
+        self.move = false
+    elseif self:GetCaster():IsMoving() then
+        if not self.move then
+            self:GetParent():RemoveGesture(ACT_DOTA_IDLE)
+            self:GetParent():StartGesture(ACT_DOTA_RUN)
+            self.move = true
+        end
+    else
+        self:GetParent():StartGesture(ACT_DOTA_IDLE)
+        self.move = false
+    end
+
+    if self:GetCaster():HasModifier("modifier_Durov_AttackOnPoliceman") or self:GetCaster():HasModifier("modifier_Durov_omni_slash_caster") then
+        self:GetParent():AddNoDraw()
+    else
+        self:GetParent():RemoveNoDraw()
     end
 end
 

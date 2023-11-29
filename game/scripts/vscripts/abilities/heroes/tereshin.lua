@@ -237,7 +237,12 @@ function Kirill_ShakeTheGround:OnSpellStart()
     end 
 
     if self:GetCaster():HasShard() and not self:GetAutoCastState() then
-        local end_pos_teleport = GetGroundPosition(endPos, nil)
+        local point = self:GetCursorPosition()
+        local distance = (point - self:GetCaster():GetAbsOrigin()):Length2D()
+        if distance > fissure_range then
+            point = self:GetCaster():GetAbsOrigin() + direction * fissure_range
+        end
+        local end_pos_teleport = GetGroundPosition(point, nil)
         FindClearSpaceForUnit(self:GetCaster(), end_pos_teleport, true)
     end
 end
@@ -412,9 +417,10 @@ end
 function modifier_kirill_SpecialDobbleHit:OnAttack(params)
     if params.attacker == self:GetParent() then
         if self:GetParent():PassivesDisabled() then return end
-        if RollPercentage(self:GetAbility():GetSpecialValueFor("chance")) then 
+        if RollPercentage(self:GetAbility():GetSpecialValueFor("chance")) then
             self:GetParent():AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_kirill_SpecialDobbleHit_haste", {duration = 2})
             self:GetParent():EmitSound("sintol4")
+            self:GetParent():AttackNoEarlierThan(0, 100)
         end
     end
 end

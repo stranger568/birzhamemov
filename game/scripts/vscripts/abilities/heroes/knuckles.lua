@@ -44,6 +44,8 @@ function Knuckles_army:OnSpellStart()
             table.remove(modifier.owner.juxtapose_table, ill)
         end
 
+        local Knuckles_GetInTheTank = self:GetCaster():FindAbilityByName("Knuckles_GetInTheTank")
+
         for i = 1, max_illusions do
             local illusions = BirzhaCreateIllusion(modifier.owner, self:GetCaster(), 
             {
@@ -67,6 +69,9 @@ function Knuckles_army:OnSpellStart()
                 illusion:SetMinimumGoldBounty(5)
                 illusion:SetMaximumGoldBounty(5)
                 table.insert(modifier.owner.juxtapose_table, illusion:entindex())
+                if Knuckles_GetInTheTank then
+                    Knuckles_GetInTheTank:IllusionAbuse(illusion)
+                end
             end
         end
     end
@@ -125,8 +130,18 @@ function modifier_Knuckles_army:OnAttackLanded(keys)
             self.duration = self.duration + 10
             max_illusions = max_illusions + 1
         end
+
+        local Knuckles_GetInTheTank = self:GetCaster():FindAbilityByName("Knuckles_GetInTheTank")
         
+        for ill = #self.owner.juxtapose_table, 1, -1 do
+            local illusion_entity = EntIndexToHScript(self.owner.juxtapose_table[ill])
+            if illusion_entity == nil or (illusion_entity and illusion_entity:IsNull()) or (illusion_entity and not illusion_entity:IsAlive()) then
+                table.remove(self.owner.juxtapose_table, ill)
+            end
+        end
+
         if #(self.owner.juxtapose_table) < max_illusions and self.duration > 0 and self.owner.juxtapose_table then
+            
             local illusions = BirzhaCreateIllusion(self.owner, self:GetParent(), 
             {
                 outgoing_damage = (self:GetAbility():GetSpecialValueFor("illusion_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_knuckles_4")) - 100,
@@ -152,6 +167,10 @@ function modifier_Knuckles_army:OnAttackLanded(keys)
                 illusion:SetMaximumGoldBounty(5)
                 
                 table.insert(self.owner.juxtapose_table, illusion:entindex())
+
+                if Knuckles_GetInTheTank then
+                    Knuckles_GetInTheTank:IllusionAbuse(illusion)
+                end
             end
         end
         self.duration = 0
@@ -315,13 +334,7 @@ function modifier_heal_uganda_aura:OnCreated()
 end
 
 function modifier_heal_uganda_aura:GetModifierHealthBarPips()
-    if IsClient() then
-        return true
-    end
-    if not IsServer() then
-        return true
-    end
-    return true
+    return 5
 end
 
 function modifier_heal_uganda_aura:GetDisableHealing()
@@ -343,13 +356,14 @@ end
 function modifier_heal_uganda_aura:OnAttacked(keys)
     if not IsServer() then return end
     if keys.target == self:GetParent() then
+        local new_health = self:GetParent():GetHealth() - 1
         if keys.attacker:IsRealHero() then
-            self:GetParent():SetHealth(self:GetParent():GetHealth() - 1)
-        else
-            self:GetParent():SetHealth(self:GetParent():GetHealth() - 0.5)
+            new_health = self:GetParent():GetHealth() - 1
         end
-        if self:GetParent():GetHealth() <= 0 then
+        if new_health <= 0 then
             self:GetParent():Kill(nil, keys.attacker)
+        else
+            self:GetParent():SetHealth(new_health)
         end
     end
 end
@@ -580,6 +594,14 @@ function Knuckles_GetInTheTank:OnSpellStart()
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Knuckles_GetInTheTank", {duration = duration})
 end
 
+function Knuckles_GetInTheTank:IllusionAbuse(target)
+    if not IsServer() then return end
+    if not self:GetCaster():HasShard() then return end
+    if not self:GetCaster():HasModifier("modifier_Knuckles_GetInTheTank") then return end
+    local duration = self:GetSpecialValueFor('duration')  + self:GetCaster():FindTalentValue("special_bonus_birzha_knuckles_7")
+    target:AddNewModifier(self:GetCaster(), self, "modifier_Knuckles_GetInTheTank", {duration = duration})
+end
+
 modifier_Knuckles_GetInTheTank = class({}) 
 
 function modifier_Knuckles_GetInTheTank:IsPurgable() return false end
@@ -590,7 +612,7 @@ function modifier_Knuckles_GetInTheTank:OnCreated()
     if not IsServer() then return end
     local playerID = self:GetParent():GetPlayerID()
     if self:GetParent():GetUnitName() == "npc_dota_hero_winter_wyvern" then
-        self:GetParent():SetModelScale(6)
+       --self:GetParent():SetModelScale(2)
     end
     if DonateShopIsItemBought(playerID, 35) then
         self:GetParent():SetMaterialGroup("event")
@@ -602,7 +624,7 @@ function modifier_Knuckles_GetInTheTank:OnDestroy()
     local playerID = self:GetParent():GetPlayerID()
     self:GetCaster():StopSound("tank")
     if self:GetParent():GetUnitName() == "npc_dota_hero_winter_wyvern" then
-        self:GetParent():SetModelScale(4)
+        --self:GetParent():SetModelScale(0.5)
     end
     if DonateShopIsItemBought(playerID, 35) then
         if self:GetParent():GetUnitName() == "npc_dota_hero_winter_wyvern" then
@@ -650,7 +672,7 @@ function modifier_Knuckles_GetInTheTank:GetModifierAttackRangeBonus()
 end
 
 function modifier_Knuckles_GetInTheTank:GetModifierModelChange()
-    return "models/knuckles_tank.vmdl"
+    return "models/update_heroes/knuckles/knuckles_tank.vmdl"
 end
 
 function modifier_Knuckles_GetInTheTank:GetModifierProjectileName()

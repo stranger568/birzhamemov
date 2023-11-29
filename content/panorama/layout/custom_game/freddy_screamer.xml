@@ -7,7 +7,7 @@
 	<script>
 		function FreddyScreamerTrue()
 		{
-			$.CreatePanelWithProperties("MoviePanel", $("#FreddyScreamerPanel"), 'screamer_freddy', { style:"width:70%;height:70%;align:center center;opacity:0.99;", class:"freddy_screamer_webm", src:"file://{resources}/videos/custom_game/fnaf_screamer.webm", repeat:"true", hittest:"false", autoplay:"onload"});
+			$.CreatePanel("MoviePanel", $("#FreddyScreamerPanel"), 'screamer_freddy', { style:"width:70%;height:70%;align:center center;opacity:0.99;", class:"freddy_screamer_webm", src:"file://{resources}/videos/custom_game/fnaf_screamer.webm", repeat:"true", hittest:"false", autoplay:"onload"});
 		}
 		
 		function FreddyScreamerFalse()

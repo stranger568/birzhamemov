@@ -52,7 +52,6 @@ function modifier_item_magic_crystalis:GetModifierTotalDamageOutgoing_Percentage
             if RollPercentage(self:GetAbility():GetSpecialValueFor("chance")) then
                 params.target:EmitSound("DOTA_Item.HotD.Activate")
                 SendOverheadEventMessage(nil, OVERHEAD_ALERT_BONUS_SPELL_DAMAGE, params.target, params.original_damage + (params.original_damage / 100 * (self:GetAbility():GetSpecialValueFor("crit") - 100)), nil)
-                donate_shop:QuestProgress(26, self:GetCaster():GetPlayerOwnerID(), math.floor(params.original_damage / 100 * (self:GetAbility():GetSpecialValueFor("crit") - 100)))
                 return self:GetAbility():GetSpecialValueFor("crit") - 100
             end
         end
@@ -83,8 +82,6 @@ function modifier_item_magic_daedalus:DeclareFunctions()
         MODIFIER_PROPERTY_STATS_STRENGTH_BONUS, 
         MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
         MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
-        MODIFIER_PROPERTY_HEALTH_BONUS,
-        MODIFIER_PROPERTY_MANA_BONUS,
         MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE,
     }
 end
@@ -120,16 +117,6 @@ function modifier_item_magic_daedalus:GetModifierBonusStats_Agility()
     return self:GetAbility():GetSpecialValueFor("bonus_agi")
 end
 
-function modifier_item_magic_daedalus:GetModifierHealthBonus()
-    if not self:GetAbility() then return end
-    return self:GetAbility():GetSpecialValueFor("bonus_hp")
-end
-
-function modifier_item_magic_daedalus:GetModifierManaBonus()
-    if not self:GetAbility() then return end
-    return self:GetAbility():GetSpecialValueFor("bonus_mana")
-end
-
 function modifier_item_magic_daedalus:GetModifierTotalDamageOutgoing_Percentage(params)
     if params.damage_category == DOTA_DAMAGE_CATEGORY_SPELL then 
         --if params.original_damage < 100 then return end
@@ -137,7 +124,6 @@ function modifier_item_magic_daedalus:GetModifierTotalDamageOutgoing_Percentage(
             if RollPercentage(self:GetAbility():GetSpecialValueFor("chance")) then
                 params.target:EmitSound("DOTA_Item.HotD.Activate")
                 SendOverheadEventMessage(nil, OVERHEAD_ALERT_BONUS_SPELL_DAMAGE, params.target, params.original_damage + (params.original_damage / 100 * (self:GetAbility():GetSpecialValueFor("crit") - 100)), nil)
-                donate_shop:QuestProgress(26, self:GetCaster():GetPlayerOwnerID(), math.floor(params.original_damage / 100 * (self:GetAbility():GetSpecialValueFor("crit") - 100)))
                 return self:GetAbility():GetSpecialValueFor("crit") - 100
             end
         end

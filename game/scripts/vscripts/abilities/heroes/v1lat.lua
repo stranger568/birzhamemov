@@ -5,7 +5,7 @@ LinkLuaModifier( "modifier_V1lat_Crab", "abilities/heroes/v1lat", LUA_MODIFIER_M
 V1lat_Crab = class({})
 
 function V1lat_Crab:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_v1lat_3")
+    return self.BaseClass.GetCooldown( self, level )
 end
 
 function V1lat_Crab:GetManaCost(level)
@@ -390,7 +390,7 @@ function modifier_V1lat_AiAiAi_debuff:OnIntervalThink()
     SendOverheadEventMessage(nil, OVERHEAD_ALERT_BONUS_SPELL_DAMAGE, self:GetParent(), self.dot_damage, nil)
     if self:GetCaster():HasTalent("special_bonus_birzha_v1lat_8") then
         if self:GetParent():GetHealthPercent() <= self:GetCaster():FindTalentValue("special_bonus_birzha_v1lat_8") then
-            self:GetParent():BirzhaTrueKill(self:GetAbility(), self:GetCaster())
+            self:GetParent():Kill(self:GetAbility(), self:GetCaster())
         end
     end
 end
@@ -505,13 +505,18 @@ function modifier_V1lat_ItsNotNormal:OnDestroy()
 
     self:GetParent():EmitSound("Hero_ObsidianDestroyer.AstralImprisonment.End")
 
-    ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), ability = self:GetAbility(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL})
-
     self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_V1lat_ItsNotNormal_target_buff", { duration = duration * (1-self:GetParent():GetStatusResistance()) } )
     self:GetCaster():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_V1lat_ItsNotNormal_caster_buff", { duration = duration } )
+    
+    if self:GetCaster():HasTalent("special_bonus_birzha_v1lat_3") then
+        self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_V1lat_ItsNotNormal_target_buff", { duration = duration * (1-self:GetParent():GetStatusResistance()) } )
+        self:GetCaster():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_V1lat_ItsNotNormal_caster_buff", { duration = duration } )
+    end
 
     self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_V1lat_ItsNotNormal_target", { duration = duration * (1-self:GetParent():GetStatusResistance()) } )
     self:GetCaster():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_V1lat_ItsNotNormal_caster", { duration = duration } )
+
+    ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), ability = self:GetAbility(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL})
 end
 
 modifier_V1lat_ItsNotNormal_caster = class ({})
@@ -638,13 +643,86 @@ function modifier_v1lat_eminem:OnCreated()
     if self:GetCaster():HasShard() then
         self.shard = true
     end
-    self:StartIntervalThink(0.25)
+    self.parent = self:GetParent()
+    self.turn_rate = 120
+    self:SetDirection( Vector(self:GetAbility().point.x, self:GetAbility().point.y, 0) ) 
+    self.current_dir = self.target_dir
+    self.turn_speed = FrameTime()*self.turn_rate
+    self.proj_time = 0
+    self:StartIntervalThink(FrameTime())
     self:OnIntervalThink()
 end
 
 function modifier_v1lat_eminem:OnDestroy()
     if not IsServer() then return end
     self:GetCaster():StopSound("V1latUltimate")
+end
+
+function modifier_v1lat_eminem:DeclareFunctions()
+    local funcs = 
+    {
+        MODIFIER_EVENT_ON_ORDER,
+        MODIFIER_PROPERTY_DISABLE_TURNING,
+        MODIFIER_PROPERTY_MOVESPEED_LIMIT,
+    }
+    return funcs
+end
+
+function modifier_v1lat_eminem:GetModifierMoveSpeed_Limit()
+    return 0.1
+end
+
+function modifier_v1lat_eminem:GetModifierDisableTurning()
+    return 1
+end
+
+function modifier_v1lat_eminem:OnOrder( params )
+    if params.unit~=self:GetParent() then return end
+
+    if params.order_type == DOTA_UNIT_ORDER_STOP or params.order_type == DOTA_UNIT_ORDER_HOLD_POSITION or params.order_type == DOTA_UNIT_ORDER_CONTINUE then
+        self:Destroy()
+        self:GetParent():Stop()
+        return
+    end
+
+    if  params.order_type==DOTA_UNIT_ORDER_MOVE_TO_POSITION or
+        params.order_type==DOTA_UNIT_ORDER_MOVE_TO_DIRECTION
+    then
+        self:SetDirection( params.new_pos )
+    elseif 
+        params.order_type==DOTA_UNIT_ORDER_MOVE_TO_TARGET or
+        params.order_type==DOTA_UNIT_ORDER_ATTACK_TARGET
+    then
+        self:SetDirection( params.target:GetOrigin() )
+    end
+end
+
+function modifier_v1lat_eminem:SetDirection( vec )
+    if vec.x == self:GetCaster():GetAbsOrigin().x and vec.y == self:GetCaster():GetAbsOrigin().y then 
+        vec = self:GetCaster():GetAbsOrigin() + 100*self:GetCaster():GetForwardVector()
+    end
+    self.target_dir = ((vec-self.parent:GetOrigin())*Vector(1,1,0)):Normalized()
+    self.face_target = false
+end
+
+function modifier_v1lat_eminem:TurnLogic()
+    if self.face_target then return end
+    local current_angle = VectorToAngles( self.current_dir ).y
+    local target_angle = VectorToAngles( self.target_dir ).y
+    local angle_diff = AngleDiff( current_angle, target_angle )
+    local sign = -1
+    if angle_diff<0 then sign = 1 end
+    if math.abs( angle_diff )<1.1*self.turn_speed then
+        self.current_dir = self.target_dir
+        self.face_target = true
+    else
+        self.current_dir = RotatePosition( Vector(0,0,0), QAngle(0, sign*self.turn_speed, 0), self.current_dir )
+    end
+    local a = self.parent:IsCurrentlyHorizontalMotionControlled()
+    local b = self.parent:IsCurrentlyVerticalMotionControlled()
+    if not (a or b) then
+        self.parent:SetForwardVector( self.current_dir )
+    end
 end
 
 function modifier_v1lat_eminem:OnIntervalThink()
@@ -656,8 +734,14 @@ function modifier_v1lat_eminem:OnIntervalThink()
     local projectile_end_radius = self:GetAbility():GetSpecialValueFor("final_aoe")
     local projectile_direction = self:GetParent():GetForwardVector()
 
+    if self:GetCaster():IsStunned() or self:GetCaster():IsSilenced() then
+        self:Destroy()
+        return
+    end
+
     if self:GetCaster():HasShard() then
         self.shard = true
+        self:TurnLogic()
     end
 
     local info = 
@@ -678,8 +762,13 @@ function modifier_v1lat_eminem:OnIntervalThink()
         bProvidesVision = false,
     }
 
-    self:GetAbility():PlayProjectile( info )
-    ProjectileManager:CreateLinearProjectile(info)
+    self.proj_time = self.proj_time + FrameTime()
+
+    if self.proj_time >= 0.25 then
+        self.proj_time = 0
+        self:GetAbility():PlayProjectile( info )
+        ProjectileManager:CreateLinearProjectile(info)
+    end
 end
 
 function modifier_v1lat_eminem:CheckState()

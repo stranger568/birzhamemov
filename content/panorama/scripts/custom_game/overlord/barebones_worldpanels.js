@@ -9,7 +9,7 @@ const VA_CENTER = 1;
 const VA_TOP    = 2; 
 
 
-$.Msg("barebones_worldpanels.js");
+
 var panels = {};
 var entities = [];
 //{panel, position, entity, offsetX, offsetY, hAlign, vAlign, entityHeight, edge}

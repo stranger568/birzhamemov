@@ -7,9 +7,12 @@
 .WinPredict
 {
 	width: 300px;
-	height: 150px;
-	background-color: #000000da;
-	border: 2px solid black;
+	height: 120px;
+
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#4010567e), to(rgba(0, 0, 0, 0.582)));
+	border: 1px solid #ffffff;
+	border-brush: gradient(linear, 0% 0%, 0% 100%, from(#ae00ff), to(#40035d));
+
 	vertical-align: bottom;
 	margin-bottom: 300px;
 	flow-children: down;
@@ -54,9 +57,9 @@
 
 .WinPredictButton
 {
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(rgba(175, 125, 255, 0.205)), to(rgba(173, 122, 255, 0.404)));
+    box-shadow: 0px 0px 1px black;
 	horizontal-align: center;
-	background-image: url("s2r://panorama/images/dota_plus/relic_agi_button_psd.vtex");
-	background-size: 100%;
 	width: 220px;
 	height: 32px;
 	margin-top: 5px;
@@ -75,6 +78,11 @@
 .WinPredictButton:hover
 {
 	brightness: 1.4;
+}
+
+.WinPredictButton:active
+{
+	brightness: 0.8;
 }
 
 .open

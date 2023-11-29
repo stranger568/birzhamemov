@@ -2,11 +2,10 @@ LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modi
 LinkLuaModifier( "modifier_birzha_bashed", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_generic_knockback_lua", "modifiers/modifier_generic_knockback_lua.lua", LUA_MODIFIER_MOTION_BOTH )
-
 LinkLuaModifier( "modifier_illidan_dive_shard", "abilities/heroes/illidan", LUA_MODIFIER_MOTION_NONE)
-
 LinkLuaModifier( "modifier_illidan_dive_movespeed", "abilities/heroes/illidan", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier( "modifier_illidan_dive_armor", "abilities/heroes/illidan", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier( "modifier_illidan_dive_damage", "abilities/heroes/illidan", LUA_MODIFIER_MOTION_NONE)
 
 illidan_dive = class({})
 
@@ -35,8 +34,6 @@ function illidan_dive:OnSpellStart()
         duration = 0.3
     end
 
-    print(dist)
-
     local knockback = self:GetCaster():AddNewModifier(
         self:GetCaster(),
         self,
@@ -57,22 +54,49 @@ function illidan_dive:OnSpellStart()
     local particle = ParticleManager:CreateParticle("particles/illidan_scepter_thirst_owner.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
     knockback:AddParticle(particle, false, false, -1, false, false)
 
+    local modifier_illidan_dive_damage = self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_illidan_dive_damage", {duration = duration, target = target:entindex()})
+
     local callback = function( bInterrupted )
         if bInterrupted then return end
         target:EmitSound("Hero_Antimage.Attack")
         self:GetCaster():SetForwardVector(vector)
         self:GetCaster():FaceTowards(target:GetAbsOrigin())
-        ApplyDamage({ victim = target, attacker = self:GetCaster(), ability = self, damage = damage, damage_type = DAMAGE_TYPE_PHYSICAL })
+        ApplyDamage({ victim = target, attacker = self:GetCaster(), ability = self, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL })
         if self:GetCaster():HasTalent("special_bonus_birzha_illidan_2") then
             self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_illidan_dive_movespeed", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_illidan_2", "value2")})
         end
         if self:GetCaster():HasTalent("special_bonus_birzha_illidan_4") then
             target:AddNewModifier(self:GetCaster(), self, "modifier_illidan_dive_armor", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_illidan_4", "value2") * (1 - target:GetStatusResistance())})
         end
+        if self:GetCaster():HasTalent("special_bonus_birzha_illidan_7") then
+            target:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_illidan_7") * (1 - target:GetStatusResistance())})
+        end
         FindClearSpaceForUnit(self:GetCaster(), self:GetCaster():GetAbsOrigin(), true)
     end
 
     knockback:SetEndCallback( callback )
+end
+
+modifier_illidan_dive_damage = class({})
+function modifier_illidan_dive_damage:IsPurgable() return false end
+function modifier_illidan_dive_damage:IsPurgeException() return false end
+function modifier_illidan_dive_damage:IsHidden() return true end
+function modifier_illidan_dive_damage:OnCreated(params)
+    if not IsServer() then return end
+    self.target = EntIndexToHScript(params.target)
+    self.targets = {}
+    self.damage = self:GetAbility():GetSpecialValueFor("damage")
+    self:StartIntervalThink(FrameTime())
+end
+function modifier_illidan_dive_damage:OnIntervalThink()
+    if not IsServer() then return end
+    local units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, 200, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false)
+    for _, unit in pairs(units) do
+        if unit and unit ~= self.target and self.targets[unit:entindex()] == nil then
+            self.targets[unit:entindex()] = true
+            ApplyDamage({ victim = unit, attacker = self:GetCaster(), ability = self:GetAbility(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL })
+        end
+    end
 end
 
 modifier_illidan_dive_movespeed = class({})
@@ -141,8 +165,14 @@ illidan_sweeping_strike = class({})
 
 function illidan_sweeping_strike:GetCastRange(location, target)
     if IsClient() then
-        return self:GetSpecialValueFor("range") + self:GetCaster():FindTalentValue("special_bonus_birzha_illidan_1")
+        return self:GetSpecialValueFor("range")
     end
+end
+
+function illidan_sweeping_strike:OnAbilityUpgrade( hAbility )
+	if not IsServer() then return end
+	self.BaseClass.OnAbilityUpgrade( self, hAbility )
+	self:EnableAbilityChargesOnTalentUpgrade( hAbility, "special_bonus_unique_illidan_8" )
 end
 
 function illidan_sweeping_strike:OnSpellStart()
@@ -150,7 +180,7 @@ function illidan_sweeping_strike:OnSpellStart()
 
     self:GetCaster():EmitSound("illidan_force")
 
-    local range = self:GetSpecialValueFor("range") + self:GetCaster():FindTalentValue("special_bonus_birzha_illidan_1")
+    local range = self:GetSpecialValueFor("range")
     local speed = 1200
     local point = self:GetCursorPosition()
 
@@ -305,7 +335,7 @@ function modifier_illidan_abomination:OnAttackLanded(params)
     if params.attacker:IsIllusion() then return end
     if params.target:IsWard() then return end
     local duration = self:GetAbility():GetSpecialValueFor("duration")
-    local max_effects = self:GetAbility():GetSpecialValueFor("max_effects")
+    local max_effects = self:GetAbility():GetSpecialValueFor("max_effects") + self:GetCaster():FindTalentValue("special_bonus_birzha_illidan_5")
 
     local modifiers = params.target:FindAllModifiersByName("modifier_illidan_abomination_stack")
 
@@ -369,6 +399,11 @@ function modifier_illidan_abomination_visible:RemoveCaster()
     ParticleManager:SetParticleControlEnt(particle, 3, self:GetParent(), PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
 
     self:GetParent():EmitSound("Hero_WitchDoctor.Maledict_Tick")
+    
+    if self:GetCaster():HasTalent("special_bonus_birzha_illidan_1") then
+        local heal = damage / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_illidan_1")
+        self:GetCaster():Heal(heal, self:GetAbility())
+    end
 
     ApplyDamage({ victim = self:GetParent(), attacker = self:GetCaster(), ability = self:GetAbility(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL })
     self:Destroy()
@@ -406,7 +441,7 @@ end
 illidan_abomination_active = class({})
 
 function illidan_abomination_active:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_illidan_8")
+    return self.BaseClass.GetCooldown( self, level )
 end
 
 function illidan_abomination_active:OnSpellStart()
@@ -434,7 +469,7 @@ modifier_illidan_abomination_buff = class({})
 
 function modifier_illidan_abomination_buff:OnCreated(params)
     if not IsServer() then return end
-    self.bonus_damage = params.bonus_damage * (self:GetAbility():GetSpecialValueFor("bonus_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_illidan_7"))
+    self.bonus_damage = params.bonus_damage * self:GetAbility():GetSpecialValueFor("bonus_damage")
     self:SetHasCustomTransmitterData(true)
     self:StartIntervalThink(FrameTime())
 end
@@ -512,7 +547,7 @@ function modifier_illidan_metamorph_cast:IsHidden() return true end
 function modifier_illidan_metamorph_cast:OnCreated()
     if not IsServer() then return end
     Timers:CreateTimer(0.05, function()
-        self:GetParent():StartGesture(ACT_DOTA_CAST_ABILITY_3)
+        self:GetParent():StartGesture(ACT_DOTA_CAST_ABILITY_4)
     end)
 end
 
@@ -543,14 +578,15 @@ function modifier_illidan_metamorph:DeclareFunctions()
     {
         MODIFIER_PROPERTY_MODEL_CHANGE,
         MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-        MODIFIER_PROPERTY_EXTRA_HEALTH_PERCENTAGE
+        MODIFIER_PROPERTY_EXTRA_HEALTH_PERCENTAGE,
+        MODIFIER_PROPERTY_IGNORE_ATTACKSPEED_LIMIT
     }
 
     return funcs
 end
 
 function modifier_illidan_metamorph:GetModifierModelChange()
-    return "models/heroes/terrorblade/terrorblade.vmdl"
+    return "models/update_heroes/illidan/illidan_form.vmdl"
 end
 
 function modifier_illidan_metamorph:GetModifierAttackSpeedBonus_Constant()
@@ -559,6 +595,10 @@ end
 
 function modifier_illidan_metamorph:GetModifierExtraHealthPercentage()
     return self:GetCaster():FindTalentValue("special_bonus_birzha_illidan_6")
+end
+
+function modifier_illidan_metamorph:GetModifierAttackSpeed_Limit()
+    return 1
 end
 
 function modifier_illidan_metamorph:CheckState()
@@ -626,8 +666,8 @@ function modifier_illidan_metamorph_fly:OnDestroy()
     local enemies = FindUnitsInRadius( self.parent:GetTeamNumber(), self.point, nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
 
     for _,enemy in pairs(enemies) do
-        self:TalentSkverna(enemy)
         enemy:AddNewModifier( self.parent, self.ability, "modifier_birzha_stunned", { duration = self.duration * (1-enemy:GetStatusResistance()) })
+        ApplyDamage({ victim = enemy, attacker = self:GetCaster(), ability = self:GetAbility(), damage = self:GetAbility():GetSpecialValueFor("damage"), damage_type = DAMAGE_TYPE_MAGICAL })
     end
 
     self:GetParent():StartGesture(ACT_DOTA_CAST_ABILITY_3_END)
@@ -635,34 +675,6 @@ function modifier_illidan_metamorph_fly:OnDestroy()
     FindClearSpaceForUnit( self:GetParent(), self:GetParent():GetOrigin(), false )
 
     GridNav:DestroyTreesAroundPoint( self.point, self.radius/2, false )
-end
-
-
-function modifier_illidan_metamorph_fly:TalentSkverna(target)
-    local illidan_abomination = self:GetCaster():FindAbilityByName("illidan_abomination")
-    if illidan_abomination and illidan_abomination:GetLevel() > 0 and self:GetCaster():HasTalent("special_bonus_birzha_illidan_5") then
-        local duration = illidan_abomination:GetSpecialValueFor("duration")
-        local max_effects = illidan_abomination:GetSpecialValueFor("max_effects")
-
-        for i = 1, max_effects do
-            local modifiers = target:FindAllModifiersByName("modifier_illidan_abomination_stack")
-            if #modifiers >= max_effects then
-                local modifiers_old = {}
-                for _, mod in pairs(modifiers) do
-                    table.insert(modifiers_old, mod)
-                end
-                table.sort( modifiers_old, function(x,y) return y:GetRemainingTime() < x:GetRemainingTime() end )
-                if modifiers_old[#modifiers_old] and not modifiers_old[#modifiers_old]:IsNull() then
-                    modifiers_old[#modifiers_old]:Destroy()
-                end
-                target:AddNewModifier(self:GetCaster(), illidan_abomination, "modifier_illidan_abomination_stack", {duration = duration * (1-target:GetStatusResistance())})
-                target:AddNewModifier(self:GetCaster(), illidan_abomination, "modifier_illidan_abomination_visible", {duration = duration * (1-target:GetStatusResistance())})
-            else
-                target:AddNewModifier(self:GetCaster(), illidan_abomination, "modifier_illidan_abomination_stack", {duration = duration * (1-target:GetStatusResistance())})
-                target:AddNewModifier(self:GetCaster(), illidan_abomination, "modifier_illidan_abomination_visible", {duration = duration * (1-target:GetStatusResistance())})
-            end
-        end
-    end   
 end
 
 function modifier_illidan_metamorph_fly:PlayEffects( point, radius )

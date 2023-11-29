@@ -10,7 +10,6 @@ end
 
 function item_gamble_gold_ring:OnSpellStart()
 	if self:GetCaster():HasModifier("modifier_item_gamble_gold_ring_2") then return end
-	donate_shop:QuestProgress(27, self:GetCaster():GetPlayerOwnerID(), 1)
 	local int_min = self:GetSpecialValueFor("int_min")
 	local int_max = self:GetSpecialValueFor("int_max")
 	local str_min = self:GetSpecialValueFor("str_min")
@@ -155,7 +154,6 @@ end
 
 function item_gamble_gold_ring_2:OnSpellStart()
 	if self:GetCaster():FindAllModifiersByName("modifier_item_gamble_gold_ring_2")[1]:GetAbility() ~= self then return end 
-	donate_shop:QuestProgress(27, self:GetCaster():GetPlayerOwnerID(), 1)
 	local int_min = self:GetSpecialValueFor("int_min")
 	local int_max = self:GetSpecialValueFor("int_max")
 	local str_min = self:GetSpecialValueFor("str_min")

@@ -115,13 +115,6 @@ function modifier_face_ShopGucci_debuff:OnCreated()
     self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_knockback", knockback)
 end
 
-
-
-
-
-
-
-
 LinkLuaModifier("modifier_face_hate_debuff", "abilities/heroes/face.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_face_hate_buff", "abilities/heroes/face.lua", LUA_MODIFIER_MOTION_NONE)
 
@@ -132,11 +125,11 @@ function Face_Hate:GetAOERadius()
 end
 
 function Face_Hate:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_face_1")
 end
 
 function Face_Hate:GetCastRange(location, target)
-    return self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_face_1")
+    return self:GetSpecialValueFor("radius")
 end
 
 function Face_Hate:GetManaCost(level)
@@ -144,26 +137,25 @@ function Face_Hate:GetManaCost(level)
 end
 
 function Face_Hate:OnSpellStart()
-    local radius = self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_face_1")
+    self:StartHate(self:GetCaster())
+end
+
+function Face_Hate:StartHate(caster)
+    local radius = self:GetSpecialValueFor("radius")
     local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_face_5")
     if not IsServer() then return end
-
-    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetCaster():GetOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
-
-    self:GetCaster():EmitSound("face2")
-
+    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), caster:GetOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
+    caster:EmitSound("face2")
     for _,enemy in pairs(enemies) do
         if not enemy:IsDuel() then
-            enemy:AddNewModifier( self:GetCaster(), self, "modifier_face_hate_debuff", { duration = duration } )
+            enemy:AddNewModifier( caster, self, "modifier_face_hate_debuff", { duration = duration } )
         end
     end
-
     if #enemies > 0 then
-        self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_face_hate_buff", { duration = duration } )
+        caster:AddNewModifier( caster, self, "modifier_face_hate_buff", { duration = duration } )
     end
-
-    local particle = ParticleManager:CreateParticle( "particles/face/1.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
-    ParticleManager:SetParticleControlEnt( particle, 1, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_mouth", Vector(0,0,0), true )
+    local particle = ParticleManager:CreateParticle( "particles/face/1.vpcf", PATTACH_ABSORIGIN_FOLLOW, caster )
+    ParticleManager:SetParticleControlEnt( particle, 1, caster, PATTACH_POINT_FOLLOW, "attach_hitloc", Vector(0,0,0), true )
     ParticleManager:ReleaseParticleIndex( particle )
 end
 
@@ -246,21 +238,6 @@ function modifier_face_hate_buff:OnTakeDamage( params )
     end
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 LinkLuaModifier("modifier_face_tombstone", "abilities/heroes/face.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_birzha_undying_tombstone_zombie_modifier", "abilities/heroes/face.lua", LUA_MODIFIER_MOTION_NONE)
 
@@ -296,6 +273,10 @@ function face_tombstone:OnSpellStart()
         ParticleManager:SetParticleControl( particle, 2, Vector( duration, duration, duration ) )
         ParticleManager:ReleaseParticleIndex( particle )
         Tombstone:EmitSound("Hero_Undying.Tombstone")
+        local Face_Hate = self:GetCaster():FindAbilityByName("Face_Hate")
+        if Face_Hate and Face_Hate:GetLevel() > 0 and self:GetCaster():HasTalent("special_bonus_birzha_face_8") then
+            Face_Hate:StartHate(Tombstone)
+        end
     end
 end
 
@@ -325,7 +306,8 @@ function modifier_face_tombstone:DeclareFunctions()
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
-        MODIFIER_EVENT_ON_ATTACK_LANDED
+        MODIFIER_EVENT_ON_ATTACK_LANDED,
+        MODIFIER_PROPERTY_HEALTHBAR_PIPS
     }
     return decFuncs
 end
@@ -342,14 +324,19 @@ function modifier_face_tombstone:GetAbsoluteNoDamagePure()
     return 1
 end
 
+function modifier_face_tombstone:GetModifierHealthBarPips()
+    return self:GetAbility():GetSpecialValueFor( "tombstone_health" )
+end
+
 function modifier_face_tombstone:OnAttackLanded(keys)
     if not IsServer() then return end
     if keys.target == self:GetParent() then
         if self:GetCaster():HasTalent("special_bonus_birzha_face_8") then return end
         self.health = self.health - 1
-        self:GetParent():SetHealth(self.health)
         if self.health <= 0 then
             self:GetParent():Kill(nil, keys.attacker)
+        else
+            self:GetParent():SetHealth(self.health)
         end
     end
 end
@@ -383,8 +370,8 @@ function modifier_face_tombstone:OnIntervalThink()
             Zombie:FindAbilityByName( "undying_tombstone_zombie_deathstrike" ):SetLevel(self:GetAbility():GetLevel())
             Zombie:SetAggroTarget(enemy)
             Zombie:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_undying_tombstone_zombie_modifier", {enemy_entindex = enemy:entindex()})
-            Zombie:SetBaseDamageMax(Zombie:GetBaseDamageMax() + self:GetCaster():FindTalentValue("special_bonus_birzha_face_6") )
-            Zombie:SetBaseDamageMax(Zombie:GetBaseDamageMax() + self:GetCaster():FindTalentValue("special_bonus_birzha_face_6") )
+            Zombie:SetBaseDamageMax(Zombie:GetBaseDamageMax() + (self:GetCaster():GetStrength() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_face_6")) )
+            Zombie:SetBaseDamageMax(Zombie:GetBaseDamageMax() + (self:GetCaster():GetStrength() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_face_6")) )
         end
     end
 end
@@ -509,22 +496,13 @@ function modifier_face_esketit:GetModifierConstantHealthRegen()
     return self:GetAbility():GetSpecialValueFor("hp_regen")
 end
 
-
-
-
-
-
-
-
-
-
 LinkLuaModifier("modifier_face_newsong", "abilities/heroes/face.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_face_newsong_shard", "abilities/heroes/face.lua", LUA_MODIFIER_MOTION_NONE)
 
 Face_NewSong = class({})
 
 function Face_NewSong:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_face_7")
 end
 
 function Face_NewSong:GetIntrinsicModifierName()
@@ -541,7 +519,7 @@ end
 
 function Face_NewSong:OnSpellStart()
     if not IsServer() then return end
-    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_face_7")
+    local duration = self:GetSpecialValueFor("duration")
     self:GetCaster():EmitSound("faceult")
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_face_newsong", {duration = duration}) 
 end

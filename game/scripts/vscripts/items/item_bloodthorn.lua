@@ -29,7 +29,8 @@ function modifier_item_bloodthorn_arena:IsPurgeException() return false end
 function modifier_item_bloodthorn_arena:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_item_bloodthorn_arena:DeclareFunctions()
-	return {
+	return 
+	{
 		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE, 
 		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
 		MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
@@ -75,22 +76,17 @@ function modifier_item_bloodthorn_arena:OnAttackLanded(params)
 	if params.target:IsWard() then return end
 	if params.target:IsMagicImmune() then return end
 	if self:GetParent():FindAllModifiersByName("modifier_item_bloodthorn_arena")[1] ~= self then return end
-
     local target = params.target
-
 	local manaburn_pfx = ParticleManager:CreateParticle("particles/generic_gameplay/generic_manaburn.vpcf", PATTACH_ABSORIGIN_FOLLOW, target)
 	ParticleManager:SetParticleControl(manaburn_pfx, 0, target:GetAbsOrigin() )
 	ParticleManager:ReleaseParticleIndex(manaburn_pfx)
-
 	local manaBurn = self:GetAbility():GetSpecialValueFor("mana_per_hit")
 	local manaDamage = self:GetAbility():GetSpecialValueFor("damage_per_burn")
-
 	local damageTable = {}
 	damageTable.attacker = self:GetParent()
 	damageTable.victim = target
 	damageTable.damage_type = DAMAGE_TYPE_PHYSICAL
 	damageTable.ability = self:GetAbility()
-
 	if(target:GetMana() >= manaBurn) then
 		damageTable.damage = manaBurn * manaDamage
 		if not self:GetParent():IsIllusion() then
@@ -106,7 +102,6 @@ function modifier_item_bloodthorn_arena:OnAttackLanded(params)
 			target:Script_ReduceMana(self:GetAbility():GetSpecialValueFor("mana_per_hit_illusion"), self:GetAbility())
 		end
 	end
-
 	ApplyDamage(damageTable)
 end
 
@@ -129,8 +124,8 @@ function modifier_item_bloodthorn_arena_silence:CheckState()
 end
 
 function modifier_item_bloodthorn_arena_silence:DeclareFunctions()
-	return {
-		MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE,
+	return 
+	{
 		MODIFIER_PROPERTY_TOOLTIP,
 		MODIFIER_EVENT_ON_TAKEDAMAGE,
 		MODIFIER_EVENT_ON_ATTACK_START,
@@ -169,7 +164,6 @@ end
 function modifier_item_bloodthorn_arena_silence:OnTakeDamage(params)
 	if not IsServer() then return end
 	if params.unit ~= self:GetParent() then return end
-	ParticleManager:SetParticleControl(ParticleManager:CreateParticle("particles/items2_fx/orchid_pop.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.unit), 1, Vector(params.damage))
 	self.damage = self.damage + params.damage
 end
 
@@ -203,7 +197,7 @@ function modifier_item_bloodthorn_arena_crit:DeclareFunctions()
 end
 
 function modifier_item_bloodthorn_arena_crit:GetModifierPreAttack_CriticalStrike(params)
-	if params.target == self:GetCaster() and params.target:HasModifier("modifier_item_bloodthorn_arena_silence") then
+	if params.target == self:GetCaster() and (params.target:HasModifier("modifier_item_bloodthorn_arena_silence") or params.target:HasModifier("modifier_item_bloodthorn_custom_active")) then
 		return self:GetAbility():GetSpecialValueFor("crit_active")
 	else
         self:Destroy()

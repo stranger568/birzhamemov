@@ -28,6 +28,7 @@ function klichko_charge_of_darkness:OnSpellStart()
     if not IsServer() then return end
     local target = self:GetCursorTarget()
     if target:TriggerSpellAbsorb(self) then return nil end
+    self:GetCaster():Stop()
     self:GetCaster():EmitSound("Hero_Spirit_Breaker.ChargeOfDarkness")
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_klichko_charge_of_darkness", 
     {
@@ -78,13 +79,11 @@ function modifier_klichko_charge_of_darkness:UpdateHorizontalMotion( me, dt )
     end
 
     if not self.target:IsAlive() then
-        local new_targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self.target:GetAbsOrigin(), nil, 4000, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE, FIND_CLOSEST, false)
-        
+        local new_targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self.target:GetAbsOrigin(), nil, -1, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE, FIND_CLOSEST, false)
         if #new_targets == 0 then
-             self:Destroy()
+            self:Destroy()
             return
         end
-        
         for _, target in pairs(new_targets) do 
             self.target = target
             self.vision_modifier = self.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_klichko_charge_of_darkness_vision", {})
@@ -92,9 +91,22 @@ function modifier_klichko_charge_of_darkness:UpdateHorizontalMotion( me, dt )
         end
     end
 
+    local nerby_targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, 200, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE, FIND_CLOSEST, false)
+    for _, enemy in pairs(nerby_targets) do
+        if enemy and enemy ~= self.target and self.bashed_enemies[enemy:entindex()] == nil then
+            self.bashed_enemies[enemy:entindex()] = true
+            if not enemy:IsMagicImmune() and self:GetAbility() then
+                local stun_modifier = enemy:AddNewModifier(me, self:GetAbility(), "modifier_birzha_stunned_purge", {duration = self.stun_duration * (1 - enemy:GetStatusResistance()) })
+                if self:GetCaster():HasScepter() then
+                    local damage = self:GetCaster():GetMoveSpeedModifier(self:GetCaster():GetBaseMoveSpeed(), true)
+                    ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = damage / 100 * self:GetAbility():GetSpecialValueFor("scepter_damage"), damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
+                end
+            end
+        end
+    end
+    
     if (self.target:GetOrigin() - me:GetOrigin()):Length2D() <= 128 then
         self:GetParent():EmitSound("Hero_Spirit_Breaker.Charge.Impact")
-
         if not self.target:IsMagicImmune() and self:GetAbility() then
             local stun_modifier = self.target:AddNewModifier(me, self:GetAbility(), "modifier_birzha_stunned_purge", {duration = self.stun_duration * (1 - self.target:GetStatusResistance()) })
             if self:GetCaster():HasScepter() then
@@ -102,7 +114,6 @@ function modifier_klichko_charge_of_darkness:UpdateHorizontalMotion( me, dt )
                 ApplyDamage({victim = self.target, attacker = self:GetCaster(), damage = damage / 100 * self:GetAbility():GetSpecialValueFor("scepter_damage"), damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
             end
         end
-
         if self.target:IsAlive() then
             me:SetAggroTarget(self.target)
             self:Destroy()
@@ -217,6 +228,13 @@ function modifier_klichko_charge_of_darkness_vision:ShouldUseOverheadOffset() re
 function modifier_klichko_charge_of_darkness_vision:OnCreated()
     if not IsServer() then return end
     self.particle = ParticleManager:CreateParticleForTeam("particles/units/heroes/hero_spirit_breaker/spirit_breaker_charge_target.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent(), self:GetCaster():GetTeamNumber())
+    self:StartIntervalThink(FrameTime())
+end
+
+function modifier_klichko_charge_of_darkness_vision:OnIntervalThink()
+    if not IsServer() then return end
+    self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_truesight", {duration = FrameTime()+FrameTime()})
+    AddFOWViewer(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), 50, FrameTime()+FrameTime(), false)
 end
 
 function modifier_klichko_charge_of_darkness_vision:OnDestroy()
@@ -225,12 +243,6 @@ function modifier_klichko_charge_of_darkness_vision:OnDestroy()
         ParticleManager:DestroyParticle(self.particle, false)
         ParticleManager:ReleaseParticleIndex(self.particle)
     end
-end
-
-function modifier_klichko_charge_of_darkness_vision:CheckState()
-    local state = {[MODIFIER_STATE_PROVIDES_VISION] = true}
-
-    return state
 end
 
 LinkLuaModifier( "modifier_kilchko_boxingPunchSeries", "abilities/heroes/klichko.lua", LUA_MODIFIER_MOTION_NONE )
@@ -370,13 +382,14 @@ function Klichko_SayBullshit:OnSpellStart()
     local radius = self:GetSpecialValueFor("radius")
     local duration = self:GetSpecialValueFor("duration")
     if not IsServer() then return end
-    local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_ANY_ORDER, false)
-
+    local flag = 0
+    if self:GetCaster():HasTalent("special_bonus_birzha_klichko_8") then
+        flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
+    end
+    local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, FIND_ANY_ORDER, false)
     local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_lone_druid/lone_druid_savage_roar.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
     ParticleManager:SetParticleControl(particle, 0, self:GetCaster():GetAbsOrigin())
-
     self:GetCaster():EmitSound("KlichkoBullshit")
-
     for _,enemy in pairs(enemies) do
         enemy:AddNewModifier(self:GetCaster(), self, "modifier_klichko_saybullshit_debuff", {duration = duration * (1 - enemy:GetStatusResistance())}) 
         if self:GetCaster():HasTalent("special_bonus_birzha_klichko_5") then
@@ -497,7 +510,6 @@ function modifier_klichko_BecomeMayor:DeclareFunctions()
         MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
         MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
         MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE,
-        MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING,
         MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE,
     }
     return decFuncs
@@ -517,10 +529,6 @@ end
 
 function modifier_klichko_BecomeMayor:GetModifierSpellAmplify_Percentage()
     return self:GetCaster():FindTalentValue("special_bonus_birzha_klichko_7")
-end
-
-function modifier_klichko_BecomeMayor:GetModifierStatusResistanceStacking()
-    return self:GetCaster():FindTalentValue("special_bonus_birzha_klichko_8")
 end
 
 function modifier_klichko_BecomeMayor:OnCreated()

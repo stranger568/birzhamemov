@@ -148,6 +148,7 @@
 	flow-children: down;
 	transition-property: transform;
     transition-duration: 0.5s;
+    z-index: -5;
 }
 
 .LabelText 
@@ -198,4 +199,12 @@
 	width: 130px;
 	text-align: center;
 	margin-left: 5px;
+}
+
+.ContractSelector
+{
+    width: 200px;
+    height: 100px;
+    background-color: red;
+    align: center center;
 }

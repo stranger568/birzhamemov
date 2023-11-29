@@ -27,12 +27,6 @@ function modifier_birzha_vip:OnCreated()
 	end
 end
 
-function modifier_birzha_vip:DeclareFunctions()
-	local funcs = {
-		MODIFIER_EVENT_ON_DEATH,
-	}
-	return funcs
-end
 
 function modifier_birzha_vip:OnDestroy(params)
 	if IsServer() then

@@ -47,11 +47,11 @@ function ChatSound( data )
 	Game.EmitSound(data.sound_name_global)
 
 	let player_color_style = "font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:" + color
-	let ChatPanelSound = $.CreatePanelWithProperties("Panel", LinesPanel, "", { style:"margin-left:37px;flow-children: right;width:100%;" });
-	let HeroIcon = $.CreatePanelWithProperties("Image", ChatPanelSound, "", { src:`${hero_icon}`, style:"width:40px;height:23px;margin-right:4px;border:1px solid black;" }); 
-	let LabelPlayer = $.CreatePanelWithProperties("Label", ChatPanelSound, "", { text:`${player_name}` + ":", style:`${player_color_style}` });
-	let SoundIcon = $.CreatePanelWithProperties("Image", ChatPanelSound, "", { class:"ChatWheelIcon", src:"file://{images}/hud/reborn/icon_scoreboard_mute_sound.psd" }); 
-	let LabelSound = $.CreatePanelWithProperties("Label", ChatPanelSound, "", { text:`${sound_name}`, style:"font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:white;" });
+	let ChatPanelSound = $.CreatePanel("Panel", LinesPanel, "", { style:"margin-left:37px;flow-children: right;width:100%;" });
+	let HeroIcon = $.CreatePanel("Image", ChatPanelSound, "", { src:`${hero_icon}`, style:"width:40px;height:23px;margin-right:4px;border:1px solid black;" }); 
+	let LabelPlayer = $.CreatePanel("Label", ChatPanelSound, "", { text:`${player_name}` + ":", style:`${player_color_style}` });
+	let SoundIcon = $.CreatePanel("Image", ChatPanelSound, "", { class:"ChatWheelIcon", src:"file://{images}/hud/reborn/icon_scoreboard_mute_sound.psd" }); 
+	let LabelSound = $.CreatePanel("Label", ChatPanelSound, "", { text:`${sound_name}`, style:"font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:white;" });
 
 	$.Schedule( 7, function(){
 		if (ChatPanelSound) {
@@ -84,9 +84,9 @@ function RandomHeroChat( data )
 	}
 
 	let player_color_style = "font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:" + color
-	let ChatPanelSound = $.CreatePanelWithProperties("Panel", LinesPanel, "", { style:"margin-left:37px;flow-children: right;width:100%;" });
-	let LabelPlayer = $.CreatePanelWithProperties("Label", ChatPanelSound, "", { text:`${player_name}` + ":", style:`${player_color_style}` });
-	let LabelSound = $.CreatePanelWithProperties("Label", ChatPanelSound, "", { text:`${hero_name}`, style:"font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:white;" });
+	let ChatPanelSound = $.CreatePanel("Panel", LinesPanel, "", { style:"margin-left:37px;flow-children: right;width:100%;" });
+	let LabelPlayer = $.CreatePanel("Label", ChatPanelSound, "", { text:`${player_name}` + ":", style:`${player_color_style}` });
+	let LabelSound = $.CreatePanel("Label", ChatPanelSound, "", { text:`${hero_name}`, style:"font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:white;" });
 
 	$.Schedule( 7, function(){
 		if (ChatPanelSound) {
@@ -120,9 +120,9 @@ function DoubleRatingChat( data )
 	}
 
 	let player_color_style = "font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:" + color
-	let ChatPanelSound = $.CreatePanelWithProperties("Panel", LinesPanel, "", { style:"margin-left:37px;flow-children: right;width:100%;" });
-	let LabelPlayer = $.CreatePanelWithProperties("Label", ChatPanelSound, "", { text:`${player_name}` + ":", style:`${player_color_style}` });
-	let LabelSound = $.CreatePanelWithProperties("Label", ChatPanelSound, "", { text:`${hero_name}`, style:"font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:white;" });
+	let ChatPanelSound = $.CreatePanel("Panel", LinesPanel, "", { style:"margin-left:37px;flow-children: right;width:100%;" });
+	let LabelPlayer = $.CreatePanel("Label", ChatPanelSound, "", { text:`${player_name}` + ":", style:`${player_color_style}` });
+	let LabelSound = $.CreatePanel("Label", ChatPanelSound, "", { text:`${hero_name}`, style:"font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:white;" });
 
 	$.Schedule( 7, function(){
 		if (ChatPanelSound) {
@@ -155,9 +155,9 @@ function win_predict_chat( data )
 	}
 
 	let player_color_style = "font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:" + color
-	let ChatPanelSound = $.CreatePanelWithProperties("Panel", LinesPanel, "", { style:"margin-left:37px;flow-children: right;width:100%;" });
-	let LabelPlayer = $.CreatePanelWithProperties("Label", ChatPanelSound, "", { text:`${player_name}` + ":", style:`${player_color_style}` });
-	let LabelSound = $.CreatePanelWithProperties("Label", ChatPanelSound, "", { text:`${hero_name}`, style:"font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:white;" });
+	let ChatPanelSound = $.CreatePanel("Panel", LinesPanel, "", { style:"margin-left:37px;flow-children: right;width:100%;" });
+	let LabelPlayer = $.CreatePanel("Label", ChatPanelSound, "", { text:`${player_name}` + ":", style:`${player_color_style}` });
+	let LabelSound = $.CreatePanel("Label", ChatPanelSound, "", { text:`${hero_name}`, style:"font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:white;" });
 
 	$.Schedule( 7, function(){
 		if (ChatPanelSound) {
@@ -192,10 +192,10 @@ function ChatSmile( data )
     }
 
     let player_color_style = "font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:" + color
-    let ChatPanelSound = $.CreatePanelWithProperties("Panel", LinesPanel, "", { style:"margin-left:37px;flow-children: right;width:100%;" });
-    let HeroIcon = $.CreatePanelWithProperties("Image", ChatPanelSound, "", { src:`${hero_icon}`, style:"width:40px;height:23px;margin-right:4px;border:1px solid black;" }); 
-    let LabelPlayer = $.CreatePanelWithProperties("Label", ChatPanelSound, "", { text:`${player_name}` + ":", style:`${player_color_style}` });
-    let LabelSound = $.CreatePanelWithProperties("Image", ChatPanelSound, "", { class:"SmileIcon", style:"width:35px;height:35px;", src:`${smile_icon}` }); 
+    let ChatPanelSound = $.CreatePanel("Panel", LinesPanel, "", { style:"margin-left:37px;flow-children: right;width:100%;" });
+    let HeroIcon = $.CreatePanel("Image", ChatPanelSound, "", { src:`${hero_icon}`, style:"width:40px;height:23px;margin-right:4px;border:1px solid black;" }); 
+    let LabelPlayer = $.CreatePanel("Label", ChatPanelSound, "", { text:`${player_name}` + ":", style:`${player_color_style}` });
+    let LabelSound = $.CreatePanel("Image", ChatPanelSound, "", { class:"SmileIcon", style:"width:35px;height:35px;", src:`${smile_icon}` }); 
 
     $.Schedule( 7, function(){
         if (ChatPanelSound) {

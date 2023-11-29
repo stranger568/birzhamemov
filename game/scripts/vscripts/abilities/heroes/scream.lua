@@ -54,7 +54,7 @@ end
 function modifier_Scream_TelephoneCall_radius_leave:OnDestroy()
 	if not IsServer() then return end
 	local radius = self:GetAbility():GetSpecialValueFor("radius")
-	local duration_scream = self:GetAbility():GetSpecialValueFor("duration_scream") + self:GetCaster():FindTalentValue("special_bonus_birzha_scream_3")
+	local duration_scream = self:GetAbility():GetSpecialValueFor("duration_scream")
 
 	local targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, FIND_ANY_ORDER, false)
 
@@ -150,7 +150,7 @@ LinkLuaModifier("modifier_scream_rush", "abilities/heroes/scream.lua", LUA_MODIF
 Scream_rush = class({})
 
 function Scream_rush:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_scream_1")
+    return self.BaseClass.GetCooldown( self, level )
 end
 
 function Scream_rush:GetManaCost(level)
@@ -193,6 +193,7 @@ function modifier_scream_rush:OnCreated( kv )
 	self.limit = 550
 	self:PlayEffects1()
 	self:PlayEffects2(true)
+    self.effect_lifesteal = 0
 	self:StartIntervalThink(0.1)
 end
 
@@ -208,7 +209,16 @@ function modifier_scream_rush:OnIntervalThink()
 	local base_damage = self:GetAbility():GetSpecialValueFor("base_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_scream_5")
 	local hptarget = self:GetAbility():GetSpecialValueFor("damage_fromhp")
 	local damage = (base_damage + ( self:GetParent():GetHealth() / 100 * hptarget))*0.1
-	ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility()})
+	local end_damage = ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility()})
+    if self:GetCaster():HasTalent("special_bonus_birzha_scream_3") then
+        self:GetCaster():Heal(end_damage / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_scream_3"), self:GetAbility())
+        self.effect_lifesteal = self.effect_lifesteal + 0.1
+        if self.effect_lifesteal >= 0.5 then
+            local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_bloodseeker/bloodseeker_bloodbath.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
+	        ParticleManager:ReleaseParticleIndex( effect_cast )
+            self.effect_lifesteal = 0
+        end
+    end
 	local facingAngle = self:GetParent():GetAnglesAsVector().y
 	local angleToPair = VectorToAngles(vector_distance).y
 	local angleDifference = math.abs(AngleDiff( angleToPair, facingAngle ))
@@ -284,15 +294,18 @@ end
 function modifier_Scream_knife:GetModifierProcAttack_BonusDamage_Pure(params)
 	if not IsServer() then return end
 	if params.target:IsWard() then return end
-	if params.attacker:IsIllusion() then return end
-	if params.attacker:PassivesDisabled() then return end
-	if not self:GetAbility():IsFullyCastable() then return end
 
-	local chance = self:GetAbility():GetSpecialValueFor( "chance" )
+    if not self.fast_attack then
+	    if params.attacker:IsIllusion() then return end
+	    if params.attacker:PassivesDisabled() then return end
+	    if not self:GetAbility():IsFullyCastable() then return end
+    end
+
+	local chance = self:GetAbility():GetSpecialValueFor( "chance" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_scream_2", "value2")
 	local damage = self:GetAbility():GetSpecialValueFor( "bonus_damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_scream_2")
 	local duration = self:GetAbility():GetSpecialValueFor( "duration" )
 
-	if RollPercentage(chance) then
+	if RollPercentage(chance) or self.fast_attack then
 		self:GetCaster():EmitSound("ScreamKill")
 
 		local forward = (params.target:GetOrigin()-params.attacker:GetOrigin()):Normalized()
@@ -311,11 +324,22 @@ function modifier_Scream_knife:GetModifierProcAttack_BonusDamage_Pure(params)
 	end
 end
 
+function modifier_Scream_knife:AttackTarget(target)
+	if not IsServer() then return end
+    self.fast_attack = true
+    self:GetCaster():PerformAttack(target, true, true, true, false, false, false, true)
+    self.fast_attack = false
+end
+
 modifier_Scream_knife_armor = class({})
 
 function modifier_Scream_knife_armor:OnCreated()
 	self.armor = 0
 	self.armor = self:GetParent():GetPhysicalArmorValue(false) / 100 * (self:GetAbility():GetSpecialValueFor("armor_reduce") + self:GetCaster():FindTalentValue("special_bonus_birzha_scream_6"))
+    local pfx = ParticleManager:CreateParticle("particles/armor_scream_blood.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+    ParticleManager:SetParticleControlEnt(pfx, 0, self:GetParent(), PATTACH_OVERHEAD_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
+    ParticleManager:SetParticleControlEnt(pfx, 1, self:GetParent(), PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
+    self:AddParticle(pfx, false, false, 15, false, false)
 end
 
 function modifier_Scream_knife_armor:DeclareFunctions()
@@ -327,15 +351,6 @@ function modifier_Scream_knife_armor:GetModifierPhysicalArmorBonus()
 	return self.armor * (-1)
 end
 
-function modifier_Scream_knife_armor:GetEffectName()
-	return "particles/units/heroes/hero_dazzle/dazzle_armor_enemy.vpcf"
-end
-
-function modifier_Scream_knife_armor:GetEffectAttachType()
-	return PATTACH_OVERHEAD_FOLLOW
-end
-
-
 LinkLuaModifier("modifier_Scream_night", "abilities/heroes/scream.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_Scream_night_vision", "abilities/heroes/scream.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_Scream_night_smoke", "abilities/heroes/scream.lua", LUA_MODIFIER_MOTION_NONE)
@@ -343,13 +358,13 @@ LinkLuaModifier("modifier_Scream_night_smoke", "abilities/heroes/scream.lua", LU
 Scream_night = class({})
 
 function Scream_night:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_scream_8")
+    return self.BaseClass.GetCooldown( self, level )
 end
 
 function Scream_night:OnSpellStart()
 	if not IsServer() then return end
 
-	local duration = self:GetSpecialValueFor("duration")
+	local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_scream_8")
 
 	self:GetCaster():EmitSound("ScreamUltimate")
 	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Scream_night", {duration = duration})
@@ -495,4 +510,11 @@ function Scream_night_two:OnChannelFinish(bInterrupted)
 	if not self:GetCaster():HasTalent("special_bonus_birzha_scream_7") then
 		self:GetCaster():FindAbilityByName("Scream_night_two"):SetLevel(0)
 	end
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_scream_1") then
+        local modifier_Scream_knife = self:GetCaster():FindModifierByName("modifier_Scream_knife")
+        if modifier_Scream_knife then
+            modifier_Scream_knife:AttackTarget(self.target)
+        end
+    end
 end

@@ -37,85 +37,85 @@
                             <Panel id="RankedTopPlayers" class="RankedPlayers">
 		                        <Panel id="SoloPlayers" class="TopMmrPlayersSeasonPlayer">
 		                        	<Panel class="Player">	
-										<DOTAAvatarImage steamid="76561198123095106" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<DOTAAvatarImage steamid="" id="Player_1" class="RankedSeasonCongratulationsPlayerAvatar" />
 										<Panel class="TrophyClass1"/>
 									</Panel>
 									<Panel class="Player">	
-										<DOTAAvatarImage steamid="76561199067008618" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<DOTAAvatarImage steamid="" id="Player_2" class="RankedSeasonCongratulationsPlayerAvatar" />
 										<Panel class="TrophyClass2"/>
 									</Panel>
 									<Panel class="Player">	
-										<DOTAAvatarImage steamid="76561199296716969" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<DOTAAvatarImage steamid="" id="Player_3" class="RankedSeasonCongratulationsPlayerAvatar" />
 										<Panel class="TrophyClass3"/>
 									</Panel>
 								</Panel>
 								<Panel id="DuoPlayers" class="TopMmrPlayersSeasonPlayer">
 		                        	<Panel class="Player">	
-										<DOTAAvatarImage steamid="76561198284067868" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<DOTAAvatarImage steamid="" id="Player_1" class="RankedSeasonCongratulationsPlayerAvatar" />
 										<Panel class="TrophyClass1"/>
 									</Panel>
 									<Panel class="Player">	
-										<DOTAAvatarImage steamid="76561198278833971" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<DOTAAvatarImage steamid="" id="Player_2" class="RankedSeasonCongratulationsPlayerAvatar" />
 										<Panel class="TrophyClass2"/>
 									</Panel>
 									<Panel class="Player">	
-										<DOTAAvatarImage steamid="76561198837267907" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<DOTAAvatarImage steamid="" id="Player_3" class="RankedSeasonCongratulationsPlayerAvatar" />
 										<Panel class="TrophyClass3"/>
 									</Panel>
 								</Panel>
 								<Panel id="TrioPlayers" class="TopMmrPlayersSeasonPlayer">
 		                        	<Panel class="Player">	
-										<DOTAAvatarImage steamid="76561198284067868" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<DOTAAvatarImage steamid="" id="Player_1" class="RankedSeasonCongratulationsPlayerAvatar" />
 										<Panel class="TrophyClass1"/>
 									</Panel>
 									<Panel class="Player">	
-										<DOTAAvatarImage steamid="76561198278833971" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<DOTAAvatarImage steamid="" id="Player_2" class="RankedSeasonCongratulationsPlayerAvatar" />
 										<Panel class="TrophyClass2"/>
 									</Panel>
 									<Panel class="Player">	
-										<DOTAAvatarImage steamid="76561199065327949" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<DOTAAvatarImage steamid="" id="Player_3" class="RankedSeasonCongratulationsPlayerAvatar" />
 										<Panel class="TrophyClass3"/>
 									</Panel>
 								</Panel>
 								<Panel id="5v5Players" class="TopMmrPlayersSeasonPlayer">
 		                        	<Panel class="Player">	
-										<DOTAAvatarImage steamid="76561198278833971" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<DOTAAvatarImage steamid="" id="Player_1" class="RankedSeasonCongratulationsPlayerAvatar" />
 										<Panel class="TrophyClass1"/>
 									</Panel>
 									<Panel class="Player">	
-										<DOTAAvatarImage steamid="76561198284067868" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<DOTAAvatarImage steamid="" id="Player_2" class="RankedSeasonCongratulationsPlayerAvatar" />
 										<Panel class="TrophyClass2"/>
 									</Panel>
 									<Panel class="Player">	
-										<DOTAAvatarImage steamid="76561198275857131" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<DOTAAvatarImage steamid="" id="Player_3" class="RankedSeasonCongratulationsPlayerAvatar" />
 										<Panel class="TrophyClass3"/>
 									</Panel>
 								</Panel>
 								<Panel id="5v5v5Players" class="TopMmrPlayersSeasonPlayer">
 		                        	<Panel class="Player">	
-										<DOTAAvatarImage steamid="76561198102254874" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<DOTAAvatarImage steamid="" id="Player_1" class="RankedSeasonCongratulationsPlayerAvatar" />
 										<Panel class="TrophyClass1"/>
 									</Panel>
 									<Panel class="Player">	
-										<DOTAAvatarImage steamid="76561198125120694" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<DOTAAvatarImage steamid="" id="Player_2" class="RankedSeasonCongratulationsPlayerAvatar" />
 										<Panel class="TrophyClass2"/>
 									</Panel>
 									<Panel class="Player">	
-										<DOTAAvatarImage steamid="76561198159012740" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<DOTAAvatarImage steamid="" id="Player_3" class="RankedSeasonCongratulationsPlayerAvatar" />
 										<Panel class="TrophyClass3"/>
 									</Panel>
 								</Panel>
 								<Panel id="zxcPlayers" class="TopMmrPlayersSeasonPlayer">
 		                        	<Panel class="Player">	
-										<DOTAAvatarImage steamid="76561198278833971" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<DOTAAvatarImage steamid="" id="Player_1" class="RankedSeasonCongratulationsPlayerAvatar" />
 										<Panel class="TrophyClass1"/>
 									</Panel>
 									<Panel class="Player">	
-										<DOTAAvatarImage steamid="76561198125120694" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<DOTAAvatarImage steamid="" id="Player_2" class="RankedSeasonCongratulationsPlayerAvatar" />
 										<Panel class="TrophyClass2"/>
 									</Panel>
 									<Panel class="Player">	
-										<DOTAAvatarImage steamid="76561199212529090" class="RankedSeasonCongratulationsPlayerAvatar" />
+										<DOTAAvatarImage steamid="" id="Player_3" class="RankedSeasonCongratulationsPlayerAvatar" />
 										<Panel class="TrophyClass3"/>
 									</Panel>
 								</Panel>
@@ -152,14 +152,14 @@
 						</Panel>
 						<Panel id="NextTip" class="TipButton"/>
 					</Panel>
-					<Panel id="DonateContainer" onactivate="ExternalBrowserGoToURL('https://bmemov.ru/donate/')">
+					<!--<Panel id="DonateContainer" onactivate="ExternalBrowserGoToURL('https://bmemov.ru/donate/')">
 						<Label class="NewWidgetLabel" text="#Contributepanel"/>
 						<Panel id="DonateInformation">
 							<Label id="TipLabel" text="#LoadingDonate"/>
 						</Panel>
 						<Panel id="PassIcon" class="PassIcon"/>
-					</Panel>
-					<Panel id="DonateContainer_2" onactivate="ExternalBrowserGoToURL('https://bmemov.ru/updates/march2023/')">
+					</Panel>-->
+					<Panel id="DonateContainer_2" onactivate="ExternalBrowserGoToURL('https://bmemov.strangerdev.ru/updates/birzha_die_part_1/')">
 						<Label class="NewWidgetLabel" text="#Updatename"/>
 						<Panel id="DonateInformation_2">
 							<Label id="TipLabel" text="#Updatedescription"/>

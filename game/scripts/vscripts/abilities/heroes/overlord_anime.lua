@@ -148,6 +148,7 @@ function modifier_Overlord_spell_1_buff:IsPurgable() return false end
 function modifier_Overlord_spell_1_buff:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 function modifier_Overlord_spell_1_buff:OnCreated()
+    self.start_shield = self:GetAbility():GetSpecialValueFor( "health" ) + GetOverlordPassiveValue(self:GetCaster(), 100)
     if not IsServer() then return end
     self:GetParent():Purge( false, true, false, false, false)
     self.damage_absorb = self:GetAbility():GetSpecialValueFor( "health" ) + GetOverlordPassiveValue(self:GetCaster(), 100)
@@ -162,8 +163,7 @@ function modifier_Overlord_spell_1_buff:DeclareFunctions()
     local funcs = 
     {
         MODIFIER_PROPERTY_TOTAL_CONSTANT_BLOCK,
-        MODIFIER_PROPERTY_INCOMING_SPELL_DAMAGE_CONSTANT,
-        MODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_CONSTANT,
+        MODIFIER_PROPERTY_INCOMING_DAMAGE_CONSTANT,
     }
     return funcs
 end
@@ -194,17 +194,15 @@ function modifier_Overlord_spell_1_buff:GetModifierTotal_ConstantBlock(kv)
     end
 end
 
-function modifier_Overlord_spell_1_buff:GetModifierIncomingSpellDamageConstant()
+function modifier_Overlord_spell_1_buff:GetModifierIncomingDamageConstant(params)
     if (not IsServer()) then
+        if params.report_max then
+            return self.start_shield
+        end
         return self:GetStackCount()
     end
 end
 
-function modifier_Overlord_spell_1_buff:GetModifierIncomingPhysicalDamageConstant()
-    if (not IsServer()) then
-        return self:GetStackCount()
-    end
-end
 
 LinkLuaModifier( "modifier_Overlord_spell_2_buff", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )
 LinkLuaModifier( "modifier_Overlord_spell_2_passive", "abilities/heroes/overlord_anime", LUA_MODIFIER_MOTION_BOTH )

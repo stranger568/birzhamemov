@@ -295,7 +295,7 @@ function modifier_Zema_Cosmo_Ray_debuff:GetEffectName() return "particles/zema/p
 function modifier_Zema_Cosmo_Ray_debuff:OnCreated()
 	self.tick_interval	= self:GetAbility():GetSpecialValueFor("tick_interval")
 	self.duration		= self:GetAbility():GetSpecialValueFor("duration")
-	self.base_damage	= self:GetAbility():GetSpecialValueFor("base_dmg")
+	self.base_damage	= self:GetAbility():GetSpecialValueFor("base_dmg") + self:GetCaster():FindTalentValue("special_bonus_birzha_zema_5")
 	if not IsServer() then return end
 	if self:GetStackCount() < 1 then
 		self:SetStackCount(1)
@@ -322,10 +322,6 @@ function modifier_Zema_Cosmo_Ray_debuff:OnIntervalThink()
 	local taker = self:GetParent()
 	local tick_sum = self.duration / self.tick_interval
 	local base_dmg = self.base_damage * self.tick_interval
-
-	if self:GetCaster():HasTalent("special_bonus_birzha_zema_5") then
-		base_dmg = base_dmg + ((self:GetCaster():FindTalentValue("special_bonus_birzha_zema_5") / 100 * self:GetParent():GetMaxHealth()) * self.tick_interval)
-	end
 
 	ApplyDamage({ victim = taker, attacker = self:GetCaster(), damage = base_dmg, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility() })
 
@@ -382,11 +378,23 @@ function Zema_MagicDamage:StartAbility(point, radius)
 
 	for _,target in pairs (units) do
 		target:AddNewModifier(self:GetCaster(), self, "modifier_Zema_MagicDamage_debuff", {duration = duration * (1-target:GetStatusResistance())})
-		ApplyDamage({ victim = target, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self })
 	end
 end
 
 modifier_Zema_MagicDamage_debuff = class({})
+
+function modifier_Zema_MagicDamage_debuff:OnCreated(params)
+    if not IsServer() then return end
+    local damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_zema_2")
+    local duration = self:GetDuration()
+    self.damage = (damage / duration) * 0.5
+    self:StartIntervalThink(0.5)
+end
+
+function modifier_Zema_MagicDamage_debuff:OnIntervalThink()
+    if not IsServer() then return end
+    ApplyDamage({ victim = self:GetParent(), attacker = self:GetCaster(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility() })
+end
 
 function modifier_Zema_MagicDamage_debuff:DeclareFunctions()
     local funcs = 
@@ -525,13 +533,6 @@ function modifier_zema_cosmic_blindness_hole:OnIntervalThink()
 	end
 
 	self.tick = self.tick+1
-
-	if #enemies >= 2 then
-		if self.quest_tick then
-			self.quest_tick = false
-			donate_shop:QuestProgress(44, self:GetCaster():GetPlayerOwnerID(), 1)
-		end
-	end
 end
 
 function modifier_zema_cosmic_blindness_hole:IsAura()

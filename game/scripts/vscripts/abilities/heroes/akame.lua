@@ -3,6 +3,7 @@ LinkLuaModifier("modifier_akame_slice_damage", "abilities/heroes/akame.lua", LUA
 LinkLuaModifier("modifier_Akame_slice_debuff", "abilities/heroes/akame.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_Akame_slice_shard", "abilities/heroes/akame.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier("modifier_generic_knockback_lua", "modifiers/modifier_generic_knockback_lua.lua", LUA_MODIFIER_MOTION_BOTH )
 
 Akame_slice = class({})
 
@@ -11,6 +12,9 @@ function Akame_slice:GetCooldown(level)
 end
 
 function Akame_slice:GetCastRange(location, target)
+    if IsClient() then
+        return self:GetSpecialValueFor("range")
+    end
     return self.BaseClass.GetCastRange(self, location, target)
 end
 
@@ -20,6 +24,12 @@ end
 
 function Akame_slice:GetIntrinsicModifierName()
     return "modifier_Akame_slice_shard"
+end
+
+function Akame_slice:OnAbilityUpgrade( hAbility )
+	if not IsServer() then return end
+	self.BaseClass.OnAbilityUpgrade( self, hAbility )
+	self:EnableAbilityChargesOnTalentUpgrade( hAbility, "special_bonus_unique_akame_1" )
 end
 
 
@@ -66,131 +76,93 @@ end
 function Akame_slice:OnSpellStart()
     if not IsServer() then return end
     local point = self:GetCursorPosition()
-	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Akame_slice", { duration = (point - self:GetCaster():GetAbsOrigin()):Length2D() / 3000, x = point.x, y = point.y, z = point.z})
+    local direction = point - self:GetCaster():GetAbsOrigin()
+    local length = direction:Length2D()
+    direction.z = 0
+    direction = direction:Normalized()
+    local speed = self:GetSpecialValueFor("speed")
+    local distance = math.min(length, self:GetSpecialValueFor("range"))
+
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Akame_slice", {duration = distance/speed})
+    self:GetCaster():AddNewModifier(
+        self:GetCaster(),
+        self,
+        "modifier_generic_knockback_lua",
+        {
+            direction_x = direction.x,
+            direction_y = direction.y,
+            distance = distance,
+            duration = distance/speed,
+        }
+    )
+
     self:GetCaster():EmitSound("Hero_Pangolier.TailThump.Cast")
-    self:GetCaster():StartGestureWithPlaybackRate( ACT_DOTA_ATTACK, 3 )
 end
 
 modifier_Akame_slice = class({})
-
 function modifier_Akame_slice:IsPurgable() return false end
 function modifier_Akame_slice:IsHidden() return true end
-function modifier_Akame_slice:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
-function modifier_Akame_slice:IgnoreTenacity() return true end
-function modifier_Akame_slice:IsMotionController() return true end
-function modifier_Akame_slice:GetMotionControllerPriority() return DOTA_MOTION_CONTROLLER_PRIORITY_MEDIUM end
 function modifier_Akame_slice:IsAura() return true end
 function modifier_Akame_slice:GetAuraDuration() return 0 end
-
-function modifier_Akame_slice:GetAuraSearchTeam()
-    return DOTA_UNIT_TARGET_TEAM_ENEMY 
+function modifier_Akame_slice:GetAuraSearchTeam() return DOTA_UNIT_TARGET_TEAM_ENEMY end
+function modifier_Akame_slice:GetAuraSearchType() return DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO end
+function modifier_Akame_slice:GetAuraSearchFlags() return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES end
+function modifier_Akame_slice:GetModifierAura() return "modifier_akame_slice_damage" end
+function modifier_Akame_slice:GetAuraRadius() return 100 end
+function modifier_Akame_slice:OnCreated()
+    if not IsServer() then return end
+    local base_damage = self:GetAbility():GetSpecialValueFor("base_damage")
+    self.percent_damage = self:GetAbility():GetSpecialValueFor("damage")
+    self.damage = base_damage
 end
 
-function modifier_Akame_slice:GetAuraSearchType()
-    return DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO
+function modifier_Akame_slice:DeclareFunctions()
+	local funcs = 
+	{
+		MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE,
+		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
+	}
+	return funcs
 end
 
-function modifier_Akame_slice:GetAuraSearchFlags()
-    return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
+function modifier_Akame_slice:GetModifierDamageOutgoing_Percentage( params )
+	if IsServer() then
+		return self.percent_damage
+	end
 end
 
-function modifier_Akame_slice:GetModifierAura()
-    return "modifier_akame_slice_damage"
-end
-
-function modifier_Akame_slice:GetAuraRadius()
-    return 150
+function modifier_Akame_slice:GetModifierPreAttack_BonusDamage( params )
+	if IsServer() then
+		return self.damage * 100 / ( 100 + self.percent_damage )
+	end
 end
 
 function modifier_Akame_slice:GetEffectName()
-	return "particles/units/heroes/hero_faceless_void/faceless_void_time_walk.vpcf" 
+    return "particles/units/heroes/hero_phantom_lancer/phantomlancer_edge_boost.vpcf"
 end
 
-function modifier_Akame_slice:GetEffectAttachType()
-	return PATTACH_ABSORIGIN_FOLLOW
-end
-
-function modifier_Akame_slice:CheckState()
-	return 
-    {
-		[MODIFIER_STATE_STUNNED]			= true,
-		[MODIFIER_STATE_INVULNERABLE]		= true,
-		[MODIFIER_STATE_NO_UNIT_COLLISION]	= true
-	}
-end
-
-function modifier_Akame_slice:OnCreated(params)
-	if IsServer() then
-		local caster = self:GetCaster()
-		local ability = self:GetAbility()
-		local position = GetGroundPosition(Vector(params.x, params.y, params.z), nil)
-		local max_distance = self:GetAbility():GetSpecialValueFor("range") + self:GetCaster():FindTalentValue("special_bonus_birzha_akame_1")
-		local distance = (caster:GetAbsOrigin() - position):Length2D()
-		if distance > max_distance then distance = max_distance end
-		self.velocity = 3000
-		self.direction = (position - caster:GetAbsOrigin()):Normalized()
-		self.distance_traveled = 0
-		self.distance = distance
-		self.frametime = FrameTime()
-		self:StartIntervalThink(FrameTime())
-	end
-end
-
-function modifier_Akame_slice:OnIntervalThink()
-	if not self:CheckMotionControllers() then
-        if not self:IsNull() then
-            self:Destroy()
-        end
-		return nil
-	end
-	self:HorizontalMotion(self:GetParent(), self.frametime)
-end
-
-function modifier_Akame_slice:HorizontalMotion( me, dt )
-	if IsServer() then
-		if self.distance_traveled <= self.distance then
-			self:GetCaster():SetAbsOrigin(self:GetCaster():GetAbsOrigin() + self.direction * self.velocity * math.min(dt, self.distance - self.distance_traveled))
-			self.distance_traveled = self.distance_traveled + self.velocity * math.min(dt, self.distance - self.distance_traveled)
-		else
-            if not self:IsNull() then
-                self:Destroy()
-            end
-		end
-	end
+function modifier_Akame_slice:OnDestroy()
+    if not IsServer() then return end
+    self:GetCaster():MoveToPositionAggressive(self:GetCaster():GetAbsOrigin())
 end
 
 modifier_akame_slice_damage = class({})
-
 function modifier_akame_slice_damage:IsPurgable() return false end
 function modifier_akame_slice_damage:IsHidden() return true end
 
 function modifier_akame_slice_damage:OnCreated()
 	if not IsServer() then return end
-	local base_damage = self:GetAbility():GetSpecialValueFor("base_damage")
-
-    local percent_damage = self:GetAbility():GetSpecialValueFor("damage")
-
-    local agi_mult = self:GetAbility():GetSpecialValueFor("agi_mult")
-
-    local damage = (agi_mult * self:GetCaster():GetAgility()) + (self:GetCaster():GetAverageTrueAttackDamage(nil) / 100 * percent_damage) + base_damage
-
-	local duration = self:GetAbility() :GetSpecialValueFor("duration")
-
+    local parent = self:GetParent()
+    local caster = self:GetCaster()
+	local duration = self:GetAbility():GetSpecialValueFor("duration")
     local hit_pfx = ParticleManager:CreateParticle("particles/units/heroes/hero_juggernaut/juggernaut_omni_slash_tgt.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
-    ParticleManager:SetParticleControl(hit_pfx, 0, self:GetParent():GetAbsOrigin())
-    ParticleManager:SetParticleControl(hit_pfx, 1, self:GetCaster():GetAbsOrigin())
+    ParticleManager:SetParticleControl(hit_pfx, 0, parent:GetAbsOrigin())
+    ParticleManager:SetParticleControl(hit_pfx, 1, parent:GetAbsOrigin())
     ParticleManager:ReleaseParticleIndex(hit_pfx)
-
-    local damageTable = {victim = self:GetParent(), attacker = self:GetCaster(), damage = damage, ability = self:GetAbility(), damage_type = DAMAGE_TYPE_PHYSICAL }
-
-	ApplyDamage(damageTable)
-
 	self:GetParent():EmitSound("Hero_Juggernaut.OmniSlash.Damage")
-
-    self:GetCaster():PerformAttack(self:GetParent(), true, true, true, true, false, true, true)
-
-    if not self:GetParent():IsMagicImmune() then
-	   self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_Akame_slice_debuff", { duration = duration})
+    caster:PerformAttack(parent, true, true, true, true, false, false, true)
+    if not parent:IsMagicImmune() then
+        parent:AddNewModifier(caster, self:GetAbility(), "modifier_Akame_slice_debuff", { duration = duration })
     end
 end
 
@@ -205,7 +177,6 @@ function modifier_Akame_slice_debuff:DeclareFunctions()
     {
         MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
     }
-
     return funcs
 end
 
@@ -216,6 +187,12 @@ end
 LinkLuaModifier( "modifier_akame_obraz_illusion", "abilities/heroes/akame.lua", LUA_MODIFIER_MOTION_NONE)
 
 Akame_Obraz = class({})
+
+function Akame_Obraz:OnAbilityUpgrade( hAbility )
+	if not IsServer() then return end
+	self.BaseClass.OnAbilityUpgrade( self, hAbility )
+	self:EnableAbilityChargesOnTalentUpgrade( hAbility, "special_bonus_unique_akame_2" )
+end
 
 function Akame_Obraz:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
@@ -319,8 +296,6 @@ function modifier_akame_obraz_illusion:OnAttackLanded( params )
 end
 
 LinkLuaModifier( "modifier_akame_attack_series", "abilities/heroes/akame.lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_akame_attack_series_passive", "abilities/heroes/akame.lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_akame_attack_series_passive_haste", "abilities/heroes/akame.lua", LUA_MODIFIER_MOTION_NONE )
 
 akame_attack_series = class({})
 
@@ -338,139 +313,63 @@ end
 
 function akame_attack_series:OnSpellStart()
 	if not IsServer() then return end
-	self.target = self:GetCursorTarget()
-	if self.target:TriggerSpellAbsorb( self ) then return end
-	self:GetCaster():AddNewModifier(self:GetCaster(), self, 'modifier_akame_attack_series', {})
-end
-
---function akame_attack_series:GetIntrinsicModifierName() 
---	return "modifier_akame_attack_series_passive"
---end
-
-modifier_akame_attack_series_passive = class({})
-
-function modifier_akame_attack_series_passive:IsHidden()
-	return true
-end
-
-function modifier_akame_attack_series_passive:IsPurgable()
-	return false
-end
-
-function modifier_akame_attack_series_passive:DeclareFunctions()
-    return 	
-    {
-		MODIFIER_EVENT_ON_ATTACK_LANDED,
-	}
-end
-
-function modifier_akame_attack_series_passive:OnAttackLanded( keys )
-	if IsServer() then
-		local attacker = self:GetParent()
-
-		if attacker ~= keys.attacker then
-			return
-		end
-
-		if attacker:IsIllusion() then
-			return
-		end
-
-		if attacker:PassivesDisabled() then
-			return
-		end
-
-		local target = keys.target
-		if attacker:GetTeam() == target:GetTeam() then
-			return
-		end	
-
-		local chance = self:GetAbility():GetSpecialValueFor("chance")
-		if RollPercentage(chance) then
-			attacker:AddNewModifier(attacker, self:GetAbility(), "modifier_akame_attack_series_passive_haste", {})
-		end
-	end
-end
-
-modifier_akame_attack_series_passive_haste = class({})
-
-function modifier_akame_attack_series_passive_haste:IsHidden()
- 	return true
-end
-
-function modifier_akame_attack_series_passive_haste:IsPurgable()
-	return false
-end
-
-function modifier_akame_attack_series_passive_haste:DeclareFunctions()
-	local decFuns =
-	{
-		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-		MODIFIER_EVENT_ON_ATTACK
-	}
-	return decFuns
-end
-
-function modifier_akame_attack_series_passive_haste:OnAttack(keys)
-	if self:GetParent() == keys.attacker then
-        self:Destroy()
-	end
-end
-
-function modifier_akame_attack_series_passive_haste:GetModifierAttackSpeedBonus_Constant()
-	return 999999
+	local target = self:GetCursorTarget()
+	if target:TriggerSpellAbsorb( self ) then return end
+	self:GetCaster():AddNewModifier(self:GetCaster(), self, 'modifier_akame_attack_series', {target = target:entindex()})
 end
 
 modifier_akame_attack_series = class({})
 
-function modifier_akame_attack_series:OnCreated()
+function modifier_akame_attack_series:OnCreated(params)
 	if not IsServer() then return end
-	self.target = self:GetAbility().target
+	self.target = EntIndexToHScript(params.target)
 	self.start_angle = self:GetParent():GetAngles()
 	self.start_pos = self:GetParent():GetAbsOrigin()
-	self.attack_count = self:GetAbility():GetSpecialValueFor('series_count')
-	self:StartIntervalThink(0.1)
+	self.attack_count = self:GetAbility():GetSpecialValueFor("series_count")
+	self:StartIntervalThink(0.2)
+    self:OnIntervalThink()
 end
 
 function modifier_akame_attack_series:OnIntervalThink()
 	if not IsServer() then return end
+    if self.target:IsNull() then
+        self:Destroy()
+        return
+    end
+	if not self.target:IsAlive() then 
+        self:Destroy() 
+        return
+    end
+	if not self:GetCaster():CanEntityBeSeenByMyTeam(self.target) and self.target:IsInvisible() then 
+        self:Destroy() 
+        return
+    end
+	if self.attack_count == 0 then 
+        self:Destroy()
+        return
+    end
 
-	if not self.target:IsAlive() then self:Destroy() end
-	if not self:GetCaster():CanEntityBeSeenByMyTeam(self.target) then self:Destroy() end
-	if self.attack_count == 0 then self:Destroy() end
+    local pos = self.target:GetAbsOrigin() + RandomVector(100)
+    local pos_start = self:GetCaster():GetAbsOrigin()
+	self:GetParent():SetAbsOrigin(pos)
+    local angle_vector = self.target:GetAbsOrigin() - self:GetParent():GetAbsOrigin()
+    self:GetParent():SetAngles(0, VectorToAngles(angle_vector).y, 0)
+	self:GetParent():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 5)
+    self:GetParent():PerformAttack(self.target, true, true, true, true, false, false, true)
 
-    local damage = self:GetCaster():GetAverageTrueAttackDamage(nil)
+    local particle = ParticleManager:CreateParticle( "particles/econ/items/juggernaut/jugg_arcana/juggernaut_arcana_v2_omni_slash_tgt.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
+    ParticleManager:SetParticleControl( particle, 0, pos )
+    ParticleManager:SetParticleControl( particle, 1, pos_start )
+    ParticleManager:ReleaseParticleIndex(particle)
 
 	if self.attack_count == 1 then
 		local agi_mult = self:GetAbility():GetSpecialValueFor("agi_mult")
     	local mult_damage = self:GetParent():GetAgility() * agi_mult 
-		local last_damage = self:GetAbility():GetSpecialValueFor("last_attack_damage") + mult_damage
-		damage = damage + last_damage
+		local damage = self:GetAbility():GetSpecialValueFor("last_attack_damage") + mult_damage
+        ApplyDamage({ victim = self.target, attacker = self:GetParent(), ability = self:GetAbility(), damage = damage, damage_type = DAMAGE_TYPE_PHYSICAL, damage_flags = DOTA_DAMAGE_FLAG_NO_SPELL_LIFESTEAL + DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION })
 	end
 
-	local pos = self.target:GetAbsOrigin() + RandomVector(100)
-	self:GetParent():SetAbsOrigin(pos)
-
-	local angle_vector = self.target:GetAbsOrigin() - self:GetParent():GetAbsOrigin()
-	self:GetParent():SetAngles(0, VectorToAngles(angle_vector).y, 0)
-	self:GetParent():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 3)
-	self:GetParent():EmitSound('Hero_NagaSiren.Attack')
-
-	local sliceFX = ParticleManager:CreateParticle("particles/econ/items/juggernaut/bladekeeper_omnislash/dc_juggernaut_omni_slash_rope.vpcf", PATTACH_ABSORIGIN  , self:GetParent())
-	ParticleManager:SetParticleControl(sliceFX, 0, pos)
-	ParticleManager:SetParticleControl(sliceFX, 2, pos)
-	ParticleManager:SetParticleControl(sliceFX, 3, self:GetParent():GetAbsOrigin())
-	ParticleManager:ReleaseParticleIndex(sliceFX)
-
-	local crit_pfx = ParticleManager:CreateParticle("particles/units/heroes/hero_juggernaut/jugg_crit_blur.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
-	ParticleManager:SetParticleControl(crit_pfx, 0, self:GetParent():GetAbsOrigin())
-	ParticleManager:ReleaseParticleIndex(crit_pfx)
-
-    ApplyDamage({ victim = self.target, attacker = self:GetParent(), ability = self:GetAbility(), damage = damage, damage_type = DAMAGE_TYPE_PHYSICAL, damage_flags = DOTA_DAMAGE_FLAG_NO_SPELL_LIFESTEAL + DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION })
-
-	self:GetParent():PerformAttack(self.target, true, true, true, true, false, true, true)
-
-	self.attack_count = self.attack_count - 1
+    self.attack_count = self.attack_count - 1
 end
 
 function modifier_akame_attack_series:CheckState()
@@ -490,8 +389,6 @@ function modifier_akame_attack_series:OnDestroy()
     FindClearSpaceForUnit(self:GetParent(), self.start_pos, false)
 end
 
-LinkLuaModifier("modifier_generic_knockback_lua", "modifiers/modifier_generic_knockback_lua.lua", LUA_MODIFIER_MOTION_BOTH )
-
 Akame_jump = class({})
 
 function Akame_jump:GetCooldown(level)
@@ -500,6 +397,12 @@ end
 
 function Akame_jump:GetManaCost(level)
     return self.BaseClass.GetManaCost(self, level)
+end
+
+function Akame_jump:OnAbilityUpgrade( hAbility )
+	if not IsServer() then return end
+	self.BaseClass.OnAbilityUpgrade( self, hAbility )
+	self:EnableAbilityChargesOnTalentUpgrade( hAbility, "special_bonus_unique_akame_3" )
 end
 
 function Akame_jump:OnSpellStart()
@@ -523,7 +426,7 @@ function Akame_jump:OnSpellStart()
         }
     )
 
-    ParticleManager:ProjectileDodge(self:GetCaster())
+    ProjectileManager:ProjectileDodge(self:GetCaster())
 
     local callback = function( bInterrupted )
     	self:GetCaster():Stop()
@@ -543,6 +446,13 @@ Akame_cursed_blade = class({})
 
 function Akame_cursed_blade:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_akame_5")
+end
+
+function Akame_cursed_blade:GetCastRange(location, target)
+    if IsClient() then
+        return self:GetSpecialValueFor("range")
+    end
+    return self.BaseClass.GetCastRange(self, location, target)
 end
 
 function Akame_cursed_blade:GetIntrinsicModifierName()
@@ -568,16 +478,6 @@ function Akame_cursed_blade:OnSpellStart()
     self[index] = {}
 
 	self:StartAttack(ldirection, index)
-
-    --if self:GetCaster():HasTalent("special_bonus_birzha_akame_5") then
-    --    local angle = 30
-    --    local hook_count = 2
-    --    for i = 1, hook_count do
-    --        local newAngle = angle * math.ceil(i / 2) * (-1)^i
-    --        local newDir = RotateVector2DPudge( ldirection, ToRadians( newAngle ) )
-    --        self:StartAttack(newDir, index)
-    --    end
-    --end
 end
 
 function Akame_cursed_blade:StartAttack(direction, index)
@@ -628,7 +528,6 @@ end
 function Akame_cursed_blade:OnProjectileHit_ExtraData(target, vLocation, ExtraData)
     if not IsServer() then return end
     if target ~= nil then
-
     	local was_hit = false
         for _, stored_target in ipairs(self[ExtraData.index]) do
             if target == stored_target then
@@ -636,15 +535,10 @@ function Akame_cursed_blade:OnProjectileHit_ExtraData(target, vLocation, ExtraDa
                 break
             end
         end
-
         if was_hit then
             return nil
         end
-
         table.insert(self[ExtraData.index],target)
-
-        print("damage")
-
 	    local agi_mult = self:GetSpecialValueFor("agility_attack")
 	    local damage = (self:GetCaster():GetAgility() * agi_mult) + self:GetCaster():GetAverageTrueAttackDamage(nil)
 	    ApplyDamage({ victim = target, attacker = self:GetCaster(), ability = self, damage = damage, damage_type = DAMAGE_TYPE_PHYSICAL})
@@ -679,7 +573,6 @@ function modifier_akame_cursed_blade:OnAttackLanded( keys )
     if attacker:GetTeam() == target:GetTeam() then return end
     if target:IsBoss() then return end
     if target:IsWard() then return end
-
     local duration = self:GetAbility():GetSpecialValueFor('duration')
     target:AddNewModifier(attacker, self:GetAbility(), "modifier_cursed_blade_debuff", {duration = duration})
 end

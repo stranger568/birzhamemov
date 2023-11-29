@@ -71,7 +71,7 @@ function modifier_vape_smoke_debuff:IsPurgable() return false end
 function modifier_vape_smoke_debuff:IsDebuff() return true end
 
 function modifier_vape_smoke_debuff:OnCreated()
-    self.miss_chance = self:GetAbility():GetSpecialValueFor("miss_chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_3")
+    self.miss_chance = self:GetAbility():GetSpecialValueFor("miss_chance")
     self.slow = self:GetAbility():GetSpecialValueFor("move_slow")
 end
 
@@ -111,7 +111,7 @@ function BigRussianBoss_prank:GetCastRange(location, target)
 end
 
 function BigRussianBoss_prank:GetAOERadius()
-    return self:GetSpecialValueFor("radius")
+    return self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_6")
 end
 
 function BigRussianBoss_prank:GetAbilityTextureName()
@@ -178,7 +178,7 @@ function BigRussianBoss_prank:OnSpellStart()
             Source = caster,
             Ability = self, 
             EffectName = "particles/units/heroes/hero_alchemist/alchemist_unstable_concoction_projectile.vpcf",
-            iMoveSpeed = 900,
+            iMoveSpeed = 900 + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_2"),
             bDodgeable = false,
             bVisibleToEnemies = true, 
             bProvidesVision = true,
@@ -204,11 +204,11 @@ function BigRussianBoss_prank:OnProjectileHit_ExtraData( target, location, Extra
     self.reflected_brew_time = brew_time
     self.reflected_brew_time = nil
     local max_brew = self:GetSpecialValueFor( "brew_time" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_5")
-    local min_stun = self:GetSpecialValueFor( "min_stun" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_6")
-    local max_stun = self:GetSpecialValueFor( "max_stun" )
-    local min_damage = self:GetSpecialValueFor( "min_damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_2")
-    local max_damage = self:GetSpecialValueFor( "max_damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_2")
-    local radius = self:GetSpecialValueFor( "radius" )
+    local min_stun = self:GetSpecialValueFor( "min_stun" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_7")
+    local max_stun = self:GetSpecialValueFor( "max_stun" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_7")
+    local min_damage = self:GetSpecialValueFor( "min_damage" )
+    local max_damage = self:GetSpecialValueFor( "max_damage" )
+    local radius = self:GetSpecialValueFor( "radius" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_6")
 
     local stun = (brew_time/max_brew)*(max_stun-min_stun) + min_stun
     local damage = (brew_time/max_brew)*(max_damage-min_damage) + min_damage
@@ -255,8 +255,8 @@ function modifier_bigrussianboss_prank:IsHidden()
 end
 
 function modifier_bigrussianboss_prank:OnCreated(kv)
-    self.max_stun = self:GetAbility():GetSpecialValueFor( "max_stun" )
-    self.max_damage = self:GetAbility():GetSpecialValueFor( "max_damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_2")
+    self.max_stun = self:GetAbility():GetSpecialValueFor( "max_stun" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_7")
+    self.max_damage = self:GetAbility():GetSpecialValueFor( "max_damage" )
     self.radius = self:GetAbility():GetSpecialValueFor( "radius" )
 
     if not IsServer() then return end
@@ -380,11 +380,10 @@ function modifier_steb_passive:OnAttackLanded( params )
     local duration = self:GetAbility():GetSpecialValueFor("duration")
     params.attacker:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_steb_buff", { duration = duration } )
     params.target:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_steb_debuff", { duration = duration * (1 - params.target:GetStatusResistance()) } )
-
     if self:GetCaster():HasTalent("special_bonus_birzha_brb_8") then
-        self:SetStackCount(self:GetStackCount() + 1)
-        if self:GetStackCount() >= self:GetAbility():GetSpecialValueFor("talent_silence_attack") then
-            params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_silence", {duration = self:GetAbility():GetSpecialValueFor("talent_silence_duration") * (1 - params.target:GetStatusResistance())})
+        self:IncrementStackCount()
+        if self:GetStackCount() >= self:GetCaster():FindTalentValue("special_bonus_birzha_brb_8") then
+            params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_silence", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_brb_8", "value2") * (1 - params.target:GetStatusResistance())})
             self:SetStackCount(0)
         end
     end
@@ -416,7 +415,7 @@ function modifier_steb_buff:GetModifierMoveSpeedBonus_Percentage()
 end
 
 function modifier_steb_buff:GetModifierAttackSpeedBonus_Constant()
-    return self.attack
+    return self.attack + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_4")
 end
 
 function modifier_steb_buff:GetEffectName()
@@ -485,11 +484,11 @@ function BigRussianBoss_test:GetCustomCastErrorTarget(target)
 end
 
 function BigRussianBoss_test:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_3")
 end
 
 function BigRussianBoss_test:GetCastRange(location, target)
-    return self.BaseClass.GetCastRange(self, location, target) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_4")
+    return self.BaseClass.GetCastRange(self, location, target)
 end
 
 function BigRussianBoss_test:GetManaCost(level)
@@ -502,6 +501,7 @@ function BigRussianBoss_test:OnSpellStart()
     local target_origin = target:GetAbsOrigin()
     local caster_origin = self:GetCaster():GetAbsOrigin()
     local duration = self:GetSpecialValueFor("duration") * (1 - target:GetStatusResistance())
+    local duration_immune = self:GetSpecialValueFor("duration_immune")
     if target:TriggerSpellAbsorb( self ) then return end
     if target:IsIllusion() then
         target:Kill( self, self:GetCaster() )
@@ -520,9 +520,8 @@ function BigRussianBoss_test:OnSpellStart()
     self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_brb_test", { duration = duration, target = target:entindex() } )
     target:AddNewModifier( self:GetCaster(), self, "modifier_brb_test_damage", { duration = duration } )
     self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_brb_test_damage", { duration = duration } )
-    if self:GetCaster():HasTalent("special_bonus_birzha_brb_7") then
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_brb_test_magical_immune", { duration = duration })
-    end
+    
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_brb_test_magical_immune", { duration = duration_immune })
 end
 
 modifier_brb_test_magical_immune = class({})
@@ -657,7 +656,6 @@ function modifier_brb_test:OnDeath( params )
             self:GetCaster():RemoveModifierByName("modifier_brb_test_magical_immune")
             self:GetCaster():EmitSound("Hero_LegionCommander.Duel.Victory")
             local duel_victory_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_legion_commander/legion_commander_duel_victory.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetCaster())
-            donate_shop:QuestProgress(36, self:GetCaster():GetPlayerOwnerID(), 1)
         end
     end
 end

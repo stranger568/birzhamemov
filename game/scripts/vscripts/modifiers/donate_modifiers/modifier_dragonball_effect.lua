@@ -22,7 +22,7 @@ end
 
 function modifier_dragonball_effect:OnCreated()
 	if IsServer() then
-		local timer = nCOUNTDOWNTIMER / 60
+		local timer = BIRZHA_GAME_ALL_TIMER / 60
 		if timer < 3 then
 			self.effect = "particles/donate_effect/dragon_ball_effect/dragon_ball_effect_1.vpcf"
 			self.effect_number = 1
@@ -48,7 +48,7 @@ end
 
 function modifier_dragonball_effect:OnIntervalThink()
 	if IsServer() then
-		local timer = nCOUNTDOWNTIMER / 60
+		local timer = BIRZHA_GAME_ALL_TIMER / 60
 		if timer > 3 and timer < 6 then
 			if not self.particle_2 then
 				ParticleManager:DestroyParticle(self.particle, false)

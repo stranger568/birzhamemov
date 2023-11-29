@@ -217,10 +217,10 @@
 				</Panel>
 			</Panel>
 			<Panel class="MainInformationLeader">
-				<Label text = "#BestFreeBP" class = "MainTextInformationLeader"/>	
+				<Label text= "" id="MainTextInformationLeaderSeason" class= "MainTextInformationLeaderSeason"/>
 			</Panel>
 			<Panel class="MainInformation2Leader">
-				<Button class="MainInformationButtonLeader" onactivate="ExternalBrowserGoToURL('https://bmemov.ru/leaderboards/');">
+				<Button class="MainInformationButtonLeader" onactivate="ExternalBrowserGoToURL('https://bmemov.strangerdev.ru/leaderboards/');">
 					<Label text = "#Top100players"/>
 				</Button> 
 			</Panel>

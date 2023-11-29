@@ -272,7 +272,7 @@ end
 function modifier_marci_companion_run_custom:OnDestroy()
 	if not IsServer() then return end	
 	self:GetParent():RemoveHorizontalMotionController( self )
-	self:GetParent():FadeGesture(ACT_DOTA_RUN)
+	self:GetParent():FadeGesture(ACT_DOTA_OVERRIDE_ABILITY_2)
 	self:GetParent():FadeGesture(ACT_DOTA_ATTACK)
 
 	if self.interrupted then return end
@@ -302,7 +302,7 @@ function modifier_marci_companion_run_custom:DeclareFunctions()
 end
 
 function modifier_marci_companion_run_custom:GetOverrideAnimation()
-	return ACT_DOTA_RUN
+	return ACT_DOTA_OVERRIDE_ABILITY_2
 end
 
 function modifier_marci_companion_run_custom:CheckState()
@@ -322,6 +322,7 @@ function modifier_marci_companion_run_custom:UpdateHorizontalMotion( me, dt )
 	end
 	self.targetpos = targetpos
 	local loc = ProjectileManager:GetTrackingProjectileLocation( self.projectile )
+
 	me:SetOrigin( GetGroundPosition( loc, me ) )
 	me:FaceTowards( self.target:GetOrigin() )
 end
@@ -643,7 +644,6 @@ end
 
 modifier_haku_frost_attack = class({})
 
-function modifier_haku_frost_attack:AllowIllusionDuplicate() return true end
 function modifier_haku_frost_attack:IsPurgable() return false end
 
 function modifier_haku_frost_attack:OnCreated()
@@ -778,6 +778,13 @@ LinkLuaModifier("modifier_haku_mask", "abilities/heroes/haku", LUA_MODIFIER_MOTI
 
 haku_mask = class({}) 
 
+function haku_mask:Spawn()
+    if not IsServer() then return end
+    if GetMapName() == "birzhamemov_solo" then
+        self:SetHidden(true)
+    end
+end
+
 function haku_mask:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end
@@ -788,10 +795,12 @@ end
 
 function haku_mask:OnSpellStart()
     if not IsServer() then return end
+    self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_4)
     self:GetCaster():EmitSound("ui.inv_equip_jug")
 end
 
 function haku_mask:OnChannelFinish( bInterrupted )
+    self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_4)
 	if bInterrupted then
 		return
 	end
@@ -822,8 +831,8 @@ function modifier_haku_mask:OnCreated()
     self:GetCaster():FindAbilityByName("haku_mask"):SetHidden(true)
     self:GetAbility():SetActivated(false)
     self:GetParent():SetPrimaryAttribute(2)
-    self:GetCaster():SetModel("models/haku/haku.vmdl")
-    self:GetCaster():SetOriginalModel("models/haku/haku.vmdl")
+    self:GetCaster():SetModel("models/update_heroes/haku/haku_without_mask.vmdl")
+    self:GetCaster():SetOriginalModel("models/update_heroes/haku/haku_without_mask.vmdl")
 end
 
 function modifier_haku_mask:OnRemoved()
@@ -836,8 +845,8 @@ function modifier_haku_mask:OnRemoved()
     self:GetCaster():FindAbilityByName("haku_mask"):SetHidden(false)
     self:GetAbility():SetActivated(true)
     self:GetParent():SetPrimaryAttribute(1)
-    self:GetCaster():SetModel("models/haku/haku_mask.vmdl")
-    self:GetCaster():SetOriginalModel("models/haku/haku_mask.vmdl")
+    self:GetCaster():SetModel("models/update_heroes/haku/haku_without_mask.vmdl")
+    self:GetCaster():SetOriginalModel("models/update_heroes/haku/haku_without_mask.vmdl")
 end
 
 LinkLuaModifier("modifier_haku_zerkala_damage", "abilities/heroes/haku", LUA_MODIFIER_MOTION_NONE)
@@ -1290,7 +1299,6 @@ function haku_needle_heal:OnSpellStart()
     if self.target == nil then
         return
     end
-    self:GetCaster():SetForwardVector(self.target:GetForwardVector())
     self.modifier_caster = self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_haku_needle_heal", { duration = self:GetChannelTime() } )
 end
 
@@ -1318,7 +1326,8 @@ end
 
 function modifier_haku_needle_heal:OnIntervalThink()
 	if not IsServer() then return end
-	self:GetCaster():RemoveGesture(ACT_DOTA_ATTACK)
+	self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_1)
+    self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_1)
     local info = 
     {
         Target = self:GetAbility().target,
@@ -1333,9 +1342,14 @@ function modifier_haku_needle_heal:OnIntervalThink()
         iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1,
         iVisionTeamNumber = self:GetCaster():GetTeamNumber()
     }
+
+    local dir = self:GetAbility().target:GetAbsOrigin() - self:GetParent():GetAbsOrigin()
+    dir.z = 0
+    dir = dir:Normalized()
+    self:GetParent():SetForwardVector(dir)
+
     ProjectileManager:CreateTrackingProjectile(info)
     self:GetCaster():EmitSound("HakuNeedleheal")
-    self:GetCaster():StartGesture(ACT_DOTA_ATTACK)
 end
 
 function haku_needle_heal:OnProjectileHit( target, vLocation )
@@ -1394,7 +1408,7 @@ end
 
 modifier_haku_aura = class({})
 
-function modifier_haku_aura:IsAura() return true end
+function modifier_haku_aura:IsAura() return self:GetParent():HasModifier("modifier_haku_mask") end
 function modifier_haku_aura:IsAuraActiveOnDeath() return false end
 function modifier_haku_aura:IsBuff() return true end
 function modifier_haku_aura:IsHidden() return true end
@@ -1417,7 +1431,6 @@ function modifier_haku_aura:GetAuraSearchType()
 end
 
 function modifier_haku_aura:GetModifierAura()
-	if not self:GetParent():HasModifier("modifier_haku_mask") then return end
 	return "modifier_haku_aura_hero"
 end
 

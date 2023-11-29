@@ -4,10 +4,14 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 metagame_shield = class({})
 
+function metagame_shield:GetCooldown(level)
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_metagame_5")
+end
+
 function metagame_shield:OnSpellStart()
     if not IsServer() then return end
 
-    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_metagame_1")
+    local duration = self:GetSpecialValueFor("duration")
 
     self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_metagame_shield", { duration = duration } )
 
@@ -28,8 +32,8 @@ end
 
 function modifier_metagame_shield:OnCreated( kv )
     if not IsServer() then return end
-    self.agility = self:GetAbility():GetSpecialValueFor("bonus_agility")
-    self.status_resistance = self:GetAbility():GetSpecialValueFor("bonus_resist")
+    self.agility = self:GetAbility():GetSpecialValueFor("bonus_agility") + self:GetCaster():FindTalentValue("special_bonus_birzha_metagame_4")
+    self.status_resistance = self:GetAbility():GetSpecialValueFor("bonus_resist") + self:GetCaster():FindTalentValue("special_bonus_birzha_metagame_1")
 
     local count_modifiers_old = 0
     local count_modifiers_new = 0
@@ -52,7 +56,7 @@ function modifier_metagame_shield:OnCreated( kv )
     stack = count_modifiers_old - count_modifiers_new
 
     if stack > 0 then
-        self.agility = self.agility + (stack * (self:GetAbility():GetSpecialValueFor("bonus_agility_per_effect") + self:GetCaster():FindTalentValue("special_bonus_birzha_metagame_5")))
+        self.agility = self.agility + (stack * (self:GetAbility():GetSpecialValueFor("bonus_agility_per_effect")))
         self.status_resistance = self.status_resistance + (stack * self:GetAbility():GetSpecialValueFor("bonus_resist_per_effect"))
     end
 
@@ -123,6 +127,9 @@ end
 function metagame_mmr:OnSpellStart()
     if not IsServer() then return end
     local duration = self:GetSpecialValueFor("duration")
+    if self:GetCaster():HasShard() then
+        duration = duration / 2
+    end
     self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_metagame_mmr", { duration = duration } )
 end
 
@@ -143,7 +150,7 @@ end
 function modifier_metagame_mmr:GetModifierProcAttack_BonusDamage_Magical(params)
     if not IsServer() then return end
     if params.target:IsWard() then return end
-    return self:GetAbility():GetSpecialValueFor("bonus_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_metagame_4")
+    return self:GetAbility():GetSpecialValueFor("bonus_damage")
 end
 
 function modifier_metagame_mmr:GetModifierMoveSpeedBonus_Percentage()
@@ -159,9 +166,9 @@ function modifier_metagame_mmr:OnCreated( kv )
     self:PlayEffects2()
     --self:StartIntervalThink(1)
     --self:OnIntervalThink()
-    if self:GetCaster():HasShard() then
-        self:Stun()
-    end
+    --if self:GetCaster():HasShard() then
+    --    self:Stun()
+    --end
 end
 
 function modifier_metagame_mmr:OnIntervalThink()
@@ -199,7 +206,11 @@ function modifier_metagame_mmr:PlayEffects1()
 end
 
 function modifier_metagame_mmr:PlayEffects2()
-    local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_dark_willow/dark_willow_leyconduit_start.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent() )
+    local particle = "particles/units/heroes/hero_dark_willow/dark_willow_leyconduit_start.vpcf"
+    if self:GetCaster():HasShard() then
+        particle = "particles/meta_game_willow_fast_caststart.vpcf"
+    end
+    local effect_cast = ParticleManager:CreateParticle( particle, PATTACH_OVERHEAD_FOLLOW, self:GetParent() )
     self:AddParticle( effect_cast, false, false,  -1, false,  false )
 end
 

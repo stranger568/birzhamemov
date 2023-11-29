@@ -1,0 +1,26 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	num_particles = 36
+	attributes = 
+	[
+		
+		{
+			name = "position"
+			type = "float3"
+			data_offset = 0
+			data_size = 432
+		},
+		
+		{
+			name = "skinning"
+			type = "skinning"
+			data_offset = 432
+			data_size = 864
+		},
+	]
+	string_list = 
+	[
+		"",
+		"head",
+	]
+}

@@ -1002,6 +1002,7 @@ function hisoka_trap_teleport:OnChannelFinish(bInterrupted)
             if index then
                 FindClearSpaceForUnit(self:GetCaster(), self.counter_modifier.trap_table[index]:GetParent():GetAbsOrigin(), false)
                 self.counter_modifier.trap_table[index]:Explode(self.trap_ability, self:GetSpecialValueFor("radius"))
+                self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_4_END)
             end
         end
     end
@@ -1106,7 +1107,7 @@ function modifier_bubble_unit:DeclareFunctions()
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
-        
+        MODIFIER_PROPERTY_HEALTHBAR_PIPS,
         MODIFIER_EVENT_ON_ATTACKED
     }
 
@@ -1129,20 +1130,22 @@ function modifier_bubble_unit:GetAbsoluteNoDamagePure()
     return 1
 end
 
+function modifier_bubble_unit:GetModifierHealthBarPips()
+    return self:GetParent():GetMaxHealth()
+end
+
 function modifier_bubble_unit:OnAttacked(keys)
     if not IsServer() then return end
     if keys.target == self:GetParent() then
-        if keys.attacker:IsHero() then
-            self:GetParent():SetHealth(self:GetParent():GetHealth() - 1)
-        else
-            self:GetParent():SetHealth(self:GetParent():GetHealth() - 1)
-        end
-        if self:GetParent():GetHealth() <= 0 then
+        local new_health = self:GetParent():GetHealth() - 1
+        if new_health <= 0 then
             self:GetParent():EmitSound("Hero_Grimstroke.InkCreature.Death")
             self:GetParent():Kill(nil, keys.attacker)
             if not self:IsNull() then
                 self:Destroy()
             end
+        else
+            self:GetParent():SetHealth(new_health)
         end
     end
 end

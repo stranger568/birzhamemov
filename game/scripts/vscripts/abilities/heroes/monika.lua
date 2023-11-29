@@ -174,6 +174,7 @@ function modifier_monica_concept:OnAttack(params)
 		if self:GetParent():HasModifier("modifier_monika_concept_ill") then return end
 		if self:GetParent():IsIllusion() then return end
 	else
+		if self:GetParent():HasModifier("modifier_monika_concept_ill") then return end
 		if self:GetParent():IsIllusion() then
 			chance = chance / 2
 		end

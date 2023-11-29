@@ -27,7 +27,7 @@ function mina_explosive_wave:OnSpellStart()
 		local radius = self:GetSpecialValueFor("aoe_radius")
 		local cast_delay = self:GetSpecialValueFor("cast_delay")
 		local stun_duration = self:GetSpecialValueFor("stun_duration")
-		local damage = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_mina_1")
+		local damage = self:GetSpecialValueFor("damage")
 		local secondary_delay = self:GetSpecialValueFor("secondary_delay")
 		local array_count = self:GetSpecialValueFor("array_count")
 		local array_rings_count = self:GetSpecialValueFor("array_rings_count")
@@ -221,9 +221,6 @@ function modifier_mina_explosion_jump:OnDestroy()
         ParticleManager:ReleaseParticleIndex(particle_explosion_fx)
 		local units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, FIND_ANY_ORDER, false)
         local damage_type = DAMAGE_TYPE_MAGICAL
-        if self:GetCaster():HasTalent("special_bonus_birzha_mina_6") then
-            damage_type = DAMAGE_TYPE_PURE
-        end
 		for i,unit in ipairs(units) do
 			ApplyDamage({ victim = unit, attacker = self:GetCaster(), ability = self:GetAbility(), damage = self.damage, damage_type = damage_type })
 			unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_mina_explosive_jump_debuff", {duration = self.duration * (1 - unit:GetStatusResistance())})
@@ -321,7 +318,7 @@ function modifier_mina_explosion_jump:OnVerticalMotionInterrupted()
 end
 
 function modifier_mina_explosion_jump:GetOverrideAnimation( params )
-    return ACT_DOTA_CAST_ABILITY_2
+    return ACT_DOTA_OVERRIDE_ABILITY_2
 end
 
 modifier_mina_explosive_jump_debuff = class({})
@@ -373,7 +370,7 @@ end
 function modifier_mina_passive_shard:GetModifierProcAttack_BonusDamage_Magical( params )
     if not IsServer() then return end
     if self:GetParent():HasTalent("special_bonus_birzha_mina_8") then return end
-    local bonus_damage = self:GetAbility():GetSpecialValueFor("damage")
+    local bonus_damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_mina_1")
     local chance = self:GetAbility():GetSpecialValueFor("chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_mina_3")
     if self:GetParent():IsIllusion() then
     	bonus_damage = bonus_damage * 0.20
@@ -395,7 +392,7 @@ end
 function modifier_mina_passive_shard:GetModifierProcAttack_BonusDamage_Pure( params )
     if not IsServer() then return end
     if not self:GetParent():HasTalent("special_bonus_birzha_mina_8") then return end
-    local bonus_damage = self:GetAbility():GetSpecialValueFor("damage")
+    local bonus_damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_mina_1")
     local chance = self:GetAbility():GetSpecialValueFor("chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_mina_3")
     if self:GetParent():IsIllusion() then
     	bonus_damage = bonus_damage * 0.20
@@ -458,7 +455,7 @@ LinkLuaModifier( "modifier_mum_meat_hook_hook_thinker", "abilities/heroes/mum.lu
 mina_nuclear_strike = class({})
 
 function mina_nuclear_strike:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_mina_2")
 end
 
 function mina_nuclear_strike:GetCastRange(location, target)
@@ -549,7 +546,12 @@ function mina_nuclear_strike:CreateBomb(caster)
 		unit:EmitSound(unit.explosion_sound)
 		ScreenShake(unit:GetCenter(), 1000, 3, 0.50, 1500, 0, true)
 
-		local enemy_found = FindUnitsInRadius( caster:GetTeamNumber(), unit:GetCenter(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO+DOTA_UNIT_TARGET_CREEP, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false)
+        local flag = 0
+        if self:GetCaster():HasTalent("special_bonus_birzha_mina_6") and RollPercentage(self:GetCaster():FindTalentValue("special_bonus_birzha_mina_6")) then
+            flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
+        end
+
+		local enemy_found = FindUnitsInRadius( caster:GetTeamNumber(), unit:GetCenter(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO+DOTA_UNIT_TARGET_CREEP, flag, FIND_CLOSEST, false)
 
 		for k,v in pairs(enemy_found) do
             local mina_radiation_field = self:GetCaster():FindAbilityByName("mina_radiation_field")
@@ -558,7 +560,7 @@ function mina_nuclear_strike:CreateBomb(caster)
             end
 			ApplyDamage({ victim = v, attacker = caster, ability = ability, damage = damage, damage_type = unit.bomb_type })
 			if unit.bomb_type == DAMAGE_TYPE_PURE then
-				v:AddNewModifier(caster, ability, "modifier_birzha_stunned", {duration=(ability:GetSpecialValueFor("stun_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_mina_2")) * (1-v:GetStatusResistance())})
+				v:AddNewModifier(caster, ability, "modifier_birzha_stunned", {duration=(ability:GetSpecialValueFor("stun_duration")) * (1-v:GetStatusResistance())})
 			end
 			if unit.bomb_type == DAMAGE_TYPE_PHYSICAL then
 				v:AddNewModifier(caster, ability, "modifier_mina_nuclear_strike_slow", {duration=ability:GetSpecialValueFor("slow_duration") * (1-v:GetStatusResistance())})
@@ -631,7 +633,7 @@ function mina_suicide:OnSpellStart()
         knockback_duration = 1,
         duration = 1,
         knockback_distance = 0,
-        knockback_height = 800,
+        knockback_height = 500,
     }
     self:GetCaster():EmitSound("minaepta")
     self:GetCaster():RemoveModifierByName("modifier_knockback")
@@ -653,6 +655,17 @@ function modifier_mina_suicide:CheckState()
         [MODIFIER_STATE_UNSELECTABLE] = true,
         [MODIFIER_STATE_INVULNERABLE] = true,
     }
+end
+
+function modifier_mina_suicide:DeclareFunctions()
+    return
+    {
+        MODIFIER_PROPERTY_OVERRIDE_ANIMATION
+    }
+end
+
+function modifier_mina_suicide:GetOverrideAnimation()
+    return ACT_DOTA_OVERRIDE_ABILITY_2
 end
 
 function modifier_mina_suicide:OnDestroy()

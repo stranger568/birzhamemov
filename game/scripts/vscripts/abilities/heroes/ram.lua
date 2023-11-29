@@ -1,7 +1,6 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_ram_fura_lift", "abilities/heroes/ram.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_ram_fura_combination", "abilities/heroes/ram.lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_ram_fura_combination_quest", "abilities/heroes/ram.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier("modifier_generic_knockback_lua", "modifiers/modifier_generic_knockback_lua.lua", LUA_MODIFIER_MOTION_BOTH )
 
 ram_fura = class({})
@@ -53,9 +52,6 @@ function ram_fura:OnSpellStart()
     end
 
     local speed = 1000
-    if self:GetCaster():HasTalent("special_bonus_birzha_ram_2") then
-        speed = speed * ( 1 + (self:GetCaster():FindTalentValue("special_bonus_birzha_ram_2") / 100))
-    end
 
 	local projectile_vvelocity = point_difference_normalized * 1000
 	projectile_vvelocity.z = 0
@@ -81,7 +77,6 @@ function ram_fura:OnProjectileHit( target, vLocation )
             if self:GetCaster():HasTalent("special_bonus_birzha_ram_6") then
                 target:AddNewModifier( self:GetCaster(), self, "modifier_ram_fura_combination", { duration = self:GetCaster():FindTalentValue("special_bonus_birzha_ram_6", "value2")  } )
             end
-            target:AddNewModifier( self:GetCaster(), self, "modifier_ram_fura_combination_quest", { duration = self:GetCaster():FindTalentValue("special_bonus_birzha_ram_6", "value2")  } )
             local damage = self:GetSpecialValueFor( "damage" )
             ApplyDamage({victim = target, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self})
             if self:GetCaster():HasScepter() then
@@ -97,11 +92,6 @@ modifier_ram_fura_combination = class({})
 function modifier_ram_fura_combination:IsHidden() return true end
 function modifier_ram_fura_combination:IsPurgable() return false end
 function modifier_ram_fura_combination:RemoveOnDeath() return false end
-
-modifier_ram_fura_combination_quest = class({})
-function modifier_ram_fura_combination_quest:IsHidden() return true end
-function modifier_ram_fura_combination_quest:IsPurgable() return false end
-function modifier_ram_fura_combination_quest:RemoveOnDeath() return false end
 
 modifier_ram_fura_lift = class({})
 
@@ -141,10 +131,16 @@ function ram_ElFura:GetManaCost(level)
 end
 
 function ram_ElFura:GetBehavior()
-    --if self:GetCaster():HasScepter() then
-    --    return DOTA_ABILITY_BEHAVIOR_NO_TARGET
-    --end
+    if self:GetCaster():HasTalent("special_bonus_birzha_ram_8") then
+        return DOTA_ABILITY_BEHAVIOR_NO_TARGET
+    end
     return DOTA_ABILITY_BEHAVIOR_POINT
+end
+
+function ram_ElFura:OnAbilityUpgrade( hAbility )
+	if not IsServer() then return end
+	self.BaseClass.OnAbilityUpgrade( self, hAbility )
+	self:EnableAbilityChargesOnTalentUpgrade( hAbility, "special_bonus_unique_birzha_ram_2" )
 end
 
 function ram_ElFura:OnSpellStart()
@@ -155,7 +151,7 @@ function ram_ElFura:OnSpellStart()
     local distance = self:GetCastRange(caster_loc,caster)
     local direction
 
-    if target_loc == caster_loc then
+    if target_loc == caster_loc or self:GetCaster():HasTalent("special_bonus_birzha_ram_8") then
         direction = caster:GetForwardVector()
     else
         direction = (target_loc - caster_loc):Normalized()
@@ -185,11 +181,9 @@ function ram_ElFura:OnSpellStart()
     }
 
     if caster:HasTalent("special_bonus_birzha_ram_8") then
-        i = -30
-        for var=1,13, 1 do
+        for i = 1, 12 do
             ProjectileManager:CreateLinearProjectile(projectile)
-            projectile.vVelocity = RotatePosition(Vector(0,0,0), QAngle(0,i,0), caster:GetForwardVector()) * 1000
-            i = i + 30
+            projectile.vVelocity = RotatePosition(Vector(0,0,0), QAngle(0,30*i,0), caster:GetForwardVector()) * 1000
         end
     else
         ProjectileManager:CreateLinearProjectile(projectile)
@@ -231,11 +225,6 @@ function ram_ElFura:OnProjectileHit_ExtraData(target, location, ExtraData)
             end
         end
 
-        if target:HasModifier("modifier_ram_fura_combination_quest") then
-            target:RemoveModifierByName("modifier_ram_fura_combination_quest")
-            donate_shop:QuestProgress(46, self:GetCaster():GetPlayerOwnerID(), 1)
-        end
-
         ApplyDamage({victim = target, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self})
 
         if self:GetCaster():HasScepter() then
@@ -243,7 +232,7 @@ function ram_ElFura:OnProjectileHit_ExtraData(target, location, ExtraData)
         end
 
         local callback = function()
-            local duration = self:GetSpecialValueFor('duration') + self:GetCaster():FindTalentValue("special_bonus_birzha_ram_5")
+            local duration = self:GetSpecialValueFor('duration')
             target:AddNewModifier(self:GetCaster(), self, "modifier_elfura_debuff_disarm", {duration = duration * (1 - target:GetStatusResistance())})
         end
 
@@ -293,6 +282,7 @@ ram_DemonicShield = class({})
 function ram_DemonicShield:OnToggle()
 	local caster = self:GetCaster()
 	local modifier = caster:FindModifierByName( "modifier_demonic_shield" )
+    self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_2)
 	if self:GetToggleState() then
 		if not modifier then
 			caster:AddNewModifier( caster, self, "modifier_demonic_shield", {} )
@@ -418,4 +408,148 @@ end
 function modifier_ram_ult:GetModifierPhysicalArmorBonus()
     if self:GetParent():PassivesDisabled() then return end
     return self:GetAbility():GetSpecialValueFor("bonus_armor")
+end
+
+LinkLuaModifier("modifier_ram_wind_thinker", "abilities/heroes/ram", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_ram_wind_thinker_pull", "abilities/heroes/ram", LUA_MODIFIER_MOTION_NONE)
+
+ram_wind = class({})
+
+function ram_wind:OnInventoryContentsChanged()
+    if self:GetCaster():HasTalent("special_bonus_birzha_ram_5") then
+        self:SetHidden(false)       
+        if not self:IsTrained() then
+            self:SetLevel(1)
+        end
+    else
+        self:SetHidden(true)
+    end
+end
+
+function ram_wind:OnHeroCalculateStatBonus()
+    self:OnInventoryContentsChanged()
+end
+
+function ram_wind:GetAOERadius()
+    return self:GetSpecialValueFor( "radius" )
+end
+
+function ram_wind:OnSpellStart()
+    if not IsServer() then return end
+    local point = self:GetCursorPosition()
+    local delay = self:GetSpecialValueFor("delay")
+    local thinker = CreateModifierThinker( self:GetCaster(), self, "modifier_ram_wind_thinker", { duration = delay, x = point.x, y = point.y, z = point.z }, self:GetCaster():GetAbsOrigin(), self:GetCaster():GetTeamNumber(), false )
+    thinker:EmitSound("Hero_Invoker.EMP.Cast")
+end
+
+modifier_ram_wind_thinker = class({})
+
+function modifier_ram_wind_thinker:IsHidden()
+    return true
+end
+
+function modifier_ram_wind_thinker:IsPurgable()
+    return false
+end
+
+function modifier_ram_wind_thinker:IsAura() return true end
+
+function modifier_ram_wind_thinker:GetModifierAura()
+	return "modifier_ram_wind_thinker_pull"
+end
+
+function modifier_ram_wind_thinker:GetAuraRadius()
+	return 200
+end
+
+function modifier_ram_wind_thinker:GetAuraDuration()
+	return 0
+end
+
+function modifier_ram_wind_thinker:GetAuraSearchTeam()
+	return DOTA_UNIT_TARGET_TEAM_ENEMY
+end
+
+function modifier_ram_wind_thinker:GetAuraSearchType()
+	return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC
+end
+
+function modifier_ram_wind_thinker:OnCreated( kv )
+    if not IsServer() then return end
+    self.end_point = Vector(kv.x,kv.y,kv.z)
+    self.direction = self.end_point - self:GetParent():GetAbsOrigin()
+    self.direction.z = 0
+    self.direction = self.direction:Normalized()
+
+    self.radius = self:GetAbility():GetSpecialValueFor("radius")
+    self.effect_cast = ParticleManager:CreateParticle( "particles/ram_emp.vpcf", PATTACH_WORLDORIGIN, self:GetParent() )
+    ParticleManager:SetParticleControl( self.effect_cast, 0, self:GetParent():GetOrigin() )
+    ParticleManager:SetParticleControl( self.effect_cast, 1, Vector( self.radius, 0, 0 ) )
+    self:AddParticle(self.effect_cast, false, false, -1, false, false)
+    EmitSoundOnLocationWithCaster( self:GetParent():GetOrigin(), "Hero_Invoker.EMP.Charge", self:GetCaster() )
+    self.mana_burned = self:GetAbility():GetSpecialValueFor("mana_burn")
+    self:StartIntervalThink(0.01)
+end
+
+function modifier_ram_wind_thinker:OnIntervalThink()
+    if not IsServer() then return end
+    local new_point = self:GetParent():GetAbsOrigin() + self.direction * (self:GetAbility():GetSpecialValueFor("speed") * 0.01)
+    local length = (self.end_point - new_point):Length2D()
+    if length <= 15 then return end
+    self:GetParent():SetAbsOrigin(new_point)
+    ParticleManager:SetParticleControl( self.effect_cast, 0, self:GetParent():GetOrigin() )
+end
+
+function modifier_ram_wind_thinker:OnDestroy( kv )
+    if not IsServer() then return end
+    local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetParent():GetOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MANA_ONLY, 0, false )
+
+    for _,enemy in pairs(enemies) do
+        local mana_burn = math.min( enemy:GetMana(), enemy:GetMana() / 100 * self.mana_burned )
+        enemy:Script_ReduceMana( mana_burn, self:GetAbility() )
+        self:GetCaster():GiveMana(mana_burn * self:GetAbility():GetSpecialValueFor("mana_add"))
+        local damageTable = { attacker = self:GetCaster(), victim = enemy, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility(), damage = (self:GetAbility():GetSpecialValueFor("damage") * #enemies) + mana_burn }
+        ApplyDamage(damageTable)
+    end
+
+    EmitSoundOnLocationWithCaster( self:GetParent():GetOrigin(), "Hero_Invoker.EMP.Discharge", self:GetCaster() )
+    UTIL_Remove( self:GetParent() )
+end
+
+modifier_ram_wind_thinker_pull = class({})
+
+function modifier_ram_wind_thinker_pull:IsPurgable() return false end
+function modifier_ram_wind_thinker_pull:IsHidden() return true end
+function modifier_ram_wind_thinker_pull:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+
+function modifier_ram_wind_thinker_pull:OnCreated()
+	if not IsServer() then return end
+	self:StartIntervalThink(0.01)
+end
+
+function modifier_ram_wind_thinker_pull:OnIntervalThink()
+	if not IsServer() then return end
+	if not self:GetParent():IsCurrentlyHorizontalMotionControlled() and not self:GetParent():IsCurrentlyVerticalMotionControlled() then
+        if self:GetAuraOwner() and not self:GetAuraOwner():IsNull() then
+            local speed = self:GetAbility():GetSpecialValueFor("pull_speed")
+            local vect = (self:GetParent():GetAbsOrigin() - self:GetAuraOwner():GetAbsOrigin()):Normalized()
+            if (self:GetParent():GetAbsOrigin() - self:GetAuraOwner():GetAbsOrigin()):Length2D() >= 100 then 
+                self:GetParent():SetAbsOrigin(self:GetParent():GetAbsOrigin() - vect* (speed * 0.01))
+            end
+        end
+	end
+end
+
+function modifier_ram_wind_thinker_pull:CheckState()
+    return
+    {
+        [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+    }
+end
+
+function modifier_ram_wind_thinker_pull:OnDestroy()
+	if not IsServer() then return end
+	if not self:GetParent():IsCurrentlyHorizontalMotionControlled() and not self:GetParent():IsCurrentlyVerticalMotionControlled() then
+		FindClearSpaceForUnit(self:GetParent(), self:GetParent():GetAbsOrigin(), true)
+	end
 end

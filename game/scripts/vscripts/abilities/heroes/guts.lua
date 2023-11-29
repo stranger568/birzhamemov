@@ -9,9 +9,9 @@ end
 
 function Guts_Hand:GetCastRange(location, target)
 	if self:GetCaster():HasShard() then
-		return self:GetSpecialValueFor("shard_cast_range")	
+		return self:GetSpecialValueFor("shard_cast_range")	 + self:GetCaster():FindTalentValue("special_bonus_birzha_guts_2")
 	end
-    return self.BaseClass.GetCastRange(self, location, target)
+    return self.BaseClass.GetCastRange(self, location, target) + self:GetCaster():FindTalentValue("special_bonus_birzha_guts_2")
 end
 
 function Guts_Hand:GetBehavior()
@@ -39,7 +39,6 @@ function Guts_Hand:OnSpellStart()
 	local vision_radius = self:GetSpecialValueFor("vision_radius")
 	local bolt_speed = self:GetSpecialValueFor("bolt_speed")
 	self:GetCaster():EmitSound("Hero_Sven.StormBolt")
-	self:GetCaster():StartGesture(ACT_DOTA_OVERRIDE_ABILITY_3)
 
 	local projectile =
 	{
@@ -63,7 +62,6 @@ function Guts_Hand:OnSpellStart()
 	}
 
 	ProjectileManager:CreateTrackingProjectile(projectile)
-	self:GetCaster():RemoveGesture(ACT_DOTA_OVERRIDE_ABILITY_3)
 end
 
 function Guts_Hand:OnProjectileHit_ExtraData(target, location, ExtraData)
@@ -103,7 +101,7 @@ LinkLuaModifier( "modifier_guts_cannon_debuff", "abilities/heroes/guts.lua", LUA
 guts_cannon = class({})
 
 function guts_cannon:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_guts_2")
+    return self.BaseClass.GetCooldown( self, level )
 end
 
 function guts_cannon:GetCastRange(location, target)
@@ -318,7 +316,7 @@ function Guts_InimitableTactician:OnSpellStart()
 		end
 	end
 
-	caster:StartGestureWithPlaybackRate( ACT_DOTA_ATTACK, 3 )
+	caster:StartGestureWithPlaybackRate( ACT_DOTA_ATTACK_EVENT, 1 )
 
 	local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_mars/mars_shield_bash_crit.vpcf", PATTACH_ABSORIGIN, caster)
 	ParticleManager:SetParticleControl(particle, 0, caster:GetAbsOrigin())
@@ -360,7 +358,7 @@ function modifier_guts_InimitableTactician:GetModifierPreAttack_CriticalStrike(p
         ParticleManager:ReleaseParticleIndex(crit_pfx)
 
     	self.attack_record = params.record
-        return self:GetAbility():GetSpecialValueFor("crit")
+        return self:GetAbility():GetSpecialValueFor("crit") + self:GetCaster():FindTalentValue("special_bonus_birzha_guts_5")
    	end
 end
 
@@ -428,9 +426,9 @@ function modifier_guts_DarkArmor:GetModifierMagicalResistanceBonus()
 end
 
 function modifier_guts_DarkArmor:GetModifierPhysicalArmorBonus()
-	return self:GetAbility():GetSpecialValueFor("bonus_armor") + self:GetCaster():FindTalentValue("special_bonus_birzha_guts_5")
+	return self:GetAbility():GetSpecialValueFor("bonus_armor")
 end
 
 function modifier_guts_DarkArmor:GetModifierModelChange()
-	return "models/heroes/anime/berserk/berserk/berserk.vmdl"
+	return "models/update_heroes/guts/guts_form.vmdl"
 end

@@ -452,9 +452,9 @@ function orb_manager:Add( modifier, particle )
 
     if modifier:GetCaster().invoked_orbs_particle_attach == nil then
         modifier:GetCaster().invoked_orbs_particle_attach = {}
-        modifier:GetCaster().invoked_orbs_particle_attach[1] = "attach_attack1"
-        modifier:GetCaster().invoked_orbs_particle_attach[2] = "attach_attack2"
-        modifier:GetCaster().invoked_orbs_particle_attach[3] = "attach_attack1"
+        modifier:GetCaster().invoked_orbs_particle_attach[1] = "attach_orb1"
+        modifier:GetCaster().invoked_orbs_particle_attach[2] = "attach_orb2"
+        modifier:GetCaster().invoked_orbs_particle_attach[3] = "attach_orb3"
     end
 
     if modifier:GetCaster().invoked_orbs_particle[1] ~= nil then
@@ -1905,7 +1905,7 @@ end
 
 modifier_kakashi_ligning_sphere = class({})
 
-function modifier_kakashi_ligning_sphere:IsPurgable() return false end
+function modifier_kakashi_ligning_sphere:IsPurgable() return true end
 function modifier_kakashi_ligning_sphere:IsHidden() return true end
 
 function modifier_kakashi_ligning_sphere:OnCreated()
@@ -1997,7 +1997,11 @@ end
 function kakashi_meteor:OnSpellStart()
     if not IsServer() then return end
     local point = self:GetCursorPosition()
-    CreateModifierThinker(self:GetCaster(), self, "modifier_kakashi_meteor_thinker", {creator = self:GetCaster():entindex(), main = 1}, point, self:GetCaster():GetTeamNumber(), false)
+    local bonus_count = 1
+    if self:GetCaster():HasShard() then
+        bonus_count = bonus_count + 1
+    end
+    CreateModifierThinker(self:GetCaster(), self, "modifier_kakashi_meteor_thinker", {creator = self:GetCaster():entindex(), bonus_count = bonus_count}, point, self:GetCaster():GetTeamNumber(), false)
 end
 
 modifier_kakashi_meteor_thinker = class({})
@@ -2007,7 +2011,7 @@ function modifier_kakashi_meteor_thinker:IsHidden() return true end
 function modifier_kakashi_meteor_thinker:OnCreated(params)
     if not IsServer() then return end
     self.creator = EntIndexToHScript(params.creator)
-    self.main = params.main
+    self.bonus_count = params.bonus_count
     if self.creator then
         self.start_origin = self:GetParent():GetAbsOrigin()
         local delay = self:GetAbility():GetSpecialValueFor("delay") - 0.5
@@ -2036,9 +2040,10 @@ function modifier_kakashi_meteor_thinker:OnCreated(params)
 end
 
 function modifier_kakashi_meteor_thinker:OnIntervalThink()
+    if not IsServer() then return end
     EmitSoundOnLocationWithCaster( self:GetParent():GetAbsOrigin(), "Hero_Invoker.ChaosMeteor.Impact", self:GetCaster() )
     self:MeteorDamage()
-    if self.main == 1 or self:GetCaster():HasShard() then
+    if self.bonus_count > 0 then
         self:CheckUnitsInRadius()
     end
     if not self:IsNull() then
@@ -2055,7 +2060,7 @@ function modifier_kakashi_meteor_thinker:CheckUnitsInRadius()
     local radius = self:GetAbility():GetSpecialValueFor("radius")
     local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, 0, false )
     if #enemies <= 0 then return end
-    CreateModifierThinker(self:GetCaster(), self:GetAbility(), "modifier_kakashi_meteor_thinker", {creator = self:GetParent():entindex(), main = 0}, self:GetParent():GetAbsOrigin(), self:GetCaster():GetTeamNumber(), false)
+    CreateModifierThinker(self:GetCaster(), self:GetAbility(), "modifier_kakashi_meteor_thinker", {creator = self:GetParent():entindex(), bonus_count = self.bonus_count - 1}, self:GetParent():GetAbsOrigin(), self:GetCaster():GetTeamNumber(), false)
 end
 
 function modifier_kakashi_meteor_thinker:MeteorDamage()
@@ -2207,38 +2212,10 @@ function kakashi_sharingan:CastFilterResultTarget( hTarget )
 end
 
 function kakashi_sharingan:GetCooldown(iLevel)
-    local abilities_copy = {
-        [1] = "kakashi_lightning",
-        [2] = "kakashi_raikiri",
-        [3] = "kakashi_lightning_hit",
-        [4] = "kakashi_shadow_clone",
-        [5] = "kakashi_tornado",
-        [6] = "kakashi_graze_wave",
-        [7] = "kakashi_susano",
-        [8] = "kakashi_ligning_sphere",
-        [9] = "kakashi_meteor",
-    } 
-    local cooldown = 0
-    local modifier_stacks = self:GetCaster():GetModifierStackCount("modifier_kakashi_sharingan", self:GetCaster())
-    for id, abiliti_name in pairs(abilities_copy) do
-        if id == modifier_stacks then
-            local ability = self:GetCaster():FindAbilityByName(abiliti_name)
-            if ability then
-                cooldown = ability:GetCooldown(iLevel)
-                break
-            end
-        end
-    end
     if self:GetCaster():HasScepter() then
-        return 0
+        return self:GetSpecialValueFor("cooldown_scepter")
     end
-    if modifier_stacks == 5 then
-        return 5
-    end
-    if modifier_stacks == 6 then
-        return 15
-    end
-    return cooldown
+    return 30
 end
 
 function kakashi_sharingan:OnSpellStart()

@@ -21,7 +21,7 @@ function gorshok_death_anarhia:OnSpellStart()
     self.count = self:GetSpecialValueFor( "zombies_count" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_gorshok_7")
 
     if not self:GetCaster():HasTalent("special_bonus_birzha_gorshok_6") then
-        for _, unit in pairs(FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED, FIND_ANY_ORDER, false)) do
+        for _, unit in pairs(FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED + DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD, FIND_ANY_ORDER, false)) do
             if unit:GetUnitName() == "npc_gorshok_mini_zombie" and unit:GetOwner() == self:GetCaster() then
                 unit:ForceKill(false)               
             end
@@ -247,7 +247,7 @@ function modifier_gorshok_writer_goodwin_caster:GetAuraSearchType()
 end
 
 function modifier_gorshok_writer_goodwin_caster:GetAuraSearchFlags()
-    return DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED
+    return DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED + DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD
 end
 
 modifier_gorshok_writer_goodwin_aura = class({})
@@ -339,7 +339,7 @@ end
 function gorshok_evil_dance:OnSpellStart()
     if not IsServer() then return end
     local duration = self:GetSpecialValueFor( "duration" )
-    for _, unit in pairs(FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED, FIND_ANY_ORDER, false)) do
+    for _, unit in pairs(FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED + DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD, FIND_ANY_ORDER, false)) do
         unit:AddNewModifier(self:GetCaster(), self, "modifier_gorshok_evil_dance", {duration = duration})
     end
     self:GetCaster():EmitSound("GorshokDance")
@@ -392,7 +392,7 @@ end
 function gorshok_wodoo:OnSpellStart()
     if not IsServer() then return end
     local duration = self:GetSpecialValueFor( "duration" )
-    for _, unit in pairs(FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED, FIND_ANY_ORDER, false)) do
+    for _, unit in pairs(FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED + DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD, FIND_ANY_ORDER, false)) do
         unit:AddNewModifier(self:GetCaster(), self, "modifier_gorshok_wodoo_movespeed", {duration = duration})
         unit:AddNewModifier(self:GetCaster(), self, "modifier_movespeed_cap", {duration = duration})
     end
@@ -449,7 +449,7 @@ function modifier_gorshok_wodoo:OnTakeDamage( params )
     local parent = self:GetParent()
     local target = params.unit
     if parent == params.attacker:GetOwner() and target:GetTeamNumber() ~= parent:GetTeamNumber() then 
-        local controlled = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED, FIND_ANY_ORDER, false)
+        local controlled = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED + DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD, FIND_ANY_ORDER, false)
         for i = #controlled, 1, -1 do
             if controlled[i] ~= nil and controlled[i]:GetUnitName() ~= "npc_gorshok_hunt" then
                 table.remove(controlled, i)

@@ -6,6 +6,7 @@ item_demon_paper = class({})
 function item_demon_paper:OnSpellStart()
 	if not IsServer() then return end
 	local duration = self:GetSpecialValueFor("duration")
+	self:GetCaster():Purge(false, true, false, false, false)
 	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_item_demon_paper_active", {duration = duration})
 	self:GetCaster():EmitSound("DOTA_Item.Satanic.Activate")
 end
@@ -37,13 +38,15 @@ function modifier_item_demon_paper:DeclareFunctions()
 end
 
 function modifier_item_demon_paper:GetModifierBonusStats_Strength()
-	if not IsServer() then return end
 	return self:GetAbility():GetSpecialValueFor("bonus_strength")
 end
 
 function modifier_item_demon_paper:GetModifierPreAttack_BonusDamage()
-	if not IsServer() then return end
 	return self:GetAbility():GetSpecialValueFor("bonus_damage")
+end
+
+function modifier_item_demon_paper:GetModifierStatusResistanceStacking()
+	return self:GetAbility():GetSpecialValueFor("status_resistance")
 end
 
 function modifier_item_demon_paper:OnTakeDamage(params)

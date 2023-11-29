@@ -141,20 +141,21 @@ function modifier_item_angel_boots_aura:OnCreated()
 end
 
 function modifier_item_angel_boots_aura:OnIntervalThink()
-    if self:GetParent():GetHealthPercent() > 30 then
+    if self:GetParent():GetHealthPercent() > 25 then
         self.bonus_regen = self.regen_aura
         self.bonus_armor = self.armor_aura
     else
-        self.bonus_regen = self.regen_aura * 2
-        self.bonus_armor = self.armor_aura * 3
+        self.bonus_regen = self.regen_aura * 4
+        self.bonus_armor = self.armor_aura * 2
     end
 end
 
 function modifier_item_angel_boots_aura:DeclareFunctions()
-return  {
-            MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
-            MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
-        }
+    return  
+    {
+        MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
+        MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
+    }
 end
 
 function modifier_item_angel_boots_aura:GetModifierConstantHealthRegen()

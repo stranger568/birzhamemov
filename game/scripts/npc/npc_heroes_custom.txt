@@ -37,14 +37,14 @@
 		"difficulty"	"Pick_medium"
 		"role_hero"		"Pick_Carry"
 
-		"Ability10"		"special_bonus_birzha_bukin_1"
-		"Ability11"		"special_bonus_birzha_bukin_2"
-		"Ability12"		"special_bonus_birzha_bukin_3"
-		"Ability13"		"special_bonus_birzha_bukin_4"
-		"Ability14"		"special_bonus_birzha_bukin_5"
+		"Ability10"		"special_bonus_birzha_bukin_3"
+		"Ability11"		"special_bonus_birzha_bukin_1"
+		"Ability12"		"special_bonus_birzha_bukin_5"
+		"Ability13"		"special_bonus_birzha_bukin_8"
+		"Ability14"		"special_bonus_birzha_bukin_4"
 		"Ability15"		"special_bonus_birzha_bukin_6"
-		"Ability16"		"special_bonus_birzha_bukin_7"
-		"Ability17"		"special_bonus_birzha_bukin_8"
+		"Ability16"		"special_bonus_unique_bukin_2"
+		"Ability17"		"special_bonus_birzha_bukin_7"
 	}
 
 	//=================================================================================================================
@@ -73,10 +73,10 @@
 		"role_hero"		"Pick_Carry"
 
 		"Ability10"		"special_bonus_birzha_brb_1"
-		"Ability11"		"special_bonus_birzha_brb_2"
-		"Ability12"		"special_bonus_birzha_brb_3"
-		"Ability13"		"special_bonus_birzha_brb_4"
-		"Ability14"		"special_bonus_birzha_brb_5"
+		"Ability11"		"special_bonus_birzha_brb_5"
+		"Ability12"		"special_bonus_birzha_brb_2"
+		"Ability13"		"special_bonus_birzha_brb_3"
+		"Ability14"		"special_bonus_birzha_brb_4"
 		"Ability15"		"special_bonus_birzha_brb_6"
 		"Ability16"		"special_bonus_birzha_brb_7"
 		"Ability17"		"special_bonus_birzha_brb_8"
@@ -87,7 +87,7 @@
 	//=================================================================================================================
 	"npc_dota_hero_slardar"
 	{
-		"Model"             		"models/scp_682/scp_crock_reference.vmdl"
+		"Model"             		"models/update_heroes/scp192/scp192.vmdl"
 		"DisableWearables"			"1"
 		"ModelScale"				"1.3"
 
@@ -97,7 +97,7 @@
 		"Ability4"					"generic_hidden"
 		"Ability5"					"generic_hidden"
 		"Ability6"					"scp682_ultimate"
-		"Ability25"		""
+		"Ability25"		            ""
 
 		"AttributeBaseStrength"			"25"
 		"AttributeStrengthGain"			"2.9"
@@ -268,12 +268,12 @@
 		"difficulty"					"Pick_easy"
 		"role_hero"						"Pick_Carry"
 
-		"Ability10"				"special_bonus_birzha_papich_1"
-		"Ability11"				"special_bonus_birzha_papich_2"
-		"Ability12"				"special_bonus_birzha_papich_3"
-		"Ability13"				"special_bonus_birzha_papich_4"
-		"Ability14"				"special_bonus_birzha_papich_5"
-		"Ability15"				"special_bonus_birzha_papich_6"
+		"Ability10"				"special_bonus_birzha_papich_2"
+		"Ability11"				"special_bonus_birzha_papich_3"
+		"Ability12"				"special_bonus_birzha_papich_1"
+		"Ability13"				"special_bonus_birzha_papich_5"
+		"Ability14"				"special_bonus_birzha_papich_6"
+		"Ability15"				"special_bonus_birzha_papich_4"
 		"Ability16"				"special_bonus_birzha_papich_7"
 		"Ability17"				"special_bonus_birzha_papich_8"
 	}
@@ -305,7 +305,7 @@
 		"Ability11"		"special_bonus_birzha_vjlink_2"
 		"Ability12"		"special_bonus_birzha_vjlink_3"
 		"Ability13"		"special_bonus_birzha_vjlink_4"
-		"Ability14"		"special_bonus_unique_keeper_of_the_light_13"
+		"Ability14"		"special_bonus_unique_vjlink_5"
 		"Ability15"		"special_bonus_birzha_vjlink_6"
 		"Ability16"		"special_bonus_birzha_vjlink_7"
 		"Ability17"		"special_bonus_birzha_vjlink_8"		
@@ -391,7 +391,7 @@
 		"BaseClass"					"npc_dota_hero_tinker"
 		"HeroID"					"169"
 		"ModelScale"				"0.5"
-		"Model"						"models/migi/migi.vmdl"
+		"Model"						"models/update_heroes/migi/migi.vmdl"
 		"DisableWearables"			"1"
 
 		"Ability1"					"migi_inside"
@@ -427,7 +427,7 @@
 		"AttributePrimary"			"DOTA_ATTRIBUTE_STRENGTH"
 
 		"AttributeBaseStrength"		"17"
-		"AttributeStrengthGain"		"3.000000"
+		"AttributeStrengthGain"		"2.000000"
 		"AttributeBaseAgility"		"14"
 		"AttributeAgilityGain"		"1.600000"
 		"AttributeBaseIntelligence"		"23"
@@ -465,11 +465,11 @@
 		"difficulty"	"Pick_medium"
 		"role_hero"		"Pick_Carry"
 		
-		"Ability10"		"special_bonus_birzha_navalny_1"
-		"Ability11"		"special_bonus_birzha_navalny_2"
+		"Ability10"		"special_bonus_birzha_navalny_5"
+		"Ability11"		"special_bonus_birzha_navalny_1"
 		"Ability12"		"special_bonus_birzha_navalny_3"
 		"Ability13"		"special_bonus_birzha_navalny_4"
-		"Ability14"		"special_bonus_birzha_navalny_5"
+		"Ability14"		"special_bonus_birzha_navalny_2"
 		"Ability15"		"special_bonus_birzha_navalny_6"
 		"Ability16"		"special_bonus_birzha_navalny_7"
 		"Ability17"		"special_bonus_birzha_navalny_8"
@@ -483,8 +483,8 @@
 		"Ability1"				"mum_meat_hook"
 		"Ability2"				"mum_arrows_of_death"
 		"Ability3"				"mum_fart"
-		"Ability4"				"mum_flesh_heap"
-		"Ability5"				"generic_hidden"
+		"Ability4"				"mum_change_hook_style"
+		"Ability5"				"mum_flesh_heap"
 		"Ability6"				"fut_mum_eat"
 		"Ability25"		""
 
@@ -499,14 +499,14 @@
 		"difficulty"	"Pick_medium"
 		"role_hero"		"Pick_Killer"
 		
-		"Ability10"		"special_bonus_birzha_mum_3"
-		"Ability11"		"special_bonus_birzha_mum_2"
+		"Ability10"		"special_bonus_strength_10"
+		"Ability11"		"special_bonus_birzha_mum_3"
 		"Ability12"		"special_bonus_birzha_mum_4"
-		"Ability13"		"special_bonus_birzha_mum_1"
-		"Ability14"		"special_bonus_birzha_mum_5"
-		"Ability15"		"special_bonus_birzha_mum_6"
-		"Ability16"		"special_bonus_birzha_mum_8"
-		"Ability17"		"special_bonus_birzha_mum_7"
+		"Ability13"		"special_bonus_birzha_mum_7"
+		"Ability14"		"special_bonus_birzha_mum_6"
+		"Ability15"		"special_bonus_birzha_mum_5"
+		"Ability16"		"special_bonus_birzha_mum_1"
+		"Ability17"		"special_bonus_birzha_mum_2"
 	}
 	//=================================================================================================================
 	// Веном
@@ -515,7 +515,7 @@
 	{
 		"BaseClass"						"npc_dota_hero_night_stalker"
 		"HeroID"						"184"
-		"ModelScale"					"1"
+		"ModelScale"					"0.8"
 		"Model"							"models/venom/venom.vmdl"
 		"DisableWearables"				"1"
 		"SoundSet"						"Hero_LifeStealer"
@@ -529,12 +529,12 @@
 	    "Ability5"						"generic_hidden"
 	    "Ability6"						"venom_hunger"
 	
-		"Ability10"						"special_bonus_unique_death_prophet_5"
+		"Ability10"						"special_bonus_unique_venom_2"
 		"Ability11"						"special_bonus_birzha_venom_6"				
 		"Ability12"						"special_bonus_birzha_venom_3"
 		"Ability13"						"special_bonus_birzha_venom_4"				
 		"Ability14"						"special_bonus_birzha_venom_5"
-		"Ability15"						"special_bonus_unique_batrider_5"
+		"Ability15"						"special_bonus_unique_venom_1"
 		"Ability16"						"special_bonus_birzha_venom_2"
 		"Ability17"						"special_bonus_birzha_venom_8"
 		"Ability25"						""
@@ -594,12 +594,12 @@
 		
 		"Ability10"		"special_bonus_birzha_azazin_1"
 		"Ability11"		"special_bonus_birzha_azazin_2"
-		"Ability12"		"special_bonus_birzha_azazin_3"
-		"Ability13"		"special_bonus_birzha_azazin_4"
-		"Ability14"		"special_bonus_birzha_azazin_5"
-		"Ability15"		"special_bonus_birzha_azazin_6"
-		"Ability16"		"special_bonus_birzha_azazin_7"
-		"Ability17"		"special_bonus_birzha_azazin_8"
+		"Ability12"		"special_bonus_birzha_azazin_4"
+		"Ability13"		"special_bonus_birzha_azazin_8"
+		"Ability14"		"special_bonus_birzha_azazin_6"
+		"Ability15"		"special_bonus_birzha_azazin_5"
+		"Ability16"		"special_bonus_birzha_azazin_3"
+		"Ability17"		"special_bonus_birzha_azazin_7"
 	}
 
 	//=================================================================================================================
@@ -665,8 +665,8 @@
 	{	
 		"IsAnime"	"1"
 		"DisableWearables"				"1"
-		"ModelScale"					"0.5"
-		"model"				"models/heroes/anime/rwby/ruby/ruby_basic.vmdl"
+		"ModelScale"					"0.4"
+		"model"				"models/update_heroes/kaneki/kaneki.vmdl"
 		"Ability1"			"kaneki_pull"
 		"Ability2"			"kaneki_coffee"
 		"Ability3"			"kaneki_ghoul"
@@ -688,12 +688,12 @@
 		
 		"Ability10"		"special_bonus_birzha_kaneki_1"
 		"Ability11"		"special_bonus_birzha_kaneki_2"
-		"Ability12"		"special_bonus_birzha_kaneki_3"
-		"Ability13"		"special_bonus_birzha_kaneki_4"
+		"Ability12"		"special_bonus_birzha_kaneki_4"
+		"Ability13"		"special_bonus_birzha_kaneki_6"
 		"Ability14"		"special_bonus_birzha_kaneki_5"
-		"Ability15"		"special_bonus_birzha_kaneki_6"
-		"Ability16"		"special_bonus_birzha_kaneki_7"
-		"Ability17"		"special_bonus_unique_keeper_of_the_light_11"
+		"Ability15"		"special_bonus_birzha_kaneki_3"
+		"Ability16"		"special_bonus_unique_birzha_kaneki_8"
+		"Ability17"		"special_bonus_birzha_kaneki_7"
 	}
 
 	//=================================================================================================================
@@ -703,7 +703,7 @@
 	{
 		"BaseClass"						"npc_dota_hero_shadow_shaman"
 		"HeroID"						"179"
-		"ModelScale"					"0.85"
+		"ModelScale"					"0.4"
 		"Model"							"models/nolik/nolik.vmdl"
 		"DisableWearables"				"1"
 		"SoundSet"						"Hero_ShadowShaman"
@@ -895,14 +895,14 @@
 		"difficulty"	"Pick_medium"
 		"role_hero"		"Pick_Tank"
 
-		"Ability10"		"special_bonus_birzha_face_1"
+		"Ability10"		"special_bonus_birzha_face_6"
 		"Ability11"		"special_bonus_birzha_face_2"
-		"Ability13"		"special_bonus_birzha_face_3"
-		"Ability12"		"special_bonus_birzha_face_4"
-		"Ability14"		"special_bonus_birzha_face_5"
-		"Ability15"		"special_bonus_birzha_face_6"
-		"Ability16"		"special_bonus_birzha_face_7"
-		"Ability17" 	"special_bonus_birzha_face_8"
+		"Ability13"		"special_bonus_birzha_face_8"
+		"Ability12"		"special_bonus_birzha_face_5"
+		"Ability14"		"special_bonus_birzha_face_3"
+		"Ability15"		"special_bonus_birzha_face_4"
+		"Ability16"		"special_bonus_birzha_face_1"
+		"Ability17" 	"special_bonus_birzha_face_7"
 	}
 
 	//=================================================================================================================
@@ -1064,13 +1064,13 @@
 		"role_hero"		"Pick_Killer"
 		
 		"Ability10"		"special_bonus_birzha_bullet_1"
-		"Ability11"		"special_bonus_birzha_bullet_2"
-		"Ability12"		"special_bonus_birzha_bullet_3"
-		"Ability13"		"special_bonus_birzha_bullet_4"
-		"Ability14"		"special_bonus_birzha_bullet_5"
+		"Ability11"		"special_bonus_birzha_bullet_3"
+		"Ability12"		"special_bonus_birzha_bullet_5"
+		"Ability13"		"special_bonus_birzha_bullet_2"
+		"Ability14"		"special_bonus_birzha_bullet_7"
 		"Ability15"		"special_bonus_birzha_bullet_6"
-		"Ability16"		"special_bonus_birzha_bullet_7"
-		"Ability17"		"special_bonus_birzha_bullet_8"
+		"Ability16"		"special_bonus_birzha_bullet_8"
+		"Ability17"		"special_bonus_birzha_bullet_4"
 	}
 
 	//=================================================================================================================
@@ -1113,9 +1113,9 @@
 	//=================================================================================================================
 	"npc_dota_hero_treant"
 	{
-		"Model"             		"models/models/heroes/overlord/overlord.vmdl"
+		"Model"             		"models/update_heroes/overlord_game/overlord.vmdl"
 		"DisableWearables"			"1"
-		"ModelScale"		"0.940000"
+		"ModelScale"		"0.840000"
 		"SoundSet"			"Hero_Sven"
 		
 		"Ability1"					"overlord_prihvosti"
@@ -1197,9 +1197,9 @@
 	//=================================================================================================================
     "npc_dota_hero_spectre"
 	{
-		"Model"	"models/heroes/anime/ghoul/kaneki/kaneki_base/kaneki_base.vmdl"
+		"Model"	"models/update_heroes/ruby/ruby.vmdl"
 		"DisableWearables"				"1"
-		"ModelScale"		"1.270000"
+		"ModelScale"		"0.9"
 		"IsAnime"	"1"
 
         "Ability1" "ruby_ranged_mode"
@@ -1221,13 +1221,13 @@
 		"role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_ruby_1"
-		"Ability11"		"special_bonus_unique_keeper_of_the_light_4"
+		"Ability11"		"special_bonus_unique_ruby_2"
 		"Ability12"		"special_bonus_birzha_ruby_3"
 		"Ability13"		"special_bonus_birzha_ruby_4"
 		"Ability14"		"special_bonus_birzha_ruby_5"
 		"Ability15"		"special_bonus_birzha_ruby_6"
 		"Ability16"		"special_bonus_birzha_ruby_7"
-		"Ability17"		"special_bonus_unique_keeper_of_the_light_5"
+		"Ability17"		"special_bonus_unique_ruby_8"
 	}
 
 	//=================================================================================================================
@@ -1235,9 +1235,9 @@
 	//=================================================================================================================
 	"npc_dota_hero_centaur"
 	{
-		"Model"             	"models/heroes/goku/goku.vmdl"
+		"Model"             	"models/update_heroes/goku/goku_base.vmdl"
 		"DisableWearables"		"1"
-		"ModelScale"			"0.95"
+		"ModelScale"			"0.85"
 
 		"Ability1"					"goku_kamehame"
 		"Ability2"					"goku_merni_attacks"
@@ -1256,7 +1256,7 @@
 		"AttackRate"			"1.7"
 		"BaseAttackSpeed"		"123"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
-		"AttackRange"			"150"
+		"AttackRange"			"140"
 		"MovementSpeed"			"290"
 		"StatusManaRegen"		"1.15"
 		"difficulty"	"Pick_hard"
@@ -1334,12 +1334,12 @@
 		"difficulty"	"Pick_medium"
 		"role_hero"		"Pick_Carry"
 		
-		"Ability10"		"special_bonus_birzha_pistoletov_1"
-		"Ability11"		"special_bonus_birzha_pistoletov_2"
-		"Ability12"		"special_bonus_birzha_pistoletov_3"
-		"Ability13"		"special_bonus_unique_keeper_of_the_light_3"
-		"Ability14"		"special_bonus_birzha_pistoletov_5"
-		"Ability15"		"special_bonus_birzha_pistoletov_6"
+		"Ability10"		"special_bonus_birzha_pistoletov_2"
+		"Ability11"		"special_bonus_birzha_pistoletov_5"
+		"Ability12"		"special_bonus_birzha_pistoletov_1"
+		"Ability13"		"special_bonus_birzha_pistoletov_6"
+		"Ability14"		"special_bonus_unique_pistoletov_4"
+		"Ability15"		"special_bonus_birzha_pistoletov_3"
 		"Ability16"		"special_bonus_birzha_pistoletov_7"
 		"Ability17"		"special_bonus_birzha_pistoletov_8"
 	}
@@ -1367,15 +1367,14 @@
 		"difficulty"	"Pick_easy"
 		"role_hero"		"Pick_Tank"
 		
-		"Ability10"		"special_bonus_birzha_garold_1"
+		"Ability17"		"special_bonus_birzha_garold_8"
+		"Ability16"		"special_bonus_birzha_garold_5"
+		"Ability15"		"special_bonus_birzha_garold_6"
+		"Ability14"		"special_bonus_birzha_garold_4"
+		"Ability13"		"special_bonus_birzha_garold_7"
+		"Ability12"		"special_bonus_birzha_garold_3"
 		"Ability11"		"special_bonus_birzha_garold_2"
-
-		"Ability12"		"special_bonus_birzha_garold_7"
-		"Ability13"		"special_bonus_birzha_garold_3"
-		"Ability14"		"special_bonus_birzha_garold_6"
-		"Ability15"		"special_bonus_birzha_garold_4"
-		"Ability16"		"special_bonus_birzha_garold_8"
-		"Ability17"		"special_bonus_birzha_garold_5"
+		"Ability10"		"special_bonus_birzha_garold_1"
 	}
 
 	//=================================================================================================================
@@ -1404,10 +1403,10 @@
 		"difficulty"	"Pick_medium"
 		"role_hero"		"Pick_Carry"
 		
-		"Ability10"		"special_bonus_birzha_johncena_1"
-		"Ability11"		"special_bonus_birzha_johncena_2"
+		"Ability10"		"special_bonus_birzha_johncena_4"
+		"Ability11"		"special_bonus_birzha_johncena_1"
 		"Ability12"		"special_bonus_birzha_johncena_3"
-		"Ability13"		"special_bonus_birzha_johncena_4"
+		"Ability13"		"special_bonus_birzha_johncena_2"
 		"Ability14"		"special_bonus_birzha_johncena_5"
 		"Ability15"		"special_bonus_birzha_johncena_6"
 		"Ability16"		"special_bonus_birzha_johncena_7"
@@ -1455,8 +1454,8 @@
 	{
 		"IsAnime"						"1"
 		"DisableWearables"				"1"
-		"ModelScale"					"1.1"
-		"Model"							"models/heroes/anime/berserk/guts/guts.vmdl"
+		"ModelScale"					"1"
+		"Model"							"models/update_heroes/guts/guts.vmdl"
 
         "Ability1" "Guts_Hand"
         "Ability2" "guts_cannon"
@@ -1477,14 +1476,14 @@
 		"difficulty"	"Pick_easy"
 		"role_hero"		"Pick_Carry"
 
-		"Ability10"		"special_bonus_birzha_guts_1"
-		"Ability11"		"special_bonus_birzha_guts_2"
-		"Ability12"		"special_bonus_birzha_guts_3"
-		"Ability13"		"special_bonus_birzha_guts_4"
-		"Ability14"		"special_bonus_birzha_guts_5"
-		"Ability15"		"special_bonus_birzha_guts_6"
-		"Ability16"		"special_bonus_birzha_guts_7"
-		"Ability17"		"special_bonus_birzha_guts_8"
+		"Ability10"		"special_bonus_birzha_guts_3"
+		"Ability11"		"special_bonus_birzha_guts_1"
+		"Ability12"		"special_bonus_birzha_guts_8"
+		"Ability13"		"special_bonus_birzha_guts_2"
+		"Ability14"		"special_bonus_birzha_guts_4"
+		"Ability15"		"special_bonus_birzha_guts_5"
+		"Ability16"		"special_bonus_birzha_guts_6"
+		"Ability17"		"special_bonus_birzha_guts_7"
 	}
 
 	//=================================================================================================================
@@ -1516,12 +1515,12 @@
 
 		"Ability10"		"special_bonus_birzha_grem_1"
 		"Ability11"		"special_bonus_birzha_grem_2"
-		"Ability12"		"special_bonus_birzha_grem_3"
+		"Ability12"		"special_bonus_birzha_grem_5"
 		"Ability13"		"special_bonus_birzha_grem_4"	
-		"Ability14"		"special_bonus_birzha_grem_5"
-		"Ability15"		"special_bonus_birzha_grem_6"
-		"Ability16"		"special_bonus_birzha_grem_7"
-		"Ability17"		"special_bonus_birzha_grem_8"
+		"Ability14"		"special_bonus_birzha_grem_8"
+		"Ability15"		"special_bonus_birzha_grem_3"
+		"Ability16"		"special_bonus_birzha_grem_6"
+		"Ability17"		"special_bonus_birzha_grem_7"
 	}
 
 	//=================================================================================================================
@@ -1588,7 +1587,7 @@
 		"Ability13"		"special_bonus_birzha_durov_4"
 		"Ability14"		"special_bonus_birzha_durov_5"
 		"Ability15"		"special_bonus_birzha_durov_6"
-		"Ability16"		"special_bonus_unique_keeper_of_the_light_2"
+		"Ability16"		"special_bonus_unique_durov_7"
 		"Ability17"		"special_bonus_birzha_durov_8"
 	}	
 	
@@ -1633,7 +1632,8 @@
 	"npc_dota_hero_naga_siren"
 	{
 		"DisableWearables"				"1"
-		"ModelScale"					"1.220000"
+		"ModelScale"					"1"
+        "Model"                         "models/update_heroes/akame/akame.vmdl"
 		"IsAnime" "1"
 
 		"MovementSpeed"				"300"
@@ -1657,12 +1657,12 @@
 
 		"Ability10"				"special_bonus_birzha_akame_1"
 		"Ability11"				"special_bonus_birzha_akame_2"
-		"Ability12"				"special_bonus_unique_naga_siren"
+		"Ability12"				"special_bonus_unique_akame_3"
 		"Ability13"				"special_bonus_birzha_akame_4"
 		"Ability14"				"special_bonus_birzha_akame_5"
 		"Ability15"				"special_bonus_birzha_akame_6"
-		"Ability16"				"special_bonus_unique_naga_siren_2"
-		"Ability17"				"special_bonus_unique_naga_siren_3"
+		"Ability16"				"special_bonus_unique_akame_2"
+		"Ability17"				"special_bonus_unique_akame_1"
 	}
 
 	//=================================================================================================================
@@ -1671,9 +1671,9 @@
     "npc_dota_hero_vengefulspirit"
 	{
 		"IsAnime"	"1"
-		"Model"				"models/heroes/shiro/shiro.vmdl"
+		"Model"				"models/update_heroes/shiro/shiro.vmdl"
 		"DisableWearables"				"1"
-		"ModelScale"		"0.99"
+		"ModelScale"		"0.64"
 
         "Ability1" "Shiro_NamelessWorm"
         "Ability2" "Shiro_Punch"
@@ -1748,8 +1748,8 @@
 	"npc_dota_hero_sand_king"
 	{
 		"DisableWearables"				"1"
-		"Model"							"models/models/heroes/scp/scp_173.vmdl"
-		"ModelScale"					"1.5"
+		"Model"							"models/update_heroes/scp173/scp173.vmdl"
+		"ModelScale"					"1.2"
 
 		"Ability1"			"Scp_FastKill"
 		"Ability2"			"Scp173_Screamer"
@@ -1840,22 +1840,22 @@
 		"role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_pocik_1"
-		"Ability11"		"special_bonus_birzha_pocik_2"
-		"Ability12"		"special_bonus_birzha_pocik_3"
-		"Ability13"		"special_bonus_birzha_pocik_4"
-		"Ability14"		"special_bonus_birzha_pocik_5"
-		"Ability15"		"special_bonus_birzha_pocik_6"
+		"Ability11"		"special_bonus_birzha_pocik_6"
+		"Ability12"		"special_bonus_birzha_pocik_2"
+		"Ability13"		"special_bonus_birzha_pocik_3"
+		"Ability14"		"special_bonus_birzha_pocik_8"
+		"Ability15"		"special_bonus_birzha_pocik_4"
 		"Ability16"		"special_bonus_birzha_pocik_7"
-		"Ability17"		"special_bonus_birzha_pocik_8"
+		"Ability17"		"special_bonus_birzha_pocik_5"
 	}
 	//=================================================================================================================
 	// Хисока
 	//=================================================================================================================
 	"npc_dota_hero_magnataur"
 	{
-		"Model"             		"models/heroes/hisoka/hisoka.vmdl"
+		"Model"             		"models/update_heroes/hisoka/hisoka.vmdl"
 		"DisableWearables"			"1"
-		"ModelScale"				"0.85"
+		"ModelScale"				"0.7"
 
 		"Ability1"					"hisoka_cards"
 		"Ability2"					"hisoka_shield"
@@ -1897,7 +1897,8 @@
     "npc_dota_hero_antimage"
 	{
 		"DisableWearables"				"1"	
-
+        "ModelScale"				"1.1"
+        "Model"                         "models/update_heroes/illidan/illidan_base.vmdl"
         "Ability1" 					"illidan_dive"
         "Ability2"					"illidan_sweeping_strike"
         "Ability3" 					"illidan_abomination"
@@ -1916,14 +1917,14 @@
 		"difficulty"	"Pick_easy"
 		"role_hero"		"Pick_Carry"
 
-		"Ability10"						"special_bonus_birzha_illidan_1"
-		"Ability11"						"special_bonus_birzha_illidan_2"
+		"Ability10"						"special_bonus_birzha_illidan_2"
+		"Ability11"						"special_bonus_birzha_illidan_4"
 		"Ability12"						"special_bonus_birzha_illidan_3"
-		"Ability13"						"special_bonus_birzha_illidan_4"
-		"Ability14"						"special_bonus_birzha_illidan_5"
-		"Ability15"						"special_bonus_birzha_illidan_6"
-		"Ability16"						"special_bonus_birzha_illidan_7"
-		"Ability17"						"special_bonus_birzha_illidan_8"
+		"Ability13"						"special_bonus_birzha_illidan_1"
+		"Ability14"						"special_bonus_birzha_illidan_6"
+		"Ability15"						"special_bonus_birzha_illidan_5"
+		"Ability16"						"special_bonus_unique_illidan_8"
+		"Ability17"						"special_bonus_birzha_illidan_7"
 	}
 
 	//=================================================================================================================
@@ -1931,16 +1932,17 @@
 	//=================================================================================================================
 	"npc_dota_hero_abyssal_underlord"
 	{
-		"Model"							"models/heroes/spectre/spectre.vmdl"
+		"Model"							"models/update_heroes/ghostface/ghost_face.vmdl"
 		"DisableWearables"				"1"
+        "ModelScale"				    "1"
 
-		"Ability1"			"Scream_TelephoneCall"
-		"Ability2"			"Scream_rush"
-		"Ability3"			"Scream_knife"
-		"Ability4"			"generic_hidden"
-		"Ability5"			"Scream_night_two"
-		"Ability6"			"Scream_night"
-		"Ability25"		""
+		"Ability1"			            "Scream_TelephoneCall"
+		"Ability2"			            "Scream_rush"
+		"Ability3"			            "Scream_knife"
+		"Ability4"			            "Scream_night_two"
+		"Ability5"			            "generic_hidden"
+		"Ability6"			            "Scream_night"
+		"Ability25"		                ""
 
 		"AttributeBaseStrength"			"25"
 		"AttributeStrengthGain"			"2.4"
@@ -1952,14 +1954,14 @@
 		"difficulty"	"Pick_medium"
 		"role_hero"		"Pick_Carry"
 
-		"Ability10"		"special_bonus_birzha_scream_1"
+		"Ability10"		"special_bonus_birzha_scream_5"
 		"Ability11"		"special_bonus_birzha_scream_2"
 		"Ability12"		"special_bonus_birzha_scream_3"
 		"Ability13"		"special_bonus_birzha_scream_4"
-		"Ability14"		"special_bonus_birzha_scream_5"
+		"Ability14"		"special_bonus_birzha_scream_8"
 		"Ability15"		"special_bonus_birzha_scream_6"
 		"Ability16"		"special_bonus_birzha_scream_7"
-		"Ability17"		"special_bonus_birzha_scream_8"
+		"Ability17"		"special_bonus_birzha_scream_1"
 	}
 
 	//=================================================================================================================
@@ -2027,7 +2029,7 @@
 	//=================================================================================================================
     "npc_dota_hero_queenofpain"
   	{
-		"Model"				"models/heroes/weaver/weaver.vmdl"
+		"Model"				"models/update_heroes/kurumi/kurumi_base.vmdl"
 		"ProjectileModel"	"particles/units/heroes/hero_sniper/sniper_base_attack.vpcf"
 		"DisableWearables"	"1"	
 		"IsAnime"			"1"
@@ -2052,7 +2054,7 @@
 		"role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_kurumi_1"
-		"Ability11"		"special_bonus_birzha_kurumi_2"
+		"Ability11"		"special_bonus_agility_6"
 	    "Ability12"		"special_bonus_birzha_kurumi_3"
 		"Ability13"		"special_bonus_birzha_kurumi_4"
 		"Ability14"		"special_bonus_birzha_kurumi_5"
@@ -2133,7 +2135,7 @@
 	//=================================================================================================================
 	"npc_dota_hero_dark_willow"
 	{	
-		"Model"                         "models/heroes/monika/monika.vmdl"
+		"Model"                         "models/update_heroes/monika/monika.vmdl"
 		"DisableWearables"				"1"
 		"ModelScale"					"1.3"
 		"IsAnime"						"1"
@@ -2237,14 +2239,14 @@
 		"Ability5"					"sonic_passive"
 		"Ability6"					"sonic_fast_sound"
 
-		"Ability10"					"special_bonus_birzha_sonic_1"
-		"Ability11"					"special_bonus_birzha_sonic_2"
-		"Ability12"					"special_bonus_birzha_sonic_3"
-		"Ability13"					"special_bonus_birzha_sonic_4"
-		"Ability14"					"special_bonus_birzha_sonic_5"
-		"Ability15"					"special_bonus_birzha_sonic_6"
-		"Ability16"					"special_bonus_birzha_sonic_7"
-		"Ability17"					"special_bonus_birzha_sonic_8"
+		"Ability10"					"special_bonus_birzha_sonic_5"
+		"Ability11"					"special_bonus_birzha_sonic_8"
+		"Ability12"					"special_bonus_birzha_sonic_4"
+		"Ability13"					"special_bonus_birzha_sonic_3"
+		"Ability14"					"special_bonus_birzha_sonic_1"
+		"Ability15"					"special_bonus_birzha_sonic_2"
+		"Ability16"					"special_bonus_birzha_sonic_6"
+		"Ability17"					"special_bonus_birzha_sonic_7"
 
 		"Ability25"					""
 
@@ -2279,7 +2281,7 @@
 	"npc_dota_hero_phantom_lancer"
 	{	
 		"IsAnime"	"1"
-		"Model"                         "models/heroes/rin/rin.vmdl"
+		"Model"                         "models/update_heroes/rin/rin.vmdl"
 		"DisableWearables"				"1"
 		"ModelScale"					"0.940000"
 		"Ability1"						"blue_incision"
@@ -2289,7 +2291,8 @@
 		"Ability5"						"generic_hidden"
 		"Ability6"						"rin_satana_explosion"
 		"Ability25"						""
-
+        
+        "AttackRange"		            "140"
 		"AttributeBaseStrength"			"19"
 		"AttributeStrengthGain"			"2.200000"
 		"AttributeBaseIntelligence"		"19"
@@ -2372,8 +2375,8 @@
 		"Ability5"		"generic_hidden"
 		"Ability6"		"sasake_four_ability"
 
-		"Ability10"		"special_bonus_birzha_sasake_1"
-		"Ability11"		"special_bonus_birzha_sasake_2"
+		"Ability10"		"special_bonus_birzha_sasake_2"
+		"Ability11"		"special_bonus_birzha_sasake_1"
 		"Ability12"		"special_bonus_birzha_sasake_3"
 		"Ability13"		"special_bonus_birzha_sasake_4"
 		"Ability14"		"special_bonus_birzha_sasake_5"
@@ -2583,7 +2586,7 @@
 	//=================================================================================================================
     "npc_dota_hero_phantom_assassin"
 	{
-		"Model"							"models/heroes/life_stealer/life_stealer.vmdl"
+		"Model"							"models/update_heroes/yuno/yuno.vmdl"
 		"DisableWearables"				"1"	
 		"IsAnime"						"1"
 
@@ -2636,7 +2639,7 @@
 		"Ability25"					""
 
 		"ModelScale"				"0.85"
-		"Model"						"models/haku/haku_mask.vmdl"
+		"Model"						"models/update_heroes/haku/haku_with_mask.vmdl"
 		"DisableWearables"			"1"
 		"role_hero"					"Pick_Carry"
 
@@ -2694,9 +2697,9 @@
 	//=================================================================================================================
 	"npc_dota_hero_luna"
 	{
-		"Model"                         "models/heroes/horo/horo.vmdl"
+		"Model"                         "models/update_heroes/horo/horo.vmdl"
 		"DisableWearables"				"1"
-		"ModelScale"					"0.940000"
+		"ModelScale"					"0.85"
 
 		"Ability1"						"horo_forest_girl"
 		"Ability2"						"horo_forest_apple"
@@ -2784,14 +2787,14 @@
 		"difficulty"	"Pick_easy"
 		"role_hero"		"Pick_Carry"
 		
-		"Ability10"		"special_bonus_birzha_evrei_1"
-		"Ability11"		"special_bonus_birzha_evrei_2"
-		"Ability12"		"special_bonus_birzha_evrei_3"
-		"Ability13"		"special_bonus_birzha_evrei_4"
-		"Ability14"		"special_bonus_birzha_evrei_5"
-		"Ability15"		"special_bonus_birzha_evrei_6"
-		"Ability16"		"special_bonus_birzha_evrei_7"
-		"Ability17"		"special_bonus_birzha_evrei_8"
+		"Ability10"		"special_bonus_birzha_evrei_2"
+		"Ability11"		"special_bonus_birzha_evrei_1"
+		"Ability12"		"special_bonus_birzha_evrei_5"
+		"Ability13"		"special_bonus_birzha_evrei_3"
+		"Ability14"		"special_bonus_birzha_evrei_4"
+		"Ability15"		"special_bonus_birzha_evrei_8"
+		"Ability16"		"special_bonus_birzha_evrei_6"
+		"Ability17"		"special_bonus_birzha_evrei_7"
 	}
 
 	//=================================================================================================================
@@ -2897,8 +2900,8 @@
 	//=================================================================================================================
 	"npc_dota_hero_crystal_maiden"
 	{
-		"Model"						"models/hero_rem/hero_rem_base.vmdl"
-		"ModelScale"				"1.120000"
+		"Model"						"models/update_heroes/rem/rem.vmdl"
+		"ModelScale"				"1.020000"
 		"IsAnime"					"1"
 		"DisableWearables"			"1"
 
@@ -2940,8 +2943,8 @@
     "npc_dota_hero_winter_wyvern"
 	{
         "DisableWearables"				"1"
-		"ModelScale"					"4"
-		"Model"							"models/hero_knuckles.vmdl"
+		"ModelScale"					"1.7"
+		"Model"							"models/update_heroes/knuckles/knuckles.vmdl"
 		
         "Ability1" "Knuckles_army"
         "Ability2" "Knuckles_Spit"
@@ -2972,7 +2975,7 @@
 
 		"precache"
 		{
-			"model" 	"models/hero_knuckles.vmdl"
+			"model" 	"models/update_heroes/knuckles/knuckles.vmdl"
 			"model" 	"models/knuckles_tank.vmdl"
 			"model" 	"models/items/crystal_maiden/pw_cm_staff/crystal_maiden_weapon.vmdl"
 			"model" 	"models/heroes/crystal_maiden/crystal_maiden_arcana_back.vmdl"
@@ -3031,8 +3034,8 @@
         "Ability1" 	"Ranger_NailGun"
         "Ability2"	"Ranger_GrenadeLauncher"
         "Ability3" 	"Ranger_ShotGun"
-		"Ability4"	"generic_hidden"
-		"Ability5"	"Ranger_Jump"
+		"Ability4"	"Ranger_Jump"
+		"Ability5"	"generic_hidden"
 		"Ability6"	"Ranger_QuadDamage"
 		"Ability25"		""
 
@@ -3067,11 +3070,10 @@
 	{
 		"BaseClass"						"npc_dota_hero_razor"
 		"HeroID"						"182"
-		"ModelScale"					"1"
 		"Model"							"models/tailer/shelby.vmdl"
 		"DisableWearables"				"1"
 		"SoundSet"						"Hero_Marci"
-		"ModelScale"					"1"
+		"ModelScale"					"0.7"
 	
 	    "Ability1"						"thomas_ability_one"
 	    "Ability2"						"thomas_ability_two_one"
@@ -3146,12 +3148,12 @@
 
 		"Ability10"		"special_bonus_birzha_gachi_1"
 		"Ability11"		"special_bonus_birzha_gachi_2"
-	    "Ability12"		"special_bonus_birzha_gachi_3"
-		"Ability13"		"special_bonus_birzha_gachi_4"
-		"Ability14"		"special_bonus_birzha_gachi_5"
+	    "Ability12"		"special_bonus_birzha_gachi_5"
+		"Ability13"		"special_bonus_birzha_gachi_8"
+		"Ability14"		"special_bonus_birzha_gachi_3"
 		"Ability15"		"special_bonus_birzha_gachi_6"
 		"Ability16"		"special_bonus_birzha_gachi_7"
-		"Ability17"		"special_bonus_birzha_gachi_8"
+		"Ability17"		"special_bonus_birzha_gachi_4"
 	}
 
 	//=================================================================================================================
@@ -3197,7 +3199,7 @@
 		"Ability11"		"special_bonus_birzha_stray_2"
 		"Ability12"		"special_bonus_birzha_stray_3"
 		"Ability13"		"special_bonus_birzha_stray_4"
-		"Ability14"		"special_bonus_unique_riki_9"
+		"Ability14"		"special_bonus_unique_stray_1"
 		"Ability15"		"special_bonus_birzha_stray_6"
 		"Ability16"		"special_bonus_birzha_stray_7"
 		"Ability17"		"special_bonus_birzha_stray_8"
@@ -3320,12 +3322,12 @@
 		"difficulty"	"Pick_hard"
 		"role_hero"		"Pick_Killer"
 
-		"Ability10"		"special_bonus_birzha_zema_1"
-		"Ability11"		"special_bonus_birzha_zema_2"
-		"Ability12"		"special_bonus_birzha_zema_3"
-		"Ability13"		"special_bonus_birzha_zema_4"
-		"Ability14"		"special_bonus_birzha_zema_5"
-		"Ability15"		"special_bonus_birzha_zema_6"
+		"Ability10"		"special_bonus_birzha_zema_4"
+		"Ability11"		"special_bonus_birzha_zema_1"
+		"Ability12"		"special_bonus_birzha_zema_2"
+		"Ability13"		"special_bonus_birzha_zema_3"
+		"Ability14"		"special_bonus_birzha_zema_6"
+		"Ability15"		"special_bonus_birzha_zema_5"
 		"Ability16"		"special_bonus_birzha_zema_7"
 		"Ability17"		"special_bonus_birzha_zema_8"			
 	}
@@ -3384,8 +3386,8 @@
 	//=================================================================================================================
 	"npc_dota_hero_morphling"
 	{
-		"Model"							"models/models/heroes/felix/felix.vmdl"
-		"ModelScale"					"1.220000"
+		"Model"							"models/update_heroes/felix/felix.vmdl"
+		"ModelScale"					"0.6"
 		"DisableWearables"				"1"
 		"IsAnime"						"1"
 
@@ -3429,7 +3431,7 @@
 	//=================================================================================================================
 	"npc_dota_hero_templar_assassin"
 	{
-		"Model"					"models/heroes/anime/konosuba/megumin/megumin.vmdl"
+		"Model"					"models/update_heroes/megumin/megumin.vmdl"
 		"DisableWearables"		"1"
 		"IsAnime"				"1"
 
@@ -3459,7 +3461,7 @@
 		"Ability13"		"special_bonus_birzha_megumin_4"
 		"Ability14"		"special_bonus_birzha_megumin_5"
 		"Ability15"		"special_bonus_birzha_megumin_6"
-		"Ability17"		"special_bonus_unique_invoker_8"
+		"Ability17"		"special_bonus_unique_megumin_1"
 		"Ability16"		"special_bonus_birzha_megumin_8"
 	}
 
@@ -3472,9 +3474,9 @@
 		"Model"				"models/heroes/keeper_of_the_light/keeper_of_the_light.vmdl"
 
 		"Ability1"			"gypsy_tabor"
-		"Ability2"			"gypsy_gipnoz"
+		"Ability2"			"gypsy_debosh"
 		"Ability3"			"gypsy_lucky"
-		"Ability4"			"gypsy_debosh"
+		"Ability4"			"gypsy_steal_slot2"
 		"Ability5"			"gypsy_steal_slot1"
 		"Ability6"			"gypsy_steal"
 		"Ability7"			""
@@ -3573,7 +3575,7 @@
 	//=================================================================================================================
     "npc_dota_hero_faceless_void"
 	{
-		"Model" 				"models/heroes/faceless_void/faceless_void.vmdl"
+		"Model" 				"models/update_heroes/dio_base/dio_base.vmdl"
 		"DisableWearables"		"1"
 		"IsAnime"	"1"
 
@@ -3597,11 +3599,11 @@
 		
 		"Ability10"		"special_bonus_birzha_dio_1"
 		"Ability11"		"special_bonus_birzha_dio_2"
-		"Ability12"		"special_bonus_birzha_dio_3"
-		"Ability13"		"special_bonus_birzha_dio_4"
-		"Ability14"		"special_bonus_birzha_dio_5"
+		"Ability12"		"special_bonus_birzha_dio_7"
+		"Ability13"		"special_bonus_birzha_dio_3"
+		"Ability14"		"special_bonus_birzha_dio_4"
 		"Ability15"		"special_bonus_birzha_dio_6"
-		"Ability16"		"special_bonus_birzha_dio_7"
+		"Ability16"		"special_bonus_birzha_dio_5"
 		"Ability17"		"special_bonus_birzha_dio_8"
 	}
 
@@ -3611,7 +3613,7 @@
 	"npc_dota_hero_enchantress"
 	{
 		"DisableWearables"				"1"
-		"Model"							"models/heroes/skeleton_king/skeleton_king.vmdl"
+		"Model"							"models/update_heroes/hatsune_miku/hatsune_miku.vmdl"
 		"ModelScale"					"0.5"
 		"ProjectileModel"				"particles/units/heroes/hero_crystalmaiden/maiden_base_attack.vpcf"
 		"ProjectileSpeed"				"900"
@@ -3671,7 +3673,7 @@
 		"Ability11"						"special_bonus_birzha_freddy_2"	
 		"Ability12"						"special_bonus_birzha_freddy_3"
 		"Ability13"						"special_bonus_birzha_freddy_4"	
-		"Ability14"						"special_bonus_unique_invoker_5"
+		"Ability14"						"special_bonus_unique_freddy_1"
 		"Ability15"						"special_bonus_birzha_freddy_6"
 		"Ability16"						"special_bonus_birzha_freddy_7"
 		"Ability17"						"special_bonus_birzha_freddy_8"
@@ -3723,15 +3725,16 @@
 	    "Ability4"						"travoman_focused_detonate"
 	    "Ability5"						"travoman_minefield_sign"
 	    "Ability6"						"travoman_remote_mines"
+        "Ability7"                      "travoman_sausage"
 	
 		"Ability10"						"special_bonus_birzha_travoman_1"
-		"Ability11"						"special_bonus_birzha_travoman_2"
-		"Ability12"						"special_bonus_unique_invoker_4"
-		"Ability13"						"special_bonus_birzha_travoman_4"
+		"Ability11"						"special_bonus_birzha_travoman_4"
+		"Ability12"						"special_bonus_unique_travoman_3"
+		"Ability13"						"special_bonus_birzha_travoman_8"
 		"Ability14"						"special_bonus_birzha_travoman_5"
 		"Ability15"						"special_bonus_birzha_travoman_6"
-		"Ability16"						"special_bonus_birzha_travoman_7"
-		"Ability17"						"special_bonus_birzha_travoman_8"
+		"Ability16"						"special_bonus_birzha_travoman_2"
+		"Ability17"						"special_bonus_birzha_travoman_7"
 				
 		"Ability25"						""
 	
@@ -3768,7 +3771,7 @@
 	"npc_dota_hero_gyrocopter"
 	{
 		"DisableWearables"				"1"	
-		"Model"							"models/heroes/thomas/thomas.vmdl"
+		"Model"							"models/update_heroes/train_thomas/train_thomas.vmdl"
 		"ModelScale"					"1.2"
 
 		"Ability1"					"Thomas_smoke"
@@ -3809,7 +3812,7 @@
 	{
 		"ModelScale"				"1"
 		"DisableWearables"			"1"
-		"Model"						"models/heroes/anime/jojo/white_snake/pucci/pucci.vmdl"
+		"Model"						"models/update_heroes/pucci/pucci.vmdl"
 		"SoundSet"					"Hero_Marci"
 
 		"Ability1"		"pucci_time_acceleration"
@@ -3819,14 +3822,14 @@
 		"Ability5"		"generic_hidden"
 		"Ability6"		"pucci_restart_world"
 
-		"Ability10"		"special_bonus_birzha_pucci_1"
-		"Ability11"		"special_bonus_birzha_pucci_2"
-		"Ability12"		"special_bonus_birzha_pucci_3"
-		"Ability13"		"special_bonus_birzha_pucci_4"
-		"Ability14"		"special_bonus_birzha_pucci_5"
-		"Ability15"		"special_bonus_birzha_pucci_6"
-		"Ability16"		"special_bonus_birzha_pucci_7"
-		"Ability17"		"special_bonus_birzha_pucci_8"
+		"Ability10"		"special_bonus_birzha_pucci_3"
+		"Ability11"		"special_bonus_birzha_pucci_1"
+		"Ability12"		"special_bonus_birzha_pucci_8"
+		"Ability13"		"special_bonus_birzha_pucci_6"
+		"Ability14"		"special_bonus_birzha_pucci_4"
+		"Ability15"		"special_bonus_birzha_pucci_7"
+		"Ability16"		"special_bonus_birzha_pucci_2"
+		"Ability17"		"special_bonus_birzha_pucci_5"
 
 		"Ability25"					""
 
@@ -3883,12 +3886,12 @@
 		"difficulty"	"Pick_hard"
 		"role_hero"		"Pick_Killer"
 		
-		"Ability10"		"special_bonus_birzha_slidan_1"
-		"Ability11"		"special_bonus_birzha_slidan_2"
-		"Ability12"		"special_bonus_birzha_slidan_3"
-		"Ability13"		"special_bonus_birzha_slidan_4"
-		"Ability14"		"special_bonus_birzha_slidan_5"
-		"Ability15"		"special_bonus_birzha_slidan_6"
+		"Ability10"		"special_bonus_birzha_slidan_5"
+		"Ability11"		"special_bonus_birzha_slidan_1"
+		"Ability12"		"special_bonus_birzha_slidan_4"
+		"Ability13"		"special_bonus_birzha_slidan_2"
+		"Ability14"		"special_bonus_birzha_slidan_6"
+		"Ability15"		"special_bonus_birzha_slidan_3"
 		"Ability16"		"special_bonus_birzha_slidan_7"
 		"Ability17"		"special_bonus_birzha_slidan_8"
 	}
@@ -3966,14 +3969,14 @@
 		"difficulty"	"Pick_easy"
 		"role_hero"		"Pick_Killer"
 
-        "Ability17"		"special_bonus_birzha_druzhko_1"
-		"Ability18"		"special_bonus_birzha_druzhko_2"
-		"Ability19"		"special_bonus_birzha_druzhko_3"
-		"Ability20"		"special_bonus_birzha_druzhko_4"
-		"Ability21"		"special_bonus_birzha_druzhko_5"
-		"Ability22"		"special_bonus_birzha_druzhko_6"
-		"Ability23"		"special_bonus_birzha_druzhko_7"
-		"Ability24"		"special_bonus_birzha_druzhko_8"
+        "Ability17"		"special_bonus_birzha_druzhko_2"
+		"Ability18"		"special_bonus_birzha_druzhko_4"
+		"Ability19"		"special_bonus_birzha_druzhko_6"
+		"Ability20"		"special_bonus_birzha_druzhko_3"
+		"Ability21"		"special_bonus_birzha_druzhko_1"
+		"Ability22"		"special_bonus_birzha_druzhko_5"
+		"Ability23"		"special_bonus_birzha_druzhko_8"
+		"Ability24"		"special_bonus_birzha_druzhko_7"
 	}
 
 	//=================================================================================================================
@@ -4058,27 +4061,27 @@
 		"Ability4"					"generic_hidden"
 		"Ability5"					"V1lat_AiAiAi_slam"
 		"Ability6"					"V1lat_Eminem"
-		"Ability25"		""
+		"Ability25"					""
 
-		"AttributeBaseStrength"		"22"
-		"AttributeStrengthGain"		"2.80000"
-		"AttributeBaseAgility"		"15"
-		"AttributeAgilityGain"		"1.800000"
+		"AttributeBaseStrength"			"22"
+		"AttributeStrengthGain"			"2.80000"
+		"AttributeBaseAgility"			"15"
+		"AttributeAgilityGain"			"1.800000"
 		"AttributeBaseIntelligence"		"22"
 		"AttributeIntelligenceGain"		"2.800000"	
-		"ArmorPhysical"		"2.000000"
-		"AttributePrimary"			"DOTA_ATTRIBUTE_INTELLECT"	
-		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Killer"
+		"ArmorPhysical"					"2.000000"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"	
+		"difficulty"					"Pick_medium"
+		"role_hero"						"Pick_Killer"
 
-		"Ability10"		"special_bonus_birzha_v1lat_1"
-		"Ability11"		"special_bonus_birzha_v1lat_2"
-		"Ability12"		"special_bonus_birzha_v1lat_3"
-		"Ability13"		"special_bonus_birzha_v1lat_4"
-		"Ability14"		"special_bonus_birzha_v1lat_5"
-		"Ability15"		"special_bonus_birzha_v1lat_6"
-		"Ability16"		"special_bonus_birzha_v1lat_7"
-		"Ability17"		"special_bonus_birzha_v1lat_8"
+		"Ability10"						"special_bonus_birzha_v1lat_2"
+		"Ability11"						"special_bonus_birzha_v1lat_3"
+		"Ability12"						"special_bonus_birzha_v1lat_4"
+		"Ability13"						"special_bonus_birzha_v1lat_6"
+		"Ability14"						"special_bonus_birzha_v1lat_5"
+		"Ability15"						"special_bonus_birzha_v1lat_1"
+		"Ability16"						"special_bonus_birzha_v1lat_7"
+		"Ability17"						"special_bonus_birzha_v1lat_8"
 	}
 
 	//=================================================================================================================
@@ -4107,11 +4110,11 @@
 		"Ability10"		"special_bonus_birzha_homunculus_1"
 		"Ability11"		"special_bonus_birzha_homunculus_2"
 		"Ability12"		"special_bonus_birzha_homunculus_3"
-		"Ability13"		"special_bonus_birzha_homunculus_4"
-		"Ability14"		"special_bonus_birzha_homunculus_5"
+		"Ability13"		"special_bonus_birzha_homunculus_7"
+		"Ability14"		"special_bonus_birzha_homunculus_4"
 		"Ability15"		"special_bonus_birzha_homunculus_6"
-		"Ability16"		"special_bonus_birzha_homunculus_7"
-		"Ability17"		"special_bonus_birzha_homunculus_8"
+		"Ability16"		"special_bonus_birzha_homunculus_8"
+		"Ability17"		"special_bonus_birzha_homunculus_5"
 	}
 
 	//=================================================================================================================
@@ -4120,21 +4123,21 @@
     "npc_dota_hero_rubick"
 	{
         "DisableWearables"				"1"
-		"Model"							"models/courier/donkey_crummy_wizard_2014/donkey_crummy_wizard_2014.vmdl"
+		"Model"							"models/ns/ns_model.vmdl"
 		"ModelScale"					"1.2"
 		
-        "Ability1" 		"Ns_Tricks"
-        "Ability2" 		"Ns_FullCounter"
-        "Ability3" 		"Ns_TricksMaster"
-		"Ability4"		"generic_hidden"
-		"Ability5"		"generic_hidden"
-		"Ability6"		"Ns_KBU"
-		"Ability7"		"generic_hidden"
-		"Ability8"		"generic_hidden"
-		"Ability9"		"generic_hidden"
-		"Ability10"		"generic_hidden"
-		"Ability11"		"generic_hidden"
-		"Ability25"		""
+        "Ability1" 						"Ns_Tricks"
+        "Ability2" 						"Ns_FullCounter"
+        "Ability3" 						"ns_old_beer"
+		"Ability4"						"generic_hidden"
+		"Ability5"						"generic_hidden"
+		"Ability6"						"Ns_TricksMaster"
+		"Ability7"						"generic_hidden"
+		"Ability8"						"generic_hidden"
+		"Ability9"						"generic_hidden"
+		"Ability10"						"generic_hidden"
+		"Ability11"						"generic_hidden"
+		"Ability25"						""
 		
 		"AttributeBaseStrength"			"25"
 		"AttributeStrengthGain"			"2.5"
@@ -4143,8 +4146,8 @@
 		"AttributeBaseIntelligence"		"35"
 		"AttributeIntelligenceGain"		"3.5"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
-		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Carry"
+		"difficulty"					"Pick_easy"
+		"role_hero"						"Pick_Carry"
 
 		"Ability12"		"special_bonus_birzha_ns_1"
 		"Ability13"		"special_bonus_birzha_ns_2"
@@ -4161,7 +4164,7 @@
 	//=================================================================================================================
 	"npc_dota_hero_techies"
 	{
-		"Model"		"models/items/courier/nilbog/nilbog.vmdl"
+		"Model"		"models/dimon/dimon_model.vmdl"
 		"ModelScale"		"1.580000"
 		"DisableWearables"				"1"
 
@@ -4185,14 +4188,14 @@
 		"difficulty"	"Pick_hard"
 		"role_hero"		"Pick_Killer"
 
-      	"Ability10"		"special_bonus_birzha_mina_1"
-		"Ability11"		"special_bonus_birzha_mina_2"
-		"Ability12"		"special_bonus_birzha_mina_3"
-		"Ability13"		"special_bonus_birzha_mina_4"
-		"Ability15"		"special_bonus_birzha_mina_5"
-		"Ability14"		"special_bonus_birzha_mina_6"
-		"Ability16"		"special_bonus_birzha_mina_7"
-		"Ability17"		"special_bonus_birzha_mina_8"
+      	"Ability10"		"special_bonus_birzha_mina_4"
+		"Ability11"		"special_bonus_birzha_mina_1"
+		"Ability12"		"special_bonus_birzha_mina_8"
+		"Ability13"		"special_bonus_birzha_mina_2"
+		"Ability15"		"special_bonus_birzha_mina_3"
+		"Ability14"		"special_bonus_birzha_mina_7"
+		"Ability16"		"special_bonus_birzha_mina_5"
+		"Ability17"		"special_bonus_birzha_mina_6"
 	}
 
 	//=================================================================================================================
@@ -4218,13 +4221,13 @@
 		"difficulty"	"Pick_easy"
 		"role_hero"		"Pick_Killer"
 
-		"Ability10"		"special_bonus_birzha_ponasenkov_1"
-		"Ability11"		"special_bonus_birzha_ponasenkov_2"
-		"Ability12"		"special_bonus_birzha_ponasenkov_3"
-		"Ability13"		"special_bonus_birzha_ponasenkov_4"
-		"Ability14"		"special_bonus_birzha_ponasenkov_5"
-		"Ability15"		"special_bonus_birzha_ponasenkov_6"
-		"Ability16"		"special_bonus_birzha_ponasenkov_7"
+		"Ability10"		"special_bonus_birzha_ponasenkov_7"
+		"Ability11"		"special_bonus_birzha_ponasenkov_4"
+		"Ability12"		"special_bonus_birzha_ponasenkov_5"
+		"Ability13"		"special_bonus_birzha_ponasenkov_1"
+		"Ability14"		"special_bonus_birzha_ponasenkov_6"
+		"Ability15"		"special_bonus_birzha_ponasenkov_3"
+		"Ability16"		"special_bonus_birzha_ponasenkov_2"
 		"Ability17"		"special_bonus_birzha_ponasenkov_8"
 	}
 
@@ -4255,9 +4258,9 @@
 		"Ability11"		"special_bonus_birzha_doljan_2"
 		"Ability12"		"special_bonus_birzha_doljan_3"
 		"Ability13"		"special_bonus_birzha_doljan_4"
-		"Ability14"		"special_bonus_unique_invoker_9"
+		"Ability14"		"special_bonus_unique_doljan_2"
 		"Ability15"		"special_bonus_birzha_doljan_6"
-		"Ability16"		"special_bonus_unique_invoker_10"
+		"Ability16"		"special_bonus_unique_doljan_1"
 		"Ability17"		"special_bonus_birzha_doljan_8"
 	}
 
@@ -4267,7 +4270,7 @@
 	"npc_dota_hero_lina"
 	{
 		"ProjectileModel"	"particles/ram_base_attack.vpcf"
-		"Model"		"models/heroes/invoker/invoker.vmdl"
+		"Model"		"models/update_heroes/ram/ram.vmdl"
 		"ModelScale"		"0.710000"
 		"DisableWearables"				"1"	
 		"IsAnime"	"1"
@@ -4275,7 +4278,7 @@
 		"Ability1"				"ram_fura"
 		"Ability2"				"ram_ElFura"
 		"Ability3"				"ram_DemonicShield"
-		"Ability4"				"generic_hidden"
+		"Ability4"				"ram_wind"
 		"Ability5"				"generic_hidden"
 		"Ability6"				"ram_ultimate"
 		"Ability25"		""
@@ -4290,14 +4293,14 @@
 		"difficulty"	"Pick_easy"
 		"role_hero"		"Pick_Killer"
 
-		"Ability10"		"special_bonus_birzha_ram_1"
-		"Ability11"		"special_bonus_birzha_ram_2"
-		"Ability12"		"special_bonus_birzha_ram_3"
-		"Ability13"		"special_bonus_birzha_ram_4"
-		"Ability14"		"special_bonus_birzha_ram_5"
-		"Ability15"		"special_bonus_birzha_ram_6"
-		"Ability16"		"special_bonus_birzha_ram_7"
-		"Ability17"		"special_bonus_birzha_ram_8"
+		"Ability10"		"special_bonus_birzha_ram_4"
+		"Ability11"		"special_bonus_birzha_ram_1"
+		"Ability12"		"special_bonus_birzha_ram_6"
+		"Ability13"		"special_bonus_birzha_ram_3"
+		"Ability14"		"special_bonus_birzha_ram_8"
+		"Ability15"		"special_bonus_birzha_ram_7"
+		"Ability16"		"special_bonus_unique_birzha_ram_2"
+		"Ability17"		"special_bonus_birzha_ram_5"
 	}
 
 	//=================================================================================================================
@@ -4344,12 +4347,12 @@
 		"ModelScale"	"0.75"
 		"AttackRange"	"100"
 		"role_hero"		"Pick_Killer"
-		"Model"			"models/kakashi_new/kakashi.vmdl"
+		"Model"			"models/update_heroes/kakashi/kakashi.vmdl"
 
 		"Ability17"		"special_bonus_birzha_kakashi_1"
 		"Ability18"		"special_bonus_birzha_kakashi_2"
-		"Ability19"		"special_bonus_unique_invoker_1"
-		"Ability20"		"special_bonus_unique_invoker_2"
+		"Ability19"		"special_bonus_unique_kakashi_1"
+		"Ability20"		"special_bonus_unique_kakashi_2"
 		"Ability21"		"special_bonus_birzha_kakashi_5"
 		"Ability22"		"special_bonus_birzha_kakashi_6"
 		"Ability23"		"special_bonus_birzha_kakashi_7"
@@ -4404,16 +4407,16 @@
 
 		"ProjectileModel"	"particles/units/heroes/hero_invoker_kid/invoker_kid_base_attack_all.vpcf"
 		"DisableWearables"	"1"
-		"Model"			"models/heroes/aang/aang.vmdl"
-		"ModelScale"	"1.5"
+		"Model"			"models/update_heroes/avatar_aang/avatar_aang.vmdl"
+		"ModelScale"	"1"
 		"role_hero"		"Pick_Killer"
 
 		"Ability17"		"special_bonus_birzha_avatar_1"
 		"Ability18"		"special_bonus_birzha_avatar_2"
 		"Ability19"		"special_bonus_birzha_avatar_3"
-		"Ability20"		"special_bonus_unique_invoker_11"
-		"Ability21"		"special_bonus_unique_invoker_12"
-		"Ability22"		"special_bonus_unique_invoker_13"
+		"Ability20"		"special_bonus_unique_avatar_1"
+		"Ability21"		"special_bonus_unique_avatar_3"
+		"Ability22"		"special_bonus_unique_avatar_2"
 		"Ability23"		"special_bonus_birzha_avatar_7"
 		"Ability24"		"special_bonus_birzha_avatar_8"
 	}
@@ -4425,7 +4428,7 @@
 	{
 		"BaseClass"					"npc_dota_hero_witch_doctor"
 		"HeroID"					"170"
-		"Model"						"models/heroes/anime/overlord/overlord2/overlord2.vmdl"
+		"Model"						"models/update_heroes/overlord_anime/overlord.vmdl"
 		"ProjectileModel"			"particles/units/heroes/hero_necrolyte/necrolyte_base_attack.vpcf"
 		"ModelScale"				"1.08750"
 

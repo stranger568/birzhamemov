@@ -170,8 +170,6 @@ function Ruby_Fade:OnSpellStart()
     local illusion_inc = self:GetSpecialValueFor("illusion_inc")  - 100
     local damage_out = (self:GetSpecialValueFor("damage_out") + self:GetCaster():FindTalentValue("special_bonus_birzha_ruby_4")) - 100
 
-    
-
     local illusion = BirzhaCreateIllusion( self:GetCaster(), self:GetCaster(), {duration=self.duration,outgoing_damage=0,incoming_damage=0}, illusion_count, 0, false, false ) 
 
     local ability = self:GetCaster():FindAbilityByName("Ruby_RoseStrike")

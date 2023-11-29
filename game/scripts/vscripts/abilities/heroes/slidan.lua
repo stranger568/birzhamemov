@@ -1,10 +1,10 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
-
 LinkLuaModifier("modifier_slidan_damage_tower", "abilities/heroes/slidan", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_effect_tower2", "abilities/heroes/slidan", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_slidan_heal_tower", "abilities/heroes/slidan", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_slidan_default_tower", "abilities/heroes/slidan", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_slidan_passive", "abilities/heroes/slidan", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_slidan_worldedit_stack", "abilities/heroes/slidan", LUA_MODIFIER_MOTION_NONE)
 
 Slidan_WorldEdit = class({}) 
 
@@ -20,21 +20,29 @@ function Slidan_WorldEdit:GetCastRange(location, target)
     return self.BaseClass.GetCastRange(self, location, target)
 end
 
+function Slidan_WorldEdit:GetIntrinsicModifierName()
+    return "modifier_slidan_worldedit_stack"
+end
+
 function Slidan_WorldEdit:OnSpellStart()
     if not IsServer() then return end
 
     local Towers = 
     {
         "npc_slidan_healing_tower",
-        "npc_slidan_fired_tower",
         "npc_slidan_default_tower",
+        "npc_slidan_fired_tower",
     }
 
     local tower_random = Towers[RandomInt(1, #Towers)]
+    local modifier_slidan_worldedit_stack = self:GetCaster():FindModifierByName("modifier_slidan_worldedit_stack")
+    if modifier_slidan_worldedit_stack then
+        tower_random = Towers[modifier_slidan_worldedit_stack:GetStackCount()]
+    end
 
-    local damage_tower = self:GetSpecialValueFor("damage")
+    local damage_tower = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_slidan_1")
 
-    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_slidan_1")
+    local duration = self:GetSpecialValueFor("duration")
 
     self:GetCaster():EmitSound("worldeditor")
 
@@ -56,6 +64,15 @@ function Slidan_WorldEdit:OnSpellStart()
     tower:AddNewModifier(self:GetCaster(), self, "modifier_slidan_passive", {})
 end
 
+modifier_slidan_worldedit_stack = class({})
+function modifier_slidan_worldedit_stack:IsPurgable() return false end
+function modifier_slidan_worldedit_stack:IsPurgeException() return false end
+function modifier_slidan_worldedit_stack:IsHidden() return true end
+function modifier_slidan_worldedit_stack:OnCreated()
+    if not IsServer() then return end
+    self:SetStackCount(1)
+end
+
 modifier_slidan_damage_tower = class({})
 
 function modifier_slidan_damage_tower:IsPurgable() return false end
@@ -64,9 +81,7 @@ function modifier_slidan_damage_tower:IsAura() return true end
 
 function modifier_slidan_damage_tower:OnCreated()
     if not IsServer() then return end
-
     local duration = self:GetAbility():GetSpecialValueFor("duration")
-
     local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_doom_bringer/doom_scorched_earth.vpcf", PATTACH_WORLDORIGIN, self:GetParent())
     ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
     ParticleManager:SetParticleControl(particle, 1, Vector(600, 0, 0))
@@ -104,10 +119,23 @@ function modifier_effect_tower2:OnIntervalThink()
 end
 
 function modifier_effect_tower2:GetAttributes()
-    return MODIFIER_ATTRIBUTE_MULTIPLE 
+    if self:GetCaster():HasTalent("special_bonus_birzha_slidan_3") then
+        return MODIFIER_ATTRIBUTE_MULTIPLE
+    end
 end
 
 function modifier_effect_tower2:IsPurgable() return false end
+
+function modifier_effect_tower2:DeclareFunctions()
+    return
+    {
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
+    }
+end
+
+function modifier_effect_tower2:GetModifierMoveSpeedBonus_Percentage()
+    return self:GetAbility():GetSpecialValueFor("slow")
+end
 
 function modifier_effect_tower2:GetEffectName()
     return "particles/units/heroes/hero_doom_bringer/doom_infernal_blade_debuff.vpcf"
@@ -134,13 +162,10 @@ end
 
 function modifier_slidan_heal_tower:OnIntervalThink()
     if not IsServer() then return end
-
     local radius = 600
-
     local targets = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_ANY_ORDER, false)
-
     for _,unit in pairs(targets) do
-        local heal_tower = (unit:GetMaxHealth() / 100 * (self:GetAbility():GetSpecialValueFor("heal") + self:GetCaster():FindTalentValue("special_bonus_birzha_slidan_3"))  ) * FrameTime()
+        local heal_tower = (unit:GetMaxHealth() / 100 * self:GetAbility():GetSpecialValueFor("heal")  ) * FrameTime()
         unit:Heal(heal_tower, self:GetAbility())
     end
 end
@@ -194,36 +219,41 @@ end
 LinkLuaModifier( "modifier_slidan_suckdick_debuff", "abilities/heroes/slidan", LUA_MODIFIER_MOTION_NONE )
 
 Slidan_SuckDick = class({})
-
-function Slidan_SuckDick:GetBehavior()
-    if self:GetCaster():HasShard() then
-        return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
-    end
-    return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET + DOTA_ABILITY_BEHAVIOR_CHANNELLED
-end
-
-function Slidan_SuckDick:GetChannelTime()
-    if self:GetCaster():HasShard() then
-        return 0
-    end
-    return self.BaseClass.GetChannelTime(self)
-end
-
 Slidan_SuckDick.modifiers = {}
+
+function Slidan_SuckDick:CastFilterResultTarget( hTarget )
+    if hTarget:IsMagicImmune() and (not self:GetCaster():HasShard()) then
+        return UF_FAIL_MAGIC_IMMUNE_ENEMY
+    end
+
+    if not IsServer() then return UF_SUCCESS end
+    local nResult = UnitFilter(
+        hTarget,
+        self:GetAbilityTargetTeam(),
+        self:GetAbilityTargetType(),
+        self:GetAbilityTargetFlags(),
+        self:GetCaster():GetTeamNumber()
+    )
+
+    if nResult ~= UF_SUCCESS then
+        return nResult
+    end
+
+    return UF_SUCCESS
+end
 
 function Slidan_SuckDick:OnSpellStart()
     local target = self:GetCursorTarget()
+    local modifier_slidan_worldedit_stack = self:GetCaster():FindModifierByName("modifier_slidan_worldedit_stack")
+    if modifier_slidan_worldedit_stack then
+        modifier_slidan_worldedit_stack:SetStackCount(1)
+    end
     if target:TriggerSpellAbsorb( self ) then
-        self:GetCaster():Interrupt()
         return
     end
-    local duration = self:GetChannelTime()
-    if self:GetCaster():HasShard() then
-        duration = 4
-    end
+    local duration = self:GetSpecialValueFor("duration")
     local modifier = target:AddNewModifier( self:GetCaster(), self, "modifier_slidan_suckdick_debuff", { duration = duration * (1 - target:GetStatusResistance()) } )
     self.modifiers[modifier] = true
-    self:GetCaster():EmitSound("Hero_Lion.ManaDrain")
 end
 
 function Slidan_SuckDick:OnChannelFinish( bInterrupted )
@@ -234,7 +264,6 @@ function Slidan_SuckDick:OnChannelFinish( bInterrupted )
         end
     end
     self.modifiers = {}
-    self:GetCaster():StopSound("Hero_Lion.ManaDrain")
 end
 
 function Slidan_SuckDick:Unregister( modifier )
@@ -254,7 +283,7 @@ end
 modifier_slidan_suckdick_debuff = class({})
 
 function modifier_slidan_suckdick_debuff:IsPurgable()
-    return false
+    return not self:GetCaster():HasShard()
 end
 
 function modifier_slidan_suckdick_debuff:OnCreated( kv )
@@ -267,11 +296,13 @@ function modifier_slidan_suckdick_debuff:OnCreated( kv )
         self.parent = self:GetParent()
         self:StartIntervalThink( interval )
         self:PlayEffects()
+        self:GetCaster():EmitSound("Hero_Lion.ManaDrain")
     end
 end
 
 function modifier_slidan_suckdick_debuff:OnDestroy()
     if not IsServer() then return end
+    self:GetCaster():StopSound("Hero_Lion.ManaDrain")
     if not self.forceDestroy then
         self:GetAbility():Unregister( self )
     end
@@ -294,28 +325,34 @@ function modifier_slidan_suckdick_debuff:GetModifierMoveSpeedBonus_Percentage()
 end
 
 function modifier_slidan_suckdick_debuff:OnIntervalThink()
-    if self.parent:IsMagicImmune() or self.parent:IsInvulnerable() or self.parent:IsIllusion() then
-        if not self:IsNull() then
-            self:Destroy()
-        end
+    if not IsServer() then return end
+
+    if self:GetCaster():IsStunned() or self:GetCaster():IsSilenced() then
+        self:Destroy()
         return
     end
-
+    if self.parent:IsInvulnerable() then
+        self:Destroy()
+        return
+    end
+    if not self:GetCaster():HasShard() then
+        if self.parent:IsMagicImmune() then
+            self:Destroy()
+            return
+        end
+    end
+    if self.parent:IsIllusion() then
+        self:Destroy()
+        return
+    end
     if not self:GetCaster():IsAlive() then
-        if not self:IsNull() then
-            self:Destroy()
-        end
+        self:Destroy()
         return
     end
-
     if (self:GetParent():GetOrigin()-self:GetCaster():GetOrigin()):Length2D()>self.radius then
-        if not self:IsNull() then
-            self:Destroy()
-        end
+        self:Destroy()
         return
     end
-
-    self:GetCaster():Heal(self.mana, self:GetAbility())
 
     local damageTable =
     {   victim = self:GetParent(),
@@ -374,9 +411,10 @@ function Slidan_NetherDroch:OnSpellStart()
         for _,enemy in ipairs(enemies) do
             ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self})
             enemy:AddNewModifier(self:GetCaster(), self, "modifier_slidan_NetherDroch", {duration = duration * (1 - enemy:GetStatusResistance())})
-            if self:GetCaster():HasTalent("special_bonus_birzha_slidan_8") then
-                enemy:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_slidan_8") * (1 - enemy:GetStatusResistance())})
-            end
+        end
+        local modifier_slidan_worldedit_stack = self:GetCaster():FindModifierByName("modifier_slidan_worldedit_stack")
+        if modifier_slidan_worldedit_stack then
+            modifier_slidan_worldedit_stack:SetStackCount(2)
         end
     end
 end
@@ -396,6 +434,13 @@ function modifier_slidan_NetherDroch:CheckState()
     {
         [MODIFIER_STATE_SILENCED] = true,
     }
+    if self:GetCaster():HasTalent("special_bonus_birzha_slidan_8") then
+        state = 
+        {
+            [MODIFIER_STATE_SILENCED] = true,
+            [MODIFIER_STATE_MUTED] = true,
+        }
+    end
     return state
 end
 
@@ -416,8 +461,15 @@ function modifier_slidan_NetherDroch:DeclareFunctions()
     local funcs = 
     {
         MODIFIER_PROPERTY_MISS_PERCENTAGE,
+        MODIFIER_PROPERTY_DISABLE_HEALING
     }
     return funcs
+end
+
+function modifier_slidan_NetherDroch:GetDisableHealing()
+    if self:GetCaster():HasScepter() then
+        return 1
+    end
 end
 
 function modifier_slidan_NetherDroch:GetModifierMiss_Percentage()
@@ -440,6 +492,10 @@ end
 function Slidan_ReallyClassic:OnSpellStart()
     if not IsServer() then return end
     self:GetCaster():EmitSound("classic")
+    local modifier_slidan_worldedit_stack = self:GetCaster():FindModifierByName("modifier_slidan_worldedit_stack")
+    if modifier_slidan_worldedit_stack then
+        modifier_slidan_worldedit_stack:SetStackCount(3)
+    end
 end
 
 function Slidan_ReallyClassic:OnChannelFinish( bInterrupted )
@@ -454,18 +510,16 @@ function Slidan_ReallyClassic:OnChannelFinish( bInterrupted )
         end
     end
 
-    if self:GetCaster():HasScepter() then
-        for i=0,8 do
-            local item = caster:GetItemInSlot(i)
-            if item then
-                local pass = false
-                if item:GetPurchaser()==caster and not self:IsItemException( item ) then
-                    pass = true
-                end
+    for i=0,8 do
+        local item = caster:GetItemInSlot(i)
+        if item then
+            local pass = false
+            if item:GetPurchaser()==caster and not self:IsItemException( item ) then
+                pass = true
+            end
 
-                if pass then
-                    item:EndCooldown()
-                end
+            if pass then
+                item:EndCooldown()
             end
         end
     end
@@ -507,6 +561,7 @@ Slidan_ReallyClassic.ItemException =
     ["item_brain_burner"] = true,  
     ["item_gamble_gold_ring"] = true,
     ["item_gamble_gold_ring_2"] = true,
+    ["item_hookah"] = true,
 }
 
 function Slidan_ReallyClassic:PlayEffects()

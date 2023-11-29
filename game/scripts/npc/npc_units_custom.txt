@@ -57,6 +57,21 @@
 		"RingRadius"				"0"
 	}
 
+	"npc_birzha_lantern_observer"
+	{
+		"BaseClass"					"npc_dota_creature"
+		"Model"						"models/props_gameplay/lantern/lantern_of_sight.vmdl"
+		"Level"						"1"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"
+		"StatusHealth"				"1"
+		"VisionDaytimeRange"		"600"
+		"VisionNighttimeRange"		"600"
+		"RingRadius"				"0"
+		"MinimapIcon"				"minimap_ward_obs"
+		"MinimapIconSize"			"1"
+	}
+
 	"npc_dummy_unit"
 	{
 		"BaseClass" "npc_dota_base_additive"
@@ -115,8 +130,8 @@
 	{
 		"Ability1"					"ability_fountain"
 		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
-		"VisionDaytimeRange"		"900"
-		"VisionNighttimeRange"		"900"
+		"VisionDaytimeRange"		"1150"
+		"VisionNighttimeRange"		"1150"
 	}
 
 	"npc_dota_courier"
@@ -152,7 +167,7 @@
 		"StatusHealth"				"1"
 		"VisionDaytimeRange"		"0"	
 		"VisionNighttimeRange"		"0"
-		"vscripts"                  "memespass/premiumPet.lua"
+		"vscripts"                  "abilities/units/premiumPet.lua"
 	}
 
 	"npc_dota_seasonal_cny_balloon"
@@ -237,7 +252,7 @@
 		"StatusHealth"				"1"
 		"VisionDaytimeRange"		"0"	
 		"VisionNighttimeRange"		"0"
-		"vscripts"                  "memespass/donaters.lua"
+		"vscripts"                  "abilities/units/donaters.lua"
 	}
 	
 	"sozdatel_StrangeR"
@@ -257,7 +272,7 @@
 		"StatusHealth"				"1"
 		"VisionDaytimeRange"		"0"	
 		"VisionNighttimeRange"		"0"
-		"vscripts"                  "memespass/donaters.lua"
+		"vscripts"                  "abilities/units/donaters.lua"
 	}
 
 	"sozdatel_rolla"
@@ -277,7 +292,7 @@
 		"StatusHealth"				"1"
 		"VisionDaytimeRange"		"0"	
 		"VisionNighttimeRange"		"0"
-		"vscripts"                  "memespass/donaters.lua"
+		"vscripts"                  "abilities/units/donaters.lua"
 	}
 	
 	"sozdatel_UblueWolf"
@@ -297,7 +312,7 @@
 		"StatusHealth"				"1"
 		"VisionDaytimeRange"		"0"	
 		"VisionNighttimeRange"		"0"
-		"vscripts"                  "memespass/donaters.lua"
+		"vscripts"                  "abilities/units/donaters.lua"
 	}
 	
 	"donater_top1"
@@ -317,7 +332,7 @@
 		"StatusHealth"				"1"
 		"VisionDaytimeRange"		"0"	
 		"VisionNighttimeRange"		"0"
-		"vscripts"                  "memespass/donaters.lua"
+		"vscripts"                  "abilities/units/donaters.lua"
 	}
 	
 	"donater_top2"
@@ -337,7 +352,7 @@
 		"StatusHealth"				"1"
 		"VisionDaytimeRange"		"0"	
 		"VisionNighttimeRange"		"0"
-		"vscripts"                  "memespass/donaters.lua"
+		"vscripts"                  "abilities/units/donaters.lua"
 	}
 	
 	"donater_top3"
@@ -357,7 +372,7 @@
 		"StatusHealth"				"1"
 		"VisionDaytimeRange"		"0"	
 		"VisionNighttimeRange"		"0"
-		"vscripts"                  "memespass/donaters.lua"
+		"vscripts"                  "abilities/units/donaters.lua"
 	}
 	
 	"donater_top4"
@@ -377,7 +392,7 @@
 		"StatusHealth"				"1"
 		"VisionDaytimeRange"		"0"	
 		"VisionNighttimeRange"		"0"
-		"vscripts"                  "memespass/donaters.lua"
+		"vscripts"                  "abilities/units/donaters.lua"
 	}
 	
 	"donater_top5"
@@ -397,7 +412,7 @@
 		"StatusHealth"				"1"
 		"VisionDaytimeRange"		"0"	
 		"VisionNighttimeRange"		"0"
-		"vscripts"                  "memespass/donaters.lua"
+		"vscripts"                  "abilities/units/donaters.lua"
 	}
 
 	"donater_top6"
@@ -417,7 +432,7 @@
 		"StatusHealth"				"1"
 		"VisionDaytimeRange"		"0"	
 		"VisionNighttimeRange"		"0"
-		"vscripts"                  "memespass/donaters.lua"
+		"vscripts"                  "abilities/units/donaters.lua"
 	}
 
 	"donater_top7"
@@ -437,7 +452,7 @@
 		"StatusHealth"				"1"
 		"VisionDaytimeRange"		"0"	
 		"VisionNighttimeRange"		"0"
-		"vscripts"                  "memespass/donaters.lua"
+		"vscripts"                  "abilities/units/donaters.lua"
 	}
 
 	"donater_top8"
@@ -457,7 +472,7 @@
 		"StatusHealth"				"1"
 		"VisionDaytimeRange"		"0"	
 		"VisionNighttimeRange"		"0"
-		"vscripts"                  "memespass/donaters.lua"
+		"vscripts"                  "abilities/units/donaters.lua"
 	}
 
 	"donater_top9"
@@ -477,7 +492,7 @@
 		"StatusHealth"				"1"
 		"VisionDaytimeRange"		"0"	
 		"VisionNighttimeRange"		"0"
-		"vscripts"                  "memespass/donaters.lua"
+		"vscripts"                  "abilities/units/donaters.lua"
 	}
 
 	"npc_unit_happy_tank"
@@ -1141,14 +1156,14 @@
 		"IsAncient"					"1"
 		"ModelScale" 				"0.8"
 		"ArmorPhysical"				"10"		
-		"MagicalResistance"			"75"		
+		"MagicalResistance"			"25"		
 		"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
 		"AttackDamageMin"			"90"		
 		"AttackDamageMax"			"90"		
 		"AttackRate"				"0.65"		
 		"AttackAnimationPoint"		"0.25"		
 		"AttackAcquisitionRange"	"800"
-		"AttackRange"				"800"
+		"AttackRange"				"650"
 		"ProjectileModel"			"particles/econ/items/sniper/sniper_charlie/sniper_base_attack_charlie.vpcf"
 		"ProjectileSpeed"			"3000"	   
 		"RingRadius"				"50"
@@ -1159,8 +1174,8 @@
 		"BountyGoldMax"				"0"
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
 		"MovementSpeed"				"375"
-		"StatusHealth"				"1000"
-		"StatusHealthRegen"			"1"
+		"StatusHealth"				"3"
+		"StatusHealthRegen"			"0"
 		"StatusMana"				"0"
 		"StatusManaRegen"			"0"			 
 		"VisionDaytimeRange"		"1200"
@@ -1193,14 +1208,14 @@
 		"IsAncient"					"1"
 		"ModelScale" 				"0.8"
 		"ArmorPhysical"				"10"		
-		"MagicalResistance"			"75"		
+		"MagicalResistance"			"25"		
 		"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
-		"AttackDamageMin"			"135"		
-		"AttackDamageMax"			"135"		
+		"AttackDamageMin"			"120"		
+		"AttackDamageMax"			"120"		
 		"AttackRate"				"0.65"		
 		"AttackAnimationPoint"		"0.25"		
 		"AttackAcquisitionRange"	"800"		
-		"AttackRange"				"800"		
+		"AttackRange"				"650"		
 		"ProjectileModel"			"particles/econ/items/sniper/sniper_charlie/sniper_base_attack_charlie.vpcf"			
 		"ProjectileSpeed"			"3000"				   
 		"RingRadius"				"50"
@@ -1211,8 +1226,8 @@
 		"BountyGoldMax"				"0"		
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
 		"MovementSpeed"				"375"		
-		"StatusHealth"				"1750"		
-		"StatusHealthRegen"			"1"		
+		"StatusHealth"				"4"		
+		"StatusHealthRegen"			"0"		
 		"StatusMana"				"0"			
 		"StatusManaRegen"			"0"				 
 		"VisionDaytimeRange"		"1200"		
@@ -1246,14 +1261,14 @@
 		"IsAncient"					"1"
 		"ModelScale" 				"0.8"
 		"ArmorPhysical"				"10"		
-		"MagicalResistance"			"75"		
+		"MagicalResistance"			"25"		
 		"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
-		"AttackDamageMin"			"180"		
-		"AttackDamageMax"			"180"		
+		"AttackDamageMin"			"160"		
+		"AttackDamageMax"			"160"		
 		"AttackRate"				"0.65"		
 		"AttackAnimationPoint"		"0.25"		
 		"AttackAcquisitionRange"	"800"		
-		"AttackRange"				"800"		
+		"AttackRange"				"650"		
 		"ProjectileModel"			"particles/econ/items/sniper/sniper_charlie/sniper_base_attack_charlie.vpcf"			
 		"ProjectileSpeed"			"3000"				   
 		"RingRadius"				"50"
@@ -1264,8 +1279,8 @@
 		"BountyGoldMax"				"0"		
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
 		"MovementSpeed"				"375"		
-		"StatusHealth"				"2500"		
-		"StatusHealthRegen"			"1"		
+		"StatusHealth"				"5"		
+		"StatusHealthRegen"			"0"		
 		"StatusMana"				"0"			
 		"StatusManaRegen"			"0"				 
 		"VisionDaytimeRange"		"1200"		
@@ -1330,6 +1345,7 @@
         "UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
         "AutoAttacksByDefault"  "1"
         "IsSummoned"            "1"
+        "CanBeDominated"            "0"
 	}
 	
 	//=================================================================================
@@ -1373,6 +1389,7 @@
         "UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
         "AutoAttacksByDefault"  "1"
         "IsSummoned"            "1"
+        "CanBeDominated"            "0"
 	}
 	
 	//=================================================================================
@@ -1416,6 +1433,7 @@
         "UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
         "AutoAttacksByDefault"  	"1"
         "IsSummoned"           	 	"1"
+        "CanBeDominated"            "0"
 	}
 
 	//=================================================================================
@@ -2831,7 +2849,7 @@
 		"SoundSet"					"Hero_Pangolier"
 		"HasInventory"          	"0"
 		"Level"						"15"
-		"ModelScale"				"1.2"
+		"ModelScale"				"0.9"
 		"IsSummoned"				"1"
 		"IsAncient"					"1"
 		"ConsideredHero"			"1"
@@ -2865,7 +2883,7 @@
 		"StatusManaRegen"			"7"	
 		"VisionDaytimeRange"		"1400"
 		"VisionNighttimeRange"		"800"
-		"HealthBarOffset"			"300"
+		"HealthBarOffset"			"160"
 		"TeamName"					"DOTA_TEAM_NEUTRALS"
 		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
 		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_HERO"
@@ -2878,7 +2896,7 @@
 		"Model"						"models/heroes/polnaref/chariot.vmdl"
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"Hero_Pangolier"
-		"ModelScale"				"1.2"
+		"ModelScale"				"0.9"
 		"IsSummoned"				"1"
 		"ArmorPhysical"				"0"
 		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
@@ -2917,7 +2935,7 @@
 		"Model"						"models/heroes/polnaref/chariot.vmdl"
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"Hero_Pangolier"
-		"ModelScale"				"1.2"
+		"ModelScale"				"0.9"
 		"IsSummoned"				"1"
 		"ArmorPhysical"				"0"
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
@@ -2950,15 +2968,6 @@
 		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
 		"MagicalResistance"			"0"
 	}
-
-
-
-
-
-
-
-
-
 
 	"npc_pyramide_unit_aghanim"
 	{										
@@ -3119,7 +3128,7 @@
 	
 	"npc_dio_theworld_1"
 	{										
-		"Model"						"models/heroes/anime/jojo/the_world/the_world.vmdl"
+		"Model"						"models/update_heroes/dio_base/dio_the_world.vmdl"
 		"BaseClass"					"npc_dota_creature"
 		"Level"						"15"
 		"SoundSet"					"Hero_Marci"
@@ -3172,7 +3181,7 @@
 	
 	"npc_dio_theworld_2"
 	{										
-		"Model"						"models/heroes/anime/jojo/the_world/the_world.vmdl"
+		"Model"						"models/update_heroes/dio_base/dio_the_world.vmdl"
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"Hero_Marci"
 		"Level"						"15"
@@ -3225,7 +3234,7 @@
 	
 	"npc_dio_theworld_3"
 	{										
-		"Model"						"models/heroes/anime/jojo/the_world/the_world.vmdl"
+		"Model"						"models/update_heroes/dio_base/dio_the_world.vmdl"
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"Hero_Marci"
 		"Level"						"15"
@@ -3950,7 +3959,7 @@
 	"npc_overlord_small_prihvost"
 	{
         "BaseClass"             "npc_dota_creature"
-        "Model"                 "models/models/heroes/overlord/minion.vmdl"
+        "Model"                 "models/update_heroes/overlord_game/minion/overlord_minion.vmdl"
         "ModelScale"            "1.3"
 		"SoundSet"				"Hero_Undying"
         "Level"                 "50"
@@ -3990,7 +3999,7 @@
 	"npc_overlord_small_prihvost_portal"
 	{
         "BaseClass"             "npc_dota_creature"
-        "Model"                 "models/models/heroes/overlord/minion.vmdl"
+        "Model"                 "models/update_heroes/overlord_game/minion/overlord_minion.vmdl"
         "ModelScale"            "1.3"
 		"SoundSet"				"Hero_Undying"
         "Level"                 "50"
@@ -4030,7 +4039,7 @@
 	"npc_overlord_prihvost_ultimate"
 	{
         "BaseClass"             "npc_dota_base_additive"
-        "Model"                 "models/models/heroes/overlord/clown.vmdl"
+        "Model"                 "models/update_heroes/overlord_game/minion/overlord_clown.vmdl"
         "ModelScale"            "1.6"
 		"SoundSet"				"Hero_Undying"
         "Level"                 "50"
@@ -4809,7 +4818,7 @@
 		"ProjectileModel"			"particles/units/heroes/hero_beastmaster/beastmaster_boar_attack.vpcf"
 		"ProjectileSpeed"			"1500"
 		"HealthBarOffset"			"125"
-		"BountyXP"					"0"
+		"BountyXP"					"0" 
 		"BountyGoldMin"				"0"
 		"BountyGoldMax"				"0"
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
@@ -4828,4 +4837,284 @@
 		"MagicalResistance"			"25"
 	}
 
+    "scene_panel_npc_dota_hero_techies"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/dimon/dimon_model.vmdl"
+    }
+    "scene_panel_npc_dota_hero_abaddon"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/heroes/meepo/meepo.vmdl"
+    }
+    "scene_panel_npc_dota_hero_juggernaut"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/npc/npc_dingus/dingus.vmdl"
+    }
+    "scene_panel_npc_dota_hero_sand_king"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/scp173/scp173.vmdl"
+    }
+    "scene_panel_npc_dota_hero_winter_wyvern"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/knuckles/knuckles.vmdl"
+    }
+    "scene_panel_npc_dota_hero_enigma"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/items/axe/ti9_jungle_axe/axe_bare.vmdl"
+    }
+    "scene_panel_npc_dota_hero_invoker"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/heroes/invoker_kid/invoker_kid.vmdl"
+    }
+    "scene_panel_npc_dota_hero_gyrocopter"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/train_thomas/train_thomas.vmdl"
+    }
+    "scene_panel_npc_dota_hero_rubick"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/ns/ns_model.vmdl"
+    }
+    "scene_panel_npc_dota_hero_life_stealer"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/kaneki/kaneki.vmdl"
+    }
+    "scene_panel_npc_dota_hero_spectre"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/ruby/ruby.vmdl"
+    }
+    "scene_panel_npc_dota_hero_sven"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/guts/guts.vmdl"
+    }
+    "scene_panel_npc_dota_hero_naga_siren"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/akame/akame.vmdl"
+    }
+    "scene_panel_npc_dota_hero_enchantress"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/hatsune_miku/hatsune_miku.vmdl"
+    }
+    "scene_panel_npc_dota_hero_phantom_assassin"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/yuno/yuno.vmdl"
+    }
+    "scene_panel_npc_dota_hero_crystal_maiden"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/rem/rem.vmdl"
+    }
+    "scene_panel_npc_dota_hero_queenofpain"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/kurumi/kurumi_base.vmdl"
+    }
+    "scene_panel_npc_dota_hero_dark_willow"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/monika/monika.vmdl"
+    }
+    "scene_panel_npc_dota_hero_templar_assassin"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/megumin/megumin.vmdl"
+    }
+    "scene_panel_npc_dota_hero_lina"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/ram/ram.vmdl"
+    }
+    "scene_panel_npc_dota_hero_morphling"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/felix/felix.vmdl"
+    }
+    "scene_panel_npc_dota_hero_abyssal_underlord"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/ghostface/ghost_face.vmdl"
+    }
+    "scene_panel_npc_dota_hero_phantom_lancer"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/rin/rin.vmdl"
+    }
+    "scene_panel_npc_dota_hero_luna"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/horo/horo.vmdl"
+    }
+    "scene_panel_npc_dota_hero_ogre_magi"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/creeps/ogre_1/large_ogre.vmdl"
+    }
+    "scene_panel_npc_dota_hero_vengefulspirit"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/shiro/shiro.vmdl"
+    }
+    "scene_panel_npc_dota_hero_nyx_assassin"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/heroes/rikimaru/rikimaru.vmdl"
+    }
+    "scene_panel_npc_dota_hero_centaur"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/goku/goku_base.vmdl"
+    }
+    "scene_panel_npc_dota_hero_batrider"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/heroes/polnaref/polnaref.vmdl"
+    }
+    "scene_panel_npc_dota_hero_slardar"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/scp192/scp192.vmdl"
+    }
+    "scene_panel_npc_dota_hero_magnataur"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/hisoka/hisoka.vmdl"
+    }
+    "scene_panel_npc_dota_hero_treant"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/overlord_game/overlord.vmdl"
+    }
+    "scene_panel_npc_dota_hero_tidehunter"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/creeps/neutral_creeps/n_creep_gargoyle/n_creep_gargoyle.vmdl"
+    }
+    "scene_panel_npc_dota_hero_dawnbreaker"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/kakashi/kakashi.vmdl"
+    }
+    "scene_panel_npc_dota_hero_oracle"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/avatar_aang/avatar_aang.vmdl"
+    }
+    "scene_panel_npc_dota_hero_void_spirit"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/items/queenofpain/queenofpain_arcana/queenofpain_arcana.vmdl"
+    }
+    "scene_panel_npc_dota_hero_arc_warden"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/haku/haku_with_mask.vmdl"
+    }
+    "scene_panel_npc_dota_hero_sasake"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/heroes/juggernaut/juggernaut_arcana.vmdl"
+    }
+    "scene_panel_npc_dota_hero_migi"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/migi/migi.vmdl"
+    }
+    "scene_panel_npc_dota_hero_overlord"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/overlord_anime/overlord.vmdl"
+    }
+    "scene_panel_npc_dota_hero_stone_dwayne"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/items/tiny/tiny_bad_to_the_bone_belt/tiny_bad_to_the_bone_belt.vmdl"
+    }
+    "scene_panel_npc_dota_hero_silencer"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/update_heroes/pucci/pucci.vmdl"
+    }
+    "scene_panel_npc_dota_hero_marci"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/kyriyama/girl_2.vmdl"
+    }
+    "scene_panel_npc_dota_hero_rat"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/dead_rat/dead_rat.vmdl"
+    }
+    "scene_panel_npc_dota_hero_pump"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/pump/pump.vmdl"
+    }
+    "scene_panel_npc_dota_hero_pyramide"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/pyramide/pyramide.vmdl"
+    }
+    "scene_panel_npc_dota_hero_sonic"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/sonic/sonic.vmdl"
+    }
+    "scene_panel_npc_dota_hero_travoman"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/travoman/travoman_head.vmdl"
+    }
+    "scene_panel_npc_dota_hero_jull"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/jull/jull.vmdl"
+    }
+    "scene_panel_npc_dota_hero_nolik"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/nolik/nolik.vmdl"
+    }
+    "scene_panel_npc_dota_hero_freddy"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/freddy/freddy.vmdl"
+    }
+    "scene_panel_npc_dota_hero_saitama"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/heroes/anime/opm/saitama/saitama.vmdl"
+    }
+    "scene_panel_npc_dota_hero_tailer"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/heroes/undying/undying.vmdl"
+    }
+    "scene_panel_npc_dota_hero_thomas_bebra"
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/tailer/shelby.vmdl"
+    }
+    "scene_panel_npc_dota_hero_serega_pirat" 
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/pirat/serega.vmdl"
+    }
+    "scene_panel_npc_dota_hero_venom" 
+    {
+        "BaseClass"				"npc_dota_base_additive"
+        "Model"                 "models/venom/venom.vmdl"
+    }
 }

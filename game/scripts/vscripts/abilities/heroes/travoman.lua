@@ -14,14 +14,88 @@ function travoman_land_mines:GetCastRange(location, target)
     return self.BaseClass.GetCastRange(self, location, target)
 end
 
+travoman_land_mines.mine_sausage = {}
+
 function travoman_land_mines:OnSpellStart()
     if not IsServer() then return end
     local point = self:GetCursorPosition()
+    self:GetCaster():EmitSound("travoman_land")
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_travoman_2") then
+        local npc_dota_travoman_minefield_sign = nil
+        local travoman_signs = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, -1, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD, FIND_ANY_ORDER, false)
+        for _, sign_search in pairs(travoman_signs) do
+            if sign_search and sign_search:GetUnitName() == "npc_dota_travoman_minefield_sign" then
+                self:CreateMine(sign_search:GetAbsOrigin() + RandomVector(RandomInt(50, 100)))
+            end
+        end
+    end
+
+    local shard_activate = false
+    
+    if self:GetCaster():HasShard() then
+        local travoman_sausage = self:GetCaster():FindAbilityByName("travoman_sausage")
+        if travoman_sausage and travoman_sausage:GetLevel() > 0 and travoman_sausage:IsFullyCastable() then
+            shard_activate = true
+            local direction = point - self:GetCaster():GetAbsOrigin()
+            direction.z = 0
+            direction = direction:Normalized()
+            local distance = 150
+            local bonus = 0
+            if travoman_sausage.bonus ~= nil then
+                bonus = travoman_sausage.bonus
+                travoman_sausage.bonus = math.min(travoman_sausage.bonus + 1, 20)
+            else
+                travoman_sausage.bonus = 1
+            end
+            if travoman_land_mines.mine_sausage then
+                for _, mine in pairs(travoman_land_mines.mine_sausage) do
+                    if mine and not mine:IsNull() and mine:IsAlive() then
+                        UTIL_Remove(mine)
+                    end
+                end
+                travoman_land_mines.mine_sausage = {}
+            end
+            for i=1, 10+bonus do
+                local new_point = self:GetCaster():GetAbsOrigin() + direction * (i * distance)
+                if i % 5 == 0 then
+                    local travoman_stasis_trap = self:GetCaster():FindAbilityByName("travoman_stasis_trap")
+                    if travoman_stasis_trap and travoman_stasis_trap:GetLevel() > 0 then
+                        local planted_mine = travoman_stasis_trap:CreateMine(new_point)
+                        if planted_mine then
+                            table.insert(self.mine_sausage, planted_mine)
+                        end
+                    end
+                elseif RollPercentage(50) then
+                    local travoman_remote_mines = self:GetCaster():FindAbilityByName("travoman_remote_mines")
+                    if travoman_remote_mines and travoman_remote_mines:GetLevel() > 0 then
+                        local planted_mine = travoman_remote_mines:CreateMine(new_point)
+                        if planted_mine then
+                            table.insert(self.mine_sausage, planted_mine)
+                        end
+                    end
+                else
+                    local planted_mine = self:CreateMine(new_point)
+                    if planted_mine then
+                        table.insert(self.mine_sausage, planted_mine)
+                    end
+                end
+            end
+            travoman_sausage:UseResources(false, false, false, true)
+        end
+    end
+    if not shard_activate then
+        self:CreateMine(point)
+    end
+end
+
+function travoman_land_mines:CreateMine(point)
     self:GetCaster():EmitSound("Hero_Techies.LandMine.Plant")
     self:GetCaster():EmitSound("travoman_land")
     local mine = CreateUnitByName("travoman_land_mine", point, true, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
     mine:SetControllableByPlayer(self:GetCaster():GetPlayerID(), false)
     mine:AddNewModifier(self:GetCaster(), self, "modifier_travoman_land_mines", {})
+    return mine
 end
 
 modifier_travoman_land_mines = class({})
@@ -90,10 +164,6 @@ function modifier_travoman_land_mines:Explosion()
 
     local flag = 0
     local damage_type = DAMAGE_TYPE_MAGICAL
-
-    if self:GetCaster():HasTalent("special_bonus_birzha_travoman_2") then
-        damage_type = DAMAGE_TYPE_PHYSICAL
-    end
 
     local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, FIND_ANY_ORDER, false)
 
@@ -179,12 +249,26 @@ end
 function travoman_stasis_trap:OnSpellStart()
     if not IsServer() then return end
     local point = self:GetCursorPosition()
-    self:GetCaster():EmitSound("Hero_Techies.StasisTrap.Plant")
     self:GetCaster():EmitSound("travoman_stasis")
+    self:CreateMine(point)
+    if self:GetCaster():HasTalent("special_bonus_birzha_travoman_2") then
+        local npc_dota_travoman_minefield_sign = nil
+        local travoman_signs = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, -1, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD, FIND_ANY_ORDER, false)
+        for _, sign_search in pairs(travoman_signs) do
+            if sign_search and sign_search:GetUnitName() == "npc_dota_travoman_minefield_sign" then
+                self:CreateMine(sign_search:GetAbsOrigin() + RandomVector(RandomInt(50, 100)))
+            end
+        end
+    end
+end
+
+function travoman_stasis_trap:CreateMine(point)
+    self:GetCaster():EmitSound("Hero_Techies.StasisTrap.Plant")
     local mine = CreateUnitByName("travoman_stasis_mine", point, true, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
     mine:SetControllableByPlayer(self:GetCaster():GetPlayerID(), false)
     mine:AddNewModifier(self:GetCaster(), self, "modifier_travoman_stasis_trap", {})
     mine:AddNewModifier(self:GetCaster(), self, "modifier_kill", {duration = self:GetSpecialValueFor("duration")})
+    return mine
 end
 
 modifier_travoman_stasis_trap = class({})
@@ -581,6 +665,10 @@ function travoman_remote_mines:GetAOERadius()
     return self:GetSpecialValueFor("radius")
 end
 
+function travoman_remote_mines:GetCooldown(level)
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_travoman_7")
+end
+
 function travoman_remote_mines:OnAbilityPhaseStart()
     local point = self:GetCursorPosition()
     self:GetCaster():EmitSound("Hero_Techies.RemoteMine.Toss")
@@ -601,6 +689,21 @@ end
 function travoman_remote_mines:OnSpellStart()
     if not IsServer() then return end
     local point = self:GetCursorPosition()
+    self:CreateMine(point)
+    if self:GetCaster():HasTalent("special_bonus_birzha_travoman_2") then
+        local npc_dota_travoman_minefield_sign = nil
+        local travoman_signs = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, -1, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD, FIND_ANY_ORDER, false)
+        for _, sign_search in pairs(travoman_signs) do
+            if sign_search and sign_search:GetUnitName() == "npc_dota_travoman_minefield_sign" then
+                self:CreateMine(sign_search:GetAbsOrigin() + RandomVector(RandomInt(50, 100)))
+            end
+        end
+    end
+    self:GetCaster():EmitSound("travoman_ultimate")
+end
+
+function travoman_remote_mines:CreateMine(point)
+    if not IsServer() then return end
     self:GetCaster():EmitSound("Hero_Techies.RemoteMine.Plant")
     local mine = CreateUnitByName("npc_travoman_remote_mines", point, true, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
     mine:AddNewModifier(self:GetCaster(), self, "modifier_travoman_remote_mines", {})
@@ -610,7 +713,7 @@ function travoman_remote_mines:OnSpellStart()
     if ability then
         ability:SetLevel(1)
     end
-    self:GetCaster():EmitSound("travoman_ultimate")
+    return mine
 end
 
 modifier_travoman_remote_mines = class({})
@@ -630,9 +733,8 @@ function modifier_travoman_remote_mines:OnCreated()
     local particle_radius = ParticleManager:CreateParticleForTeam("particles/ui_mouseactions/range_display.vpcf", PATTACH_WORLDORIGIN, self:GetParent(), self:GetParent():GetTeamNumber())
     ParticleManager:SetParticleControl(particle_radius, 0, self:GetParent():GetAbsOrigin())
     ParticleManager:SetParticleControl(particle_radius, 1, Vector(radius,0,0))
-
-    self:AddParticle(particle_mine_fx, false, false, -1, false, false)
-    self:AddParticle(particle_radius, false, false, -1, false, false)
+    self:AddParticle(particle_mine_fx, true, false, -1, false, false)
+    self:AddParticle(particle_radius, true, false, -1, false, false)
 end
 
 function modifier_travoman_remote_mines:CheckState()
@@ -735,7 +837,6 @@ function travoman_remote_mines_self_detonate:Spawn()
     if not IsServer() then return end
     if self and not self:IsTrained() then
         self:SetLevel(1)
-        print(self:GetLevel())
     end
 end
 
@@ -746,10 +847,6 @@ function travoman_remote_mines_self_detonate:OnSpellStart()
     local scepter = owner:HasShard()
     local damage = ability:GetSpecialValueFor("damage")
     local radius = ability:GetSpecialValueFor("radius")
-
-    if scepter then
-        damage = ability:GetSpecialValueFor("damage_scepter")
-    end
 
     self:GetCaster():EmitSound("Hero_Techies.RemoteMine.Activate")
     self:GetCaster():EmitSound("travoman_ultimate")
@@ -763,21 +860,10 @@ function travoman_remote_mines_self_detonate:OnSpellStart()
 
     local flag = 0
 
-    if owner:HasTalent("special_bonus_birzha_travoman_7") then
-        flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
-    end
-
-    print(flag)
-
     local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, FIND_ANY_ORDER, false)
 
     for _,enemy in pairs(enemies) do
         local damage_type = DAMAGE_TYPE_MAGICAL
-        if owner:HasTalent("special_bonus_birzha_travoman_7") then
-            if enemy:IsMagicImmune() then
-                damage_type = DAMAGE_TYPE_PURE
-            end
-        end
         ApplyDamage({victim = enemy, attacker = owner, damage = damage, damage_type = damage_type, ability = ability, damage_flags = DOTA_DAMAGE_FLAG_REFLECTION, })
     end
 
@@ -885,6 +971,26 @@ function modifier_travoman_minefield_sign_aura:GetModifierInvisibilityLevel()
     return 1
 end
 
+travoman_sausage = class({})
+
+function travoman_sausage:GetCooldown(level)
+    return self.BaseClass.GetCooldown( self, level ) / ( self:GetCaster():GetCooldownReduction())
+end
+
+function travoman_sausage:OnInventoryContentsChanged()
+    if self:GetCaster():HasShard() then
+        self:SetHidden(false)       
+        if not self:IsTrained() then
+            self:SetLevel(1)
+        end
+    else
+        self:SetHidden(true)
+    end
+end
+
+function travoman_sausage:OnHeroCalculateStatBonus()
+    self:OnInventoryContentsChanged()
+end
 
 
 

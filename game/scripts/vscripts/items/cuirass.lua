@@ -410,15 +410,17 @@ function modifier_item_magical_cuirass_active:GetTexture()
 end
 
 function modifier_item_magical_cuirass_active:OnCreated(keys)
-    if not IsServer() then return end
     local magical_resist_active = self:GetAbility():GetSpecialValueFor("magical_resist_active")
+    self.start_shield = magical_resist_active
+    if not IsServer() then return end
     self.remaining_health = magical_resist_active
     self:SetStackCount(self.remaining_health)
 end
 
 function modifier_item_magical_cuirass_active:OnRefresh(keys)
-    if not IsServer() then return end
     local magical_resist_active = self:GetAbility():GetSpecialValueFor("magical_resist_active")
+    self.start_shield = magical_resist_active
+    if not IsServer() then return end
     self.remaining_health = magical_resist_active
     self:SetStackCount(self.remaining_health)
 end
@@ -462,8 +464,11 @@ function modifier_item_magical_cuirass_active:GetModifierTotal_ConstantBlock(kv)
 	end
 end
 
-function modifier_item_magical_cuirass_active:GetModifierIncomingSpellDamageConstant()
+function modifier_item_magical_cuirass_active:GetModifierIncomingSpellDamageConstant(params)
     if (not IsServer()) then
+        if params.report_max then
+            return self.start_shield
+        end
         return self:GetStackCount()
     end
 end
@@ -656,7 +661,6 @@ function modifier_item_birzha_blade_mail_active:OnTakeDamage(keys)
 			if keys.attacker:IsMagicImmune() then return end
 		end
 		EmitSoundOnClient("DOTA_Item.BladeMail.Damage", keys.attacker:GetPlayerOwner())
-		donate_shop:QuestProgress(16, self:GetParent():GetPlayerOwnerID(), math.floor(keys.original_damage / 100 * self:GetAbility():GetSpecialValueFor("return_damage")))
 		ApplyDamage({ victim = keys.attacker, damage = keys.original_damage / 100 * self:GetAbility():GetSpecialValueFor("return_damage"), damage_type = keys.damage_type, damage_flags = DOTA_DAMAGE_FLAG_REFLECTION + DOTA_DAMAGE_FLAG_NO_SPELL_LIFESTEAL + DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION, attacker = self:GetParent(), ability = self:GetAbility() })
 	end
 end

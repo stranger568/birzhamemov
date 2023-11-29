@@ -86,8 +86,6 @@ function modifier_item_mega_spinner:OnAttackLanded(params)
 			ParticleManager:SetParticleControl(particle, 0, params.target:GetAbsOrigin())
 		end
 
-		donate_shop:QuestProgress(29, self:GetCaster():GetPlayerOwnerID(), math.floor(damage))
-
         ApplyDamage({victim = params.target, attacker = self:GetParent(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
         params.target:EmitSound("DOTA_Item.MKB.melee")
         params.target:EmitSound("DOTA_Item.MKB.Minibash")

@@ -22,7 +22,7 @@ function overlord_prihvosti:OnSpellStart()
 
     local duration = self:GetSpecialValueFor( "duration" )
 
-    for _, unit in pairs(FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED, FIND_ANY_ORDER, false)) do
+    for _, unit in pairs(FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED + DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD + DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_ANY_ORDER, false)) do
         if unit:GetUnitName() == "npc_overlord_small_prihvost" and unit:GetOwner() == self:GetCaster() then
             unit:ForceKill(false)               
         end
@@ -372,7 +372,7 @@ end
 function overlord_terror_legion:OnSpellStart()
     if not IsServer() then return end
     local duration = self:GetSpecialValueFor( "duration" )
-    for _, unit in pairs(FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED, FIND_ANY_ORDER, false)) do
+    for _, unit in pairs(FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED + DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD, FIND_ANY_ORDER, false)) do
         if unit:GetUnitName() == "npc_overlord_small_prihvost" or unit:GetUnitName() == "npc_overlord_small_prihvost_portal" or unit:GetUnitName() == "npc_overlord_big_prihvost_portal" then
             unit:AddNewModifier(self:GetCaster(), self, "modifier_overlord_terror_legion", {duration = duration})
             if self:GetCaster():HasTalent("special_bonus_birzha_overlord_7") then
@@ -462,7 +462,7 @@ function overlord_select_target:OnSpellStart()
     local duration = self:GetSpecialValueFor( "duration" )
     self.target = self:GetCursorTarget()
     if self.target:TriggerSpellAbsorb(self) then return nil end
-    for _, unit in pairs(FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED, FIND_ANY_ORDER, false)) do
+    for _, unit in pairs(FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED + DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD, FIND_ANY_ORDER, false)) do
         if unit:GetUnitName() == "npc_overlord_small_prihvost" or unit:GetUnitName() == "npc_overlord_small_prihvost_portal" or unit:GetUnitName() == "npc_overlord_big_prihvost_portal" then
             unit:AddNewModifier(self:GetCaster(), self, "modifier_overlord_select_target", {duration = duration})
         end

@@ -18,7 +18,7 @@
 		"item"		"item_birzha_ward"
 
 		"item"		"item_aghanims_shard"
-		"item"		"item_refresher_shard"
+		"item"		"item_refresher_shard_custom"
 	}
 
 	"attributes"
@@ -48,6 +48,11 @@
 		"item"		"item_mana_heart"
 		"item"		"item_magic_crystalis"
 		"item"		"item_magic_daedalus"
+		"item"		"item_magical_rapier"
+		"item"		"item_phylactery_custom"
+		"item"		"item_ban_hammer"
+		"item"		"item_mystic_blade_custom"
+		"item"		"item_weapon_shakal"
 	}
 			
 	"misc"
@@ -85,6 +90,7 @@
 		"item"		"item_dead_of_madness"
 		"item"		"item_gunbai_uchiha"
 		"item"		"item_scp500"
+		"item"		"item_power_orb"
 	}	
 	
 	// Level 1 - Green Recipes
@@ -125,7 +131,6 @@
 		"item"		"item_vladmir"	
 		"item"		"item_mekansm"					
 		"item"		"item_pipe"		
-		"item"		"item_harpoon"	
 	}
 				
 	"magics"			
@@ -142,7 +147,7 @@
 		//"item"		"item_rune_breaker"
 		//"item"		"item_aether_staff"
 		"item"		"item_orchid_custom"	
-		"item"		"item_refresher"
+		"item"		"item_refresher_custom"
 		"item"		"item_sheepstick"
 		"item"		"item_glimmer_cape"
 	}
@@ -180,7 +185,8 @@
 		"item"		"item_rapier"
 		"item"		"item_abyssal_blade"	
 		"item"		"item_revenants_brooch"	
-		"item"		"item_disperser"				
+		"item"		"item_disperser"
+		"item"		"item_harpoon"					
 					
 	}
 		
@@ -196,14 +202,14 @@
  		"item"		"item_mjollnir"
  		"item"		"item_skadi" 
  		"item"		"item_satanic"	
- 		"item"		"item_phylactery"
+ 		"item"		"item_phylactery_custom"
 
         "item"		"item_trident"
         "item"		"item_meteor_hammer"
         "item"		"item_combo_breaker"
         "item"		"item_nullifier"
         "item"		"item_spirit_vessel"
-        "item"		"item_refresher_shard"			
+        "item"		"item_refresher_shard_custom"			
 	}
 
 	"sideshop1"

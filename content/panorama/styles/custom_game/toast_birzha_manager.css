@@ -1,0 +1,189 @@
+.PlayersTipHistory
+{
+	width: 500px;
+	height: 496px;
+	align: right top;
+	margin-top: 380px;
+	flow-children: down;
+	transition-property: position;
+  	transition-duration: 0.1s;
+  	transition-timing-function: ease-out;
+}
+
+.notification
+{
+	margin-top: 2px;
+	margin-bottom: 2px;
+	width: 500px;
+	horizontal-align: right;
+	height: 120px;
+	opacity: 0;
+  	transition-property: transform, opacity, position;
+  	transition-duration: 0.5s;
+  	transition-timing-function: ease-out;
+  	transform: translateX(100px);
+}
+
+.notification_info
+{
+	horizontal-align: right;
+	width: 400px;
+	height: 120px;
+	background-image: url("file://{images}/custom_game/tip_background.png");
+    background-size: 100%;
+}
+
+.playerbox
+{
+	vertical-align: center;
+	horizontal-align: left;
+	flow-children: down;
+	margin-left: 20px;
+}
+
+.one_player_portrait
+{
+	horizontal-align: center;
+	width: 86px;
+	height: 48px;
+}
+
+.label_tip
+{
+	font-size: 16px;
+	color: white;
+	font-weight: bold;
+	vertical-align: center;
+	horizontal-align: center;
+	margin-bottom: 25px;
+	width: 150px;
+	text-align: center;
+}
+
+.playerbox_two
+{
+	vertical-align: center;
+	horizontal-align: right;
+	flow-children: down;
+	margin-right: 20px;
+}
+
+.two_player_portrait
+{
+	horizontal-align: center;
+	width: 86px;
+	height: 48px;
+}
+
+.one_player_nickname
+{
+	color: white;
+	font-size: 16px;
+	horizontal-align: center;
+	margin-top: 5px;
+	font-weight: bold;
+	width: 100px;
+	height: 18px;
+	text-align: center;
+}
+.two_player_nickname
+{
+	color: white;
+	font-size: 16px;
+	font-weight: bold;
+	horizontal-align: center;
+	margin-top: 5px;
+	width: 100px;
+	height: 18px;
+	text-align: center;
+}
+
+.ToastBirzhaInfo
+{
+    width: 500px;
+    height: 70%;
+    align: right top;
+	margin-top: 20%;
+    transition-property: position;
+  	transition-duration: 0.1s;
+  	transition-timing-function: ease-out;
+    flow-children: down;
+}
+
+.game_notification
+{
+    margin-top: 2px;
+    margin-bottom: 2px;
+    width: 400px;
+    height: 100px;
+    background-image: url("s2r://panorama/images/hud/reborn/item_purchase_bg_psd.vtex");
+    background-size: 100%;
+    opacity: 0;
+    transition-property: transform, opacity, position;
+    transition-duration: 1s;
+    transition-timing-function: ease-out;
+    transform: translateX(500px);
+    flow-children: right;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 4px;
+    horizontal-align: right;
+}
+
+.game_notification_icon
+{
+    width: 90px;
+    height: 90px;
+    vertical-align: center;
+    margin-left: 10px;
+    border: 1px solid black;
+}
+
+.game_notification_description
+{
+    vertical-align: center;
+    margin-left: 20px;
+    color: white;
+    font-family: Radiance;
+    font-weight: semi-bold;
+    font-size: 14px;
+}
+
+.visible
+{
+    opacity: 1;
+    transform: translateX(0px);
+}
+
+.ContractSelector
+{
+    horizontal-align: center;
+    vertical-align: bottom;
+    margin-bottom: 20%;
+    flow-children: right;
+    transition-property: width;
+    transition-duration: 0.5s;
+}
+
+.HeroSelect
+{
+    width: 100px;
+    height: 100px;
+    margin: 4px;
+    background-image: url("file://{images}/custom_game/letter.png");
+    background-size: 100%;
+    box-shadow: inset rgba(0,0,0,0.6) 0px 0px 8px 1px;
+    transition-property: box-shadow;
+    transition-duration: 0.2s;
+}
+
+.HeroSelect:hover
+{
+    box-shadow: inset rgba(0,0,0,1) 0px 0px 8px 1px;
+}
+
+.HeroPortrait
+{
+    width: 80px;
+    height: 55px;
+    align: center center;
+    box-shadow: rgba(0,0,0,1) 0px 0px 8px 1px;
+}

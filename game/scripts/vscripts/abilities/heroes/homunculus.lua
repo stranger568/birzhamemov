@@ -3,11 +3,12 @@ LinkLuaModifier( "modifier_homunculus_iborn", "abilities/heroes/homunculus.lua",
 LinkLuaModifier( "modifier_homunculus_iborn_immortality", "abilities/heroes/homunculus.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier( "modifier_homunculus_iborn_immortality_cooldown", "abilities/heroes/homunculus.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier( "modifier_homunculus_iborn_immortality_active", "abilities/heroes/homunculus.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier( "modifier_homunculus_iborn_aggres", "abilities/heroes/homunculus.lua", LUA_MODIFIER_MOTION_NONE)
 
 Homunculus_IBorn = class({})
 
 function Homunculus_IBorn:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_homunculus_2")
 end
 
 function Homunculus_IBorn:GetCastRange(location, target)
@@ -25,14 +26,12 @@ end
 function Homunculus_IBorn:OnSpellStart(new_target)
     if not IsServer() then return end
     local target
-
     if new_target then
         target = new_target
     else
         target = self:GetCursorTarget()
     end
-
-    local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_homunculus_2")
+    local duration = self:GetSpecialValueFor("duration")
 	target:AddNewModifier(self:GetCaster(), self, "modifier_homunculus_iborn", { duration = duration })
     target:EmitSound("Hero_Winter_Wyvern.ColdEmbrace.Cast")
 end
@@ -41,6 +40,30 @@ modifier_homunculus_iborn = class({})
 
 function modifier_homunculus_iborn:IsPurgable()
     return true
+end
+
+function modifier_homunculus_iborn:OnCreated()
+    if not IsServer() then return end
+    local Homunculus_IBorn = self:GetParent():FindAbilityByName("Homunculus_IBorn")
+    if Homunculus_IBorn then
+        Homunculus_IBorn:SetActivated(false)
+    end
+    if self:GetCaster():HasTalent("special_bonus_birzha_homunculus_6") then
+        local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self:GetCaster():FindTalentValue("special_bonus_birzha_homunculus_6", "value2"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false )
+        for _,enemy in pairs(enemies) do
+        if not enemy:IsDuel() then
+                enemy:AddNewModifier( self:GetParent(), self:GetAbility(), "modifier_homunculus_iborn_aggres", { duration = self:GetCaster():FindTalentValue("special_bonus_birzha_homunculus_6") } )
+            end
+        end
+    end
+end
+
+function modifier_homunculus_iborn:OnDestroy()
+    if not IsServer() then return end
+    local Homunculus_IBorn = self:GetParent():FindAbilityByName("Homunculus_IBorn")
+    if Homunculus_IBorn then
+        Homunculus_IBorn:SetActivated(true)
+    end
 end
 
 function modifier_homunculus_iborn:DeclareFunctions()
@@ -62,7 +85,6 @@ function modifier_homunculus_iborn:CheckState()
         state = 
         {
             [MODIFIER_STATE_ROOTED] = true,
-            [MODIFIER_STATE_SILENCED] = true,
         }        
     end
     return state
@@ -77,7 +99,7 @@ function modifier_homunculus_iborn:GetModifierIncomingDamage_Percentage()
 end
 
 function modifier_homunculus_iborn:GetEffectName()
-    return "particles/econ/items/winter_wyvern/winter_wyvern_ti7/wyvern_cold_embrace_ti7buff.vpcf"
+    return "particles/homunculus_iborn_buff.vpcf"
 end
 
 function modifier_homunculus_iborn:GetEffectAttachType()
@@ -125,6 +147,11 @@ function modifier_homunculus_iborn_immortality_active:DeclareFunctions()
     return decFuncs
 end
 
+function modifier_homunculus_iborn_immortality_active:OnIntervalThink()
+    if not IsServer() then return end
+    self:Destroy()
+end
+
 function modifier_homunculus_iborn_immortality_active:OnTakeDamage(params)
     if not IsServer() then return end
     if self:GetParent() ~= params.unit then return end
@@ -153,15 +180,14 @@ function modifier_homunculus_iborn_immortality_active:OnTakeDamage(params)
         end        
     end
 
-    if params.damage > 0 and self:GetParent():GetHealth() <= 1 then
+    if self:GetParent():GetHealth() <= 1 then
         self:GetParent():SetHealth(1)
         self:GetParent():AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_homunculus_iborn_immortality_cooldown", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_homunculus_7")})
         local Homunculus_IBorn = self:GetCaster():FindAbilityByName("Homunculus_IBorn")
         if Homunculus_IBorn and Homunculus_IBorn:GetLevel() > 0 then
             Homunculus_IBorn:OnSpellStart(self:GetParent())
-            print("lda")
         end
-        self:Destroy()
+        self:StartIntervalThink(0.25)
     end          
 end
 
@@ -169,30 +195,47 @@ function modifier_homunculus_iborn_immortality_active:GetMinHealth()
     return 1
 end
 
+modifier_homunculus_iborn_aggres = class({})
 
+function modifier_homunculus_iborn_aggres:IsHidden()
+    return false
+end
 
+function modifier_homunculus_iborn_aggres:IsPurgable()
+    return false
+end
 
+function modifier_homunculus_iborn_aggres:OnCreated( kv )
+    if not IsServer() then return end
+    self:GetParent():SetForceAttackTarget( self:GetCaster() )
+    self:GetParent():MoveToTargetToAttack( self:GetCaster() )
+    self:StartIntervalThink(FrameTime())
+end
 
+function modifier_homunculus_iborn_aggres:OnIntervalThink( kv )
+    if not IsServer() then return end
+    self:GetParent():SetForceAttackTarget( self:GetCaster() )
+    self:GetParent():MoveToTargetToAttack( self:GetCaster() )
+end
 
+function modifier_homunculus_iborn_aggres:OnRemoved()
+    if not IsServer() then return end
+    self:GetParent():SetForceAttackTarget( nil )
+end
 
+function modifier_homunculus_iborn_aggres:CheckState()
+    local state = 
+    {
+        [MODIFIER_STATE_COMMAND_RESTRICTED] = true,
+        [MODIFIER_STATE_TAUNTED] = true,
+    }
 
+    return state
+end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function modifier_homunculus_iborn_aggres:GetStatusEffectName()
+    return "particles/status_fx/status_effect_beserkers_call.vpcf"
+end
 
 LinkLuaModifier( "modifier_homunculus_Spit_debuff", "abilities/heroes/homunculus.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier( "modifier_homunculus_Spit_debuff_fountain", "abilities/heroes/homunculus.lua", LUA_MODIFIER_MOTION_NONE)
@@ -210,10 +253,6 @@ end
 
 function Homunculus_Spit:GetManaCost(level)
     return self.BaseClass.GetManaCost(self, level)
-end
-
-function Homunculus_Spit:GetIntrinsicModifierName()
-    return "modifier_homunculus_Spit_debuff_talent"
 end
 
 function Homunculus_Spit:OnSpellStart(point_new)
@@ -251,6 +290,7 @@ function Homunculus_Spit:OnSpellStart(point_new)
         bReplaceExisting    = false,
         iUnitTargetTeam     = DOTA_UNIT_TARGET_TEAM_ENEMY,
         iUnitTargetType     = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+        iUnitTargetFlags    = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
         fExpireTime         = GameRules:GetGameTime() + 5.0,
         bDeleteOnHit        = false,
         vVelocity           = Vector(direction.x,direction.y,0) * 1500,
@@ -271,15 +311,19 @@ function Homunculus_Spit:OnProjectileHit(target, location)
 
     local duration = self:GetSpecialValueFor('duration')
 
-    if target and not target:IsMagicImmune() then
-        target:EmitSound("Hero_Venomancer.VenomousGaleImpact")
-        ApplyDamage({victim = target, attacker = caster, ability = self, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
-        target:AddNewModifier( caster, self, "modifier_homunculus_Spit_debuff", {duration = duration * (1 - target:GetStatusResistance())})
-        if self:GetCaster():HasTalent("special_bonus_birzha_homunculus_3") then
-            local Homunculus_Damn = self:GetCaster():FindAbilityByName("Homunculus_Damn")
-            if Homunculus_Damn and Homunculus_Damn:GetLevel() > 0 then
-                target:AddNewModifier( caster, self, "modifier_homunculus_Spit_debuff_fountain", {duration = Homunculus_Damn:GetSpecialValueFor("duration") * (1 - target:GetStatusResistance())})
-            end
+    if target == nil then return end
+
+    if not self:GetCaster():HasTalent("special_bonus_birzha_homunculus_5") then
+        if target:IsMagicImmune() then return end
+    end
+
+    target:EmitSound("Hero_Venomancer.VenomousGaleImpact")
+    ApplyDamage({victim = target, attacker = caster, ability = self, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
+    target:AddNewModifier( caster, self, "modifier_homunculus_Spit_debuff", {duration = duration * (1 - target:GetStatusResistance())})
+    if self:GetCaster():HasTalent("special_bonus_birzha_homunculus_3") then
+        local Homunculus_Damn = self:GetCaster():FindAbilityByName("Homunculus_Damn")
+        if Homunculus_Damn and Homunculus_Damn:GetLevel() > 0 then
+            target:AddNewModifier( caster, self, "modifier_homunculus_Spit_debuff_fountain", {duration = Homunculus_Damn:GetSpecialValueFor("duration") * (1 - target:GetStatusResistance())})
         end
     end
 end
@@ -363,29 +407,6 @@ function modifier_homunculus_Spit_debuff:GetModifierMoveSpeedBonus_Percentage()
     return self:GetAbility():GetSpecialValueFor( "movement_speed" )
 end
 
-modifier_homunculus_Spit_debuff_talent = class({})
-
-function modifier_homunculus_Spit_debuff_talent:IsHidden() return true end
-function modifier_homunculus_Spit_debuff_talent:IsPurgable() return false end
-
-function modifier_homunculus_Spit_debuff_talent:DeclareFunctions()
-    return 
-    {
-        MODIFIER_EVENT_ON_ATTACK_LANDED,
-    }
-end
-
-function modifier_homunculus_Spit_debuff_talent:OnAttackLanded( params )
-    if not IsServer() then return end
-    if params.attacker ~= self:GetParent() then return end
-    if params.attacker:IsIllusion() then return end
-    if not params.attacker:HasTalent("special_bonus_birzha_homunculus_6") then return end
-    if params.target:IsWard() then return end
-    if RollPercentage(self:GetCaster():FindTalentValue("special_bonus_birzha_homunculus_6")) then
-        self:GetAbility():OnSpellStart(params.target:GetAbsOrigin())
-    end
-end
-
 LinkLuaModifier("modifier_homunculus_damn", "abilities/heroes/homunculus", LUA_MODIFIER_MOTION_NONE)
 
 Homunculus_Damn = class({}) 
@@ -415,8 +436,8 @@ end
 function modifier_homunculus_damn:OnAttackLanded( keys )
     if not IsServer() then return end
     if keys.target == self:GetParent() then
-        local chance = self:GetAbility():GetSpecialValueFor("chance")
-        local duration = self:GetAbility():GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_homunculus_1")
+        local chance = self:GetAbility():GetSpecialValueFor("chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_homunculus_1")
+        local duration = self:GetAbility():GetSpecialValueFor("duration")
         if self:GetParent():IsIllusion() or self:GetParent():PassivesDisabled() then return end
         if RollPercentage(chance) then
             if keys.attacker:IsMagicImmune() then return end
@@ -472,7 +493,7 @@ function Homunculus_Dictionary:OnSpellStart()
     if self:GetCaster():HasTalent("special_bonus_birzha_homunculus_8") then
         self:GetCaster():ModifyHealth(new_health, self, false, 0)
     else
-        self:GetCaster():BirzhaTrueKill(self, self:GetCaster())
+        self:GetCaster():Kill(self, self:GetCaster())
     end
 end
 
@@ -490,7 +511,7 @@ end
 
 function modifier_Dictionary_debuff:OnIntervalThink()
     if not IsServer() then return end
-    local damage = self:GetAbility():GetSpecialValueFor("per_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_homunculus_5")
+    local damage = self:GetAbility():GetSpecialValueFor("per_damage")
     ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), damage = damage * 0.25, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
 end
 

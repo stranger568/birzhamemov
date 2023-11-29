@@ -11,10 +11,21 @@ function item_brain_burner:OnSpellStart()
 	local radius = self:GetSpecialValueFor("radius")
 
 	local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, FIND_ANY_ORDER, false)
+	local damageTable = {attacker = self:GetCaster(), damage_type = DAMAGE_TYPE_MAGICAL, ability = self}
+	local active_damage = self:GetSpecialValueFor("active_damage")
 
 	for _,target in pairs(enemies) do
 		local mana = target:GetMana() / 100 * self:GetSpecialValueFor("mana_burn_active")
-		target:Script_ReduceMana(mana, self)
+		damageTable.victim = target
+		if (target:GetMana() >= mana) then
+			damageTable.damage = mana * active_damage
+			target:Script_ReduceMana(mana, self)
+			ApplyDamage(damageTable)
+		else
+			damageTable.damage = target:GetMana() * active_damage
+			target:Script_ReduceMana(target:GetMana(), self)
+			ApplyDamage(damageTable)
+		end
 	end
 
 	local particle = ParticleManager:CreateParticle("particles/a_item_burner/item_burner.vpcf",  PATTACH_ABSORIGIN, self:GetCaster()) 

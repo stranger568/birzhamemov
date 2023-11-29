@@ -245,33 +245,10 @@ function Shiro_Punch:OnSpellStart()
     direction.z = 0
     direction = direction:Normalized()
 
-    target:AddNewModifier( self:GetCaster(), self, "modifier_generic_knockback_lua", { duration = 0.1, distance = self:GetSpecialValueFor("distance"), height = 10, direction_x = direction.x, direction_y = direction.y})
+    if not self:GetAutoCastState() then
+        target:AddNewModifier( self:GetCaster(), self, "modifier_generic_knockback_lua", { duration = 0.1, distance = self:GetSpecialValueFor("distance"), height = 10, direction_x = direction.x, direction_y = direction.y})
+    end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 LinkLuaModifier( "modifier_shiro_shield_buff", "abilities/heroes/shiro.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier( "modifier_shiro_shield_evasion", "abilities/heroes/shiro.lua", LUA_MODIFIER_MOTION_NONE)
@@ -308,6 +285,7 @@ modifier_shiro_shield_buff = class ({})
 function modifier_shiro_shield_buff:IsPurgable() return false end
 
 function modifier_shiro_shield_buff:OnCreated(keys)
+    self.start_shield = self:GetAbility():GetSpecialValueFor( "damage_absorb" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_shiro_2")
     if not IsServer() then return end
 
 	local particle = ParticleManager:CreateParticle("particles/econ/items/abaddon/abaddon_alliance/abaddon_aphotic_shield_alliance.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
@@ -339,6 +317,7 @@ function modifier_shiro_shield_buff:OnIntervalThink()
 end
 
 function modifier_shiro_shield_buff:OnRefresh(keys)
+    self.start_shield = self:GetAbility():GetSpecialValueFor( "damage_absorb" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_shiro_2")
     if not IsServer() then return end
 	self.damage_absorb = self:GetAbility():GetSpecialValueFor( "damage_absorb" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_shiro_2")
 	self:SetStackCount(self.damage_absorb)
@@ -364,8 +343,7 @@ function modifier_shiro_shield_buff:DeclareFunctions()
     local funcs = 
     {
         MODIFIER_PROPERTY_TOTAL_CONSTANT_BLOCK,
-        MODIFIER_PROPERTY_INCOMING_SPELL_DAMAGE_CONSTANT,
-        MODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_CONSTANT,
+        MODIFIER_PROPERTY_INCOMING_DAMAGE_CONSTANT,
     }
     return funcs
 end
@@ -394,14 +372,11 @@ function modifier_shiro_shield_buff:GetModifierTotal_ConstantBlock(kv)
     end
 end
 
-function modifier_shiro_shield_buff:GetModifierIncomingSpellDamageConstant()
+function modifier_shiro_shield_buff:GetModifierIncomingDamageConstant(params)
     if (not IsServer()) then
-        return self:GetStackCount()
-    end
-end
-
-function modifier_shiro_shield_buff:GetModifierIncomingPhysicalDamageConstant()
-    if (not IsServer()) then
+        if params.report_max then
+            return self.start_shield
+        end
         return self:GetStackCount()
     end
 end
@@ -428,19 +403,6 @@ function modifier_shiro_shield_evasion:GetModifierAvoidDamage(keys)
     	return 0
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 LinkLuaModifier( "modifier_WretchedEggAwakeness_buff", "abilities/heroes/shiro.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier( "modifier_WretchedEggAwakeness_debuff", "abilities/heroes/shiro.lua", LUA_MODIFIER_MOTION_NONE)

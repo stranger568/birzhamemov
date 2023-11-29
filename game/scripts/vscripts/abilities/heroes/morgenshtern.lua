@@ -190,9 +190,12 @@ function modifier_morgenshtern_ratata:OnAttack( params )
 	self:GetParent():EmitSound("Hero_Snapfire.ExplosiveShellsBuff.Attack")
 
 	if self:GetCaster():HasTalent("special_bonus_birzha_morgenshtern_8") then
+		local attack = self:GetCaster():FindTalentValue("special_bonus_birzha_morgenshtern_8")
 		local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self:GetCaster():Script_GetAttackRange(), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES+DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE, 0, false )
 		for _, enemy in pairs(enemies) do
+			if attack <= 0 then break end
 			if enemy ~= params.target then
+				attack = attack - 1
 				self:GetCaster():PerformAttack(enemy, true, true, true, false, true, false, false)
 			end
 		end
@@ -343,7 +346,16 @@ function morgenshtern_car:OnSpellStart()
 	if not IsServer() then return end
 	local duration = self:GetSpecialValueFor("duration")
 	self:GetCaster():EmitSound("MorgenCar")
-	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_pangolier_gyroshell", {duration = duration})
+
+	local vDir = self:GetCaster():GetForwardVector()
+	local vTargetPos = self:GetCaster():GetAbsOrigin() + vDir
+	local kv = {}
+	kv[ "duration" ] = duration
+	kv[ "vTargetX" ] = vTargetPos.x
+	kv[ "vTargetY" ] = vTargetPos.y
+	kv[ "vTargetZ" ] = vTargetPos.z
+
+	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_pangolier_gyroshell", kv)
 	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_morgenshtern_car_swap", {duration = duration})
 end
 

@@ -105,7 +105,6 @@ function modifier_never_stupid_steal_target_debuff:IsHidden() return self:GetSta
 
 function modifier_never_stupid_steal_target_debuff:OnCreated()
 	if not IsServer() then return end
-	donate_shop:QuestProgress(41, self:GetCaster():GetPlayerOwnerID(), 1)
 	self:StartIntervalThink(FrameTime())
 end
 

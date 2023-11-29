@@ -292,7 +292,7 @@ function Kurumi_Absorption:OnSpellStart()
     self:GetCaster():EmitSound("kurskill")
 
     local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_bane/bane_sap.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
-    ParticleManager:SetParticleControlEnt( particle, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetCaster():GetOrigin(), true )
+    ParticleManager:SetParticleControlEnt( particle, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetCaster():GetOrigin(), true )
     ParticleManager:SetParticleControlEnt( particle, 1, target, PATTACH_POINT_FOLLOW, "attach_hitloc", target:GetOrigin(), true )
     ParticleManager:ReleaseParticleIndex( particle )
 
@@ -372,16 +372,6 @@ function modifier_kurumi_zafkiel_aura:DeclareFunctions()
     return funcs
 end
 
-function modifier_kurumi_zafkiel_aura:OnCreated()
-    if not IsServer() then return end
-    self:StartIntervalThink(1)
-end
-
-function modifier_kurumi_zafkiel_aura:OnIntervalThink()
-    if not IsServer() then return end
-    donate_shop:QuestProgress(39, self:GetCaster():GetPlayerOwnerID(), 1)
-end
-
 function modifier_kurumi_zafkiel_aura:OnTakeDamage(params)
     if not IsServer() then return end
     if self:GetParent() ~= params.attacker then return end
@@ -437,9 +427,9 @@ modifier_kurumi_zafkiel = class({})
 function modifier_kurumi_zafkiel:OnCreated()
     if not IsServer() then return end
 
-    local particle = ParticleManager:CreateParticle("particles/econ/items/faceless_void/faceless_void_mace_of_aeons/fv_chronosphere_aeons.vpcf", PATTACH_ABSORIGIN, self:GetParent())
+    local particle = ParticleManager:CreateParticle("particles/kurumi_ultimate_debuff_v2.vpcf", PATTACH_ABSORIGIN, self:GetParent())
     ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
-    ParticleManager:SetParticleControl(particle, 1, Vector(100, 100, 0))
+    ParticleManager:SetParticleControl(particle, 1, Vector(175, 175, 175))
     self:AddParticle(particle, false, false, -1, false, false)
 
     self.damage_taken = 0

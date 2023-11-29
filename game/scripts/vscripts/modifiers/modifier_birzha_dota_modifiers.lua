@@ -3,10 +3,6 @@ modifier_birzha_stunned = class({})
 function modifier_birzha_stunned:OnCreated()
 	if IsServer() then
 
-		if self:GetParent():GetTeamNumber() ~= self:GetCaster():GetTeamNumber() then
-			donate_shop:QuestProgress(11, self:GetCaster():GetPlayerOwnerID(), math.floor(self:GetRemainingTime()))
-		end
-
 		-- Удаляем самый быстрый стан в мире
 		local modifiers_old = {}
 		for _, mod in pairs(self:GetParent():FindAllModifiers()) do
@@ -95,9 +91,6 @@ modifier_birzha_bashed = class({})
 
 function modifier_birzha_bashed:OnCreated()
 	if not IsServer() then return end
-	if self:GetParent():GetTeamNumber() ~= self:GetCaster():GetTeamNumber() then
-		donate_shop:QuestProgress(11, self:GetCaster():GetPlayerOwnerID(), math.floor(self:GetRemainingTime()))
-	end
 	if self:GetParent() ~= self:GetCaster() then
 		local ability_pucci = self:GetCaster():FindAbilityByName("pucci_restart_world")
 		if ability_pucci and ability_pucci:GetLevel() > 0 then
@@ -165,9 +158,6 @@ modifier_birzha_stunned_purge = class({})
 
 function modifier_birzha_stunned_purge:OnCreated()
 	if IsServer() then
-		if self:GetParent():GetTeamNumber() ~= self:GetCaster():GetTeamNumber() then
-			donate_shop:QuestProgress(11, self:GetCaster():GetPlayerOwnerID(), math.floor(self:GetRemainingTime()))
-		end
 		-- Удаляем самый быстрый стан в мире
 		local modifiers_old = {}
 		for _, mod in pairs(self:GetParent():FindAllModifiers()) do
@@ -455,20 +445,6 @@ function modifier_birzha_orb_effect_lua:FlagExist(a,b)--Bitwise Exist
 	return c==d
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 modifier_birzha_invul = class({})
 
 function modifier_birzha_invul:IsDebuff()
@@ -495,14 +471,6 @@ function modifier_birzha_invul:CheckState()
 
 	return state
 end
-
-
-
-
-
-
-
-
 
 modifier_birzha_illusion_cosmetics = class({})
 

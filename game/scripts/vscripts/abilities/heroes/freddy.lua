@@ -148,10 +148,15 @@ function modifier_freddy_screamer_effect_webm:OnDestroy()
 	CustomGameEventManager:Send_ServerToPlayer(Player, "FreddyScreamerFalse", {} )
 end
 
-
 LinkLuaModifier( "modifier_freddy_surprice", "abilities/heroes/freddy.lua", LUA_MODIFIER_MOTION_BOTH )
 
 freddy_surprice = class({})
+
+function freddy_surprice:OnAbilityUpgrade( hAbility )
+	if not IsServer() then return end
+	self.BaseClass.OnAbilityUpgrade( self, hAbility )
+	self:EnableAbilityChargesOnTalentUpgrade( hAbility, "special_bonus_unique_freddy_1" )
+end
 
 function freddy_surprice:OnSpellStart()
 	if not IsServer() then return end
@@ -418,6 +423,9 @@ function freddy_costume_launch:OnSpellStart()
 	self:GetCaster():EmitSound("freddy_costume_cast")
 
 	local point = self:GetCursorPosition()
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = point + self:GetCaster():GetForwardVector()
+    end
 	local direction = (point - self:GetCaster():GetAbsOrigin())
 	direction.z = 0
 	direction = direction:Normalized()

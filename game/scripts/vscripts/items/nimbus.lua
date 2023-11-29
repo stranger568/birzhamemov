@@ -153,8 +153,6 @@ function modifier_item_nimbus_active:GetModifierTotal_ConstantBlock(params)
         self.carapaced_units[ params.attacker:entindex() ] = params.attacker
 		local ability_pucci = self:GetCaster():FindAbilityByName("pucci_restart_world")
 
-        donate_shop:QuestProgress(22, self:GetCaster():GetPlayerOwnerID(), 1)
-
 		if ability_pucci and ability_pucci:GetLevel() > 0 then
 			if ability_pucci.current_quest[4] == false and ability_pucci.current_quest[1] == "pucci_quest_use_nimb" then
 				ability_pucci.current_quest[2] = ability_pucci.current_quest[2] + 1

@@ -19,7 +19,6 @@ function item_birzha_force_boots:OnSpellStart()
     if self:GetCaster():GetUnitName() == "npc_dota_hero_void_spirit" then
         self:GetCaster():EmitSound("van_force")
     end
-    donate_shop:QuestProgress(28, self:GetCaster():GetPlayerOwnerID(), 1)
 end
 
 function item_birzha_force_boots:GetIntrinsicModifierName() 

@@ -1,0 +1,1979 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+    threefrag = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/3_frag_left",
+        ]
+        volume = "8.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.906939
+    }
+    gadzaarcana = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/valakas_gadzaarcana",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 5.856000
+    }
+    gitelmancoctel = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/gitelman_coctel",
+        ]
+        volume = "3.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.464000
+    }
+    rinultimate = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/rin_ultimate",
+            "sounds/birzha/rin_ultimate2",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 8.352000
+    }
+    golovachtaunt = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/golovach_taunt",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.608000
+    }
+    golovachsmeh = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/golovach_smeh1",
+            "sounds/birzha/golovach_smeh2",
+            "sounds/birzha/golovach_smeh3",
+        ]
+        volume = "2.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 2.232000
+    }
+    golovachrocket = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/golovach_rocket",
+        ]
+        volume = "1.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 7.584000
+    }
+    bezbab = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/bukin_bezbab",
+            "sounds/birzha/bukin_newultimate",
+        ]
+        volume = "3.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 19.436169
+    }
+    hovanshaverma = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/hovan_shaverma",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.080000
+    }
+    slavaukraine = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/poroshenko_slavaukraine",
+        ]
+        volume = "4.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.776000
+    }
+    porohsalo = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/poroshenko_salo",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 0.600000
+    }
+    ayanopila = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/weapons/hero/shredder/chakra_cast.vsnd",
+        ]
+        volume = "0.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.782177
+    }
+    kadetultimate = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/kadet_ultimate",
+        ]
+        volume = "3.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.416000
+    }
+    gachifuck = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/gachi_fuck",
+        ]
+        volume = "4.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.128000
+    }
+    worldeditor = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/worldeditor_slidan",
+        ]
+        volume = "5.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.704000
+    }
+    FelixOne = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/felix_ability1",
+        ]
+        volume = "4.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.008000
+    }
+    FelixTwo = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/felix_ability2",
+        ]
+        volume = "4.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 0.912000
+    }
+    FelixUltimate = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/felix_ultimate",
+            "sounds/birzha/felix_ultimate2",
+        ]
+        volume = "2.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 10.680000
+    }
+    ScreamTelephone = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/scream_telephone",
+        ]
+        volume = "2.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.104000
+    }
+    ScreamAllo = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/scream_allo",
+        ]
+        volume = "4.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 0.816000
+    }
+    ScreamChuvak = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/scream_chuvak",
+            "sounds/birzha/scream_chuvak2",
+            "sounds/birzha/scream_chuvak3",
+        ]
+        volume = "5.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 5.544000
+    }
+    ScreamKill = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/scream_kill",
+        ]
+        volume = "10.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.128000
+    }
+    ScreamUltimate = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/scream_ultimate",
+        ]
+        volume = "5.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 2.400000
+    }
+    GypsyTabor = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/gypsy_tabor",
+        ]
+        volume = "5.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.752000
+    }
+    GypsyUltimate = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/gypsy_ultimate",
+        ]
+        volume = "5.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 0.696000
+    }
+    GypsyDebosh = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/weapons/hero/ogre_magi/ignite_cast.vsnd",
+        ]
+        volume = "1.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 0.730340
+    }
+    GypsyDeboshStun = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            ",",
+            ",",
+        ]
+        volume = "5.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+    }
+    GypsyMulticast = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/weapons/hero/ogre_magi/multicast02.vsnd",
+        ]
+        volume = "2.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.937075
+    }
+    VernonPogon = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/vernon_pogon",
+            "sounds/birzha/vernon_pogon2",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 2.136000
+    }
+    VernonPogonEnd = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/weapons/hero/tusk/snowball_stun02.vsnd",
+        ]
+        volume = "5.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.099977
+    }
+    VernonDrell = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/vernon_drell",
+        ]
+        volume = "5.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 2.400000
+    }
+    VernonSmeh = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/vernon_haha",
+        ]
+        volume = "50.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 0.672000
+    }
+    VernonStomp = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/weapons/hero/elder_titan/echo_stomp_cast.vsnd",
+        ]
+        volume = "0.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 2.873016
+    }
+    VernonUltimate = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/vernon_ultimate",
+        ]
+        volume = "5.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 2.472000
+    }
+    PasenkovDesh = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/pasenkov_desh",
+        ]
+        volume = "5.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 3.120000
+    }
+    PasenkovDeshSetka = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/weapons/hero/shadowshaman/shackle_cast.vsnd",
+        ]
+        volume = "1.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.605102
+    }
+    PasenkovGroza = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/weapons/hero/oracle/purifying_damage.vsnd",
+        ]
+        volume = "1.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 3.015964
+    }
+    PasenkovRak = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/pasenkov_rak",
+        ]
+        volume = "5.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 2.016000
+    }
+    PasenkovUltimate = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/pasenkov_ultimate1",
+            "sounds/birzha/pasenkov_ultimate2",
+            "sounds/birzha/pasenkov_ultimate3",
+            "sounds/birzha/pasenkov_ultimate4",
+        ]
+        volume = "2.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 28.608000
+    }
+    ItemBurn = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/item_burn",
+        ]
+        volume = "1.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 0.864000
+    }
+    PuchkovGoni = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/puchkov_goni",
+        ]
+        volume = "15.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.450862
+    }
+    PuchkovPig = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/puchkov_pig",
+        ]
+        volume = "5.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 0.432086
+    }
+    PuchkovDebil = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/puchkov_debil",
+        ]
+        volume = "25.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.738209
+    }
+    PuchkovSmeh = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/puchkov_smeh",
+        ]
+        volume = "5.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 2.730862
+    }
+    PuchkovUltimate = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/comped_reward31",
+        ]
+        volume = "25.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.200000
+    }
+    StrayOne = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/stray_one",
+        ]
+        volume = "9.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.896000
+    }
+    StrayTwo = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/stray_two",
+            "sounds/birzha/stray_twoo",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.008000
+    }
+    StrayProc = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/stray_three",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 2.184000
+    }
+    StrayFail = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/stray_threee",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 2.784000
+    }
+    StrayUltimateone = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/stray_ultimateone",
+        ]
+        volume = "2.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 20.087999
+    }
+    StrayUltimatetwo = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/stray_ultimatetwo",
+        ]
+        volume = "1.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 20.087999
+    }
+    StrayUltimatethree = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/stray_ultimatethree",
+        ]
+        volume = "2.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 7.080000
+    }
+    GokuOne = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/goku_one",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.776000
+    }
+    GokuOneOne = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/goku_oneone",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.032000
+    }
+    GokuTwo = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/goku_two",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.104000
+    }
+    GokuThree = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/goku_three",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 2.976000
+    }
+    GokuBlink = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/goku_blink",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 0.600000
+    }
+    GokuLoop = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/goku_ultimateloop",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 60.240002
+    }
+    GokuUltimateOne = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/goku_ultimateone",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 2.064000
+    }
+    GokuUltimateTwo = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/goku_ultimatetwo",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 3.072000
+    }
+    GokuUltimateThree = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/goku_ultimatethree",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 3.072000
+    }
+    GokuUltimateFour = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/goku_ultimatefour",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 5.088000
+    }
+    GokuUltimateFive = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/goku_ultimatefive",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 5.088000
+    }
+    PolnarefChariot = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/polnaref_chariot",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.848000
+    }
+    PolnarefRage = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/polnaref_rageone",
+            "sounds/birzha/polnaref_ragetwo",
+            "sounds/birzha/polnaref_ragethree",
+        ]
+        volume = "1.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 3.336000
+    }
+    PolnarefRapier = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/polnaref_rapier",
+        ]
+        volume = "2.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.032000
+    }
+    PolnarefLaunch = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/polnaref_launch",
+        ]
+        volume = "2.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 2.784000
+    }
+    PolnarefAfterimage = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/polnaref_afterimage",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 7.272000
+    }
+    PolnarefSon = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/polnaref_son",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 5.736000
+    }
+    StrayWow = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/stray_ultimatefuck",
+            "sounds/birzha/stray_ultimatewow",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 29.062290
+    }
+    MikuStart = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/miku_start",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 3.848503
+    }
+    MikuScepter = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/miku_scepter",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 9.922857
+    }
+    MorgenRift = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/morgen_rift",
+            "sounds/birzha/morgen_riftt",
+        ]
+        volume = "2.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 3.324649
+    }
+    MorgenRatata = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/morgen_ratata",
+        ]
+        volume = "2.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 10.207891
+    }
+    MorgenRich = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/morgen_rich",
+            "sounds/birzha/morgen_richh",
+            "sounds/birzha/morgen_richhh",
+        ]
+        volume = "2.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 3.671270
+    }
+    MorgenCar = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/morgen_car",
+            "sounds/birzha/morgen_carr",
+            "sounds/birzha/morgen_carrr",
+        ]
+        volume = "2.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 17.439592
+    }
+    HisokaCard = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/hisoka_card",
+        ]
+        volume = "2.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 2.448000
+    }
+    HisokaShield = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/hisoka_shield",
+        ]
+        volume = "3.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.752000
+    }
+    HisokaBubble = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/hisoka_bubble",
+        ]
+        volume = "2.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 0.936000
+    }
+    HisokaActivated = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/hisoka_activated",
+        ]
+        volume = "7.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 0.896000
+    }
+    Scp682bite = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/scp682_bite",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 0.289478
+    }
+    Scp682scream = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/scp682_scream",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 4.236979
+    }
+    Scp682ultimate = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/scp682_ultimate",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 4.068979
+    }
+    CasinoRandom = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/casino_random",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 3.622313
+    }
+    CasinoLucky = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/casino_lucky",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 5.270930
+    }
+    OverlordOne = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/overlord_one",
+            "sounds/birzha/overlord_onen",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 7.274671
+    }
+    OverlordThree = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/overlord_three",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 2.474667
+    }
+    OverlordFour = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/overlord_four",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 2.197333
+    }
+    OverlordScepter = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/overlord_scepter",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 3.861333
+    }
+    OverlordUltstart = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/overlord_ultstart",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 5.504000
+    }
+    OverlordUltend = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/overlord_ultend",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 5.290667
+    }
+    MorgenIce = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/morgen_ice",
+            "sounds/birzha/morgen_icet",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 6.572313
+    }
+    GokuKamestart = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/goku_kamestart",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 2.736000
+    }
+    GokuKameend = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/goku_kameend",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 3.960000
+    }
+    GokuKi = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/goku_ki",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 4.272000
+    }
+    HakuHelp = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/haku_help",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 2.600635
+    }
+    HakuMirror = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/haku_mirror",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 2.530975
+    }
+    HakuNeedleheal = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/haku_needleheal",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 0.479410
+    }
+    HakuQiut = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/haku_quit",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.346757
+    }
+    HakuSpeed = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/haku_speed",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 4.969070
+    }
+    HakuStun = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/haku_stun",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 0.998458
+    }
+    GorshokZombie = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/gorshok_zombie",
+        ]
+        volume = "15.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+    }
+    GorshokTalent = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/gorshok_talent",
+        ]
+        volume = "2.500000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+    }
+    GorshokRome = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/gorshok_rome",
+        ]
+        volume = "2.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+    }
+    GorshokGoodwin = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/gorshok_goodwin",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+    }
+    GorshokForest = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/gorshok_forest",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+    }
+    GorshokDeath = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/gorshok_death",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+    }
+    GorshokDance = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/gorshok_dance",
+        ]
+        volume = "3.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 14.208005
+    }
+    GorshokAnarhia = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/gorshok_anarhia",
+        ]
+        volume = "20.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 6.805351
+    }
+    BirzhaStart = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/birzha_start",
+        ]
+        volume = "8.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 14.008390
+    }
+    OverlordRein = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/overlord_rein1",
+            "sounds/birzha/overlord_rein2",
+            "sounds/birzha/overlord_rein3",
+            "sounds/birzha/overlord_rein4",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 5.098667
+    }
+    OverlordSpawn = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/overlord_spawn",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 10.090667
+    }
+    OverlordDeath = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/overlord_death",
+            "sounds/birzha/overlord_death2",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 2.709320
+    }
+    OverlordKill = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/overlord_kill",
+            "sounds/birzha/overlord_kill2",
+            "sounds/birzha/overlord_kill3",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 3.455986
+    }
+    AangLunge = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/aang_lunge",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 5.029637
+    }
+    AangJumping = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/aang_jumping",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.633719
+    }
+    AangFirehit = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/aang_firehit",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.450862
+    }
+    AangFasthit = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/aang_Fasthit",
+        ]
+        volume = "5.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 0.929410
+    }
+    AangAvatar = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/aang_avatar",
+        ]
+        volume = "7.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 24.265896
+    }
+    VanBilly = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/van_billy",
+        ]
+        volume = "7.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 1.803583
+    }
+    VanFisting = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/van_fisting",
+            "sounds/birzha/van_fisting2",
+        ]
+        volume = "7.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 3.500408
+    }
+    VanLeatheron = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/van_leather",
+            "sounds/birzha/van_leather2",
+        ]
+        volume = "7.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 0.714603
+    }
+}

@@ -317,8 +317,11 @@ function Kudes_JumpInHead:OnSpellStart()
         FindClearSpaceForUnit(self:GetCaster(), self:GetCaster():GetAbsOrigin(), true)
         local duration = self:GetSpecialValueFor("duration")
         CreateModifierThinker( self:GetCaster(), self, "modifier_JumpInHead_arena", {duration = duration}, self:GetCaster():GetAbsOrigin(), self:GetCaster():GetTeamNumber(), false )
-
-        local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, FIND_ANY_ORDER, false)
+        local flag = 0
+        if self:GetCaster():HasTalent("special_bonus_birzha_kudes_6") then
+            flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
+        end
+        local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_ANY_ORDER, false)
         for _, enemy in pairs(enemies) do
             ApplyDamage({attacker = self:GetCaster(), victim = enemy, ability = self, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
         end
@@ -587,10 +590,6 @@ function modifier_kudes_leap:SetEndCallback( func )
     self.endCallback = func
 end
 
-
-
-
-
 modifier_JumpInHead_arena = class({})
 
 function modifier_JumpInHead_arena:IsHidden()
@@ -754,6 +753,9 @@ function modifier_JumpInHead_arena_wall:GetAuraSearchType()
 end
 
 function modifier_JumpInHead_arena_wall:GetAuraSearchFlags()
+    if self:GetCaster():HasTalent("special_bonus_birzha_kudes_6") then
+        return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE
+    end
     return 0
 end
 
@@ -800,9 +802,6 @@ function modifier_JumpInHead_arena_damage:OnCreated( kv )
         self:PlayEffects( self:GetParent() )
         if self:GetParent():HasModifier( "modifier_Kudes_GoldHook" ) then return end
         self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_generic_knockback_lua", { duration = self.knockback_duration, distance = self.width, height = 30, direction_x = direction.x, direction_y = direction.y})
-        if self:GetCaster():HasTalent("special_bonus_birzha_kudes_6") then
-            self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_JumpInHead_arena_disarmed", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_kudes_6") * (1-self:GetParent():GetStatusResistance()) })
-        end
     end
 end
 
@@ -831,6 +830,9 @@ function modifier_JumpInHead_arena_damage:GetAuraSearchType()
 end
 
 function modifier_JumpInHead_arena_damage:GetAuraSearchFlags()
+    if self:GetCaster():HasTalent("special_bonus_birzha_kudes_6") then
+        return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE
+    end
     return 0
 end
 function modifier_JumpInHead_arena_damage:GetAuraEntityReject( unit )
@@ -1058,7 +1060,8 @@ function modifier_Kudes_Fat:GetModifierIncomingDamage_Percentage( params )
         multi = self:GetAbility():GetSpecialValueFor("scepter_multiple")
     end
 
-	return self:GetStackCount() * self:GetAbility():GetSpecialValueFor( "damage_min" ) * multi
+    local damage_min = self:GetAbility():GetSpecialValueFor( "damage_min" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_kudes_7")
+	return self:GetStackCount() * damage_min * multi
 end
 
 LinkLuaModifier( "modifier_Kudes_Items", "abilities/heroes/kudes.lua", LUA_MODIFIER_MOTION_NONE  )

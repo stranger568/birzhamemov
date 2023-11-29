@@ -28,6 +28,9 @@ function Naval_meeting:OnSpellStart()
         if caster:HasTalent("special_bonus_birzha_navalny_8") then
             self.schoolboy:AddNewModifier(caster, self, "modifier_naval_meeting_talent", {})
         end
+        if caster:HasTalent("special_bonus_birzha_navalny_6") then
+            self.schoolboy:AddNewModifier(caster, self, "modifier_phased", {})
+        end
     end
 end
 
@@ -105,7 +108,7 @@ modifier_naval_acid_spray_debuff = class({})
 function modifier_naval_acid_spray_debuff:OnCreated( kv )
     local interval = self:GetAbility():GetSpecialValueFor( "tick_rate" )
     local damage = self:GetAbility():GetSpecialValueFor( "damage" )
-    self.armor = -self:GetAbility():GetSpecialValueFor( "armor_reduction" )
+    self.armor = -self:GetAbility():GetSpecialValueFor( "armor_reduction" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_navalny_2")
     if not IsServer() then return end
     self.damageTable = {
         victim = self:GetParent(),
@@ -267,7 +270,7 @@ end
 
 function modifier_Naval_Youtube:OnIntervalThink()
     if not IsServer() then return end
-    local money = self:GetAbility():GetSpecialValueFor( "Gold_Tick" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_navalny_2")
+    local money = self:GetAbility():GetSpecialValueFor( "Gold_Tick" )
     if self:GetCaster():IsIllusion() then return end
     if self:GetAbility():IsFullyCastable() then
         self:GetAbility():UseResources(false, false, false, true)
@@ -303,6 +306,7 @@ function modifier_naval_president:OnCreated()
     self.bonus_damage = self:GetAbility():GetSpecialValueFor( "bonus_damage" )
     self.hp_regen = self:GetAbility():GetSpecialValueFor( "hp_regen" )
     self.bonus_attack_speed = self:GetAbility():GetSpecialValueFor( "bonus_attack_speed" )
+    self.bonus_damage = self:GetAbility():GetSpecialValueFor( "bonus_damage" )
     if not IsServer() then return end
     self.scepter = false
     if self:GetCaster():HasScepter() then
@@ -324,10 +328,10 @@ end
 function modifier_naval_president:DeclareFunctions()
     local funcs = 
     {
-        MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE,
         MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
         MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
         MODIFIER_PROPERTY_MODEL_SCALE,
+        MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE
     }
 
     return funcs
@@ -344,14 +348,14 @@ function modifier_naval_president:GetModifierModelScale()
     return 75
 end
 
-function modifier_naval_president:GetModifierTotalDamageOutgoing_Percentage()
-    return self:GetCaster():FindTalentValue("special_bonus_birzha_navalny_6")
-end
-
 function modifier_naval_president:GetModifierConstantHealthRegen()
     return self.hp_regen
 end
 
 function modifier_naval_president:GetModifierAttackSpeedBonus_Constant()
     return self.bonus_attack_speed
+end
+
+function modifier_naval_president:GetModifierPreAttack_BonusDamage()
+    return self.bonus_damage
 end

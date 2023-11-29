@@ -30,7 +30,7 @@ function UpdateHeroes(table, key, data ) {
 
 function RegisterHeroes()
 {
-	     let strength_heroes = 
+    let strength_heroes = 
     [
         "npc_dota_hero_huskar",
         "npc_dota_hero_alchemist",
@@ -148,95 +148,75 @@ function RegisterHeroes()
         "npc_dota_hero_leshrac",
     ]
 
-    var hero_list = CustomNetTables.GetTableValue("birzha_pick", "hero_list");
-    if (hero_list)
+    $("#HeroBirzhaList").RemoveAndDeleteChildren()
+
+    var AttributePanelSTR = $.CreatePanel("Panel", $("#HeroBirzhaList"), "AttributePanel" );
+    AttributePanelSTR.style.borderBrush = "gradient( radial, 50% 50%, 0% 0%, 50% 55%, from( red ), to( #fff0 ) )"
+    var AttributePanelStyleSTR = $.CreatePanel("Panel", AttributePanelSTR, "AttributePanelStyle" );
+    var AttributePanelIconSTR = $.CreatePanel("Panel", AttributePanelStyleSTR, "AttributePanelIcon" );
+    AttributePanelIconSTR.AddClass("StrIcon")
+    var AttributePanelLabelSTR = $.CreatePanel("Label", AttributePanelStyleSTR, "AttributePanelLabel" );
+    AttributePanelLabelSTR.text = $.Localize("#DOTA_Hero_Selection_STR")
+    var str_row = $.CreatePanel("Panel", $("#HeroBirzhaList"), "StrengthSelector" );
+
+    for (var i = 0; i < strength_heroes.length; i++) 
     {
-        if (hero_list.str !== null)
-        {
-            if( $("#HeroBirzhaList").FindChild("StrengthSelector") ) return;
+        var hero_creating = $("#StrengthSelector").FindChild(strength_heroes[i])
+        if (hero_creating) { return };
+        var panel = $.CreatePanel("Panel", $("#StrengthSelector"), strength_heroes[i] );
+        panel.AddClass("hero_select_panel"); 
+        var icon = $.CreatePanel("Panel", panel, "image");
+        icon.AddClass("hero_select_panel_img");
+        icon.style.backgroundImage = 'url("file://{images}/custom_game/cm/heroes_pick/' + strength_heroes[i] + '.png")';
+        icon.style.backgroundSize = 'contain';
+        SetHero(panel, strength_heroes[i]);
+        panel.BLoadLayoutSnippet('HeroCard');
+    }
 
+    var AttributePanelAGI = $.CreatePanel("Panel", $("#HeroBirzhaList"), "AttributePanel" );
+    AttributePanelAGI.style.borderBrush = "gradient( radial, 50% 50%, 0% 0%, 50% 55%, from( #08cc0f ), to( #fff0 ) )"
+    var AttributePanelStyleAGI = $.CreatePanel("Panel", AttributePanelAGI, "AttributePanelStyle" );
+    var AttributePanelIconAGI = $.CreatePanel("Panel", AttributePanelStyleAGI, "AttributePanelIcon" );
+    AttributePanelIconAGI.AddClass("AgiIcon")
+    var AttributePanelLabelAGI = $.CreatePanel("Label", AttributePanelStyleAGI, "AttributePanelLabel" );
+    AttributePanelLabelAGI.text = $.Localize("#DOTA_Hero_Selection_AGI")
+    var agi_row = $.CreatePanel("Panel", $("#HeroBirzhaList"), "AgilitySelector" );
 
-            var AttributePanelSTR = $.CreatePanel("Panel", $("#HeroBirzhaList"), "AttributePanel" );
-            AttributePanelSTR.style.borderBrush = "gradient( radial, 50% 50%, 0% 0%, 50% 55%, from( red ), to( #fff0 ) )"
-            var AttributePanelStyleSTR = $.CreatePanel("Panel", AttributePanelSTR, "AttributePanelStyle" );
-            var AttributePanelIconSTR = $.CreatePanel("Panel", AttributePanelStyleSTR, "AttributePanelIcon" );
-            AttributePanelIconSTR.AddClass("StrIcon")
-            var AttributePanelLabelSTR = $.CreatePanel("Label", AttributePanelStyleSTR, "AttributePanelLabel" );
-            AttributePanelLabelSTR.text = $.Localize("#DOTA_Hero_Selection_STR")
-            var str_row = $.CreatePanel("Panel", $("#HeroBirzhaList"), "StrengthSelector" );
+    for (var i = 0; i < agility_heroes.length; i++) 
+    {
+        var hero_creating = $("#AgilitySelector").FindChild(agility_heroes[i])
+        if (hero_creating) { return };
+        var panel = $.CreatePanel("Panel", $("#AgilitySelector"), agility_heroes[i] );
+        panel.AddClass("hero_select_panel");
+        var icon = $.CreatePanel("Panel", panel, "image");
+        icon.AddClass("hero_select_panel_img");
+        icon.style.backgroundImage = 'url("file://{images}/custom_game/cm/heroes_pick/' + agility_heroes[i] + '.png")';
+        icon.style.backgroundSize = 'contain';
+        SetHero(panel, agility_heroes[i]);
+        panel.BLoadLayoutSnippet('HeroCard');
+    }
 
+    var AttributePanelINT = $.CreatePanel("Panel", $("#HeroBirzhaList"), "AttributePanel" );
+    AttributePanelINT.style.borderBrush = "gradient( radial, 50% 50%, 0% 0%, 50% 55%, from( #08bfcc ), to( #fff0 ) )"
+    var AttributePanelStyleINT = $.CreatePanel("Panel", AttributePanelINT, "AttributePanelStyle" );
+    var AttributePanelIconINT = $.CreatePanel("Panel", AttributePanelStyleINT, "AttributePanelIcon" );
+    AttributePanelIconINT.AddClass("IntIcon")
+    var AttributePanelLabelINT = $.CreatePanel("Label", AttributePanelStyleINT, "AttributePanelLabel" );
+    AttributePanelLabelINT.text = $.Localize("#DOTA_Hero_Selection_INT")
+    var int_row = $.CreatePanel("Panel", $("#HeroBirzhaList"), "IntellectSelector" );
 
-
-            for (var i = 0; i < strength_heroes.length; i++) 
-            {
-                var hero_creating = $("#StrengthSelector").FindChild(strength_heroes[i])
-                if (hero_creating) { return };
-                var panel = $.CreatePanel("Panel", $("#StrengthSelector"), strength_heroes[i] );
-                panel.AddClass("hero_select_panel"); 
-                var icon = $.CreatePanel("Panel", panel, "image");
-                icon.AddClass("hero_select_panel_img");
-                icon.style.backgroundImage = 'url("file://{images}/custom_game/cm/heroes_pick/' + strength_heroes[i] + '.png")';
-                icon.style.backgroundSize = 'contain';
-                SetHero(panel, strength_heroes[i]);
-                panel.BLoadLayoutSnippet('HeroCard');
-            }
-        }
-
-        if (hero_list.ag !== null)
-        {
-            if( $("#HeroBirzhaList").FindChild("AgilitySelector") ) return;
-
-            var AttributePanelAGI = $.CreatePanel("Panel", $("#HeroBirzhaList"), "AttributePanel" );
-            AttributePanelAGI.style.borderBrush = "gradient( radial, 50% 50%, 0% 0%, 50% 55%, from( #08cc0f ), to( #fff0 ) )"
-            var AttributePanelStyleAGI = $.CreatePanel("Panel", AttributePanelAGI, "AttributePanelStyle" );
-            var AttributePanelIconAGI = $.CreatePanel("Panel", AttributePanelStyleAGI, "AttributePanelIcon" );
-            AttributePanelIconAGI.AddClass("AgiIcon")
-            var AttributePanelLabelAGI = $.CreatePanel("Label", AttributePanelStyleAGI, "AttributePanelLabel" );
-            AttributePanelLabelAGI.text = $.Localize("#DOTA_Hero_Selection_AGI")
-            var agi_row = $.CreatePanel("Panel", $("#HeroBirzhaList"), "AgilitySelector" );
-
-
-            for (var i = 0; i < agility_heroes.length; i++) 
-            {
-                var hero_creating = $("#AgilitySelector").FindChild(agility_heroes[i])
-                if (hero_creating) { return };
-                var panel = $.CreatePanel("Panel", $("#AgilitySelector"), agility_heroes[i] );
-                panel.AddClass("hero_select_panel");
-                var icon = $.CreatePanel("Panel", panel, "image");
-                icon.AddClass("hero_select_panel_img");
-                icon.style.backgroundImage = 'url("file://{images}/custom_game/cm/heroes_pick/' + agility_heroes[i] + '.png")';
-                icon.style.backgroundSize = 'contain';
-                SetHero(panel, agility_heroes[i]);
-                panel.BLoadLayoutSnippet('HeroCard');
-            }
-        }
-
-        if (hero_list.int !== null)
-        {
-            if( $("#HeroBirzhaList").FindChild("IntellectSelector") ) return;
-            var AttributePanelINT = $.CreatePanel("Panel", $("#HeroBirzhaList"), "AttributePanel" );
-            AttributePanelINT.style.borderBrush = "gradient( radial, 50% 50%, 0% 0%, 50% 55%, from( #08bfcc ), to( #fff0 ) )"
-            var AttributePanelStyleINT = $.CreatePanel("Panel", AttributePanelINT, "AttributePanelStyle" );
-            var AttributePanelIconINT = $.CreatePanel("Panel", AttributePanelStyleINT, "AttributePanelIcon" );
-            AttributePanelIconINT.AddClass("IntIcon")
-            var AttributePanelLabelINT = $.CreatePanel("Label", AttributePanelStyleINT, "AttributePanelLabel" );
-            AttributePanelLabelINT.text = $.Localize("#DOTA_Hero_Selection_INT")
-            var int_row = $.CreatePanel("Panel", $("#HeroBirzhaList"), "IntellectSelector" );
-
-            for (var i = 0; i < intellect_heroes.length; i++) 
-            {
-                var hero_creating = $("#IntellectSelector").FindChild(intellect_heroes[i])
-                if (hero_creating) { return };
-                var panel = $.CreatePanel("Panel", $("#IntellectSelector"), intellect_heroes[i] );
-                panel.AddClass("hero_select_panel");
-                var icon = $.CreatePanel("Panel", panel, "image");
-                icon.AddClass("hero_select_panel_img");
-                icon.style.backgroundImage = 'url("file://{images}/custom_game/cm/heroes_pick/' + intellect_heroes[i] + '.png")';
-                icon.style.backgroundSize = 'contain';
-                SetHero(panel, intellect_heroes[i]);
-                panel.BLoadLayoutSnippet('HeroCard');
-            }
-        }
+    for (var i = 0; i < intellect_heroes.length; i++) 
+    {
+        var hero_creating = $("#IntellectSelector").FindChild(intellect_heroes[i])
+        if (hero_creating) { return };
+        var panel = $.CreatePanel("Panel", $("#IntellectSelector"), intellect_heroes[i] );
+        panel.AddClass("hero_select_panel");
+        var icon = $.CreatePanel("Panel", panel, "image");
+        icon.AddClass("hero_select_panel_img");
+        icon.style.backgroundImage = 'url("file://{images}/custom_game/cm/heroes_pick/' + intellect_heroes[i] + '.png")';
+        icon.style.backgroundSize = 'contain';
+        SetHero(panel, intellect_heroes[i]);
+        panel.BLoadLayoutSnippet('HeroCard');
     }
 }
 

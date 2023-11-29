@@ -64,4 +64,8 @@
 	"item_recipe_heavens_halberd"		"REMOVE"
 	"item_manta"		"REMOVE"
 	"item_recipe_manta"		"REMOVE"
+	"item_phylactery"               "REMOVE"
+	"item_recipe_phylactery"               "REMOVE"
+	"item_refresher"               "REMOVE"
+	"item_recipe_refresher"               "REMOVE"
 }

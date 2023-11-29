@@ -40,6 +40,8 @@ function modifier_sonic_arcana:OnDeath(params)
         dummy:SetOriginalModel("models/sonic_arcana/sonic_ring.vmdl")
         dummy:AddNewModifier(dummy, nil, "modifier_kill", {duration = 10})
         dummy:StartGesture(ACT_DOTA_IDLE)
+        dummy:SetDayTimeVisionRange(0)
+        dummy:SetNightTimeVisionRange(0)
         local point = self:GetCaster():GetAbsOrigin() + RandomVector(100)
 		local direction = point - self:GetCaster():GetAbsOrigin()
 		direction.z = 0

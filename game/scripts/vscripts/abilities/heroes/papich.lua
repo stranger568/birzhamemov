@@ -263,7 +263,7 @@ function modifier_papich_reincarnation_wraith_form_buff:OnTakeDamage(params)
         end        
     end
 
-    local health_reincarnation = self:GetAbility():GetSpecialValueFor("health_reincarnation") + self:GetCaster():FindTalentValue("special_bonus_birzha_papich_5")
+    local health_reincarnation = self:GetAbility():GetSpecialValueFor("health_reincarnation")
     local caster_health = self:GetParent():GetMaxHealth() / 100 * health_reincarnation
     local duration = self:GetAbility():GetSpecialValueFor("duration")
 
@@ -375,7 +375,7 @@ function Papich_StreamSnipers:OnSpellStart()
     if not IsServer() then return end
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_streamsnipers_buff_talent", {duration = self:GetSpecialValueFor("talent_duration")})
     self:GetCaster():EmitSound("papich_stream")
-    local radius = self:GetSpecialValueFor( "aura_radius" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_papich_1")
+    local radius = self:GetSpecialValueFor( "aura_radius" )
     local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS, 0, false )
     for _, enemy in pairs(enemies) do
         enemy:AddNewModifier(self:GetCaster(), self, "modifier_streamsnipers_debuff", {duration = self:GetSpecialValueFor("talent_duration")})
@@ -389,7 +389,7 @@ function Papich_StreamSnipers:GetCooldown(iLevel)
 end
 
 function Papich_StreamSnipers:GetCastRange(location, target)
-    return self.BaseClass.GetCastRange(self, location, target) + self:GetCaster():FindTalentValue("special_bonus_birzha_papich_1")
+    return self.BaseClass.GetCastRange(self, location, target)
 end
 
 function Papich_StreamSnipers:GetIntrinsicModifierName()
@@ -433,7 +433,7 @@ end
 
 function modifier_streamsnipers_buff:OnIntervalThink()
     if not IsServer() then return end
-    local radius = self:GetAbility():GetSpecialValueFor( "aura_radius" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_papich_1")
+    local radius = self:GetAbility():GetSpecialValueFor( "aura_radius" )
     local enemies = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS, 0, false )
     if self:GetParent():HasModifier("modifier_streamsnipers_buff_talent") then return end
     self:SetStackCount( #enemies )
@@ -462,7 +462,7 @@ function modifier_streamsnipers_buff:GetModifierMoveSpeedBonus_Percentage()
 end
 
 function modifier_streamsnipers_buff:GetModifierAttackSpeedBonus_Constant()
-    return self:GetStackCount() * self:GetAbility():GetSpecialValueFor( "attack_speed" )
+    return self:GetStackCount() * (self:GetAbility():GetSpecialValueFor( "attack_speed" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_papich_1"))
 end
 
 function modifier_streamsnipers_buff:GetModifierPhysicalArmorBonus()
@@ -470,7 +470,7 @@ function modifier_streamsnipers_buff:GetModifierPhysicalArmorBonus()
 end
 
 LinkLuaModifier("modifier_Papich_in_solo",  "abilities/heroes/papich.lua", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_Papich_in_solo_quest",  "abilities/heroes/papich.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_Papich_in_solo_oneshot",  "abilities/heroes/papich.lua", LUA_MODIFIER_MOTION_NONE)
 
 Papich_in_solo = class({})
 
@@ -523,13 +523,12 @@ end
 
 function modifier_Papich_in_solo:GetModifierPreAttack_CriticalStrike( params )
     local crit_mult = self:GetAbility():GetSpecialValueFor("crit_mult")
-    local chance = self:GetAbility():GetSpecialValueFor("chance")
     if not IsServer() then return end
     if params.target:IsWard() then return end
     if params.attacker:PassivesDisabled() then return end
     if not self:GetAbility():IsFullyCastable() then return end
 
-    if RollPseudoRandomPercentage(chance, 921, self:GetCaster()) and not self:GetParent():IsIllusion() and not params.target:IsBoss() then
+    if self:GetCaster():HasModifier("modifier_Papich_in_solo_oneshot") and not self:GetParent():IsIllusion() and not params.target:IsBoss() then
         if self:GetParent():HasTalent("special_bonus_birzha_papich_7") then
             self:GetParent():RemoveGesture(ACT_DOTA_ATTACK_EVENT)
             self:GetParent():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK_EVENT, self:GetParent():GetAttackSpeed())
@@ -569,7 +568,6 @@ function modifier_Papich_in_solo:GetModifierProcAttack_Feedback( params )
             ParticleManager:SetParticleControl(niia, 0, params.target:GetAbsOrigin())
             ParticleManager:SetParticleControl(niia, 7, params.target:GetAbsOrigin())
         end
-        params.target:AddNewModifier(self:GetCaster(), self, "modifier_Papich_in_solo_quest", {duration = 5})
         if self:GetParent():HasTalent("special_bonus_birzha_papich_7") then
             self.attach_sound = 0
             self:GetAbility():UseResources(false, false, false, true)
@@ -580,59 +578,38 @@ function modifier_Papich_in_solo:GetModifierProcAttack_Feedback( params )
             self.attach_sound = 0
             ApplyDamage({victim = params.target, attacker = self:GetParent(), damage = params.target:GetMaxHealth() / 100 * self:GetAbility():GetSpecialValueFor("damage_chance"), damage_type = DAMAGE_TYPE_PURE, ability = nil}) 
         end
+        self:GetParent():RemoveModifierByName("modifier_Papich_in_solo_oneshot")
     elseif pass and self.one_shot == nil then
         self:GetParent():EmitSound("papichsolo_new")
         self:GetAbility():UseResources(false, false, false, true)
         self:GetParent():StopSound("papichwherecrit")
         self.one_shot = nil
+        self:GetParent():RemoveModifierByName("modifier_Papich_in_solo_oneshot")
     end
-end
 
-
-
-
-
-
-
-
-
-
-        
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-modifier_Papich_in_solo_quest = class({})
-
-function modifier_Papich_in_solo_quest:IsHidden() return true end
-function modifier_Papich_in_solo_quest:IsPurgable() return false end
-function modifier_Papich_in_solo_quest:IsPurgeException() return false end
-
-function modifier_Papich_in_solo_quest:DeclareFunctions()
-    return {
-        MODIFIER_EVENT_ON_DEATH
-    }
-end
-
-function modifier_Papich_in_solo_quest:OnDeath(params)
-    if params.unit == self:GetParent() then
-        if params.attacker == self:GetCaster() then
-            donate_shop:QuestProgress(37, self:GetCaster():GetPlayerOwnerID(), 1)
+    if pass then
+        if self:GetCaster():HasTalent("special_bonus_birzha_papich_5") then
+            local heal = params.damage / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_papich_5")
+            self:GetCaster():Heal(heal, nil)
+            local effect_cast = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
+            ParticleManager:ReleaseParticleIndex( effect_cast )
+        end
+    else
+        local chance = self:GetAbility():GetSpecialValueFor("chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_papich_7")
+        if RollPseudoRandomPercentage(chance, 921, self:GetCaster()) then
+            self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_Papich_in_solo_oneshot", {})
         end
     end
 end
 
-
-
-        
+modifier_Papich_in_solo_oneshot = class({})
+function modifier_Papich_in_solo_oneshot:IsHidden() return true end
+function modifier_Papich_in_solo_oneshot:IsPurgeException() return false end
+function modifier_Papich_in_solo_oneshot:IsPurgable() return false end
+function modifier_Papich_in_solo_oneshot:RemoveOnDeath() return false end
+function modifier_Papich_in_solo_oneshot:GetEffectName()
+    return "particles/papich_crit_overhead_buff.vpcf"
+end
+function modifier_Papich_in_solo_oneshot:GetEffectAttachType()
+    return PATTACH_OVERHEAD_FOLLOW
+end

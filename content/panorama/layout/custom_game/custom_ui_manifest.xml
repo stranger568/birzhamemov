@@ -98,7 +98,7 @@
 		<CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/pucci_quests.xml" />
 		<CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/saitama_punch.xml" />
 		<CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/freddy_screamer.xml" />
-		<CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/tip_block.xml" />
+        <CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/toast_birzha_manager.xml" />
 		<CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/win_predict.xml" />
 	</Panel>
 </root>

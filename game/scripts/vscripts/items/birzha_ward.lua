@@ -280,44 +280,18 @@ function modifier_item_birzha_observer_ward:OnAttacked(keys)
             end
             return
         end
+
+        local new_health = self:GetParent():GetHealth() - self.health_increments
         if keys.attacker:IsRealHero() then
-            self:GetParent():SetHealth(self:GetParent():GetHealth() - (self.health_increments * self.hero_attack_multiplier))
-        else
-            self:GetParent():SetHealth(self:GetParent():GetHealth() - self.health_increments)
+            new_health = self:GetParent():GetHealth() - (self.health_increments * self.hero_attack_multiplier)
         end
-        if self:GetParent():GetHealth() <= 0 then
+        if new_health <= 0 then
             self:GetParent():Kill(nil, keys.attacker)
+        else
+            self:GetParent():SetHealth(new_health)
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 modifier_item_birzha_sentry_ward = class({})
 
@@ -372,13 +346,14 @@ function modifier_item_birzha_sentry_ward:OnAttacked(keys)
             end
             return
         end
+        local new_health = self:GetParent():GetHealth() - self.health_increments
         if keys.attacker:IsRealHero() then
-            self:GetParent():SetHealth(self:GetParent():GetHealth() - (self.health_increments * self.hero_attack_multiplier))
-        else
-            self:GetParent():SetHealth(self:GetParent():GetHealth() - self.health_increments)
+            new_health = self:GetParent():GetHealth() - (self.health_increments * self.hero_attack_multiplier)
         end
-        if self:GetParent():GetHealth() <= 0 then
+        if new_health <= 0 then
             self:GetParent():Kill(nil, keys.attacker)
+        else
+            self:GetParent():SetHealth(new_health)
         end
     end
 end

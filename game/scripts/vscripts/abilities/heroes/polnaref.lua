@@ -181,8 +181,8 @@ function polnaref_stand:OnSpellStart()
             ParticleManager:SetParticleControl(self.particle, 0, self.stand:GetAbsOrigin()) 
         end)
     else
-        self.stand = CreateUnitByName("npc_palnoref_chariot", origin, true, caster, caster, caster:GetTeamNumber())
-        self.stand:SetControllableByPlayer(player, true)
+        self.stand = CreateUnitByName("npc_palnoref_chariot", origin, true, nil, nil, caster:GetTeamNumber())
+        self.stand:SetControllableByPlayer(player, false)
         self.stand:SetOwner(self:GetCaster())
         self.stand:AddNewModifier(self:GetCaster(), self, 'modifier_polnaref_stand', {})
         self.stand:SetForwardVector( self:GetCaster():GetForwardVector() )
@@ -309,23 +309,23 @@ function modifier_polnaref_stand:OnRefresh()
     local polnaref_afterimage = self:GetParent():FindAbilityByName("polnaref_afterimage")
     local polnaref_silver_rage = self:GetParent():FindAbilityByName("polnaref_silver_rage")
 
-    if polnaref_rapier and polnaref_stand then
+    if polnaref_rapier and polnaref_stand and polnaref_rapier:GetLevel() ~= polnaref_stand:GetLevel() then
         polnaref_rapier:SetLevel(polnaref_stand:GetLevel())
     end
 
-    if polnaref_shoot and polnaref_battle_exp then
+    if polnaref_shoot and polnaref_battle_exp and polnaref_shoot:GetLevel() ~= polnaref_battle_exp:GetLevel() then
         polnaref_shoot:SetLevel(polnaref_battle_exp:GetLevel())
     end
 
-    if polnaref_chariotarmor then
+    if polnaref_chariotarmor and polnaref_chariotarmor:GetLevel() ~= 1 then
         polnaref_chariotarmor:SetLevel(1)
     end
 
-    if polnaref_silver_rage and polnaref_ragess then
+    if polnaref_silver_rage and polnaref_ragess and polnaref_silver_rage:GetLevel() ~= polnaref_ragess:GetLevel() then
         polnaref_silver_rage:SetLevel(polnaref_ragess:GetLevel())
     end
 
-    if polnaref_afterimage and polnaref_requeim then
+    if polnaref_afterimage and polnaref_requeim and polnaref_afterimage:GetLevel() ~= polnaref_requeim:GetLevel() then
         polnaref_afterimage:SetLevel(polnaref_requeim:GetLevel())
     end
 end
@@ -624,6 +624,10 @@ end
 
 modifier_polnaref_requeim_aura = ({})
 
+function modifier_polnaref_requeim_aura:GetAuraDuration()
+    return 0
+end
+
 function modifier_polnaref_requeim_aura:OnCreated()
     if not IsServer() then return end
     if self:GetParent():GetUnitName() == "npc_palnoref_chariot" then
@@ -675,6 +679,7 @@ function polnaref_rapier:GetChannelTime()
 end
 
 function polnaref_rapier:OnSpellStart() 
+    if not IsServer() then return end
     self.target = self:GetCursorPosition()
     local duration = self:GetChannelTime()
     if self.target == nil then
@@ -874,6 +879,7 @@ function polnaref_shoot:OnProjectileHit( target, vLocation )
             local modifier_disarmed_sword = self:GetCaster():FindModifierByName("modifier_polnaref_shoot_debuff")
             if modifier_disarmed_sword then
                 modifier_disarmed_sword.sword_on_groud = CreateUnitByName( "npc_dota_companion", vLocation, true, nil, nil, self:GetCaster():GetTeamNumber() )
+                FindClearSpaceForUnit(modifier_disarmed_sword.sword_on_groud, vLocation, false)
                 modifier_disarmed_sword.sword_on_groud:SetOwner(self:GetCaster())
                 modifier_disarmed_sword.sword_on_groud:AddNewModifier(self:GetCaster(), self, "modifier_polnaref_shoot_sword_on_groud", {})
                 modifier_disarmed_sword.sword_on_groud:SetModel("models/polnaref_sword/sword_ground.vmdl")

@@ -110,6 +110,7 @@ function GetMmrTop(map_name) {
 			}
 		}
 	}
+	$("#MainTextInformationLeaderSeason").text = $.Localize("#newseason") + GetCurrentSeasonDays() + " " + $.Localize("#day")
 }
 
 function CreatePlayer(table, count)
@@ -124,8 +125,8 @@ function CreatePlayer(table, count)
 	let player_nickname_and_avatar = $.CreatePanel("Panel", player_panel, "")
 	player_nickname_and_avatar.AddClass("PlayerInfoTable")
 
-	$.CreatePanelWithProperties("DOTAAvatarImage", player_nickname_and_avatar, "TopMmrAvatar", { style: "width:32px;height:32px;", accountid: table.steamid });
-    $.CreatePanelWithProperties("DOTAUserName", player_nickname_and_avatar, "NickLabelid", { class: "TopMmrNick", steamid: table.steamid });
+	$.CreatePanel("DOTAAvatarImage", player_nickname_and_avatar, "TopMmrAvatar", { style: "width:32px;height:32px;", accountid: table.steamid });
+    $.CreatePanel("DOTAUserName", player_nickname_and_avatar, "NickLabelid", { class: "TopMmrNick", steamid: table.steamid });
   
     let player_rating_panel = $.CreatePanel("Panel", player_panel, "")
 	player_rating_panel.AddClass("MmrInfoTable")
@@ -141,11 +142,21 @@ function CreatePlayer(table, count)
 
 function GetMmrSeason()
 {
-    return (CustomNetTables.GetTableValue('game_state', 'birzha_gameinfo') || {}).mmr_season
-
+    return (CustomNetTables.GetTableValue('game_state', 'birzha_gameinfo') || {}).season
 }
 
-
+function GetCurrentSeasonDays()
+{
+	let table = CustomNetTables.GetTableValue("game_state", "birzha_gameinfo")
+	if (table)
+	{
+		if (table.days_season)
+		{
+			return Number(table.days_season)
+		}
+	}
+	return 0
+}
 
 
 

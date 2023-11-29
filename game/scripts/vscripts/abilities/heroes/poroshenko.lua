@@ -205,7 +205,7 @@ function modifier_Poroshenko_fat_debuff:OnCreated()
     if not IsServer() then return end
     if self:GetParent():IsBoss() then return end
     self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_ice_slide", {} )
-    self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_Poroshenko_fat_debuff_target", {duration=self:GetAbility():GetSpecialValueFor( "duration" ) * (1-self:GetParent():GetStatusResistance()) } )
+    self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_Poroshenko_fat_debuff_target", {duration=self:GetAbility():GetSpecialValueFor( "silence_duration" ) * (1-self:GetParent():GetStatusResistance()) } )
 end
 
 function modifier_Poroshenko_fat_debuff:OnDestroy()
@@ -327,12 +327,13 @@ function modifier_Poroshenko_bunt:PlayEffects()
     self:AddParticle(self.effect_cast, false, false, -1, false, false )
 end
 
-LinkLuaModifier( "poroshenko_donbass_talent", "abilities/heroes/poroshenko.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifer_poroshenko_donbass_talent", "abilities/heroes/poroshenko.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_poroshenko_donbass_unit", "abilities/heroes/poroshenko.lua", LUA_MODIFIER_MOTION_NONE )
 
 poroshenko_donbass = class({})
 
 function poroshenko_donbass:GetIntrinsicModifierName()
-    return "poroshenko_donbass_talent"
+    return "modifer_poroshenko_donbass_talent"
 end
 
 function poroshenko_donbass:GetCooldown(level)
@@ -374,19 +375,20 @@ function poroshenko_donbass:OnSpellStart()
         self.sniper:SetControllableByPlayer(caster:GetPlayerID(), true)
         FindClearSpaceForUnit(self.sniper, self.sniper:GetAbsOrigin(), true)
         self.sniper:AddNewModifier(self:GetCaster(), self, "modifier_kill", {duration = snipers_duration})
+        self.sniper:AddNewModifier(self:GetCaster(), self, "modifier_poroshenko_donbass_unit", {})
     end
 end
 
-poroshenko_donbass_talent = class({})
+modifer_poroshenko_donbass_talent = class({})
 
-function poroshenko_donbass_talent:IsHidden()
+function modifer_poroshenko_donbass_talent:IsHidden()
     return true
 end
 
-function poroshenko_donbass_talent:IsPurgable()
+function modifer_poroshenko_donbass_talent:IsPurgable()
     return false
 end
-function poroshenko_donbass_talent:DeclareFunctions()
+function modifer_poroshenko_donbass_talent:DeclareFunctions()
     local funcs = 
     {
         MODIFIER_EVENT_ON_DEATH,
@@ -395,7 +397,7 @@ function poroshenko_donbass_talent:DeclareFunctions()
     return funcs
 end
 
-function poroshenko_donbass_talent:OnDeath( params )
+function modifer_poroshenko_donbass_talent:OnDeath( params )
     if not IsServer() then return end
     local count = self:GetAbility():GetSpecialValueFor('snipers_count')
     local snipers_duration = self:GetAbility():GetSpecialValueFor('snipers_duration')
@@ -409,12 +411,54 @@ function poroshenko_donbass_talent:OnDeath( params )
                 self.sniper:SetControllableByPlayer(self:GetParent():GetPlayerID(), true)
                 FindClearSpaceForUnit(self.sniper, self.sniper:GetAbsOrigin(), true)
                 self.sniper:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_kill", {duration = snipers_duration})
+                self.sniper:AddNewModifier(self:GetCaster(), self, "modifier_poroshenko_donbass_unit", {})
             end
         end
     end
 end
 
+modifier_poroshenko_donbass_unit = class({})
+function modifier_poroshenko_donbass_unit:IsHidden() return true end
+function modifier_poroshenko_donbass_unit:IsPurgable() return false end
+function modifier_poroshenko_donbass_unit:IsPurgeException() return false end
+function modifier_poroshenko_donbass_unit:GetAbsoluteNoDamageMagical()
+    return 1
+end
 
+function modifier_poroshenko_donbass_unit:GetAbsoluteNoDamagePhysical()
+    return 1
+end
+
+function modifier_poroshenko_donbass_unit:GetAbsoluteNoDamagePure()
+    return 1
+end
+
+function modifier_poroshenko_donbass_unit:OnAttackLanded(params)
+    if not IsServer() then return end
+    if params.target ~= self:GetParent() then return end
+    local new_health = self:GetParent():GetHealth() - 1
+    if new_health <= 0 then
+        self:GetParent():Kill(nil, params.attacker)
+    else
+        self:GetParent():SetHealth(new_health)
+    end
+end
+
+function modifier_poroshenko_donbass_unit:GetModifierHealthBarPips()
+    return self:GetAbility():GetSpecialValueFor("attack_to_die")
+end
+
+function modifier_poroshenko_donbass_unit:DeclareFunctions()
+    local funcs = 
+    {
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
+        MODIFIER_EVENT_ON_ATTACK_LANDED,
+        MODIFIER_PROPERTY_HEALTHBAR_PIPS
+    }
+    return funcs
+end
 
 LinkLuaModifier("modifier_Poroshenko_flag_ukraine", "abilities/heroes/poroshenko", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_Poroshenko_flag_ukraine_buff", "abilities/heroes/poroshenko", LUA_MODIFIER_MOTION_NONE)
@@ -466,8 +510,8 @@ function modifier_Poroshenko_flag_ukraine:CheckState()
 end
 
 function modifier_Poroshenko_flag_ukraine:OnCreated(params)
-    if not IsServer() then return end
     self.destroy_attacks = self:GetAbility():GetSpecialValueFor("attack_destroy") * 2
+    if not IsServer() then return end
     self.hero_attack_multiplier = 2
     self.health_increments = self:GetParent():GetMaxHealth() / self.destroy_attacks
     local particle = ParticleManager:CreateParticle("particles/poroshenko/flag_ukraine.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
@@ -481,9 +525,14 @@ function modifier_Poroshenko_flag_ukraine:DeclareFunctions()
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
         MODIFIER_EVENT_ON_ATTACKED,
-        MODIFIER_PROPERTY_DISABLE_HEALING 
+        MODIFIER_PROPERTY_DISABLE_HEALING,
+        MODIFIER_PROPERTY_HEALTHBAR_PIPS
     }
     return decFuncs
+end
+
+function modifier_Poroshenko_flag_ukraine:GetModifierHealthBarPips()
+    return self:GetAbility():GetSpecialValueFor("attack_destroy")
 end
 
 function modifier_Poroshenko_flag_ukraine:GetAbsoluteNoDamageMagical()
@@ -505,13 +554,14 @@ end
 function modifier_Poroshenko_flag_ukraine:OnAttacked(keys)
     if not IsServer() then return end
     if keys.target == self:GetParent() then
+        local new_health = self:GetParent():GetHealth() - self.health_increments
         if keys.attacker:IsRealHero() then
-            self:GetParent():SetHealth(self:GetParent():GetHealth() - (self.health_increments * self.hero_attack_multiplier))
-        else
-            self:GetParent():SetHealth(self:GetParent():GetHealth() - self.health_increments)
+            new_health = self:GetParent():GetHealth() - (self.health_increments * self.hero_attack_multiplier)
         end
-        if self:GetParent():GetHealth() <= 0 then
+        if new_health <= 0 then
             UTIL_Remove(self:GetParent())
+        else
+            self:GetParent():SetHealth(new_health)
         end
     end
 end

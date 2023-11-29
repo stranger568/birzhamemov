@@ -1,5 +1,6 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_bullet_taa_debuff", "abilities/heroes/bullet", LUA_MODIFIER_MOTION_NONE)
 
 bullet_taa = class({}) 
 
@@ -46,10 +47,6 @@ function bullet_taa:OnSpellStart()
 
         local damage_type = DAMAGE_TYPE_MAGICAL
 
-        if self:GetCaster():HasTalent("special_bonus_birzha_bullet_1") then
-            damage_type = DAMAGE_TYPE_PHYSICAL
-        end
-
         ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = damage_type, ability = self})
         local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_tusk/tusk_walruskick_tgt.vpcf", PATTACH_ABSORIGIN_FOLLOW, enemy )
         ParticleManager:SetParticleControlEnt( particle, 0, enemy, PATTACH_ABSORIGIN_FOLLOW, nil, enemy:GetOrigin(), true )
@@ -59,6 +56,14 @@ function bullet_taa:OnSpellStart()
         local direction = (enemy:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Normalized()
 
         local bump_point = self:GetCaster():GetAbsOrigin() - direction * (distance + 50)
+
+        if self:GetCaster():HasTalent("special_bonus_birzha_bullet_4") then
+            self:GetCaster():PerformAttack(enemy, true, true, true, true, false, false, true)
+        end
+
+        if self:GetCaster():HasTalent("special_bonus_birzha_bullet_2") then
+            enemy:AddNewModifier(self:GetCaster(), self, "modifier_bullet_taa_debuff", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_2", "value3")})
+        end
 
         local knockbackProperties =
         {
@@ -77,10 +82,31 @@ function bullet_taa:OnSpellStart()
     end
 end
 
+modifier_bullet_taa_debuff = class({})
+function modifier_bullet_taa_debuff:DeclareFunctions()
+    return
+    {
+        MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS
+    }
+end
+function modifier_bullet_taa_debuff:GetModifierPhysicalArmorBonus()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_2")
+end
+
+function modifier_bullet_taa_debuff:GetEffectName()
+    return "particles/units/heroes/hero_snapfire/hero_snapfire_armor_debuff.vpcf"
+end
+
+function modifier_bullet_taa_debuff:GetEffectAttachType()
+    return PATTACH_OVERHEAD_FOLLOW
+end
+
+LinkLuaModifier( "modifier_bullet_sha_buff", "abilities/heroes/bullet", LUA_MODIFIER_MOTION_NONE)
+
 bullet_sha = class({}) 
 
 function bullet_sha:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_4")
+    return self.BaseClass.GetCooldown( self, level )
 end
 
 function bullet_sha:GetManaCost(level)
@@ -98,13 +124,17 @@ end
 function bullet_sha:OnSpellStart()
     if not IsServer() then return end
 
-    local damage = self:GetSpecialValueFor("damage")
+    local damage = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_3")
 
     local radius = self:GetSpecialValueFor("aoe_radius")
 
     local knockback_distance = self:GetSpecialValueFor("knockback_distance")
 
-    local duration = self:GetSpecialValueFor("stun_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_2")
+    if self:GetAutoCastState() then
+        knockback_distance = 0
+    end
+
+    local duration = self:GetSpecialValueFor("stun_duration")
 
     local target = self:GetCursorTarget()
 
@@ -116,10 +146,6 @@ function bullet_sha:OnSpellStart()
     for _,enemy in pairs(enemies) do
 
         local damage_type = DAMAGE_TYPE_MAGICAL
-        
-        if self:GetCaster():HasTalent("special_bonus_birzha_bullet_1") then
-            damage_type = DAMAGE_TYPE_PHYSICAL
-        end
 
         ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = damage, damage_type = damage_type, ability = self})
 
@@ -129,6 +155,11 @@ function bullet_sha:OnSpellStart()
         local distance = (enemy:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Length2D()
         local direction = (enemy:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Normalized()
         local bump_point = self:GetCaster():GetAbsOrigin() - direction * (distance + knockback_distance)
+
+        if self:GetAutoCastState() then
+            knockback_distance = 0
+            bump_point = enemy:GetAbsOrigin()
+        end
 
         local knockbackProperties =
         {
@@ -141,6 +172,14 @@ function bullet_sha:OnSpellStart()
             knockback_height = 150
         }
 
+        if self:GetCaster():HasTalent("special_bonus_birzha_bullet_4") then
+            self:GetCaster():PerformAttack(enemy, true, true, true, true, false, false, true)
+        end
+
+        if self:GetCaster():HasTalent("special_bonus_birzha_bullet_2") then
+            self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_bullet_sha_buff", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_2", "value3")})
+        end
+
         enemy:RemoveModifierByName("modifier_knockback")
 
         enemy:AddNewModifier( self:GetCaster(), self, "modifier_knockback", knockbackProperties )
@@ -149,6 +188,20 @@ function bullet_sha:OnSpellStart()
             enemy:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned_purge", {duration = duration * (1 - enemy:GetStatusResistance()) })
         end)
     end
+end
+
+modifier_bullet_sha_buff = class({})
+function modifier_bullet_sha_buff:DeclareFunctions()
+    return
+    {
+        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT
+    }
+end
+function modifier_bullet_sha_buff:GetModifierAttackSpeedBonus_Constant()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_2", "value2")
+end
+function modifier_bullet_sha_buff:GetEffectName()
+    return "particles/bullet_attack_speed_buff.vpcf"
 end
 
 LinkLuaModifier("modifier_Bullet_Stats_aura", "abilities/heroes/bullet", LUA_MODIFIER_MOTION_NONE)
@@ -315,6 +368,8 @@ function modifier_Bullet_Stats_debuff:GetModifierBonusStats_Intellect()
 end
 
 LinkLuaModifier("modifier_Bullet_BulletInTheHead", "abilities/heroes/bullet", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_Bullet_BulletInTheHead_slow", "abilities/heroes/bullet", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_Bullet_BulletInTheHead_bonus_damage", "abilities/heroes/bullet", LUA_MODIFIER_MOTION_NONE)
 
 Bullet_BulletInTheHead = class({})
 
@@ -463,6 +518,14 @@ function Bullet_BulletInTheHead:OnProjectileHit_ExtraData( target, location, ext
     end
 
     ApplyDamage({victim = target, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self})
+    
+    if self:GetCaster():HasTalent("special_bonus_birzha_bullet_1") then
+        target:AddNewModifier(self:GetCaster(), self, "modifier_Bullet_BulletInTheHead_slow", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_1", "value2")})
+    end
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_bullet_7") then
+        target:AddNewModifier(self:GetCaster(), self, "modifier_Bullet_BulletInTheHead_bonus_damage", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_7", "value2")})
+    end
 
     if self:GetCaster():HasScepter() then
         local scepter_stun_duration = self:GetSpecialValueFor("scepter_stun_duration")
@@ -489,4 +552,33 @@ function modifier_Bullet_BulletInTheHead:OnIntervalThink( kv )
         self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_truesight", {duration = FrameTime()+FrameTime()})
         AddFOWViewer(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), 50, FrameTime()+FrameTime(), false)
     end
+end
+
+modifier_Bullet_BulletInTheHead_slow = class({})
+function modifier_Bullet_BulletInTheHead_slow:DeclareFunctions()
+    return
+    {
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
+    }
+end
+function modifier_Bullet_BulletInTheHead_slow:GetModifierMoveSpeedBonus_Percentage()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_1")
+end
+
+function modifier_Bullet_BulletInTheHead_slow:GetEffectName()
+    return "particles/econ/items/wraith_king/wraith_king_arcana/wk_arc_slow_debuff.vpcf"
+end
+
+modifier_Bullet_BulletInTheHead_bonus_damage = class({})
+function modifier_Bullet_BulletInTheHead_bonus_damage:DeclareFunctions()
+    return
+    {
+        MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE
+    }
+end
+function modifier_Bullet_BulletInTheHead_bonus_damage:GetModifierIncomingDamage_Percentage()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_7")
+end
+function modifier_Bullet_BulletInTheHead_bonus_damage:GetEffectName()
+    return "particles/bullet_debuff_asassinatebloodseeker_rupture.vpcf"
 end

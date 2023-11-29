@@ -178,13 +178,12 @@ if IsServer() then
 	function modifier_get_xp:OnIntervalThink()
 		local parent = self:GetParent()
 		local ability = self:GetAbility()
-		if CustomPick.pick_ended == nil then return end
+		if birzha_hero_selection.pick_ended == nil then return end
 		local xp = ability:GetSpecialValueFor("aura_xp")
 		local gold = ability:GetSpecialValueFor("aura_gold")
 		if not parent:IsRealHero() then return end
 		parent:ModifyGold(gold, false, 0)
 		parent:AddExperience(xp, 0, false, false)
-		donate_shop:QuestProgress(31, self:GetParent():GetPlayerOwnerID(), 1)
 	end
 end
 
@@ -229,7 +228,7 @@ if IsServer() then
 	function modifier_get_xp_global:OnIntervalThink()
 		local parent = self:GetParent()
 		local ability = self:GetAbility()
-		if CustomPick.pick_ended == nil then return end
+		if birzha_hero_selection.pick_ended == nil then return end
 		local xp = ability:GetSpecialValueFor("aura_xp")
 		local gold = ability:GetSpecialValueFor("aura_gold")
 		if not parent:IsRealHero() then return end

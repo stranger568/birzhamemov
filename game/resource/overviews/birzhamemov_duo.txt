@@ -1,8 +1,8 @@
 birzhamemov_duo
 {
 	material materials/overviews/birzhamemov_duo.vmat
-	pos_x -5632
-	pos_y 5632
-	scale 11.000
+	pos_x -5120
+	pos_y 5120
+	scale 10.000
 }
 

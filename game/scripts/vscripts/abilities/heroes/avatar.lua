@@ -1168,11 +1168,7 @@ end
 function aang_fast_hit:OnSpellStart()
     if not IsServer() then return end
 
-    if self:GetCaster():HasModifier("modifier_avatar_persona") then
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_4, 2)
-    else
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_4, 4)
-    end
+    self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_4, 2)
     local radius = self:GetSpecialValueFor( "radius" )
     local radius_hit = self:GetSpecialValueFor( "radius_hit" )
     local duration = ability_manager:GetValueWex(self, self:GetCaster(), "duration")
@@ -1237,11 +1233,7 @@ function aang_jumping:GetCastPoint()
 end
 
 function aang_jumping:OnAbilityPhaseStart()
-    if self:GetCaster():HasModifier("modifier_avatar_persona") then
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_7, 15)
-    else
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_7, 1)
-    end
+    self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_7, 15)
     self.effect = true
     self:GetCaster():EmitSound("Ability.Focusfire")
     Timers:CreateTimer(0.15, function()
@@ -2268,21 +2260,10 @@ function aang_firestone:OnSpellStart()
     ParticleManager:SetParticleControl(nFXIndex2, 0, self.stone_one:GetOrigin())
 
     local flag = DOTA_DAMAGE_FLAG_NONE
-
+    
     local units = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self.stone_one:GetAbsOrigin(), nil, self:GetSpecialValueFor("radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, FIND_ANY_ORDER, false)
     local duration = ability_manager:GetValueWex(self, self:GetCaster(), "stun_duration")
     local damage = ability_manager:GetValueExort(self, self:GetCaster(), "damage")
-
-   --for _,unit in pairs(units) do
-   --    unit:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = duration})
-   --    local damageTable = {victim = unit,
-   --        attacker = self:GetCaster(),
-   --        damage = damage,
-   --        ability = self,
-   --        damage_type = DAMAGE_TYPE_MAGICAL,
-   --    }
-   --    ApplyDamage(damageTable)
-   --end
 
     self.buff = self.stone_one:AddNewModifier(self:GetCaster(), self, "modifier_aang_firestone_motion", {})
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_aang_firestone_stun", {duration = 0.4})

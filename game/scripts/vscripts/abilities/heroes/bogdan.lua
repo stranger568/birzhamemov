@@ -279,7 +279,6 @@ function Bogdan_Ultimate:OnSpellStart()
     else
         self.modifier:IncrementStackCount()
     end
-    donate_shop:QuestProgress(42, self:GetCaster():GetPlayerOwnerID(), 1)
     self:GetCaster():CalculateStatBonus(true)
 end
 

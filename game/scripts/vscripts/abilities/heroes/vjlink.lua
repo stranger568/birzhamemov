@@ -139,6 +139,12 @@ function Vjlink_python:GetManaCost(level)
     return self.BaseClass.GetManaCost(self, level)
 end
 
+function Vjlink_python:OnAbilityUpgrade( hAbility )
+	if not IsServer() then return end
+	self.BaseClass.OnAbilityUpgrade( self, hAbility )
+	self:EnableAbilityChargesOnTalentUpgrade( hAbility, "special_bonus_unique_vjlink_5" )
+end
+
 function Vjlink_python:GetCastRange(location, target)
     local bonus = 0
     if self:GetCaster():HasShard() then
@@ -152,10 +158,6 @@ function Vjlink_python:GetBehavior()
         return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET + DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES + DOTA_ABILITY_BEHAVIOR_AOE
     end
     return DOTA_ABILITY_BEHAVIOR_NO_TARGET + DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES
-end
-
-function Vjlink_python:GetAOERadius()
-    return self:GetCaster():FindTalentValue("special_bonus_birzha_vjlink_8")
 end
 
 function Vjlink_python:OnSpellStart()
@@ -253,8 +255,7 @@ function modifier_python_active_no_target:UpdateHorizontalMotion(me, dt)
     for _, enemy in pairs(FindUnitsInRadius(self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self.pounce_radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS, FIND_CLOSEST, false)) do
 
         enemy:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_python_debuff", { duration = self.leash_duration * (1 - enemy:GetStatusResistance()), leash_radius = self.leash_radius })
-
-
+        
         local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_huskar/huskar_life_break.vpcf", PATTACH_ABSORIGIN_FOLLOW, enemy )
         ParticleManager:SetParticleControl( particle, 1, enemy:GetOrigin() )
         ParticleManager:ReleaseParticleIndex( particle )
@@ -270,18 +271,6 @@ function modifier_python_active_no_target:UpdateHorizontalMotion(me, dt)
         end
 
         enemy:EmitSound("Hero_Huskar.Life_Break.Impact")
-
-        if self:GetCaster():HasTalent("special_bonus_birzha_vjlink_8") then
-            local talent_targets = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetCaster():GetOrigin(), nil, self:GetCaster():FindTalentValue("special_bonus_birzha_vjlink_8"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, 0, FIND_ANY_ORDER, false )
-            for _, target in pairs(talent_targets) do
-                local damageTable = { victim = target, attacker = self:GetCaster(), damage = damage * target:GetHealth(), damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility() }
-                target:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_python_debuff", { duration = self.leash_duration * (1 - target:GetStatusResistance()), leash_radius = self.leash_radius })
-                ApplyDamage(damageTable)
-                if self:GetCaster():HasTalent("special_bonus_birzha_vjlink_3") then
-                    self:GetCaster():PerformAttack(target, true, true, true, false, false, false, false)
-                end
-            end
-        end
 
         self:GetParent():MoveToTargetToAttack(enemy)
         self:Destroy()
@@ -442,18 +431,6 @@ function modifier_python_active:OnDestroy()
     
     ApplyDamage(damageTable)
     self.target:EmitSound("Hero_Huskar.Life_Break.Impact")
-
-    if self:GetCaster():HasTalent("special_bonus_birzha_vjlink_8") then
-        local talent_targets = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetCaster():GetOrigin(), nil, self:GetCaster():FindTalentValue("special_bonus_birzha_vjlink_8"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, 0, FIND_ANY_ORDER, false )
-        for _, target in pairs(talent_targets) do
-            damageTable = { victim = target, attacker = self:GetCaster(), damage = damage * target:GetHealth(), damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility() }
-            target:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_python_debuff", { duration = self.leash_duration * (1 - target:GetStatusResistance()), leash_radius = self.leash_radius })
-            ApplyDamage(damageTable)
-            if self:GetCaster():HasTalent("special_bonus_birzha_vjlink_3") then
-                self:GetCaster():PerformAttack(target, true, true, true, false, false, false, false)
-            end
-        end
-    end
 end
 
 function modifier_python_active:CheckState()
@@ -667,7 +644,7 @@ function modifier_vjlink_dudos_buff:IsPurgable() return false end
 
 function modifier_vjlink_dudos_buff:OnCreated(params)
     self.armor_per_stack = self:GetAbility():GetSpecialValueFor( "armor_per_stack" )
-    self.damage_per_stack = self:GetAbility():GetSpecialValueFor( "damage_per_stack" )
+    self.attack_speed_per_stack = self:GetAbility():GetSpecialValueFor( "attack_speed_per_stack" )
     if not IsServer() then return end
     self:GetCaster():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_vjlink_dudos_effect", {} )
     self:SetStackCount(params.stack)
@@ -686,15 +663,15 @@ end
 function modifier_vjlink_dudos_buff:DeclareFunctions()
     local funcs = 
     {
-        MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
+        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
         MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
         MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,
     }
     return funcs
 end
 
-function modifier_vjlink_dudos_buff:GetModifierPreAttack_BonusDamage()
-    return self.damage_per_stack * self:GetStackCount()
+function modifier_vjlink_dudos_buff:GetModifierAttackSpeedBonus_Constant()
+    return self.attack_speed_per_stack * self:GetStackCount()
 end
 
 function modifier_vjlink_dudos_buff:GetModifierPhysicalArmorBonus()
@@ -742,6 +719,7 @@ function modifier_Vjlink_teeth:DeclareFunctions()
     local funcs = 
     {
         MODIFIER_PROPERTY_PROCATTACK_BONUS_DAMAGE_PHYSICAL,
+        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT
     }
 
     return funcs
@@ -761,8 +739,8 @@ function modifier_Vjlink_teeth:GetModifierProcAttack_BonusDamage_Physical( param
     return damage
 end
 
-
-
-
+function modifier_Vjlink_teeth:GetModifierAttackSpeedBonus_Constant()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_vjlink_8")
+end
 
 

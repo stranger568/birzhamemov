@@ -69,11 +69,9 @@ function modifier_Pistoletov_dolphin:OnDestroy( kv )
 
         self:GetParent():InterruptMotionControllers( true )
 
-        
-
         local radius = self:GetAbility():GetSpecialValueFor( "radius" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_pistoletov_5")
 
-        local duration = self:GetAbility():GetSpecialValueFor( "duration" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_pistoletov_3")
+        local duration = self:GetAbility():GetSpecialValueFor( "duration" )
 
         local targets = FindUnitsInRadius(self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
 
@@ -94,9 +92,6 @@ function modifier_Pistoletov_dolphin:OnDestroy( kv )
         end
 
         self:GetParent():EmitSound("Ability.Torrent")
-
-        
-        
 
         for _,unit in pairs(targets) do
             local damage = self:GetAbility():GetSpecialValueFor( "damage" )
@@ -214,11 +209,11 @@ function Pistoletov_DeathFight:GetCustomCastErrorTarget(target)
 end
 
 function Pistoletov_DeathFight:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_pistoletov_3")
 end
 
 function Pistoletov_DeathFight:GetCastRange(location, target)
-    return self.BaseClass.GetCastRange(self, location, target)
+    return self.BaseClass.GetCastRange(self, location, target) + self:GetCaster():FindTalentValue("special_bonus_birzha_pistoletov_2")
 end
 
 function Pistoletov_DeathFight:GetManaCost(level)
@@ -230,7 +225,7 @@ function Pistoletov_DeathFight:OnSpellStart()
     local target = self:GetCursorTarget()
     local target_origin = target:GetAbsOrigin()
     local caster_origin = self:GetCaster():GetAbsOrigin()
-    local duration = (self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_pistoletov_2")) * (1 - target:GetStatusResistance())
+    local duration = self:GetSpecialValueFor("duration") * (1 - target:GetStatusResistance())
     if target:TriggerSpellAbsorb( self ) then return end
     if target:IsIllusion() then
         target:Kill( self, self:GetCaster() )
@@ -344,12 +339,12 @@ end
 
 function modifier_pistoletov_deathfight:GetModifierPhysicalArmorBonus()
     if self:GetParent() ~= self:GetCaster() then return end
-    return self:GetAbility():GetSpecialValueFor("armor") + self:GetCaster():FindTalentValue("special_bonus_birzha_pistoletov_7")
+    return self:GetAbility():GetSpecialValueFor("armor")
 end
 
 function modifier_pistoletov_deathfight:GetModifierBonusStats_Strength()
     if self:GetParent() ~= self:GetCaster() then return end
-    return self:GetAbility():GetSpecialValueFor("strength") + self:GetCaster():FindTalentValue("special_bonus_birzha_pistoletov_7", "value2")
+    return self:GetAbility():GetSpecialValueFor("strength")
 end
 
 modifier_deathfight_atribute = class({})
@@ -377,19 +372,19 @@ function modifier_deathfight_atribute:DeclareFunctions()
 end
 
 function modifier_deathfight_atribute:GetModifierBonusStats_Agility()
-    local multiple = 1
+    local bonus = 0
     if self:GetCaster():HasTalent("special_bonus_birzha_pistoletov_8") then
-        multiple = self:GetCaster():FindTalentValue("special_bonus_birzha_pistoletov_8")
+        bonus = self:GetStackCount()
     end
-    return self:GetStackCount() * multiple
+    return self:GetStackCount() + bonus
 end
 
 function modifier_deathfight_atribute:GetModifierBonusStats_Strength()
-    local multiple = 1
-    if self:GetCaster():HasTalent("special_bonus_birzha_pistoletov_8") then
-        multiple = self:GetCaster():FindTalentValue("special_bonus_birzha_pistoletov_8")
+    local bonus = 0
+    if self:GetCaster():HasTalent("special_bonus_birzha_pistoletov_7") then
+        bonus = self:GetStackCount()
     end
-    return self:GetStackCount() * multiple
+    return self:GetStackCount() + bonus
 end
 
 LinkLuaModifier("modifier_pistoletov_TrahTibidoh", "abilities/heroes/pistoletov", LUA_MODIFIER_MOTION_NONE)
@@ -507,7 +502,6 @@ function Pistoletov_NewPirat:OnSpellStart()
     local point = caster:GetAbsOrigin()
     local duration = self:GetSpecialValueFor("duration")
     caster:EmitSound("PistoletovPirat")
-    GridNav:DestroyTreesAroundPoint(point, 600, false)
     self.boat = CreateUnitByName("npc_boat_"..self:GetLevel(), point, true, caster, nil, caster:GetTeamNumber())
     self.boat:SetOwner(caster)
     FindClearSpaceForUnit(self.boat, self.boat:GetAbsOrigin(), true)
@@ -520,9 +514,9 @@ end
 
 function Pistoletov_NewPirat:OnProjectileHit( target, location )
     if not target then return end
-    self.split_shot_attack = true
-    self.boat:PerformAttack( target, true, true, true, false, false, false, false )
-    self.split_shot_attack = false
+    if self.boat and not self.boat:IsNull() then
+        self.boat:PerformAttack( target, true, true, true, true, false, false, false )
+    end
 end
 
 modifier_Pistoletov_NewPirat_boat = class({})
@@ -540,13 +534,18 @@ function modifier_Pistoletov_NewPirat_boat:GetPriority()
 end
 
 function modifier_Pistoletov_NewPirat_boat:OnCreated( kv )
+    self.hit_destroy = self:GetAbility():GetSpecialValueFor("hit_destroy")
+    self.pct_damage = self:GetAbility():GetSpecialValueFor("pct_damage")
     if not IsServer() then return end
-    self:StartIntervalThink(0.5)
+    self:GetParent():SetBaseMaxHealth(self.hit_destroy)
+    self:GetParent():SetMaxHealth(self.hit_destroy)
+    self:GetParent():SetHealth(self.hit_destroy)
+    self:StartIntervalThink(1)
 end
 
 function modifier_Pistoletov_NewPirat_boat:OnIntervalThink()
     if not IsServer() then return end
-    local targets = FindUnitsInRadius(self:GetParent():GetTeam(), self:GetParent():GetAbsOrigin(), nil, self:GetAbility():GetSpecialValueFor("radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_CLOSEST, false)
+    local targets = FindUnitsInRadius(self:GetParent():GetTeam(), self:GetParent():GetAbsOrigin(), nil, self:GetAbility():GetSpecialValueFor("radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_NOT_ATTACK_IMMUNE, FIND_CLOSEST, false)
     for _,target in pairs(targets) do
         local projectile_info = 
         {
@@ -567,43 +566,76 @@ end
 function modifier_Pistoletov_NewPirat_boat:CheckState()
     local state = 
     {
+        [MODIFIER_STATE_DISARMED] = true,
         [MODIFIER_STATE_MAGIC_IMMUNE] = true,
-        [MODIFIER_STATE_ATTACK_IMMUNE] = true,
         [MODIFIER_STATE_SILENCED] = true,
         [MODIFIER_STATE_MUTED] = true,
-        [MODIFIER_STATE_NO_HEALTH_BAR] = true,
-        [MODIFIER_STATE_INVULNERABLE] = true,
     }
     return state
+end
+
+function modifier_Pistoletov_NewPirat_boat:GetAbsoluteNoDamageMagical()
+    return 1
+end
+
+function modifier_Pistoletov_NewPirat_boat:GetAbsoluteNoDamagePhysical()
+    return 1
+end
+
+function modifier_Pistoletov_NewPirat_boat:GetAbsoluteNoDamagePure()
+    return 1
+end
+
+function modifier_Pistoletov_NewPirat_boat:OnAttackLanded(params)
+    if not IsServer() then return end
+    if params.target ~= self:GetParent() then return end
+    local new_health = self:GetParent():GetHealth() - 1
+    if new_health <= 0 then
+        self:GetParent():Kill(nil, params.attacker)
+    else
+        self:GetParent():SetHealth(new_health)
+    end
+end
+
+function modifier_Pistoletov_NewPirat_boat:GetModifierHealthBarPips()
+    return self.hit_destroy
 end
 
 function modifier_Pistoletov_NewPirat_boat:DeclareFunctions()
     local funcs = 
     {
         MODIFIER_PROPERTY_PROCATTACK_BONUS_DAMAGE_PHYSICAL,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
+        MODIFIER_EVENT_ON_ATTACK_LANDED,
+        MODIFIER_PROPERTY_HEALTHBAR_PIPS
     }
     return funcs
 end
 
 function modifier_Pistoletov_NewPirat_boat:GetModifierProcAttack_BonusDamage_Physical( params )
     if not IsServer() then return end
-    local stack = 0
-    local modifier = params.target:FindModifierByName( "modifier_Boat_damage_debuff" )
-    if modifier==nil then
-        if params.target:IsBoss() then return end
-        params.target:AddNewModifier(
-            self:GetParent(),
-            self:GetAbility(),
-            "modifier_Boat_damage_debuff",
-            { duration = 30 }
-        )
-        stack = 1
-    else
-        modifier:IncrementStackCount()
-        modifier:ForceRefresh()
-        stack = modifier:GetStackCount()
+    if params.target and not params.target:IsBoss() and not params.target:HasModifier("modifier_pistoletov_deathfight") then
+        local count = 0
+        local modifier = params.target:FindModifierByName( "modifier_Boat_damage_debuff" )
+        if modifier then
+            modifier:IncrementStackCount()
+            count = modifier:GetStackCount()
+            modifier:ForceRefresh()
+        else
+            modifier = params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_Boat_damage_debuff", {duration = 10})
+            if modifier then
+                modifier:IncrementStackCount()
+                count = modifier:GetStackCount()
+                modifier:ForceRefresh()
+            end
+        end
+
+        local damage = self:GetParent():GetAverageTrueAttackDamage(nil) / 100 * (self.pct_damage * count)
+
+        return damage
     end
-    return stack * self:GetParent():GetAttackDamage() / 100 * self:GetAbility():GetSpecialValueFor("pct_damage")
 end
 
 modifier_Boat_damage_debuff = class({})
@@ -615,20 +647,6 @@ end
 function modifier_Boat_damage_debuff:IsPurgable()
     return false
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function Spawn( entityKeyValues )
     if not IsServer() then

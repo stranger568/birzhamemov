@@ -48,7 +48,7 @@ function horo_forest_girl:OnSpellStart()
             ResolveNPCPositions( vTargetPosition + Vector( x_offset[i], y_offset[i], 0.0 ), 64.0 )
         end
 
-        for _, unit in pairs(FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED, FIND_ANY_ORDER, false)) do
+        for _, unit in pairs(FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED + DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD, FIND_ANY_ORDER, false)) do
             if unit and unit.wolf_horo_die ~= nil and unit:GetOwner() == self:GetCaster() then
                 unit:ForceKill(false)               
             end
@@ -142,7 +142,6 @@ function horo_forest_apple:OnSpellStart()
 
     if target == self:GetCaster() then
         self:GetCaster():EmitSound("Hero_Snapfire.FeedCookie.Cast")
-        self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_2)
         self:OnProjectileHit( self:GetCaster(), self:GetCaster():GetAbsOrigin() )
         return
     end
@@ -165,8 +164,6 @@ function horo_forest_apple:OnSpellStart()
     ProjectileManager:CreateTrackingProjectile(info)
 
     self:GetCaster():EmitSound("Hero_Snapfire.FeedCookie.Cast")
-
-    self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_2)
 end
 
 function horo_forest_apple:OnProjectileHit( target, location )

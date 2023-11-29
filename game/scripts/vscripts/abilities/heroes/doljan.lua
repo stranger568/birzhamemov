@@ -26,6 +26,12 @@ function Doljan_RapBattle:OnSpellStart()
     self.modifier = target:AddNewModifier( self:GetCaster(), self, "modifier_Doljan_RapBattle_debuff", { duration = duration } )
 end
 
+function Doljan_RapBattle:OnAbilityUpgrade( hAbility )
+	if not IsServer() then return end
+	self.BaseClass.OnAbilityUpgrade( self, hAbility )
+	self:EnableAbilityChargesOnTalentUpgrade( hAbility, "special_bonus_unique_doljan_1" )
+end
+
 modifier_Doljan_RapBattle_debuff = class({})
 
 function modifier_Doljan_RapBattle_debuff:IsPurgable()
@@ -81,18 +87,26 @@ function modifier_Doljan_RapBattle_debuff:OnIntervalThink()
 
         if self:GetCaster():HasModifier("modifier_Doljan_RapBattle_steal_buff") then
             local mod = self:GetCaster():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_Doljan_RapBattle_steal_buff", { duration = duration } )
-            mod:AddStack(intellect_bonus)
+            if mod then
+                mod:AddStack(intellect_bonus)
+            end
         else
             local mod = self:GetCaster():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_Doljan_RapBattle_steal_buff", { duration = duration } )
-            mod:AddStack(intellect_bonus)
+            if mod then
+                mod:AddStack(intellect_bonus)
+            end
         end
         
         if self:GetParent():HasModifier("modifier_Doljan_RapBattle_steal_debuff") then
             local mod = self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_Doljan_RapBattle_steal_debuff", { duration = duration } )
-            mod:AddStack(intellect_bonus)
+            if mod then
+                mod:AddStack(intellect_bonus)
+            end
         else
             local mod = self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_Doljan_RapBattle_steal_debuff", { duration = duration } )
-            mod:AddStack(intellect_bonus)
+            if mod then
+                mod:AddStack(intellect_bonus)
+            end
         end
 
         if self:GetCaster():HasTalent("special_bonus_birzha_doljan_8") then

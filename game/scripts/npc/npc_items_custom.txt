@@ -190,7 +190,7 @@
 		"AbilityCastRange"				"500"
 		"AbilityCastPoint"				"0.0"
 		"AbilityCooldown"				"1.0"
-		"ItemCost"						"125"
+		"ItemCost"						"50"
 		"ItemShopTags"					"consumable"
 		"ItemQuality"					"consumable"
 		"ItemAliases"					"observer ward"
@@ -252,7 +252,6 @@
 		"ID"							"143"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-		"AbilitySharedCooldown" 		"memolator"
 		"AbilityCooldown"				"2.3"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_YES_STRONG"
 		"ItemCost"						"2950"
@@ -420,7 +419,7 @@
 
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"1500"
+		"ItemCost"						"2000"
 		"ItemShopTags"					"int;str;agi;mana_pool;health_pool;hard_to_tag"
 		"ItemQuality"					"rare"
 		"ItemAliases"					"ags;shard;aghanim's shard;aghs"
@@ -429,7 +428,7 @@
 		"ItemStockTime"					"1"			  
 		"ItemStockInitial"				"0"
 		"ItemStockMax"					"1"
-		"ItemInitialStockTime"			"360.0"
+		"ItemInitialStockTime"			"0.0"
 		"ItemInitialStockTimeTurbo"		"0.0"
 		"ShouldBeSuggested"				"1"
 	}
@@ -1187,8 +1186,8 @@
 
 		"AbilityValues"
 		{
-			"bonus_movement_speed" 	"65"
-			"bonus_regen" 		"15"
+			"bonus_movement_speed" 	"50"
+			"bonus_regen" 		"7"
 			"duration" 			"30"
 			"bonus_health" 		"250"
 		}
@@ -1224,23 +1223,24 @@
 
 		"AbilityValues"
 		{
-			"bonus_movement_speed" 		"65"
+			"bonus_movement_speed" 		"50"
 			"bonus_armor" 				"4"
 			"bonus_mana"				"250"
-			"bonus_regen" 				"15"
-			"bonus_regen_aura" 			"20"
+			"bonus_regen" 				"7"
+			"bonus_regen_aura" 			"5"
 			"bonus_armor_aura" 			"5"
-			"restore_health" 			"200"
-			"restore_mana" 				"150"
+			"restore_health" 			"350"
+			"restore_mana" 				"200"
 			"radius" 					"900"
 			"duration" 					"30"
 			"bonus_health" 				"250"
-			"restore_mana_percent" 		"10"
-			"restore_health_percent" 	"15"
 
-			"health_to_bonus"			"30"
-			"max_bonus_health_regen"	"40"
-			"max_bonus_armor"			"15"
+			"restore_mana_percent" 		"10"
+			"restore_health_percent" 	"5"
+
+			"health_to_bonus"			"25"
+			"max_bonus_health_regen"	"20"
+			"max_bonus_armor"			"10"
 		}
     }
 	
@@ -1500,7 +1500,7 @@
 		"ItemResult"				"item_memolator"
 		"ItemRequirements"
 		{
-			"01" "item_mithril_hammer;item_mithril_hammer;item_blight_stone"
+			"01" 					"item_mithril_hammer;item_mithril_hammer;item_blight_stone"
 		}
   	}
 	
@@ -1509,12 +1509,12 @@
   		"BaseClass"                 "item_datadriven"
   		"AbilityTextureName"        "recipe"
   		"Model"						"models/props_gameplay/recipe.vmdl"
-  		"ItemCost"					"0"
+  		"ItemCost"					"500"
 		"ItemRecipe"				"1"
 		"ItemResult"				"item_memolator2"
 		"ItemRequirements"
 		{
-			"01" "item_memolator;item_memolator"
+			"01" 					"item_memolator;item_memolator"
 		}
   	}
 
@@ -1528,7 +1528,7 @@
 		"ItemResult"				"item_memolator3"
 		"ItemRequirements"
 		{
-			"01" "item_memolator2;item_basher"
+			"01" 					"item_memolator2;item_memolator"
 		}
   	}
 	
@@ -1542,14 +1542,17 @@
 		"ItemShopTags"				"damage"
 		"ItemQuality"				"artifact"
 		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"ItemInitialCharges"		"0"
 
 		"AbilityValues"
 		{
 		    "bonus_damage"      	"50"
-			"duration"          	"12"
-			"coruprion_armor_max"	"10"
-			"base_coruprion_armor"	"3"
-			"curption_per_attack"	"1"
+			"duration"          	"7"
+			"base_coruprion_armor"	"-8"
+
+			"damage_stack_max"		"20"
+			"damage_per_kill"		"2"
+			"damage_per_stack"		"1"
 		}
   	}
 	
@@ -1563,6 +1566,7 @@
 		"ItemShopTags"				"damage"
 		"ItemQuality"				"artifact"
 		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"ItemInitialCharges"		"20"
 
 		"precache"
 		{
@@ -1571,11 +1575,13 @@
 		
 		"AbilityValues"
 		{
-		    "bonus_damage"      		"100"
-			"duration"          		"12"
-			"coruprion_armor_max"		"18"
-			"base_coruprion_armor"		"6"
-			"curption_per_attack"		"2"
+		    "bonus_damage"      	"100"
+			"duration"          	"7"
+			"base_coruprion_armor"	"-12"
+
+			"damage_stack_max"		"40"
+			"damage_per_kill"		"2"
+			"damage_per_stack"		"1"
 		}
   	}
 
@@ -1589,8 +1595,7 @@
 		"ItemShopTags"				"damage"
 		"ItemQuality"				"artifact"
 		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
-		"AbilityCooldown"			"2.3"
-		"AbilitySharedCooldown" 	"memolator"
+		"ItemInitialCharges"		"40"
 
 		"precache"
 		{
@@ -1599,16 +1604,15 @@
 		
 		"AbilityValues"
 		{
-		    "bonus_damage"      		"125"
-			"duration"          		"12"
-			"coruprion_armor_max"		"23"
-			"base_coruprion_armor"		"8"
-			"bonus_strength"			"10"
-			"chance_melee"				"25"
-			"chance_range"				"10"
-			"stun_duration"				"1.2"
-			"bash_damage"				"100"
-			"curption_per_attack"		"3"
+		    "bonus_damage"      	"150"
+			"duration"          	"7"
+			"base_coruprion_armor"	"-12"
+            "bonus_corruption_armor_percent"    "5"
+            "health_percent_per_corruption"     "10"
+
+			"damage_stack_max"		"50"
+			"damage_per_kill"		"5"
+			"damage_per_stack"		"1"
 		}
   	}
 	
@@ -1792,9 +1796,9 @@
 
 		"AbilityValues"
 		{
-			"str"								"90"
+			"str"								"80"
 			"hp"								"500"
-			"health_regen_percent_per_second"	"3.2"
+			"health_regen_percent_per_second"	"2.8"
 		}
 	}
 	
@@ -2733,16 +2737,17 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-				"bonus_intellect"			"25"
-				"bonus_attack_speed"		"90"
-				"bonus_damage"				"30"
-				"bonus_mana_regen"			"5.5"	
-				"silence_duration"			"5"
-				"silence_damage_percent"	"30"
-				"target_crit_multiplier"	"130"
-				"tooltip_crit_chance"		"100"
-				"duration"					"6"			
-				"spell_amp_debuff"			"35"
+			"bonus_intellect"			"25"
+			"bonus_attack_speed"		"90"
+			"bonus_damage"				"30"
+			"bonus_mana_regen"			"5.5"	
+
+			"silence_duration"			"5"
+			"silence_damage_percent"	"30"
+
+			"target_crit_multiplier"	"130"	
+
+			"crit_active"				"130"
 		}
 	}
 
@@ -2795,7 +2800,6 @@
 			"blast_damage_base"					"125"
 			"ethereal_damage_bonus"				"-40"
 			"projectile_speed"					"1275"
-
 		}
 	}
 
@@ -2913,6 +2917,7 @@
 		{
 			"bonus_strength" 		 "25"
 			"bonus_damage" 			 "38"
+			"status_resistance"		 "20"
 			"bonus_lifesteal" 		 "30"
 			"bonus_lifesteal_active" "175"
 			"duration" 				 "6"
@@ -3081,6 +3086,7 @@
 			"mana_burn_illusion"	"1"
 			"radius"				"750"
 			"mana_burn_active"		"50"
+			"active_damage"			"0.75"
 		}
 	}
 	"item_gamble_gold_ring"
@@ -3483,10 +3489,6 @@
 		}
 	}
 
-
-
-
-
 	"item_recipe_magic_crystalis"
 	{
 		"BaseClass"						"item_datadriven"
@@ -3521,21 +3523,19 @@
 			"crit"					"125"
 		}
 	}
-
-
-
+	
 	"item_recipe_magic_daedalus"
 	{
 		"BaseClass"						"item_datadriven"
 		"Model"							"models/props_gameplay/recipe.vmdl"
 		"AbilityTextureName"			"item_recipe"
-		"ItemCost"						"1150"
+		"ItemCost"						"900"
 		"ItemRecipe"					"1"
 		"ItemResult"					"item_magic_daedalus"
 
 		"ItemRequirements"
 		{
-			"01"						"item_ultimate_orb;item_point_booster;item_magic_crystalis"
+			"01"						"item_ultimate_orb;item_magic_crystalis"
 		}
 	}
 
@@ -3553,7 +3553,7 @@
 			"bonus_damage"			"15"
 			"bonus_str"				"10"
 			"bonus_agi"				"10"
-			"bonus_intellect"		"20"
+			"bonus_intellect"		"26"
 			"bonus_mana"			"175"
 			"bonus_hp"				"175"
 			"bonus_attackspeed"		"10"
@@ -3585,7 +3585,7 @@
 	{
 		"BaseClass" 					"item_lua"
 		"ScriptFile" 					"items/birzha_contract"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
 		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS | DOTA_UNIT_TARGET_FLAG_NOT_CREEP_HERO"
@@ -3633,9 +3633,9 @@
 
 		"AbilityValues"
 		{
-			"attack_speed_per_level"		"2"
-			"armor_per_level"				"0.5"
-			"damage_per_level"				"4"
+			"attack_speed_per_level"		"1.5"
+			"armor_per_level"				"0.25"
+			"damage_per_level"				"2"
 			"bonus_magical_resistance"		"25"
 			"bonus_hp_regen"				"5"
 			"bonus_armor"					"10"
@@ -3944,14 +3944,14 @@
 		"BaseClass"						"item_datadriven"
 		"AbilityTextureName" 			"recipe"
 		"Model"							"models/props_gameplay/recipe.vmdl"
-		"ItemCost"						"0"	
+		"ItemCost"						"2000"	
 		"ItemShopTags"					""
 
 		"ItemRecipe"					"1"
 		"ItemResult"					"item_lostvane_custom"
 		"ItemRequirements"
 		{
-			"01"						"item_manta_custom;item_dragon_lance;item_ultimate_orb"
+			"01"						"item_manta_custom;item_butterfly"
 		}
 	}
 	
@@ -3968,6 +3968,7 @@
 		"AbilityCastPoint"				"0.0"
 		"AbilityManaCost"				"125"
 		"ItemCost"						"4600"
+		"AbilitySharedCooldown"			"manta"
 		"ItemShopTags"					"agi;str;int;attack_speed;move_speed;hard_to_tag"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"manta style"
@@ -4007,9 +4008,10 @@
 		"ScriptFile"					"items/item_swords.lua"
 		"AbilityTextureName"			"items/lostvane"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
-		"AbilityCooldown"				"8"
+		"AbilityCooldown"				"20"
 		"AbilityCastPoint"				"0.0"
-		"AbilityManaCost"				"250"
+		"AbilityManaCost"				"175"
+		"AbilitySharedCooldown"			"manta"
 		"ItemCost"						"4600"
 		"ItemShopTags"					"agi;str;int;attack_speed;move_speed;hard_to_tag"
 		"ItemQuality"					"epic"
@@ -4019,29 +4021,27 @@
 
 		"AbilityValues"
 		{
-			"bonus_strength"		"32"
-			"bonus_agility"			"41"
-			"bonus_intellect"		"20"
-			"bonus_attack_speed"	"15"
-			"bonus_ms"				"8"
+			"bonus_strength"		"10"
+			"bonus_agility"			"51"
+			"bonus_intellect"		"10"
+			"bonus_attack_speed"	"50"
+			"bonus_ms"				"10"
+			"bonus_damage"			"50"
+			"bonus_evasion"			"35"
 
-			"bonus_melee_range"		"150"
-			"bonus_ranged_range"	"50"
-
-			"images_count"						"2"
-			"images_max"						"4"
+			"images_count"						"3"
 
 			"illusion_damage_pasisve"			"12"
 
-
-			"illusion_duration"			"12"
-
-			"illusion_out_damage_one"	"30"
-			"illusion_in_damage_one"	"200"
-
-			"illusion_out_damage_two"	"15"
-			"illusion_in_damage_two"	"400"
-
+			"illusion_duration"			"8"
+			"illusion_out_damage_one"	"60"
+			"illusion_in_damage_one"	"300"
+			"illusion_out_damage_two"	"50"
+			"illusion_in_damage_two"	"250"
+			"illusion_out_damage_three"	"45"
+			"illusion_in_damage_three"	"225"
+			"illusion_out_damage_four"	"40"
+			"illusion_in_damage_four"	"200"
 
 			"invuln_duration"		"0.1"
 			"vision_radius"			"1000"
@@ -4100,7 +4100,9 @@
 
 			"mana_regen_charge"          	"1"
 			"health_regen_charge"          	"2"
-			"spell_amplify_charge"          "2"
+			"spell_amplify_charge"          "1.5"
+
+            "souls_lose"                    "34"
 
 			"base_damage"       			"40"
 			"damage_hp_check"   			"1.5"
@@ -4353,51 +4355,342 @@
 		}
 	}
 
-	"item_refresher_shard"
+	"item_refresher_shard_custom"
 	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"260"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"FightRecapLevel"				"2"
-		"Model"							"models/props_gameplay/refresher_shard.vmdl"
-		"Effect"						"particles/generic_gameplay/dropped_refresher_shard.vpcf"	
-		
-		// Stats	
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"120"
-		
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"1000"
-		"ItemShopTags"					""
-		"ItemQuality"					"consumable"
-		"ItemPurchasable"				"1"
-		"ItemStackable"					"0"
-		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
-		"ItemPermanent"					"0"
-		"ItemStockMax"					"2"
-		"ItemStockTime"					"999999"
-		"ItemInitialCharges"			"1"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
+		"BaseClass"                     		"item_lua"      
+        "ScriptFile"                    		"items/item_refresher_custom"
+        "AbilityTextureName"            		"item_refresher_shard"
+		"AbilityBehavior"						"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"FightRecapLevel"						"2"
+		"Model"									"models/props_gameplay/refresher_shard.vmdl"
+		"Effect"								"particles/generic_gameplay/dropped_refresher_shard.vpcf"	
+		"AbilityCooldown"						"120"
+		"ItemCost"								"1000"
+		"ItemShopTags"							""
+		"ItemQuality"							"consumable"
+		"ItemPurchasable"						"1"
+		"ItemStackable"							"0"
+		"ItemShareability"						"ITEM_FULLY_SHAREABLE"
+		"ItemPermanent"							"0"
+		"ItemStockMax"							"2"
+		"ItemStockTime"							"999999"
+		"ItemInitialCharges"					"1"
+		"ItemDeclarations"						"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
 		"ItemContributesToNetWorthWhenDropped"	"0"
-		"IsTempestDoubleClonable"		"0"
+		"IsTempestDoubleClonable"				"0"
 	}
 
-	"item_ananas_custom"
+	"item_recipe_refresher_custom"
+    {
+        "BaseClass"                     "item_datadriven"
+        "AbilityTextureName"            "recipe"
+        "Model"                         "models/props_gameplay/recipe.vmdl"
+        "ItemCost"                      "2600"  
+        "ItemShopTags"                  ""
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_refresher_custom"
+        "ItemRequirements"
+        {
+            "01"                        "item_cornucopia;item_cornucopia"
+        }
+    }
+
+    "item_refresher_custom"
+    {
+        "BaseClass"                     "item_lua"      
+        "ScriptFile"                    "items/item_refresher_custom"
+        "AbilityTextureName"            "item_refresher"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL"
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "180.0"
+        "AbilityManaCost"               "350"
+        "ItemCost"                      "5000"
+        "ItemShopTags"                  "regen_health;regen_mana;hard_to_tag"
+        "ItemQuality"                   "rare"
+        "ItemAliases"                   "refresher orb"
+        "ItemDeclarations"              "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+        "ShouldBeSuggested"             "1"
+
+        "AbilityValues"
+        {
+            "bonus_health_regen"    	"12"
+            "bonus_mana_regen"      	"6"
+            "damage"                	"20"
+        }
+    }
+
+	"item_recipe_power_orb"
 	{
-		"BaseClass"						"item_lua"
-		"ScriptFile"					"items/ananas.lua"
-		"AbilityTextureName"			"items/ananas"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
-		"AbilityCooldown"				"0"
-		"AbilityCastPoint"				"0.0"
-		"AbilityManaCost"				"0"
+		"BaseClass"						"item_datadriven"
+		"Model"							"models/props_gameplay/recipe.vmdl"
+		"AbilityTextureName"			"item_recipe"
 		"ItemCost"						"0"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
-		"ShouldBeSuggested"				"1"
-		"ItemInitialCharges"			"1"
-		"ItemStockMax"					"1"
-		"ItemStockTime"					"999999"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_power_orb"
+		"ItemRequirements"
+		{
+			"01"						"item_ultimate_orb;item_ultimate_orb;item_ultimate_orb;item_ultimate_orb;item_ultimate_orb"
+		}
 	}
+	
+	"item_power_orb"
+	{
+		"BaseClass" 						"item_lua"
+		"ScriptFile" 						"items/power_orb"
+		"AbilityBehavior"					"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"Model"								"models/props_gameplay/red_box.vmdl" 
+		"Effect"							"particles/generic_gameplay/dropped_item.vpcf"
+		"AbilityTextureName"				"items/power_orb"
+		"AbilityCooldown"					"1"
+
+		"AbilityValues"
+		{
+			"bonus_attributes"				"40"
+			"unselect_attribute_pct"		"10"
+			"select_attribute_pct"			"6"
+		}
+	}
+
+	"item_recipe_magical_rapier"
+	{
+		"BaseClass"						"item_datadriven"
+		"Model"							"models/props_gameplay/recipe.vmdl"
+		"AbilityTextureName"			"item_recipe"
+		"ItemCost"						"2400"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_magical_rapier"
+		"ItemRequirements"
+		{
+			"01"						"item_relic"
+		}
+	}
+	
+	"item_magical_rapier"
+	{
+		"BaseClass" 							"item_lua"
+		"ScriptFile" 							"items/magical_rapier"
+		"AbilityBehavior"						"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"					"items/magical_rapier"
+		"ItemShareability"						"ITEM_NOT_SHAREABLE"
+		"ItemDisassembleRule"					"DOTA_ITEM_DISASSEMBLE_NEVER"
+		"Model"									"models/magical_rapier.vmdl" 
+		"ItemShareability"						"ITEM_NOT_SHAREABLE"
+		"ItemSellable"							"0"
+		"ItemKillable"							"0"
+		"ItemContributesToNetWorthWhenDropped"	"0"
+		"AllowedInBackpack"						"0"
+		"IsTempestDoubleClonable"				"0"
+
+		"AbilityValues"
+		{
+			"spell_damage"					"50"
+		}
+	}
+
+	"item_recipe_phylactery_custom"
+    {
+        "BaseClass"                     "item_datadriven"
+        "AbilityTextureName"            "item_recipe"
+        "Model"                         "models/props_gameplay/recipe.vmdl"
+        "ItemCost"                      "0"   
+        "ItemShopTags"                  ""
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_phylactery_custom"
+        "ItemRequirements"
+        {
+            "01"                        "item_point_booster;item_diadem;item_sobi_mask"
+        }
+    }
+
+    "item_phylactery_custom"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_phylactery_custom"
+        "AbilityTextureName"            "item_phylactery"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityCooldown"               "6.0"
+        "ItemCost"                      "2400"
+        "ItemShopTags"                  "hard_to_tag"
+        "ItemQuality"                   "common"
+        "ItemAliases"                   "phylactery"
+        "ShouldBeSuggested"             "1"
+
+        "AbilityValues"
+        {            
+            "bonus_health"              "200"
+            "bonus_mana"                "200"  
+            "mana_regen"                "0.7"        
+            "bonus_all_stats"           "7"         
+            "slow"                      "-50"
+            "bonus_spell_damage"        "150"
+            "slow_duration"             "1.5"
+            "min_damage_to_activate"    "100"
+        }
+    }
+
+    "item_recipe_ban_hammer"
+    {
+        "BaseClass"                     "item_datadriven"
+        "AbilityTextureName"            "item_recipe"
+        "Model"                         "models/props_gameplay/recipe.vmdl"
+        "ItemCost"                      "1000"   
+        "ItemShopTags"                  ""
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_ban_hammer"
+        "ItemRequirements"
+        {
+            "01"                        "item_phylactery_custom;item_meteor_hammer"
+        }
+    }
+
+    "item_ban_hammer"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/item_ban_hammer"
+        "AbilityTextureName"            "items/ban_hammer"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+        "AbilityCooldown"               "16"
+        "ItemCost"                      "2400"
+        "ItemShopTags"                  "hard_to_tag"
+        "ItemQuality"                   "common"
+        "ItemAliases"                   "phylactery;hammer"
+        "ShouldBeSuggested"             "1"
+        "AbilityCastRange"				"600"
+		"AbilityManaCost"				"125"
+
+        "AbilityValues"
+        {            
+            "bonus_health"              "200"
+            "bonus_mana"                "200"  
+            "mana_regen"                "3"        
+            "bonus_all_stats"           "16"  
+            "health_regen"				"6.5"  
+            
+            "radius"					"300"
+            "stun_duration"				"1.5"
+            "damage_duration"			"6"
+            "damage_per_hit"			"250"
+            "period_damage"				"75"
+            "phylactery_cooldown"		"6"
+            "land_time"             	"0.75"
+
+            "slow"                      "-50"
+            "bonus_spell_damage"        "150"
+            "slow_duration"             "1.5"
+            "min_damage_to_activate"    "100"
+        }
+    }
+
+	"item_recipe_mystic_blade_custom"
+	{
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName" 			"recipe"
+		"Model"							"models/props_gameplay/recipe.vmdl"
+		"ItemCost"						"1000"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_mystic_blade_custom"
+		"ItemRequirements"
+		{
+			"01"						"item_mystic_staff;item_ghost"
+		}
+	}
+
+	"item_mystic_blade_custom"
+	{
+		"BaseClass" 					"item_lua"
+		"ScriptFile" 					"items/mystic_blade"
+		"AbilityTextureName"			"items/mystic_blade"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
+		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NOT_MAGIC_IMMUNE_ALLIES"
+		"FightRecapLevel"				"1"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
+		"AbilityCastRange"				"800"
+		"AbilityCastPoint"				"0.0"
+		"AbilityCooldown"				"20.0"	    
+		"AbilitySharedCooldown"			"ethereal"
+		"AbilityManaCost"				"100"
+		"ItemCost"						"4650"
+		"ItemShopTags"					"agi;str;int;hard_to_tag"
+		"ItemQuality"					"epic"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
+		"ItemAliases"					"eb;ethereal blade;eblade"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
+		"ShouldBeSuggested"				"1"
+		
+		"AbilityValues"
+		{
+			"bonus_agility"						"10"
+			"bonus_strength"					"10"
+			"bonus_intellect"					"40"
+			"blast_movement_slow"				"-80"
+			"duration"							"4.0"
+			"blast_agility_multiplier"			"1.5"
+			"blast_damage_base"					"125"
+			"ethereal_damage_bonus"				"-40"
+			"projectile_speed"					"1275"
+		}
+	}
+
+    "item_recipe_weapon_shakal"
+    {
+        "BaseClass"                     "item_datadriven"
+        "AbilityTextureName"            "item_recipe"
+        "Model"                         "models/props_gameplay/recipe.vmdl"
+        "ItemCost"                      "500"   
+        "ItemShopTags"                  ""
+        "ItemRecipe"                    "1"
+        "ItemResult"                    "item_weapon_shakal"
+        "ItemRequirements"
+        {
+            "01"                        "item_dagon_5"
+        }
+    }
+
+    "item_weapon_shakal"
+    {
+        "BaseClass"                     "item_lua"
+        "ScriptFile"                    "items/weapon_shakal"
+        "AbilityTextureName"            "items/weapon_shakal"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityCooldown"               "18"
+        "ItemCost"                      "2400"
+        "ItemShopTags"                  "hard_to_tag"
+        "ItemQuality"                   "common"
+        "ShouldBeSuggested"             "1"
+		"AbilityManaCost"				"150"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
+		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NOT_MAGIC_IMMUNE_ALLIES"
+		"AbilityCastRange"				"1050"
+		"AbilitySharedCooldown"			"dagon"
+
+        "AbilityValues"
+        {            
+            "bonus_attributes"                  "15"
+            "spell_lifesteal"                   "15"
+            
+            "damage"                            "800"
+            "damage_percent"                    "5"
+            "bonus_damage_length"               "200"
+            "bonus_damage_distance"             "30"
+            "damage_lifesteal"                  "75"
+
+            "passive_damage"                    "200"
+            "passive_damage_percent"            "2.5"
+            "passive_bonus_damage_length"       "100"
+            "passive_bonus_damage_distance"     "20"
+            "passive_damage_lifesteal"          "25"
+
+            "chance"                            "25"
+            "chance_cooldown"                   "3"
+            "chance_radius"                     "600"
+
+            "debuff_duration"                   "3"
+            "slow"                              "-50"
+
+            "proj_speed"                        "1800"
+        }
+    }
 }

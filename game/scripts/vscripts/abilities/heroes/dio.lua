@@ -57,6 +57,9 @@ function Dio_Kakyoin:OnSpellStart()
     }
 
     ApplyDamage(damageTable)
+    if self:GetCaster():HasTalent("special_bonus_birzha_dio_4") then
+        self:GetCaster():PerformAttack(target, true, true, true, false, false, false, true)
+    end
 end
 
 function Dio_Kakyoin:OnProjectileHit_ExtraData( hTarget, vLocation, extraData )
@@ -75,6 +78,10 @@ function Dio_Kakyoin:OnProjectileHit_ExtraData( hTarget, vLocation, extraData )
 
     if not hTarget:HasModifier("modifier_dio_kakyoin_debuff") then
 	   hTarget:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", { duration = extraData.stun * (1-hTarget:GetStatusResistance()) }  )
+    end
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_dio_4") then
+        self:GetCaster():PerformAttack(hTarget, true, true, true, false, false, false, true)
     end
 
 	hTarget:EmitSound("Hero_EarthSpirit.BoulderSmash.Damage")
@@ -224,7 +231,7 @@ end
 Dio_Wry = class({})
 
 function Dio_Wry:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_dio_8")
 end
 
 function Dio_Wry:GetCastRange(location, target)
@@ -269,7 +276,7 @@ function Dio_Wry:OnSpellStart()
 
 		local multiplier = self:GetSpecialValueFor("float_multiplier") / 100
 
-		local basicdamage = self:GetSpecialValueFor("damage")
+		local basicdamage = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_dio_6")
 
 		local mana_to_burn = math.min( current_mana, current_int * multiplier )
 
@@ -357,7 +364,7 @@ function Dio_Blink:OnSpellStart()
         self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_3)
         particle_jump = "particles/dio_arcana/dio_jump_arcana_preimage.vpcf"
     else
-        self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_1)
+        self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_3)
     end
 
     local particle = ParticleManager:CreateParticle(particle_jump, PATTACH_ABSORIGIN, self:GetCaster())
@@ -367,10 +374,8 @@ function Dio_Blink:OnSpellStart()
     ParticleManager:ReleaseParticleIndex(particle)
 
     local callback = function( bInterrupted )
-        if DonateShopIsItemBought(self:GetCaster():GetPlayerOwnerID(), 180) then
-            self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_3)
-            self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_3_END)
-        end
+        self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_3)
+        self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_3_END)
         FindClearSpaceForUnit( self:GetCaster(), self:GetCaster():GetAbsOrigin(), true )
         ProjectileManager:ProjectileDodge(self:GetCaster())
     end
@@ -384,9 +389,6 @@ LinkLuaModifier("modifier_dio_vampire_stats", "abilities/heroes/dio.lua", LUA_MO
 dio_vampire = class({})
 
 function dio_vampire:GetBehavior()
-    if self:GetCaster():HasShard() then
-        return DOTA_ABILITY_BEHAVIOR_NO_TARGET + DOTA_ABILITY_BEHAVIOR_IMMEDIATE
-    end
     return DOTA_ABILITY_BEHAVIOR_PASSIVE
 end
 
@@ -398,15 +400,6 @@ function dio_vampire:GetCooldown(iLevel)
     return self:GetSpecialValueFor("shard_cooldown")
 end
 
-function dio_vampire:OnSpellStart()
-    if not IsServer() then return end
-    GameRules:BeginNightstalkerNight(self:GetSpecialValueFor("shard_duration"))
-    self:GetCaster():EmitSound("Hero_Nightstalker.Darkness")
-    local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_night_stalker/nightstalker_ulti.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
-    ParticleManager:SetParticleControl(particle, 0, self:GetCaster():GetAbsOrigin())
-    ParticleManager:SetParticleControl(particle, 1, self:GetCaster():GetAbsOrigin())
-end
-
 function dio_vampire:GetIntrinsicModifierName()
     return "modifier_dio_vampire"
 end
@@ -416,6 +409,10 @@ modifier_dio_vampire = class({})
 function modifier_dio_vampire:IsHidden()
     return true
 end
+
+function modifier_dio_vampire:IsPurgable() return false end
+function modifier_dio_vampire:IsPurgeException() return false end
+function modifier_dio_vampire:RemoveOnDeath() return false end
 
 function modifier_dio_vampire:OnCreated()
 	if not IsServer() then return end
@@ -440,6 +437,8 @@ modifier_dio_vampire_stats = class({})
 function modifier_dio_vampire:IsPurgable()
     return false
 end
+
+function modifier_dio_vampire:IsPurgeException() return false end
 
 function modifier_dio_vampire_stats:DeclareFunctions()
     local declfuncs = {MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT, MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,MODIFIER_PROPERTY_EXTRA_HEALTH_PERCENTAGE, MODIFIER_EVENT_ON_TAKEDAMAGE}
@@ -482,7 +481,10 @@ LinkLuaModifier("modifier_dio_silence", "abilities/heroes/dio.lua", LUA_MODIFIER
 Dio_TheWorld = class({})
 
 function Dio_TheWorld:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_dio_6")
+    if self:GetCaster():HasShard() then
+        return self:GetSpecialValueFor("cooldown_scepter")
+    end
+    return self.BaseClass.GetCooldown( self, level )
 end
 
 function Dio_TheWorld:GetManaCost(level)
@@ -575,7 +577,7 @@ function modifier_dio_TheWorld:IsPurgable()
 end
 
 function modifier_dio_TheWorld:OnCreated(keys)
-    self.b_damage = self:GetAbility():GetSpecialValueFor("stand_damage") + ( self:GetCaster():GetIntellect() * (self:GetAbility():GetSpecialValueFor("bonus_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_dio_8")) )
+    self.b_damage = self:GetAbility():GetSpecialValueFor("stand_damage") + ( self:GetCaster():GetIntellect() * (self:GetAbility():GetSpecialValueFor("bonus_damage")) )
     self.b_health = self:GetAbility():GetSpecialValueFor("stand_hp")
     self.b_armor = self:GetAbility():GetSpecialValueFor("stand_armor")
     if not IsServer() then return end
@@ -601,7 +603,7 @@ function modifier_dio_TheWorld:OnCreated(keys)
 end
 
 function modifier_dio_TheWorld:OnRefresh(keys)
-    self.b_damage = self:GetAbility():GetSpecialValueFor("stand_damage") + ( self:GetCaster():GetIntellect() * (self:GetAbility():GetSpecialValueFor("bonus_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_dio_8")) )
+    self.b_damage = self:GetAbility():GetSpecialValueFor("stand_damage") + ( self:GetCaster():GetIntellect() * (self:GetAbility():GetSpecialValueFor("bonus_damage")) )
     self.b_armor = self:GetAbility():GetSpecialValueFor("stand_armor")
     if not IsServer() then return end
     self:GetParent():SetPhysicalArmorBaseValue(self.b_armor)
@@ -789,7 +791,7 @@ function modifier_Dio_Za_Warudo_aura:OnCreated()
 
 	self:StartIntervalThink(FrameTime())
 
-    self.max_radius = self:GetAbility():GetSpecialValueFor("radius") + self:GetCaster():GetOwner():FindTalentValue("special_bonus_birzha_dio_4")
+    self.max_radius = self:GetAbility():GetSpecialValueFor("radius")
 
 	self.radius_effect = 0
     self.cast_duration = 1
@@ -1000,7 +1002,13 @@ function modifier_dio_roller_caster:VerticalMotion(unit, dt)
 
         if self.current_time >= self.max_time + 0.2 then
             self.z_height = self.z_height - ((dt / self.max_time) * max_height)
-            unit:SetAbsOrigin(GetGroundPosition(unit:GetAbsOrigin(), unit) + Vector(0,0,self.z_height))
+            local height_min = GetGroundHeight(unit:GetAbsOrigin(), unit)
+            local new_pos = GetGroundPosition(unit:GetAbsOrigin(), unit) + Vector(0,0,self.z_height)
+            if new_pos.z < height_min then
+                new_pos.z = height_min
+            end
+
+            unit:SetAbsOrigin(new_pos)
         end
 
         if self.current_time >= self.max_time + 0.6 then

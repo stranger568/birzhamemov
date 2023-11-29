@@ -23,12 +23,6 @@ function sonic_dash:OnSpellStart()
 
     local flag = 0
 
-    if self:GetCaster():HasShard() then
-        if RollPercentage(self:GetSpecialValueFor("shard_chance")) then
-            flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
-        end
-    end
-
     local particle = "particles/sonic/one_skill.vpcf"
 
     if self:GetCaster():HasModifier("modifier_sonic_arcana") then
@@ -142,7 +136,7 @@ function sonic_crash:OnSpellStart()
     local caster = self:GetCaster()
     local damage_from_movespeed = self:GetSpecialValueFor( "damage_from_movespeed" ) / 100
     local damage = self:GetCaster():GetMoveSpeedModifier(self:GetCaster():GetBaseMoveSpeed(), false) * damage_from_movespeed
-    local radius = self:GetSpecialValueFor( "radius" )
+    local radius = self:GetSpecialValueFor( "radius" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_sonic_8")
     local distance = 225
     local duration = 0.4
     local height = 200
@@ -178,8 +172,9 @@ function sonic_crash:PlayEffects1( modifier )
 end
 
 function sonic_crash:PlayEffects2(radius)
-    local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_pangolier/pangolier_tailthump.vpcf", PATTACH_WORLDORIGIN, self:GetCaster() )
+    local effect_cast = ParticleManager:CreateParticle( "particles/sonic_jump_end.vpcf", PATTACH_WORLDORIGIN, self:GetCaster() )
     ParticleManager:SetParticleControl( effect_cast, 0, self:GetCaster():GetOrigin() )
+    ParticleManager:SetParticleControl( effect_cast, 2, Vector(radius,radius,radius) )
     ParticleManager:ReleaseParticleIndex( effect_cast )
 
     if self:GetCaster():HasModifier("modifier_sonic_arcana") then
@@ -557,7 +552,7 @@ function modifier_sonic_gottagofast:GetModifierMoveSpeedBonus_Constant()
 end
 
 function modifier_sonic_gottagofast:CheckState()
-    if not self:GetCaster():HasTalent("special_bonus_birzha_sonic_8") then return end
+    if not self:GetCaster():HasShard() then return end
     
     local state = 
     {
@@ -1018,11 +1013,11 @@ function modifier_sonic_fast_sound:DeclareFunctions()
 end
 
 function modifier_sonic_fast_sound:GetModifierMoveSpeed_Max( params )
-    return self:GetAbility():GetSpecialValueFor("movespeed_limit") + self:GetCaster():FindTalentValue("special_bonus_birzha_sonic_7")
+    return self:GetAbility():GetSpecialValueFor("movespeed_limit") + (self:GetCaster():FindTalentValue("special_bonus_birzha_sonic_7") * self:GetCaster():GetModifierStackCount("modifier_sonic_steal_speed", self:GetCaster()))
 end
 
 function modifier_sonic_fast_sound:GetModifierMoveSpeed_Limit( params )
-    return self:GetAbility():GetSpecialValueFor("movespeed_limit") + self:GetCaster():FindTalentValue("special_bonus_birzha_sonic_7")
+    return self:GetAbility():GetSpecialValueFor("movespeed_limit") + (self:GetCaster():FindTalentValue("special_bonus_birzha_sonic_7") * self:GetCaster():GetModifierStackCount("modifier_sonic_steal_speed", self:GetCaster()))
 end
 
 function modifier_sonic_fast_sound:GetModifierIgnoreMovespeedLimit( params )

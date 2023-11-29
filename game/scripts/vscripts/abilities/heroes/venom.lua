@@ -459,6 +459,12 @@ LinkLuaModifier( "modifier_venom_tentacle_damage",  "abilities/heroes/venom.lua"
 
 venom_tentacle = class({})
 
+function venom_tentacle:OnAbilityUpgrade( hAbility )
+	if not IsServer() then return end
+	self.BaseClass.OnAbilityUpgrade( self, hAbility )
+	self:EnableAbilityChargesOnTalentUpgrade( hAbility, "special_bonus_unique_venom_1" )
+end
+
 function venom_tentacle:OnSpellStart()
 	if not IsServer() then return end
 	local point = self:GetCursorPosition()

@@ -98,7 +98,7 @@ LinkLuaModifier("modifier_Ricardo_KokosMaslo_debuff", "abilities/heroes/ricardo"
 Ricardo_KokosMaslo = class({})
 
 function Ricardo_KokosMaslo:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) / ( self:GetCaster():GetCooldownReduction())
+    return self.BaseClass.GetCooldown( self, level )
 end
 
 function Ricardo_KokosMaslo:GetCastRange(location, target)

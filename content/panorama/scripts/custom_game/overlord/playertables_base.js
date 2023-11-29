@@ -10,8 +10,6 @@ var PT = {
 };
 
 
-$.Msg("[playertables_base.js] Loaded");
-
 var PlayerTables = {};
 
 PlayerTables.GetAllTableValues = function(tableName)

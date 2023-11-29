@@ -22,7 +22,6 @@ function item_burger_sobolev:OnSpellStart()
     end
     self:GetCaster():EmitSound("item_burger")
     self:GetCaster():CalculateStatBonus(true)
-    donate_shop:QuestProgress(24, self:GetCaster():GetPlayerOwnerID(), 1)
     self:SpendCharge()
 end
 
@@ -46,7 +45,6 @@ function item_burger_oblomoff:OnSpellStart()
     end
     self:GetCaster():EmitSound("item_burger")
     self:GetCaster():CalculateStatBonus(true)
-    donate_shop:QuestProgress(24, self:GetCaster():GetPlayerOwnerID(), 1)
     self:SpendCharge()
 end
 
@@ -70,7 +68,6 @@ function item_burger_larin:OnSpellStart()
     end
     self:GetCaster():EmitSound("item_burger")
     self:GetCaster():CalculateStatBonus(true)
-    donate_shop:QuestProgress(24, self:GetCaster():GetPlayerOwnerID(), 1)
     self:SpendCharge()
 end
 

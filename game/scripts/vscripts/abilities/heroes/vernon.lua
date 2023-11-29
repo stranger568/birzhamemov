@@ -3,7 +3,7 @@ LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modi
 Vernon_pogonya = class({})
 
 function Vernon_pogonya:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_vernon_1")
 end
 
 function Vernon_pogonya:GetCastRange(location, target)
@@ -94,7 +94,7 @@ function modifier_Vernon_pogonya:TakeDamage()
    	local vector_distance = parent:GetAbsOrigin() - self.target:GetAbsOrigin()
 	local distance = (vector_distance):Length2D()
    	local duration = self:GetAbility():GetSpecialValueFor("stun_duration")
-	local damage = self:GetAbility():GetSpecialValueFor("damage")
+	local damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_vernon_4")
 	if distance <= 75 then
 
 		self.targets_scepter[self.target:entindex()] = self.target
@@ -141,7 +141,7 @@ function modifier_Vernon_pogonya:UpdateHorizontalMotion( me, dt )
     direction.z = 0
     local distance = direction:Length2D()
     direction = direction:Normalized()
-    local speed = self:GetAbility():GetSpecialValueFor("speed") + self:GetCaster():FindTalentValue("special_bonus_birzha_vernon_1")
+    local speed = self:GetAbility():GetSpecialValueFor("speed")
     local target = origin + direction * speed * dt
     self:GetParent():SetOrigin( target )
     self:GetParent():FaceTowards( self.target:GetOrigin() )
@@ -190,6 +190,9 @@ LinkLuaModifier("modifier_Vernon_power_cogs_power_cogs", "abilities/heroes/verno
 LinkLuaModifier("modifier_Vernon_power_cogs_cog_push", "abilities/heroes/vernon.lua", LUA_MODIFIER_MOTION_HORIZONTAL)
 LinkLuaModifier("modifier_Vernon_power_cogs_cog_push_in", "abilities/heroes/vernon.lua", LUA_MODIFIER_MOTION_HORIZONTAL)
 
+LinkLuaModifier("modifier_Vernon_power_cogs_power_cogs_thinker_immune", "abilities/heroes/vernon.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_Vernon_power_cogs_power_cogs_magic_immune_buff", "abilities/heroes/vernon.lua", LUA_MODIFIER_MOTION_NONE)
+
 Vernon_power_cogs = class({})
 
 function Vernon_power_cogs:GetCooldown(level)
@@ -213,15 +216,22 @@ function Vernon_power_cogs:OnSpellStart()
 	local caster_pos = self:GetCaster():GetAbsOrigin()
 	local cogs_radius = self:GetSpecialValueFor("cogs_radius")
 	local cog_vector = GetGroundPosition(caster_pos + Vector(0, cogs_radius, 0), nil)
-	local second_cog_vector	= GetGroundPosition(caster_pos + Vector(0, cogs_radius * 1.3, 0), nil)
+	local second_cog_vector	= GetGroundPosition(caster_pos + Vector(0, cogs_radius * 1.5, 0), nil)
+
+    local radius_thinker = cogs_radius
+    if self:GetCaster():HasScepter() then
+        radius_thinker = cogs_radius * 1.6
+    end
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_vernon_6") then
+        CreateModifierThinker( self:GetCaster(), self, "modifier_Vernon_power_cogs_power_cogs_thinker_immune", { duration = self:GetSpecialValueFor("duration"), radius = radius_thinker }, self:GetCaster():GetAbsOrigin(), self:GetCaster():GetTeamNumber(), false )
+    end
+
 	for cog = 1, 8 do
 		local cog = CreateUnitByName("npc_dota_rattletrap_cog", cog_vector, false, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
 		cog:SetModel("models/items/rattletrap/the_seeker_of_the_lost_artifact_cogs/the_seeker_of_the_lost_artifact_cogs.vmdl")
 		cog:SetOriginalModel("models/items/rattletrap/the_seeker_of_the_lost_artifact_cogs/the_seeker_of_the_lost_artifact_cogs.vmdl")
 		self:GetCaster():EmitSound("VernonDrell")
-		if self:GetCaster():HasTalent("special_bonus_birzha_vernon_6") then
-			cog:AddInvul()
-		end
 		cog:AddNewModifier(self:GetCaster(), self, "modifier_Vernon_power_cogs_power_cogs",
 		{
 			duration 	= self:GetSpecialValueFor("duration"),
@@ -232,8 +242,11 @@ function Vernon_power_cogs:OnSpellStart()
 			center_y	= caster_pos.y,
 			center_z	= caster_pos.z
 		})
-
-		if self:GetCaster():HasTalent("special_bonus_birzha_vernon_5") then
+		cog_vector = RotatePosition(caster_pos, QAngle(0, 360 / 8, 0), cog_vector)
+	end
+    
+    for cog = 1, 16 do
+    		if self:GetCaster():HasScepter() then
 			local second_cog = CreateUnitByName("npc_dota_rattletrap_cog", second_cog_vector, false, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
 			second_cog:SetModel("models/items/rattletrap/the_seeker_of_the_lost_artifact_cogs/the_seeker_of_the_lost_artifact_cogs.vmdl")
 			second_cog:SetOriginalModel("models/items/rattletrap/the_seeker_of_the_lost_artifact_cogs/the_seeker_of_the_lost_artifact_cogs.vmdl")
@@ -251,10 +264,9 @@ function Vernon_power_cogs:OnSpellStart()
 				second_gear	= true
 			})
 			
-			second_cog_vector = RotatePosition(caster_pos, QAngle(0, 360 / 8, 0), second_cog_vector)
+			second_cog_vector = RotatePosition(caster_pos, QAngle(0, 360 / 16, 0), second_cog_vector)
 		end
-		cog_vector = RotatePosition(caster_pos, QAngle(0, 360 / 8, 0), cog_vector)
-	end
+    end
 	
 	local deploy_particle	= ParticleManager:CreateParticle("particles/units/heroes/hero_rattletrap/rattletrap_cog_deploy.vpcf", PATTACH_ABSORIGIN, self:GetCaster())
 	ParticleManager:ReleaseParticleIndex(deploy_particle)
@@ -397,18 +409,15 @@ end
 
 function modifier_Vernon_power_cogs_power_cogs:OnAttackLanded(keys)
     if not IsServer() then return end
-	
 	if keys.target == self:GetParent() then
-		if not self:GetCaster():HasTalent("special_bonus_birzha_vernon_6") then
-			if keys.attacker == self:GetCaster() then
-				self:GetParent():Kill(nil, self:GetCaster())
-			else
-				self.health = self.health - 1
-				if self.health <= 0 then
-					self:GetParent():Kill(nil, keys.attacker)
-				end
-			end
-		end
+        if keys.attacker == self:GetCaster() then
+            self:GetParent():Kill(nil, self:GetCaster())
+        else
+            self.health = self.health - 1
+            if self.health <= 0 then
+                self:GetParent():Kill(nil, keys.attacker)
+            end
+        end
 	end
 end
 
@@ -541,6 +550,66 @@ function modifier_Vernon_power_cogs_cog_push_in:OnDestroy()
 	ApplyDamage(damageTable)
 end
 
+modifier_Vernon_power_cogs_power_cogs_thinker_immune = class({})
+function modifier_Vernon_power_cogs_power_cogs_thinker_immune:OnCreated(params)
+    self.radius = params.radius
+end
+function modifier_Vernon_power_cogs_power_cogs_thinker_immune:IsAura()
+    return true
+end
+function modifier_Vernon_power_cogs_power_cogs_thinker_immune:IsPurgable() return false end
+function modifier_Vernon_power_cogs_power_cogs_thinker_immune:IsPurgeException() return false end
+function modifier_Vernon_power_cogs_power_cogs_thinker_immune:IsHidden() return true end
+function modifier_Vernon_power_cogs_power_cogs_thinker_immune:GetModifierAura()
+    return "modifier_Vernon_power_cogs_power_cogs_magic_immune_buff"
+end
+
+function modifier_Vernon_power_cogs_power_cogs_thinker_immune:GetAuraRadius()
+    return self.radius
+end
+
+function modifier_Vernon_power_cogs_power_cogs_thinker_immune:GetAuraDuration()
+    return 0
+end
+
+function modifier_Vernon_power_cogs_power_cogs_thinker_immune:GetAuraSearchTeam()
+    return DOTA_UNIT_TARGET_TEAM_FRIENDLY
+end
+
+function modifier_Vernon_power_cogs_power_cogs_thinker_immune:GetAuraSearchType()
+    return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC
+end
+
+function modifier_Vernon_power_cogs_power_cogs_thinker_immune:GetAuraSearchFlags()
+    return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
+end
+function modifier_Vernon_power_cogs_power_cogs_thinker_immune:GetAuraEntityReject(target)
+    if target == self:GetCaster() then
+        return false
+    end
+    return true
+end
+modifier_Vernon_power_cogs_power_cogs_magic_immune_buff = class({})
+function modifier_Vernon_power_cogs_power_cogs_magic_immune_buff:IsPurgable() return false end
+function modifier_Vernon_power_cogs_power_cogs_magic_immune_buff:IsHidden() return true end
+function modifier_Vernon_power_cogs_power_cogs_magic_immune_buff:GetEffectName()
+    return "particles/items_fx/black_king_bar_avatar.vpcf"
+end
+function modifier_Vernon_power_cogs_power_cogs_magic_immune_buff:GetEffectAttachType()
+    return PATTACH_ABSORIGIN_FOLLOW
+end
+function modifier_Vernon_power_cogs_power_cogs_magic_immune_buff:CheckState()
+    return {
+        [MODIFIER_STATE_MAGIC_IMMUNE] = true
+    }
+end
+function modifier_Vernon_power_cogs_power_cogs_magic_immune_buff:GetStatusEffectName()
+    return "particles/status_fx/status_effect_avatar.vpcf"
+end
+function modifier_Vernon_power_cogs_power_cogs_magic_immune_buff:StatusEffectPriority()
+    return 99999
+end
+
 LinkLuaModifier("modifier_Vernon_uporstvo", "abilities/heroes/vernon.lua", LUA_MODIFIER_MOTION_NONE)
 
 Vernon_uporstvo = class({})
@@ -565,12 +634,12 @@ end
 
 function modifier_Vernon_uporstvo:OnIntervalThink()
 	if not IsServer() then return end
-	self.damage = self:GetAbility():GetSpecialValueFor("damage")
+	self.damage = self:GetAbility():GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_vernon_5")
 	if not self:GetParent():HasModifier("modifier_Vernon_pogonya") then
 		self:GetParent():SetModelScale(self:GetAbility():GetSpecialValueFor("scale"))
 	end
 	if self:GetParent():IsIllusion() or self:GetParent():PassivesDisabled() then return end
-	local targets = FindUnitsInRadius(self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self:GetAbility():GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_vernon_4"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_ANY_ORDER, false)
+	local targets = FindUnitsInRadius(self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self:GetAbility():GetSpecialValueFor("radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, 0, FIND_ANY_ORDER, false)
 	if self:GetParent():IsAlive() then
 		for _,unit in pairs(targets) do
 			self:GetParent():EmitSound("VernonStomp")
@@ -653,7 +722,7 @@ function Vernon_silence:OnSpellStart()
 
 	if self:GetCaster():HasTalent("special_bonus_birzha_vernon_8") then
 		local point = self:GetCursorPosition()
-		local units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), point, nil, self:GetCaster():FindTalentValue("special_bonus_birzha_vernon_8"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_CLOSEST, false)
+		local units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), point, nil, self:GetCaster():FindTalentValue("special_bonus_birzha_vernon_8"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, 0, FIND_CLOSEST, false)
 		for _, unit in pairs(units) do
 			unit:AddNewModifier( self:GetCaster(), self, "modifier_Vernon_silence", { duration = duration * (1 - unit:GetStatusResistance()) } )
 			self:PlayEffects2( unit )

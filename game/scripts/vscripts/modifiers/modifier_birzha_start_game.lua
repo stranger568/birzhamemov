@@ -14,7 +14,7 @@ end
 
 function modifier_birzha_start_game:OnIntervalThink()
 	if not IsServer() then return end
-	if CustomPick.pick_ended then 
+	if birzha_hero_selection.pick_ended then 
 		self:Destroy() 
 	end
 end  

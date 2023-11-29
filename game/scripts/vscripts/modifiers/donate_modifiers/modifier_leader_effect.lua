@@ -21,16 +21,8 @@ function modifier_leader_effect:AllowIllusionDuplicate()
 end
 
 function modifier_leader_effect:OnCreated()
-	if IsServer() then
-		self.particle = ParticleManager:CreateParticle("particles/birzha_memov_top1_effect.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
-	end
-end
-
-function modifier_leader_effect:OnDestroy(params)
-	if IsServer() then
-		if self.particle then
-			ParticleManager:DestroyParticle(self.particle, true)
-		end
-	end
-	return 0	
+    if not IsServer() then return end
+	local particle = ParticleManager:CreateParticle("particles/birzha_memov_top1_effect.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+    ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
+    self:AddParticle(particle, false, false, -1, false, false)
 end

@@ -33,9 +33,9 @@ function puchkov_pigs:OnSpellStart()
     self:GetCaster():EmitSound("Hero_Phoenix.IcarusDive.Cast")
     pigs_copter:EmitSound("PuchkovGoni")
     pigs_copter:SetForwardVector(dir)
-    pigs_copter:AddNewModifier(self:GetCaster(), self, "modifier_puchkov_pigs_move", {})
+    pigs_copter:AddNewModifier(self:GetCaster(), self, "modifier_puchkov_pigs_move", {duration = flying_time})
     pigs_copter:AddNewModifier(self:GetCaster(), self, "modifier_puchkov_pigs_plant", {})
-    pigs_copter:AddNewModifier(self:GetCaster(), self, "modifier_kill", {duration = flying_time})
+    pigs_copter:AddNewModifier(self:GetCaster(), self, "modifier_kill", {duration = flying_time+0.1})
     pigs_copter:StartGesture(ACT_DOTA_RUN)
 end
 
@@ -84,6 +84,11 @@ function modifier_puchkov_pigs_move:CheckState()
         [MODIFIER_STATE_NO_HEALTH_BAR] = true,
         [MODIFIER_STATE_OUT_OF_GAME] = true,
     }
+end
+
+function modifier_puchkov_pigs_move:OnDestroy()
+    if not IsServer() then return end
+    self:GetParent():AddNoDraw()
 end
 
 modifier_puchkov_pigs_plant = class({})
@@ -223,6 +228,7 @@ function modifier_puchkov_pigs_pig_boom:CheckState()
 end
 
 LinkLuaModifier( "modifier_puchkov_small_debils", "abilities/heroes/puchkov", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier( "modifier_puchkov_small_debils_hex", "abilities/heroes/puchkov", LUA_MODIFIER_MOTION_NONE)
 
 puchkov_small_debils = class({}) 
 
@@ -251,6 +257,41 @@ function puchkov_small_debils:OnSpellStart()
     ParticleManager:SetParticleControlEnt(particle, 1, target, PATTACH_POINT_FOLLOW, "attach_hitloc", target:GetAbsOrigin(), true)
     ParticleManager:SetParticleControlEnt(particle, 2, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack2", self:GetCaster():GetAbsOrigin(), true)
     target:AddNewModifier(self:GetCaster(), self, "modifier_puchkov_small_debils", {duration = duration * (1-target:GetStatusResistance())})
+    if self:GetCaster():HasScepter() then
+        target:AddNewModifier(self:GetCaster(), self, "modifier_puchkov_small_debils_hex", {duration = duration * (1-target:GetStatusResistance())})
+    end
+end
+
+modifier_puchkov_small_debils_hex = class({})
+
+function modifier_puchkov_small_debils_hex:OnCreated()
+    if not IsServer() then return end
+    self:GetParent():EmitSound("DOTA_Item.Maim")
+    self:GetParent():EmitSound("DOTA_Item.Sheepstick.Activate")
+end
+
+function modifier_puchkov_small_debils_hex:CheckState()
+    local state = 
+    {
+        [MODIFIER_STATE_HEXED] = true,
+        [MODIFIER_STATE_DISARMED] = true,
+        [MODIFIER_STATE_SILENCED] = true,
+        [MODIFIER_STATE_MUTED] = true,
+    }
+
+    return state
+end
+
+function modifier_puchkov_small_debils_hex:DeclareFunctions()
+    local decFuncs = 
+    {
+        MODIFIER_PROPERTY_MODEL_CHANGE,
+    }
+    return decFuncs
+end
+
+function modifier_puchkov_small_debils_hex:GetModifierModelChange()
+    return "models/items/courier/gnomepig/gnomepig.vmdl"
 end
 
 modifier_puchkov_small_debils = class({})
@@ -315,9 +356,6 @@ function puchkov_smeh:GetAOERadius()
 end
 
 function puchkov_smeh:GetCastRange(location, target)
-    if self:GetCaster():HasScepter() then
-        return 999999
-    end
     return self.BaseClass.GetCastRange(self, location, target)
 end
 

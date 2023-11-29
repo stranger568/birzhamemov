@@ -8,11 +8,11 @@ function modifier_birzha_start_movespeed:IsHidden()
 end
 
 function modifier_birzha_start_movespeed:IsPurgable()
-	return true
+	return false
 end
 
 function modifier_birzha_start_movespeed:IsPurgeException()
-	return true
+	return false
 end
 
 function modifier_birzha_start_movespeed:RemoveOnDeath()
@@ -27,20 +27,13 @@ function modifier_birzha_start_movespeed:OnCreated()
 	if IsServer() then
 		local player = self:GetParent():GetPlayerID()
 		if DonateShopIsItemBought(player, 20) then
-			self.speedeffect = ParticleManager:CreateParticle("particles/birzhapass/start_game.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
-			ParticleManager:SetParticleControl(self.speedeffect, 0, self:GetParent():GetAbsOrigin() )
-			ParticleManager:SetParticleControl(self.speedeffect, 1, self:GetParent():GetAbsOrigin() )
-			ParticleManager:SetParticleControl(self.speedeffect, 2, self:GetParent():GetAbsOrigin() )
-			ParticleManager:SetParticleControl(self.speedeffect, 3, self:GetParent():GetAbsOrigin() )
-			self.speedeffect2 = ParticleManager:CreateParticle("effect/emengchanrao/1.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
-			ParticleManager:SetParticleControl(self.speedeffect2, 0, self:GetParent():GetAbsOrigin() )
-			ParticleManager:SetParticleControl(self.speedeffect2, 1, self:GetParent():GetAbsOrigin() )
-			ParticleManager:SetParticleControl(self.speedeffect2, 2, self:GetParent():GetAbsOrigin() )
-			ParticleManager:SetParticleControl(self.speedeffect2, 3, self:GetParent():GetAbsOrigin() )
+            local particle = ParticleManager:CreateParticle("particles/birzhapass/start_game.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+			local particle_2 = ParticleManager:CreateParticle("effect/emengchanrao/1.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+            self:AddParticle(particle, false, false, -1, false, false)
+            self:AddParticle(particle_2, false, false, -1, false, false)
 		end
-
 		if DonateShopIsItemBought(player, 186) then
-			self.penguin = CreateUnitByName("npc_dota_companion", self:GetParent():GetAbsOrigin(), false, self:GetParent(), self:GetParent(), self:GetParent():GetTeamNumber())
+			self.penguin = CreateUnitByName("npc_dota_companion", self:GetParent():GetAbsOrigin(), false, nil, nil, self:GetParent():GetTeamNumber())
 			if self.penguin then
 				self:GetParent():AddNewModifier(self:GetParent(), nil, "modifier_birzha_penguin_caster_zspeed", {})
 				self.penguin:AddNewModifier(self:GetParent(), nil, "modifier_birzha_penguin_speed", {})
@@ -53,7 +46,8 @@ function modifier_birzha_start_movespeed:OnCreated()
 end
 
 function modifier_birzha_start_movespeed:DeclareFunctions()
-	local funcs = {
+	local funcs = 
+    {
 		MODIFIER_EVENT_ON_DEATH,
 		MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE,
 	}
@@ -65,19 +59,13 @@ function modifier_birzha_start_movespeed:GetModifierMoveSpeed_Absolute( params )
 end
 
 function modifier_birzha_start_movespeed:OnDestroy(params)
-	if IsServer() then
-		if self.penguin and not self.penguin:IsNull() then
-			UTIL_Remove(self.penguin)
-		end
-		self:GetParent():RemoveModifierByName("modifier_birzha_penguin_caster_zspeed")
-		if self.speedeffect then
-			ParticleManager:DestroyParticle(self.speedeffect, true)
-		end
-		if self.speedeffect2 then
-			ParticleManager:DestroyParticle(self.speedeffect2, true)
-		end
-	end
-	return 0	
+	if not IsServer() then return end
+    if self.penguin and not self.penguin:IsNull() then
+        UTIL_Remove(self.penguin)
+    end
+    if self:GetParent():HasModifier("modifier_birzha_penguin_caster_zspeed") then
+        self:GetParent():RemoveModifierByName("modifier_birzha_penguin_caster_zspeed")
+    end
 end
 
 modifier_birzha_penguin_speed = class({})
@@ -90,10 +78,10 @@ function modifier_birzha_penguin_speed:OnCreated()
 end
 
 function modifier_birzha_penguin_speed:DeclareFunctions()
-	local funcs = {
+	local funcs = 
+    {
 		MODIFIER_PROPERTY_OVERRIDE_ANIMATION,
 	}
-
 	return funcs
 end
 
@@ -117,18 +105,18 @@ function modifier_birzha_penguin_speed:CheckState()
 	}
 end
 
-
 modifier_birzha_penguin_caster_zspeed = class({})
 function modifier_birzha_penguin_caster_zspeed:IsHidden() return true end
 function modifier_birzha_penguin_caster_zspeed:IsPurgable() return false end
 
 function modifier_birzha_penguin_caster_zspeed:DeclareFunctions()
-	local funcs = {
+	local funcs = 
+    {
 		MODIFIER_PROPERTY_VISUAL_Z_DELTA,
 		MODIFIER_PROPERTY_OVERRIDE_ANIMATION,
 		MODIFIER_EVENT_ON_ATTACK_START,
+        MODIFIER_PROPERTY_OVERRIDE_ANIMATION_RATE
 	}
-
 	return funcs
 end
 
@@ -143,4 +131,8 @@ end
 
 function modifier_birzha_penguin_caster_zspeed:GetOverrideAnimation()
 	return ACT_DOTA_FLAIL
+end
+
+function modifier_birzha_penguin_caster_zspeed:GetOverrideAnimationRate()
+	return 0.25
 end

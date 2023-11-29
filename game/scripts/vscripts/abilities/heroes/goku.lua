@@ -41,8 +41,8 @@ function goku_kamehame:OnSpellStart()
         self.cast_direction = self:GetCaster():GetForwardVector()
     end
 
-    self.particle = ParticleManager:CreateParticle("particles/goku_kamehameha.vpcf", PATTACH_CUSTOMORIGIN_FOLLOW, self:GetCaster())
-    ParticleManager:SetParticleControlEnt(self.particle, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetCaster():GetAbsOrigin(), true)
+    self.particle = ParticleManager:CreateParticle("particles/custom_particles/goku/goku_kamehameha_cast.vpcf", PATTACH_CUSTOMORIGIN_FOLLOW, self:GetCaster())
+    ParticleManager:SetParticleControlEnt(self.particle, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetCaster():GetAbsOrigin(), true)
 end
 
 function goku_kamehame:OnChannelFinish( bInterrupted )
@@ -51,7 +51,7 @@ function goku_kamehame:OnChannelFinish( bInterrupted )
 
     if bInterrupted then
         if self.particle then
-            ParticleManager:DestroyParticle(self.particle, false)
+            ParticleManager:DestroyParticle(self.particle, true)
             ParticleManager:ReleaseParticleIndex(self.particle)
             local cooldown = self:GetCooldownTimeRemaining()
             if cooldown > 0 then
@@ -93,7 +93,7 @@ function goku_kamehame:OnChannelFinish( bInterrupted )
     local projectile = ProjectileManager:CreateLinearProjectile(info)
 
     if self.particle then
-        ParticleManager:DestroyParticle(self.particle, false)
+        ParticleManager:DestroyParticle(self.particle, true)
         ParticleManager:ReleaseParticleIndex(self.particle)
     end
 end
@@ -122,27 +122,6 @@ function goku_kamehame:OnProjectileHit( target, vLocation )
         ApplyDamage(damageTable)
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 LinkLuaModifier( "modifier_goku_merni_attacks", "abilities/heroes/goku.lua", LUA_MODIFIER_MOTION_NONE )
 
@@ -178,6 +157,8 @@ function modifier_goku_merni_attacks:IsPurgable()
 end
 
 function modifier_goku_merni_attacks:OnCreated( kv )
+    if not IsServer() then return end
+    self:GetParent():Stop()
     self.damage = self:GetAbility():GetSpecialValueFor( "damage" )
     self.portals = self:GetAbility():GetSpecialValueFor( "portals_per_ring" )
     self.angle = self:GetAbility():GetSpecialValueFor( "angle_per_ring_portal" )
@@ -251,6 +232,8 @@ function modifier_goku_merni_attacks:OnDestroy()
             enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_goku_7") * (1 - enemy:GetStatusResistance())})
         end
     end
+
+    self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_2_END)
 
     self:GetParent():RemoveNoDraw()
     self:PlayEffects2( point, #enemies )
@@ -781,7 +764,6 @@ end
 function modifier_goku_saiyan:OnCreated()
     self.amp = self:GetAbility():GetSpecialValueFor("spell_amplify") + self:GetCaster():FindTalentValue("special_bonus_birzha_goku_5")
 
-
     if not IsServer() then return end
     local bonus = (self:GetAbility():GetSpecialValueFor("bonus_attribute") + self:GetCaster():FindTalentValue("special_bonus_birzha_goku_8") ) / 100
 
@@ -907,19 +889,19 @@ end
 
 function modifier_goku_saiyan:GetModifierModelChange()
     if self:GetAbility():GetLevel() == 1 then
-        self.model = "models/heroes/goku/goku_one.vmdl"
+        self.model = "models/update_heroes/goku/goku_form_1.vmdl"
     end
     if self:GetAbility():GetLevel() == 2 then
-        self.model = "models/heroes/goku/goku_one.vmdl"
+        self.model = "models/update_heroes/goku/goku_form_1.vmdl"
     end
     if self:GetAbility():GetLevel() == 3 then
-        self.model = "models/heroes/goku/goku_two.vmdl"
+        self.model = "models/update_heroes/goku/goku_form_2.vmdl"
     end
     if self:GetAbility():GetLevel() == 4 then
-        self.model = "models/heroes/goku/goku_four.vmdl"
+        self.model = "models/update_heroes/goku/goku_form_3.vmdl"
     end
     if self:GetAbility():GetLevel() == 5 then
-        self.model = "models/heroes/goku/goku_five.vmdl"
+        self.model = "models/update_heroes/goku/goku_form_4.vmdl"
     end
     return self.model
 end

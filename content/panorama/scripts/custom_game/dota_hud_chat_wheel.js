@@ -212,7 +212,7 @@ function StartWheel() {
     $("#PhrasesContainer").RemoveAndDeleteChildren();
     for ( var i = 0; i < 8; i++ )
     {
-        $.CreatePanelWithProperties(`Button`, $("#PhrasesContainer"), `Phrase${i}`, {
+        $.CreatePanel(`Button`, $("#PhrasesContainer"), `Phrase${i}`, {
             class: `MyPhrases`,
             onmouseover: `OnMouseOver(${i})`,
             onmouseout: `OnMouseOut(${i})`,
@@ -303,7 +303,7 @@ function LeftButton()
             onmouseout: `OnMouseOut(${i})`,
         };
 
-        $.CreatePanelWithProperties(`Button`, $("#PhrasesContainer"), `Phrase${i}`, properities_for_panel);
+        $.CreatePanel(`Button`, $("#PhrasesContainer"), `Phrase${i}`, properities_for_panel);
         $("#Phrase"+i).BLoadLayoutSnippet("Phrase");
 
         if (nowselect != 0)
@@ -389,7 +389,7 @@ function RightButton()
             onmouseout: `OnMouseOut(${i})`,
         };
 
-        $.CreatePanelWithProperties(`Button`, $("#PhrasesContainer"), `Phrase${i}`, properities_for_panel);
+        $.CreatePanel(`Button`, $("#PhrasesContainer"), `Phrase${i}`, properities_for_panel);
         $("#Phrase"+i).BLoadLayoutSnippet("Phrase");
 
         if (nowselect != 0)

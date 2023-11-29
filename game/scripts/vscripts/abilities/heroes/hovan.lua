@@ -199,6 +199,7 @@ function modifier_beer_active:DeclareFunctions()
     {
         MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE,
         MODIFIER_PROPERTY_EVASION_CONSTANT,
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
     }
  
     return funcs
@@ -216,16 +217,9 @@ function modifier_beer_active:GetModifierEvasion_Constant()
     return self:GetAbility():GetSpecialValueFor("active_evasion")
 end
 
-
-
-
-
-
-
-
-
-
-
+function modifier_beer_active:GetModifierMoveSpeedBonus_Percentage()
+    return self:GetAbility():GetSpecialValueFor("movespeed")
+end
 
 LinkLuaModifier("modifier_hovan_damage",  "abilities/heroes/hovan.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_hovan_speed",  "abilities/heroes/hovan.lua", LUA_MODIFIER_MOTION_NONE)

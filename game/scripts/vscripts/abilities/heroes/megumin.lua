@@ -82,6 +82,17 @@ function modifier_armageddon_casting:OnIntervalThink()
 	EmitSoundOnLocationWithCaster(point, "Hero_Invoker.SunStrike.Ignite.Apex", self.caster)	
 end
 
+function modifier_armageddon_casting:DeclareFunctions()
+    return
+    {
+        MODIFIER_PROPERTY_OVERRIDE_ANIMATION
+    }
+end
+
+function modifier_armageddon_casting:GetOverrideAnimation()
+    return ACT_DOTA_OVERRIDE_ABILITY_1
+end
+
 LinkLuaModifier("modifier_meteor_fire", "abilities/heroes/megumin.lua", LUA_MODIFIER_MOTION_NONE)
 
 megumin_meteor = class ({})
@@ -92,6 +103,12 @@ end
 
 function megumin_meteor:GetManaCost(level)
     return self.BaseClass.GetManaCost(self, level)
+end
+
+function megumin_meteor:OnAbilityUpgrade( hAbility )
+	if not IsServer() then return end
+	self.BaseClass.OnAbilityUpgrade( self, hAbility )
+	self:EnableAbilityChargesOnTalentUpgrade( hAbility, "special_bonus_unique_megumin_1" )
 end
 
 function megumin_meteor:OnSpellStart()
@@ -107,8 +124,6 @@ function megumin_meteor:OnSpellStart()
         direction = (target_loc - caster_loc):Normalized()
     end
 
-    self.meteor_quest = 0
-	
     local projectile =
     {
         Ability             = self,
@@ -142,11 +157,6 @@ function megumin_meteor:OnProjectileHit(target, location)
 	local fire_duration = self:GetSpecialValueFor("fire_duration")
 	
     if target then
-    	self.meteor_quest = self.meteor_quest + 1
-    	if self.meteor_quest == 2 then
-    		donate_shop:QuestProgress(45, self:GetCaster():GetPlayerOwnerID(), 1)
-    		self.meteor_quest = 0
-    	end
 		target:EmitSound("Hero_WarlockGolem.Attack")
 		target:AddNewModifier(caster, self, "modifier_birzha_stunned_purge", {duration = stun_duration * (1-target:GetStatusResistance())})
         ApplyDamage({victim = target, attacker = caster, ability = self, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
