@@ -77,13 +77,12 @@ end
 
 function modifier_EdwardBil_Agression:OnIntervalThink()
     if not IsServer() then return end
-    if self.target and self.target:IsAlive() then
-        self:GetParent():MoveToTargetToAttack(self.target)
-    end
     if self.target == nil or not self.target:IsAlive() or self.target:HasModifier("modifier_fountain_passive_invul") or ( self.target:IsInvisible() and not self:GetParent():CanEntityBeSeenByMyTeam(self.target) ) then
         if not self:IsNull() then
             self:Destroy()
         end
+    else
+        self:GetParent():MoveToTargetToAttack(self.target)
     end
 end
 

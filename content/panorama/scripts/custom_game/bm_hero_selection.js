@@ -59,6 +59,8 @@ var heroes =
     "npc_dota_hero_thomas_bebra": true,
     "npc_dota_hero_serega_pirat" : true,
     "npc_dota_hero_venom" : true,
+    "npc_dota_hero_faceless_void" : true,
+    "npc_dota_hero_kelthuzad" : true,
 };  
 
 var strength_heroes = 
@@ -176,6 +178,7 @@ var intellect_heroes =
     "npc_dota_hero_rubick",
     "npc_dota_hero_techies",
     "npc_dota_hero_leshrac",
+    "npc_dota_hero_kelthuzad",
 ]
 
 var heroes_ids = 
@@ -321,6 +324,7 @@ var heroes_ids =
     npc_dota_hero_freddy:178,
     npc_dota_hero_travoman:176,
     npc_dota_hero_overlord:170,
+    npc_dota_hero_kelthuzad:185,
 }
 
 var selected_hero

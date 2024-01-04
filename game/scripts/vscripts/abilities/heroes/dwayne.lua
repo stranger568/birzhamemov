@@ -696,6 +696,12 @@ function dwayne_fight_of_death:OnSpellStart()
     self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_dwayne_fight_of_death", { duration = duration, pos_x = point.x, pos_y = point.y })
 end
 
+dwayne_fight_of_death_cancel = class({})
+function dwayne_fight_of_death_cancel:OnSpellStart()
+    if not IsServer() then return end
+    self:GetCaster():RemoveModifierByName("modifier_dwayne_fight_of_death")
+end
+
 function dwayne_fight_of_death:OnProjectileHit( target, location )
     if not IsServer() then return end
     if not target then return end
@@ -788,6 +794,14 @@ function modifier_dwayne_fight_of_death:OnCreated( kv )
         iVisionTeamNumber = self:GetCaster():GetTeamNumber()
     }
 
+    local dwayne_fight_of_death_cancel = self:GetCaster():FindAbilityByName("dwayne_fight_of_death_cancel")
+    if dwayne_fight_of_death_cancel then
+        dwayne_fight_of_death_cancel:SetLevel(1)
+        dwayne_fight_of_death_cancel:StartCooldown(1)
+    end
+
+    self:GetCaster():SwapAbilities("dwayne_fight_of_death", "dwayne_fight_of_death_cancel", false, true)
+
     self:StartIntervalThink( interval )
     self:OnIntervalThink()
 end
@@ -845,6 +859,11 @@ function modifier_dwayne_fight_of_death:CheckState()
         [MODIFIER_STATE_DISARMED] = true,
     }
     return state
+end
+
+function modifier_dwayne_fight_of_death:OnDestroy()
+    if not IsServer() then return end
+    self:GetCaster():SwapAbilities("dwayne_fight_of_death_cancel", "dwayne_fight_of_death", false, true)
 end
 
 function modifier_dwayne_fight_of_death:OnIntervalThink()

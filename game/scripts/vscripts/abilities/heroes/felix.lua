@@ -607,14 +607,12 @@ function modifier_Felix_WaterShield:OnTakeDamage(keys)
 		local ability = self:GetAbility()
 		local attacker = keys.attacker
 		local target = keys.unit
-
 		if not self:GetCaster():HasTalent("special_bonus_birzha_felix_8") then
 			return
 		end
-
 		if attacker:GetTeamNumber() ~= parent:GetTeamNumber() and parent == target and not attacker:IsWard() then
 			if bit.band(keys.damage_flags, DOTA_DAMAGE_FLAG_HPLOSS) ~= DOTA_DAMAGE_FLAG_HPLOSS and bit.band(keys.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then
-				self.GushReturn = 
+				local GushReturn = 
 				{
 					Target = attacker,
 				 	Source = target,
@@ -633,7 +631,13 @@ function modifier_Felix_WaterShield:OnTakeDamage(keys)
 						damage_type = keys.damage_type
 					}                        
 				}
-				ProjectileManager:CreateTrackingProjectile(self.GushReturn)
+                if attacker:IsHero() then
+				    ProjectileManager:CreateTrackingProjectile(GushReturn)
+                else
+                    if target:GetUnitName() ~= "dota_fountain" then
+                        ApplyDamage({victim = target, attacker = caster, damage = keys.original_damage, damage_flags = DOTA_DAMAGE_FLAG_REFLECTION + DOTA_DAMAGE_FLAG_NO_SPELL_LIFESTEAL + DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION, damage_type = keys.damage_type, ability = self:GetAbility()})
+                    end
+                end
 			end
 		end
 	end

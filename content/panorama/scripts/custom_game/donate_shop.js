@@ -31,6 +31,8 @@ var player_table_bp_owner = CustomNetTables.GetTableValue("birzhainfo", String(P
 CustomNetTables.SubscribeNetTableListener( "birzhashop", UpdatePlayerShopTable );
 CustomNetTables.SubscribeNetTableListener( "birzhainfo", UpdatePlayerPassTable );
 
+var sound_preview = null;
+
 function UpdatePlayerShopTable(table, key, data ) 
 {
 	if (table == "birzhashop") 
@@ -91,6 +93,13 @@ var Items_dogecoins = [
 ]
 
 //////////МАССИВ ПИТОМЦЕВ///////////
+
+
+
+
+
+
+
 
 var Items_pets = [
 	["1", "gem", "1500", "pet_1", "pet_1", false], 
@@ -183,114 +192,142 @@ var Items_currency = [
 
 var Items_sounds = 
 [
-	["52",  "gold", "100", "sound_1", "sounds_1", false], 
-	["53",  "gold", "100", "sound_2", "sounds_2", false], 
-	["54",  "gold", "100", "sound_3", "sounds_3", false], 
-	["55",  "gold", "100", "sound_4", "sounds_4", false],
-	["56",  "gold", "100", "sound_5", "sounds_5", false], 
-	["57",  "gold", "100", "sound_6", "sounds_6", false], 
-	["58",  "gold", "100", "sound_7", "sounds_7", false], 
-	["59",  "gold", "100", "sound_8", "sounds_8", false], 
-	["60",  "gold", "200", "sound_9", "sounds_9", false], 
-	["61",  "gold", "100", "sound_10", "sounds_10", false], 
-	["62",  "gold", "100", "sound_11", "sounds_11", false], 
-	["63",  "gold", "100", "sound_12", "sounds_12", false], 
-	["64",  "gold", "100", "sound_13", "sounds_13", false], 
-	["65",  "gold", "100", "sound_14", "sounds_14", false], 
-	["66",  "gold", "100", "sound_15", "sounds_15", false], 
-	["67",  "gold", "100", "sound_16", "sounds_16", false],
-	["68",  "gold", "200", "sound_17", "sounds_17", false], 
-	["69",  "gold", "100", "sound_18", "sounds_18", false], 
-	["70",  "gold", "200", "sound_19", "sounds_19", false], 
-	["71",  "gold", "100", "sound_20", "sounds_20", false], 
-	["72",  "gold", "100", "sound_21", "sounds_21", false], 
-	["73",  "gold", "100", "sound_22", "sounds_22", false], 
-	["74",  "gold", "500", "sound_23", "sounds_23", false], 
-	["75",  "gold", "200", "sound_24", "sounds_24", false],
-	["76",  "gold", "200", "sound_25", "sounds_25", false], 
-	["77",  "gold", "500", "sound_26", "sounds_26", false], 
-	["78",  "gold", "100", "sound_27", "sounds_27", false], 
-	["79",  "gold", "100", "sound_28", "sounds_28", false], 
-	["80",  "gold", "100", "sound_29", "sounds_29", false], 
-	["81",  "gold", "500", "sound_30", "sounds_30", false], 
-	["82",  "gold", "500", "sound_31", "sounds_31", false], 
-	["83",  "gold", "100", "sound_32", "sounds_32", false], 
-	["84",  "gold", "100", "sound_33", "sounds_33", false], 
-	["85",  "gold", "100", "sound_34", "sounds_34", false], 
-	["86",  "gold", "100", "sound_35", "sounds_35", false], 
-	["87",  "gold", "200", "sound_36", "sounds_36", false], 
-	["113", "gold", "1000", "sound_37", "sounds_37", false], 
-	["114", "gold", "100", "sound_38", "sounds_38", false], 
-	["118", "gold", "200", "sound", "sounds_39", false], 
-	["119", "gold", "100", "sound", "sounds_40", false], 
-	["120", "gold", "100", "sound", "sounds_41", false], 
-	["121", "gold", "100", "sound", "sounds_42", false], 
-	["122", "gold", "100", "sound", "sounds_43", false], 
-	["123", "gold", "2000", "sound", "sounds_44", false], 
-	["131", "gold", "200", "sound", "sounds_45", false], 
-	["132", "gold", "100", "sound", "sounds_46", false], 
-	["133", "gold", "200", "sound", "sounds_47", false], 
-	["134", "gold", "100", "sound", "sounds_48", false], 
+	["52",  "gold", "50", "sound_1", "sounds_1", false, 0], 
+	["53",  "gold", "50", "sound_2", "sounds_2", false, 0], 
+	["54",  "gold", "50", "sound_3", "sounds_3", false, 0], 
+	["55",  "gold", "50", "sound_4", "sounds_4", false, 0],
+	["56",  "gold", "50", "sound_5", "sounds_5", false, 0], 
+	["57",  "gold", "50", "sound_6", "sounds_6", false, 0], 
+	["58",  "gold", "50", "sound_7", "sounds_7", false, 0], 
+	["59",  "gold", "50", "sound_8", "sounds_8", false, 0], 
+	["60",  "gold", "200", "sound_9", "sounds_9", false, 0], 
+	["61",  "gold", "50", "sound_10", "sounds_10", false, 0], 
+	["62",  "gold", "50", "sound_11", "sounds_11", false, 0], 
+	["63",  "gold", "50", "sound_12", "sounds_12", false, 0], 
+	["64",  "gold", "50", "sound_13", "sounds_13", false, 0], 
+	["65",  "gold", "50", "sound_14", "sounds_14", false, 0], 
+	["66",  "gold", "50", "sound_15", "sounds_15", false, 0], 
+	["67",  "gold", "50", "sound_16", "sounds_16", false, 0],
+	["68",  "gold", "200", "sound_17", "sounds_17", false, 0], 
+	["69",  "gold", "50", "sound_18", "sounds_18", false, 0], 
+	["70",  "gold", "200", "sound_19", "sounds_19", false, 0], 
+	["71",  "gold", "50", "sound_20", "sounds_20", false, 0], 
+	["72",  "gold", "50", "sound_21", "sounds_21", false, 0], 
+	["73",  "gold", "50", "sound_22", "sounds_22", false, 0], 
+	["74",  "gold", "500", "sound_23", "sounds_23", false, 0], 
+	["75",  "gold", "200", "sound_24", "sounds_24", false, 0],
+	["76",  "gold", "200", "sound_25", "sounds_25", false, 0], 
+	["77",  "gold", "500", "sound_26", "sounds_26", false, 0], 
+	["78",  "gold", "50", "sound_27", "sounds_27", false, 0], 
+	["79",  "gold", "50", "sound_28", "sounds_28", false, 0], 
+	["80",  "gold", "50", "sound_29", "sounds_29", false, 0], 
+	["81",  "gold", "500", "sound_30", "sounds_30", false, 0], 
+	["82",  "gold", "500", "sound_31", "sounds_31", false, 0], 
+	["83",  "gold", "50", "sound_32", "sounds_32", false, 0], 
+	["84",  "gold", "50", "sound_33", "sounds_33", false, 0], 
+	["85",  "gold", "50", "sound_34", "sounds_34", false, 0], 
+	["86",  "gold", "50", "sound_35", "sounds_35", false, 0], 
+	["87",  "gold", "200", "sound_36", "sounds_36", false, 0], 
+	["113", "gold", "1000", "sound_37", "sounds_37", false, 0], 
+	["114", "gold", "50", "sound_38", "sounds_38", false, 0], 
+	["118", "gold", "200", "sound", "sounds_39", false, 0], 
+	["119", "gold", "50", "sound", "sounds_40", false, 0], 
+	["120", "gold", "50", "sound", "sounds_41", false, 0], 
+	["121", "gold", "50", "sound", "sounds_42", false, 0], 
+	["122", "gold", "50", "sound", "sounds_43", false, 0], 
+	["123", "gold", "2000", "sound", "sounds_44", false, 0], 
+	["131", "gold", "200", "sound", "sounds_45", false, 0], 
+	["132", "gold", "50", "sound", "sounds_46", false, 0], 
+	["133", "gold", "200", "sound", "sounds_47", false, 0], 
+	["134", "gold", "50", "sound", "sounds_48", false, 0], 
+
+    // Слово пацана
+    ["270", "gold", "50", "sound", "sounds_270", false, 0], 
+    ["271", "gold", "50", "sound", "sounds_271", false, 0], 
+    ["272", "gold", "50", "sound", "sounds_272", false, 0], 
+    ["273", "gold", "50", "sound", "sounds_273", false, 0], 
+    ["274", "gold", "50", "sound", "sounds_274", false, 0], 
+
+    // Тинькофф
+    ["275", "gold", "50", "sound", "sounds_275", false, 1], 
+    ["276", "gold", "50", "sound", "sounds_276", false, 1], 
+    ["277", "gold", "50", "sound", "sounds_277", false, 1], 
+    ["278", "gold", "50", "sound", "sounds_278", false, 1], 
+    ["279", "gold", "50", "sound", "sounds_279", false, 1], 
+    ["280", "gold", "50", "sound", "sounds_280", false, 1], 
+    ["281", "gold", "50", "sound", "sounds_281", false, 1], 
+    ["282", "gold", "50", "sound", "sounds_282", false, 1], 
+    ["283", "gold", "50", "sound", "sounds_283", false, 1], 
+    ["284", "gold", "50", "sound", "sounds_284", false, 1], 
+    ["285", "gold", "50", "sound", "sounds_285", false, 1], 
+    ["286", "gold", "50", "sound", "sounds_286", false, 1], 
+    ["287", "gold", "50", "sound", "sounds_287", false, 1], 
+    ["288", "gold", "50", "sound", "sounds_288", false, 1], 
+    ["289", "gold", "50", "sound", "sounds_289", false, 1], 
+    ["290", "gold", "50", "sound", "sounds_290", false, 1], 
+    ["291", "gold", "50", "sound", "sounds_291", false, 1],
+    ["292", "gold", "50", "sound", "sounds_292", false, 1], 
+    ["293", "gold", "50", "sound", "sounds_293", false, 1], 
 ]
 
 var Items_sprays = 
 [
-	["88",  "gem", "100", "spray_1", "spray_1", false], 
-	["89",  "gem", "100", "spray_2", "spray_2", false], 
-	["90",  "gem", "100", "spray_3", "spray_3", false], 
-	["91",  "gem", "100", "spray_4", "spray_4", false], 
-	["92",  "gem", "100", "spray_5", "spray_5", false], 
-	["93",  "gem", "100", "spray_6", "spray_6", false], 
-	["94",  "gem", "100", "spray_7", "spray_7", false], 
-	["95",  "gem", "100", "spray_8", "spray_8", false],
-	["96",  "gem", "100", "spray_9", "spray_9", false], 
-	["97",  "gem", "100", "spray_10", "spray_10", false], 
-	["98",  "gem", "100", "spray_11", "spray_11", false], 
-	["99",  "gem", "100", "spray_12", "spray_12", false], 
-	["100",  "gem", "100", "spray_13", "spray_13", false], 
-	["101",  "gem", "100", "spray_14", "spray_14", false], 
-	["102",  "gem", "100", "spray_15", "spray_15", false], 
-	["103",  "gem", "100", "spray_16", "spray_16", false],
-	["104",  "gem", "100", "spray_17", "spray_17", false], 
-	["105",  "gem", "100", "spray_18", "spray_18", false], 
-	["106",  "gem", "100", "spray_19", "spray_19", false], 
-	["107",  "gem", "100", "spray_20", "spray_20", false],
-	["108",  "gem", "100", "spray_21", "spray_21", false], 
-	["109",  "gem", "100", "spray_22", "spray_22", false], 
-	["110",  "gem", "100", "spray_23", "spray_23", false], 
-	["111",  "gem", "100", "spray_24", "spray_24", false],  
+	["88",  "gem", "100", "spray_1", "spray_1", false, 0], 
+	["89",  "gem", "100", "spray_2", "spray_2", false, 0], 
+	["90",  "gem", "100", "spray_3", "spray_3", false, 0], 
+	["91",  "gem", "100", "spray_4", "spray_4", false, 0], 
+	["92",  "gem", "100", "spray_5", "spray_5", false, 0], 
+	["93",  "gem", "100", "spray_6", "spray_6", false, 0], 
+	["94",  "gem", "100", "spray_7", "spray_7", false, 0], 
+	["95",  "gem", "100", "spray_8", "spray_8", false, 0],
+	["96",  "gem", "100", "spray_9", "spray_9", false, 0], 
+	["97",  "gem", "100", "spray_10", "spray_10", false, 0], 
+	["98",  "gem", "100", "spray_11", "spray_11", false, 0], 
+	["99",  "gem", "100", "spray_12", "spray_12", false, 0], 
+	["100",  "gem", "100", "spray_13", "spray_13", false, 0], 
+	["101",  "gem", "100", "spray_14", "spray_14", false, 0], 
+	["102",  "gem", "100", "spray_15", "spray_15", false, 0], 
+	["103",  "gem", "100", "spray_16", "spray_16", false, 0],
+	["104",  "gem", "100", "spray_17", "spray_17", false, 0], 
+	["105",  "gem", "100", "spray_18", "spray_18", false, 0], 
+	["106",  "gem", "100", "spray_19", "spray_19", false, 0], 
+	["107",  "gem", "100", "spray_20", "spray_20", false, 0],
+	["108",  "gem", "100", "spray_21", "spray_21", false, 0], 
+	["109",  "gem", "100", "spray_22", "spray_22", false, 0], 
+	["110",  "gem", "100", "spray_23", "spray_23", false, 0], 
+	["111",  "gem", "100", "spray_24", "spray_24", false, 0],  
 ]
 
 var Items_borders = 
 [ 
-	["112",  "gold", "1500", "border_1", "border_1", false], 
-	["115",  "gem", "1000", "border_2", "border_2", false], 
-	["116",  "gold", "1500", "border_3", "border_3", false], 
-	["117",  "gold", "1500", "border_4", "border_4", false], 
-	["127",  "gold", "1500", "border_5", "border_5", false], 
-	["128",  "gold", "1500", "border_6", "border_6", false], 
-	["129",  "gem", "1000", "border_7", "border_7", false], 
-	["164",  "gold", "1500", "border_8", "border_8", false], 
+	["112",  "gold", "1500", "border_1", "border_1", false, 0], 
+	["115",  "gem", "1000", "border_2", "border_2", false, 0], 
+	["116",  "gold", "1500", "border_3", "border_3", false, 0], 
+	["117",  "gold", "1500", "border_4", "border_4", false, 0], 
+	["127",  "gold", "1500", "border_5", "border_5", false, 0], 
+	["128",  "gold", "1500", "border_6", "border_6", false, 0], 
+	["129",  "gem", "1000", "border_7", "border_7", false, 0], 
+	["164",  "gold", "1500", "border_8", "border_8", false, 0], 
 ]
 
 var Items_toys = [ 
-	["124",  "gold", "500", "toys_1", "toys_1", false], 
-	["125",  "gem", "500", "toys_2", "toys_2", false], 
+	["124",  "gold", "500", "toys_1", "toys_1", false, 0], 
+	["125",  "gem", "500", "toys_2", "toys_2", false, 0], 
 ]
 
 
 var Items_toys_bp = [ 
-	["184",  "gold", "9999999", "toys_3", "toys_3", false], 
+	["184",  "gold", "9999999", "toys_3", "toys_3", false, 0], 
 ]
 
 var Items_sprays_bp = 
 [
-	["249",  "gem", "9999999", "spray_249", "spray_249", false], 
-	["250",  "gem", "9999999", "spray_250", "spray_250", false], 
-	["251",  "gem", "9999999", "spray_251", "spray_251", false], 
-	["252",  "gem", "9999999", "spray_252", "spray_252", false], 
-	["253",  "gem", "9999999", "spray_253", "spray_253", false],
-	["254",  "gem", "9999999", "spray_254", "spray_254", false],    
+	["249",  "gem", "9999999", "spray_249", "spray_249", false, 0], 
+	["250",  "gem", "9999999", "spray_250", "spray_250", false, 0], 
+	["251",  "gem", "9999999", "spray_251", "spray_251", false, 0], 
+	["252",  "gem", "9999999", "spray_252", "spray_252", false, 0], 
+	["253",  "gem", "9999999", "spray_253", "spray_253", false, 0],
+	["254",  "gem", "9999999", "spray_254", "spray_254", false, 0],    
 ]
 
 var sounds_lotereya =
@@ -530,7 +567,7 @@ function InitItems()
 
 	Items_sounds.sort(function (a, b) 
 	{
-	  	return Number(a[2])-Number(b[2])
+	  	return Number(b[6])-Number(a[6])
 	});
 
 	Items_dogecoins.sort(function (a, b) 
@@ -699,6 +736,15 @@ function CreateItemInShop(panel, table, i)
     Recom_item.AddClass("ItemShop");
     SetItemBuyFunction(Recom_item, table[i])
 
+    if ( (table[i][6] != null) && (table[i][6] == true || table[i][6] == 1) )
+    {
+        var NewItemInfo = $.CreatePanel("Panel", Recom_item, "");
+        NewItemInfo.AddClass("NewItemInfoItem");
+        var NewItemInfoLabel = $.CreatePanel("Label", NewItemInfo, "");
+        NewItemInfoLabel.AddClass("NewItemInfoLabelItem"); 
+        NewItemInfoLabel.text = $.Localize("#new_item_info")
+    }
+
     var ItemImage = $.CreatePanel("Panel", Recom_item, "");
     ItemImage.AddClass("ItemImage");
     ItemImage.style.backgroundImage = 'url("file://{images}/custom_game/shop/itemicon/' + table[i][3] + '.png")';
@@ -808,6 +854,11 @@ function CloseItemInfo()
 {
   	$("#info_item_buy").style.visibility = "collapse"
   	$("#ItemInfoBody").RemoveAndDeleteChildren()
+    if (sound_preview != null)
+    {
+        Game.StopSound(sound_preview)
+        sound_preview = null
+    }
 }
 
 function SetItemBuyFunction(panel, table)
@@ -822,7 +873,7 @@ function SetItemBuyFunction(panel, table)
         {
     		if (table[4].indexOf("sounds") == 0)
             {
-    			Game.EmitSound("item_wheel_"+table[0])
+    			sound_preview = Game.EmitSound("item_wheel_"+table[0])
     		}
 
     		$("#ItemInfoBody").style.flowChildren = "down"
@@ -2058,32 +2109,55 @@ function UselessFunction()
     {
         UselessFunction()
     })
-    let ShopButton = parentHUDElements.FindChildTraverse("ShopButton")
-    let BirzhaPlusButton = parentHUDElements.FindChildTraverse("BirzhaPlusButton")
-    var player_table = CustomNetTables.GetTableValue('birzhainfo', String(Players.GetLocalPlayer()))
-	if (player_table)
-	{
-        if (player_table.games > 1)
+    if (parentHUDElements)
+    {
+        let ShopButton = parentHUDElements.FindChildTraverse("ShopButton")
+        let BirzhaPlusButton = parentHUDElements.FindChildTraverse("BirzhaPlusButton")
+        var player_table = CustomNetTables.GetTableValue('birzhainfo', String(Players.GetLocalPlayer()))
+        if (player_table)
         {
-            if (ShopButton)
+            if (player_table.games > 1)
             {
-                ShopButton.style.opacity = "1"
+                if (ShopButton)
+                {
+                    ShopButton.style.opacity = "1"
+                }
+                if (BirzhaPlusButton)
+                {
+                    BirzhaPlusButton.style.opacity = "1"
+                }
+                if (INFORMATION_NEW_ITEMS)
+                {
+                    INFORMATION_NEW_ITEMS = false
+                    NewItemsInfo()
+                }
+                return
             }
-            if (BirzhaPlusButton)
-            {
-                BirzhaPlusButton.style.opacity = "1"
-            }
-            return
+        }
+        if (ShopButton)
+        {
+            ShopButton.style.opacity = "0"
+        }
+        if (BirzhaPlusButton)
+        {
+            BirzhaPlusButton.style.opacity = "0"
         }
     }
-    if (ShopButton)
-    {
-        ShopButton.style.opacity = "0"
-    }
-    if (BirzhaPlusButton)
-    {
-        BirzhaPlusButton.style.opacity = "0"
-    }
 }
+
+function NewItemsInfo()
+{
+    $("#NewItemsInfo").style.opacity = "1"
+    $.Schedule( 10, function()
+    {
+        $("#NewItemsInfo").style.opacity = "0"
+    })
+    $("#NewItemsInfo").SetPanelEvent('onmouseover', function() 
+    {
+        $("#NewItemsInfo").style.opacity = "0"
+    });
+}
+
+var INFORMATION_NEW_ITEMS = true
 
 UselessFunction()

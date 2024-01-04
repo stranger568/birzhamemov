@@ -1,0 +1,919 @@
+"phantom_assassin_phass_spawn_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_spawn_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "7.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_spawn_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_spawn_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "7.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_move_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_move_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_move_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_move_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_move_03"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_move_03.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_move_04"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_move_04.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_move_05"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_move_05.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_move_06"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_move_06.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_move_07"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_move_07.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_move_08"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_move_08.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_move_09"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_move_09.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "3.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_move_10"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_move_10.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_move_11"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_move_11.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "3.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_attack_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_attack_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_attack_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_attack_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_attack_03"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_attack_03.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_attack_04"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_attack_04.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_attack_05"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_attack_05.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_attack_06"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_attack_06.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_kill_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_kill_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "3.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_kill_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_kill_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "3.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_kill_03"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_kill_03.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_respawn_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_respawn_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "3.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_pain_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_pain_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "3.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_pain_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_pain_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_thanks_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_thanks_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_thanks_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_thanks_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_thanks_03"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_thanks_03.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_thanks_04"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_thanks_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+
+"phantom_assassin_phass_death_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_death_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.695714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_death_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_death_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.695714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_death_03"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_death_03.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.695714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_laugh_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_laught_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "6.695714"  }
+                }
+            }
+        }
+    }
+}
+"phantom_assassin_phass_laugh_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/yuno_gasai/voice/yuno_laught_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "6.695714"  }
+                }
+            }
+        }
+    }
+}

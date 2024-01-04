@@ -354,7 +354,7 @@ function modifier_gorin_rabies_primary:OnCreated()
         end
     end
 
-    local attack_per_second = self:GetParent():GetAttackSpeed() / self:GetParent():GetBaseAttackTime()
+    local attack_per_second = self:GetParent():GetAttackSpeed(true) / self:GetParent():GetBaseAttackTime()
     local interval = 1 / attack_per_second
     self:StartIntervalThink(interval)
 end

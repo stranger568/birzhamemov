@@ -17,117 +17,71 @@ end
 
 function Kurumi_eight_bullet:OnSpellStart()
     if not IsServer() then return end
-
     self:GetCaster():EmitSound("Hero_PhantomLancer.Doppelganger.Cast")
-
     local doppleganger_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_phantom_lancer/phantom_lancer_doppleganger_aoe.vpcf", PATTACH_WORLDORIGIN, self:GetCaster())
     ParticleManager:SetParticleControl(doppleganger_particle, 0, self:GetCaster():GetAbsOrigin())
     ParticleManager:SetParticleControl(doppleganger_particle, 2, Vector(self:GetSpecialValueFor("target_aoe"), self:GetSpecialValueFor("target_aoe"), self:GetSpecialValueFor("target_aoe")))
     ParticleManager:SetParticleControl(doppleganger_particle, 3, Vector(self:GetSpecialValueFor("delay"), 0, 0))
     ParticleManager:ReleaseParticleIndex(doppleganger_particle)
-
     self.forward = self:GetCaster():GetForwardVector()
-
     self.first_unit = nil
     self.new_pos    = nil
-    
-    local affected_units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, self:GetSpecialValueFor("search_radius"), DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED, FIND_ANY_ORDER, false)
-    
-    if not self.illusion_1 or self.illusion_1:IsNull() or not self.illusion_1:IsAlive() then
-        self.illusion_1 = BirzhaCreateIllusion(self:GetCaster(), self:GetCaster(), 
-        {
-            outgoing_damage = self:GetSpecialValueFor("illusion_1_damage_out_pct"),
-            incoming_damage = self:GetSpecialValueFor("illusion_1_damage_in_pct"),
-            bounty_base     = 5,
-            bounty_growth   = nil,
-            outgoing_damage_structure   = nil,
-            outgoing_damage_roshan      = nil,
-            duration        = self:GetSpecialValueFor("illusion_duration") + self:GetSpecialValueFor("delay")
-        }
-        , 1, self:GetCaster():GetHullRadius(), false, true)[1]
-        
-        self.illusion_1:AddNewModifier(self:GetCaster(), self, "modifier_phantom_lancer_doppelwalk_illusion", {})
-        self.illusion_1:AddNewModifier(self:GetCaster(), self, "modifier_phantom_lancer_juxtapose_illusion", {})
-    else
-        self.illusion_1:SetHealth(self:GetCaster():GetHealth())
-        self.illusion_1:FindModifierByName("modifier_illusion"):SetDuration(self:GetSpecialValueFor("illusion_duration") + self:GetSpecialValueFor("delay"), true)
-    end
-    
-    table.insert(affected_units, self.illusion_1)
-    
-    if not self.illusion_2 or self.illusion_2:IsNull() or not self.illusion_2:IsAlive() then
-        self.illusion_2 = BirzhaCreateIllusion(self:GetCaster(), self:GetCaster(), 
-        {
-            outgoing_damage = self:GetSpecialValueFor("illusion_2_damage_out_pct"),
-            incoming_damage = self:GetSpecialValueFor("illusion_2_damage_in_pct"),
-            bounty_base     = 5,
-            bounty_growth   = nil,
-            outgoing_damage_structure   = nil,
-            outgoing_damage_roshan      = nil,
-            duration        = self:GetSpecialValueFor("illusion_duration") + self:GetSpecialValueFor("delay")
-        }
-        , 1, self:GetCaster():GetHullRadius(), false, true)[1]
-        
-        self.illusion_2:AddNewModifier(self:GetCaster(), self, "modifier_phantom_lancer_doppelwalk_illusion", {})
-        self.illusion_2:AddNewModifier(self:GetCaster(), self, "modifier_phantom_lancer_juxtapose_illusion", {})
-    else
-        self.illusion_2:SetHealth(self:GetCaster():GetHealth())
-        self.illusion_2:FindModifierByName("modifier_illusion"):SetDuration(self:GetSpecialValueFor("illusion_duration") + self:GetSpecialValueFor("delay"), true)
-    end
-    
-    table.insert(affected_units, self.illusion_2)
-
+    local illusion_count = 2
     if self:GetCaster():HasTalent("special_bonus_birzha_kurumi_8") then
-        if not self.illusion_3 or self.illusion_3:IsNull() or not self.illusion_3:IsAlive() then
-            self.illusion_3 = BirzhaCreateIllusion(self:GetCaster(), self:GetCaster(), 
-            {
-                outgoing_damage = self:GetSpecialValueFor("illusion_2_damage_out_pct"),
-                incoming_damage = self:GetSpecialValueFor("illusion_2_damage_in_pct"),
-                bounty_base     = 5,
-                bounty_growth   = nil,
-                outgoing_damage_structure   = nil,
-                outgoing_damage_roshan      = nil,
-                duration        = self:GetSpecialValueFor("illusion_duration") + self:GetSpecialValueFor("delay")
-            }
-            , 1, self:GetCaster():GetHullRadius(), false, true)[1]
-            
-            self.illusion_3:AddNewModifier(self:GetCaster(), self, "modifier_phantom_lancer_doppelwalk_illusion", {})
-            self.illusion_3:AddNewModifier(self:GetCaster(), self, "modifier_phantom_lancer_juxtapose_illusion", {})
-        else
-            self.illusion_3:SetHealth(self:GetCaster():GetHealth())
-            self.illusion_3:FindModifierByName("modifier_illusion"):SetDuration(self:GetSpecialValueFor("illusion_duration") + self:GetSpecialValueFor("delay"), true)
-        end
-        
-        table.insert(affected_units, self.illusion_3)
+        illusion_count = 3
     end
-
-    for _, unit in pairs(affected_units) do
-        if unit:GetPlayerOwnerID() == self:GetCaster():GetPlayerOwnerID() and (unit == self:GetCaster() or unit:IsIllusion()) then
-            unit:Purge(false, true, false, false, false)
-    
-            ProjectileManager:ProjectileDodge(unit)
-            
-            if not self.first_unit then
-                self.first_unit = unit:entindex()
-                self.new_pos    = self:GetCursorPosition()
-            else
-                if RollPercentage(50) then
-                    self.new_pos    = self:GetCursorPosition() + Vector(RandomInt(-self:GetSpecialValueFor("target_aoe"), self:GetSpecialValueFor("target_aoe")), 0, 0)
-                else
-                    self.new_pos    = self:GetCursorPosition() + Vector(0, RandomInt(-self:GetSpecialValueFor("target_aoe"), self:GetSpecialValueFor("target_aoe")), 0)
-                end
-            end
-            
-            unit:AddNewModifier(self:GetCaster(), self, "modifier_Kurumi_eight_bullet", {
-                duration    = self:GetSpecialValueFor("delay"),
-                pos_x       = self:GetCursorPosition().x,
-                pos_y       = self:GetCursorPosition().y,
-                pos_z       = self:GetCursorPosition().z,
-                new_pos_x   = self.new_pos.x,
-                new_pos_y   = self.new_pos.y,
-                new_pos_z   = self.new_pos.z
-            })
+    local illusions_list = {}
+    table.insert(illusions_list, self:GetCaster())
+    local affected_units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, self:GetSpecialValueFor("search_radius"), DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED, FIND_ANY_ORDER, false)
+    for _, illusion_old in pairs(affected_units) do
+        if illusion_old and illusion_old:IsIllusion() and illusion_old:GetPlayerOwnerID() == self:GetCaster():GetPlayerOwnerID() then
+            table.insert(illusions_list, illusion_old)
         end
+    end
+    for i=1,illusion_count do
+        local outgoing_damage = self:GetSpecialValueFor("illusion_1_damage_out_pct")
+        local incoming_damage = self:GetSpecialValueFor("illusion_1_damage_in_pct")
+        if i > 1 then
+            outgoing_damage = self:GetSpecialValueFor("illusion_2_damage_out_pct")
+            incoming_damage = self:GetSpecialValueFor("illusion_2_damage_in_pct")
+        end
+        local illusions = BirzhaCreateIllusion(self:GetCaster(), self:GetCaster(), 
+        {
+            outgoing_damage = outgoing_damage,
+            incoming_damage = incoming_damage,
+            bounty_base     = 5,
+            bounty_growth   = nil,
+            outgoing_damage_structure   = nil,
+            outgoing_damage_roshan      = nil,
+            duration        = self:GetSpecialValueFor("illusion_duration") + self:GetSpecialValueFor("delay")
+        } , 1, self:GetCaster():GetHullRadius(), true, true)
+        illusions[1]:AddNewModifier(self:GetCaster(), self, "modifier_phantom_lancer_doppelwalk_illusion", {})
+        illusions[1]:AddNewModifier(self:GetCaster(), self, "modifier_phantom_lancer_juxtapose_illusion", {})
+        table.insert(illusions_list, illusions[1])
+    end
+    for _, unit in pairs(illusions_list) do
+        unit:Purge(false, true, false, false, false)
+        ProjectileManager:ProjectileDodge(unit)
+        if not self.first_unit then
+            self.first_unit = unit:entindex()
+            self.new_pos    = self:GetCursorPosition()
+        else
+            if RollPercentage(50) then
+                self.new_pos = self:GetCursorPosition() + Vector(RandomInt(-self:GetSpecialValueFor("target_aoe"), self:GetSpecialValueFor("target_aoe")), 0, 0)
+            else
+                self.new_pos = self:GetCursorPosition() + Vector(0, RandomInt(-self:GetSpecialValueFor("target_aoe"), self:GetSpecialValueFor("target_aoe")), 0)
+            end
+        end
+        unit:AddNewModifier(self:GetCaster(), self, "modifier_Kurumi_eight_bullet", 
+        {
+            duration    = self:GetSpecialValueFor("delay"),
+            pos_x       = self:GetCursorPosition().x,
+            pos_y       = self:GetCursorPosition().y,
+            pos_z       = self:GetCursorPosition().z,
+            new_pos_x   = self.new_pos.x,
+            new_pos_y   = self.new_pos.y,
+            new_pos_z   = self.new_pos.z
+        })
     end
 end
 
@@ -140,17 +94,15 @@ function modifier_Kurumi_eight_bullet:OnCreated(keys)
     if not IsServer() then return end
     
     self.new_pos = Vector(keys.new_pos_x, keys.new_pos_y, keys.new_pos_z)
-    
-    self:GetParent():AddNoDraw()
+
+    Timers:CreateTimer(FrameTime(), function()
+        self:GetParent():AddNoDraw()
+    end)
     
     local doppleganger_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_phantom_lancer/phantom_lancer_doppleganger_illlmove.vpcf", PATTACH_WORLDORIGIN, self:GetParent())
     ParticleManager:SetParticleControl(doppleganger_particle, 0, self:GetParent():GetAbsOrigin())
     ParticleManager:SetParticleControl(doppleganger_particle, 1, self.new_pos + Vector(0,0,75))
     self:AddParticle(doppleganger_particle, false, false, -1, false, false)
-    
-    if self:GetParent():IsIllusion() and self:GetParent():HasModifier("modifier_illusion") then
-        self:GetParent():FindModifierByName("modifier_illusion"):SetDuration(self:GetParent():FindModifierByName("modifier_illusion"):GetRemainingTime() + self:GetAbility():GetSpecialValueFor("illusion_extended_duration"), true)
-    end
 end
 
 function modifier_Kurumi_eight_bullet:OnDestroy()
@@ -177,7 +129,6 @@ function modifier_Kurumi_eight_bullet:CheckState()
     return 
     {
         [MODIFIER_STATE_INVULNERABLE]   = true,
-        [MODIFIER_STATE_OUT_OF_GAME]    = true,
         [MODIFIER_STATE_STUNNED]        = true
     }
 end

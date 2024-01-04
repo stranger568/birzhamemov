@@ -26,6 +26,9 @@ function puchkov_pigs:OnSpellStart()
     local point = self:GetCursorPosition()
     local flying_time = distance / speed
     local point = self:GetCursorPosition()
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = point + self:GetCaster():GetForwardVector()
+    end
     local dir = point - self:GetCaster():GetAbsOrigin()
     dir.z = 0
     dir = dir:Normalized()
@@ -211,17 +214,56 @@ function modifier_puchkov_pigs_pig_boom:OnIntervalThink()
     end
 end
 
+function modifier_puchkov_pigs_pig_boom:DeclareFunctions()
+    local decFuncs = 
+    {
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
+        MODIFIER_EVENT_ON_ATTACK_LANDED,
+        MODIFIER_PROPERTY_HEALTHBAR_PIPS
+    }
+    return decFuncs
+end
+
+function modifier_puchkov_pigs_pig_boom:GetAbsoluteNoDamageMagical()
+    return 1
+end
+
+function modifier_puchkov_pigs_pig_boom:GetAbsoluteNoDamagePhysical()
+    return 1
+end
+
+function modifier_puchkov_pigs_pig_boom:GetAbsoluteNoDamagePure()
+    return 1
+end
+
+function modifier_puchkov_pigs_pig_boom:OnAttackLanded(keys)
+    if not IsServer() then return end
+    if keys.target == self:GetParent() then
+        self:GetParent():Kill(nil, keys.attacker)
+    end
+end
+
 function modifier_puchkov_pigs_pig_boom:CheckState()
     local state
 
     if not self.triggered then
-        state = {[MODIFIER_STATE_INVISIBLE] = true,
-                 [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
-             [MODIFIER_STATE_NO_HEALTH_BAR] = true,}
+        state = 
+        {
+            [MODIFIER_STATE_INVISIBLE] = true,
+            [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+            [MODIFIER_STATE_NO_HEALTH_BAR] = true,
+            [MODIFIER_STATE_MAGIC_IMMUNE] = true,
+        }
     else
-        state = {[MODIFIER_STATE_INVISIBLE] = false,
-                 [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
-             [MODIFIER_STATE_NO_HEALTH_BAR] = true,}
+        state = 
+        {
+            [MODIFIER_STATE_INVISIBLE] = false,
+            [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+            [MODIFIER_STATE_NO_HEALTH_BAR] = true,
+            [MODIFIER_STATE_MAGIC_IMMUNE] = true,
+        }
     end
 
     return state

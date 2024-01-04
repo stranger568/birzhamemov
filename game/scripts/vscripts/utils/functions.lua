@@ -41,6 +41,7 @@ function CDOTA_BaseNPC:OverlordKillSound( hero, killedUnit )
         ["npc_dota_hero_stone_dwayne"] = "overlord_kill_skala",
         ["npc_dota_hero_nyx_assassin"] = "overlord_kill_stray",    
     }
+    print("ddd")
     if RollPercentage(50) then
         if list_kill_overlord[killedUnit:GetUnitName()] then
             self:EmitSound(list_kill_overlord[killedUnit:GetUnitName()])

@@ -17,7 +17,7 @@ end
 function migi_inside:GetCastRange(location, target)
     return self.BaseClass.GetCastRange(self, location, target)
 end
-
+ 
 function migi_inside:CastFilterResultTarget(target)
     if not target:IsRealHero() then
         return UF_FAIL
@@ -65,7 +65,6 @@ function modifier_migi_inside:OnDestroy()
     self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
     self:GetParent():InterruptMotionControllers( true )
     if not self.success then return end
-    if self.target:IsMagicImmune() then return end
     self.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_migi_inside_parent", {})
     self.target:EmitSound("Hero_LifeStealer.Infest")
 end

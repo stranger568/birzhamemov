@@ -7,6 +7,12 @@
 		<include src="s2r://panorama/scripts/custom_game/overthrow_scoreboard.vjs_c" />
 	</scripts>
     <Panel class="VictoryPanel">
+        <Panel id="ContractPanel" >
+            <Label text="#contracttargets" class="LabelText" />
+            <Panel id="HeroIcons">
+
+            </Panel>
+        </Panel>
         <Panel id="AllVictoryPanel">
             <Panel id="BirzhaScore" class="PanelInformation">
                 <Panel class="PanelCenter">
@@ -44,15 +50,6 @@
                     <Label class="PanelText" id="EndTimer" text="00:00" />
                 </Panel>
             </Panel>
-        </Panel>
-        <Panel id="ContractPanel" >
-            <Label text="#contracttargets" class="LabelText" />
-            <Panel id="HeroIcons">
-
-            </Panel>
-        </Panel>
-        <Panel id="CloseGameInfo" onactivate="ToggleInfo();">
-            <Label id="InfoText" class="TextOpen" text="#CloseGameInfo"/>
         </Panel>
     </Panel>
 </root>

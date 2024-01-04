@@ -190,6 +190,8 @@ function modifier_scp682_rage:OnIntervalThink()
     AddFOWViewer(self:GetCaster():GetTeamNumber(), self.target:GetAbsOrigin(), 100, 0.1, false)
     if self.target == nil or not self.target:IsAlive() or self.target:HasModifier("modifier_fountain_passive_invul") or ( self.target:IsInvisible() and not self:GetParent():CanEntityBeSeenByMyTeam(self.target) ) then
         self:Destroy()
+    else
+        self:GetParent():MoveToTargetToAttack(self.target)
     end
 end
 
@@ -204,7 +206,6 @@ function modifier_scp682_rage:DeclareFunctions()
     }
     return funcs
 end
-
 
 function modifier_scp682_rage:GetBonusDayVision( params )
     return -9999999

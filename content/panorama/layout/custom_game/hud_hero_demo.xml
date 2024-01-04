@@ -73,6 +73,11 @@
 								<Label class="labelteam" text="#deno_team_10" />
 							</Button>
 						</Panel>
+                        <Panel class="Row">
+							<Button class="DemoButton LeftButton" acceptsjoyfocus="true" onactivate="ChangeSelf()">
+								<Label class="labelteam" text="#demo_change_hero" />
+							</Button>
+						</Panel>
 						<Panel class="HorizontalRule" />
 						<Panel class="Row">
 							<Button class="DemoButton" acceptsjoyfocus="true" onactivate="FireCustomGameEvent_Str( DummyTargetButtonPressed )">

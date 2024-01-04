@@ -531,13 +531,13 @@ function modifier_Papich_in_solo:GetModifierPreAttack_CriticalStrike( params )
     if self:GetCaster():HasModifier("modifier_Papich_in_solo_oneshot") and not self:GetParent():IsIllusion() and not params.target:IsBoss() then
         if self:GetParent():HasTalent("special_bonus_birzha_papich_7") then
             self:GetParent():RemoveGesture(ACT_DOTA_ATTACK_EVENT)
-            self:GetParent():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK_EVENT, self:GetParent():GetAttackSpeed())
+            self:GetParent():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK_EVENT, self:GetParent():GetAttackSpeed(true))
             self.attack_record = params.record
             self.one_shot = true
             return 1000000
         else
             self:GetParent():RemoveGesture(ACT_DOTA_ATTACK_EVENT)
-            self:GetParent():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK_EVENT, self:GetParent():GetAttackSpeed())
+            self:GetParent():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK_EVENT, self:GetParent():GetAttackSpeed(true))
             self.attack_record = params.record
             self.one_shot = true
             return
@@ -545,7 +545,7 @@ function modifier_Papich_in_solo:GetModifierPreAttack_CriticalStrike( params )
     end
 
     self:GetParent():RemoveGesture(ACT_DOTA_ATTACK_EVENT)
-    self:GetParent():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK_EVENT, self:GetParent():GetAttackSpeed())
+    self:GetParent():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK_EVENT, self:GetParent():GetAttackSpeed(true))
     self.attack_record = params.record
     self.one_shot = nil
     return crit_mult

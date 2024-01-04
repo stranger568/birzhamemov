@@ -146,6 +146,7 @@ function RegisterHeroes()
         "npc_dota_hero_rubick",
         "npc_dota_hero_techies",
         "npc_dota_hero_leshrac",
+        "npc_dota_hero_kelthuzad",
     ]
 
     $("#HeroBirzhaList").RemoveAndDeleteChildren()
@@ -333,7 +334,7 @@ function ToggleCategoryVisibility( str )
 
 
 
-
+ 
 
 
 
@@ -342,6 +343,11 @@ function ToggleCategoryVisibility( str )
 function SpawnHero(team)
 {
 	GameEvents.SendCustomGameEventToServer( "SpawnHeroDemo", {hero_name: demo_default_hero, team:team} );
+}
+
+function ChangeSelf()
+{
+	GameEvents.SendCustomGameEventToServer( "ChangeHeroDemo", {hero_name: demo_default_hero} );
 }
 
 

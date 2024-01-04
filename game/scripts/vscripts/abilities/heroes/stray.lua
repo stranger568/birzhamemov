@@ -406,6 +406,22 @@ function modifier_stray_kill_stealer:CheckState()
     return state
 end
 
+function modifier_stray_kill_stealer:DeclareFunctions()
+    return
+    {
+        MODIFIER_PROPERTY_AVOID_DAMAGE
+    }
+end
+
+function modifier_stray_kill_stealer:GetModifierAvoidDamage(params)
+    if params.attacker ~= self:GetCaster() then
+        DeepPrintTable(params)
+        ApplyDamage({attacker = self:GetCaster(), victim = self:GetParent(), ability = params.inflictor, damage = params.damage, damage_type = DAMAGE_TYPE_PURE, damage_flags = DOTA_DAMAGE_FLAG_REFLECTION + DOTA_DAMAGE_FLAG_NO_SPELL_LIFESTEAL + DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION})
+        return 1
+    end
+    return 0
+end
+
 function modifier_stray_kill_stealer:OnDestroy()
     if IsServer() then
         local caster = self:GetCaster()

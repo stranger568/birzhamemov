@@ -187,6 +187,7 @@
 "deno_team_8"								"Команда 8"
 "demo_team_9"								"Команда 9"
 "deno_team_10"								"Команда 10"
+"demo_change_hero"                          "Заменить себя"
 
 "CombatLog_Button"							"Combat Log"
 "AutoSkill_Button"							"Автоприменение"
@@ -390,6 +391,9 @@
 "Contributepanel"											"Поддержка разработчиков"
 "Updatename"												"Новое обновление - Биржа мертва 06.09.23"
 "Updatedescription"											"Нажмите чтобы прочитать"
+
+"ContributepanelZaim"                                       "Бесплатная поддержка кастомной игры"
+"LoadingDonateZaim"                                         "Просто нажмите на эту панель, откройте сайт и закройте. Так вы сможете поддержать проект, для выпуска новых обновлений"
 
 "bppanelfsub"	"Награды для подписчиков"
 "bppanelffree"	"Бесплатные награды"
@@ -763,6 +767,35 @@
 "sounds_217"		"This is my perfect victory"
 "sounds_218"		"Осууждаю !!!"
 
+"sounds_270"		"Ты теперь пацан"
+"sounds_271"		"Разъезд Чушпаны"
+"sounds_272"		"Вы не готовы"
+"sounds_273"		"Отшиваем"
+"sounds_274"		"За эту улицу стою"
+
+"sounds_275"		"Я великий грешник"
+"sounds_276"		"Это было не просто смело"
+"sounds_277"		"Мне это не интересно"
+"sounds_278"		"Копейки"
+"sounds_279"		"Ни ху я"
+"sounds_280"		"Миш мне похуй"
+"sounds_281"		"Какая-то хуйня"
+"sounds_282"		"Нахуя тебе"
+"sounds_283"		"Сомнительно OK"
+"sounds_284"		"Я не хочу с этим жить"
+"sounds_285"		"Ну это пиздец"
+"sounds_286"		"Это чистый хайп"
+"sounds_287"		"Я ошибся"
+"sounds_288"		"Круто"
+"sounds_289"		"Мы все виноваты"
+"sounds_290"		"Мы все умрем"
+"sounds_291"		"Заглянул на 5 минут"
+"sounds_292"		"Зашел не в ту дверь"
+"sounds_293"		"По мне стреляли"
+
+"shop_notification"         "В магазин были добавлены новые звуки"
+"new_item_info"             "New"
+
 "info_button_wheel_check"	"Кнопка для вызова колеса чата"
 
 "sounds_1_description"		"Откройте колесо чата и используйте звук - Уху минус три"						
@@ -813,6 +846,38 @@
 "sounds_46_description"		"Откройте колесо чата и используйте звук - Нет, долбоеб"
 "sounds_47_description"		"Откройте колесо чата и используйте звук - Похуй, нет, не похуй"
 "sounds_48_description"		"Откройте колесо чата и используйте звук - Смех.. DAMAGE!!"
+
+"sounds_270_description"		"Откройте колесо чата и используйте звук - Ты теперь пацан"
+"sounds_271_description"		"Откройте колесо чата и используйте звук - Разъезд Чушпаны"
+"sounds_272_description"		"Откройте колесо чата и используйте звук - Вы не готовы"
+"sounds_273_description"		"Откройте колесо чата и используйте звук - Отшиваем"
+"sounds_274_description"		"Откройте колесо чата и используйте звук - За эту улицу стою"
+
+"sounds_270_description"		"Откройте колесо чата и используйте звук - Ты теперь пацан"
+"sounds_271_description"		"Откройте колесо чата и используйте звук - Разъезд Чушпаны"
+"sounds_272_description"		"Откройте колесо чата и используйте звук - Вы не готовы"
+"sounds_273_description"		"Откройте колесо чата и используйте звук - Отшиваем"
+"sounds_274_description"		"Откройте колесо чата и используйте звук - За эту улицу стою"
+
+"sounds_275_description"		"Откройте колесо чата и используйте звук - Я великий грешник"
+"sounds_276_description"		"Откройте колесо чата и используйте звук - Это было не просто смело"
+"sounds_277_description"		"Откройте колесо чата и используйте звук - Мне это не интересно"
+"sounds_278_description"		"Откройте колесо чата и используйте звук - Копейки"
+"sounds_279_description"		"Откройте колесо чата и используйте звук - Ни ху я"
+"sounds_280_description"		"Откройте колесо чата и используйте звук - Миш мне похуй"
+"sounds_281_description"		"Откройте колесо чата и используйте звук - Какая-то хуйня"
+"sounds_282_description"		"Откройте колесо чата и используйте звук - Нахуя тебе"
+"sounds_283_description"		"Откройте колесо чата и используйте звук - Сомнительно OK"
+"sounds_284_description"		"Откройте колесо чата и используйте звук - Я не хочу с этим жить"
+"sounds_285_description"		"Откройте колесо чата и используйте звук - Ну это пиздец"
+"sounds_286_description"		"Откройте колесо чата и используйте звук - Это чистый хайп"
+"sounds_287_description"		"Откройте колесо чата и используйте звук - Я ошибся"
+"sounds_288_description"		"Откройте колесо чата и используйте звук - Круто"
+"sounds_289_description"		"Откройте колесо чата и используйте звук - Мы все виноваты"
+"sounds_290_description"		"Откройте колесо чата и используйте звук - Мы все умрем"
+"sounds_291_description"		"Откройте колесо чата и используйте звук - Заглянул на 5 минут"
+"sounds_292_description"		"Откройте колесо чата и используйте звук - Зашел не в ту дверь"
+"sounds_293_description"		"Откройте колесо чата и используйте звук - По мне стреляли"
 
 "spray_1"			"Спасибо Stranger"							
 "spray_2"			"Орех"									
@@ -1341,7 +1406,7 @@
 "DOTA_Tooltip_ability_item_memolator2_bonus_damage"	"+$damage"
 
 "DOTA_Tooltip_ability_item_memolator3"	"Мемолятор X3"
-"DOTA_Tooltip_ability_item_memolator3_Description"	"<h1>Пассивное: Corruption</h1> Атаки уменьшают броню цели на %base_coruprion_armor% и на %bonus_corruption_armor_percent%%% белой брони за каждые %health_percent_per_corruption%%% недостающего здоровья. Эффект длится %duration% сек.\n\n<h1>Пассивное: Soul Stealer</h1> Когда умирает герой, броня которого была уменьшена этим предметом, бонус к урону увеличивается на %damage_per_kill%. Максимум: %damage_stack_max% урона.\n<h1>Пассивное: Critical Strike</h1> Каждая атака может с вероятностью в %crit_chance%%% нанести %crit_damage%%% урона."
+"DOTA_Tooltip_ability_item_memolator3_Description"	"<h1>Пассивное: Corruption</h1> Атаки уменьшают броню цели на %base_coruprion_armor% и на %bonus_corruption_armor_percent%%% белой брони за каждые %health_percent_per_corruption%%% недостающего здоровья. Эффект длится %duration% сек.\n\n<h1>Пассивное: Soul Stealer</h1> Когда умирает герой, броня которого была уменьшена этим предметом, бонус к урону увеличивается на %damage_per_kill%. Максимум: %damage_stack_max% урона."
 "DOTA_Tooltip_ability_item_memolator3_bonus_damage"	"+$damage"
 
 "DOTA_Tooltip_modifier_item_memolator_debuff"								"Мемолятор"
@@ -3541,6 +3606,7 @@
 "DOTA_Tooltip_ability_dwayne_stone_passive_lore"									"Данный герой создан благодаря <font color='#fffc00'>ЕДРИТЬ ЕГО В КОРЕНЬ</font>"
 
 "DOTA_Tooltip_ability_dwayne_fight_of_death"										"Испытание камнем"
+"DOTA_Tooltip_ability_dwayne_fight_of_death_cancel"                                 "Отменить Испытание камнем"
 "DOTA_Tooltip_ability_dwayne_fight_of_death_Description"							"Скала выпускает несколько валунов. Они наносят урон при попадании. Во время действия герой имеет уменьшенную скорость поворота и не может двигаться. Изменить точку прилета можно нажатием правой кнопки мыши."
 "DOTA_Tooltip_ability_dwayne_fight_of_death_scepter_Description"					"Способность оглушает на %stun_duration_scepter% сек."
 "DOTA_Tooltip_ability_dwayne_fight_of_death_projectile_count"						"КОЛ-ВО ВАЛУНОВ:"
@@ -4924,6 +4990,8 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_scp_6" 									"Скример отключает пассивные способности"
 "DOTA_Tooltip_Ability_special_bonus_birzha_scp_7" 									"+{s:value}% урона Он рядом"
 "DOTA_Tooltip_Ability_special_bonus_birzha_scp_8" 									"Свернуть Шею наносит чистый урон"
+
+"dota_hud_error_scp682"                                                             "Вы не можете это сделать. Действует Ярость"
 
 //=================================================================================================================
 // Pangolier | Гительман | Gitelman
@@ -9319,5 +9387,113 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_overlord_anime_6" 			"Истинная смерть сквозь иммунитет магии"
 "DOTA_Tooltip_Ability_special_bonus_birzha_overlord_anime_7" 			"-{s:value} сек. перезарядки Падение"
 "DOTA_Tooltip_Ability_special_bonus_birzha_overlord_anime_8" 			"-{s:value} сек. перезарядки Цель всей жизни смерть"
+
+//=================================================================================================================
+// КЕЛТУЗАД
+//=================================================================================================================
+
+"npc_dota_hero_kelthuzad"												                            "Кел'Тузад"
+"npc_dota_kelthuzad_zombie_1"										                                "Оживший Зомби"
+"npc_dota_kelthuzad_zombie_2"											                            "Оживший Зомби"
+
+"DOTA_Tooltip_ability_kelthuzad_die_and_decripify"								                    "Смерть и разложение"
+"DOTA_Tooltip_ability_kelthuzad_die_and_decripify_description"								        "<h1>Режим Нечистивости</h1>Выпускает снаряд в выбранную точку, в которой появляется оскверняющая область. Противники в ней получают урон в течение %duration% сек., а их регенерация здоровья уменьшается на %health_decrease%%%. Союзники в этой области получают дополнительную регенерацию здоровья и броню.\n<h1>Режим Льда</h1>Через %delay% сек. вызывает всплеск льда в выбранной области, замораживая всех противников на %root_duration% сек. и наносит им %cold_damage% урона"
+"DOTA_Tooltip_ability_kelthuzad_die_and_decripify_filth_duration"								    "ДЛИТЕЛЬНОСТЬ ОСКВЕР. ОБЛАСТИ:"
+"DOTA_Tooltip_ability_kelthuzad_die_and_decripify_percent_damage"								    "%УРОН ОТ МАКС. ЗДОРОВЬЯ:"
+"DOTA_Tooltip_ability_kelthuzad_die_and_decripify_armor_bonus"					                    "ДОП. БРОНЯ В ОБЛАСТИ:"			   
+"DOTA_Tooltip_ability_kelthuzad_die_and_decripify_health_regen_bonus"								"%ДОП. РЕГЕН. ЗДОРОВЬЯ В ОБЛАСТИ:"
+"DOTA_Tooltip_ability_kelthuzad_die_and_decripify_radius"					                        "РАДИУС ОБЛАСТИ:"			
+"DOTA_Tooltip_ability_kelthuzad_die_and_decripify_cold_radius"					                    "РАДИУС ЛЬДА:"			
+
+"DOTA_Tooltip_ability_kelthuzad_zombie"								                                "Поднять мертвецов"
+"DOTA_Tooltip_ability_kelthuzad_zombie_description"								                    "Герой постепенно воскрешает мертвецов возле себя, которые наносят %damage_hero%%% урон от вашего героя. Мертвеца не нужно контролировать и они атакуют ближайшие цели вокруг героя.\n<h1>Активная способность</h1> Уменьшает время воскрешения зомби до %zombie_cooldown_active% сек. в течение %duration_active% сек."
+"DOTA_Tooltip_ability_kelthuzad_zombie_zombie_cooldown"								                "ВРЕМЯ ВОСКРЕШЕНИЯ МЕРТВЕЦА:"
+"DOTA_Tooltip_ability_kelthuzad_zombie_zombie_count"								                "КОЛ-ВО МЕРТВЕЦОВ:"
+"DOTA_Tooltip_ability_kelthuzad_zombie_attack_count_die"								            "АТАК ДЛЯ УНИЧТОЖЕНИЯ:"
+
+"DOTA_Tooltip_ability_kelthuzad_king_blood"								                            "Кровавая чума"
+"DOTA_Tooltip_ability_kelthuzad_king_blood_description"								                "<h1>Режим Нечистивости</h1>Накладывает на героя и его мертвецов эффект, который дает за каждую атаку дополнительное здоровье вашему герою\n<h1>Режим Льда</h1> В течение %effect_duration% сек. атаки героя замедляют цель, а мертвецы наносят дополнительный урон от интеллекта вашего героя"
+"DOTA_Tooltip_ability_kelthuzad_king_blood_bonus_max_health_per_attack"								"ДОП. ЗДОРОВЬЕ:"
+"DOTA_Tooltip_ability_kelthuzad_king_blood_duration_health"								            "ДЛИТЕЛЬНОСТЬ ДОП. ЗДОРОВЬЯ:"
+"DOTA_Tooltip_ability_kelthuzad_king_blood_bonus_intellect_damage"								    "%ДОП. УРОН ОТ ИНТЕЛЛЕКТА:"
+"DOTA_Tooltip_ability_kelthuzad_king_blood_slow"								                    "%ЗАМЕДЛЕНИЕ СКОРОСТИ ПЕРЕДВИЖЕНИЯ:"
+"DOTA_Tooltip_ability_kelthuzad_king_blood_slow_duration"								            "ДЛИТЕЛЬНОСТЬ ЗАМЕДЛЕНИЯ:"
+
+"DOTA_Tooltip_ability_kelthuzad_death_knight"								                        "Рыцарь смерти"
+"DOTA_Tooltip_ability_kelthuzad_death_knight_description"								            "Герой вырывает часть души из выбранного противника, создавая его полную копию рядом с собой, которая может использовать способности."
+"DOTA_Tooltip_ability_kelthuzad_death_knight_duration"								                "ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_kelthuzad_death_knight_outgoing_damage"								        "%ИСХОДЯЩИЙ УРОН:"
+"DOTA_Tooltip_ability_kelthuzad_death_knight_incoming_damage"								        "%ВХОДЯЩИЙ УРОН:"
+"DOTA_Tooltip_ability_kelthuzad_death_knight_scepter_description"	                                "Дает возможность использовать ультимативную способность Рыцаря Смерти"
+
+"DOTA_Tooltip_ability_kelthuzad_cold_undead"								                        "Смена режима"
+"DOTA_Tooltip_ability_kelthuzad_cold_undead_description"								            "Изменяет режим своих способностей лед или нечестивость"
+
+"DOTA_Tooltip_ability_kelthuzad_chain"								                                "Цепи"
+"DOTA_Tooltip_ability_kelthuzad_chain_description"								                    "Связывает выбранную цель цепями. Если в радиусе %radius% будет противник под этим же эффектом, то они сцепятся и получат оглушение на %stun_duration% сек."
+"DOTA_Tooltip_ability_kelthuzad_chain_duration"								                        "ДЛИТЕЛЬНОСТЬ ЭФФЕКТА:"
+
+"DOTA_Tooltip_modifier_kelthuzad_die_and_decripify_cold_stunned"					                "Смерть и разложение"
+"DOTA_Tooltip_modifier_kelthuzad_die_and_decripify_cold_stunned_Description"		                "Оглушен"
+
+"DOTA_Tooltip_modifier_kelthuzad_die_and_decripify_thinker_debuff"					                "Смерть и разложение"
+"DOTA_Tooltip_modifier_kelthuzad_die_and_decripify_thinker_debuff_Description"		                "Восставновление здоровья уменьшено на %dMODIFIER_PROPERTY_HP_REGEN_AMPLIFY_PERCENTAGE%%%"
+
+"DOTA_Tooltip_modifier_kelthuzad_die_and_decripify_thinker_friendly_buff"					        "Смерть и разложение"
+"DOTA_Tooltip_modifier_kelthuzad_die_and_decripify_thinker_friendly_buff_Description"		        "Броня увеличена на %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS% и регенерация здоровья увеличена на %dMODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE%%%"
+
+"DOTA_Tooltip_modifier_kelthuzad_zombie_active"					                                    "Поднять мертвецов"
+"DOTA_Tooltip_modifier_kelthuzad_zombie_active_Description"		                                    "Увеличена скорость появления мертвецов"
+
+"DOTA_Tooltip_modifier_kelthuzad_king_blood_active"					                                "Кровавая чума"
+"DOTA_Tooltip_modifier_kelthuzad_king_blood_active_Description"		                                "Атаки даруют дополнительное здоровье герою"
+
+"DOTA_Tooltip_modifier_kelthuzad_king_blood_active_cold"					                        "Кровавая чума"
+"DOTA_Tooltip_modifier_kelthuzad_king_blood_active_cold_Description"		                        "Атаки замедляют противников, а мертвецы наносят дополнительный урон от вашего интеллекта"
+
+"DOTA_Tooltip_modifier_kelthuzad_king_blood_health_effect"					                        "Кровавая чума"
+"DOTA_Tooltip_modifier_kelthuzad_king_blood_health_effect_Description"		                        "Здоровье героя увеличено на %dMODIFIER_PROPERTY_HEALTH_BONUS%"
+
+"DOTA_Tooltip_modifier_kelthuzad_king_blood_slow"					                                "Кровавая чума"
+"DOTA_Tooltip_modifier_kelthuzad_king_blood_slow_Description"		                                "Скорость передвижения замедлена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%"
+
+"DOTA_Tooltip_modifier_kelthuzad_death_knight"					                                    "Рыцарь смерти"
+"DOTA_Tooltip_modifier_kelthuzad_death_knight_Description"		                                    "Копия вражеского героя"
+
+"DOTA_Tooltip_modifier_kelthuzad_chain_pull"					                                    "Цепи"
+"DOTA_Tooltip_modifier_kelthuzad_chain_pull_Description"		                                    "Притянут"
+
+"DOTA_Tooltip_modifier_kelthuzad_chain_find"					                                    "Цепи"
+"DOTA_Tooltip_modifier_kelthuzad_chain_find_Description"		                                    "Если рядом противник в цепях, то вы будете связаны"
+
+"DOTA_Tooltip_Ability_special_bonus_birzha_kelthuzad_1" 			                                "+{s:value} атака для уничтожения Поднять мертвецов"
+"DOTA_Tooltip_Ability_special_bonus_birzha_kelthuzad_2" 			                                "+{s:value} сек. длительности урона Смерть и разложение"
+
+"DOTA_Tooltip_Ability_special_bonus_birzha_kelthuzad_3" 			                                "+{s:value} сек. длительности области Смерть и разложение"
+"DOTA_Tooltip_Ability_special_bonus_birzha_kelthuzad_4" 			                                "+{s:value} сек. длительности заморозки Смерть и разложение"
+
+"DOTA_Tooltip_Ability_special_bonus_birzha_kelthuzad_5" 			                                "+{s:value} доп. здоровья Кровавая чума"
+"DOTA_Tooltip_Ability_special_bonus_birzha_kelthuzad_6" 			                                "+{s:value} сек. длительности Рыцарь смерти"
+
+"DOTA_Tooltip_Ability_special_bonus_birzha_kelthuzad_7" 			                                "Мертвецы копируют эффекты атак"
+"DOTA_Tooltip_Ability_special_bonus_birzha_kelthuzad_8" 			                                "-{s:value}% входящего урона Рыцарь смерти"
+
+//=================================================================================================================
+// САНС
+//=================================================================================================================
+
+"npc_dota_hero_sans"												    "Санс"
+
+//=================================================================================================================
+// КИРИТО
+//=================================================================================================================
+
+"npc_dota_hero_kirito"												    "Кирито"
+
+//=================================================================================================================
+// НИКС
+//=================================================================================================================
+
+"npc_dota_hero_nix_streamer"										    "Nix"
 }	
 }

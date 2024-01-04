@@ -276,6 +276,7 @@ end
 
 function modifier_Train_Thomas:OnCreated()
     if not IsServer() then return end
+    self.explosion = true
     self:StartIntervalThink(FrameTime())
 end
 
@@ -302,10 +303,11 @@ end
 
 function modifier_Train_Thomas:OnIntervalThink()
     if not IsServer() then return end
+    if not self.explosion then return end
     local radius = self:GetAbility():GetSpecialValueFor("radius")
     local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, 0, FIND_ANY_ORDER, false)
-
     if #enemies > 0 then
+        self.explosion = false
         self:GetAbility():Explosion(false)
         self:Destroy()
     end

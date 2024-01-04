@@ -5358,6 +5358,15 @@
 		}	
 	}
 
+    "dwayne_fight_of_death_cancel"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/dwayne.lua"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"AbilityTextureName"			"dwayne/fight_of_death_cancel"
+        "MaxLevel"                      "1"
+	}
+
 	"special_bonus_birzha_dwayne_1"
 	{
 		"BaseClass"						"special_bonus_undefined"														
@@ -18427,7 +18436,7 @@
             "AbilityCooldown"
 			{
 				"value"	                                    "20 19 18 17"
-				"special_bonus_unique_akame_2"              "=0"
+				"special_bonus_unique_megumin_1"              "=0"
 			}
             "AbilityChargeRestoreTime"
 			{
@@ -24538,6 +24547,241 @@
 		"AbilityValues"
 		{
 			"value"						"-30"	
+		}
+	}
+
+    "kelthuzad_die_and_decripify"
+    {
+		"BaseClass"									"ability_lua"
+		"ScriptFile"								"abilities/heroes/kelthuzad"
+        "AbilityTextureName"        				"kelthuzad/die_and_decripify_2"
+		"AbilityBehavior" 							"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"SpellImmunityType"							"SPELL_IMMUNITY_ENEMIES_NO"
+		"AbilityCooldown"							"11 10 9 8"
+		"AbilityManaCost"							"115 135 155 175"
+		"AbilityCastRange"							"600"
+        "AbilityCastPoint"				            "0.15"
+		"AbilityCastAnimation"						"ACT_DOTA_CAST_ABILITY_1"
+        "AbilityUnitDamageType"						"DAMAGE_TYPE_MAGICAL"
+		"AbilityUnitTargetTeam"						"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"						"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+
+		"AbilityValues"
+		{
+			"radius"                                "300"
+            "proj_speed"                            "800"
+            "percent_damage"                        "1 2.5 4 5.5"
+            "duration"                              "6"
+            "filth_duration"                        "35"
+            "health_decrease"                       "-35"
+            "health_regen_bonus"                    "0.4 0.6 0.8 1"
+            "armor_bonus"                           "4"
+
+            // Cold
+            "cold_radius"                           "300"
+            "cold_damage"                           "100 150 200 250"
+            "root_duration"                         "1.5 2 2.5 3"
+            "delay"                                 "0.25"
+		}
+    }
+
+    "kelthuzad_zombie"
+    {
+		"BaseClass"									"ability_lua"
+		"ScriptFile"								"abilities/heroes/kelthuzad"
+        "AbilityTextureName"        				"kelthuzad/zombie"
+		"AbilityBehavior" 							"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityCooldown"							"30"
+		"AbilityManaCost"							"50"
+
+		"AbilityValues"
+		{
+            "duration_active"                       "10"
+			"zombie_cooldown"                       "12 11 10 9"
+            "zombie_cooldown_active"                "5 4 3 2"
+            "zombie_count"                          "3 4 5 6"
+            "attack_count_die"                      "3"
+            "damage_hero"                           "100"
+		}
+    }
+
+    "kelthuzad_king_blood"
+    {
+		"BaseClass"									"ability_lua"
+		"ScriptFile"								"abilities/heroes/kelthuzad"
+        "AbilityTextureName"        				"kelthuzad/king_blood"
+		"AbilityBehavior" 							"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityCooldown"							"30 25 20 15"
+		"AbilityManaCost"							"100 110 120 130"
+        "AbilityCastAnimation"						"ACT_DOTA_CAST_ABILITY_2"
+        "AbilityCastPoint"				            "0.1"
+
+		"AbilityValues"
+		{
+            "effect_duration"                       "6"
+
+			"bonus_max_health_per_attack"           "5 10 15 20"
+            "duration_health"                       "10"
+
+            // Cold
+            "bonus_intellect_damage"                "70 80 90 100"
+            "slow"                                  "-20 -25 -30 -35"
+            "slow_duration"                         "0.8"
+		}
+    }
+
+    "kelthuzad_death_knight"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/kelthuzad"
+        "AbilityTextureName"			"kelthuzad/death_knight"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityCooldown"				"70"
+		"AbilityManaCost"				"200"
+        "AbilityCastRange"				"1200"
+        "AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"	
+        "AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_3"
+        "HasScepterUpgrade"             "1"
+        "AbilityCastPoint"				"0.25"
+        "AbilityUnitTargetTeam"	 	    "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"  	    "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+
+		"AbilityValues"
+		{	
+			"duration"                  "25"
+            "outgoing_damage"           "50 100 150"
+            "incoming_damage"           "200"
+		}	
+	}
+
+    "kelthuzad_cold_undead"
+    {
+		"BaseClass"									"ability_lua"
+		"ScriptFile"								"abilities/heroes/kelthuzad"
+        "AbilityTextureName"        				"kelthuzad/cold_undead_2"
+		"AbilityBehavior" 							"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityCooldown"							"1"
+        "MaxLevel"                                  "1"
+    }
+
+    "kelthuzad_chain"
+	{
+		"BaseClass"						            "ability_lua"
+		"ScriptFile"					            "abilities/heroes/kelthuzad"
+        "AbilityTextureName"			            "kelthuzad/chain"
+		"AbilityBehavior"				            "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"AbilityManaCost"				            "100"
+        "AbilityCastRange"				            "800"
+		"SpellImmunityType"				            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"			            "SPELL_DISPELLABLE_YES"	
+        "AbilityUnitTargetTeam"	 	                "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"  	                "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "IsGrantedByShard"  			            "1"
+		"HasShardUpgrade"				            "1"
+        "MaxLevel"                                  "1"
+        "AbilityCastPoint"				            "0.15"
+        "AbilityCastAnimation"						"ACT_DOTA_CAST_ABILITY_1"
+
+		"AbilityValues"
+		{	
+			"duration"                              "10"
+            "stun_duration"                         "2.5"
+            "radius"                                "750"
+            "AbilityCharges"                        "2"
+            "AbilityChargeRestoreTime"              "10"
+		}	
+	}
+
+    "special_bonus_birzha_kelthuzad_1"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilityValues"
+		{
+			"value"						"1"	
+		}
+	}
+
+	"special_bonus_birzha_kelthuzad_2"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilityValues"
+		{
+			"value"						"1"		
+		}
+	}	
+	"special_bonus_birzha_kelthuzad_3"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilityValues"
+		{
+			"value"						"6"	
+		}
+	}
+	"special_bonus_birzha_kelthuzad_4"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilityValues"
+		{
+			"value"						"0.75"
+		}
+	}
+	"special_bonus_birzha_kelthuzad_5"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilityValues"
+		{
+			"value"						"5"
+		}
+	}
+	"special_bonus_birzha_kelthuzad_6"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilityValues"
+		{
+			"value"						"10"				
+		}
+	}
+	"special_bonus_birzha_kelthuzad_7"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilityValues"
+		{
+			"value"						"0"			
+		}
+	}
+	"special_bonus_birzha_kelthuzad_8"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilityValues"
+		{
+			"value"						"-100"	
 		}
 	}
 }

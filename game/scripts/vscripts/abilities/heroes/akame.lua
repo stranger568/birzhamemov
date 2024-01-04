@@ -76,6 +76,9 @@ end
 function Akame_slice:OnSpellStart()
     if not IsServer() then return end
     local point = self:GetCursorPosition()
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = point + self:GetCaster():GetForwardVector()
+    end
     local direction = point - self:GetCaster():GetAbsOrigin()
     local length = direction:Length2D()
     direction.z = 0
@@ -227,6 +230,9 @@ function Akame_Obraz:OnSpellStart()
 
     if self:GetCaster():HasTalent("special_bonus_birzha_akame_4") and target == nil then
     	local point = self:GetCursorPosition()
+        if point == self:GetCaster():GetAbsOrigin() then
+            point = point + self:GetCaster():GetForwardVector()
+        end
 		self:GetCaster():EmitSound("Hero_Antimage.Blink_in")
 
 	    local particle = ParticleManager:CreateParticle("particles/items_fx/abyssal_blink_end.vpcf", PATTACH_WORLDORIGIN, self:GetCaster())
@@ -463,14 +469,14 @@ function Akame_cursed_blade:OnSpellStart()
 	if not IsServer() then return end
 
     local direction = self:GetCaster():GetForwardVector()
+    local point = self:GetCursorPosition()
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = point + self:GetCaster():GetForwardVector()
+    end
 
     self:GetCaster():StartGestureWithPlaybackRate( ACT_DOTA_ATTACK, 3 )
 
-	local ldirection = (self:GetCursorPosition() - self:GetCaster():GetAbsOrigin()):Normalized()
-
-    if self:GetCursorPosition() == self:GetCaster():GetAbsOrigin() then
-        ldirection = direction
-    end
+	local ldirection = (point - self:GetCaster():GetAbsOrigin()):Normalized()
 
     self:GetCaster():EmitSound("Hero_Juggernaut.BladeDance")
 

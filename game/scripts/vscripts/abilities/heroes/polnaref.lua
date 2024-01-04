@@ -283,7 +283,7 @@ function modifier_polnaref_stand:OnRefresh()
 
     self.attack_speed_talent = 0
     if self:GetCaster():HasTalent("special_bonus_birzha_polnaref_5") then
-        self.attack_speed_talent = self:GetCaster():GetAttackSpeed() * self:GetCaster():FindTalentValue("special_bonus_birzha_polnaref_5")
+        self.attack_speed_talent = self:GetCaster():GetAttackSpeed(true) * self:GetCaster():FindTalentValue("special_bonus_birzha_polnaref_5")
     end
 
     self.health_bonus = self.stand_hp + (self:GetCaster():GetLevel() * self.stand_hp_per_level)
@@ -604,7 +604,7 @@ function modifier_polnaref_requeim:GetAuraSearchTeam()
 end
 
 function modifier_polnaref_requeim:GetAuraSearchFlags()
-    return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
+    return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD
 end
 
 function modifier_polnaref_requeim:GetAuraSearchType()

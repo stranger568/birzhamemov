@@ -68,6 +68,15 @@ function modifier_nolik_tech:IsPurgable() return false end
 
 function modifier_nolik_tech:OnCreated()
 	if not IsServer() then return end
+    self.excl = 
+    {
+        ["item_bag_of_gold"] = true,
+        ["item_treasure_chest"] = true,
+        ["item_treasure_chest_winter"] = true,
+        ["item_treasure_chest_bp_fake"] = true,
+        ["item_bag_of_gold_bp_fake"] = true,
+        ["item_bag_of_gold_van"] = true,
+    }
 	local nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_keeper_of_the_light/keeper_chakra_magic.vpcf", PATTACH_CUSTOMORIGIN, self:GetCaster() )
 	ParticleManager:SetParticleControlEnt( nFXIndex, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetCaster():GetOrigin(), true )
 	ParticleManager:SetParticleControlEnt( nFXIndex, 1, self:GetCaster(), PATTACH_ABSORIGIN_FOLLOW, nil, self:GetCaster():GetOrigin(), true )
@@ -105,6 +114,10 @@ function modifier_nolik_tech:OnAbilityFullyCast( params )
 		if not hAbility:IsItem() then 
 			return 0
 		end
+
+        if self.excl[hAbility:GetAbilityName()] ~= nil then
+            return 0
+        end
 
 		if not self:GetParent():HasTalent("special_bonus_birzha_nolik_7") then
 			if hAbility:GetAbilityName() == "item_refresher" then

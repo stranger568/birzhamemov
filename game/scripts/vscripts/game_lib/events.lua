@@ -293,7 +293,7 @@ function BirzhaGameMode:OnEntityKilled( event )
                     killedUnit:EmitSound("OverlordDeath")
                 end
             elseif hero:GetUnitName() == "npc_dota_hero_treant" then
-                hero:OverlordKillSound(killedUnit)
+                hero:OverlordKillSound(hero, killedUnit)
             end
             if killedUnit:GetUnitName() == "npc_dota_hero_sasake" then
                 if RollPercentage(25) then
@@ -572,14 +572,14 @@ function BirzhaGameMode:OnNPCSpawned( event )
         if ability_pucci and ability_pucci:GetLevel() > 0 then
             if ability_pucci.current_quest[4] == false and ability_pucci.current_quest[1] == "pucci_quest_respawn" then
                 ability_pucci.current_quest[2] = ability_pucci.current_quest[2] + 1
-                local hero = PlayerResource:Gethero(hero:GetheroID())
-                CustomGameEventManager:Send_ServerTohero(hero, "pucci_quest_event_set_progress", {min = ability_pucci.current_quest[2], max = ability_pucci.current_quest[3]} )
+                local player = PlayerResource:GetPlayer(hero:GetPlayerOwnerID())
+                CustomGameEventManager:Send_ServerToPlayer(player, "pucci_quest_event_set_progress", {min = ability_pucci.current_quest[2], max = ability_pucci.current_quest[3]} )
                 if ability_pucci.current_quest[2] >= ability_pucci.current_quest[3] then
                     ability_pucci.current_quest[4] = true
                     ability_pucci.word_count = ability_pucci.word_count + 1
                     ability_pucci.current_quest = ability_pucci.quests[GetMapName()]["pucci_quest_stunned"]
                     ability_pucci:SetActivated(true)
-                    CustomGameEventManager:Send_ServerTohero(hero, "pucci_quest_event_set_quest", {quest_name = ability_pucci.current_quest[1], min = ability_pucci.current_quest[2], max = ability_pucci.current_quest[3]} )
+                    CustomGameEventManager:Send_ServerToPlayer(player, "pucci_quest_event_set_quest", {quest_name = ability_pucci.current_quest[1], min = ability_pucci.current_quest[2], max = ability_pucci.current_quest[3]} )
                 end
             end
         end
@@ -618,7 +618,6 @@ function BirzhaGameMode:OnNPCSpawned( event )
             if IsInToolsMode() and PlayerResource:IsFakeClient(PlayerID) then
                 BirzhaData:RegisterPlayer(PlayerID)
                 BirzhaData.PLAYERS_GLOBAL_INFORMATION[PlayerID].selected_hero = hero
-                print("aaaaaaaaaaaaaaaaaaaa")
             end
 		end	
 	end
@@ -663,6 +662,7 @@ function BirzhaGameMode:AbilitiesStart(hero)
 		"travoman_focused_detonate",
 		"jull_light_future",
 		"jull_steal_time",
+        "kelthuzad_cold_undead",
 	}
 
 	for _, name in pairs(FastAbilities) do
@@ -677,9 +677,171 @@ function BirzhaGameMode:OnHeroInGame(hero)
 	local playerID = hero:GetPlayerID()
 	local npcName = hero:GetUnitName()
 
+    -- Heroes with visual particles
+    if npcName == "npc_dota_hero_travoman" then
+		local particle_cart = ParticleManager:CreateParticle("particles/econ/items/techies/techies_arcana/techies_ambient_arcana.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
+		ParticleManager:SetParticleControlEnt( particle_cart, 0, hero, PATTACH_POINT_FOLLOW, "attach_attack1", Vector(0,0,0), true )
+	end
+    if npcName == "npc_dota_hero_kelthuzad" then
+        local particle_list =
+        {
+            {"particles/econ/items/lich/forbidden_knowledge/lich_forbidden_knowledge_ambient_book.vpcf", "attach_hitloc"},
+            {"particles/units/heroes/hero_lich/lich_ambient_frost.vpcf", "attach_attack1"},
+            {"particles/units/heroes/hero_lich/lich_ambient_frost_legs.vpcf", "attach_hitloc"},
+            {"particles/units/heroes/hero_lich/lich_ambient_frost_ground_effect.vpcf", "attach_hitloc"},
+        }
+        for _, info in pairs(particle_list) do
+		    local particle = ParticleManager:CreateParticle(info[1], PATTACH_ABSORIGIN_FOLLOW, hero)
+		    ParticleManager:SetParticleControlEnt( particle, 0, hero, PATTACH_POINT_FOLLOW, info[2], Vector(0,0,0), true )
+            if _ == 1 then
+                ParticleManager:SetParticleControlEnt( particle, 1, hero, PATTACH_POINT_FOLLOW, info[2], Vector(0,0,0), true )
+            end
+        end
+	end
+
+    -- Heroes with Free Items
+    if npcName == "npc_dota_hero_serega_pirat" then
+		hero.pirat_item_weapon = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_weapon/god_eater_weapon.vmdl" })
+		hero.pirat_item_weapon:FollowEntity(hero, true)
+		hero.pirat_item_offhand = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_off_hand/god_eater_off_hand.vmdl" })
+		hero.pirat_item_offhand:FollowEntity(hero, true)
+		hero.pirat_item_shoulder = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_shoulder/god_eater_shoulder.vmdl" })
+		hero.pirat_item_shoulder:FollowEntity(hero, true)
+		hero.pirat_item_head = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_head/god_eater_head.vmdl" })
+		hero.pirat_item_head:FollowEntity(hero, true)
+		hero.pirat_item_belt = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_belt/god_eater_belt.vmdl" })
+		hero.pirat_item_belt:FollowEntity(hero, true)
+		hero.pirat_item_arms = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_arms/god_eater_arms.vmdl" })
+		hero.pirat_item_arms:FollowEntity(hero, true)
+		hero.pirat_item_armor = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_armor/god_eater_armor.vmdl" })
+		hero.pirat_item_armor:FollowEntity(hero, true)
+	end
+
+    if npcName == "npc_dota_hero_sasake" then
+		hero.JuggHead = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/juggernaut/arcana/juggernaut_arcana_mask.vmdl"})
+		hero.JuggHead:FollowEntity(hero, true)
+		hero.JugLegs = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/juggernaut/armor_for_the_favorite_legs/armor_for_the_favorite_legs.vmdl"})
+		hero.JugLegs:FollowEntity(hero, true)
+		hero.JugSword = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/juggernaut/jugg_ti8/jugg_ti8_sword.vmdl"})
+		hero.JugSword:FollowEntity(hero, true)
+		hero.JugSword_particle = ParticleManager:CreateParticle("particles/econ/items/juggernaut/jugg_ti8_sword/jugg_ti8_crimson_sword_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.JugSword)
+	end
+
+    if hero:GetUnitName() == "npc_dota_hero_void_spirit" then
+		hero.model_void_1 = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/queenofpain/queenofpain_arcana/queenofpain_arcana_head.vmdl"})
+		hero.model_void_1:FollowEntity(hero, true)
+		hero.model_void_2 = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/queenofpain/queenofpain_arcana/queenofpain_arcana_armor.vmdl"})
+		hero.model_void_2:FollowEntity(hero, true)
+		hero.effectvan = ParticleManager:CreateParticle("particles/econ/items/queen_of_pain/qop_arcana/qop_arcana_head_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.model_void_1)
+	end
+
+    if hero:GetUnitName() == "npc_dota_hero_grimstroke" then
+		if hero ~= nil and hero:IsHero() then
+			local children = hero:GetChildren();
+			for k,child in pairs(children) do
+				if child:GetClassname() == "dota_item_wearable" and child:GetModelName() == "models/heroes/grimstroke/grimstroke_head_item.vmdl" then
+					child:RemoveSelf();
+				end
+			end
+		end
+	end
+
+    if npcName == "npc_dota_hero_abaddon" then
+		hero.WeaponMeepo = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/meepo/ti8_meepo_pitmouse_fraternity_weapon/ti8_meepo_pitmouse_fraternity_weapon.vmdl"})
+		hero.WeaponMeepo:FollowEntity(hero, true)
+	end
+
+	if npcName == "npc_dota_hero_enigma" then
+		hero.Ricardo = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/axe/ricardaxe.vmdl"})
+		hero.Ricardo:FollowEntity(hero, true)
+	end
+
+    if npcName == "npc_dota_hero_nyx_assassin" then
+		hero.Stray1 = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/rikimaru/ti6_blink_strike/riki_ti6_blink_strike.vmdl"})
+		hero.Stray1:FollowEntity(hero, true)
+		hero.Stray2 = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/rikimaru/umbrage/umbrage.vmdl"})
+		hero.Stray2:FollowEntity(hero, true)
+		hero.Stray3 = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/rikimaru/umbrage__offhand/umbrage__offhand.vmdl"})
+		hero.Stray3:FollowEntity(hero, true)
+		hero.Stray4 = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/rikimaru/riki_ti8_immortal_head/riki_ti8_immortal_head.vmdl"})
+		hero.Stray4:FollowEntity(hero, true)
+		hero.Stray5 = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/rikimaru/riki_cunning_corsair_ti_2017_tail/riki_cunning_corsair_ti_2017_tail.vmdl"})
+		hero.Stray5:FollowEntity(hero, true)
+		hero.stray_effect_1 = ParticleManager:CreateParticle("particles/econ/items/riki/riki_head_ti8/riki_head_ambient_ti8.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.Stray4)
+		hero.stray_effect_2 = ParticleManager:CreateParticle("particles/econ/items/riki/riki_immortal_ti6/riki_immortal_ti6_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.Stray1)
+	end
+
+
+
+
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	if hero:IsIllusion() then
 		hero:AddNewModifier( hero, nil, "modifier_birzha_illusion_cosmetics", {} )
 	end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	if hero:GetUnitName() == "npc_dota_hero_nevermore" then
 		if DonateShopIsItemBought(playerID, 27) then
@@ -805,44 +967,6 @@ function BirzhaGameMode:OnHeroInGame(hero)
 		end
 	end
 
-	if npcName == "npc_dota_hero_sasake" then
-		hero.JuggHead = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/juggernaut/arcana/juggernaut_arcana_mask.vmdl"})
-		hero.JuggHead:FollowEntity(hero, true)
-		hero.JugLegs = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/juggernaut/armor_for_the_favorite_legs/armor_for_the_favorite_legs.vmdl"})
-		hero.JugLegs:FollowEntity(hero, true)
-		hero.JugSword = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/juggernaut/jugg_ti8/jugg_ti8_sword.vmdl"})
-		hero.JugSword:FollowEntity(hero, true)
-		hero.JugSword_particle = ParticleManager:CreateParticle("particles/econ/items/juggernaut/jugg_ti8_sword/jugg_ti8_crimson_sword_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.JugSword)
-	end
-
-	if npcName == "npc_dota_hero_serega_pirat" then
-		hero.pirat_item_weapon = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_weapon/god_eater_weapon.vmdl" })
-		hero.pirat_item_weapon:FollowEntity(hero, true)
-
-		hero.pirat_item_offhand = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_off_hand/god_eater_off_hand.vmdl" })
-		hero.pirat_item_offhand:FollowEntity(hero, true)
-		
-		hero.pirat_item_shoulder = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_shoulder/god_eater_shoulder.vmdl" })
-		hero.pirat_item_shoulder:FollowEntity(hero, true)
-		
-		hero.pirat_item_head = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_head/god_eater_head.vmdl" })
-		hero.pirat_item_head:FollowEntity(hero, true)
-		
-		hero.pirat_item_belt = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_belt/god_eater_belt.vmdl" })
-		hero.pirat_item_belt:FollowEntity(hero, true)
-		
-		hero.pirat_item_arms = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_arms/god_eater_arms.vmdl" })
-		hero.pirat_item_arms:FollowEntity(hero, true)
-		
-		hero.pirat_item_armor = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_armor/god_eater_armor.vmdl" })
-		hero.pirat_item_armor:FollowEntity(hero, true)
-	end
-
-	if npcName == "npc_dota_hero_travoman" then
-		local particle_cart = ParticleManager:CreateParticle("particles/econ/items/techies/techies_arcana/techies_ambient_arcana.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
-		ParticleManager:SetParticleControlEnt( particle_cart, 0, hero, PATTACH_POINT_FOLLOW, "attach_attack1", Vector(0,0,0), true )
-	end
-
 	if hero:GetUnitName() == "npc_dota_hero_lycan" then
 		if DonateShopIsItemBought(playerID, 37) then
 			if hero ~= nil and hero:IsHero() then
@@ -892,14 +1016,6 @@ function BirzhaGameMode:OnHeroInGame(hero)
 			hero.brb_crown = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/birzhapass/crown_bigrussianboss.vmdl"})
 			hero.brb_crown:FollowEntity(hero, true)
 		end
-	end
-
-	if hero:GetUnitName() == "npc_dota_hero_void_spirit" then
-		hero.model_void_1 = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/queenofpain/queenofpain_arcana/queenofpain_arcana_head.vmdl"})
-		hero.model_void_1:FollowEntity(hero, true)
-		hero.model_void_2 = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/queenofpain/queenofpain_arcana/queenofpain_arcana_armor.vmdl"})
-		hero.model_void_2:FollowEntity(hero, true)
-		hero.effectvan = ParticleManager:CreateParticle("particles/econ/items/queen_of_pain/qop_arcana/qop_arcana_head_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.model_void_1)
 	end
 
 	if hero:GetUnitName() == "npc_dota_hero_pudge" then
@@ -1118,16 +1234,7 @@ function BirzhaGameMode:OnHeroInGame(hero)
 		end
 	end
 
-	if hero:GetUnitName() == "npc_dota_hero_grimstroke" then
-		if hero ~= nil and hero:IsHero() then
-			local children = hero:GetChildren();
-			for k,child in pairs(children) do
-				if child:GetClassname() == "dota_item_wearable" and child:GetModelName() == "models/heroes/grimstroke/grimstroke_head_item.vmdl" then
-					child:RemoveSelf();
-				end
-			end
-		end
-	end
+
 
 	if npcName == "npc_dota_hero_troll_warlord" then
 		if DonateShopIsItemBought(playerID, 24) then
@@ -1189,30 +1296,5 @@ function BirzhaGameMode:OnHeroInGame(hero)
 			hero.InvokerBracer = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/heroes/invoker_kid/invoker_kid_sleeves.vmdl"})
 			hero.InvokerBracer:FollowEntity(hero, true)
 		end
-	end
-
-	if npcName == "npc_dota_hero_abaddon" then
-		hero.WeaponMeepo = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/meepo/ti8_meepo_pitmouse_fraternity_weapon/ti8_meepo_pitmouse_fraternity_weapon.vmdl"})
-		hero.WeaponMeepo:FollowEntity(hero, true)
-	end
-
-	if npcName == "npc_dota_hero_enigma" then
-		hero.Ricardo = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/axe/ricardaxe.vmdl"})
-		hero.Ricardo:FollowEntity(hero, true)
-	end
-
-	if npcName == "npc_dota_hero_nyx_assassin" then
-		hero.Stray1 = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/rikimaru/ti6_blink_strike/riki_ti6_blink_strike.vmdl"})
-		hero.Stray1:FollowEntity(hero, true)
-		hero.Stray2 = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/rikimaru/umbrage/umbrage.vmdl"})
-		hero.Stray2:FollowEntity(hero, true)
-		hero.Stray3 = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/rikimaru/umbrage__offhand/umbrage__offhand.vmdl"})
-		hero.Stray3:FollowEntity(hero, true)
-		hero.Stray4 = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/rikimaru/riki_ti8_immortal_head/riki_ti8_immortal_head.vmdl"})
-		hero.Stray4:FollowEntity(hero, true)
-		hero.Stray5 = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/rikimaru/riki_cunning_corsair_ti_2017_tail/riki_cunning_corsair_ti_2017_tail.vmdl"})
-		hero.Stray5:FollowEntity(hero, true)
-		hero.stray_effect_1 = ParticleManager:CreateParticle("particles/econ/items/riki/riki_head_ti8/riki_head_ambient_ti8.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.Stray4)
-		hero.stray_effect_2 = ParticleManager:CreateParticle("particles/econ/items/riki/riki_immortal_ti6/riki_immortal_ti6_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.Stray1)
 	end
 end

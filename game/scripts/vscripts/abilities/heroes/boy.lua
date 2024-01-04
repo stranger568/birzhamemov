@@ -392,6 +392,9 @@ end
 function Pocik_penek:OnSpellStart()
     local caster = self:GetCaster()
     local point = self:GetCursorPosition()
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = point + self:GetCaster():GetForwardVector()
+    end
     local duration = self:GetSpecialValueFor('duration')
     local radius = self:GetSpecialValueFor( "radius" )
     caster:EmitSound("pocikpenek")

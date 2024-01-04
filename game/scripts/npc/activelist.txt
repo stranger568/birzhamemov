@@ -105,4 +105,9 @@
 	"npc_dota_hero_thomas_bebra"		"1"
 	"npc_dota_hero_serega_pirat"		"1"
 	"npc_dota_hero_venom"				"1"
+
+    "npc_dota_hero_kelthuzad"           "1"
+    "npc_dota_hero_sans"                "0"
+    "npc_dota_hero_kirito"              "0"
+    "npc_dota_hero_nix_streamer"        "0"
 }

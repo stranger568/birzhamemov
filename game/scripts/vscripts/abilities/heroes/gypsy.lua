@@ -237,6 +237,23 @@ function modifier_gypsy_lucky:DeclareFunctions()
 	return funcs
 end
 
+function modifier_gypsy_lucky:OnCreated()
+    if not IsServer() then return end
+    self.useless_abilities = 
+    {
+        ["gypsy_steal"] = true,
+        ["item_bag_of_gold"] = true,
+        ["item_treasure_chest"] = true,
+        ["item_treasure_chest_winter"] = true,
+        ["item_treasure_chest_bp_fake"] = true,
+        ["item_bag_of_gold_bp_fake"] = true,
+        ["item_bag_of_gold_van"] = true,
+        ["item_ultimate_mem"] = true,
+        ["item_moon_shard"] = true,
+        ["Durov_omni_slash"] = true,
+    }
+end
+
 function modifier_gypsy_lucky:OnAbilityFullyCast( params )
 	if params.unit~=self:GetCaster() then return end
 	if params.ability==self:GetAbility() then return end
@@ -247,7 +264,9 @@ function modifier_gypsy_lucky:OnAbilityFullyCast( params )
 	if bit.band( params.ability:GetBehaviorInt(), DOTA_ABILITY_BEHAVIOR_OPTIONAL_UNIT_TARGET ) ~= 0 then return end
 	if bit.band( params.ability:GetBehaviorInt(), DOTA_ABILITY_BEHAVIOR_CHANNELLED ) ~= 0 then return end
 
-	if params.ability:GetAbilityName() == "gypsy_steal" then return end
+    if self.useless_abilities[params.ability:GetAbilityName()] then
+        return
+    end
 
 	local target = params.target
 	local multicast_multi = 1
@@ -273,7 +292,6 @@ function modifier_gypsy_lucky:OnAbilityFullyCast( params )
 		end
 	end
 
-
 	local delay = FrameTime()
 	local single = false
 	self:GetCaster():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_gypsy_lucky_use", { ability = params.ability:entindex(), target = target:entindex(), multicast = multicast_multi, delay = delay, single = single, } )
@@ -292,6 +310,8 @@ end
 function modifier_gypsy_lucky_use:IsPurgable()
 	return false
 end
+
+function modifier_gypsy_lucky_use:IsPurgeException() return false end
 
 function modifier_gypsy_lucky_use:RemoveOnDeath()
 	return false
@@ -999,6 +1019,21 @@ function gypsy_steal_hidden:OnAbilityFullyCast( params )
 			"yakubovich_roll_scepter",
 			"mina_suicide",
 			"ponasenkov_ya_vas_killed",
+            "Kirill_GiantArms",
+            "Papich_StreamSnipers",
+            "migi_mutation",
+            "Ruby_RoseStrike",
+            "Grem_HardSkeleton",
+            "sonic_fast_sound",
+            "sobolev_biceps",
+            "horo_forest_wisdom",
+            "Doljan_Intellect",
+            "serega_pirat_bike",
+            "serega_pirat_bike_release",
+            "dwayne_fight_of_death",
+            "dwayne_fight_of_death_cancel",
+            "V1lat_AiAiAi",
+            "kelthuzad_death_knight",
 		}
 
 		local stop_please = false

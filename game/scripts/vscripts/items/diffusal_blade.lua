@@ -107,6 +107,9 @@ end
 
 modifier_item_birzha_diffusal_blade_2_debuff = class({})
 
+function modifier_item_birzha_diffusal_blade_2_debuff:IsPurgable() return false end
+function modifier_item_birzha_diffusal_blade_2_debuff:IsPurgeException() return false end
+
 function modifier_item_birzha_diffusal_blade_2_debuff:GetTexture()
   	return "items/diff2"
 end

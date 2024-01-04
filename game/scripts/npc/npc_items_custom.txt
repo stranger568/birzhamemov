@@ -854,6 +854,29 @@
 			"intellect_reg"     "50"
   		}
   	}
+
+    "item_quarterstaff"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"875"
+		"ItemShopTags"					"damage;attack_speed"
+		"ItemQuality"					"component"
+		"ItemAliases"					"quarterstaff"
+		"IsObsolete"					"0"
+
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityValues"
+		{
+				"bonus_speed"			"10"
+				"bonus_damage"			"10"
+		}
+	}
 	
 	//=================================================================================================================
 	// Vape
@@ -901,7 +924,6 @@
 		"ItemDisassembleRule"		"DOTA_ITEM_DISASSEMBLE_NEVER"
   		"AOERadius"					"500"
 		"AbilityCooldown"           "20"
-  		"ItemStackable"				"1"
 		"AbilityChannelTime"		"3"
 		
   		"AbilityValues"
@@ -1566,7 +1588,7 @@
 		"ItemShopTags"				"damage"
 		"ItemQuality"				"artifact"
 		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
-		"ItemInitialCharges"		"20"
+		"ItemInitialCharges"		"0"
 
 		"precache"
 		{
@@ -1595,7 +1617,7 @@
 		"ItemShopTags"				"damage"
 		"ItemQuality"				"artifact"
 		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
-		"ItemInitialCharges"		"40"
+		"ItemInitialCharges"		"0"
 
 		"precache"
 		{

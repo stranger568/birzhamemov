@@ -85,6 +85,32 @@ var Items_sounds = [
     ["216", "sounds_216"],
     ["217", "sounds_217"],
     ["218", "sounds_218"],
+
+    ["270", "sounds_270"],
+    ["271", "sounds_271"],
+    ["272", "sounds_272"],
+    ["273", "sounds_273"],
+    ["274", "sounds_274"],
+
+    ["275", "sounds_275"],
+    ["276", "sounds_276"],
+    ["277", "sounds_277"],
+    ["278", "sounds_278"],
+    ["279", "sounds_279"],
+    ["280", "sounds_280"],
+    ["281", "sounds_281"],
+    ["282", "sounds_282"],
+    ["283", "sounds_283"],
+    ["284", "sounds_284"],
+    ["285", "sounds_285"],
+    ["286", "sounds_286"],
+    ["287", "sounds_287"],
+    ["288", "sounds_288"],
+    ["289", "sounds_289"],
+    ["290", "sounds_290"],
+    ["291", "sounds_291"],
+    ["292", "sounds_292"],
+    ["293", "sounds_293"],
 ]
 
 var Items_sprays = [
@@ -121,7 +147,7 @@ var Items_toys = [
 ]
 
 var rings = new Array(
-    new Array(//0 start
+    new Array(
         new Array("","","","","","","",""),
         new Array(true,true,true,true,true,true,true,true),
     ),
@@ -171,9 +197,24 @@ var rings = new Array(
         new Array(204,205,206,207,208,209,210,211)
     ),
     new Array(
-        new Array("#sounds_212","#sounds_213","#sounds_214","#sounds_215","#sounds_216","#sounds_217","#sounds_218",""),
+        new Array("#sounds_212","#sounds_213","#sounds_214","#sounds_215","#sounds_216","#sounds_217","#sounds_218","#sounds_270"),
+        new Array(true,true,true,true,true,true,true,true),
+        new Array(212,213,214,215,216,217,218,270)
+    ),
+    new Array(
+        new Array("#sounds_271","#sounds_272","#sounds_273","#sounds_274","#sounds_275","#sounds_276","#sounds_277","#sounds_278"),
+        new Array(true,true,true,true,true,true,true,true),
+        new Array(271,272,273,274,275,276,277,278)
+    ),
+    new Array(
+        new Array("#sounds_279","#sounds_280","#sounds_281","#sounds_282","#sounds_283","#sounds_284","#sounds_285","#sounds_286"),
+        new Array(true,true,true,true,true,true,true,true),
+        new Array(279,280,281,282,283,284,285,286)
+    ),
+    new Array(
+        new Array("#sounds_287","#sounds_288","#sounds_289","#sounds_290","#sounds_291","#sounds_292","#sounds_293",""),
         new Array(true,true,true,true,true,true,true,false),
-        new Array(212,213,214,215,216,217,218,0)
+        new Array(287,288,289,290,291,292,293,0)
     ),
     new Array(
         new Array("#spray_1","#spray_2","#spray_3","#spray_4","#spray_5","#spray_6","#spray_7","#spray_8"),

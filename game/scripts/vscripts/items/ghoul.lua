@@ -18,9 +18,7 @@ end
 function item_ghoul:OnToggle()
     local caster = self:GetCaster()
     local toggle = self:GetToggleState()
-
     if not IsServer() then return end
-
     if toggle then
         self:EndCooldown()
         self.modifier = caster:AddNewModifier( caster, self, "modifier_item_ghoul_buff", {} )

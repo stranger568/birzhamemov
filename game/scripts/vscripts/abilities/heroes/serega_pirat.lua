@@ -591,14 +591,14 @@ function modifier_serega_pirat_tilt:OnCreated( kv )
 
 	self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_serega_pirat_tilt_rotate", {duration = self:GetRemainingTime()})
 
-	local apm = self:GetCaster():GetAttacksPerSecond()
+	local apm = self:GetCaster():GetAttacksPerSecond(true)
 	self:StartIntervalThink(1/apm)
 end
 
 function modifier_serega_pirat_tilt:OnIntervalThink()
 	if not IsServer() then return end
 
-	local apm = self:GetCaster():GetAttacksPerSecond()
+	local apm = self:GetCaster():GetAttacksPerSecond(true)
 
 	self:StartIntervalThink(1/apm)
 

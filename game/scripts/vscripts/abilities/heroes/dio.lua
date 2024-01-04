@@ -328,6 +328,9 @@ end
 function Dio_Blink:OnSpellStart()
     if not IsServer() then return end
     local point = self:GetCursorPosition()
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = point + self:GetCaster():GetForwardVector()
+    end
     local origin = self:GetCaster():GetOrigin()
 
     local range = self:GetSpecialValueFor("blink_range") + self:GetCaster():FindTalentValue("special_bonus_birzha_dio_1")
@@ -932,6 +935,9 @@ end
 function dio_roller:OnSpellStart()
     if not IsServer() then return end
     local point = self:GetCursorPosition()
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = point + self:GetCaster():GetForwardVector()
+    end
     self:GetCaster():EmitSound("dio_roda")
     self:GetCaster():SetForwardVector((point - self:GetCaster():GetAbsOrigin()):Normalized())
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_dio_roller_caster", {x=point.x, y=point.y, z=point.z})

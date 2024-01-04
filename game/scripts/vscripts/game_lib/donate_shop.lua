@@ -186,10 +186,12 @@ end
 
 function DonateShopIsItemBought(id, item)
     local player_info = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id]
-	local player_shop_table_items = player_info.server_data.player_items
-    for _, item_id in pairs(player_shop_table_items) do
-        if tostring(item_id) == tostring(item) then
-            return true
+    if player_info then
+        local player_shop_table_items = player_info.server_data.player_items
+        for _, item_id in pairs(player_shop_table_items) do
+            if tostring(item_id) == tostring(item) then
+                return true
+            end
         end
     end
 	return false
@@ -361,7 +363,7 @@ end
 function donate_shop:SelectChatWheel(keys)
 	if keys.PlayerID == nil then return end
     local player_info = BirzhaData.PLAYERS_GLOBAL_INFORMATION[keys.PlayerID]
-	local id_chatwheel = tostring(keys.id)
+	local id_chatwheel = tonumber(keys.id)
 	local item_chatwheel = tostring(keys.item)
 	local player_table = CustomNetTables:GetTableValue('birzhainfo', tostring(keys.PlayerID))
 	if player_table and player_info then
@@ -372,6 +374,7 @@ function donate_shop:SelectChatWheel(keys)
 		    end
 		    player_chat_wheel_change[id_chatwheel] = item_chatwheel
 		    player_table.chat_wheel = player_chat_wheel_change
+            player_info.server_data.chat_wheel = player_chat_wheel_change
 		    CustomNetTables:SetTableValue('birzhainfo', tostring(keys.PlayerID), player_table)
 		end
 	end

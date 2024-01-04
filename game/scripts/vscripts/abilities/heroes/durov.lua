@@ -41,76 +41,29 @@ function Durov_AttackOnPoliceman:OnSpellStart()
     local effect_radius = self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_durov_2")
     local attack_interval = self:GetSpecialValueFor("attack_cooldown")
     local sleight_targets = {}
-
+    
     caster:EmitSound("Hero_EmberSpirit.SleightOfFist.Cast")
-
+    
     local cast_pfx = ParticleManager:CreateParticle("particles/units/heroes/hero_ember_spirit/ember_spirit_sleight_of_fist_cast.vpcf", PATTACH_CUSTOMORIGIN, nil)
     ParticleManager:SetParticleControl(cast_pfx, 0, target_loc)
     ParticleManager:SetParticleControl(cast_pfx, 1, Vector(effect_radius, 1, 1))
     ParticleManager:ReleaseParticleIndex(cast_pfx)
 
     local nearby_enemies = FindUnitsInRadius(caster:GetTeamNumber(), target_loc, nil, effect_radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_NOT_ATTACK_IMMUNE + DOTA_UNIT_TARGET_FLAG_NO_INVIS, FIND_ANY_ORDER, false)
-
     for _,enemy in pairs(nearby_enemies) do
         if enemy:GetUnitName() ~= "npc_dota_face_zombie" then
-            sleight_targets[#sleight_targets + 1] = enemy:GetEntityIndex()
+            table.insert(sleight_targets, enemy)
             enemy:AddNewModifier(caster, self, "modifier_Durov_AttackOnPoliceman_debuff", {duration = (#sleight_targets - 1) * attack_interval})
         end
     end
 
-    if #sleight_targets >= 1 then
-        local previous_position = caster:GetAbsOrigin()
-        local current_count = 1
-        local current_target = EntIndexToHScript(sleight_targets[current_count])
-        caster:AddNewModifier(caster, self, "modifier_Durov_AttackOnPoliceman", {})
-
-        Timers:CreateTimer(0, function()
-            if current_target and not current_target:IsNull() and current_target:IsAlive() and not (current_target:IsInvisible() and not caster:CanEntityBeSeenByMyTeam(current_target)) and not current_target:IsAttackImmune() then
-                caster:EmitSound("Hero_EmberSpirit.SleightOfFist.Damage")
-                local slash_pfx = ParticleManager:CreateParticle("particles/units/heroes/hero_ember_spirit/ember_spirit_sleightoffist_tgt.vpcf", PATTACH_ABSORIGIN_FOLLOW, current_target)
-                ParticleManager:SetParticleControl(slash_pfx, 0, current_target:GetAbsOrigin())
-                ParticleManager:ReleaseParticleIndex(slash_pfx)
-
-                local trail_pfx = ParticleManager:CreateParticle("particles/units/heroes/hero_ember_spirit/ember_spirit_sleightoffist_trail.vpcf", PATTACH_CUSTOMORIGIN, nil)
-                ParticleManager:SetParticleControl(trail_pfx, 0, current_target:GetAbsOrigin())
-                ParticleManager:SetParticleControl(trail_pfx, 1, previous_position)
-                ParticleManager:ReleaseParticleIndex(trail_pfx)
-
-                if caster:HasModifier("modifier_Durov_AttackOnPoliceman") then
-                    caster:SetAbsOrigin(current_target:GetAbsOrigin() + original_direction * 64)
-                    caster:PerformAttack(current_target, true, true, true, false, false, false, false)
-                end
-            end
-
-            current_count = current_count + 1
-
-            if #sleight_targets >= current_count and caster:HasModifier("modifier_Durov_AttackOnPoliceman") then
-                previous_position = current_target:GetAbsOrigin()
-                current_target = EntIndexToHScript(sleight_targets[current_count])
-                
-                if not (current_target:IsInvisible() and not caster:CanEntityBeSeenByMyTeam(current_target)) and not current_target:IsAttackImmune() and current_target:IsAlive() then
-                    return attack_interval
-                else
-                    return 0
-                end
-            else
-                Timers:CreateTimer(attack_interval + FrameTime(), function()
-                    if caster:HasModifier("modifier_Durov_AttackOnPoliceman") then
-                        local trail_pfx = ParticleManager:CreateParticle("particles/units/heroes/hero_ember_spirit/ember_spirit_sleightoffist_trail.vpcf", PATTACH_CUSTOMORIGIN, nil)
-                        ParticleManager:SetParticleControl(trail_pfx, 0, caster_loc)
-                        ParticleManager:SetParticleControl(trail_pfx, 1, caster:GetAbsOrigin())
-                        ParticleManager:ReleaseParticleIndex(trail_pfx) 
-                        FindClearSpaceForUnit(caster, caster_loc, true)
-                    end
-
-                    caster:RemoveModifierByName("modifier_Durov_AttackOnPoliceman")
-
-                    for _, target in pairs(sleight_targets) do
-                        EntIndexToHScript(target):RemoveModifierByName("modifier_Durov_AttackOnPoliceman_debuff")
-                    end
-                end)
-            end
-        end)
+    if #sleight_targets > 0 then
+        local duration = #sleight_targets * attack_interval
+        local modifier_Durov_AttackOnPoliceman = caster:AddNewModifier(caster, self, "modifier_Durov_AttackOnPoliceman", {duration = duration + 0.1, dir_x = original_direction.x, dir_y = original_direction.y})
+        if modifier_Durov_AttackOnPoliceman then
+            modifier_Durov_AttackOnPoliceman.heroes = sleight_targets
+            modifier_Durov_AttackOnPoliceman:Start()
+        end
     end
 end
 
@@ -126,21 +79,67 @@ function modifier_Durov_AttackOnPoliceman_debuff:GetEffectAttachType()
 end
 
 modifier_Durov_AttackOnPoliceman = class({})
-
 function modifier_Durov_AttackOnPoliceman:IsPurgable() return false end
-
-function modifier_Durov_AttackOnPoliceman:OnCreated()
+function modifier_Durov_AttackOnPoliceman:OnCreated(params)
     if not IsServer() then return end
     self.particle = ParticleManager:CreateParticle("particles/units/heroes/hero_ember_spirit/ember_spirit_sleight_of_fist_caster.vpcf", PATTACH_CUSTOMORIGIN, nil)
     ParticleManager:SetParticleControl(self.particle, 0, self:GetCaster():GetAbsOrigin())
     ParticleManager:SetParticleControlEnt(self.particle, 1, self:GetParent(), PATTACH_CUSTOMORIGIN_FOLLOW, nil, self:GetCaster():GetAbsOrigin(), true)
     ParticleManager:SetParticleControlForward(self.particle, 1, self:GetParent():GetForwardVector())
     self:AddParticle(self.particle, false, false, -1, false, false)
+    self.dir_x = params.dir_x
+    self.dir_y = params.dir_y
     self:GetParent():AddNoDraw()
+    self.loc = self:GetParent():GetAbsOrigin()
+    self.heroes = {}
+    self.current_count = 0
+    self.attack_interval = self:GetAbility():GetSpecialValueFor("attack_cooldown")
     self:GetAbility():SetActivated(false)
     local Durov_omni_slash = self:GetCaster():FindAbilityByName("Durov_omni_slash")
     if Durov_omni_slash then
         Durov_omni_slash:SetActivated(false)
+    end
+end
+
+function modifier_Durov_AttackOnPoliceman:Start()
+    if not IsServer() then return end
+    self:StartIntervalThink(self.attack_interval)
+    self:OnIntervalThink()
+end
+
+function modifier_Durov_AttackOnPoliceman:OnIntervalThink()
+    if not IsServer() then return end
+    self.current_count = self.current_count + 1
+    local previous_position = self:GetParent():GetAbsOrigin()
+    local current_target = self.heroes[self.current_count]
+    if current_target and not current_target:IsNull() and current_target:IsAlive() and not (current_target:IsInvisible() and not caster:CanEntityBeSeenByMyTeam(current_target)) and not current_target:IsAttackImmune() then
+        self:GetParent():EmitSound("Hero_EmberSpirit.SleightOfFist.Damage")
+        local slash_pfx = ParticleManager:CreateParticle("particles/units/heroes/hero_ember_spirit/ember_spirit_sleightoffist_tgt.vpcf", PATTACH_ABSORIGIN_FOLLOW, current_target)
+        ParticleManager:SetParticleControl(slash_pfx, 0, current_target:GetAbsOrigin())
+        ParticleManager:ReleaseParticleIndex(slash_pfx)
+        --------------------------------------------------
+        local trail_pfx = ParticleManager:CreateParticle("particles/units/heroes/hero_ember_spirit/ember_spirit_sleightoffist_trail.vpcf", PATTACH_CUSTOMORIGIN, nil)
+        ParticleManager:SetParticleControl(trail_pfx, 0, current_target:GetAbsOrigin())
+        ParticleManager:SetParticleControl(trail_pfx, 1, previous_position)
+        ParticleManager:ReleaseParticleIndex(trail_pfx)
+        --------------------------------------------------
+        self:GetParent():SetAbsOrigin(current_target:GetAbsOrigin() + Vector(self.dir_x, self.dir_y, 0) * 64)
+        self:GetParent():PerformAttack(current_target, true, true, true, false, false, false, false)
+    else
+        local trail_pfx = ParticleManager:CreateParticle("particles/units/heroes/hero_ember_spirit/ember_spirit_sleightoffist_trail.vpcf", PATTACH_CUSTOMORIGIN, nil)
+        ParticleManager:SetParticleControl(trail_pfx, 0, self.loc)
+        ParticleManager:SetParticleControl(trail_pfx, 1, self:GetParent():GetAbsOrigin())
+        ParticleManager:ReleaseParticleIndex(trail_pfx) 
+
+        FindClearSpaceForUnit(self:GetParent(), self.loc, true)
+
+        for _, target in pairs(self.heroes) do
+            if target and not target:IsNull() then
+                target:RemoveModifierByName("modifier_Durov_AttackOnPoliceman_debuff")
+            end
+        end
+
+        self:Destroy()
     end
 end
 
@@ -178,15 +177,35 @@ function modifier_Durov_AttackOnPoliceman:DeclareFunctions()
 end
 
 function modifier_Durov_AttackOnPoliceman:GetModifierPreAttack_BonusDamage(keys)
-    if IsClient() then
-        return 0
-    end
+    if IsClient() then return 0 end
     return self:GetAbility():GetSpecialValueFor("bonus_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_durov_5")
 end
 
 function modifier_Durov_AttackOnPoliceman:GetModifierIgnoreCastAngle()
     return 1
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 LinkLuaModifier("modifier_Durov_omni_slash_caster", "abilities/heroes/durov.lua", LUA_MODIFIER_MOTION_NONE)
 
@@ -268,7 +287,7 @@ function modifier_Durov_omni_slash_caster:OnCreated()
             self.hero_agility = self.original_caster:GetAgility()
             self:GetAbility():SetRefCountsModifiers(false)
             self:BounceAndSlaughter(true)
-            local slash_rate = (1 / ( self.caster:GetAttackSpeed() * (math.max(self:GetAbility():GetSpecialValueFor("attack_rate_multiplier")+ self:GetCaster():FindTalentValue("special_bonus_birzha_durov_1"), 1))))
+            local slash_rate = (1 / ( self.caster:GetAttackSpeed(true) * (math.max(self:GetAbility():GetSpecialValueFor("attack_rate_multiplier")+ self:GetCaster():FindTalentValue("special_bonus_birzha_durov_1"), 1))))
             self:StartIntervalThink(slash_rate)
         end
     end)
@@ -277,7 +296,7 @@ end
 function modifier_Durov_omni_slash_caster:OnIntervalThink()
     self.hero_agility = self.original_caster:GetAgility()
     self:BounceAndSlaughter()
-    local slash_rate = (1 / ( self.caster:GetAttackSpeed() * (math.max(self:GetAbility():GetSpecialValueFor("attack_rate_multiplier")+ self:GetCaster():FindTalentValue("special_bonus_birzha_durov_1"), 1))))
+    local slash_rate = (1 / ( self.caster:GetAttackSpeed(true) * (math.max(self:GetAbility():GetSpecialValueFor("attack_rate_multiplier")+ self:GetCaster():FindTalentValue("special_bonus_birzha_durov_1"), 1))))
     self:StartIntervalThink(-1)
     self:StartIntervalThink(slash_rate)
 end
@@ -423,7 +442,7 @@ function modifier_Durov_DropMoneyInFace_crit_passive:GetModifierPreAttack_Critic
 
     if RollPercentage(chance) then
         self.record = params.record
-        self:GetParent():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK_EVENT, self:GetParent():GetAttackSpeed())
+        self:GetParent():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK_EVENT, self:GetParent():GetAttackSpeed(true))
         local crit_pfx = ParticleManager:CreateParticle("particles/econ/items/juggernaut/armor_of_the_favorite/juggernaut_armor_of_the_favorite_crit.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
         ParticleManager:SetParticleControl(crit_pfx, 0, self:GetParent():GetAbsOrigin())
         ParticleManager:ReleaseParticleIndex(crit_pfx)
@@ -589,7 +608,7 @@ end
 function modifier_Durov_Vpn_buff_illusion:OnIntervalThink()
     local nearby_enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self:GetParent():Script_GetAttackRange()+50, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_NOT_ATTACK_IMMUNE + DOTA_UNIT_TARGET_FLAG_NO_INVIS, FIND_CLOSEST, false)
     if #nearby_enemies > 0 then
-        self:GetParent():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, self:GetParent():GetAttackSpeed()*1.2)
+        self:GetParent():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, self:GetParent():GetAttackSpeed(true)*1.2)
         self:GetParent():PerformAttack(nearby_enemies[1], true, true, false, false, false, false, false)
         self.move = false
     elseif self:GetCaster():IsMoving() then

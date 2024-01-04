@@ -88,6 +88,19 @@ function modifier_weapon_shakal:OnCreated()
     self.chance_cooldown = self:GetAbility():GetSpecialValueFor("chance_cooldown")
     self.spell_lifesteal = self:GetAbility():GetSpecialValueFor("spell_lifesteal")
     self.chance_radius = self:GetAbility():GetSpecialValueFor("chance_radius")
+
+    self.useless =
+    {
+        ["aang_quas"] = true,
+        ["aang_wex"] = true,
+        ["aang_exort"] = true,
+        ["aang_invoke"] = true,
+        ["kakashi_quas"] = true,
+        ["kakashi_wex"] = true,
+        ["kakashi_exort"] = true,
+        ["kakashi_invoke"] = true,
+        ["mum_change_hook_style"] = true,
+    }
 end
 
 function modifier_weapon_shakal:DeclareFunctions()
@@ -146,6 +159,12 @@ function modifier_weapon_shakal:OnAbilityFullyCast( params )
             return 0
         end
         if hAbility:IsToggle() or hAbility:IsItem() then
+            return 0
+        end
+        if self.useless[hAbility:GetAbilityName()] then
+            return 0
+        end
+        if hAbility:GetCooldown(hAbility:GetLevel()) <= 0 then
             return 0
         end
         if self:GetParent():HasModifier("modifier_weapon_shakal_cooldown") then return end

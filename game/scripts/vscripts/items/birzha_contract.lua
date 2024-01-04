@@ -35,10 +35,22 @@ function modifier_item_birzha_contract_caster:OnIntervalThink()
     end
     CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(self:GetCaster():GetPlayerOwnerID()), "contract_heroes_activate", {heroes = heroes} )
 end
+
 function modifier_item_birzha_contract_caster:OnDestroy()
     if not IsServer() then return end
-    if self.target ~= nil then
-        self.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_item_birzha_contract_target", {})
+    local target = self.target
+    local caster = self:GetCaster()
+    local ability = self:GetAbility()
+    if target ~= nil then
+        target:AddNewModifier(caster, ability, "modifier_item_birzha_contract_target", {})
+        if not target:IsAlive() or target:IsInvulnerable() then
+            Timers:CreateTimer(1, function()
+                if not target:IsAlive() or target:IsInvulnerable() then
+                    return 1
+                end
+                target:AddNewModifier(caster, ability, "modifier_item_birzha_contract_target", {})
+            end)
+        end
     end
     CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(self:GetCaster():GetPlayerOwnerID()), "contract_heroes_close", {} )
 end
@@ -48,6 +60,7 @@ function modifier_item_birzha_contract_target:RemoveOnDeath() return false end
 function modifier_item_birzha_contract_target:IsPurgable() return false end
 function modifier_item_birzha_contract_target:IsPurgeException() return false end
 function modifier_item_birzha_contract_target:IsHidden() return true end
+function modifier_item_birzha_contract_target:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 function modifier_item_birzha_contract_target:GetTexture()
 	return "items/birzha_contract"
 end
@@ -99,7 +112,7 @@ function modifier_item_birzha_contract_target:OnDeath( params )
         end
         if killer == self:GetParent() then
             self:GetParent():ModifyGold(BirzhaGameMode.contract_gold[self:GetParent():GetTeamNumber()] * 2, false, 0)
-            CustomGameEventManager:Send_ServerToAllClients("birzha_toast_manager_create", {text = "CancelContract", icon = "contract_lose", caster = caster:GetUnitName(), target = self:GetParent():GetUnitName(), sound="CancelContract"} )
+            CustomGameEventManager:Send_ServerToAllClients("birzha_toast_manager_create", {text = "CancelContract", icon = "contract_lose", target = caster:GetUnitName(), caster = self:GetParent():GetUnitName(), sound="CancelContract"} )
             if not self:IsNull() then
                 self:Destroy()
             end

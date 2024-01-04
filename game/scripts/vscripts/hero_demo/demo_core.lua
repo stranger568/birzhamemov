@@ -82,6 +82,10 @@ function HeroDemo:SpawnHeroDemo( data )
 	end )
 end
 
+function HeroDemo:ChangeHeroDemo( data )
+	PlayerResource:ReplaceHeroWith(data.PlayerID, data.hero_name, 99999, 0)
+end
+
 function HeroDemo:OnWelcomePanelDismissed( event )
 
 end

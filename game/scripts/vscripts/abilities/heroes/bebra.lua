@@ -15,13 +15,16 @@ function thomas_ability_one:GetAOERadius()
 end
 
 function thomas_ability_one:GetCooldown(iLevel)
-    local minus_cooldown = ((self:GetCaster():GetAttackSpeed() * 100) / self:GetSpecialValueFor("attack_speed_cooldown")) - (self:GetCaster():FindTalentValue("special_bonus_birzha_shelby_7"))
+    local minus_cooldown = ((self:GetCaster():GetAttackSpeed(true) * 100) / self:GetSpecialValueFor("attack_speed_cooldown")) - (self:GetCaster():FindTalentValue("special_bonus_birzha_shelby_7"))
     return self.BaseClass.GetCooldown( self, iLevel ) - minus_cooldown
 end
 
 function thomas_ability_one:OnSpellStart()
     if not IsServer() then return end
     local point = self:GetCursorPosition()
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = point + self:GetCaster():GetForwardVector()
+    end
     local radius = self:GetSpecialValueFor("radius")
     local damage = self:GetSpecialValueFor("damage")
     local duration = self:GetSpecialValueFor("duration")
@@ -108,6 +111,9 @@ function thomas_ability_two_one:OnSpellStart()
     local kills = self:GetCaster():GetKills()
     local assists = self:GetCaster():GetAssists()
     local point = self:GetCursorPosition()
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = point + self:GetCaster():GetForwardVector()
+    end
     self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_3)
 
     self:GetCaster():RemoveModifierByName("modifier_item_echo_sabre")
@@ -135,7 +141,7 @@ function modifier_thomas_ability_two_one_gypsy:IsPurgable() return false end
 function modifier_thomas_ability_two_one_gypsy:OnCreated()
     if not IsServer() then return end
     self.damage = (self:GetParent():GetOwner():GetAverageTrueAttackDamage(nil) / 100) * self:GetAbility():GetSpecialValueFor("damage")
-    self.attackspeed = (self:GetParent():GetOwner():GetAttackSpeed() * 100) / self:GetAbility():GetSpecialValueFor("attack_speed_mult")
+    self.attackspeed = (self:GetParent():GetOwner():GetAttackSpeed(true) * 100) / self:GetAbility():GetSpecialValueFor("attack_speed_mult")
     self.networth_steal = self:GetAbility():GetSpecialValueFor("gold_steal")
     self:SetHasCustomTransmitterData(true)
     self:StartIntervalThink(0.1)
@@ -220,6 +226,9 @@ function thomas_ability_two_two:GetAOERadius() return 600 end
 function thomas_ability_two_two:OnSpellStart()
     if not IsServer() then return end
     local point = self:GetCursorPosition()
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = point + self:GetCaster():GetForwardVector()
+    end
     local radius = 200
     local vector = GetGroundPosition(point + Vector(0, radius, 0), nil)
     local duration_debuff = self:GetSpecialValueFor("duration_debuff")
@@ -433,7 +442,7 @@ function modifier_shelby_ultimate:OnCreated()
     self.radius = self:GetAbility():GetSpecialValueFor("attack_radius")
     self.weapon = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/tailer/weapon_test.vmdl"})
     self.weapon:FollowEntity(self:GetParent(), true)
-    local attack_per_second = self:GetParent():GetAttackSpeed() / self:GetParent():GetBaseAttackTime()
+    local attack_per_second = self:GetParent():GetAttackSpeed(true) / self:GetParent():GetBaseAttackTime()
     local interval = 1 / attack_per_second
     self:StartIntervalThink(interval)
 end

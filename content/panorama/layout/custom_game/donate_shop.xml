@@ -19,6 +19,9 @@
 			<Panel class="BirzhaPlusButtonIcon" />
 			<Label class="BirzhaPlusButtonLabel" text="#birzhaplus_button" />
 		</Panel>
+        <Panel class="NewItemsInfo" id="NewItemsInfo">
+            <Label class="NewItemsInfoLabel" text="#shop_notification" />
+        </Panel>
 		<Panel id="SmilesButton" onactivate="ToggleSmiles();" />
 		<Panel id="BirzhaPassWindow" hittest="false">
 			<Panel id="BirzhaPassWindowActive">
@@ -277,7 +280,12 @@
 					<Panel class="ItemsCategoryButton" onactivate="SwitchShopTab('HeroesDonateItems', 'HeroesItemsButton');" id="HeroesItemsButton"> <Label text="#shop_heroesitems" class="ButtonText" /> </Panel>
 					<Panel class="ItemsCategoryButton" onactivate="SwitchShopTab('PetsDonateItems', 'PetsButton');" id="PetsButton"> <Label text="#shop_pets" class="ButtonText" /> </Panel>
 					<Panel class="ItemsCategoryButton" onactivate="SwitchShopTab('EffectsDonateItems', 'EffectsButton');" id="EffectsButton"> <Label text="#shop_particles" class="ButtonText" /> </Panel>
-					<Panel class="ItemsCategoryButton" onactivate="SwitchShopTab('SoundsDonateItems', 'SoundsButton');" id="SoundsButton"> <Label text="#shop_sounds" class="ButtonText" /> </Panel>
+					<Panel class="ItemsCategoryButton" onactivate="SwitchShopTab('SoundsDonateItems', 'SoundsButton');" id="SoundsButton"> 
+                        <Panel class="NewItemInfo">
+                            <Label class="NewItemInfoLabel" text="#new_item_info" />
+                        </Panel>
+                        <Label text="#shop_sounds" class="ButtonText" /> 
+                    </Panel>
 					<Panel class="ItemsCategoryButton" onactivate="SwitchShopTab('SpraysonateItems', 'SpraysButton');" id="SpraysButton"> <Label text="#shop_sprays" class="ButtonText" /> </Panel>
 					<Panel class="ItemsCategoryButton" onactivate="SwitchShopTab('ToysDonateItems', 'ToysButton');" id="ToysButton"> <Label text="#shop_toys" class="ButtonText" /> </Panel>
 					<Panel class="ItemsCategoryButton" onactivate="SwitchShopTab('BorderDonateItems', 'BorderButton');" id="BorderButton"> <Label text="#shop_borders" class="ButtonText" /> </Panel>

@@ -152,13 +152,12 @@
 						</Panel>
 						<Panel id="NextTip" class="TipButton"/>
 					</Panel>
-					<!--<Panel id="DonateContainer" onactivate="ExternalBrowserGoToURL('https://bmemov.ru/donate/')">
-						<Label class="NewWidgetLabel" text="#Contributepanel"/>
+					<Panel id="DonateContainer" onactivate="ExternalBrowserGoToURL('https://bmemov.strangerdev.ru/ads.php')">
+						<Label class="NewWidgetLabel" text="#ContributepanelZaim"/>
 						<Panel id="DonateInformation">
-							<Label id="TipLabel" text="#LoadingDonate"/>
+							<Label id="TipLabel" text="#LoadingDonateZaim"/>
 						</Panel>
-						<Panel id="PassIcon" class="PassIcon"/>
-					</Panel>-->
+					</Panel>
 					<Panel id="DonateContainer_2" onactivate="ExternalBrowserGoToURL('https://bmemov.strangerdev.ru/updates/birzha_die_part_1/')">
 						<Label class="NewWidgetLabel" text="#Updatename"/>
 						<Panel id="DonateInformation_2">

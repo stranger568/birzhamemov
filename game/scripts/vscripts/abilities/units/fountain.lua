@@ -145,8 +145,9 @@ end
 function modifier_fountain_passive_invul:OnTakeDamage( params )
     if not IsServer() then return end
     if params.unit == self:GetParent() and params.attacker ~= self:GetParent() then
-    	if BIRZHA_FOUNTAIN_GAME_TIMER and BIRZHA_FOUNTAIN_GAME_TIMER <= 0 then return end
-    	params.unit:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_fountain_attacked", { duration = 5 } )
+    	if BIRZHA_FOUNTAIN_GAME_TIMER and BIRZHA_FOUNTAIN_GAME_TIMER <= 0 then
+    	    params.unit:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_fountain_attacked", { duration = 5 } )
+        end
     end
 end
 

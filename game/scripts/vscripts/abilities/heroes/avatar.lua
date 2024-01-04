@@ -723,6 +723,9 @@ end
 function aang_lunge:OnSpellStart()
     if not IsServer() then return end
     local point = self:GetCursorPosition()
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = point + self:GetCaster():GetForwardVector()
+    end
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_aang_lunge", {
         duration    = math.min((point - self:GetCaster():GetAbsOrigin()):Length2D(), self:GetCastRange( self:GetCaster():GetOrigin(), self:GetCaster() )),
         x           = point.x,
@@ -740,7 +743,7 @@ function aang_lunge:OnSpellStart()
         fStartRadius = 100,
         fEndRadius = 100,
         vVelocity = vDirection * 1100,
-        fDistance = #(self:GetCursorPosition() - self:GetCaster():GetOrigin()),
+        fDistance = #(point - self:GetCaster():GetOrigin()),
         Source = self:GetCaster(),
         iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
         iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
@@ -1045,6 +1048,9 @@ end
 function aang_vacuum:OnSpellStart()
     local caster = self:GetCaster()
     local point = self:GetCursorPosition()
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = point + self:GetCaster():GetForwardVector()
+    end
     local radius = ability_manager:GetValueQuas(self, self:GetCaster(), "radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_avatar_1")
     local tree = self:GetSpecialValueFor( "radius_tree" )
     local duration = ability_manager:GetValueQuas(self, self:GetCaster(), "duration")

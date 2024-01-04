@@ -26,6 +26,9 @@ function BigRussianBoss_Vape:OnSpellStart()
     if not IsServer() then return end
     local caster = self:GetCaster()
     local point = self:GetCursorPosition()
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = point + self:GetCaster():GetForwardVector()
+    end
     local duration = self:GetSpecialValueFor("duration")
     local radius = self:GetSpecialValueFor("radius")
     local thinker = CreateModifierThinker(caster, self, "modifier_vape_smoke", {duration = duration, target_point_x = point.x , target_point_y = point.y}, point, caster:GetTeamNumber(), false)

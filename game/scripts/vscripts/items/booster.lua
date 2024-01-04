@@ -61,8 +61,6 @@ end
 modifier_modifier_eul_cyclone_birzha = class({})
 
 function modifier_modifier_eul_cyclone_birzha:IsHidden()     return false  end
-function modifier_modifier_eul_cyclone_birzha:IsPurgable()   return false  end
-function modifier_modifier_eul_cyclone_birzha:IsPurgeException()     return false  end
 function modifier_modifier_eul_cyclone_birzha:IsMotionController()  return true end
 function modifier_modifier_eul_cyclone_birzha:GetMotionControllerPriority()  return DOTA_MOTION_CONTROLLER_PRIORITY_HIGH end
 

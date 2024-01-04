@@ -83,7 +83,7 @@ function modifier_kirill_GiantArms_buff:OnAttackStart(params)
     local parent = self:GetParent()
     local target = params.target
     if parent == params.attacker and target:GetTeamNumber() ~= parent:GetTeamNumber() and not target:IsWard() then
-        self:GetParent():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_4, self:GetParent():GetAttackSpeed())
+        self:GetParent():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_4, self:GetParent():GetAttackSpeed(true))
     end
 end
 

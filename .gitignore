@@ -23,6 +23,7 @@
 *.vsnd_c
 *.png
 *.jpeg
+*.dmx
 models/
 materials/
 particles/

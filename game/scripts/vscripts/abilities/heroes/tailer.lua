@@ -123,6 +123,7 @@ function tailer_burgerking:OnSpellStart()
 	burger_king:SetControllableByPlayer(self:GetCaster():GetPlayerID(), true)
 	burger_king:AddNewModifier(self:GetCaster(), self, "modifier_kill", {duration = duration})
 	burger_king:AddNewModifier(self:GetCaster(), self, "modifier_tailer_burgerking_buff", {duration = duration})
+    ResolveNPCPositions( burger_king:GetAbsOrigin(), 150 )
 	self:GetCaster():EmitSound("Hero_Pugna.NetherWard")
 end
 

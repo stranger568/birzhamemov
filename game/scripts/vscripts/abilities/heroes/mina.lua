@@ -23,6 +23,9 @@ function mina_explosive_wave:OnSpellStart()
 	if IsServer() then
 		local caster = self:GetCaster()
 		local target_loc = self:GetCursorPosition()
+        if target_loc == self:GetCaster():GetAbsOrigin() then
+            target_loc = target_loc + self:GetCaster():GetForwardVector()
+        end
 		local caster_loc = caster:GetAbsOrigin()
 		local radius = self:GetSpecialValueFor("aoe_radius")
 		local cast_delay = self:GetSpecialValueFor("cast_delay")

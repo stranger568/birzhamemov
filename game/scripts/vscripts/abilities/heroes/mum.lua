@@ -1043,6 +1043,7 @@ function modifier_fut_mum_eat_caster:OnAttackStart( params )
     if params.target:HasModifier("modifier_fut_mum_eat_caster") then return end
     if params.target:GetTeamNumber() == self:GetParent():GetTeamNumber() then return end
     if params.target:IsBoss() then return end
+    if not params.target:IsHero() then return end
     
     self:GetCaster():RemoveGesture(ACT_DOTA_ATTACK)
     local duration = self:GetRemainingTime()

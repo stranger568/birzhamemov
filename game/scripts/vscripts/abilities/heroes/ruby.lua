@@ -33,6 +33,7 @@ function ruby_ranged_mode:OnVectorCastStart(vStartLocation, vDirection)
         ParticleManager:ReleaseParticleIndex( effects )
         if bInterrupted then return end
         self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_ruby_ranged_mode", {dir_x = vDirection.x, dir_y = vDirection.y})
+        FindClearSpaceForUnit(self:GetCaster(), self:GetCaster():GetAbsOrigin(), true)
     end
 
     knockback:SetEndCallback( callback )

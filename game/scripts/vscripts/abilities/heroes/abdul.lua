@@ -246,6 +246,9 @@ function Abdulov_TripToHell:OnSpellStart()
     if not IsServer() then return end
     local caster = self:GetCaster()
     local point = self:GetCursorPosition()
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = point + self:GetCaster():GetForwardVector()
+    end
     local duration = self:GetSpecialValueFor( "duration" )
     CreateModifierThinker( caster, self, "modifier_Abdulov_TripToHell", { duration = duration }, point, caster:GetTeamNumber(), false )
     caster:EmitSound("Hero_AbyssalUnderlord.PitOfMalice")

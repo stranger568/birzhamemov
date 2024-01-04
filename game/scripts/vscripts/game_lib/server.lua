@@ -427,6 +427,9 @@ function BirzhaData:RegisterPlayerSiteInfo(data, player_id)
         games = data.games or 0,
         connected = true,
     }
+    if IsInToolsMode() then
+        player_info.server_data.birzha_coin = 999999
+    end
     if player_info.server_data.bp_days > 0 then
         CustomNetTables:SetTableValue("tip_cooldown", tostring(player_id), {cooldown = 0})
     end
@@ -468,6 +471,7 @@ function BirzhaData.SetTopMmr(list)
 end
 
 function BirzhaData:CheckConnection()
+    if IsInToolsMode() then return end
     for id, player_info in pairs(BirzhaData.PLAYERS_GLOBAL_INFORMATION) do
         if not player_info.server_data.connected then
             BirzhaData.SERVER_CONNECTION = false
@@ -500,14 +504,14 @@ function BirzhaData.PostData()
             pet_default = tonumber(player_info.server_data.pet_default),
             default_border = tonumber(player_info.server_data.default_border),
             effect_id = tonumber(player_info.server_data.effect_id),
-            chatwheel_1 = BirzhaData.GetChatWheel(id, "1"),
-            chatwheel_2 = BirzhaData.GetChatWheel(id, "2"),
-            chatwheel_3 = BirzhaData.GetChatWheel(id, "3"),
-            chatwheel_4 = BirzhaData.GetChatWheel(id, "4"),
-            chatwheel_5 = BirzhaData.GetChatWheel(id, "5"),
-            chatwheel_6 = BirzhaData.GetChatWheel(id, "6"),
-            chatwheel_7 = BirzhaData.GetChatWheel(id, "7"),
-            chatwheel_8 = BirzhaData.GetChatWheel(id, "8"),
+            chatwheel_1 = BirzhaData.GetChatWheel(id, 1),
+            chatwheel_2 = BirzhaData.GetChatWheel(id, 2),
+            chatwheel_3 = BirzhaData.GetChatWheel(id, 3),
+            chatwheel_4 = BirzhaData.GetChatWheel(id, 4),
+            chatwheel_5 = BirzhaData.GetChatWheel(id, 5),
+            chatwheel_6 = BirzhaData.GetChatWheel(id, 6),
+            chatwheel_7 = BirzhaData.GetChatWheel(id, 7),
+            chatwheel_8 = BirzhaData.GetChatWheel(id, 8),
             games = 1,
         }
         table.insert(post_data.players, player_table)

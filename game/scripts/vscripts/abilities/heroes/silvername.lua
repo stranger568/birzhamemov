@@ -32,8 +32,8 @@ end
 
 function SilverName_TopDeck:OnSpellStart()
     if not IsServer() then return end
-    local duration = (1 / self:GetCaster():GetAttacksPerSecond()) - (FrameTime() * 5)
-    self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, self:GetCaster():GetAttackSpeed())
+    local duration = (1 / self:GetCaster():GetAttacksPerSecond(true)) - (FrameTime() * 5)
+    self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, self:GetCaster():GetAttackSpeed(true))
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_silver_TopDeck_active", {duration = duration})
     self:GetCaster():EmitSound("silverdek")
 end

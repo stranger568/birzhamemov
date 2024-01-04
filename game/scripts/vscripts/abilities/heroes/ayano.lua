@@ -584,6 +584,9 @@ end
 function Ayano_LaunchACircularSaw:OnSpellStart()
     if not IsServer() then return end
     local point = self:GetCursorPosition()
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = point + self:GetCaster():GetForwardVector()
+    end
     self:GetCaster():EmitSound("Hero_Shredder.Chakram.Cast")
 
     local duration = (point - self:GetCaster():GetAbsOrigin()):Length2D() / self:GetSpecialValueFor( "speed" )

@@ -4544,3 +4544,64 @@ visibility: visible;
     margin-right: 5px;
     margin-top: 5px;
 }
+
+.NewItemsInfo
+{
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 1px solid white;
+    border-brush: gradient(radial, 0% 0%, 2% 10%, 100% 100%, from(rgb(255, 238, 141)), to(rgba(230, 255, 121, 0.02)));
+    margin-top: 50px;
+    margin-left: 120px;
+    horizontal-align: left;
+    transition-property: opacity;
+    transition-duration: 0.25s;
+    opacity: 0;
+}
+.NewItemsInfoLabel
+{
+    font-weight: semi-bold;
+    color: white;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.NewItemInfo
+{
+    horizontal-align: right;
+    padding: 2px;
+    background-color: #0000007a;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.4);
+    border: 1px solid black;
+    margin: 1px;
+    z-index: 5;
+}
+
+.NewItemInfoItem
+{
+    horizontal-align: right;
+    padding: 2px;
+    background-color: #0000007a;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 1);
+    border: 1px solid black;
+    margin: 1px;
+    z-index: 5;
+}
+
+.NewItemInfoLabel
+{
+    font-weight: semi-bold;
+    text-transform: uppercase;
+    font-size: 16px;
+    color: gradient(linear, 0% 0%, 0% 100%, from(#FFDB5C), color-stop(0.4, #FFC01E), to(#FFFFFF));
+    text-shadow: 0px 0.5px 5px 0 #000000b1;
+}
+
+.NewItemInfoLabelItem
+{
+    font-weight: semi-bold;
+    text-transform: uppercase;
+    font-size: 18px;
+    color: gradient(linear, 0% 0%, 0% 100%, from(#FFDB5C), color-stop(0.4, #FFC01E), to(#FFFFFF));
+    text-shadow: 0px 0.5px 5px 0 #000000b1;
+}

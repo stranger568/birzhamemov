@@ -535,6 +535,126 @@ BIRZHA_CHAT_WHEEL_EVENTS =
         type = "sound",
         localize = "Осууждаю !!!"
     },
+    ["270"] =
+    {
+        type = "sound",
+        localize = "Ты теперь пацан"
+    },
+    ["271"] =
+    {
+        type = "sound",
+        localize = "Разъезд Чушпаны"
+    },
+    ["272"] =
+    {
+        type = "sound",
+        localize = "Вы не готовы"
+    },
+    ["273"] =
+    {
+        type = "sound",
+        localize = "Отшиваем"
+    },
+    ["274"] =
+    {
+        type = "sound",
+        localize = "За эту улицу стою"
+    },
+    ["275"] =
+    {
+        type = "sound",
+        localize = "Я великий грешник"
+    },
+    ["276"] =
+    {
+        type = "sound",
+        localize = "Это было не просто смело"
+    },
+    ["277"] =
+    {
+        type = "sound",
+        localize = "Мне это не интересно"
+    },
+    ["278"] =
+    {
+        type = "sound",
+        localize = "Копейки"
+    },
+    ["279"] =
+    {
+        type = "sound",
+        localize = "Ни ху я"
+    },
+    ["280"] =
+    {
+        type = "sound",
+        localize = "Миш мне похуй"
+    },
+    ["281"] =
+    {
+        type = "sound",
+        localize = "Какая-то хуйня"
+    },
+    ["282"] =
+    {
+        type = "sound",
+        localize = "Нахуя тебе"
+    },
+    ["283"] =
+    {
+        type = "sound",
+        localize = "Сомнительно OK"
+    },
+    ["284"] =
+    {
+        type = "sound",
+        localize = "Я не хочу с этим жить"
+    },
+    ["285"] =
+    {
+        type = "sound",
+        localize = "Ну это пиздец"
+    },
+    ["286"] =
+    {
+        type = "sound",
+        localize = "Это чистый хайп"
+    },
+    ["287"] =
+    {
+        type = "sound",
+        localize = "Я ошибся"
+    },
+    ["288"] =
+    {
+        type = "sound",
+        localize = "Круто"
+    },
+    ["289"] =
+    {
+        type = "sound",
+        localize = "Мы все виноваты"
+    },
+    ["290"] =
+    {
+        type = "sound",
+        localize = "Мы все умрем"
+    },
+    ["291"] =
+    {
+        type = "sound",
+        localize = "Заглянул на 5 минут"
+    },
+    ["292"] =
+    {
+        type = "sound",
+        localize = "Зашел не в ту дверь"
+    },
+    ["293"] =
+    {
+        type = "sound",
+        localize = "По мне стреляли"
+    },
     ["88"] = {
         type = "spray"
     },

@@ -363,7 +363,6 @@ function modifier_kadet_razogrev_caster:GetModifierProcAttack_BonusDamage_Physic
     if self:GetParent():IsIllusion() then return end
     if self:GetParent():HasTalent("special_bonus_birzha_kadet_7") then return end
     local damage = self:GetAbility():GetSpecialValueFor("bonus_damage")
-    print("physical")
     self.record = params.record
     return damage
 end
@@ -374,7 +373,6 @@ function modifier_kadet_razogrev_caster:GetModifierProcAttack_BonusDamage_Pure( 
     if self:GetParent():IsIllusion() then return end
     if not self:GetParent():HasTalent("special_bonus_birzha_kadet_7") then return end
     local damage = self:GetAbility():GetSpecialValueFor("bonus_damage")
-    print("pure")
     self.record = params.record
     return damage
 end
@@ -385,8 +383,7 @@ function modifier_kadet_razogrev_caster:OnTakeDamage(params)
     if self:GetParent() == params.unit then return end
     if params.unit:IsBuilding() then return end
     if params.unit:IsWard() then return end
-    if params.inflictor == nil and not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then 
-        print(params.record, self.record)
+    if (params.inflictor == nil or params.inflictor:GetAbilityName() == "item_revenants_brooch") and not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then 
         if params.record ~= self.record then return end
         local heal = (self:GetAbility():GetSpecialValueFor("lifesteal") + self:GetCaster():FindTalentValue("special_bonus_birzha_kadet_1")) / 100 * params.damage
         self:GetParent():Heal(heal, self:GetAbility())
