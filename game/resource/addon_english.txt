@@ -4833,7 +4833,7 @@
 "DOTA_Tooltip_ability_Shiro_Punch_Description" 						"Shiro jumps behind the target and delivers a devastating kick. The enemy is pushed back % distance% units and is stunned."
 "DOTA_Tooltip_ability_Shiro_Punch_damage" 							"DAMAGE:"
 "DOTA_Tooltip_ability_Shiro_Punch_duration" 						"STUN DURATION:"
-"DOTA_Tooltip_ability_Shiro_Punch_lore" 								"This hero was created thanks to <fo nt color='#fffc00'>MrKaliostro</font>"
+"DOTA_Tooltip_ability_Shiro_Punch_lore" 								"This hero was created thanks to <font color='#fffc00'>MrKaliostro</font>"
 
 "DOTA_Tooltip_ability_Shiro_Shield" 									"Shield"
 "DOTA_Tooltip_ability_Shiro_Shield_Description" 						"Surrounds an ally with a crystal shield that absorbs some damage before disappearing. Removes some debuffs and stuns when cast\n<h1>Passive Ability</h1>Shiro can dodge all damage with %chance% %% chance"
@@ -9206,7 +9206,7 @@
 
 "DOTA_Tooltip_ability_Overlord_two_book" 								"Magic"
 "DOTA_Tooltip_ability_Overlord_two_book_Description" 					"Overlord gains new abilities"
-"DOTA_Tooltip_ability_Overlord_two_book_lore" 							"This hero was created thanks to <fo nt color='#fffc00'>ForeverBlin4ik</font>"
+"DOTA_Tooltip_ability_Overlord_two_book_lore" 							"This hero was created thanks to <font color='#fffc00'>ForeverBlin4ik</font>"
 "DOTA_Tooltip_ability_Overlord_two_book_scepter_description" 			"%scepter_cooldown% cooldown sec."
 
 "DOTA_Tooltip_ability_Overlord_three_book" 								"Overlord Magic"
