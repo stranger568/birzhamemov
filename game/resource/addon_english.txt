@@ -42,22 +42,22 @@
 "DOTA_Tooltip_modifier_birzha_bashed" 							"Stun"
 "Dota_Tooltip_modifier_birzha_invul" 							"Invulnerable"
 
-"tip_player" 				"Praise"
+"tip_player" 				"TIP"
 "birzha_double_rating"		    "Took a risk and doubled my rating"
 
 "birzha_random_hero" 		"Selected a random hero"
 "tipped_0" 					"Lucky"
 "tipped_1" 					"Cool"
-"tipped_2" 					"You're playing nice, you idiot"
+"tipped_2" 					"Nice play, motherfucker"
 "tipped_3" 					"Handsome"
-"tipped_4" 					"Get the fuck off"
-"tipped_5" 					"Solyara"
-"tipped_6" 					"Showers from the game please"
+"tipped_4" 					"Shut the fuck up"
+"tipped_5" 					"Solo"
+"tipped_6" 					"Leave the game, please."
 "tipped_7" 					"Keep fucking!"
 "tipped_8" 					"You're the worst"
-"tipped_9" 					"Man, good"
+"tipped_9" 					"Dude, good"
 "tipped_10" 					"Best Brother"
-"tipped_11" 					"Ultrakrinzhanul"
+"tipped_11" 					"Ultra cringed"
 "tipped_12" 					"How's the tavern?"
 "tipped_13" 					"Thanks for playing!"
 "tipped_14" 					"Please don't play"
@@ -70,10 +70,10 @@
 "DOTA_SUBSHOP_MISC" 					"Physical Attack"
 "DOTA_SUBSHOP_SECRETSHOP" 			"Protection"
 
-"ServerNoConnection" "<b>No connection to BIRZHA MEMOV servers</b><br><br>This game will not be counted"
-"LowHumansInLobby" "<b>Less than 6 players in the lobby</b><br><br>This game will not count"
+"ServerNoConnection" "<b>No connection to the Birza Memov servers</b><br><br>This game will not be counted"
+"LowHumansInLobby"                  "<b>Less than 6 players in the lobby</b><br><br>This game will not be counted"
 
-"birzha_win_predict" 				"Predicts victory! Predictions in a row:"
+"birzha_win_predict" 				"Predicts victory! Wins in a row:"
 "birzha_win_predict_1" 				"Predictions in a row"
 "birzha_win_predict_2" 				"Predict victory"
 
@@ -215,19 +215,19 @@
 "item_0" "+50 DogeCoin"	
 "item_161" 		"[Smiley] StrangerBan"
 "item_136" 		"[Smiley] 4elik"
-"item_137" 		"[Smiley] BirzhaMertva"
-"item_138" 		"[Smiley] Blin"
+"item_137" 		"[Smiley] BirzhaDeath"
+"item_138" 		"[Smiley] Pancake"
 "item_139" 		"[Smiley] Cat"
 "item_140" 		"[Smiley] CatSad"
-"item_141" 		"[Smiley] C lown"
+"item_141" 		"[Smiley] Clown"
 "item_142" 		"[Smiley] CoolStory"
 "item_143" 		"[Smiley] DwayneWut"
 "item_144" 		"[Smiley] Gachi"
 "item_145" 		"[Smiley] Head"
-"item_146" 		"[Smiley] insane"
+"item_146" 		"[Smiley] Insane"
 "item_147" 		"[Smiley] KekW"
 "item_148" 		"[Smiley] Like"
-"item_149" 		"[Smiley] Micro4el"
+"item_149" 		"[Smiley] MicroDude"
 "item_150" 		"[Smiley] Omegalul"
 "item_151" 		"[Smiley] Oreh"
 "item_152" 		"[Smiley] OrehDaun"
@@ -255,7 +255,7 @@
 "item_176" "[Sound] Hello, let me swing"
 "item_177" "[Sound] This is my team"
 "item_178" "[Sound] Jewish laughter"
-"item_87" 		"[Sound] Balaans"
+"item_87" 		"[Sound] Balanse"
 "item_131" 		"[Sound] Uncle don't need it"
 "item_132" 		"[Sound] No, you idiot"
 "item_133" 		"[Sound] Fuck it, no, don't give a fuck"
@@ -347,7 +347,7 @@
 "gamble_Regenmana" 			"Mana regeneration: "
 "gamble_Magicdamage" 		"Magic damage: "
 
-"gamble_lifesteal" 	"Vampirism: "
+"gamble_lifesteal" 	"Vampirisme: "
 "gamble_cooldown" 	"Cooldown Reduction: "
 "gamble_evasion" 	"Evasion: "
 "gamble_mainattribute" 	"Main attribute increase: "
@@ -1023,7 +1023,7 @@
 "Pick_HeroRole" 		"Hero Role"
 
 "Pick_Killer" 		"Nuker <font color='#fff700'>(?)</font>"
-"Pick_Carry" 		"Carry < font color='#fff700'>(?)</font>"
+"Pick_Carry" 		"Carry <font color='#fff700'>(?)</font>"
 "Pick_Support" 		"Support <font color='#fff700'>(?)</font>"
 "Pick_Summoner" 		"Summoner <font color='#fff700'>(?)</font>"
 "Pick_Tank" 			"Durable <font color='#fff700'>(?)</font>"
@@ -2155,7 +2155,7 @@
 "DOTA_Tooltip_ability_Bukin_Spears_damage" 									"DAMAGE:"
 "DOTA_Tooltip_ability_Bukin_Spears_duration" 								"DURATION:"
 "DOTA_Tooltip_ability_Bukin_Spears_health_cost" 							"DAMAGE TAKEN:"
-"DOTA_Tooltip_ability_Bukin_Spears_lore" 									"This hero was created thanks to < font color='#fffc00'>Lord of mediocrities</font>"
+"DOTA_Tooltip_ability_Bukin_Spears_lore" 									"This hero was created thanks to <font color='#fffc00'>Lord of mediocrities</font>"
 "DOTA_Tooltip_ability_Bukin_Spears_shard_description" 						"Becomes active. Each hit applies %multiple_shard% ability effect for %duration_shard% seconds"
 
 "DOTA_Tooltip_modifier_Bukin_Spears_debuff" 									"Spears"
@@ -2166,7 +2166,7 @@
 "DOTA_Tooltip_ability_Bukin_Rage_attack_speed_bonus_per_stack" 				"ADDITIONAL ATTACK SPEED FOR EACH EFFECT:"
 "DOTA_Tooltip_ability_Bukin_Rage_movespeed" 									"ADDITIONAL MOVEMENT SPEED FOR EACH EFFECT:"
 "DOTA_Tooltip_ability_Bukin_Rage_lifesteal" 									"%VAMPIRISM FOR EACH EFFECT:"
-"DOTA_Tooltip_ability_Bukin_Rage_lore" 										"This hero was created thanks to <font color='#fffc00'>Lor d of mediocrities</font>"
+"DOTA_Tooltip_ability_Bukin_Rage_lore" 										"This hero was created thanks to <font color='#fffc00'>Lord of mediocrities</font>"
 
 "DOTA_Tooltip_modifier_Bukin_Rage" 											"Psycho level"
 
@@ -2624,7 +2624,7 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_vjlink_4_description" 	"Grants {s:value}% Magic Resistance per ability effect"
 "DOTA_Tooltip_Ability_special_bonus_unique_vjlink_5" 		"2 charges Python Move"
 "DOTA_Tooltip_Ability_special_bonus_birzha_vjlink_6" 		"Python Directional Move"
-"DOTA_Tooltip_Ability_special_bonus_birzha_vjlink_7" 		"+{s:v alue}% lifesteal Broken teeth"
+"DOTA_Tooltip_Ability_special_bonus_birzha_vjlink_7" 		"+{s:<font}% lifesteal Broken teeth"
 "DOTA_Tooltip_Ability_special_bonus_birzha_vjlink_8" 		"+{s:value} attack speed from Broken Teeth"
 
 "dota_hud_error_vjlink_dudos_stacks" 						"No effects"
@@ -3247,7 +3247,7 @@
 "DOTA_Tooltip_ability_nolik_chill_movement_speed_slow" 								"% SLOW DOWN OF OPPONENTS:"
 "DOTA_Tooltip_ability_nolik_chill_energy_damage" 									"%DAMAGE FROM CURRENT ENERGY:"
 "DOTA_Tooltip_ability_nolik_chill_energy_heal" 										"%ENERGY RECOVERY:"
-"DOTA_Tooltip_ability_nolik_chill_lore" 												"This hero was created thanks to <f ont color='#fffc00'>AroundSpitE</font>"
+"DOTA_Tooltip_ability_nolik_chill_lore" 												"This hero was created thanks to <font color='#fffc00'>AroundSpitE</font>"
 
 "DOTA_Tooltip_ability_nolik_energizer" 												"Electric shock"
 "DOTA_Tooltip_ability_nolik_energizer_Description" 									"Converts %energy_cost%%% of energy into damage and releases a bolt of shock at the target\n<h1>More hits</h1>Using an ability while Strong Sustain, resets the cooldown of Electric Shock, but resets the effect of Strong Sustain \n<h1>Ability level</h1>Ability level automatically increases at <b>1 / 6 / 12 / 18 / 24</b> level"
@@ -3296,7 +3296,7 @@
 "DOTA_Tooltip_modifier_nolik_helper_3_Description" 									"Outgoing damage increased by %dMODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE%%%"
 
 "DOTA_Tooltip_ability_special_bonus_birzha_nolik_1" 									"+{s:value}% to incoming damage reduction Strong endurance"
-"DOTA_Tooltip_ability_special_bonus_birzha_nolik_2" 									"+{s:v alue} sec Duration Strong Exposure"
+"DOTA_Tooltip_ability_special_bonus_birzha_nolik_2" 									"+{s:<font} sec Duration Strong Exposure"
 "DOTA_Tooltip_ability_special_bonus_birzha_nolik_3" 									"+{s:value} to Rest radius"
 "DOTA_Tooltip_ability_special_bonus_birzha_nolik_4" 									"-{s:value} sec cooldown Fixed technology"
 "DOTA_Tooltip_ability_special_bonus_birzha_nolik_5" 									"+{s:value} energy per attack"
@@ -3800,7 +3800,7 @@
 
 "DOTA_Tooltip_Ability_special_bonus_birzha_bullet_1"				       "A bullet to the forehead slows down by {s:value}% for {s:value2} seconds."
 "DOTA_Tooltip_Ability_special_bonus_birzha_bullet_2" 				"Improving Taa and Shaa"
-"DOTA_Tooltip_Ability_special_bonus_birzha_bullet_2_description" 				"Taa reduces the target's armor by {s:v alue} and Shaa increases attack speed by {s:value2}. Duration {s:value3} seconds."
+"DOTA_Tooltip_Ability_special_bonus_birzha_bullet_2_description" 				"Taa reduces the target's armor by {s:<font} and Shaa increases attack speed by {s:value2}. Duration {s:value3} seconds."
 "DOTA_Tooltip_Ability_special_bonus_birzha_bullet_3" 				"+{s:value} damage to Taa and Shaa"
 "DOTA_Tooltip_Ability_special_bonus_birzha_bullet_4" 				"T aa and Shaa deals attack damage"
 "DOTA_Tooltip_Ability_special_bonus_birzha_bullet_5" 				"-{s:value} reduction of healthy lifestyle attributes"
@@ -4294,7 +4294,7 @@
 "DOTA_Tooltip_Ability_special_bonus_unique_pistoletov_4" 		"-4 sec Dolphin Jump cooldown"
 "DOTA_Tooltip_Ability_special_bonus_birzha_pistoletov_5" 				"+{s:value} Dolphin Jump radius"
 "DOTA_Tooltip_Ability_special_bonus_birzha_pistoletov_6" 				"+{s:value}% health regeneration from Fuck Tibidoh"
-"DOTA_Tooltip_Ability_special_bonus_birzha_pistoletov_7" 				"+{s:v alue} to strength per Mortal Kombat charge"
+"DOTA_Tooltip_Ability_special_bonus_birzha_pistoletov_7" 				"+{s:<font} to strength per Mortal Kombat charge"
 "DOTA_Tooltip_Ability_special_bonus_birzha_pistoletov_8" 				"+{s:value} to agility per Mortal Kombat charge"
 
 //================================================================ ===================================================== ===============
@@ -4629,7 +4629,7 @@
 "DOTA_Tooltip_ability_Red_HUSTLE_chance" 					"%CHANCE:"
 "DOTA_Tooltip_ability_Red_HUSTLE_critical_damage" 			"%CRITICAL DAMAGE MULTIPLIER:"
 "DOTA_Tooltip_ability_Red_HUSTLE_duration" 					"DURATION:"
-"DOTA_Tooltip_ability_Red_HUSTLE_lore" 						"This hero was created thanks to <f ont color='#fffc00'>KerGar</font>"
+"DOTA_Tooltip_ability_Red_HUSTLE_lore" 						"This hero was created thanks to <font color='#fffc00'>KerGar</font>"
 
 "DOTA_Tooltip_modifier_red_HUSTLE" 							"Hustle"
 "DOTA_Tooltip_modifier_red_HUSTLE_Description" 				"Has a chance to deal critical damage. Attack speed increased by %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%"
@@ -4833,7 +4833,7 @@
 "DOTA_Tooltip_ability_Shiro_Punch_Description" 						"Shiro jumps behind the target and delivers a devastating kick. The enemy is pushed back % distance% units and is stunned."
 "DOTA_Tooltip_ability_Shiro_Punch_damage" 							"DAMAGE:"
 "DOTA_Tooltip_ability_Shiro_Punch_duration" 						"STUN DURATION:"
-"DOTA_Tooltip_ability_Shiro_Punch_lore" 								"This hero was created thanks to <fo nt color='#fffc00'>MrKaliostro</font>"
+"DOTA_Tooltip_ability_Shiro_Punch_lore" 								"This hero was created thanks to <font color='#fffc00'>MrKaliostro</font>"
 
 "DOTA_Tooltip_ability_Shiro_Shield" 									"Shield"
 "DOTA_Tooltip_ability_Shiro_Shield_Description" 						"Surrounds an ally with a crystal shield that absorbs some damage before disappearing. Removes some debuffs and stuns when cast\n<h1>Passive Ability</h1>Shiro can dodge all damage with %chance% %% chance"
@@ -6364,7 +6364,7 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_haku_5" 			"+{s:value}% health recovery Save e"
 "DOTA_Tooltip_Ability_special_bonus_birzha_haku_6" 			"-{s:value} sec cooldown Rebound"
 "DOTA_Tooltip_Ability_special_bonus_birzha_haku_7" 			"-{s:value} sec cooldown for Healing Needles"
-"DOTA_Tooltip_Ability_special_bonus_birzha_haku_8" 			"+{s:v alue}% Ice Mirror damage"
+"DOTA_Tooltip_Ability_special_bonus_birzha_haku_8" 			"+{s:<font}% Ice Mirror damage"
 
 
 //================================================================ ===================================================== ===============
@@ -7024,7 +7024,7 @@
 
 "DOTA_Tooltip_ability_special_bonus_birzha_shelby_1" 						"+{s:value}% armor reduction Strain"
 "DOTA_Tooltip_ability_special_bonus_birzha_shelby_2" 						"+{s:value}% reduction in resistance to Strain magic"
-"DOTA_Tooltip_ability_special_bonus_birzha_shelby_3" 						"+{s:v alue} to damage Strain for a charge Good as a shelby"
+"DOTA_Tooltip_ability_special_bonus_birzha_shelby_3" 						"+{s:<font} to damage Strain for a charge Good as a shelby"
 "DOTA_Tooltip_ability_special_bonus_birzha_shelby_4" 						"+{s:value} sec duration Good as a shelby"
 "DOTA_Tooltip_ability_special_bonus_birzha_shelby_6" 						"+{s:value}% damage during Good as a Shelby "
 "DOTA_Tooltip_ability_special_bonus_birzha_shelby_7" 						"-{s:value} sec cooldown Strain"
@@ -8125,7 +8125,7 @@
 					
 "DOTA_Tooltip_Ability_special_bonus_birzha_pucci_6" 										"+{s:value} sec max Erase disc duration"
 "DOTA_Tooltip_Ability_special_bonus_birzha_pucci_1" 										"+{s:value} sec duration C moon"
-"DOTA_Tooltip_Ability_special_bonus_birzha_pucci_3" 										"-{s:val ue} Time Acceleration cooldown"
+"DOTA_Tooltip_Ability_special_bonus_birzha_pucci_3" 										"-{s:value} Time Acceleration cooldown"
 "DOTA_Tooltip_Ability_special_bonus_birzha_pucci_4" 										"Time Acceleration reduces enemy vision by {s:value}%"
 "DOTA_Tooltip_Ability_special_bonus_birzha_pucci_2" 										"Alone with fate, complete development "
 "DOTA_Tooltip_Ability_special_bonus_birzha_pucci_5" 										"-{s:value} damage for charge One on One with Fate"
@@ -8542,7 +8542,7 @@
 "DOTA_Tooltip_modifier_homunculus_iborn_immortality_active" 				"I was born"
 "DOTA_Tooltip_modifier_homunculus_iborn_immortality_active_Description" 	"Escapes the next death and locks itself in an egg"
 
-"DOTA_Tooltip_Ability_special_bonus_birzha_homunculus_1" 				"+{s:v alue}% chance Fuck"
+"DOTA_Tooltip_Ability_special_bonus_birzha_homunculus_1" 				"+{s:<font}% chance Fuck"
 "DOTA_Tooltip_Ability_special_bonus_birzha_homunculus_2" 				"-{s:value} sec cooldown I was born"
 "DOTA_Tooltip_Ability_special_bonus_birzha_homunculus_3" 				"Spit causes the Whore Effect"
 "DOTA_Tooltip_Ability_special_bonus_birzha_homunculus_4" 				"-{s:value} sec. cooldown Dictionary"
@@ -8939,7 +8939,7 @@
 "DOTA_Tooltip_ability_kakashi_lightning_hit_duration" 					"DURATION:"
 "DOTA_Tooltip_ability_kakashi_lightning_hit_freeze_cooldown_one" 		"BASE STUN DURATION (<font col or=`#7998b5`>Suiton</font>):"
 "DOTA_Tooltip_ability_kakashi_lightning_hit_freeze_bonus_cooldown" 		"ADDITIONAL STUN DURATION PER ACTIVATION (<font color=`#7998b5`>Suiton</font>):"
-"DOTA_Tooltip_ability_kakashi_lightning_hit_freeze_damage" 				"DAMAGE (<f ont color=`#7CFC00`>Doton</font>):"
+"DOTA_Tooltip_ability_kakashi_lightning_hit_freeze_damage" 				"DAMAGE (<font color=`#7CFC00`>Doton</font>):"
 "DOTA_Tooltip_ability_kakashi_lightning_hit_max_ticks" 					"MAX. NUMBER OF TRICKS:"
 "DOTA_Tooltip_ability_kakashi_lightning_hit_range" 						"RANGE(<font color=`#7998b5`>Suiton</font>):"
 "DOTA_Tooltip_ability_kakashi_lightning_hit_lore" 						""
@@ -8989,7 +8989,7 @@
 "DOTA_Tooltip_ability_kakashi_lightning" 								"Lightning Blade"
 "DOTA_Tooltip_ability_kakashi_lightning_Description" 					"Kakashi rushes forward, surrounding his right arm with streams of lightning. Dealing damage to all enemies in his path and reducing their resistance to magic\n<h1>Ryton</h1> Ability cooldown 12 / 11 / 10 / 9 / 8 / 7 /6"
 "DOTA_Tooltip_ability_kakashi_lightning_base_damage" 					"DAMAGE (<font color=`#cabe68`>Ryton</font>):"
-"DOTA_Tooltip_ability_kakashi_lightning_range" 							"RANGE (< font color=`#cabe68`>Righton</font>):"
+"DOTA_Tooltip_ability_kakashi_lightning_range" 							"RANGE (<font color=`#cabe68`>Righton</font>):"
 "DOTA_Tooltip_ability_kakashi_lightning_fly_duration" 					"DURATION:"
 "DOTA_Tooltip_ability_kakashi_lightning_resistance_bonus" 				"%MAGIC RESISTANCE REDUCTION (<font color=`#cabe68`>Righton</font>):"
 "DOTA_Tooltip_ability_kakashi_lightning_debuff_duration" 				"EFFECT DURATION (<font color=`#cabe68`>Righton</font>):"
@@ -9206,7 +9206,7 @@
 
 "DOTA_Tooltip_ability_Overlord_two_book" 								"Magic"
 "DOTA_Tooltip_ability_Overlord_two_book_Description" 					"Overlord gains new abilities"
-"DOTA_Tooltip_ability_Overlord_two_book_lore" 							"This hero was created thanks to <fo nt color='#fffc00'>ForeverBlin4ik</font>"
+"DOTA_Tooltip_ability_Overlord_two_book_lore" 							"This hero was created thanks to <font color='#fffc00'>ForeverBlin4ik</font>"
 "DOTA_Tooltip_ability_Overlord_two_book_scepter_description" 			"%scepter_cooldown% cooldown sec."
 
 "DOTA_Tooltip_ability_Overlord_three_book" 								"Overlord Magic"
