@@ -4467,7 +4467,7 @@
 
 		"AbilityValues"
 		{
-			"bonus_attributes"				"40"
+			"bonus_attributes"				"65"
 			"unselect_attribute_pct"		"10"
 			"select_attribute_pct"			"6"
 		}
