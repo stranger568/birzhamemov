@@ -1696,7 +1696,7 @@
 "DOTA_Tooltip_Ability_item_chill_aquila_bonus_armor" 			"+$armor"
 
 "DOTA_Tooltip_modifier_chill_aquila_dd" 	"Chill Ring"
-"DOTA_Tooltip_modifier_chill_aquila_dd_Description" 	"Base damage increased by 2 times"
+"DOTA_Tooltip_modifier_chill_aquila_dd_Description" 	"Gives amplify damage rune"
 
 "DOTA_Tooltip_modifier_chill_aquila_aura_buff" 	"Chill Ring"
 "DOTA_Tooltip_modifier_chill_aquila_aura_buff_Description" 	"Mana regen increased by %fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% and armor increased by %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%"
