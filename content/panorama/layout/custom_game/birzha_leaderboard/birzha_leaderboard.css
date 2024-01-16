@@ -1,0 +1,424 @@
+.Leaderboard {
+	width: 100%;
+	height: 100%;
+}
+
+#LeaderboardWindow {
+	width: 1300px;
+	height: 800px;
+	background-color: rgba(0, 0, 0, 1);
+	background-image: url("s2r://panorama/images/dpc/supclub_purchase_bg_psd.vtex");
+	background-size: 100% 100%;
+	margin-bottom: 50px;
+	border-top: 2px solid #190217;
+	border-left: 2px solid #190217;
+	border-bottom: 2px solid #190217;
+	border-right: 2px solid #190217;
+	box-shadow: 0px 0px 12px 0px #000000a5;
+	align: center center;
+	flow-children: down;
+	visibility: collapse;
+	pre-transform-scale2d: 0;
+	transition-property: pre-transform-scale2d;
+	transition-duration: 0.25s;
+}
+
+#LeaderboardWindow.sethidden {
+	pre-transform-scale2d: 0;
+	transition-property: pre-transform-scale2d;
+	transition-duration: 0.25s;
+}
+
+#LeaderboardWindow.setvisible {
+	pre-transform-scale2d: 1;
+	transition-property: pre-transform-scale2d;
+	transition-duration: 0.25s;
+}
+
+#LeaderBoardIcon {
+	background-image: url("file://{images}/custom_game/trophy_leader_png.png");
+}
+
+.LeaderBoardIcon {
+	vertical-align: center;
+	width: 82px;
+	height: 100px;
+	margin-left: 10px;
+	background-size: 100%;
+}
+
+.Leaderboardblock {
+	height: 560px;
+	flow-children: right;
+	horizontal-align: center;
+}
+
+.MainInformationLeader {
+	width: 100%;
+	flow-children: down;
+	align: left center;
+}
+
+.MainInformation2Leader {
+	margin-top: 5px;
+	width: 550px;
+	flow-children: down;
+	horizontal-align: center;
+}
+
+.MainInformationButtonLeader {
+	background-color: gradient(linear, 0% 0%, 0% 100%, from(#4d09cadd), to(#9109ca));
+	border-top: 1px solid #6F819B22;
+	border-left: 1px solid #6F819B22;
+	border-right: 1px solid #6F819B11;
+	border-bottom: 1px solid #3F414B33;
+	width: 300px;
+	height: 45px;
+	margin-top: 15px;
+	align: center center;
+	transition-property: brightness;
+	transition-duration: 0.15s;
+	transition-timing-function: ease-in-out;
+}
+
+.MainInformationButtonLeader Label {
+	font-size: 18px;
+	color: white;
+	text-transform: uppercase;
+	font-weight: bold;
+	horizontal-align: center;
+	text-shadow: 0px 0px 5px 2 black;
+	align: center center;
+}
+
+.MainInformationButtonLeader:hover {
+	brightness: 1.2;
+}
+
+.MainInformationButtonLeader:active {
+	brightness: 0.8;
+}
+
+#DeveloperInfoContainer {
+	margin-top: 40px;
+	width: 550px;
+	height: 490px;
+	margin-left: 25px;
+	margin-right: 25px;
+	flow-children: down;
+}
+
+#DonatorInfoContainer {
+	width: 550px;
+	height: 580px;
+	margin-left: 25px;
+	margin-right: 25px;
+}
+
+#DeveloperInfoContainer {
+	overflow: squish scroll;
+}
+
+.InfoLeaderboardblock {
+	width: 100%;
+	height: 40px;
+	background-color: rgba(0, 0, 0, 0.6);
+	border: 1px solid #38424b;
+	margin-top: 40px;
+}
+
+.InfoLeaderboardblockPlayer {
+	font-size: 18px;
+	color: white;
+	align: center center;
+	text-transform: uppercase;
+	font-weight: semi-bold;
+}
+
+.InfoLeaderboardblockCreators {
+	width: 100%;
+	height: 40px;
+	background-color: rgba(0, 0, 0, 0.3);
+	border: 1px solid #38424b;
+}
+
+.PlayerInfoTableCreators {
+	flow-children: right;
+	align: left center;
+	width: 300px;
+	margin-left: 10px;
+}
+
+.TopMmrClass {
+	width: 100%;
+	height: 45px;
+	border: 1px solid #38424b;
+	align: left top;
+}
+
+.TopMmrClassExclusive {
+	width: 100%;
+	height: 45px;
+	border: 1px solid white;
+	align: left top;
+	border-brush: gradient(linear, 30% 100%, 90% 0%, from(#cc8727), color-stop(0.08, #e7a850), color-stop(0.38, #f5d7ad), color-stop(0.68, #c0780b), color-stop(0.8, #754705), to(#643f0b));
+}
+
+.ExclusiveDonaterBackground {
+	width: 100%;
+	height: 100%;
+	background-color: gradient(linear, 0% 0%, 0% 100%, from(#d8d2a811), to(#d8d2a800));
+	background-image: url("s2r://panorama/images/dpc/supclub_gold_bg_psd.vtex");
+}
+
+VerticalScrollBar, HTMLVerticalScrollBar {
+	width: 3px;
+}
+
+.PlayerInfoTable {
+	flow-children: right;
+	align: left center;
+	width: 300px;
+	margin-left: 45px;
+}
+
+.LabelTopMmrlow {
+	font-size: 20px;
+	color: white;
+	vertical-align: center;
+	text-align: center;
+	margin-left: 5px;
+	width: 30px;
+	text-transform: uppercase;
+	font-weight: semi-bold;
+}
+
+.AvatarTopMmr {
+	height: 32px;
+	width: 32px;
+	background-size: contain;
+}
+
+.TopMmrNick Label {
+	font-size: 18px;
+	color: #ffffff;
+	vertical-align: center;
+	margin-left: 5px;
+	margin-top: 5px;
+	height: 18px;
+}
+
+.TopMmrNick {
+	width: 100%;
+}
+
+.MmrInfoTable {
+	flow-children: right;
+	margin-left: 450px;
+	margin-top: 5px;
+}
+
+.MmrLeaderboard {
+	vertical-align: center;
+	margin-right: 5px;
+	margin-top: 3px;
+	width: 28px;
+	height: 24px;
+	background-image: url("file://{images}/custom_game/birzhapass/leaderboard_png.png");
+	background-size: 100%;
+}
+
+.TopMmrReatingCount {
+	font-size: 20px;
+	color: white;
+	margin-top: 5px;
+	text-transform: uppercase;
+	font-weight: semi-bold;
+}
+
+.MainTextInformationLeader {
+	text-align: center;
+	font-size: 13px;
+	color: white;
+	align: center center;
+	font-weight: semi-bold;
+	text-transform: uppercase;
+}
+
+.MainTextInformationLeaderSeason {
+	text-align: center;
+	font-size: 13px;
+	color: white;
+	align: center center;
+	font-weight: semi-bold;
+	text-transform: uppercase;
+}
+
+.MainTextInformation {
+	width: 80%;
+	font-size: 18px;
+	color: #daebff;
+	align: center center;
+	text-align: center;
+}
+
+.MainTextInformation2 {
+	text-align: center;
+	font-size: 12px;
+	color: white;
+	align: center top;
+	text-transform: uppercase;
+	margin-bottom: 10px;
+}
+
+.Leaderboardlogo {
+	align: center center;
+	margin-top: 20px;
+	width: 100%;
+}
+
+#PlayersList {
+	width: 100%;
+	flow-children: down;
+	margin-top: 80px;
+}
+
+.ButtonsMaps {
+	width: 100%;
+	height: 40px;
+	flow-children: right;
+}
+
+.ButtonsMapsBplus 
+{
+	width: 100%;
+	horizontal-align: center;
+	height: 30px;
+	flow-children: right;
+}
+
+#LeaderBoardButton {
+	margin-left: 160px;
+	flow-children: down;
+	visibility: visible;
+	vertical-align: center;
+}
+
+#LeaderBoardButton:hover .LeaderBoardButtonIcon {
+	brightness: 1.4;
+}
+
+.LeaderBoardButtonIcon {
+	background-image: url("s2r://panorama/images/custom_game/icon_trophy_battle_cup_summer_png.vtex");
+	background-size: 100%;
+	width: 27px;
+	height: 27px;
+	brightness: 1;
+	horizontal-align: center;
+	transition-property: brightness;
+	transition-duration: 0.25s;
+}
+
+.LeaderBoardButtonLabel {
+	color: white;
+	horizontal-align: center;
+	font-size: 12px;
+	text-shadow: 0px 0px 1px 2 black;
+	text-transform: uppercase;
+	margin-top: 2px;
+	text-align: center;
+}
+
+.ButtonMap {
+	width: fill-parent-flow( 1 );
+	margin-left: 5px;
+	margin-right: 5px;
+	height: 30px;
+	vertical-align: bottom;
+	background-color: gradient(linear, 0% 0%, 100% 100%, from(#401b80), color-stop(0.5, #763fdb), to(#401b80));
+	border: 1px solid #aaabe733;
+	transition-property: height, brightness;
+	transition-duration: 0.2s;
+    margin-bottom: 5px;
+	brightness: 0.6;
+}
+
+.ButtonMap:hover {
+	brightness: 1.05;
+}
+
+.ButtonMap_2 
+{
+	width: 62px;
+	margin-left: 2px;
+	margin-right: 2px;
+	height: 25px;
+	vertical-align: center;
+	background-color: gradient(linear, 0% 0%, 100% 100%, from(#401b80), color-stop(0.5, #763fdb), to(#401b80));
+	border: 1px solid #aaabe733;
+	transition-property: height, brightness;
+	transition-duration: 0.2s;
+	brightness: 0.6;
+}
+
+.ButtonMap_2:hover {
+	brightness: 1.05;
+}
+
+.ButtonMapSelect {
+	brightness: 1.1;
+}
+
+.ButtonMapLabel {
+	color: white;
+	font-weight: bold;
+	align: center center;
+	text-transform: uppercase;
+	font-size: 18px;
+}
+
+.LeaderBoardLogoText {
+	font-size: 42px;
+	color: white;
+	text-shadow: 1px 1px 1px 4.0 black;
+	text-align: center;
+	font-weight: bold;
+	align: center center;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	font-family: Reaver;
+}
+
+.CloseLeaderboard {
+	width: 35px;
+	height: 35px;
+	margin-right: 20px;
+	horizontal-align: right;
+	background-image: url("s2r://panorama/images/control_icons/x_close_grey_psd.vtex");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	transition-property: pre-transform-scale2d, brightness;
+	transition-duration: 0.2s;
+	brightness: 2;
+}
+
+.CloseLeaderboard:hover {
+	brightness: 6;
+	pre-transform-scale2d: 1.05;
+}
+
+.CloseLeaderboard:Active {
+	pre-transform-scale2d: 0.9;
+}
+
+#ButtonsPanelBackground {
+	align: left top;
+	opacity: 0.5;
+	border: 1px solid white;
+	border-brush: gradient(linear, 0% 0%, 100% 0%, from(#000c), color-stop(.15, #0000008c), to(#0000));
+	z-index: -50;
+	width: 390px;
+	background-color: gradient(linear, 0% 0%, 100% 0%, from(#000c), color-stop(.75, #0000008c), to(#0000));
+	height: 47px;
+	visibility: collapse;
+}

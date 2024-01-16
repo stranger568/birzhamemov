@@ -1,0 +1,14 @@
+<root>
+	<scripts>
+		<include src="s2r://panorama/layout/custom_game/toast_birzha_manager/toast_birzha_manager.vjs_c" />
+	</scripts>
+	<styles>
+		<include src="s2r://panorama/styles/dotastyles.css" />
+		<include src="s2r://panorama/layout/custom_game/toast_birzha_manager/toast_birzha_manager.vcss_c"/>
+	</styles>
+
+	<Panel hittest="false" style="width:100%;height:100%;">
+		<Panel id="ToastBirzhaInfo" class="ToastBirzhaInfo" />
+        <Panel class="ContractSelector" id="ContractSelector" />
+	</Panel>
+</root>

@@ -1,0 +1,423 @@
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/dotastyles.css" />
+		<include src="file://{resources}/layout/custom_game/donate_shop/donate_shop.css" /> 
+		<include src="file://{resources}/layout/custom_game/donate_shop/birzha_plus.css" />
+	</styles>
+	<scripts>
+        <include src="s2r://panorama/layout/custom_game/scripts/donate_information.vjs_c" />
+        <include src="s2r://panorama/layout/custom_game/scripts/functions.vjs_c" />
+		<include src="file://{resources}/layout/custom_game/donate_shop/donate_shop.js" />
+	</scripts>
+
+	<Panel hittest="false" class="DonateShopMainPanel">
+		<Panel id="ShopButton" onactivate="ToggleShop();">
+			<Panel class="ShopButtonIcon" />
+			<Label class="ShopButtonLabel" text="#shop_button" />
+		</Panel>
+		<Panel id="BirzhaPlusButton" onactivate="GameUI.CustomUIConfig().OpenBirzhaPlus();">
+			<Panel class="BirzhaPlusButtonIcon" />
+			<Label class="BirzhaPlusButtonLabel" text="#birzhaplus_button" />
+		</Panel>
+        <Panel class="NewItemsInfo" id="NewItemsInfo">
+            <Label class="NewItemsInfoLabel" text="#shop_notification" />
+        </Panel>
+		<Panel id="SmilesButton" onactivate="ToggleSmiles();" />
+		<Panel id="BirzhaPassWindow" hittest="false">
+			<Panel id="BirzhaPassWindowActive">
+				<Panel class="BirzhaPassLogo">
+					<Panel class="BirzhaPlusHeader">
+						<Label text = "BIRZHA" class = "BirzhaPassLogoText"/>	
+						<Panel id="PassIcon" class="PassIcon"/>
+						<Label text = "PLUS" class = "BirzhaPassLogoText"/>	
+					</Panel>
+					<Panel class="CloseBattlepass" onactivate="GameUI.CustomUIConfig().OpenBirzhaPlus();"/>
+				</Panel>
+                <Panel style="width:100%;height:100%;flow-children:right;">
+                    <Panel class="ProfileAndRatingSeasons">
+                        <Panel class="Profile">
+                            <Panel class="NickNameAndAvatar">
+                                <DOTAAvatarImage steamid="local" class="AvatarProfile" />
+                                <Panel class="PlayerNameAndRating">
+                                    <DOTAUserName steamid="local" class="NameProfile"/>
+                                    <Label class="PlayerRatingProfile" id="PlayerRatingProfile" text="" />
+                                </Panel>
+                            </Panel>
+                            <Panel class="BirzhaPlusSubscribeInfoLine">
+                                <Panel class="BirzhaPlusSubscribeInfoLineBG" />
+                                <Panel class="BirzhaPlusSubscribeInfoLineIcon" />
+                                <Label class="BirzhaPlusSubscribeInfoLineLabel" id="BpStatus" text="" />
+                            </Panel>
+                        </Panel>
+                        <Panel class="RatingHistoryList">
+                            <Panel class="RatingHistoryListHeader">
+                                <Label class="RatingHistoryListLabel" text="#YourRatingSeasons" />
+                            </Panel>
+                            <Panel class="HistoryRatingListMain">
+                                <Panel class="ButtonsMapsBplus">
+                                    <Panel id="solo_plus" class="ButtonMap_2 ButtonMapSelect" onactivate="ToggleMapBPUS('solo_plus', 'birzhamemov_solo');">
+                                        <Label class="ButtonMapLabel" text="Solo" />
+                                    </Panel>
+                                    <Panel id="duo_plus" class="ButtonMap_2" onactivate="ToggleMapBPUS('duo_plus', 'birzhamemov_duo');">
+                                        <Label class="ButtonMapLabel" text="Duo" />
+                                    </Panel>
+                                    <Panel id="trio_plus" class="ButtonMap_2" onactivate="ToggleMapBPUS('trio_plus', 'birzhamemov_trio');">
+                                        <Label class="ButtonMapLabel" text="Trio" />
+                                    </Panel>
+                                    <Panel id="5v5v5_plus" class="ButtonMap_2" onactivate="ToggleMapBPUS('5v5v5_plus', 'birzhamemov_5v5v5');">
+                                        <Label class="ButtonMapLabel" text="5v5v5" />
+                                    </Panel>
+                                    <Panel id="5v5_plus" class="ButtonMap_2" onactivate="ToggleMapBPUS('5v5_plus', 'birzhamemov_5v5');">
+                                        <Label class="ButtonMapLabel" text="5v5" />
+                                    </Panel>
+                                    <Panel id="zxc_plus" class="ButtonMap_2" onactivate="ToggleMapBPUS('zxc_plus', 'birzhamemov_zxc');">
+                                        <Label class="ButtonMapLabel" text="ZXC" />
+                                    </Panel>
+                                </Panel>
+                                <Panel class="HistoryRatingListMainInfo" id="HistoryRatingListMainInfo" />
+                            </Panel>
+                        </Panel>
+                    </Panel>
+                    <Panel class="TopHeroesAndHeroesList">
+                        <Panel class="TopHeroesList">
+                            <Panel class="TopHeroesListHeader">
+                                <Label class="TopHeroesListHeaderLabel" text="#info_player_best_hero" />
+                            </Panel>
+                            <Panel class="BestHeroes" id="BestHeroes" />
+                        </Panel>
+                        <Panel class="TopHeroesListAll">
+                            <Panel class="TopHeroesListHeader">
+                                <Label class="TopHeroesListHeaderLabel" text="#Plus_Heroes" />
+                            </Panel>
+                            <Panel class="TopHeroesListAllMain" id="TopHeroesListAllMain" />
+                        </Panel>
+                    </Panel>
+                    <Panel class="PlayerStatsAll">
+                        <Panel class="TopHeroesListHeader">
+                            <Label class="TopHeroesListHeaderLabel" text="#Plus_Statistic" />
+                        </Panel>
+                        <Panel class="PlayerStatsAllBlocks">
+                            <Panel class="PlayerStatsAllBlock">
+                                <Panel class="ImageStats StatsInfoLabelMainIcon_1" />
+                                <Panel class="StatsInfo">
+                                    <Label class="StatsInfoLabelMain" text="#PlayerWinrate" />
+                                    <Label class="StatsInfoLabelCount" id="WinrateLabel" text="" />
+                                </Panel>
+                            </Panel>
+                            <Panel class="PlayerStatsAllBlock">
+                                <Panel class="ImageStats StatsInfoLabelMainIcon_2" />
+                                <Panel class="StatsInfo">
+                                    <Label class="StatsInfoLabelMain" text="#info_player_tokens" />
+                                    <Label class="StatsInfoLabelCount" id="PlayerTokens" text="" />
+                                </Panel>
+                            </Panel>
+                            <Panel class="PlayerStatsAllBlock">
+                                <Panel class="ImageStats StatsInfoLabelMainIcon_3" />
+                                <Panel class="StatsInfo">
+                                    <Label class="StatsInfoLabelMain" text="#info_player_allgames" />
+                                    <Label class="StatsInfoLabelCount" id="GamePlayeds" text="" />
+                                </Panel>
+                            </Panel>
+                            <Panel class="PlayerStatsAllBlock">
+                                <Panel class="ImageStats StatsInfoLabelMainIcon_4" />
+                                <Panel class="StatsInfo">
+                                    <Label class="StatsInfoLabelMain" text="#info_player_wimgames" />
+                                    <Label class="StatsInfoLabelCount" id="GameWins" text="" />
+                                </Panel>
+                            </Panel>
+                            <Panel class="PlayerStatsAllBlock">
+                                <Panel class="ImageStats StatsInfoLabelMainIcon_5" />
+                                <Panel class="StatsInfo">
+                                    <Label class="StatsInfoLabelMain" text="#info_player_losegames" />
+                                    <Label class="StatsInfoLabelCount" id="GameLoses" text="" />
+                                </Panel>
+                            </Panel>
+                            <Panel class="PlayerStatsAllBlock">
+                                <Panel class="ImageStats StatsInfoLabelMainIcon_6" />
+                                <Panel class="StatsInfo">
+                                    <Label class="StatsInfoLabelMain" text="#info_player_kills_count_game" />
+                                    <Label class="StatsInfoLabelCount" id="KillsCount" text="" />
+                                </Panel>
+                            </Panel>
+                            <Panel class="PlayerStatsAllBlock">
+                                <Panel class="ImageStats StatsInfoLabelMainIcon_7" />
+                                <Panel class="StatsInfo">
+                                    <Label class="StatsInfoLabelMain" text="#info_player_death_count_game" />
+                                    <Label class="StatsInfoLabelCount" id="DeathCount" text="" />
+                                </Panel>
+                            </Panel>
+                        </Panel>
+                    </Panel>
+                </Panel>
+			</Panel>
+			<Panel id="BirzhaPassWindowDeactive">
+				<Panel class="BirzhaPassLogo">
+					<Panel class="BirzhaPlusHeader">
+						<Label text = "BIRZHA" class = "BirzhaPassLogoText"/>	
+						<Panel id="PassIcon" class="PassIcon"/>
+						<Label text = "PLUS" class = "BirzhaPassLogoText"/>	
+					</Panel>
+					<Panel class="CloseBattlepass" onactivate="GameUI.CustomUIConfig().OpenBirzhaPlus();"/>
+				</Panel>
+				<Panel style="flow-children:right;">
+                    <Panel class="BirzhaPlusInformationBody">
+						<Panel class="BirzhaPlusInformationBodyImage" id="BirzhaPlusInformationBodyImage" />
+                        <Panel class="BirzhaPlusInformationBodyInfo">
+                            <Label class="BirzhaPlusInformationBodyInfoName" id="BirzhaPlusInformationBodyInfoName" text="" />
+                            <Label class="BirzhaPlusInformationBodyInfoDescr" id="BirzhaPlusInformationBodyInfoDescr" text="" />
+                            <Panel class="BirzhaPlusInformationBodyInfoNavigation">
+                                <Panel class="NavigationArrowLeft" onactivate="BirzhaPlusInfoSwap('left');" />
+                                <Panel class="NavigationWidgets" id="NavigationWidgets">
+                                    <Panel class="NavigationWidget NavigationWidget_Active" />
+                                    <Panel class="NavigationWidget" />
+                                    <Panel class="NavigationWidget" />
+                                    <Panel class="NavigationWidget" />
+                                    <Panel class="NavigationWidget" />
+                                    <Panel class="NavigationWidget" />
+                                </Panel>
+                                <Panel class="NavigationArrowRight" onactivate="BirzhaPlusInfoSwap('right');" />
+                            </Panel>
+                        </Panel>
+                    </Panel>
+					<Panel style="width:650px;flow-children:down;vertical-align: center;">
+						<Panel id="buyplus_1" class="ButtonBuySubscribe">
+							<Label class="ButtonBuySubscribeHead" text="#ButtonBuySubscribeHead" />
+							<Panel class="BPCostMain">
+                                <Label class="BPCostLabel" id="BPCostSmall" />
+                            </Panel>
+						</Panel>
+						<Panel id="buyplus_2" class="ButtonBuySubscribe">
+							<Label class="ButtonBuySubscribeHead" text="#ButtonBuySubscribeHead2" />
+							<Panel class="BPCostMain">
+                                <Label class="BPCostLabel" id="BPCostBig" />
+                            </Panel>
+						</Panel>
+                        <Panel id="buyplus_3" class="ButtonBuySubscribeCheck">
+                            <Label class="ButtonBuySubscribeCheckMini" text="Уже купил" />
+                        </Panel>
+					</Panel>
+				</Panel>
+			</Panel>
+		</Panel>
+		<Panel id="DonateShopPanel">
+			<Panel id="DonateShopTopPanel"> 
+				<Panel class="DonateShopTopButtons"> 
+					<Panel class="DonateNewMenuButton" onactivate="SwitchTab('MainContainer', 'DonateMainButton');" id="DonateMainButton"> 
+						<Panel id="CenterBlockMain">
+							<Panel class="IconButtonBirzha" id="HomeIcon"	/>
+							<Label text="#shop_main" class="NewButtonText" /> 
+						</Panel>
+					</Panel>
+					<Panel class="DonateNewMenuButton" onactivate="SwitchTab('ItemsContainer', 'DonateItemsButton');" id="DonateItemsButton"> 
+						<Panel id="CenterBlockMain">
+							<Panel class="IconButtonBirzha" id="ItemsIcon"	/>
+							<Label text="#shop_items" class="NewButtonText" /> 
+						</Panel>
+					</Panel>
+					<Panel class="DonateNewMenuButton" onactivate="SwitchTab('CouriersContainer', 'DonateCouriersButton');" id="DonateCouriersButton"> 
+						<Panel id="CenterBlockMain">
+							<Panel class="IconButtonBirzha" id="PetsIcon"	/>
+							<Label text="#shop_pets" class="NewButtonText" /> 
+						</Panel>
+					</Panel>
+					<Panel class="DonateNewMenuButton" onactivate="SwitchTab('EffectsContainer', 'DonateEffectsButton');" id="DonateEffectsButton"> 
+						<Panel id="CenterBlockMain">
+							<Panel class="IconButtonBirzha" id="ParticlesIcon"	/>
+							<Label text="#shop_particles" class="NewButtonText" /> 
+						</Panel>
+					</Panel>
+					<Panel class="DonateNewMenuButton" onactivate="SwitchTab('BannersContainer', 'DonateBannersButton');" id="DonateBannersButton"> 
+						<Panel id="CenterBlockMain">
+							<Panel class="IconButtonBirzha" id="BannersIcon"	/>
+							<Label text="#shop_banners" class="NewButtonText" /> 
+						</Panel>
+					</Panel>
+					<Panel class="DonateNewMenuButton" onactivate="SwitchTab('ChatWheelBirzhaContainer', 'ChatWheelBirzhaButton');" id="ChatWheelBirzhaButton"> 
+						<Panel id="CenterBlockMain">
+							<Panel class="IconButtonBirzha" id="ChatWheelBirzhaIcon"	/>
+							<Label text="#shop_chatwheel" class="NewButtonText" /> 
+						</Panel>
+					</Panel>
+				</Panel>
+				<Panel class="DonateShopTopCurrency"> 
+					<Panel class="DonateShopCurrencyMain">
+						<Panel class="DonateShopCurrency">
+							<Label id="Currency" text="0" class="GoldText" />
+							<Panel id="DonateShopGiveDonate" class="DonateShopGiveDonate">
+								<Panel class="PlusLabel" onactivate="SwitchTab('ItemsContainer', 'DonateItemsButton');SwitchShopTab('CurrencysDonateItems', 'CurrencyButton');"/>
+							</Panel>
+						</Panel>
+						<Panel class="CurrencyIconMain" />
+					</Panel>
+					<Panel class="DonateShopCurrencyMain2">
+						<Panel class="DonateShopCurrency2">
+							<Label id="Currency2" text="0" class="GoldText2" />
+							<Panel class="DonateShopGiveDonate2">
+								<Panel class="PlusLabel2" onactivate="SwitchTab('ItemsContainer', 'DonateItemsButton');SwitchShopTab('CurrencysDonateItems', 'CurrencyButton');"/>
+							</Panel>
+						</Panel>
+						<Panel class="CurrencyIconMain2" />
+					</Panel>
+				</Panel>
+				<Panel class="CloseShop" onactivate="ToggleShop();"/>
+			</Panel>
+
+			<Panel id="MainContainer" class="DonateShopPanelSecond">
+				<Panel id="PopularityDonate">
+					<Panel id="AdsChests" onactivate="SwitchTab('ItemsContainer', 'DonateItemsButton');SwitchShopTab('BorderDonateItems', 'BorderButton');"/>
+					<Panel id="AdsItem_1" onactivate="SwitchTab('ItemsContainer', 'DonateItemsButton');SwitchShopTab('SubscribeDonateItems', 'SubscribeButton');"/>
+				</Panel>
+				<Panel id="PopularityRecomDonate">
+					<Label text="#shop_recomended" id="PopularityRecomDonateInfo"/>
+					<Panel id="PopularityRecomDonateItems" />
+				</Panel>
+			</Panel>
+
+			<Panel id="ItemsContainer" class="DonateShopPanelSecond">
+				<Panel id="MenuItems">
+					<Panel class="ItemsCategoryButton selected_menu_shop" onactivate="SwitchShopTab('AllDonateItems', 'AllItemsButton');" id="AllItemsButton"> <Label text="#shop_all" class="ButtonText" /> </Panel>
+					<Panel class="ItemsCategoryButton" onactivate="SwitchShopTab('DogeCoinsItems', 'DogeCoinsItemsButton');" id="DogeCoinsItemsButton"> <Label text="#shop_dogecoinsitems" class="ButtonText" /> </Panel>
+					<Panel class="ItemsCategoryButton" onactivate="SwitchShopTab('HeroesDonateItems', 'HeroesItemsButton');" id="HeroesItemsButton"> <Label text="#shop_heroesitems" class="ButtonText" /> </Panel>
+					<Panel class="ItemsCategoryButton" onactivate="SwitchShopTab('PetsDonateItems', 'PetsButton');" id="PetsButton"> <Label text="#shop_pets" class="ButtonText" /> </Panel>
+					<Panel class="ItemsCategoryButton" onactivate="SwitchShopTab('EffectsDonateItems', 'EffectsButton');" id="EffectsButton"> <Label text="#shop_particles" class="ButtonText" /> </Panel>
+					<Panel class="ItemsCategoryButton" onactivate="SwitchShopTab('SoundsDonateItems', 'SoundsButton');" id="SoundsButton"> 
+                        <Panel class="NewItemInfo">
+                            <Label class="NewItemInfoLabel" text="#new_item_info" />
+                        </Panel>
+                        <Label text="#shop_sounds" class="ButtonText" /> 
+                    </Panel>
+					<Panel class="ItemsCategoryButton" onactivate="SwitchShopTab('SpraysonateItems', 'SpraysButton');" id="SpraysButton"> <Label text="#shop_sprays" class="ButtonText" /> </Panel>
+					<Panel class="ItemsCategoryButton" onactivate="SwitchShopTab('ToysDonateItems', 'ToysButton');" id="ToysButton"> <Label text="#shop_toys" class="ButtonText" /> </Panel>
+					<Panel class="ItemsCategoryButton" onactivate="SwitchShopTab('BorderDonateItems', 'BorderButton');" id="BorderButton"> <Label text="#shop_borders" class="ButtonText" /> </Panel>
+					<Panel class="ItemsCategoryButton" onactivate="SwitchShopTab('CurrencysDonateItems', 'CurrencyButton');" id="CurrencyButton"> <Label text="#shop_currency" class="ButtonText" /> </Panel>
+				</Panel>
+				<Panel id="AllDonateItems" class="ItemsPanel"/>
+				<Panel id="DogeCoinsItems" class="ItemsPanel"/>
+				<Panel id="HeroesDonateItems" class="ItemsPanel"/>
+				<Panel id="PetsDonateItems" class="ItemsPanel"/>
+				<Panel id="EffectsDonateItems" class="ItemsPanel"/>
+				<Panel id="SoundsDonateItems" class="ItemsPanel"/>
+				<Panel id="SpraysonateItems" class="ItemsPanel"/>
+				<Panel id="ToysDonateItems" class="ItemsPanel"/>
+				<Panel id="BorderDonateItems" class="ItemsPanel"/>
+				<Panel id="CurrencysDonateItems" class="ItemsPanel"/>
+			</Panel>
+			<Panel id="CouriersContainer" class="DonateShopPanelSecond">
+				<Panel id="CouriersPanel" class="PlayerItemsContainer" />
+			</Panel>
+			<Panel id="EffectsContainer" class="DonateShopPanelSecond">
+				<Panel id="EffectsPanel" class="PlayerItemsContainer" />
+			</Panel>
+			<Panel id="BannersContainer" class="DonateShopPanelSecond">
+				<Panel id="BannersPanel" class="PlayerItemsContainer" />
+			</Panel>
+			<Panel id="ChatWheelBirzhaContainer" class="DonateShopPanelSecond">
+				<Panel id="ChatWheelContents">
+					<Panel class="ButtonInfo">
+						<Label class="ButtonInfoLabel" id="ButtonInfoLabelWheel" text="" />
+					</Panel>
+					<Panel class="TopBottomFlow" id="ChatWheelWheelPanel">
+						<Panel id="TopChatWheelPanel">
+							<Button class="ChatWheelButton" id="ChatWheelButton6" onactivate="OpenSelectChatWheel( 7 );" >
+								<Image class="ChatWheelSprayImage" id="SprayWheelImage" />
+								<Panel class="ChatWheelButtonContents">
+									<Label id="chat_wheel_birzha_7" text="#chatwheel_birzha_null" html="true" />
+								</Panel>
+							</Button>
+						</Panel>
+						<Panel id="MiddleChatWheelPanel">
+							<Panel id="ChatWheelLine1" class="ChatWheelLine" />
+							<Panel id="ChatWheelLine2" class="ChatWheelLine" />
+							<Panel id="ChatWheelLine3" class="ChatWheelLine" />
+							<Panel id="ChatWheelLine4" class="ChatWheelLine" />
+							<Panel id="LeftChatWheelContents">
+								<Button class="ChatWheelButton" id="ChatWheelButton5" onactivate="OpenSelectChatWheel( 6 );" >
+									<Image class="ChatWheelSprayImage" id="SprayWheelImage" />
+									<Panel class="ChatWheelButtonContents">
+										<Label id="chat_wheel_birzha_6" text="#chatwheel_birzha_null" html="true" />
+									</Panel>
+								</Button>
+								<Button class="ChatWheelButton" id="ChatWheelButton4" onactivate="OpenSelectChatWheel( 5 );" >
+									<Image class="ChatWheelSprayImage" id="SprayWheelImage" />
+									<Panel class="ChatWheelButtonContents">
+										<Label id="chat_wheel_birzha_5" text="#chatwheel_birzha_null" html="true" />
+									</Panel>
+								</Button>
+								<Button class="ChatWheelButton" id="ChatWheelButton3" onactivate="OpenSelectChatWheel( 4 );" >
+									<Image class="ChatWheelSprayImage" id="SprayWheelImage" />
+									<Panel class="ChatWheelButtonContents">
+										<Label id="chat_wheel_birzha_4" text="#chatwheel_birzha_null" html="true" />
+									</Panel>
+								</Button>
+							</Panel>
+							<Panel id="ChatWheelIconCenter" class="ChatDialogButtonImage" />
+							<Panel id="RightChatWheelContents">
+								<Button class="ChatWheelButton" id="ChatWheelButton7" onactivate="OpenSelectChatWheel( 8 );" >
+									<Image class="ChatWheelSprayImage" id="SprayWheelImage" />
+									<Panel class="ChatWheelButtonContents">
+										<Label id="chat_wheel_birzha_8" text="#chatwheel_birzha_null" html="true" />
+									</Panel>
+								</Button>
+								<Button class="ChatWheelButton" id="ChatWheelButton0" onactivate="OpenSelectChatWheel( 1 );" >
+									<Image class="ChatWheelSprayImage" id="SprayWheelImage" />
+									<Panel class="ChatWheelButtonContents">
+										<Label id="chat_wheel_birzha_1" text="#chatwheel_birzha_null" html="true" />
+									</Panel>
+								</Button>
+								<Button class="ChatWheelButton" id="ChatWheelButton1" onactivate="OpenSelectChatWheel( 2 );" >
+									<Image class="ChatWheelSprayImage" id="SprayWheelImage" />
+									<Panel class="ChatWheelButtonContents">
+										<Label id="chat_wheel_birzha_2" text="#chatwheel_birzha_null" html="true" />
+									</Panel>
+								</Button>
+							</Panel>
+						</Panel>
+						<Panel id="BottomChatWheelPanel">
+							<Button class="ChatWheelButton" id="ChatWheelButton2" onactivate="OpenSelectChatWheel( 3 );" >
+								<Image class="ChatWheelSprayImage" id="SprayWheelImage" />
+								<Panel class="ChatWheelButtonContents">
+									<Label id="chat_wheel_birzha_3" text="#chatwheel_birzha_null" html="true" />
+								</Panel>
+							</Button>
+						</Panel>
+					</Panel>
+				</Panel>
+			</Panel>
+		</Panel>
+		<Panel class="SmilesWindow sethidden" id="SmilesWindow" hittest="false" />
+		<Button id="info_item_buy">
+			<Panel id="ItemInfoPanel" >
+				<Panel class="InfoItemTop">
+					<Label text="ItemName" id="ItemNameInfo" class="ItemNameInfoLabel"/>
+					<Panel class="CloseInfoItem" onactivate="CloseItemInfo();"/>
+				</Panel>
+				<Panel id="ItemInfoBody" />
+			</Panel>
+		</Button>
+		<Button id="info_select_chat_wheel">
+			<Panel id="ChatWheelPanelSelect" >
+				<Panel class="ChatWheelPanelSelectTitle">
+					<Label text="#chatwheel_birzha_null" id="ChatWheelPanelSelectTitleName" class="ChatWheelPanelSelectTitleName"/>
+					<Panel class="ChatWheelPanelSelectClose" onactivate="CloseSelectChatWheel();"/>
+				</Panel>
+				<Panel id="ChatWheelSelectList" />
+			</Panel>
+		</Button>
+		<Panel id="donate_accept_window">
+			<Panel style="align:center center;flow-children:down;">
+				<Label id="donate_accept_label" text="#donate_shop_aceept" />
+			</Panel>
+		</Panel>
+		<Panel id="donate_error_window">
+			<Panel style="align:center center;flow-children:down;">
+				<Label id="donate_error_label" text="#donate_shop_error" />
+			</Panel>
+		</Panel>
+		<Button id="donate_loading_window">
+			<Panel style="align:center center;flow-children:down;">
+				<Panel id="LoadingSpinner" />
+				<Label id="donate_loading_label" text="#donate_shop_loading" />
+			</Panel>
+		</Button>
+	</Panel>
+</root>

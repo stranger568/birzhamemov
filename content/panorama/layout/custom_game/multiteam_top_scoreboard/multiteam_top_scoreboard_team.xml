@@ -1,0 +1,15 @@
+<root>
+    <styles>
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="s2r://panorama/layout/custom_game/multiteam_top_scoreboard/multiteam_top_scoreboard.vcss_c" />
+    </styles>
+	<Panel hittest="false" class="ScoreboardTeamWrapper">
+        <Panel class="TeamScoreWithImage" id="TeamScoreWithImage">
+            <Panel class="KillImage" />
+		    <Label hittest="false" id="TeamScore" text="0"/>
+        </Panel>
+		<Panel hittest="false" id="ScoreboardTeam">
+			<Panel hittest="false" id="PlayersContainer"/>
+		</Panel>
+	</Panel>
+</root>

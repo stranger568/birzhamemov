@@ -1,0 +1,36 @@
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="s2r://panorama/layout/custom_game/heroes/ring_hud/ring_hud.vcss_c" />
+	</styles>
+
+	<scripts>
+        <include src="s2r://panorama/layout/custom_game/scripts/functions.vjs_c" />
+		<include src="s2r://panorama/layout/custom_game/heroes/ring_hud/ring_hud.vjs_c" />
+	</scripts>
+
+	<Panel class="RingHud" hittest="false">
+		<Panel id="RingHudPanel" hittest="false">
+			<Panel id="RingHudPanelMain" hittest="false">
+				<Label text="ПОЛУЧЕННЫЕ БОНУСЫ" />
+			</Panel>
+			<Label id="Strength" text="Сила: " />
+			<Label id="Agility" text="Ловкость: " />
+			<Label id="Intellect" text="Интеллект: " />
+			<Label id="Damage" text="Урон: " />
+			<Label id="Attackspeed" text="Скорость атаки: " />
+			<Label id="Movespeed" text="Скорость передвижения: " />
+			<Label id="Armor" text="Броня: " />
+			<Label id="Magicresist" text="Сопротивление магии: " />
+			<Label id="Regenhp" text="Регенерация здоровья: " />
+			<Label id="Regenmana" text="Регенерация маны: " />
+			<Label id="Magicdamage" text="Магический урон: " />
+			<Panel id="RingHudPanelTwo" hittest="false">
+				<Label text="ДОПОЛНИТЕЛЬНЫЙ БОНУС" />
+			</Panel>
+		</Panel>
+		<Panel id="ButtonRingHud" >
+				<Panel id="ButtonRingHud_b" />
+		</Panel>							
+	</Panel>
+</root>

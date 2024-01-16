@@ -1,0 +1,44 @@
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="s2r://panorama/layout/custom_game/heroes/scpscreamer/scpscreamer.vcss_c" />
+	</styles>
+	
+	<script>
+		function ScpScreamerTrue()
+		{
+			$("#ScreamerScp").visible = true;
+		}
+		
+		function ScpScreamerFalse()
+		{
+			$("#ScreamerScp").visible = false;
+		}
+
+		function ScpScreamerTrueBonus()
+		{
+			$("#ScreamerScpBonus").visible = true;
+		}
+		
+		function ScpScreamerFalseBonus()
+		{
+			$("#ScreamerScpBonus").visible = false;
+		}
+		
+		(function () {
+			GameEvents.Subscribe( "ScpScreamerTrue", ScpScreamerTrue );
+			GameEvents.Subscribe( "ScpScreamerFalse", ScpScreamerFalse );
+			GameEvents.Subscribe( "ScpScreamerTrueBonus", ScpScreamerTrueBonus );
+			GameEvents.Subscribe( "ScpScreamerFalseBonus", ScpScreamerFalseBonus );
+		})();
+	</script>
+	
+	<Panel class="Screamer" hittest="false">
+		<Panel id="ScreamerScp" hittest="false">
+			<Panel id="ScreamerScpImage" hittest="false" />
+		</Panel>
+		<Panel id="ScreamerScpBonus" hittest="false">
+			<Panel id="ScreamerScpImageBonus" hittest="false" />
+		</Panel>
+	</Panel>
+</root>

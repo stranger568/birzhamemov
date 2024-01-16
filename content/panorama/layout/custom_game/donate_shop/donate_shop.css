@@ -1,0 +1,4585 @@
+#ShopButton
+{
+    margin-left: 280px;
+    flow-children: down;
+    visibility: visible;
+    vertical-align: center;
+}
+
+#ShopButton:hover .ShopButtonIcon
+{
+    brightness: 1.4;
+}
+
+.ShopButtonIcon {
+    background-image: url("file://{images}/custom_game/shop/main_button.png");
+    background-size: contain;
+    width: 27px;
+    height:27px;
+    brightness: 1;
+    opacity: 1;
+    horizontal-align: center;
+    transition-property: brightness;
+    transition-duration: 0.25s;
+} 
+.ShopButtonLabel {
+    color: white;
+    horizontal-align: center;
+    font-size: 12px;
+    text-shadow: 0px 0px 1px 2 black;
+    text-transform: uppercase;
+    margin-top: 2px;
+    text-align: center;
+}
+
+.DonateShopMainPanel {
+    width: 100%;
+    height: 100%;
+}
+
+#DonateShopPanel {
+    width: 1300px;
+    height: 850px;
+    background-image: url("file://{images}/custom_game/shop/background.png");
+    background-size: 100%;
+    align: center center;
+    visibility: collapse;
+    flow-children: down;
+    transition-property: pre-transform-scale2d;
+    transition-duration: 0.25s;
+    margin-bottom: 50px;
+    pre-transform-scale2d: 0;
+    transition-property: pre-transform-scale2d;
+    transition-duration: 0.25s;
+    border-top-color: #555555;
+    border-left-color: #494949;
+    border-bottom-color: #333333;
+    border-right-color: #404040;
+    border-style: solid;
+    border-width: 1px;
+}
+
+#DonateShopPanel.sethidden {
+    pre-transform-scale2d: 0;
+    transition-property: pre-transform-scale2d;
+    transition-duration: 0.25s;
+}
+
+#DonateShopPanel.setvisible {
+    pre-transform-scale2d: 1;
+    transition-property: pre-transform-scale2d;
+    transition-duration: 0.25s;
+}
+
+#DonateShopTopPanel {
+    width: 100%;
+    height: 100px;
+    flow-children: right;
+    border-bottom: 1px solid black;
+    background-image: url("s2r://panorama/images/conduct/ovw-bar-bg_png.vtex");
+    background-size: 100% 150%;
+    box-shadow: 0px 0px 4px 1px black;
+}
+
+.DonateShopTopButtons {
+    margin-left: 50px;
+    height: 100%;
+    flow-children: right;
+}
+
+.DonateMenuButton {
+    width: 50px;
+    height: 50px;
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #373e46 ), to( #48555d ) );
+    border-top-color: #555555;
+    border-left-color: #494949;
+    border-bottom-color: #333333;
+    border-right-color: #404040;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0px 0px 5px 1px black;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.DonateShopPanelSecondLottery {
+    width: 100%;
+    height: 100%;
+    flow-children: down;
+}
+
+.DonateShopPanelSecond {
+    width: 100%;
+    height: 100%;
+    flow-children: right;
+}
+
+#MainContainer {
+    flow-children: down;
+}
+
+#PopularityRecomDonate{
+    align: center center;
+
+    width: 1200px;
+    height: 250px;
+    flow-children: down;
+
+    border: 2px solid rgba(0,0,0,0.8);
+    background-color: #0009;
+}
+
+#PopularityDonate {
+    margin-top: 20px;
+    flow-children: right;
+    align: center center;
+}
+
+#AdsChests{
+    width: 550px;
+    height: 400px;
+    box-shadow: black 0px 0px 10px 2px;
+}
+
+#AdsChests:hover {
+    brightness: 1.25;
+}
+
+.AdsTextChest {
+    width: 235px;
+    background-color: gradient( linear, 0% 0%, 100% 0%, from( #556a9e ), to( #10243b ) );
+    text-align: center;
+    font-size: 18px;
+    color: white;
+}
+
+#AdsItem_1{
+    width: 320px;
+    height: 400px;
+    box-shadow: black 0px 0px 10px 2px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+#AdsItem_1:hover {
+    brightness: 1.25;
+}
+
+#PopularityRecomDonateItems{
+    horizontal-align: center;
+    height: 100%;
+    flow-children: right;
+    margin-bottom: 10px;
+}
+
+.RecomItem 
+{
+    width: 200px;
+    height: 200px;
+    background-image: url("file://{images}/custom_game/shop/item_block_nobuy.png");
+	background-size: 100%;
+    margin-left: 17px;
+    margin-right: 17px;
+    margin-top: 15px;
+    margin-bottom: 7px;
+    transition-duration: 0.25s;
+    transition-property: pre-transform-scale2d, background-color;
+}
+
+.RecomItem:hover .ItemImage 
+{
+    pre-transform-scale2d: 1.05;
+}
+
+.RecomItem:hover .BuyItemPanel 
+{
+    brightness: 1.2;
+}
+
+.ItemImage 
+{
+    width: 150px;
+    height: 100px;
+    align: center center;
+    margin-bottom: 60px;
+    background-size: contain;
+    transition-duration: 0.25s;
+    transition-property: pre-transform-scale2d;
+}
+
+.ItemName {
+    text-align: center;
+    font-size: 15px;
+    color: white;
+    font-weight: bold;
+    align: center bottom;
+    margin-bottom: 42px;
+    text-overflow: ellipsis;
+    width: 90%;
+    height: 20px;
+    font-family: Reaver;
+}
+
+.BuyItemPanel 
+{
+    width: 150px;
+    height: 30px;
+    background-image: url("file://{images}/custom_game/shop/select.png");
+	background-size: 100%;
+    align: center bottom;
+    margin-bottom: 10px;
+}
+
+.item_buying
+{
+    background-image: url("file://{images}/custom_game/shop/select_closed.png");
+	background-size: 100%;  
+}
+
+.item_deactive
+{
+    background-image: url("file://{images}/custom_game/shop/select_deactive.png");
+	background-size: 100%;  
+}
+
+.ItemPrice{
+    align: center center;
+    flow-children: right;
+}
+
+.PriceIcongold 
+{
+    width: 25px;
+    height: 25px;
+    background-image: url("file://{images}/custom_game/shop/gold_icon.png");
+    background-size: 100%;
+    vertical-align: center;
+    margin-right: 2px;
+}
+
+.PriceIcongem 
+{
+    width: 25px;
+    height: 25px;
+    background-image: url("file://{images}/custom_game/shop/gem_icon.png");
+    background-size: 100%;
+    vertical-align: center;
+    margin-right: 2px;
+}
+
+.PriceLabel {
+    vertical-align: center;
+    text-align: center;
+    font-size: 15px;
+    color: white;
+}
+
+#PopularityRecomDonateInfo {
+    text-align: center;
+    horizontal-align: center;
+    font-size: 25px;
+    color: white;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.ButtonText {
+    text-align: center;
+    font-size: 20px;
+    color:#daebff;
+    font-weight: bold;
+    align:  center center;
+    font-family: Reaver;
+}
+
+.DonateShopTopCurrency {
+    margin-left: 140px;
+    vertical-align: center;
+    flow-children: right;
+    horizontal-align: right;
+}
+
+.DonateShopTopBPCurrency 
+{
+    margin-top: 15px;
+    margin-right: 90px;
+    horizontal-align: right;
+    flow-children: right;
+}
+
+.DonateShopCurrencyMain {
+    width: 210px;
+    height: 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    flow-children: left;
+}
+
+.DonateShopCurrency {
+    width: 150px;
+    height: 30px;
+    align: center center;
+    flow-children: right;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+.GoldText {
+    text-align: right;
+    font-size: 23px;
+    color: white;
+    font-weight: bold;
+    align:  center center;
+    width: 100px;
+}
+
+.DonateShopGiveDonate {
+    width: 30px;
+    height: 100%;
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #307645 ), to( #245a2c ) );
+    align: right center;
+    tooltip-position: top;
+}
+
+.PlusLabel {
+    width: 100%;
+    height: 100%;
+    background-image: url("s2r://panorama/images/control_icons/plus_png.vtex");
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-color: gradient( linear, 0% 100%, 0% 0%, from( #7b6409 ), to( #f7d44a ) );
+    background-size: 70% 70%;
+    wash-color: gold;
+}
+
+.CurrencyIconMain {
+    width: 50px;
+    background-size: contain;
+    height: 100%;
+    background-image: url("file://{images}/custom_game/shop/gold_icon.png");
+    transform: translateX( 30px ) translateY( -2px );
+}
+
+.DonateShopCurrencyMain2 {
+    width: 210px;
+    height: 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    flow-children: left;
+}
+
+.DonateShopCurrency2 {
+    width: 150px;
+    height: 30px;
+    align: center center;
+    flow-children: right;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.GoldText2 {
+    text-align: right;
+    font-size: 23px;
+    color: white;
+    font-weight: bold;
+    align:  center center;
+    width: 100px;
+}
+
+.DonateShopGiveDonate2 {
+    width: 30px;
+    height: 100%;
+    align: right center;
+}
+
+.PlusLabel2 {
+    width: 100%;
+    height: 100%;
+    background-image: url("s2r://panorama/images/control_icons/plus_png.vtex");
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #ff9700 ), to( #7b4c08 ) );
+    background-size: 70% 70%;
+    wash-color: orange;
+}
+
+
+.PlusLabel2:hover {
+    brightness: 2;
+}
+
+.PlusLabel:hover {
+    brightness: 2;
+}
+
+.CurrencyIconMain2 {
+    width: 50px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 100%;
+    background-image: url("file://{images}/custom_game/shop/gem_icon.png");
+    transform: translateX( 30px ) translateY( 3px );
+}
+
+#ItemsContainer {
+    visibility: collapse;
+}
+
+#CouriersContainer {
+    visibility: collapse;
+}
+
+#EffectsContainer {
+    visibility: collapse;
+}
+
+#HeroesDonateItems {
+    visibility: collapse;
+}
+
+#BannersContainer {
+    visibility: collapse;
+}
+
+#ChatWheelBirzhaContainer {
+    visibility: collapse;
+}
+
+#RuletkaBirzhaContainer {
+    visibility: collapse;
+}
+
+#DonateMainButton {
+
+}
+
+#HorizontalScrollBar {
+    height: 6px;
+}
+
+#PetsDonateItems,
+#DogeCoinsItems,
+#EffectsDonateItems,
+#SubscribeDonateItems,
+#SoundsDonateItems,
+#SpraysonateItems,
+#BorderDonateItems,
+#HeroesDonateItems,
+#ToysDonateItems,
+#CurrencysDonateItems {
+    visibility: collapse;
+}
+
+#MenuItems {
+    width: 20%;
+    height: 100%;
+    flow-children: down;
+    margin-left: 20px;
+    margin-top: 5px;
+}
+
+.ItemsPanel {
+    width: 980px;
+    height: 720px;
+    overflow:  squish scroll;
+    flow-children: right-wrap;
+    box-shadow: inset rgba(0,0,0,0.6) 0px 0px 8px 1px;
+    background-color: rgba(0,0,0,0.6);
+}
+
+.ItemsCategoryButton {
+    width: 200px;
+    horizontal-align: center;
+    height: 50px;
+    //background-color: gradient( linear, 0% 0%, 0% 100%, from( hsv-transform( guildColor7, 0.0, .85, 1 ), to( hsv-transform( guildColor7, 0.0, 1, 0.3 ) ) );
+    background-image: url("file://{images}/custom_game/shop/button_bg.png");
+    background-size: 100% 100%;
+    box-shadow: 0px 0px 1px 1px black;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+
+.selected_menu_shop 
+{
+    animation-name: BackgroundPulse22;
+    animation-duration: 4s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    border: 1px solid #A3CBEF;
+    box-shadow: 0px 0px 16px 0px #668BBC22;
+}
+
+@keyframes 'BackgroundPulse22'
+{
+    0%
+    {
+        box-shadow: 0px 0px 16px 0px #668BBC22;
+    }
+    50%
+    {
+        box-shadow: 0px 0px 6px 0px #668BBC22;
+    }
+    100%
+    {
+        box-shadow: 0px 0px 16px 0px #668BBC22;
+    }
+}
+
+.ItemShop {
+    width: 190px;
+    height: 170px;
+    background-image: url("file://{images}/custom_game/shop/item_block_nobuy.png");
+	background-size: 100%;
+    margin-left: 27.5px;
+    margin-right: 27.5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    transition-duration: 0.25s;
+    transition-property: pre-transform-scale2d, background-color;
+}
+
+.ItemShop:hover {
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( black ), to( #122b28 ) );
+}
+
+.ItemShop:hover .ItemImage {
+    pre-transform-scale2d: 1.05;
+}
+
+.ItemShop:hover .BuyItemPanel {
+    brightness: 1.2;
+}
+
+.PlayerItemsContainer {
+    width: 1200px;
+    height: 715px;
+    horizontal-align: center;
+    margin-top: 5px;
+    flow-children: right-wrap;
+    box-shadow: inset rgba(0,0,0,0.6) 0px 0px 8px 1px;
+    background-color: rgba(0,0,0,0.6);
+    overflow:  squish scroll;
+}
+
+#info_item_buy {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    visibility: collapse;
+}
+
+#ItemInfoPanel {
+    width: 500px;
+    background-color: gradient( linear, 0% 0%, 0% 90%, from( #272d2eee ), to( #131617ee ) );
+    border: 1px solid #5e6869;
+    box-shadow: black 0px 0px 8px 0px;
+    align: center center;
+    flow-children: down;
+}
+
+.InfoItemTop {
+    width: 100%;
+    height: 80px;
+}
+
+.CloseInfoItem {
+    align: right top;
+    margin-top: 10px;
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+    background-image: url("s2r://panorama/images/control_icons/x_close_grey_psd.vtex");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    transition-property: wash-color;
+    transition-duration: 0.1s;
+}
+
+.CloseInfoItem:hover {
+    brightness: 2;
+    pre-transform-scale2d: 1.05;
+}
+
+.CloseInfoItem:Active {
+    pre-transform-scale2d: 0.9;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.ItemNameInfoLabel {
+    text-align: center;
+    font-size: 22px;
+    color: #daebff;
+    align: center center;
+    font-family: Reaver;
+    font-weight: bold;
+    text-shadow: 0px 0px 10px 2 black;
+}
+
+
+#ItemInfoBody {
+    width: 100%;
+    flow-children: right;
+}
+
+
+
+
+
+
+.BuyItemPanelInfo {
+    width: 150px;
+    height: 40px;
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #60842c ), to( #40601d ));
+    align: center bottom;
+    margin-bottom: 10px;
+}
+
+.BuyItemPanelInfo:hover {
+    brightness: 1.5;
+}
+
+.PriceLabelInfo {
+    align: center center;
+    text-align: center;
+    font-size: 20px;
+    color: white;
+}
+
+#PatreonButton:hover {
+    brightness: 1.5;
+}
+#Paypal:hover {
+    brightness: 1.5;
+}
+#Qiwi:hover {
+    brightness: 1.5;
+}
+
+
+
+
+
+.ItemInventory 
+{
+    width: 190px;
+    height: 170px;
+    background-image: url("file://{images}/custom_game/shop/item_block_nobuy.png");
+	background-size: 100%;
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    transition-duration: 0.25s;
+    transition-property: pre-transform-scale2d, background-color;
+}
+
+.ItemInventory:hover 
+{
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( black ), to( #122b28 ) );
+}
+
+.ItemInventory:hover .ItemImage {
+    pre-transform-scale2d: 1.05;
+}
+
+.ItemInventory:hover .BuyItemPanel {
+    brightness: 1.2;
+}
+
+#AllItemsButton 
+{
+    
+}
+
+
+
+.column_donate {
+    height: 160px;
+    align: center center;
+    flow-children: down;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+#PatreonButton {
+    width: 180px;
+    height: 64px;
+    margin-top: 10px;
+    background-image: url("file://{images}/custom_game/shop/patreon.png");
+    background-size: 100%;
+    //border: 1px solid black;
+    //box-shadow: black 0px 0px 8px 0px;
+}
+
+#Qiwi {
+    width: 180px;
+    height: 64px;
+    margin-top: 10px;
+    background-image: url("file://{images}/custom_game/shop/qiwi.png");
+    background-size: 100%;
+    //background-color: gradient( linear, 0% 0%, 0% 100%, from( #4877c404 ), to( #4877c414 ) );
+    //border: 1px solid black;
+    //box-shadow: black 0px 0px 6px 0px;
+}
+
+.DonateButtonLabel
+{
+    color: white;
+    width: 95%;
+    horizontal-align: center;
+    text-align: center;
+    text-overflow: clip;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+#Paypal {
+    width: 180px;
+    height: 60px;
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #60842c ), to( #40601d ));
+}
+
+
+.CloseShop {
+    width: 35px;
+    height: 35px;
+    margin-left: 40px;
+    margin-top: 15px;
+    background-image: url("s2r://panorama/images/control_icons/x_close_grey_psd.vtex");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    transition-property: pre-transform-scale2d, brightness;
+    transition-duration: 0.2s;
+    brightness: 2;
+}
+
+.CloseShop:hover {
+    brightness: 6;
+    pre-transform-scale2d: 1.05;
+}
+
+.CloseShop:Active {
+    pre-transform-scale2d: 0.9;
+}
+
+.Panel_for_desc {
+    width: 400px;
+    border-top: 1px solid #fff;
+    border-brush: gradient( radial, 50% 50%, 0% 0%, 50% 100%, from( gray ), to( #fff0 ) );
+    height: 100px;
+    align: center center;
+    margin-bottom: 10px;
+}
+
+
+
+.Item_desc {
+    text-align: center;
+    font-size: 16px;
+    color:#daebff;
+    align:  center center;
+}
+
+.DonateNewMenuButton {
+    width: 90px;
+    height: 80px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.DonateNewMenuButton:hover {
+    background-color: rgba(0,0,0,0.5);
+    border: 1px solid #daebff;
+    border-radius: 10px;
+}
+
+.DonateNewMenuButtonSelected {
+    background-color: rgba(0,0,0,0.5);
+    border: 1px solid #daebff;
+    border-radius: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+.IconButtonBirzha {
+    width: 30px;
+    height: 30px;
+    horizontal-align: center;
+}
+
+.NewButtonText {
+    text-align: center;
+    font-size: 16px;
+    color:#daebff;
+    font-weight: bold;
+    horizontal-align: center;
+    margin-top: 5px;
+    height: 20px;
+}
+
+#CenterBlockMain {
+    align: center center;
+    flow-children: down;
+    width: 80px;
+    height: 60px;
+}
+
+#HomeIcon {
+    background-image: url("file://{images}/custom_game/shop/buttons/home.png");
+    background-size: 100%;
+}
+
+#ItemsIcon {
+    background-image: url("file://{images}/custom_game/shop/buttons/items.png");
+    background-size: 100%;
+}
+
+#PetsIcon {
+    background-image: url("file://{images}/custom_game/shop/buttons/pets.png");
+    background-size: 100%;
+}
+
+#ParticlesIcon {
+    background-image: url("file://{images}/custom_game/shop/buttons/particles.png");
+    background-size: 100%;
+}
+
+#BannersIcon {
+    background-image: url("file://{images}/custom_game/shop/buttons/profile.png");
+    background-size: 100%;
+}
+
+#ChatWheelBirzhaIcon {
+    background-image: url("file://{images}/custom_game/shop/buttons/chatwheel.png");
+    background-size: 100%;
+}
+
+#RuletkaBirzhaIcon {
+    background-image: url("file://{images}/custom_game/shop/buttons/ruletka.png");
+    background-size: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#ChatWheelIconCenter
+{
+    horizontal-align: center;
+    vertical-align: middle;
+    background-image: url("s2r://panorama/images/settings_chatwheel_png.vtex");
+    background-size: contain;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    width: 127px;
+    height: 128px;
+    wash-color: #666;
+}
+
+.ChatWheelLine
+{
+    width: 400px;
+    height: 3px;
+    background-color: #2B2F30;
+    background-color: gradient( linear, 0% 0%, 100% 0%, from( #2B2F3088 ), color-stop( .3, #2B2F30 ), color-stop( .35, transparent), color-stop( .65, transparent), color-stop( .7, #2B2F30 ), to( #2B2F3088 ) );
+    vertical-align: middle;
+    horizontal-align: center;
+}
+
+#ChatWheelLine2
+{
+    transform: rotateZ(45deg);
+}
+
+#ChatWheelLine3
+{
+    transform: rotateZ(-45deg);
+}
+
+#ChatWheelLine4
+{
+    transform: rotateZ(90deg);
+    width: 440px;
+}
+
+#ChatWheelWheelPanel
+{
+    width: fill-parent-flow( 1.0 );
+    vertical-align: top;
+    overflow: squish;
+}
+
+
+#TopChatWheelPanel
+{
+    width: 100%;
+    vertical-align: bottom;
+}
+
+#TopChatWheelPanel .ChatWheelButton
+{
+    margin-bottom: 0px;
+}
+
+.ChatWheelButton{
+    width: 210px;
+    font-size: 16px;
+    height: 92px;
+    background-color: #2B2F30;
+    border: 2px solid #414A45;
+    margin: 12px;
+    padding: 8px;
+    horizontal-align: center;
+    text-align: center;
+    border-radius: 32px;
+    transition-property: transform, background-color, border, color;
+    transition-duration: 0.16s;
+    transition-timing-function: ease-in-out;
+}
+
+.LeftRightFlow{
+flow-children: right-wrap;
+
+}
+.SettingsSecondaryPanel{
+margin-top: 40px;
+padding-top: 6px;
+opacity: 1;
+width: 100%;
+height: 100%;
+transition-property: opacity;
+transition-duration: 0.3s;
+transition-timing-function: ease-in-out;
+
+}
+#HotkeysTabContent{
+padding-top: 0px;
+
+}
+PopupSettings{
+width: 1588px;
+height: 920px;
+vertical-align: center;
+horizontal-align: center;
+opacity: 1.0;
+transform: none;
+perspective-origin: 62% 5% invert;
+perspective: 1000;
+transition-property: opacity, transform, pre-transform-scale2d, wash-color;
+transition-duration: 0.4s;
+transition-delay: 0.0s;
+transition-timing-function: ease-in-out;
+background-color: gradient( linear, 0% 0%, 0% 25%, from( #232326 ), to( #1c1d20 ) );
+box-shadow: #00000099 0px 0px 8px 0px ;
+border: 2px solid #32383677;
+
+}
+.AspectRatio4x3  PopupSettings{
+width: 1395px;
+height: 930px;
+
+}
+PopupSettings.Hidden{
+opacity: 0.0;
+transform: translateX( -120px ) translateY( -60px );
+pre-transform-scale2d: 0.95;
+wash-color: #33cccc;
+
+}
+#DOTASettingsButton{
+background-image: url("s2r://panorama/images/control_icons/settings_png.vtex");
+wash-color: none;
+
+}
+#DOTACloseSettingsButton{
+margin-left: 6px;
+margin-top: 6px;
+width: 32px;
+height: 32px;
+background-image: url("s2r://panorama/images/control_icons/gear_return_png.vtex");
+background-size: contain;
+background-position: 50% 50%;
+background-repeat: no-repeat;
+horizontal-align: right;
+margin-right: 28px;
+wash-color: #575d5f;
+
+}
+#DOTACloseSettingsButton:hover{
+wash-color: #939da0;
+
+}
+#DOTACloseSettingsButton:active{
+sound: "ui_settings_out_multi";
+
+}
+.SettingsTabSeparator{
+margin-left: 16px;
+margin-right: 16px;
+font-size: 20px;
+color: #939da022;
+vertical-align: middle;
+
+}
+PopupSettings Label{
+letter-spacing: 2px;
+color: white;
+
+}
+#ChatWheelWheelPanel Label{
+letter-spacing: 1px;
+
+}
+#SettingsNavBar{
+background-color: #00000077;
+margin-top: 0px;
+vertical-align: top;
+horizontal-align: left;
+flow-children: right;
+width: 100%;
+
+}
+.SettingsNavBarButton{
+height: 40px;
+margin-left: 6px;
+margin-right: 6px;
+padding-top: 4px;
+
+}
+.SettingsNavBarButton Label{
+color: #939da044;
+font-size: 20px;
+vertical-align: middle;
+horizontal-align: center;
+text-transform: uppercase;
+margin: 0px;
+
+}
+.SettingsNavBarButton .RadioBox{
+visibility: collapse;
+
+}
+.SettingsNavBarButton:hover Label{
+color: #CCCCCC;
+
+}
+.SettingsNavBarButton:selected Label{
+color: white;
+sound: "ui_rollover_micro";
+
+}
+.SettingsNavBarButton:active{
+transform: translateY(2px);
+
+}
+.SettingsNavBarButton:active:selected{
+transform: translateY(0px);
+
+}
+.HotKeyPageButton{
+margin-left: 6px;
+margin-right: 6px;
+padding-top: 1px;
+background-color: #333333;
+margin-top: 2px;
+margin-bottom: 2px;
+padding-left: 10px;
+padding-right: 10px;
+
+}
+.HotKeyPageButton Label{
+color: #939da0;
+font-size: 20px;
+vertical-align: middle;
+horizontal-align: center;
+text-transform: uppercase;
+
+}
+.HotKeyPageButton:hover{
+background-color: #666666;
+
+}
+.HotKeyPageButton:hover Label{
+color: white;
+
+}
+.HotKeyMainTab{
+width: 100%;
+height: 100%;
+transition-property: transform, opacity;
+transition-duration: 0.3s;
+transition-delay: 0.0s;
+transition-timing-function: ease-in;
+
+}
+.HotKeyMainTab.Focused{
+opacity: 1.0;
+transform: translatex(0px);
+
+}
+.HotKeyMainTab.LeftOfFocus{
+opacity: 0.0;
+transform: translatex( -400px );
+
+}
+.HotKeyMainTab.RightOfFocus{
+opacity: 0.0;
+transform: translatex( 400px );
+
+}
+.HotKeyEmbeddedTab{
+background-color: gradient( linear, 0% 0%, 0% 5%, from( #232326 ), to( #1c1d20 ) );
+border: 2px solid #32383677;
+box-shadow: fill #00000099 4px 0px 8px 8px;
+padding: 5px 7px 5px 7px;
+opacity: 0.0;
+transition-property: opacity;
+transition-duration: 0.3s;
+
+}
+.HotKeyEmbeddedTab.Focused{
+opacity: 1.0;
+
+}
+.SettingsColumnContainer{
+flow-children: right;
+width: 100%;
+height: 100%;
+margin-top: 0px;
+padding: 0px 38px 0px 38px;
+
+}
+.AspectRatio4x3 .SettingsColumnContainer{
+margin-top: 0px;
+padding: 0px 0px 0px 16px;
+
+}
+.SettingsColumn{
+flow-children: down;
+margin: 0px;
+width: 33.333%;
+padding: 0px 16px 0px 16px;
+
+}
+.SettingsDualColumn{
+flow-children: down;
+margin: 0px;
+width: 50%;
+padding: 0px 16px 0px 16px;
+
+}
+.FullHeight{
+height: 100%;
+
+}
+.HotKeySettingsColumn{
+flow-children: down;
+margin: 0px;
+width: fill-parent-flow( 1.0 );
+width: 502px;
+padding: 0px 16px 0px 16px;
+
+}
+.AspectRatio4x3 .HotKeySettingsColumn{
+width: 453px;
+
+}
+.HotKeySettingsColumn .SettingsSection{
+margin-top: 0px;
+
+}
+#HotKeyScrollContainer{
+vertical-align: bottom;
+width: 100%;
+
+}
+#ResetHotkeysButton{
+vertical-align: bottom;
+horizontal-align: left;
+
+}
+.ScrollButtonIcon{
+width: 16px;
+height: 16px;
+vertical-align: middle;
+background-image: url("s2r://panorama/images/control_icons/double_arrow_right_png.vtex");
+background-position: 1.5% 50%;
+background-size: 16px 16px;
+background-repeat: no-repeat;
+transform: translateX( -6px );
+transition-property: transform;
+transition-delay: 0.0s;
+transition-duration: 0.25s;
+transition-timing-function: ease-in-out;
+
+}
+#ScrollRightButtonIcon{
+background-image: url("s2r://panorama/images/control_icons/double_arrow_right_png.vtex");
+transform: translateX( -6px );
+horizontal-align: right;
+
+}
+#ScrollLeftButtonIcon{
+background-image: url("s2r://panorama/images/control_icons/double_arrow_left_png.vtex");
+transform: translateX( 6px );
+horizontal-align: left;
+margin-right: 8px;
+
+}
+#ScrollRightButton:hover #ScrollRightButtonIcon, #ScrollLeftButton:hover #ScrollLeftButtonIcon{
+background-position: 0% 50%;
+transform: translateX( 0px );
+wash-color: white;
+
+}
+#ScrollRightButton{
+horizontal-align:right;
+
+}
+#ScrollLeftButton{
+horizontal-align:right;
+opacity: 0;
+flow-children: right;
+margin-right: 24px;
+
+}
+.PageButtonPushed #ScrollRightButton{
+opacity: 0;
+
+}
+.PageButtonPushed #ScrollLeftButton{
+opacity: 1;
+
+}
+.ShowingAdvanced.ResetButtonPushed #GotoBasicHotkeys,
+.ResetButtonPushed #GotoBasicHotkeys,
+.ResetButtonPushed #GotoAdvancedHotkeys,
+.ResetButtonPushed #ResetHotkeysButton,
+.ResetButtonPushed #ScrollRightButton,
+.ResetButtonPushed #ScrollLeftButton{
+opacity: 0;
+
+}
+.ShowingAdvanced.PageButtonPushed #GotoBasicHotkeys,
+.PageButtonPushed #GotoAdvancedHotkeys{
+opacity: 0;
+
+}
+.ExpandDownArrow{
+width: 32px;
+height: 32px;
+wash-color: none;
+
+}
+#GotoAdvancedHotkeys:hover .ExpandDownArrow{
+transform: translateY(5px);
+
+}
+#GotoBasicHotkeys .ExpandDownArrow{
+transform: rotateZ(180deg) translateY(3px);
+
+}
+#GotoBasicHotkeys:hover .ExpandDownArrow{
+transform: rotateZ(180deg) translateY(-2px);
+
+}
+.HotkeysBottomButton{
+height:34px;
+margin-left: 18px;
+margin-right: 12px;
+margin-bottom: 6px;
+vertical-align: bottom;
+opacity: 1;
+wash-color: #66aadd;
+transition-property: wash-color, opacity;
+transition-delay: 0.0s;
+transition-duration: 0.25s;
+transition-timing-function: ease-in-out;
+
+}
+.HotkeysBottomButton Label{
+margin-top: 5px;
+color: white;
+font-size: 20px;
+text-transform: uppercase;
+text-align: center;
+
+}
+#ScrollRightButton Label{
+margin-right: 28px;
+text-align: right;
+
+}
+#ScrollLeftButton Label{
+margin-right: 0px;
+text-align: right;
+
+}
+.HotkeysBottomButton:hover{
+wash-color: white;
+
+}
+.HideButton{
+opacity: .1;
+
+}
+.HideSection{
+opacity: 0;
+
+}
+.BottomNav{
+width: 100%;
+margin-top: -14px;
+vertical-align: bottom;
+
+}
+#RebindKeysSubTab{
+width: 100%;
+height: 100%;
+
+}
+#RebindKeysInternal{
+vertical-align: middle;
+horizontal-align: center;
+width:33%;
+
+}
+#RebindKeysAbilities, #RebindKeysItems, #RebindKeysCamera{
+horizontal-align: center;
+vertical-align: middle;
+
+}
+#KeybindListDropdown{
+margin-bottom: 8px;
+
+}
+#RebindKeysItems{
+margin-bottom: 8px;
+
+}
+#RebindKeysCameraFull{
+horizontal-align: center;
+vertical-align: center;
+
+}
+#RebindKeysCameraFull Image, #RebindKeysCameraFull Label{
+horizontal-align: center;
+vertical-align: center;
+margin-right: 10%;
+margin-top: -10%;
+
+}
+#RebindKeysCameraSTANDARD{
+margin-top: 10%;
+
+}
+#RebindKeysCameraSTANDARDUp{
+horizontal-align: center;
+
+}
+#RebindKeysCameraSTANDARDLeftRight{
+horizontal-align: center;
+
+}
+#RebindKeysFinalize{
+horizontal-align: center;
+flow-children: right;
+
+}
+#RebindKeysFinalize Button{
+margin-left: 40px;
+margin-right: 40px;
+
+}
+#RebindKeysAbilitiesSTANDARD, #RebindKeysItemsSTANDARD{
+vertical-align: middle;
+
+}
+#RebindKeysAbilitiesLEGACY{
+vertical-align: middle;
+height:100%;
+pre-transform-scale2d: 0.9;
+
+}
+#RebindKeysAbilitiesLEGACYRow2{
+margin-left:10px;
+
+}
+#RebindKeysAbilitiesLEGACYRow3{
+margin-left:20px;
+
+}
+#PhrasesButton, #ChatWheelButton, #PingWheelButton{
+padding-top: 12px;
+height: 100%;
+horizontal-align: center;
+z-index: 3;
+
+}
+#ChatWheelButton .ChatDialogButtonImage,
+#PingWheelButton .ChatDialogButtonImage{
+wash-color: #666;
+
+}
+#ChatWheelEmoticon{
+width: 28px;
+height: 28px;
+margin: 8px;
+visibility: collapse;
+
+}
+.ChatWheelButton.HasEmoticon #ChatWheelEmoticon{
+visibility: visible;
+
+}
+#PhrasesButton:hover, #ChatWheelButton:hover{
+brightness: 2;
+
+}
+#PhrasesButton:selected, #ChatWheelButton:selected{
+brightness: 2;
+
+}
+#PhrasesSubTab{
+vertical-align: top;
+horizontal-align: right;
+width:33%;
+margin-right: 30px;
+margin-left: 30px;
+margin-top: 190px;
+z-index: 1;
+padding-left: 30%;
+padding-right: 30%;
+padding-top: 120px;
+
+}
+#PhrasesSubTab,
+#ChatWheelSubTab,
+#PingWheelSubTab{
+vertical-align: top;
+horizontal-align: right;
+width: 100%;
+height: 100%;
+flow-children: down;
+margin: 0px;
+
+}
+#ChatWheelContents{
+width: 100%;
+align: center center;
+}
+#PingWheelContents{
+width: 100%;
+height: fill-parent-flow( 1.0 );
+flow-children: right;
+
+}
+#ChatWheelWheelPanel{
+width: fill-parent-flow( 1.0 );
+vertical-align: top;
+overflow: squish;
+
+}
+#PingWheelWheelPanel{
+width: fill-parent-flow( 1.0 );
+vertical-align: top;
+overflow: squish;
+margin: 16px 0;
+height: 100%;
+padding: 32px 0 0 0;
+
+}
+#MiddleChatWheelPanel,
+#MiddlePingWheelPanel{
+vertical-align: middle;
+flow-children: none;
+width: 100%;
+
+}
+#MiddlePingWheelPanel{
+margin-top: 0px;
+
+}
+
+#TopChatWheelPanel{
+width: 100%;
+vertical-align: bottom;
+
+}
+.ChatWheelButton .PingWheelButtonText{
+vertical-align: bottom;
+
+}
+.PingWheelButtonText{
+text-transform: uppercase;
+text-align: center;
+horizontal-align: center;
+width: 100%;
+
+}
+#TopPingWheelPanel{
+width: 100%;
+vertical-align: bottom;
+margin-top:100px;
+visibility: collapse;
+
+}
+#BottomPingWheelPanel{
+horizontal-align:center;
+flow-children: right;
+width: 100%;
+
+}
+#LeftChatWheelContents
+{
+width: 500px;
+vertical-align: middle;
+flow-children: down;
+margin-left: 150px;
+
+}
+
+#RightChatWheelContents{
+width: 500px;
+vertical-align: middle;
+flow-children: down;
+margin-right: 150px;
+
+}
+
+#LeftChatWheelContents{
+horizontal-align: left;
+
+}
+#RightChatWheelContents{
+horizontal-align: right;
+
+}
+#BottomChatWheelPanel{
+vertical-align: top;
+width: 100%;
+
+}
+.ChatWheelLine{
+width: 400px;
+height: 3px;
+background-color: #2B2F30;
+background-color: gradient( linear, 0% 0%, 100% 0%, from( #2B2F3088 ), color-stop( .3, #2B2F30 ), color-stop( .35, transparent), color-stop( .65, transparent), color-stop( .7, #2B2F30 ), to( #2B2F3088 ) );
+vertical-align: middle;
+horizontal-align: center;
+
+}
+.ShowingAdvanced #GotoAdvancedHotkeys{
+opacity: 0;
+
+}
+.ShowingAdvanced #GotoBasicHotkeys{
+opacity: 1;
+
+}
+#GotoBasicHotkeys{
+opacity: 0;
+
+}
+.AdvancedButton{
+vertical-align: top;
+horizontal-align: center;
+
+}
+#ChatWheelLine2{
+transform: rotateZ(45deg);
+
+}
+#ChatWheelLine3{
+transform: rotateZ(-45deg);
+
+}
+#ChatWheelLine4{
+transform: rotateZ(90deg);
+width: 440px;
+
+}
+#PhrasesClose,
+#ChatWheelClose,
+#PingWheelClose{
+horizontal-align:center;
+margin-top: 16px;
+margin-bottom: 16px;
+padding: 7px;
+padding-left: 16px;
+padding-right: 16px;
+
+}
+#PhrasesClose{
+vertical-align: bottom;
+margin-bottom: 132px;
+
+}
+#ChatWheelPhraseListContainer{
+width: 100%;
+height: fill-parent-flow( 1.0 );
+flow-children: down;
+
+}
+#ChatWheelPhraseTabs{
+flow-children: right;
+padding: 8px 16px;
+width: 100%;
+background-color: #111;
+
+}
+.ChatWheelPhraseTab Label{
+text-transform: uppercase;
+letter-spacing: 2px;
+font-size: 20px;
+color: #999;
+transition-property: color;
+transition-duration: 0.2s;
+
+}
+.ChatWheelPhraseTab:hover Label{
+color: #ccc;
+
+}
+.ChatWheelPhraseTab:active Label{
+color: #999;
+
+}
+.ChatWheelPhraseTab:selected Label{
+color: white;
+
+}
+.ChatWheelPhraseTabSeparator{
+text-transform: uppercase;
+letter-spacing: 2px;
+font-size: 20px;
+margin: 0px 8px;
+color: #999;
+
+}
+#PingWheelListContainer{
+flow-children: down;
+width: 400px;
+height: 100%;
+padding: 16px;
+
+}
+.ChatWheelBindOptionsContainer{
+border: 1px solid #000000;
+box-shadow: #00000033 0px 0px 4px 0px ;
+background-color: #202023;
+background-color: gradient( linear, 0% 0%, 0% 100%, from( #202023 ), to( #202023 ) );
+transition-property: background-color, box-shadow, border;
+transition-duration: 0.32s;
+transition-timing-function: ease-in-out;
+
+}
+.ChatWheelBindOptionsContainer.Active{
+background-color: gradient( linear, 0% 0%, 0% 100%, from( #28395C ), to( #1F2533 ) );
+box-shadow: #000000dd 0px 0px 12px 0px ;
+
+}
+#ChatWheelPhraseList,
+#PingWheelItemList{
+flow-children: down;
+height: 100%;
+width: 100%;
+overflow: squish scroll;
+padding: 0px 16px;
+background-color: transparent;
+opacity-mask: url("s2r://panorama/images/masks/softedge_vertical_vscroll_psd.vtex") 1.0;
+
+}
+#PingWheelItemList{
+padding: 16px 0 0 0;
+
+}
+.SettingsSection{
+flow-children: down;
+width: 100%;
+margin-top: 12px;
+
+}
+.SectionHeader{
+font-size: 24px;
+font-weight: thin;
+color: #939da0;
+text-transform: uppercase;
+
+}
+#Items .SectionHeader{
+margin-left: 164px;
+
+}
+.AdvancedHeader{
+color: #66aadd;
+font-size: 32px;
+
+}
+#ChatWheelSubTab .SectionHeader,
+#PingWheelSubTab .SectionHeader{
+horizontal-align: center;
+margin-top: 16px;
+
+}
+#ChatWheelTabs{
+horizontal-align: center;
+flow-children: right;
+
+}
+#ChatWheelTabs TabButton{
+margin: 0px 24px;
+
+}
+#ChatWheelTabs TabButton:selected{
+border-bottom: 2px solid #66aadd;
+
+}
+#ChatWheelTabs TabButton:hover{
+brightness: 2.0;
+
+}
+#ChatWheelTabs TabButton:active{
+brightness: 1.5;
+
+}
+#ChatWheelTabs TabButton Label{
+text-transform: uppercase;
+text-align: center;
+padding: 6px 0px 4px 0px;
+font-size: 20px;
+color: #ccc;
+
+}
+.SectionHeaderLine{
+height: 2px;
+width: 100%;
+margin: 2px;
+background-color: #3b3f40;
+margin-bottom: 12px;
+
+}
+.SectionHeaderLineNoMargin{
+height: 2px;
+width: 100%;
+background-color: #3b3f40;
+margin-top: 2px;
+margin-bottom: 12px;
+
+}
+.ShortSectionHeaderLine{
+height: 2px;
+width: 280px;
+margin: 2px;
+background-color: #3b3f4066;
+margin-bottom: 12px;
+
+}
+.CheckBox,
+DOTASettingsCheckbox{
+background-color: none;
+height:40px;
+margin: -4px;
+
+}
+.OptionsCheckBox{
+padding-top: 12px;
+padding-bottom: 12px;
+
+}
+.OptionsCheckBox Label{
+vertical-align: center;
+margin-top: 2px;
+margin-bottom: 0px;
+margin-left: 8px;
+font-size: 18px;
+color: #7d8688;
+
+}
+#LegacyKeysCheckLabel{
+font-size: 12px;
+horizontal-align: right;
+vertical-align: center;
+
+}
+#ContextLegacy{
+horizontal-align: center;
+
+}
+#PerUnitHotkeysCheckBox{
+margin: 0px;
+padding: 0px;
+margin-left: 100px;
+vertical-align: middle;
+
+}
+#PerUnitHotkeysCheckBox Label{
+text-transform: uppercase;
+padding-left: 12px;
+
+}
+#ResetHotkeysButton Label{
+horizontal-align: left;
+text-align: left;
+font-size: 18px;
+
+}
+#SpectatorHotkeysButton{
+horizontal-align: right;
+font-size: 18px;
+background-color: #666666;
+width: 180px;
+height: 24px;
+text-align: center;
+
+}
+#Items,
+#Abilities{
+width: 694px;
+width: 50%;
+
+}
+#Items{
+horizontal-align: right;
+
+}
+#AbilitiesContents{
+width: 100%;
+
+}
+#AbilitiesActive{
+width: 100%;
+opacity: 1.0;
+margin-top: 4px;
+border: 1px solid #000000;
+box-shadow: fill #00000033 0px 0px 4px 0px ;
+background-color: gradient( linear, 0% 0%, 0% 100%, from( #202023 ), to( #1C1D20 ) );
+transition-property: background-color, box-shadow, border, opacity;
+transition-duration: 0.32s;
+transition-timing-function: ease-in-out;
+
+}
+.PerUnitKeybindsActive #AbilitiesActive{
+background-color: gradient( linear, 0% 0%, 0% 100%, from( #232627 ), to( #1C1D20 ) );
+box-shadow: fill #00000088 4px 4px 12px 0px ;
+
+}
+#AbilitiesDisabled{
+width: 100%;
+height: 100%;
+padding-top: 32px;
+opacity: 0.0;
+transition-property: opacity;
+transition-duration: 0.2s;
+
+}
+#AbilitiesDisabled Label{
+color: #7d8688;
+horizontal-align: center;
+vertical-align: center;
+margin: 20px;
+
+}
+#Abilities.LegacyKeys #AbilitiesDisabled{
+opacity: 1.0;
+
+}
+#Abilities.LegacyKeys #AbilitiesActive{
+opacity: 0.001;
+
+}
+.SectionHeaderContainer{
+width: 100%;
+flow-children: right;
+padding: 0px;
+margin-bottom: 6px;
+
+}
+.SectionHeaderContainer .CheckBox{
+horizontal-align: right;
+margin-top: 6px;
+
+}
+#AutoAttackOptions{
+margin-left: 16px;
+padding-bottom: 0px;
+
+}
+#AutoAttackOptions Label{
+font-size: 18px;
+color: #7d8688;
+
+}
+#NetworkQuality Label,
+.CheckBox Label{
+font-size: 18px;
+color: #7d8688;
+vertical-align: center;
+margin: 0px;
+padding-top: 4px;
+padding-left: 5px;
+letter-spacing: 1px;
+font-weight: thin;
+
+}
+#NetworkQualityLabel{
+margin-right: 12px;
+
+}
+#NetworkQuality Label{
+margin: 0px;
+padding-top: 0px;
+padding-left: 5px;
+letter-spacing: 1px;
+font-weight: thin;
+margin-bottom: 6px;
+vertical-align: top;
+ 
+}
+.CheckBox .TickBox{
+width: 18px;
+height: 18px;
+
+}
+.ItemsQuickcastContainer .TickBox,
+#DefaultAbilityQuickcastCheckBox .TickBox,
+.QuickCastCheckBox.CheckBox .TickBox{
+width: 22px;
+height: 22px;
+border-color: #66AADD;
+border-radius: 4px;
+border-width: 1px;
+
+}
+.ItemsQuickcastContainer .TickBox,
+#DefaultAbilityQuickcastCheckBox .TickBox{
+border-color: #3C4343;
+border-width: 2px;
+
+}
+#DefaultItemQuickcastCheckBox:selected .TickBox,
+#DefaultAbilityQuickcastCheckBox:selected .TickBox,
+.QuickCastCheckBox.CheckBox:selected .TickBox{
+background-image: url("s2r://panorama/images/status_icons/quickcast_lightning_psd.vtex");
+background-size: 10px 16px;
+background-position: 50% 50%;
+background-repeat: no-repeat;
+
+}
+#DefaultItemQuickcastCheckBox:selected .TickBox,
+#DefaultAbilityQuickcastCheckBox:selected .TickBox {
+border-color: #66AADD;
+border-radius: 4px;
+border-width: 1px;
+
+}
+#DefaultItemQuickcastCheckBox:hover .TickBox,
+#DefaultAbilityQuickcastCheckBox:hover .TickBox,
+.QuickCastCheckBox.CheckBox:hover .TickBox{
+width: 22px;
+height: 22px;
+border-color: #88CCFF;
+border-radius: 4px;
+border-width: 2px;
+background-image: url("s2r://panorama/images/status_icons/quickcast_lightning_unchecked_psd.vtex");
+background-size: 10px 16px;
+background-position: 50% 50%;
+background-repeat: no-repeat;
+
+}
+#ButtonCodeIsScanCodeCheckBox{
+width: 400px;
+
+}
+.KeyImage{
+background-image: url("s2r://panorama/images/key_illustration_psd.vtex");
+background-size: 100% 100%;
+background-position: 50% 50%;
+background-repeat: no-repeat;
+padding-left: 10px;
+padding-right: 10px;
+padding-top: 6px;
+padding-bottom: 14px;
+width: 64px;
+height: 64px;
+
+}
+.KeyImage Label{
+vertical-align: center;
+horizontal-align: center;
+text-align: center;
+margin: 0px;
+font-size: 16px;
+
+}
+.KeyBlank{
+background-image: url("s2r://panorama/images/key_illustration_psd.vtex");
+background-size: 100% 100%;
+background-position: 50% 50%;
+background-repeat: no-repeat;
+opacity: 0.5;
+width: 64px;
+height: 64px;
+
+}
+#AbilityBindingTabBar{
+flow-children: right;
+width: 100%;
+height: 32px;
+
+}
+.AbilityNavBarButton{
+width: fill-parent-flow(1.0);
+
+}
+.AbilityNavBarButton Label{
+width: 100%;
+height: 32px;
+color: #888888;
+font-size: 18px;
+background-color: gradient( linear, 0% 80%, 0% 100%, from( #1C1D2000 ), to( #00000000 ) );
+padding-top: 4px;
+margin: 0px;
+text-transform: uppercase;
+text-align: center;
+border-left: 4px solid #1c1d2000;
+border-right: 4px solid #1c1d2000;
+
+}
+.AbilityNavBarButton:hover Label{
+background-color: gradient( linear, 0% 80%, 0% 100%, from( #242628 ), to( #00000033 ) );
+color: white;
+margin-left: 4px;
+margin-right: 4px;
+
+}
+.AbilityNavBarButton:selected Label{
+background-color: gradient( linear, 0% 0%, 0% 90%, from( #343638 ), to( #242628 ) );
+color: white;
+border-bottom: 4px solid transparent;
+border-left: 4px solid transparent;
+border-right: 4px solid transparent;
+
+}
+.AbilityNavBarButton:selected:hover Label{
+margin: 0px;
+
+}
+#AbilityBindingContents{
+background-color: #24262800;
+width: 100%;
+height: fit-children;
+height: 300px;
+margin-bottom: 4px;
+margin-top: 4px;
+flow-children: down;
+
+}
+.AbilityBindingTopRow{
+width: 100%;
+height: fit-children;
+margin-top: 16px;
+
+}
+.DefaultAbilityQuickcastContainer{
+horizontal-align: center;
+flow-children: right;
+margin-bottom: 9px;
+vertical-align: bottom;
+
+}
+.ItemsQuickcastContainer{
+vertical-align: bottom;
+horizontal-align: center;
+margin-bottom: 10px;
+visibility: visible;
+
+}
+.ItemsQuickcastContainer Label,
+.DefaultAbilityQuickcastContainer Label{
+color: #939DA0;
+text-transform: uppercase;
+padding-left: 12px;
+
+}
+#AbilitiesDisabled .LegacyQuickCast Label{
+margin: 0px;
+
+}
+.HeroSpecificAbilityQuickcastContainer{
+height: 118px;
+horizontal-align: center;
+flow-children: none;
+opacity: 0;
+transition-property: opacity;
+transition-duration: 0.2s;
+transition-timing-function: ease-in-out;
+
+}
+#Abilities.HasQuickcast .HeroSpecificAbilityQuickcastContainer{
+opacity: 1;
+
+}
+#ItemBindingContents .HeroSpecificAbilityQuickcastContainer{
+opacity: 0;
+
+}
+#Abilities.IsDefaultHeroKeybinds .HeroSpecificAbilityQuickcastContainer{
+opacity: 0;
+
+}
+.HeroAbilityQuickCastButtons{
+opacity: 1;
+horizontal-align: center;
+vertical-align: bottom;
+margin-top: 8px;
+margin-bottom: 0px;
+flow-children: right;
+
+}
+.AspectRatio4x3 .HeroSpecificAbilityQuickcastContainer{
+height: 128px;
+
+}
+#Abilities.HasPerUnitKeybinds .HeroAbilityQuickCastButton{
+visibility: visible;
+
+}
+.QuickCastCheckBoxContainer{
+width: 96px;
+margin-left: 12px;
+margin-right: 0px;
+
+}
+.QuickCastCheckBox{
+horizontal-align: right;
+margin-right: 0px;
+margin-bottom: 0px;
+
+}
+#AbilityBindingsHeroSelector{
+margin-left: 35px;
+background-color: gradient( linear, 0% 0%, 0% 100%, from( #191e1e ), to( #292e2e ) );
+width: 300px;
+height: 24px;
+vertical-align: center;
+border: 2px solid #444C4C;
+opacity: 0;
+transition-property: opacity;
+transition-duration: 0.2s;
+transition-timing-function: ease-in-out;
+
+}
+.PerUnitKeybindsActive.HasPerUnitKeybinds #ClearHeroAbilityBindings{
+opacity: 1;
+
+}
+.PerUnitKeybindsActive #AbilityBindingsHeroSelector{
+opacity: 1;
+
+}
+#AbilityBindingsHeroSelector Label{
+margin: 2px 2px 3px 8px;
+text-transform: uppercase;
+font-size: 14px;
+
+}
+#AbilityBindingsHeroSelector:disabled Label{
+color: #55555577;
+
+}
+.AbilityBindingsHeroSelectorArrow{
+width: 20px;
+height: 20px;
+margin-left: 5px;
+wash-color: baseText;
+horizontal-align: right;
+background-size: contain;
+background-position: 50% 50%;
+background-image: url("s2r://panorama/images/control_icons/arrow_dropdown_png.vtex");
+
+}
+#ClearHeroAbilityBindings{
+height: 24px;
+min-height: 24px;
+min-width: 100px;
+vertical-align: center;
+horizontal-align: right;
+padding: 2px 10px;
+margin-right: 24px;
+opacity: 0;
+transition-property: opacity;
+transition-duration: 0.2s;
+transition-timing-function: ease-in-out;
+
+}
+#ClearHeroAbilityBindings Label{
+font-size: 14px;
+margin-top: 1px;
+
+}
+#AbilityQuickCastCheckBox{
+horizontal-align: right;
+vertical-align: center;
+
+}
+#AbilityBindings_Hero{
+width: 100%;
+height: 140px;
+background-color: #24262800;
+
+}
+.AbilityBindingOptions{
+width: 100%;
+padding-right: 4px;
+background-color: #242628;
+
+}
+.MirrorHotkeysCheckBox{
+horizontal-align: right;
+margin-top: 4px;
+
+}
+.HeroAbilityIcon{
+width: 84px;
+height: 84px;
+margin: 12px;
+margin-top: 13px;
+background-color: #2B2F30;
+flow-children: none;
+
+}
+.HeroAbilityIcon DOTAAbilityImage{
+border: 4px solid #414a45;
+width: 84px;
+height: 84px;
+opacity: .3;
+
+}
+.HeroAbilityIcon:hover{
+wash-color: red;
+
+}
+.HeroAbilityIcon Label{
+width: 100%;
+color: #414a45;
+font-size: 40px;
+font-weight: thin;
+background-color: transparent;
+vertical-align: bottom;
+horizontal-align: right;
+text-align: right;
+height: fit-children;
+margin-right: 6px;
+margin-bottom: -10px;
+opacity: 1;
+transition-property: color, background-color;
+transition-duration: 0.16s;
+transition-timing-function: ease-in-out;
+
+}
+.HasIcon.HeroAbilityIcon Label{
+opacity: 0;
+
+}
+#AbilityBoxes, #AbilityBoxesCast, #AbilityBoxesQuickCast, #AbilityBoxesAutoCast, #AbilityBoxesBG{
+flow-children: right;
+horizontal-align: center;
+margin-top: 12px;
+overflow: noclip;
+pre-transform-scale2d: 1;
+transition-property: wash-color, opacity, pre-transform-scale2d;
+transition-duration: 0.4s;
+transition-timing-function: ease-in-out;
+
+}
+#ItemCast, #ItemQuickcast{
+transition-property: wash-color, opacity, pre-transform-scale2d;
+transition-duration: 0.4s;
+transition-timing-function: ease-in-out;
+
+}
+#AbilityBoxes.HideSection, #AbilityBoxesCast.HideSection, #AbilityBoxesQuickCast.HideSection, #AbilityBoxesAutoCast.HideSection, #ItemCast.HideSection, #ItemQuickcast.HideSection{
+pre-transform-scale2d: 0.8;
+wash-color: #242628;
+
+}
+#ItemCast,
+#ItemQuickCast{
+padding-top: 12px;
+
+}
+.AbilityBindings_Hero #AbilityBoxes, #AbilityBoxesCast, #AbilityBoxesQuickCast, #AbilityBoxesAutoCast, #AbilityBoxesBG{
+height: 100%;
+
+}
+#HeroAbilityBindTypeButtons{
+width: 600px;
+height: 24px;
+margin-bottom: 5px;
+horizontal-align: center;
+flow-children: right;
+vertical-align: bottom;
+visibility: collapse;
+
+}
+#AbilityCastButton{
+border-right: 1px solid #7c858722;
+
+}
+#AbilityQuickCastButton{
+border-right: 1px solid #7c858722;
+
+}
+.HeroAbilityBindTypeButton{
+width: fill-parent-flow( 1.0 );
+text-align: center;
+color: #444444;
+font-size: 14px;
+tooltip-position: bottom;
+
+}
+#Abilities.EnableAbilityQuickcastSlots .DefaultAbilityQuickcastContainer{
+visibility: collapse;
+
+}
+#Abilities.EnableAbilityQuickcastSlots #AbilitiesDisabled .DefaultAbilityQuickcastContainer{
+visibility: visible;
+
+}
+#Abilities.EnableAbilityQuickcastSlots #HeroAbilityBindTypeButtons{
+visibility: visible;
+
+}
+#Abilities.EnableAbilityQuickcastSlots .QuickCastCheckBoxContainer{
+visibility: collapse;
+
+}
+.HeroAbilityBindTypeButton Label{
+horizontal-align: center;
+text-align: center;
+color: #7d8688;
+font-size: 18px;
+text-transform: uppercase;
+
+}
+#AbilityBindingContents.EnableAbilityQuickcastSlots .HeroAbilityBindTypeButton{
+visibility: visible;
+
+}
+#AbilityBindingContents.EnableAbilityQuickcastSlots .DefaultAbilityQuickcastContainer{
+visibility: collapse;
+
+}
+.EnableAbilityQuickcastSlots #Defau
+
+.HeroAbilityBindTypeButton:hover Label{
+color: #CCCCCC;
+
+}
+.HeroAbilityBindTypeButton:selected Label{
+color: white;
+
+}
+#ItemBindingContents{
+background-color: none;
+width: 100%;
+height: 260px;
+margin-bottom: 4px;
+
+}
+#ItemBindTypeButtons{
+width: 384px;
+height: 24px;
+vertical-align: bottom;
+margin-bottom: 5px;
+horizontal-align: center;
+flow-children: right;
+
+}
+#ItemCastButton{
+border-right: 1px solid #7c858722;
+
+}
+.ItemList{
+flow-children: down;
+horizontal-align: center;
+
+}
+.ItemBindTypeButton{
+width: fill-parent-flow(1.0);
+text-align: center;
+color: #444444;
+font-size: 14px;
+tooltip-position: bottom;
+visibility: collapse;
+
+}
+.ItemBindTypeButton:hover Label{
+color: #cccccc;
+
+}
+.ItemBindTypeButton .RadioBox, .HeroAbilityBindTypeButton .RadioBox, .AbilityNavBarButton .RadioBox{
+visibility:collapse;
+
+}
+#Items.EnableItemQuickcastSlots .ItemsQuickcastContainer{
+visibility: collapse;
+
+}
+#Items.EnableItemQuickcastSlots .ItemBindTypeButton{
+visibility: visible;
+
+}
+.ItemBindTypeButton Label{
+color: #7d8688;
+text-transform: uppercase;
+font-size: 18px;
+horizontal-align: center;
+
+}
+.ItemBindTypeButton:selected Label{
+color: white;
+
+}
+.ItemBindButtonContainer{
+flow-children: right;
+horizontal-align: center;
+
+}
+#ChatBindDialogsContents{
+background-color: none;
+width: 100%;
+height: 172px;
+flow-children: right;
+padding-top: 0px;
+margin-top: 12px;
+margin-bottom: 4px;
+
+}
+.ChatDialogButton{
+width: 33%;
+height: 130px;
+flow-children: down;
+
+}
+.ChatDialogButton:hover{
+brightness: 2;
+
+}
+.ChatDialogButtonImage{
+width: 80px;
+height: 80px;
+vertical-align: center;
+horizontal-align: center;
+
+}
+.ChatBindDialogButtonLabel{
+text-align: center;
+width: 100%;
+font-size: 18px;
+text-transform: uppercase;
+color: #AAAAAA;
+width: 164px;
+horizontal-align: center;
+text-align: center;
+margin-top: 12px;
+
+}
+Slider.HorizontalSlider{
+width: 100%;
+height: 30px;
+
+}
+.DOTASettingsSlider{
+width: 100%;
+
+}
+#AspectRatioPanel{
+width: 100%;
+
+}
+#AspectRatioPanel RadioButton{
+padding-top: 6px;
+margin-right: 10px;
+
+}
+#ControlGroupList{
+flow-children: down;
+width: 100%;
+
+}
+.ControlGroupRow{
+flow-children: right;
+width: 100%;
+overflow: noclip;
+
+}
+.ControlGroupRow DOTASettingsKeyBinder{
+width: 238px;
+padding-right: 5px;
+
+}
+.AspectRatio4x3 .ControlGroupRow DOTASettingsKeyBinder{
+width: 212px;
+
+}
+#TextureEnum{
+width: 100%;
+margin-left: 6px;
+
+}
+#ParticleEnum{
+width: 100%;
+margin-left: 6px;
+
+}
+#ShadowEnum{
+width: 100%;
+margin-left: 6px;
+
+}
+.EnumButton{
+max-width: 200px;
+width: 100%;
+color: white;
+font-size: 16px;
+background-color: #33333300;
+margin: 0px 2px 2px 6px;
+padding-top: 2px;
+text-align: center;
+
+}
+
+.PingWheelButton{
+width: 132px;
+height: 132px;
+border-radius: 100px;
+background-color: #2B2F30;
+border: 2px solid #414A45;
+margin: 32px 12px;
+margin: 16px 0px;
+padding: 0;
+
+}
+#PingWheelButton6,
+#PingWheelButton2{
+margin-left: 352px;
+
+}
+#PingWheelButton7,
+#PingWheelButton3{
+margin-right: 352px;
+
+}
+#PingWheelButton4{
+margin-left:252px;
+
+}
+#PingWheelButton5{
+margin-right: 252px;
+
+}
+#PingWheelButton0,
+#PingWheelButton1{
+horizontal-align: center;
+
+}
+.StandardPingWheelButton,
+.AlternatePingWheelButton{
+flow-children: down;
+width: 200px;
+
+}
+.StandardPingWheelButton{
+horizontal-align: left;
+margin-left: 164px;
+
+}
+.AlternatePingWheelButton{
+horizontal-align: right;
+margin-right: 164px;
+
+}
+.ChatWheelButtonContents{
+vertical-align: center;
+horizontal-align: center;
+flow-children: right;
+
+}
+.IsSpray .ChatWheelButtonContents{
+visibility: collapse;
+
+}
+.ChatWheelButton.HasEmoticon .ChatWheelButtonContents > Label{
+max-width: 125px;
+
+}
+.ChatWheelButton .ChatWheelSoundIcon{
+vertical-align: middle;
+margin-right: 4px;
+visibility: collapse;
+
+}
+.ChatWheelButton.HasSound .ChatWheelSoundIcon{
+visibility: visible;
+
+}
+.ChatWheelButton .ChatWheelSprayImage{
+visibility: collapse;
+width: 64px;
+height: 64px;
+margin-left: 8px;
+margin-right: 8px;
+horizontal-align: center;
+wash-color: #fff;
+
+}
+.ChatWheelButton .PingWheelImage{
+width: 54px;
+height: 54px;
+margin-left: 8px;
+margin-right: 8px;
+margin: 0;
+horizontal-align: center;
+wash-color: #fff;
+
+}
+.ChatWheelButton.IsSpray .ChatWheelSprayImage,
+.ChatWheelButton.IsSpray .PingWheelImage{
+visibility: visible;
+
+}
+.ChatWheelButton.IsSpray Label{
+margin-right: 96px;
+
+}
+#BottomChatWheelPanel .ChatWheelButton{
+margin-top: 0px;
+
+}
+#TopChatWheelPanel .ChatWheelButton{
+margin-bottom: 0px;
+
+}
+#ChatWheelButton7,
+#ChatWheelButton1{
+margin-left: 0px;
+
+}
+#ChatWheelButton5,
+#ChatWheelButton3{
+margin-right: 0px;
+
+}
+#ChatWheelButton4{
+margin-right: 90px;
+margin-top: 64px;
+margin-bottom: 64px;
+
+}
+#ChatWheelButton0{
+margin-left: 90px;
+margin-top: 64px;
+margin-bottom: 64px;
+
+}
+.ChatWheelButton:hover{
+border-color: #5B6A62;
+
+}
+.ChatWheelButton:selected{
+background-color: #0570BB;
+border-color: #5C99FF;
+box-shadow: #5c99ff22 0px 0px 8px 0px ;
+animation-name: BackgroundPulse;
+animation-duration: 1.35s;
+animation-timing-function: linear;
+animation-iteration-count: infinite;
+
+}
+@keyframes 'BackgroundPulse'{
+0%{
+background-color: #1350a9;
+
+}
+50%{
+background-color: #021088;
+
+}
+100%{
+background-color: #1350a9;
+
+}
+
+}
+.ChatWheelButton:selected Label{
+color: white;
+
+}
+.ChatWheelButton Label{
+color: #939da0;
+horizontal-align: center;
+vertical-align: middle;
+text-align: center;
+
+}
+.ChatWheelButton:hover Label{
+color: white;
+
+}
+.ChatWheelPhraseChoiceLine,
+.PingWheelPhraseChoiceLine{
+width: 100%;
+flow-children: right;
+margin-left: 4px;
+padding: 4px;
+
+}
+.PingWheelPhraseChoiceLine{
+padding: 16px 0;
+margin-left: 16px;
+
+}
+.PingWheelPhraseChoiceLine:hover{
+background-color:#191922;
+
+}
+.PingWheelPhraseChoiceText{
+margin-left: 32px;
+color: #aaa;
+font-size: 20px;
+letter-spacing: 0;
+vertical-align: middle;
+
+}
+#ChatWheelPhraseListContainer.Active .ChatWheelPhraseChoiceLine.MessageIsUnlocked:hover,
+#PingWheelListContainer.Active .ChatWheelPhraseChoiceLine.MessageIsUnlocked:hover{
+background-color: #0570BB;
+
+}
+.ChatWheelSoundIcon{
+width: 20px;
+height: 20px;
+background-image: url("s2r://panorama/images/hud/reborn/icon_scoreboard_mute_sound_psd.vtex");
+background-repeat: no-repeat;
+background-size: contain;
+
+}
+#ChatWheelSoundButton{
+margin-right: 4px;
+visibility: collapse;
+
+}
+#ChatWheelSoundButton:hover{
+brightness: 2.0;
+
+}
+#ChatWheelSoundButton:active{
+brightness: 1.5;
+
+}
+.ChatWheelPhraseChoiceLine.MessageHasSound:not(.IsSpray) #ChatWheelSoundButton{
+visibility: visible;
+
+}
+.IsSpray #ChatWheelSoundButton{
+vertical-align: center;
+
+}
+.ChatWheelAllLabel{
+color: white;
+margin-right: 3px;
+transition-property: color;
+transition-duration: .32s;
+visibility: collapse;
+
+}
+.ChatWheelPhraseChoiceLine.MessageIsToAll .ChatWheelAllLabel{
+visibility: visible;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#info_select_chat_wheel {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    visibility: collapse;
+}
+
+#ChatWheelPanelSelect {
+    width: 500px;
+    background-color: gradient( linear, 0% 0%, 0% 90%, from( #272d2eee ), to( #131617ee ) );
+    border: 1px solid #5e6869;
+    box-shadow: black 0px 0px 8px 0px;
+    align: center center;
+    flow-children: down;
+}
+
+
+.ChatWheelPanelSelectTitle {
+    width: 100%;
+    height: 80px;
+}
+
+.ChatWheelPanelSelectClose {
+    align: right top;
+    margin-top: 10px;
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+    background-image: url("s2r://panorama/images/control_icons/x_close_grey_psd.vtex");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    transition-property: wash-color;
+    transition-duration: 0.1s;
+}
+
+.ChatWheelPanelSelectClose:hover {
+    brightness: 2;
+    pre-transform-scale2d: 1.05;
+}
+
+.ChatWheelPanelSelectClose:Active {
+    pre-transform-scale2d: 0.9;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.ChatWheelPanelSelectTitleName {
+    text-align: center;
+    font-size: 28px;
+    color: white;
+    align: center center;
+}
+
+#ChatWheelSelectList {
+    width: 100%;
+    overflow:  squish scroll;
+    height: 500px;
+    flow-children: right;
+    flow-children: down;
+}
+
+.chatwheel_row
+{
+    width: 100%;
+    height: 40px;
+    padding: 4px;
+}
+
+.chatwheel_row:hover
+{
+    background-color: #78787897;
+}
+
+.chatwheel_row_label
+{
+    font-size: 20px;
+    color: white;
+    margin-left: 10px;
+    vertical-align: center;
+}
+
+.chatwheel_row_title
+{
+    width: 100%;
+    height: 40px;
+    padding: 4px;
+    background-color: #00000097;
+}
+
+.chatwheel_row_label_title
+{
+    font-size: 20px;
+    color: white;
+    vertical-align: center;
+    horizontal-align: center;
+}
+
+#donate_loading_window
+{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.95);
+    visibility: collapse;
+}
+
+#donate_loading_label
+{
+    font-size: 20px;
+    color: white;
+    margin-top: 5px;
+}
+
+#LoadingSpinner
+{
+    width: 30px;
+    height: 30px;
+    align: center center;
+    background-image: url("s2r://panorama/images/status_icons/loadingthrobber_round_psd.vtex");
+    background-size: 100%;
+    animation-name: SpinnerRotate;
+    animation-duration: 1.0s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes 'SpinnerRotate'
+{
+    0%
+    {
+        transform: rotateZ( 360deg );
+    }
+    50%
+    {
+        transform: rotateZ( 180deg );
+    }
+    100%
+    {
+        transform: rotateZ( 0deg );
+    }
+}
+
+#donate_accept_window
+{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.95);
+    visibility: collapse;
+}
+
+#donate_accept_label
+{
+    font-size: 40px;
+    color: #16eb02;
+    margin-top: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: Reaver;
+}
+
+#donate_error_window
+{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.95);
+    visibility: collapse;
+}
+
+#donate_error_label
+{
+    font-size: 40px;
+    color: red;
+    margin-top: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: Reaver;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+#SmilesButton
+{
+    background-image: url("s2r://panorama/images/control_icons/emoticon_icon_psd.vtex");
+    background-position: 50% 50%;
+    width: 30px;
+    height: 100%;
+    padding-left: 5px;
+    background-size: 20px;
+    vertical-align: middle;
+    wash-color: #737f83;
+    background-repeat: no-repeat;
+}
+
+#SmilesButton:hover
+{
+    brightness: 2;
+}
+
+.SmilesWindow
+{
+    align: center center;
+    width: 250px;
+    height: 0px;
+    margin-left: 28%;
+    margin-top: 16.8%;
+    background-color: rgba(0,0,0,0.75);
+    flow-children: right-wrap;
+    overflow: squish scroll;
+    visibility: collapse;
+    transition-property: height;
+    transition-duration: 0.2s;
+}
+
+#SmilesWindow.sethidden {
+    height: 0px;
+    transition-property: height;
+    transition-duration: 0.2s;
+}
+
+#SmilesWindow.setvisible {
+    height: 250px;
+    transition-property: height;
+    transition-duration: 0.2s;
+}
+
+.SmileBlock
+{
+    width: 32px;
+    height: 32px;
+    transition-property: pre-transform-scale2d;
+    transition-duration: 0.25s;
+    margin: 9px;
+}
+
+.SmileBlock:hover
+{
+    pre-transform-scale2d: 1.05;
+}
+
+.SmileIcon
+{
+    width: 100%;
+    height: 100%;
+}
+
+.BlockSmile
+{
+    width: 100%;
+    height: 100%;
+    align: center center;
+    background-image: url("s2r://panorama/images/hero_selection/banned_overlay_psd.vtex");
+    background-size: 100% 100%;
+    wash-color: red;
+}
+
+.RandomMainPanel
+{
+    width: 1000px;
+    height: 150px;
+    align: center top;
+    margin-top: 100px;
+    background-image: url("file://{images}/custom_game/lottery/bg.png");
+    background-size: 100%;
+    overflow:clip;
+    box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.3);
+}
+
+
+
+#RandomTrack {
+    width:6000px;
+    height: 100%;
+    flow-children: right;
+    transition-property: position;
+    transition-duration: 0.8s;
+    position:0px 0px 0px;
+    transition-timing-function:ease-out;
+    overflow:clip;
+}
+
+.lottery_one
+{
+    width: 145px;
+    height: 145px;
+    background-image: url("file://{images}/custom_game/lottery/block.png");
+    background-size: 100%;
+    vertical-align: center;
+    margin-right: 3.3px;
+    margin-left: 3.3px;
+    background-position:center;
+    overflow:clip;
+    box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.6);
+}
+
+.ArrowIcon {
+    width: 24px;
+    height: 24px;
+    background-image: url("file://{images}/custom_game/lottery/arrow.png");
+    background-size: 100%;
+    align: center top;
+    z-index: 5;
+}
+
+.CoinLotteryInfo
+{
+    horizontal-align: center;
+    margin-top: 100px;
+    flow-children: right;
+}
+
+.LotteryDogeCoin
+{
+    background-image: url("file://{images}/custom_game/shop/gem_icon.png");
+    background-size: 100%;
+    width: 90px;
+    height: 90px;
+}
+
+.LotteryPriceCoin
+{
+    vertical-align: center;
+    margin-left: 20px;
+    font-size: 48px;
+    color: white;
+    font-weight: bold;
+}
+
+.LotteryButtonOpen
+{
+    width: 500px;
+    height: 100px;
+    horizontal-align: center;
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #401056 ), to( black ) );
+    box-shadow: 0px 0px 8px black;
+    border: 1px solid #ffffff;
+    border-brush: gradient( linear, 0% 0%, 0% 100%, from( #ae00ff ), to( #40035d ) );
+    margin-top: 50px;
+}
+
+.LotteryButtonOpen:hover {
+    brightness: 1.3;
+}
+
+.LotteryButtonOpen:active {
+    brightness: 0.5;
+}
+
+
+.LotteryButtonOpenLabel
+{
+    align: center center;
+    margin-left: 20px;
+    font-size: 56px;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.lottery_label
+{
+    align: center center;
+    font-weight: bold;
+    color: white;
+    width: 130px;
+    text-align: center;
+}
+
+#lottery_reward_panel
+{
+    align: center center;
+    margin-top: 5px;
+    background-color: rgba(0,0,0,0.99);
+    width: 500px;
+    height: 200px;
+    flow-children: down;
+    visibility: collapse;
+    border: 1px solid gray;
+}
+
+.lottery_reward_panel_label1
+{
+    color: white;
+    horizontal-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.lottery_reward_panel_label2
+{
+    color: white;
+    horizontal-align: center;
+    margin-top: 35px;
+    font-size: 22px;
+}
+
+.lottery_reward_panel_button
+{
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #60862d ), to( #3d5f1c ) );
+    width: 150px;
+    height: 50px;
+    vertical-align: bottom;
+    horizontal-align: center;
+    margin-bottom: 10px;
+}
+
+.lottery_reward_panel_label3
+{
+    color: white;
+    font-weight: bold;
+    font-family: Reaver;
+    horizontal-align: center;
+    vertical-align: center;
+    text-shadow: 2px 2px 8px 3.0 #333333b0;
+}
+
+#BattlepassButton
+{
+    margin-left: 345px;
+    flow-children: down;
+    visibility: visible;
+    vertical-align: center;
+}
+
+#BattlepassButton:hover .BattlepassButtonIcon
+{
+    brightness: 1.4;
+}
+
+.BattlepassButtonIcon 
+{
+    background-image: url("s2r://panorama/images/custom_game/battlepass/main_button_png.vtex");
+    background-size: 100%;
+    width: 27px;
+    height:27px;
+    brightness: 1;
+    wash-color: #CDF;
+    opacity: 1;
+    horizontal-align: center;
+    transition-property: brightness;
+    transition-duration: 0.25s;
+} 
+.BattlepassButtonLabel 
+{
+    color: white;
+    horizontal-align: center;
+    font-size: 12px;
+    text-shadow: 0px 0px 1px 2 black;
+    text-transform: uppercase;
+    margin-top: 2px;
+    text-align: center;
+}
+.BirzhaSale 
+{
+    color: gradient(linear, 0% 0%, 0% 100%, from(#FFDB5C), color-stop(0.4, #FFC01E), to(#FFFFFF));
+    horizontal-align: center;
+    font-size: 12px;
+    text-shadow: 0px 0px 1px 2 black;
+    text-transform: uppercase;
+    margin-top: 2px;
+    text-align: center;
+}
+
+.BPIsDie
+{
+    z-index: 55;
+    color: rgb(255, 255, 255);
+    font-size: 22px;
+    text-shadow: 0px 0px 3px 3.0 #000000;
+    horizontal-align: center;
+    margin-top: 70px;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+#BattlePassWindow 
+{
+    width: 1300px;
+    height: 850px;
+    background-image: url("s2r://panorama/images/custom_game/battlepass/bg_png.vtex");
+    background-size: 100%;
+    align: center center;
+    visibility: collapse;
+    transition-property: pre-transform-scale2d;
+    transition-duration: 0.25s;
+    margin-bottom: 50px;
+    pre-transform-scale2d: 0;
+    transition-property: pre-transform-scale2d;
+    transition-duration: 0.25s;
+    border-top-color: #555555;
+    border-left-color: #494949;
+    border-bottom-color: #333333;
+    border-right-color: #404040;
+    border-style: solid;
+    border-width: 2px;
+}
+
+#BattlePassWindow.sethidden 
+{
+    pre-transform-scale2d: 0;
+    transition-property: pre-transform-scale2d;
+    transition-duration: 0.25s;
+}
+
+#BattlePassWindow.setvisible 
+{
+    pre-transform-scale2d: 1;
+    transition-property: pre-transform-scale2d;
+    transition-duration: 0.25s;
+}
+
+.BattlePassMenu
+{
+    height: 146px;
+    width: 100%;
+    background-image: url("s2r://panorama/images/custom_game/battlepass/menu_bg_png.vtex");
+    background-size: 100%;
+}
+
+.CloseBattlepass_2 
+{
+    width: 35px;
+    height: 35px;
+    margin-right: 20px;
+    margin-top: 20px;
+    horizontal-align: right;
+    background-image: url("s2r://panorama/images/control_icons/x_close_grey_psd.vtex");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    transition-property: brightness, wash-color, img-shadow, pre-transform-scale2d;
+    transition-timing-function: ease;
+    transition-duration: 0.2s;
+
+    brightness: 2;
+}
+
+.CloseBattlepass_2:hover 
+{
+    wash-color: #80F4FF;
+    img-shadow: #80F4FF 0px 0px 4px 0px;
+}
+
+.CloseBattlepass_2:Active 
+{
+    pre-transform-scale2d: 0.9;
+}
+
+.Button_Main
+{
+    margin-top: 1px;
+    width: 220px;
+    height: 78px;
+    margin-left: 83px;
+    transform: skew(19deg);
+}
+
+.Button_Quests
+{
+    margin-top: 1px;
+    width: 210px;
+    height: 78px;
+    margin-left: 304px;
+    transform: skew(18deg);
+}
+
+.Button_HeroChallenge
+{
+    margin-top: 1px;
+    width: 208px;
+    height: 78px;
+    margin-left: 780px;
+    transform: skew(-18deg);
+}
+
+.Button_TopPlayers
+{
+    margin-top: 1px;
+    width: 217px;
+    height: 78px;
+    margin-left: 990px;
+    transform: skew(-19deg);
+}
+
+.ButtonBP_Label
+{
+    align: center center;
+    transform: skew(-19deg);
+    font-size: 24px;
+    font-family: Reaver;
+    text-shadow: -1px 1px 2px 2.0 #000000;
+    transition-property: color;
+    transition-duration: 0.2s;
+    transition-timing-function: linear;
+    color: white;
+}
+
+.ButtonBP_Label_2
+{
+    align: center center;
+    transform: skew(19deg);
+    font-size: 24px;
+    text-shadow: -1px 1px 2px 2.0 #000000;
+    transition-property: color;
+    transition-duration: 0.2s;
+    transition-timing-function: linear;
+    color: white;
+}
+
+.Button_Main:hover .ButtonBP_Label
+{
+    color: gradient( linear, 0% 0%, 0% 100%, from( #aac2c9, to( #d0e6ec ));
+    text-shadow: 0px 0px 3px 3.0 #3382ff18;
+}
+.Button_Quests:hover .ButtonBP_Label
+{
+    color: gradient( linear, 0% 0%, 0% 100%, from( #aac2c9, to( #d0e6ec ));
+    text-shadow: 0px 0px 3px 3.0 #3382ff18;
+}
+.Button_HeroChallenge:hover .ButtonBP_Label_2
+{
+    color: gradient( linear, 0% 0%, 0% 100%, from( #aac2c9, to( #d0e6ec ));
+    text-shadow: 0px 0px 3px 3.0 #3382ff18;
+}
+.Button_TopPlayers:hover .ButtonBP_Label_2
+{
+    color: gradient( linear, 0% 0%, 0% 100%, from( #aac2c9, to( #d0e6ec ));
+    text-shadow: 0px 0px 3px 3.0 #3382ff18;
+}
+
+.BGButton_Selected
+{
+    width: 100%;
+    height: 100%;
+    background-color: gradient( linear, 0% 100%, 0% 100%, from( #0fe0, to( rgba(0, 255, 238, 0.1) ));
+
+    opacity: 0;
+    transition-property: opacity, background-color;
+    transition-duration: 0.2s;
+    transition-timing-function: linear;
+}
+
+.ButtonBP_Selected .BGButton_Selected
+{
+    background-color: gradient( linear, 0% 10%, 0% 100%, from( #0fe0, to( rgba(0, 255, 238, 0.1) ));
+    opacity: 1;
+}
+
+.BattlePassWindow_Panel
+{
+    width: 100%;
+    height: 100%;
+    margin-top: 75px;
+}
+
+.BattlePassPlayerInfo
+{
+    width: 100%;
+    height: 70px;
+    background-color: black;
+    vertical-align: bottom;
+    margin-bottom: 250px;
+    background-color: #0d1c22ff, gradient( radial, 50% 50%, 64px 32px, 320% 370%, from( #0E1619 ), color-stop( 0.3, #0E1619 ), to( #0E1619 ) );
+    box-shadow: black 0px 0px 4px 0px;
+    flow-children: right;
+}
+
+.BattlePassPlayerInfoLevel
+{
+    width: 45%;
+    height: 100%;
+    background-color: #0d1c22ff, gradient( radial, 50% 50%, 64px 32px, 320% 370%, from( #2E7395 ), color-stop( 0.3, #0E1619 ), to( #0E1619 ) );
+    border-top: 1px solid #2E7395;
+    box-shadow: #00000066 0px 0px 16px 0px;
+}
+
+.BattlePassPlayerInfoLevelCenter
+{
+    align: center center;
+    flow-children: right;
+}
+
+.BattlePassPlayerInfoLevelLabeltext
+{
+    font-weight: bold;
+    font-family: Radiance;
+    font-size: 24px;
+    color: white;
+    vertical-align: center;
+    text-shadow: 1px 1px 1px 2 black;
+}
+
+.BattlePassPlayerInfoLevelLabel
+{
+    font-weight: bold;
+    font-family: Reaver;
+    font-size: 34px;
+    vertical-align: center;
+    color: gradient( linear, 0% 30%, 0% 140%, from( #36AEEA ), to( #D8FBFE ) );
+    text-shadow: 0px 2px 5px 3 black;
+    margin-left: 10px;
+}
+
+.LevelProgressBar
+{
+    vertical-align: center;
+    width: 250px;
+    height: 15px;
+    margin-left: 20px;
+    box-shadow: 1px 2px 2px 0 #00000090;
+    background-color: #2f3244;
+}
+
+#LevelProgressBar .ProgressBarLeft
+{
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #2E7395 ), to( #36AEEA ) );
+    z-index: 0;
+
+}
+#LevelProgressBar .ProgressBarRight
+{
+    background-color: #0E1619;
+    z-index: 2;
+}
+#ProgressBurner,.ProgressBurner
+{
+    width: 100%;
+    height: 80px;
+    vertical-align: middle;
+    z-index: 1;
+    wash-color: #36AEEA;
+    brightness: 2;
+}
+.BattlePassPlayerInfoExpLabel
+{
+    vertical-align: center;
+    margin-left: 10px;
+    font-family: Radiance;
+    text-shadow: 0px 0px 3px 2 black;
+}
+
+.BuyBPandBuyLevel
+{
+    width: 100%;
+    height: 100%;
+}
+
+.BuyBPandBuyLevelCenter
+{
+    align: center center;
+    flow-children: right;
+}
+
+.ButtonBuyBp
+{
+    width: 300px;
+    height: 50px;
+    vertical-align: center;
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #2E7395 ), to( #36AEEA ) );
+    box-shadow: 0px 0px 5px 3 black;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+.ButtonBuyLevels
+{
+    width: 300px;
+    height: 50px;
+    vertical-align: center;
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #2E7395 ), to( #36AEEA ) );
+    box-shadow: 0px 0px 5px 3 black;
+    border-radius: 5px;
+    margin: 10px;
+}
+.ButtonBuyLevelsLabel
+{
+    align: center center;
+    color: white;
+    text-shadow: 0px 0px 3px 2 black;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.ButtonBuyBp:hover
+{
+    brightness: 1.2;
+}
+
+.ButtonBuyLevels:hover
+{
+    brightness: 1.2;
+}
+
+.BattlePassRewards
+{
+    width: 1300px;
+    height: 250px;
+    background-color: #242E33;
+    vertical-align: bottom;
+    flow-children: right;
+    overflow: scroll squish;
+}
+
+.BattlePassUltimateRewardsPreview
+{
+    width: 100%;
+    height: 450px;
+    flow-children: right;
+}
+
+.BattlePassUltimateRewardsPreview1
+{
+    width: 254px;
+    height: 100%;
+    background-image: url("s2r://panorama/images/custom_game/battlepass/reward_pyramide_big_png.vtex");
+    background-size: 100%;
+    margin: 3px;
+}
+.BattlePassUltimateRewardsPreview2
+{
+    width: 254px;
+    height: 100%;
+    background-image: url("s2r://panorama/images/custom_game/battlepass/reward_pudge_big_png.vtex");
+    background-size: 100%;
+    margin: 3px;
+}
+.BattlePassUltimateRewardsPreview3
+{
+    width: 254px;
+    height: 100%;
+    background-image: url("s2r://panorama/images/custom_game/battlepass/reward_sonic_big_png.vtex");
+    background-size: 100%;
+    margin: 3px;
+}
+.BattlePassUltimateRewardsPreview4
+{
+    width: 254px;
+    height: 100%;
+    background-image: url("s2r://panorama/images/custom_game/battlepass/reward_korra_big_png.vtex");
+    background-size: 100%;
+    margin: 3px;
+}
+.BattlePassUltimateRewardsPreview5
+{
+    width: 254px;
+    height: 100%;
+    background-image: url("s2r://panorama/images/custom_game/battlepass/reward_dio_big_png.vtex");
+    background-size: 100%;
+    margin: 3px;
+}
+
+
+.BPRewardPanel
+{
+    vertical-align: center;
+    width: 212px;
+    height: 220px;
+    flow-children: down;
+    tooltip-position: top;
+}
+
+.BPRewardPanelImage
+{
+    horizontal-align: center;
+    width: 207px;
+    height: 170px;
+    background-color: gray;
+    background-image: url("file://{images}/custom_game/battlepass/rewards/1.png");
+    background-size: 100%;
+    border: 1px solid white;
+    border-brush: gradient( linear, 0% 20%, 0% 100%, from( #36AEEA ), to( rgba(0,0,0,0.2) ) );
+}
+
+.BPRewardPanelLevelInfo
+{
+    horizontal-align: center;
+    width: 207px;
+    height: 45px;
+    background-color: gradient( linear, 0% 100%, 0% 0%, color-stop(0, #295266 ), color-stop(0.30, #2E7395 ), color-stop(1, #36AEEA ));
+    border: 1px solid white;
+    border-brush: gradient( linear, 20% -50%, 0% 50%, from( #36AEEA ), color-stop(0.5, #2E7395) );
+}
+
+.BPRewardPanelClosed .BPRewardPanelImage
+{
+    brightness: 0.3;
+}
+
+.BPRewardPanelClosed .BPRewardPanelLevelInfo
+{
+    brightness: 0.3;
+}
+
+.BPRewardPanelLevelInfoLabel
+{
+    align: center center;
+    font-family: Reaver;
+    font-weight: bold;
+    font-size: 30px;
+    color: white;
+    text-shadow: 0px 0px 3px 2 black;
+}
+
+.BPRewardPanelSmall
+{
+    vertical-align: center;
+    width: 15px;
+    height: 220px;
+    flow-children: down;
+}
+
+.BPRewardPanelImageSmall
+{
+    horizontal-align: center;
+    width: 10px;
+    height: 170px;
+    background-color: gradient( linear, 0% 30%, 0% 100%, from( #0fe0, to( #295266 ));
+}
+
+.BPRewardPanelLevelInfoSmall
+{
+    horizontal-align: center;
+    width: 10px;
+    height: 45px;
+    background-color: gradient( linear, 0% 100%, 0% 0%, color-stop(0, #295266 ), color-stop(0.30, #2E7395 ), color-stop(1, #36AEEA ));
+    border: 1px solid white;
+    border-brush: gradient( linear, 20% -50%, 0% 50%, from( #36AEEA ), color-stop(0.5, #2E7395) );
+}
+
+.BPRewardPanelClosed .BPRewardPanelImageSmall
+{
+    brightness: 0.3;
+}
+
+.BPRewardPanelClosed .BPRewardPanelLevelInfoSmall
+{
+    brightness: 0.3;
+}
+
+#BattlePassWindow_TopPlayers,
+#BattlePassWindow_Quests,
+#BattlePassWindow_HeroChallenge
+{
+    visibility: collapse;
+}
+
+.TopPlayersHeader
+{
+    background-color: #0e1318fc;
+    width: 600px;
+    height: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.01);
+    horizontal-align: center;
+    margin-top: 50px;
+    flow-children: right;
+}
+
+.TopPlayersMain
+{
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 598px;
+    height: 650px;
+    horizontal-align: center;
+    margin-top: 90px;
+    flow-children: down;
+    overflow: squish scroll;
+}
+
+.TopPlayersHeaderLabel1
+{
+    color: #36AEEA;
+    width: 60%;
+    vertical-align: center;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.6);
+    margin-left: 10px;
+}
+.TopPlayersHeaderLabel2
+{
+    color: #36AEEA;
+    width: 40%;
+    vertical-align: center;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.battlepass_top_player_row
+{
+    width: 100%;
+    height: 64px;
+    background-color: rgba(0, 0, 0, 0.6);
+    flow-children: right;
+    margin: 3px;
+}
+
+.battlepass_top_player_row_place
+{
+    vertical-align: center;
+    color: white;
+    font-family: Reaver;
+    font-size: 30px;
+    width: 40px;
+    text-align: center;
+}
+.battlepass_top_player_row_nickname_avatar
+{
+    flow-children: right;
+    width: 60%;
+    height: 100%;
+    margin-left: 10px;
+}
+#battlepass_top_player_row_avatar
+{
+    width: 64px;
+    height: 64px;
+} 
+.battlepass_top_player_row_nickname
+{
+    vertical-align: center;
+    margin-left: 10px;
+}
+.battlepass_top_player_row_level
+{
+    width: 40%;
+    vertical-align: center;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-family: Reaver;
+    font-size: 34px;
+    color: gradient( linear, 0% 30%, 0% 140%, from( #36AEEA ), to( #D8FBFE ) );
+    text-shadow: 0px 2px 5px 3 black;
+}
+
+.QuestsMain
+{
+    horizontal-align: center;
+    margin-top: 50px;
+    width: 1250px;
+    height: 700px;
+    flow-children: right-wrap;
+    overflow: squish scroll;
+}
+
+.QuestPanel
+{
+    width: 406px;
+    background-color: gradient( linear, 100% 0%, 0% 0%, from( black ), to( #00000044 ) );
+    border-top: 1px solid #ffffff04;
+    box-shadow: 0px 0px 10px #00000055;
+    height: 80px;
+    flow-children: right;
+    margin: 5px;
+}
+
+.QuestImage
+{
+    width: 80px;
+    height: 80px;
+    background-color: gradient( linear, 0% 100%, 0% 0%, from( black ), to( green ) );
+    border-top: 1px solid #ffffff08;
+    border-left: 1px solid #ffffff05;
+    box-shadow: 0px 0px 10px #00000055;
+}
+
+.QuestDesc
+{
+    vertical-align: center;
+    width: 215px;
+    margin-left: 10px;
+    color: #999;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+.QuestProgressPanel
+{
+    width: 100%;
+    height: 100%;
+}
+.QuestCheckBox
+{
+    width: 15px;
+    height: 15px;
+    border: 2px solid #2a81ad;
+    horizontal-align: right;
+    margin-right: 15px;
+    margin-top: 15px;
+}
+.QuestCheckBoxGalka
+{
+    horizontal-align: right;
+    width: 18px;
+    height: 18px;
+    margin-right: 11px;
+    margin-top: 11px; 
+    background-image: url("s2r://panorama/images/control_icons/check_png.vtex");
+    background-size: 100%;
+    wash-color: #0ef;
+    visibility: collapse;
+}
+.QuestProgressLabel
+{
+    font-size: 14px;
+    margin-top: 15px;
+    margin-left: 0px;
+    horizontal-align: right;
+    margin-right: 35px;
+}
+.QuestRewards
+{
+    vertical-align: bottom;
+    horizontal-align: right;
+    margin-right: 15px;
+    margin-bottom: 5px;
+    height: 25px;
+    flow-children: right;
+}
+.QuestRewardImage
+{
+    background-image: url("s2r://panorama/images/status_icons/empty_battle_points_psd.vtex");
+    background-size: 100%;
+    width: 25px;
+    height: 25px;
+    vertical-align: center;
+    wash-color: #36AEEA;
+}
+.QuestRewardLabel
+{
+    vertical-align: center;
+    font-size: 18px;
+    color: #36AEEA;
+}
+
+.BuyBPPanel
+{
+    width: 700px;
+    height: 460px;
+    z-index: 10;
+    align: center center;
+    background-image: url("s2r://panorama/images/custom_game/battlepass/bg_png.vtex");
+    background-size: 100%;
+    border-top-color: #555555;
+    border-left-color: #494949;
+    border-bottom-color: #333333;
+    border-right-color: #404040;
+    border-style: solid;
+    border-width: 2px;
+    visibility: collapse;
+}
+
+.BuyBPPanelLevels
+{
+    width: 700px;
+    height: 460px;
+    z-index: 10;
+    align: center center;
+    background-image: url("s2r://panorama/images/custom_game/battlepass/bg_png.vtex");
+    background-size: 100%;
+    border-top-color: #555555;
+    border-left-color: #494949;
+    border-bottom-color: #333333;
+    border-right-color: #404040;
+    border-style: solid;
+    border-width: 2px;
+    visibility: collapse;
+}
+
+.BattlePassLogoText
+{
+    font-size: 36px;
+    color: gradient( linear, 0% 0%, 0% 100%, from( blue ), to( #84e8f5 ) );
+    text-shadow: 1px 1px 1px 1.0 #3b70a1;
+    text-align: center;
+    font-weight: bold; 
+    horizontal-align: center;
+    margin-top: 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: Reaver;
+}
+
+.BuyBattlePass
+{
+    flow-children: right;
+    horizontal-align: center;
+    vertical-align: center;
+    margin-top: 40px;
+}
+
+.BuyPanel
+{
+    width: 300px;
+    height: 300px;
+    background-color: gradient( linear, 45% 0%, 0% 100%, from( #0E161950 ), to( #294566 ) );
+    border-top: 2px solid #294566;
+    box-shadow: 0px 0px 30px #00000088;
+    margin: 20px;
+    flow-children: down;
+}
+
+.BuyPanel:hover .BuyBattlePassButton
+{
+    animation-name: BackgroundPulseBattlePass;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.BuyPanel:hover .BattlePassIconBit
+{
+    animation-name: SpinnerRotate;
+    animation-duration: 5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.BuyPanel:hover .BattlePassIconDoge
+{
+    animation-name: SpinnerRotate;
+    animation-duration: 5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.BuyBattlePassButton
+{
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #2e6e94 ), to( #2e5094 ) );
+    border: 1px solid #2e6e94;
+    width: 200px;
+    horizontal-align: center;
+    vertical-align: bottom;
+    margin-bottom: 50px;
+    height: 40px;
+    box-shadow: 0px 0px 4px 0px black;
+}
+
+.BuyBattlePassButton:hover
+{
+    brightness: 1.2;
+}
+
+.BuyBattlePassButtonLabel
+{
+    color: white;
+    font-weight: bold;
+    align: center center;
+    font-size: 18px;
+}
+
+.BattlePassIconBit
+{
+    background-image: url("file://{images}/custom_game/shop/gold_icon.png");
+    background-size: 100%;
+    width: 110px;
+    height: 110px;
+    horizontal-align: center;
+    margin-top: 30px;
+}
+.BattlePassIconDoge
+{
+    background-image: url("file://{images}/custom_game/shop/gem_icon.png");
+    background-size: 100%;
+    width: 110px;
+    height: 110px;
+    horizontal-align: center;
+    margin-top: 30px;
+}
+.BattlePassPrice
+{
+    vertical-align: center;
+    horizontal-align: center;
+    font-weight: bold;
+    color: white;
+    font-size: 30px;
+    margin-top: 15px;
+}
+.PreBuyLabel
+{
+    margin-top: 180px;
+    horizontal-align: center;
+    font-weight: bold;
+    color: white;
+    font-size: 30px;
+    text-align: center;
+}
+
+@keyframes 'BackgroundPulseBattlePass'
+{
+    0%
+    {
+        box-shadow: 0px 0px 0px 0px #80F4FF00;
+    }
+    50%
+    {
+        box-shadow: 0px 0px 5px 0px #80F4FF22;
+    }
+    100%
+    {
+        box-shadow: 0px 0px 0px 0px #80F4FF00;
+    }
+}
+
+.BuyLevelsPanelInfo
+{
+    flow-children: right;
+    width: 100%;
+}
+
+.BuyLevelsCost
+{
+    vertical-align: center;
+    flow-children: right;
+}
+
+.BuyLevelsBitcoinIcon
+{
+    width: 90px;
+    height: 90px;
+    background-image: url("file://{images}/custom_game/shop/gold_icon.png");
+    background-size: 100%;
+}
+
+.BuyLevelsBitcoinLabel
+{
+    vertical-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 36px;
+    margin-left: 15px;
+}
+
+.BuyLevelsPanel
+{
+    vertical-align: center;
+    flow-children: down;
+    horizontal-align: right;
+}
+
+.BuyLevelsSSas
+{
+    flow-children: down;
+    horizontal-align: center;
+    vertical-align: center;
+    margin-top: 100px;
+    width: 300px;
+}
+
+.LevelsUpCount
+{
+    color: white;
+    font-weight: bold;
+    font-family: Reaver;
+    font-size: 36px;
+    color: gradient( linear, 0% 30%, 0% 140%, from( #36AEEA ), to( #D8FBFE ) );
+    text-shadow: 0px 2px 5px 3 black;
+    horizontal-align: center;
+    width: 70px;
+    text-align: center;
+}
+.ArrowUpLevels
+{
+    background-image: url("s2r://panorama/images/custom_game/battlepass/arrow_png.vtex");
+    background-size: 100%;
+    width: 70px;
+    height: 70px;
+    transform: rotateZ(90deg);
+    horizontal-align: center;
+    wash-color: #36AEEA;
+    img-shadow: 0px 1px 4px 2 black;
+}
+.ArrowDownLevels
+{
+    background-image: url("s2r://panorama/images/custom_game/battlepass/arrow_png.vtex");
+    background-size: 100%;
+    width: 70px;
+    height: 70px;
+    transform: rotateZ(-90deg);
+    horizontal-align: center;
+    wash-color: #36AEEA;
+    img-shadow: 0px 1px 4px 2 black;
+}
+.ArrowUpLevels:hover
+{
+    wash-color: white;
+}
+.ArrowDownLevels:hover
+{
+    wash-color: white;
+}
+
+.HeroChallengeMain
+{
+    width: 100%;
+    height: 800px;
+    margin-top: 20px;
+    flow-children: down;
+}
+
+.StrengthHeroes
+{
+    margin-top: 10px;
+    width: 100%;
+    height: 235px;
+    background-color: gradient( linear, 0% 0%, 100% 0%, from( #eb36361d ), to( #3648eb00 ) );
+    box-shadow: 0px 0px 4px 3px rgba(0,0,0,0.3);
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+.AgilityHeroes
+{
+    margin-top: 10px;
+    width: 100%;
+    height: 235px;
+    background-color: gradient( linear, 0% 0%, 100% 0%, from( #5aeb361d ), to( #5aeb3600 ) );
+    box-shadow: 0px 0px 4px 3px rgba(0,0,0,0.3);
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+.IntellectHeroes
+{
+    margin-top: 10px;
+    width: 100%;
+    height: 235px;
+    background-color: gradient( linear, 0% 0%, 100% 0%, from( #363ceb1d ), to( #365deb00 ) );
+    box-shadow: 0px 0px 4px 3px rgba(0,0,0,0.3);
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+.StrengthHeroes #variantButtonSmoke
+{
+    width: 100%;
+    height: 100%;
+    wash-color: #EA5136;
+    brightness: 5;
+    opacity: 0.1;
+}
+
+.AgilityHeroes #variantButtonSmoke
+{
+    width: 100%;
+    height: 100%;
+    wash-color: #45eb36;
+    brightness: 5;
+    opacity: 0.1;
+}
+
+.IntellectHeroes #variantButtonSmoke
+{
+    width: 100%;
+    height: 100%;
+    wash-color: #3648eb;
+    brightness: 5;
+    opacity: 0.1;
+}
+
+.HeroesChallengePanel
+{
+    width: 100%;
+    height: 100%;
+    vertical-align: center;
+    flow-children: right;
+    overflow: scroll squish;
+}
+
+.hero_challenge_panel
+{
+    width: 81px;
+    height: 81px;
+    align: center center;
+    border-radius: 50px;
+}
+
+.hero_challenge_panel2
+{
+    width: 128px;
+    height: 128px;
+    vertical-align: center;
+}
+
+.panel_step
+{
+    vertical-align: center;
+    width: 60px;
+    height: 2px;
+    background-color: gray;
+    box-shadow: 0px 0px 3px 0px black;
+}
+
+.HeroesChallengePanel #HorizontalScrollBar
+{
+    height: 1px;
+}
+
+.closed_background_challenge
+{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.86);
+}
+
+.closed_background_challenge_icon
+{
+    background-image: url("s2r://panorama/images/control_icons/lock_large_png.vtex");
+    background-size: 100%;
+    width: 25px;
+    height: 25px;
+    align: center center;
+}
+
+.panel_step_main
+{
+    vertical-align: center;
+}
+
+.panel_step_image
+{
+    background-image: url("s2r://panorama/images/status_icons/empty_battle_points_psd.vtex");
+    background-size: 100%;
+    width: 25px;
+    height: 25px;
+    vertical-align: center;
+    wash-color: #36AEEA;
+    margin-bottom: 30px;
+}
+.panel_step_label
+{
+    margin-left: 25px;
+    font-size: 18px;
+    color: #36AEEA;
+}
+    
+.closed_background_challenge_true
+{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.98);
+}
+
+.closed_background_challenge_icon_true
+{
+    background-image: url("s2r://panorama/images/control_icons/check_png.vtex");
+    background-size: 100%;
+    width: 30px;
+    height: 30px;
+    align: center center;
+    wash-color: #0ef;
+}
+
+
+.RewardLevelDesc
+{
+    horizontal-align: center;
+    vertical-align: bottom;
+    margin-bottom: 56px;
+    color: white;
+    font-weight: bold;
+}
+
+.RewardDescName
+{
+    horizontal-align: center;
+    vertical-align: bottom;
+    margin-bottom: 24px;
+    color: white;
+    font-family: Reaver;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 0px 0px 1px 0 blue;
+}
+
+.BpRewardAcceptButton
+{
+    width: 100%;
+    height: 25px;
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #60862d ), to( #3d5f1c ) );
+    box-shadow: 0px 0px 4px 0px black;
+    vertical-align: bottom;
+}
+
+.BpRewardAcceptButton:hover
+{
+    brightness: 1.2;
+}
+
+.BpRewardAcceptButton:active
+{
+    brightness: 0.8;
+}
+
+.BpRewardAcceptButtonLabel
+{
+    align: center center;
+    color: white;
+    font-family: Reaver;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 14px;
+    text-shadow: 0px 0px 4px 1 black;
+}
+
+.ButtonInfo
+{
+    padding: 25px;
+    margin-left: 20px;
+    background-color: rgba(0,0,0,0.5);
+    border: 1px solid black;
+}
+
+.ButtonInfoLabel
+{
+    color: white;
+}
+
+.PlayerHeroLevel
+{
+    width: 36px;
+    height: 36px;
+    horizontal-align: right;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+.NewItemsInfo
+{
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 1px solid white;
+    border-brush: gradient(radial, 0% 0%, 2% 10%, 100% 100%, from(rgb(255, 238, 141)), to(rgba(230, 255, 121, 0.02)));
+    margin-top: 50px;
+    margin-left: 120px;
+    horizontal-align: left;
+    transition-property: opacity;
+    transition-duration: 0.25s;
+    opacity: 0;
+}
+.NewItemsInfoLabel
+{
+    font-weight: semi-bold;
+    color: white;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.NewItemInfo
+{
+    horizontal-align: right;
+    padding: 2px;
+    background-color: #0000007a;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.4);
+    border: 1px solid black;
+    margin: 1px;
+    z-index: 5;
+}
+
+.NewItemInfoItem
+{
+    horizontal-align: right;
+    padding: 2px;
+    background-color: #0000007a;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 1);
+    border: 1px solid black;
+    margin: 1px;
+    z-index: 5;
+}
+
+.NewItemInfoLabel
+{
+    font-weight: semi-bold;
+    text-transform: uppercase;
+    font-size: 16px;
+    color: gradient(linear, 0% 0%, 0% 100%, from(#FFDB5C), color-stop(0.4, #FFC01E), to(#FFFFFF));
+    text-shadow: 0px 0.5px 5px 0 #000000b1;
+}
+
+.NewItemInfoLabelItem
+{
+    font-weight: semi-bold;
+    text-transform: uppercase;
+    font-size: 18px;
+    color: gradient(linear, 0% 0%, 0% 100%, from(#FFDB5C), color-stop(0.4, #FFC01E), to(#FFFFFF));
+    text-shadow: 0px 0.5px 5px 0 #000000b1;
+}

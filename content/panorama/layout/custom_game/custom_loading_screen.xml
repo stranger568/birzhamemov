@@ -1,12 +1,11 @@
 <root>
 	<styles>
-		<include src="s2r://panorama/styles/custom_game/custom_loading_screen.vcss_c" />
-		<include src="s2r://panorama/styles/custom_game/ads.vcss_c" />
+		<include src="s2r://panorama/layout/custom_game/custom_loading_screen.vcss_c" />
 		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
 	</styles>
 
 	<scripts>
-		<include src="s2r://panorama/scripts/custom_game/loading_screen.vjs_c" />
+		<include src="s2r://panorama/layout/custom_game/loading_screen.vjs_c" />
 	</scripts>
 
 	<Panel class="AddonLoadingRoot" hittest="false">

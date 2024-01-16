@@ -471,7 +471,7 @@ function modifier_overlord_spell_3_cheat_aura:OnCreated()
     if not IsServer() then return end
     if self:GetParent():IsRealHero() then
         self:GetParent().VisionAbilities = WorldPanels:CreateWorldPanelForTeam(self:GetCaster():GetTeamNumber(), {
-            layout = "file://{resources}/layout/custom_game/overlord/abilitycooldowns.xml",
+            layout = "file://{resources}/layout/custom_game/heroes/overlord/abilitycooldowns.xml",
             entity = self:GetParent(),
             entityHeight = 275,
             data = {hasHealthBar = true}

@@ -1,0 +1,29 @@
+<root>
+	<styles>
+		<include src="file://{resources}/layout/custom_game/heroes/nolik_energy/nolik_energy.css" />
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+	</styles>
+	<scripts>
+        <include src="s2r://panorama/layout/custom_game/scripts/functions.vjs_c" />
+		<include src="file://{resources}/layout/custom_game/heroes/nolik_energy/nolik_energy.js" />
+	</scripts>
+
+	<Panel class="NolikEnergyMain" hittest="false">
+		<Panel id="NolikEnergyPanel" class="NolikEnergyPanel">
+			<DOTAAbilityImage abilityname="nolik_energy" class="NolikAbility" />
+			<Panel id="EnergyPanel">
+				<Panel id="EnergyPanelBackground" />
+				<Panel id="EnergyPanelBackgroundGreen" />
+				<Label id="Energy" text="0 / 0" />
+			</Panel>
+		</Panel>
+		<Panel id="MonikaStatsPanel" class="MonikaStatsPanel">
+			<DOTAAbilityImage abilityname="monika_fourthwall" class="NolikAbility" />
+			<Panel id="MonikaStatsPanels">
+				<Panel id="MonikaStatsPanelBackground" />
+				<Panel id="MonikaStatsPanelBackgroundGreen" />
+				<Label id="MonikaStats" text="0 / 0" />
+			</Panel>
+		</Panel>
+	</Panel>
+</root>

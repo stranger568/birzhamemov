@@ -1,0 +1,16 @@
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="s2r://panorama/layout/custom_game/report_panel/report_panel.vcss_c" />
+	</styles>
+
+	<scripts>
+		<include src="s2r://panorama/layout/custom_game/report_panel/report_panel.vjs_c" />
+	</scripts>
+
+	<Panel class="ReportPanelMain" hittest="false">
+		<Panel id="ReportPanel">
+			<Label id="ReportPanelLabel" class="ReportPanelLabel" text="" />
+		</Panel>					
+	</Panel>
+</root>
