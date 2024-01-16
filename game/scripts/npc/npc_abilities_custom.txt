@@ -2950,7 +2950,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"2"			
+			"value"						"1.5"			
 		}
 	}
 
