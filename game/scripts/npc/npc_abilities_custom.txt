@@ -2873,7 +2873,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"2"			
+			"value"						"3"			
 		}
 	}
 	"special_bonus_birzha_navalny_2"
