@@ -18564,9 +18564,9 @@
 	{
 		"BaseClass"						"ability_lua"
 		"ScriptFile"					"abilities/heroes/gypsy.lua"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT" | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
 		"AbilityTextureName"			"Gypsy/Tabor"
-		"AbilityCooldown"				"20 18 16 14"
+		"AbilityCooldown"				"20 19 18 17"
 		"AbilityManaCost"				"70"
 		"AbilityCastRange"				"900"
 	}
@@ -18706,7 +18706,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"-7"		
+			"value"						"-4"		
 		}
 	}	
 	"special_bonus_birzha_gypsy_3"
