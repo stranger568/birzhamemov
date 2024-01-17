@@ -7511,7 +7511,7 @@
 "DOTA_Tooltip_ability_Megumin_mana_aura_spell_damage" 		"%ADDITIONAL ABILITY DAMAGE:"
 "DOTA_Tooltip_ability_Megumin_mana_aura_radius" 				"RADIUS:"
 
-"DOTA_Tooltip_modifier_megumin_aura_2" 						"Megumin's cuteness"C
+"DOTA_Tooltip_modifier_megumin_aura_2" 						"Megumin's cuteness"
 "DOTA_Tooltip_modifier_megumin_aura_2_Description" 			"Increases mana regeneration by %fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% and ability damage by "
 
 "DOTA_Tooltip_modifier_mana_aura_active_regeneration" 					"Megumin's Naughtiness"
