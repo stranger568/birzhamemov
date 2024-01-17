@@ -2480,7 +2480,7 @@
 "DOTA_Tooltip_ability_saitama_react_chance" 										"%CHANCE:"
 "DOTA_Tooltip_ability_saitama_react_lore" 										"This hero was created thanks to <font color='#fffc00'>Alexander Chumarov</font>"
 
-"DOTA_Tooltip_ability_saitama_lemiter" 											"Lee miter"
+"DOTA_Tooltip_ability_saitama_lemiter" 											"Limiter"
 "DOTA_Tooltip_ability_saitama_lemiter_Description" 								"For every %damage_for_stack% damage taken, Saitama gains 1 ability effect. Each effect strengthens Saitama and his abilities."
 "DOTA_Tooltip_ability_saitama_lemiter_damage_per_stack" 							"%ADDITIONAL DAMAGE PER EFFECT:"
 "DOTA_Tooltip_ability_saitama_lemiter_resist_per_stack" 							"%ADDITIONAL DAMAGE IMMUNITY PER EFFECT:"
@@ -2616,14 +2616,14 @@
 "DOTA_Tooltip_ability_Vjlink_teeth_Description" 				"Each attack heals you for a fraction of the enemy's current health and deals an equal amount of damage"
 "DOTA_Tooltip_ability_Vjlink_teeth_damage_percent" 			"%VAMPIRISM:"
 
-"DOTA_Tooltip_Ability_special_bonus_birzha_vjlink_1" 		"-{s:value} bind radius Python reception"
+"DOTA_Tooltip_Ability_special_bonus_birzha_vjlink_1" 		"-{s:value} bind radius Python trick"
 "DOTA_Tooltip_Ability_special_bonus_birzha_vjlink_2" 		"+{s:value} max. effects of Phlegm"
-"DOTA_Tooltip_Ability_special_bonus_birzha_vjlink_3" 		"Python Move Extra Attack"
+"DOTA_Tooltip_Ability_special_bonus_birzha_vjlink_3" 		"Python trick Extra Attack"
 "DOTA_Tooltip_Ability_special_bonus_birzha_vjlink_3_description" 	"Attacks the target of the ability"
 "DOTA_Tooltip_Ability_special_bonus_birzha_vjlink_4" 		"You are a dudoser and give resistance to magic"
 "DOTA_Tooltip_Ability_special_bonus_birzha_vjlink_4_description" 	"Grants {s:value}% Magic Resistance per ability effect"
-"DOTA_Tooltip_Ability_special_bonus_unique_vjlink_5" 		"2 charges Python Move"
-"DOTA_Tooltip_Ability_special_bonus_birzha_vjlink_6" 		"Python Directional Move"
+"DOTA_Tooltip_Ability_special_bonus_unique_vjlink_5" 		"2 charges Python trick"
+"DOTA_Tooltip_Ability_special_bonus_birzha_vjlink_6" 		"Python trick is now a unit-targeted spell"
 "DOTA_Tooltip_Ability_special_bonus_birzha_vjlink_7" 		"+{s:value}% lifesteal Broken teeth"
 "DOTA_Tooltip_Ability_special_bonus_birzha_vjlink_8" 		"+{s:value} attack speed from Broken Teeth"
 
@@ -3648,7 +3648,7 @@
 "DOTA_Tooltip_modifier_Kudes_GoldHook_shard_debuff" "Golden hook of Bashkiria"
 "DOTA_Tooltip_modifier_Kudes_GoldHook_shard_debuff_description" "Takes damage and is slowed by %MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%"
 
-"DOTA_Tooltip_Ability_Kudes_JumpInHead"     "Jump in head"
+"DOTA_Tooltip_Ability_Kudes_JumpInHead"     "Jump on face"
 "DOTA_Tooltip_Ability_Kudes_JumpInHead_Description" "Kudes jumps to the target area. When landing, it creates an impenetrable stone circle, dealing damage to everyone in the circle. If the target attempts to exit the circle, the target takes damage again and is pushed back."
 "DOTA_Tooltip_Ability_Kudes_JumpInHead_radius" "STONE CIRCLE RADIUS:"
 "DOTA_Tooltip_Ability_Kudes_JumpInHead_duration" "STONE CIRCLE DURATION:"
@@ -3678,11 +3678,11 @@
 "DOTA_Tooltip_modifier_Kudes_Items_description" "Attributes increased by %dMODIFIER_PROPERTY_STATS_STRENGTH_BONUS%"
 
 "Dota_Tooltip_Ability_special_bonus_birzha_kudes_1" "+{s:value} to the range of the Golden Hook of Bashkiria"
-"Dota_Tooltip_Ability_special_bonus_birzha_kudes_2" "-{s:value} sec face jump cooldown"
+"Dota_Tooltip_Ability_special_bonus_birzha_kudes_2" "-{s:value} sec Jump on face"
 "Dota_Tooltip_Ability_special_bonus_birzha_kudes_3" "Bashkiria's golden hook increases incoming damage by {s:value}%"
 "Dota_Tooltip_Ability_special_bonus_birzha_kudes_3_description" "Duration {s:value2} seconds."
-"Dota_Tooltip_Ability_special_bonus_birzha_kudes_4" "+{s:value} to face jump radius"
-"Dota_Tooltip_Ability_special_bonus_birzha_kudes_5" "Immunity to magic inside the circle Face Jump"
+"Dota_Tooltip_Ability_special_bonus_birzha_kudes_4" "+{s:value} to Jump on face radius"
+"Dota_Tooltip_Ability_special_bonus_birzha_kudes_5" "Immunity to magic inside the circle of Jump on face"
 "Dota_Tooltip_Ability_special_bonus_birzha_kudes_6" "Jump on face through magic immunity"
 "Dota_Tooltip_Ability_special_bonus_birzha_kudes_7" "+{s:value}% reduction in incoming damage Overweight"
 "Dota_Tooltip_Ability_special_bonus_birzha_kudes_8" "+{s:value} of the Expensive Inventory attribute"
@@ -3815,7 +3815,7 @@
 
 "npc_dota_hero_axe" 	"Abdul"
 
-"DOTA_Tooltip_ability_Abdulov_DefenceFromMushrooms" 						"Protection from Oil t"
+"DOTA_Tooltip_ability_Abdulov_DefenceFromMushrooms" 						"Protection from oil bastards"
 "DOTA_Tooltip_ability_Abdulov_DefenceFromMushrooms_Description" 			"Defending from Maslyat, Abdul becomes immune to spells. Dispels negative effects, and his attack speed increases"
 "DOTA_Tooltip_ability_Abdulov_DefenceFromMushrooms_attack_speed_bonus" 	"ADDITIONAL ATTACK SPEED:"
 "DOTA_Tooltip_ability_Abdulov_DefenceFromMushrooms_duration" 			"DURATION:"
@@ -3831,10 +3831,10 @@
 "DOTA_Tooltip_ability_Abdulov_OvertakingMushrooms_duration" 				"DURATION:"
 "DOTA_Tooltip_ability_Abdulov_OvertakingMushrooms_lore" 					"This hero was created thanks to <font color='#fffc00'>Sion Atlasia</font>"
 
-"DOTA_Tooltip_modifier_abdulov_OvertakingMushrooms_damage" 				"Caught up with Oil Can"
+"DOTA_Tooltip_modifier_abdulov_OvertakingMushrooms_damage" 				"Chase the oil bastard"
 "DOTA_Tooltip_modifier_abdulov_OvertakingMushrooms_damage_Description" 	"Damage increased by %dMODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE%"
 
-"DOTA_Tooltip_modifier_abdulov_OvertakingMushrooms_armor" 				"Caught up with Oil Can"
+"DOTA_Tooltip_modifier_abdulov_OvertakingMushrooms_armor" 				"Chase the oil bastard"
 "DOTA_Tooltip_modifier_abdulov_OvertakingMushrooms_armor_Description" 	"Armor reduced by %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%"
 
 "DOTA_Tooltip_ability_Abdulov_TripToHell" 								"Trip to Hell"
@@ -3848,8 +3848,8 @@
 "DOTA_Tooltip_Abdulov_TripToHell_damage_rooted" 							"Put Evka in HELL"
 "DOTA_Tooltip_Abdulov_TripToHell_damage_rooted_Description" 				"Caught"
 
-"DOTA_Tooltip_ability_Abdulov_CutMushrooms" 								"Cut the oil can"
-"DOTA_Tooltip_ability_Abdulov_CutMushrooms_Description" 					"When attacking, Abdulov has a chance to cut down the oiler with an axe. If the target is on low health, he dies immediately, otherwise he takes damage from his maximum health."
+"DOTA_Tooltip_ability_Abdulov_CutMushrooms" 								"Cut the oil bastard"
+"DOTA_Tooltip_ability_Abdulov_CutMushrooms_Description" 					"When attacking, Abdulov has a chance to cut down the oil bastard with an axe. If the target is on low health, he dies immediately, otherwise he takes damage from his maximum health."
 "DOTA_Tooltip_ability_Abdulov_CutMushrooms_chance" 						"%CHANCE:"
 "DOTA_Tooltip_ability_Abdulov_CutMushrooms_damage" 						"%DAMAGE FROM ENEMY'S MAX HEALTH:"
 "DOTA_Tooltip_ability_Abdulov_CutMushrooms_kill_threshold" 				"%HEALTH THRESHOLD FOR KILL:"
@@ -3860,12 +3860,12 @@
 
 "DOTA_Tooltip_Ability_special_bonus_birzha_abdul_1" 					"+{s:value} to attack speed Protection from butter"
 "DOTA_Tooltip_Ability_special_bonus_birzha_abdul_2" 					"+{s:value} sec duration Protection from oils"
-"DOTA_Tooltip_Ability_special_bonus_birzha_abdul_3" 					"{s:value} attacks Catch up with oil can"
+"DOTA_Tooltip_Ability_special_bonus_birzha_abdul_3" 					"{s:value} attacks Chase the oil bastard"
 "DOTA_Tooltip_Ability_special_bonus_birzha_abdul_4" 					"+{s:value} damage Ticket to Hell"
 "DOTA_Tooltip_Ability_special_bonus_birzha_abdul_5" 					"+{s:value}% chance of hacking the oil can"
-"DOTA_Tooltip_Ability_special_bonus_birzha_abdul_6" 					"+{s:value}% of the health threshold for killing Hack the oil can"
-"DOTA_Tooltip_Ability_special_bonus_birzha_abdul_7" 					"Hacking an oil can deals pure damage"
-"DOTA_Tooltip_Ability_special_bonus_birzha_abdul_8" 					"Hack the oiler kills through immortality"
+"DOTA_Tooltip_Ability_special_bonus_birzha_abdul_6" 					"+{s:value}% of the health threshold for killing Cut the oil bastard"
+"DOTA_Tooltip_Ability_special_bonus_birzha_abdul_7" 					"Cut the oil bastard deals pure damage"
+"DOTA_Tooltip_Ability_special_bonus_birzha_abdul_8" 					"Cut the oil bastard pierces through magic immunity"
 
 //================================================================ ===================================================== ===============
 // Overlord
@@ -3963,7 +3963,7 @@
 "npc_gorshok_mega_zombie" 	"Dead Anarchist"
 "npc_gorshok_hunt" 			"Huntress"
 
-"npc_dota_hero_tidehunter" 	"Pot"
+"npc_dota_hero_tidehunter" 	"Gorshok"
 
 "DOTA_Tooltip_Ability_gorshok_death_anarhia" 					"Dead Anarchist"
 "DOTA_Tooltip_Ability_gorshok_death_anarhia_Description" 		"Summons a crowd of zombies, when summoned again, the previous ones die."
@@ -4426,12 +4426,12 @@
 "Dota_Tooltip_modifier_glad_sorry_target" 					"Apologize to your grandfather"
 "Dota_Tooltip_modifier_glad_sorry_target_Description" 		"Goes to attack Glad Valakas and takes damage over time"
 
-"DOTA_Tooltip_ability_Valakas_DabDabDab" 					"BACK BACK BACK"
+"DOTA_Tooltip_ability_Valakas_DabDabDab" 					"Byak-byak-byak"
 "DOTA_Tooltip_ability_Valakas_DabDabDab_Description" 		"When attacked, Glad Valakas has a chance to immediately hit back and restore some health."
 "DOTA_Tooltip_ability_Valakas_DabDabDab_lifesteal" 			"%VAMPIRISM:"
 "DOTA_Tooltip_ability_Valakas_DabDabDab_chance" 				"%CHANCE:"
 
-"DOTA_Tooltip_ability_Valakas_DaDaYa" 						"Yes D a Ya"
+"DOTA_Tooltip_ability_Valakas_DaDaYa" 						"Yes. Yes, I am."
 "DOTA_Tooltip_ability_Valakas_DaDaYa_Description" 			"<h1>Active ability</h1>After using the ability, the next attack within %duration% seconds will deal %bonus_damage%%% additional damage \n<h1>Passive ability</h1>Valakas on hero kill , receives several units of strength forever"
 "DOTA_Tooltip_ability_Valakas_DaDaYa_bonus_strength" 		"BONUS STRENGTH:"
 
@@ -4442,7 +4442,7 @@
 "Dota_Tooltip_modifier_valakas_dadaya_active_Description" 	"Next attack will deal %dMODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE%%% more damage"
 
 "DOTA_Tooltip_ability_Valakas_Gadza" 						"Gadza"
-"DOTA_Tooltip_ability_Valakas_Gadza_Description" 			"Detrov's penis breaks his mask and makes all the neighbors around him suffer"
+"DOTA_Tooltip_ability_Valakas_Gadza_Description" 			"Penis Detrov breaks his mask and makes all the neighbors around him suffer"
 "DOTA_Tooltip_ability_Valakas_Gadza_damage" 					"DAMAGE:"
 "DOTA_Tooltip_ability_Valakas_Gadza_radius" 					"RADIUS:"
 "DOTA_Tooltip_ability_Valakas_Gadza_duration" 				"DURATION:"
@@ -4452,10 +4452,10 @@
 
 "DOTA_Tooltip_ability_Valakas_DabDabDab_scepter_description" 			"Becomes active. Deals quick attacks with lifesteal for %scepter_duration% sec. Cooldown %scepter_cooldown% sec."
 
-"DOTA_Tooltip_modifier_Valakas_DabDabDab_scepter" 						"Byak Byak Byak"
+"DOTA_Tooltip_modifier_Valakas_DabDabDab_scepter" 						"Byak-byak-byak"
 "DOTA_Tooltip_modifier_Valakas_DabDabDab_scepter_Description" 			"Deals fast attacks with lifesteal"
 
-"DOTA_Tooltip_modifier_Valakas_DabDabDab_debuff" 						"Byak Byak Byak"
+"DOTA_Tooltip_modifier_Valakas_DabDabDab_debuff" 						"Byak-byak-byak"
 "DOTA_Tooltip_modifier_Valakas_DabDabDab_debuff_Description" 			"Magic resistance reduced by %dMODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS%%%"
 
 "DOTA_Tooltip_ability_Valakas_sorry_shard_description" 					"Reduces the target's outgoing damage by %shard_damage%%%"
@@ -4464,9 +4464,9 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_valakas_2" 		"-{s:value} Gadz cooldown seconds"
 "DOTA_Tooltip_Ability_special_bonus_birzha_valakas_3" 		"Attack BYAK BYAK BYAK deals {s:value}% more damage"
 "DOTA_Tooltip_Ability_special_bonus_birzha_valakas_4" 		"Byak byak byak attack reduces magic resistance by {s:value}%. Duration {s:value2} seconds."
-"DOTA_Tooltip_Ability_special_bonus_birzha_valakas_5" 		"+{s:value}% chance Byak byak byak"
+"DOTA_Tooltip_Ability_special_bonus_birzha_valakas_5" 		"+{s:value}% chance Byak-byak-byak"
 "DOTA_Tooltip_Ability_special_bonus_birzha_valakas_6" 		"Gadza stuns for {s:value} seconds."
-"DOTA_Tooltip_Ability_special_bonus_birzha_valakas_7" 		"+{s:value}% vampirism Bang bak bak"
+"DOTA_Tooltip_Ability_special_bonus_birzha_valakas_7" 		"+{s:value}% vampirism Byak-byak-byak"
 "DOTA_Tooltip_Ability_special_bonus_birzha_valakas_8" 		"Gadza passes through magic immunity"
 
 //================================================================ ===================================================== ===============
@@ -4551,7 +4551,7 @@
 "DOTA_Tooltip_modifier_grem_impenetrability" 				"Impenetrability"
 "DOTA_Tooltip_modifier_grem_impenetrability_Description" 	"Number of effects. Armor increased by %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%, health regeneration increased by %dMODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT%"
 
-"DOTA_Tooltip_ability_Grem_HardSkeleton" 					"Hard Skeleton"
+"DOTA_Tooltip_ability_Grem_HardSkeleton" 					"Stable Skeleton"
 "DOTA_Tooltip_ability_Grem_HardSkeleton_Description" 		"Grem responds to each blow, dealing damage to the enemy attacking him as a percentage of his power"
 "DOTA_Tooltip_ability_Grem_HardSkeleton_return_damage" 		"BASE DAMAGE:"
 "DOTA_Tooltip_ability_Grem_HardSkeleton_strength_pct" 		"%ADDITIONAL DAMAGE FROM STRENGTH:"
@@ -4573,12 +4573,12 @@
 "DOTA_Tooltip_ability_Grem_HardSkeleton_shard_description" 				"Triggers from any damage received that is greater than %tooltip_damage%"
 "DOTA_Tooltip_ability_Grem_CreepyAppearance_scepter_description" 		"Increases strength by %str_scepter%%% for each hero hit for %duration% sec."
 
-"DOTA_Tooltip_Ability_special_bonus_birzha_grem_1" 					"+{s:value} base damage of Resilient Skeleton"
+"DOTA_Tooltip_Ability_special_bonus_birzha_grem_1" 					"+{s:value} base damage of Stable Skeleton"
 "DOTA_Tooltip_Ability_special_bonus_birzha_grem_2" 					"+{s:va lue} max. effect Impenetrability"
-"DOTA_Tooltip_Ability_special_bonus_birzha_grem_3" 					"-{s:value} sec cooldown Spooky Look"
+"DOTA_Tooltip_Ability_special_bonus_birzha_grem_3" 					"-{s:value} sec cooldown Creepy Appearance"
 "DOTA_Tooltip_Ability_special_bonus_birzha_grem_4" 					"+{s:value} sec duration Do nothing"
-"DOTA_Tooltip_Ability_special_bonus_birzha_grem_5" 					"Resistant skeleton through magic immunity"
-"DOTA_Tooltip_Ability_special_bonus_birzha_grem_6" 					"+{s:value}% damage to Resilient Skeleton"
+"DOTA_Tooltip_Ability_special_bonus_birzha_grem_5" 					"Stable skeleton through magic immunity"
+"DOTA_Tooltip_Ability_special_bonus_birzha_grem_6" 					"+{s:value}% damage to Stable Skeleton"
 "DOTA_Tooltip_Ability_special_bonus_birzha_grem_7" 					"-{s:value} sec cooldown Do nothing"
 "DOTA_Tooltip_Ability_special_bonus_birzha_grem_8" 					"Stable Skeleton becomes active"
 "DOTA_Tooltip_Ability_special_bonus_birzha_grem_8_description" 		"Grem turns to stone, becomes invulnerable and restores {s:value}% of health very quickly. Duration {s:value2} seconds. Cooldown {s:value3} seconds."
@@ -4703,7 +4703,7 @@
 
 "npc_dota_hero_lone_druid" 	"Cadet"
 
-"DOTA_Tooltip_ability_Kadet_fuck_faggots" 						"You fucking inhumans"
+"DOTA_Tooltip_ability_Kadet_fuck_faggots" 						"You're fucking inhumans"
 "DOTA_Tooltip_ability_Kadet_fuck_faggots_Description" 			"The Cadet calls out his enemies by firing Death Skulls at them, dealing damage and stunning them."
 "DOTA_Tooltip_ability_Kadet_fuck_faggots_damage" 				"DAMAGE:"
 "DOTA_Tooltip_ability_Kadet_fuck_faggots_duration" 				"STUN DURATION:"
@@ -4744,8 +4744,8 @@
 "Dota_Tooltip_Ability_special_bonus_birzha_kadet_1" 			"+{s:value}% lifesteal Warm-up"
 "Dota_Tooltip_Ability_special_bonus_birzha_kadet_2" 			"-{s:value} armor Army"
 "Dota_Tooltip_Ability_special_bonus_birzha_kadet_3" 			"Changing targets removes {s:value}% of Speed Chop effects"
-"Dota_Tooltip_Ability_special_bonus_birzha_kadet_4" 			"+{s:value} sec stun duration You fucking inhumans"
-"Dota_Tooltip_Ability_special_bonus_birzha_kadet_5" 				"Pure damage You fucking inhumans"
+"Dota_Tooltip_Ability_special_bonus_birzha_kadet_4" 			"+{s:value} sec stun duration You're fucking inhumans"
+"Dota_Tooltip_Ability_special_bonus_birzha_kadet_5" 				"Pure damage You're fucking inhumans"
 "Dota_Tooltip_Ability_special_bonus_birzha_kadet_6" 			"+{s:value} attack speed Speed Chopper"
 "Dota_Tooltip_Ability_special_bonus_birzha_kadet_7" 			"Warming up deals pure damage"
 "Dota_Tooltip_Ability_special_bonus_birzha_kadet_8" 			"-{s:value} attacks before the Warm Up effect"
@@ -5088,16 +5088,16 @@
 "DOTA_Tooltip_ability_Pocik_pizda_scepter_description" 		"Triggering adds so little effect to Hooley's ability"
 "DOTA_Tooltip_ability_Pocik_penek_shard_description" 		"If an enemy moves outside the stump's effect, they will be stunned for %shard_stun_duration% seconds. The effect only lasts once."
 
-"DOTA_Tooltip_ability_Pocik_uebu" 							"I'm fucking a bitch"
+"DOTA_Tooltip_ability_Pocik_uebu" 							"I'll fuck you up, bitch"
 "DOTA_Tooltip_ability_Pocik_uebu_Description" 				"The hero hits the ground with his staff, stunning all enemies hit. This attack deals critical damage and cannot miss"
 "DOTA_Tooltip_ability_Pocik_uebu_strike_cast_range" 			"RANGE:"
 "DOTA_Tooltip_ability_Pocik_uebu_stun" 						"STUN DURATION:"
 "DOTA_Tooltip_ability_Pocik_uebu_strike_crit_mult" 			"%CRITICAL DAMAGE:"
 
-"DOTA_Tooltip_modifier_pocik_bash_buff" 					" Gave pussy"
+"DOTA_Tooltip_modifier_pocik_bash_buff" 					" Beat the shit out"
 "DOTA_Tooltip_modifier_pocik_bash_buff_Description" 		"Attack speed increased by %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%"
 
-"DOTA_Tooltip_Ability_special_bonus_birzha_pocik_1" 					"+{s:value} damage to Pussy given"
+"DOTA_Tooltip_Ability_special_bonus_birzha_pocik_1" 					"+{s:value} damage to Beat the shit out"
 "DOTA_Tooltip_Ability_special_bonus_birzha_pocik_2" 					"End Our point fucking stuns for {s:value} seconds."
 "DOTA_Tooltip_Ability_special_bonus_birzha_pocik_3" 					"The bully here gives so little damage equal to {s:value}% of the enemy's gold"
 "DOTA_Tooltip_Ability_special_bonus_birzha_pocik_3_description" 		"Effect duration {s:value2} seconds."
@@ -5864,7 +5864,7 @@
 "DOTA_Tooltip_modifier_speed_friendly" 					" Running run"
 "DOTA_Tooltip_modifier_speed_friendly_Description" 		"Moves %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% faster"
 
-"DOTA_Tooltip_ability_Never_ultimate" 					"CHSV"
+"DOTA_Tooltip_ability_Never_ultimate" 					"EGO"
 "DOTA_Tooltip_ability_Never_ultimate_Description" 		"Never has greater HP, which increases his physical damage. When activated, increases the physical damage of allied heroes for %duration% sec."
 "DOTA_Tooltip_ability_Never_ultimate_bonus_damage" 		"EXTRA DAMAGE:"
 "DOTA_Tooltip_ability_Never_ultimate_bonus_damage_team" 	"EXTRA DAMAGE ON TEAM:"
@@ -5874,16 +5874,16 @@
 "DOTA_Tooltip_ability_never_zxc_Description" 			"Never creates 3 magical explosions in front of itself, dealing damage to all enemies in the area of effect. Deals an additional attack to each hero hit by the ability"	
 "DOTA_Tooltip_ability_never_zxc_damage" 					"DAMAGE:"
 
-"DOTA_Tooltip_modifier_never_damage_team" 				"CHSV"
+"DOTA_Tooltip_modifier_never_damage_team" 				"EGO"
 "DOTA_Tooltip_modifier_never_damage_team_Description" 	"Your damage has been increased by %dMODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE%"
 
 "Dota_Tooltip_Ability_special_bonus_birzha_never_1" 						"+{s:value}% movement speed Run up"
-"Dota_Tooltip_Ability_special_bonus_birzha_never_2" 						"HSV gives {s:va lue}% lifesteal"
+"Dota_Tooltip_Ability_special_bonus_birzha_never_2" 						"EGO gives {s:va lue}% lifesteal"
 "Dota_Tooltip_Ability_special_bonus_birzha_never_3" 						"-{s:value} sec. Spit in the face"
 "Dota_Tooltip_Ability_special_bonus_birzha_never_4" 						"+{s:value}% damage I'm not stupid"
 "Dota_Tooltip_Ability_special_bonus_birzha_never_5" 						"Running up gives effect resistance"
 "Dota_Tooltip_Ability_special_bonus_birzha_never_5_description" 			"Increases resistance to effects by {s:value}%"
-"Dota_Tooltip_Ability_special_bonus_birzha_never_6" 						"I'm not stupid due to my immunity to magic"
+"Dota_Tooltip_Ability_special_bonus_birzha_never_6" 						"I'm not stupid pierces through magic immunity"
 "Dota_Tooltip_Ability_special_bonus_birzha_never_7" 						"+{s:value}% chance of Spit in the face"
 "Dota_Tooltip_Ability_special_bonus_birzha_never_8" 						"+{s:value} sec duration I'm not stupid"
 
@@ -6036,7 +6036,7 @@
 "DOTA_Tooltip_Ability_polnaref_battle_exp_attack_speed" 			"EXTRA ATTACK SPEED:"
 "DOTA_Tooltip_Ability_polnaref_battle_exp_lore" 						"This hero was created thanks to <font color='#fffc00'>ForeverBlin4ik</font>"
 
-"DOTA_Tooltip_Ability_polnaref_ragess" 								"Polnaref rage"
+"DOTA_Tooltip_Ability_polnaref_ragess" 								"Polnareff rage"
 "DOTA_Tooltip_Ability_polnaref_ragess_Description" 					"When enraged after losing Avdoola and Iggi, Polnareff gains a buff that briefly reduces his base attack speed to %attack_speed%"
 "DOTA_Tooltip_Ability_polnaref_ragess_duration" 					"DURATION:"
 "DOTA_Tooltip_Ability_polnaref_ragess_lore" 							"This hero was created thanks to <font color='#fffc00'>ForeverBli n4ik</font>"
@@ -6106,7 +6106,7 @@
 "DOTA_Tooltip_modifier_polnaref_requeim_aura_Description" 			"Health cannot be lower than 1"
 
 "DOTA_Tooltip_Ability_special_bonus_birzha_polnaref_1" 				"-{s:value} Silver Chariot cooldown"
-"DOTA_Tooltip_Ability_special_bonus_birzha_polnaref_2" 				"-{s:value} Polnaref's R age cooldown"
+"DOTA_Tooltip_Ability_special_bonus_birzha_polnaref_2" 				"-{s:value} sec Polnareff's Rage cooldown"
 "DOTA_Tooltip_Ability_special_bonus_birzha_polnaref_3" 				"{s:value}% Silver Chariot damage from hero damage"
 "DOTA_Tooltip_Ability_special_bonus_birzha_polnaref_4" 				"+{s:value}% lifesteal Combat Experience"
 "DOTA_Tooltip_Ability_special_bonus_birzha_polnaref_5" 				"{s:value}% of Silver Chariot's attack speed from the hero's attack speed"
@@ -6361,7 +6361,7 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_haku_2" 			"+{s:value} sec freeze Rebound"
 "DOTA_Tooltip_Ability_special_bonus_birzha_haku_3" 			"+{s:value} sec stun duration Beautiful eyes"
 "DOTA_Tooltip_Ability_special_bonus_birzha_haku_4" 			"Paralyzing Needle on {s:value} targets"
-"DOTA_Tooltip_Ability_special_bonus_birzha_haku_5" 			"+{s:value}% health recovery Save e"
+"DOTA_Tooltip_Ability_special_bonus_birzha_haku_5" 			"+{s:value}% health recovery Rescue"
 "DOTA_Tooltip_Ability_special_bonus_birzha_haku_6" 			"-{s:value} sec cooldown Rebound"
 "DOTA_Tooltip_Ability_special_bonus_birzha_haku_7" 			"-{s:value} sec cooldown for Healing Needles"
 "DOTA_Tooltip_Ability_special_bonus_birzha_haku_8" 			"+{s:value}% Ice Mirror damage"
@@ -6445,7 +6445,7 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_horo_4" 						"Feeding an apple restores {s:value}% health"
 "DOTA_Tooltip_Ability_special_bonus_birzha_horo_5" 						"+{s:value} number of wolves Forest Dweller"
 "DOTA_Tooltip_Ability_special_bonus_birzha_horo_6" 						"-{s:value} sec cooldown Shape Change"
-"DOTA_Tooltip_Ability_special_bonus_birzha_horo_7" 						"Wolf stuns Ami attacks for {s:value} seconds."
+"DOTA_Tooltip_Ability_special_bonus_birzha_horo_7" 						"Wolf attacks stun for {s:value} seconds."
 "DOTA_Tooltip_Ability_special_bonus_birzha_horo_8" 						"+{s:value} health Form Change"
 
 //================================================================ ===================================================== ===============
@@ -6481,7 +6481,7 @@
 "DOTA_Tooltip_modifier_golovach_rocket" 					"Rockets on E"
 "DOTA_Tooltip_modifier_golovach_rocket_Description" 		"Fires rockets"
 
-"DOTA_Tooltip_Ability_LenaGolovach_Radio" 					"Roffles with Radio"
+"DOTA_Tooltip_Ability_LenaGolovach_Radio" 					"Rofles on radioo"
 "DOTA_Tooltip_Ability_LenaGolovach_Radio_Description" 		"Golovach, having heard rofl from the radio, begins to rofl strongly and receives two random bonuses for a while. Bonuses: <font color='#00D4FF'>Additional level </font>, <font color='#00D4FF'>health< /font>, <font color='#00D4FF'>attack speed</font> and <font color='#00D4FF'>movement speed</font>"
 "DOTA_Tooltip_Ability_LenaGolovach_Radio_duration" 			"DURATION:"
 "DOTA_Tooltip_Ability_LenaGolovach_Radio_damage" 			"DAMAGE:"
@@ -6506,15 +6506,15 @@
 "DOTA_Tooltip_modifier_LenaGolovach_Radio_god_Description" 			"Immortality"
 
 "Dota_Tooltip_Ability_special_bonus_birzha_golovach_1" 						"+{s:value} seconds Taunt duration"
-"Dota_Tooltip_Ability_special_bonus_birzha_golovach_2" 						"+{s:value} gold from Donata"
+"Dota_Tooltip_Ability_special_bonus_birzha_golovach_2" 						"+{s:value} gold from Donations"
 "Dota_Tooltip_Ability_special_bonus_birzha_golovach_3" 						"+{s:value} Rocket targets on E"
-"Dota_Tooltip_Ability_special_bonus_birzha_golovach_4" 						"-{s:value} sec. cooldown of Rofla With Radio"
+"Dota_Tooltip_Ability_special_bonus_birzha_golovach_4" 						"-{s:value} sec. cooldown of Rofles on radio"
 "Dota_Tooltip_Ability_special_bonus_birzha_golovach_5" 						"Taunt explodes"
 "Dota_Tooltip_Ability_special_bonus_birzha_golovach_5_description" 			"At the end, the Taunt explodes and deals {s:value}% of max health"
 "Dota_Tooltip_Ability_special_bonus_birzha_golovach_6" 						"+{s:value} Rocket agility multiplier on E"
 "Dota_Tooltip_Ability_special_bonus_birzha_golovach_7" 						"Taunt returns damage"
 "Dota_Tooltip_Ability_special_bonus_birzha_golovach_7_description" 			"Returns {s:value}% of incoming damage"
-"Dota_Tooltip_Ability_special_bonus_birzha_golovach_8" 						"+{s:value} seconds duration of Radio Rofla"
+"Dota_Tooltip_Ability_special_bonus_birzha_golovach_8" 						"+{s:value} seconds duration of Rofles on radio"
 
 //================================================================ ===================================================== ===============
 // Bounty Hunter | Jew | Jew
@@ -6775,8 +6775,8 @@
 "DOTA_Tooltip_ability_Bogdan_key_damage" 			"DAMAGE:"
 "DOTA_Tooltip_ability_Bogdan_key_stun_duration" 		"STUN DURATION:"
 
-"DOTA_Tooltip_ability_bogdan_aids" 						"Speed"
-"DOTA_Tooltip_ability_bogdan_aids_Description" 			"You infect the target with your speed"
+"DOTA_Tooltip_ability_bogdan_aids" 						"HIV"
+"DOTA_Tooltip_ability_bogdan_aids_Description" 			"You infect the target with your HIV"
 "DOTA_Tooltip_ability_bogdan_aids_duration" 			"DURATION:"
 "DOTA_Tooltip_ability_bogdan_aids_damage" 				"DAMAGE FOR MISSING HEALTH PERCENTAGE:"
 "DOTA_Tooltip_ability_bogdan_aids_bonus_movement_speed" "%MOVEMENT SPEED SLOW:"
@@ -6800,7 +6800,7 @@
 "Dota_Tooltip_Ability_special_bonus_birzha_bogdan_2" 			"+{s:value} sec Wrench stun duration"
 "Dota_Tooltip_Ability_special_bonus_birzha_bogdan_3" 			"-{s:value} sec cooldown Sit on the carpet"
 "Dota_Tooltip_Ability_special_bonus_birzha_bogdan_4" 			"+{s:value} attack speed Sit on the carpet"
-"Dota_Tooltip_Ability_special_bonus_birzha_bogdan_5" 			"+{s:value} speed damage"
+"Dota_Tooltip_Ability_special_bonus_birzha_bogdan_5" 			"+{s:value} HIV damage"
 "Dota_Tooltip_Ability_special_bonus_birzha_bogdan_6" 			"+{s:value} attack range Sit on the carpet"
 "Dota_Tooltip_Ability_special_bonus_birzha_bogdan_7" 			"-{s:value} cooldown Job"
 "Dota_Tooltip_Ability_special_bonus_birzha_bogdan_8" 			"{s:value}x effect multiplier Work"
@@ -7147,7 +7147,7 @@
 "DOTA_Tooltip_ability_stray_kill_stealer_shard_description" 				"Triggers 2 times"
 
 "DOTA_Tooltip_Ability_special_bonus_birzha_stray_1" 		"+{s:value} damage per second Rat Poison"
-"DOTA_Tooltip_Ability_special_bonus_birzha_stray_2" 		"+{s:value} damage to K trot"
+"DOTA_Tooltip_Ability_special_bonus_birzha_stray_2" 		"+{s:value} damage to Rat"
 "DOTA_Tooltip_Ability_special_bonus_birzha_stray_3" 		"-{s:value} sec Rat Poison cooldown"
 "DOTA_Tooltip_Ability_special_bonus_birzha_stray_4" 		"Rat slows movement speed"
 "DOTA_Tooltip_Ability_special_bonus_birzha_stray_4_description" 		"Slows the target by {s:value}%. Duration {s:value2} seconds."
@@ -7160,9 +7160,9 @@
 // Troll Warlord | Gennady Gorin | Gorin
 //================================================================ ===================================================== ===============
 
-"npc_dota_hero_troll_warlord" 								"Genadiy Gor in"
+"npc_dota_hero_troll_warlord" 								"Genadiy Gorin"
 
-"DOTA_Tooltip_ability_gorin_choose_axe" 						"Which axe?"
+"DOTA_Tooltip_ability_gorin_choose_axe" 						"What an axe?"
 "DOTA_Tooltip_ability_gorin_choose_axe_Description" 			"Allows Genady Gorin to use his throwing axes in close combat. This increases the damage he deals, his speed and movement, he gains additional armor and a chance to stun the target when attacking"
 "DOTA_Tooltip_ability_gorin_choose_axe_lore" 				"This hero was created thanks to <font color='#fffc00'>Lord of mediocrities</font>"	
 "DOTA_Tooltip_ability_gorin_choose_axe_bonus_move_speed" 	"BONUS MOVEMENT SPEED:"
@@ -7201,7 +7201,7 @@
 
 "DOTA_Tooltip_ability_special_bonus_birzha_gorin_1" 					"+{s:value}% damage Twin Brother"
 "DOTA_Tooltip_ability_special_bonus_birzha_gorin_2" 					"+{s:value} damage Resourcefulness"
-"DOTA_Tooltip_ability_special_bonus_birzha_gorin_3" 					"+{s:value} to movement speed Like an axe"
+"DOTA_Tooltip_ability_special_bonus_birzha_gorin_3" 					"+{s:value} to movement speed What an axe?"
 "DOTA_Tooltip_ability_special_bonus_birzha_gorin_4" 					"-{s:value} attack interval What an axe"
 "DOTA_Tooltip_ability_special_bonus_birzha_gorin_5" 					"+{s:value} radius Frenzy"
 "DOTA_Tooltip_ability_special_bonus_birzha_gorin_6" 					"What kind of ax can stun in ranged combat"
@@ -7503,7 +7503,7 @@
 "DOTA_Tooltip_modifier_meteor_fire_Description" 				"Takes Damage"
 
 "DOTA_Tooltip_ability_Megumin_mana_aura" 					"Naughty"
-"DOTA_Tooltip_ability_Megumin_mana_aura_Description" 		"Increases mana regeneration for all allies on the map. Effective when activated"
+"DOTA_Tooltip_ability_Megumin_mana_aura_Description" 		"Increases mana regeneration for all allies on the map. Gives more mana regen when activated"
 "DOTA_Tooltip_ability_Megumin_mana_aura_lore" 				"This hero was created thanks to <font color='#fffc00'>Defik</font>"
 "DOTA_Tooltip_ability_Megumin_mana_aura_mana_regen_passive" 	"ADDITIONAL MANA REGENERATION:"
 "DOTA_Tooltip_ability_Megumin_mana_aura_mana_regen_active" 	"%WHEN ACTIVATING MANA REGEN:"
@@ -7511,7 +7511,7 @@
 "DOTA_Tooltip_ability_Megumin_mana_aura_spell_damage" 		"%ADDITIONAL ABILITY DAMAGE:"
 "DOTA_Tooltip_ability_Megumin_mana_aura_radius" 				"RADIUS:"
 
-"DOTA_Tooltip_modifier_megumin_aura_2" 						"Megumin's cuteness"
+"DOTA_Tooltip_modifier_megumin_aura_2" 						"Megumin's cuteness"C
 "DOTA_Tooltip_modifier_megumin_aura_2_Description" 			"Increases mana regeneration by %fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% and ability damage by "
 
 "DOTA_Tooltip_modifier_mana_aura_active_regeneration" 					"Megumin's Naughtiness"
@@ -7665,7 +7665,7 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_pump_5" 										"+{s:value} of Sugar cube from a Sweetdealer"
 "DOTA_Tooltip_Ability_special_bonus_birzha_pump_6" 										"+{s:value} sec Charm duration"
 "DOTA_Tooltip_Ability_special_bonus_birzha_pump_7" 										"Spooky mouth through magic immunity"
-"DOTA_Tooltip_Ability_special_bonus_birzha_pump_8" 										"Charm through immunity magicians and"
+"DOTA_Tooltip_Ability_special_bonus_birzha_pump_8" 										"Charm through magic immunity"
 
 //================================================================ ===================================================== ===============
 // Faceless Void | Dio Brando | Dio Brando
@@ -7677,7 +7677,7 @@
 "npc_dio_theworld_2" 									"The World"
 "npc_dio_theworld_3" 									"The World"
 
-"DOTA_Tooltip_ability_Dio_Kakyoin" 						"K akyoin"
+"DOTA_Tooltip_ability_Dio_Kakyoin" 						"Kakyoin"
 "DOTA_Tooltip_ability_Dio_Kakyoin_Description" 			"Dio hits his enemy and pushes them in the direction he is facing. The target of the spell takes double damage and damages all units it hits."
 "DOTA_Tooltip_ability_Dio_Kakyoin_damage" 				"DAMAGE:"
 "DOTA_Tooltip_ability_Dio_Kakyoin_stun_duration" 		"STUN DURATION:"
@@ -7707,7 +7707,7 @@
 "DOTA_Tooltip_modifier_dio_vampire_stats" 				"Vampire"
 "DOTA_Tooltip_modifier_dio_vampire_stats_Description" 	"Movement speed increased by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%, Health increased by %dMODIFIER_PROPERTY_EXTRA_HEALTH_PERCENTAGE%%%, Attack speed increased by %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS _CONSTANT%"
 
-"DOTA_Tooltip_ability_Dio_TheWorld" 						"Standard"
+"DOTA_Tooltip_ability_Dio_TheWorld" 						"Stand"
 "DOTA_Tooltip_ability_Dio_TheWorld_Description" 			"Summons the mighty Stand to help. As the Stand levels up, the Stand gains the abilities <font color='#00D4FF'>Za Warudo</font> and <font color='#00D4FF'>Muda Muda Muda</font> <br><br> The World receives additional damage using the formula Intelligence Dio * %bonus_damage%"
 "DOTA_Tooltip_ability_Dio_TheWorld_stand_hp" 			"STAND HEALTH:"
 "DOTA_Tooltip_ability_Dio_TheWorld_stand_armor" 			"STAND ARMOR:"
@@ -8032,7 +8032,7 @@
 "DOTA_Tooltip_ability_special_bonus_birzha_thomas_4" 										"+{s:value} radius to set fire to wood"
 "DOTA_Tooltip_ability_special_bonus_birzha_thomas_5" 										"+{s:value} damage to set fire to wood"
 "DOTA_Tooltip_ability_special_bonus_birzha_thomas_6" 										"+{s:value} sec duration MLG Anger"
-"DOTA_Tooltip_ability_special_bonus_birzha_thomas_7" 										"+{s:value}% cooldown of Car Upgrade abilities"
+"DOTA_Tooltip_ability_special_bonus_birzha_thomas_7" 										"+{s:value}% cooldown of Wagon Upgrade abilities"
 "DOTA_Tooltip_ability_special_bonus_birzha_thomas_8" 										"+{s:value} damage MLG Anger "
 
 //================================================================ ===================================================== ===============
@@ -8174,7 +8174,7 @@
 "DOTA_Tooltip_ability_Slidan_NetherDroch_scepter_description" 	"Disables target regeneration"
 
 "DOTA_Tooltip_Ability_special_bonus_birzha_slidan_5" 			"+{s:value} fire tower damage"
-"DOTA_Tooltip_Ability_special_bonus_birzha_slidan_1" 			"+{s:value} damage to the motherfucking tower"
+"DOTA_Tooltip_Ability_special_bonus_birzha_slidan_1" 			"+{s:value} damage to the motherfucker tower"
 "DOTA_Tooltip_Ability_special_bonus_birzha_slidan_4" 			"+{s:value} to Infernal Wanking Damage"
 "DOTA_Tooltip_Ability_special_bonus_birzha_slidan_2" 			"+{s:value} damage Suck dick"
 "DOTA_Tooltip_Ability_special_bonus_birzha_slidan_6" 			"Infernal Wank gives {s:value}% misses"
@@ -8542,14 +8542,14 @@
 "DOTA_Tooltip_modifier_homunculus_iborn_immortality_active" 				"I was born"
 "DOTA_Tooltip_modifier_homunculus_iborn_immortality_active_Description" 	"Escapes the next death and locks itself in an egg"
 
-"DOTA_Tooltip_Ability_special_bonus_birzha_homunculus_1" 				"+{s:value}% chance Fuck"
+"DOTA_Tooltip_Ability_special_bonus_birzha_homunculus_1" 				"+{s:value}% chance FUCK"
 "DOTA_Tooltip_Ability_special_bonus_birzha_homunculus_2" 				"-{s:value} sec cooldown I was born"
-"DOTA_Tooltip_Ability_special_bonus_birzha_homunculus_3" 				"Spit causes the Whore Effect"
+"DOTA_Tooltip_Ability_special_bonus_birzha_homunculus_3" 				"Spit causes the FUCK Effect"
 "DOTA_Tooltip_Ability_special_bonus_birzha_homunculus_4" 				"-{s:value} sec. cooldown Dictionary"
 "DOTA_Tooltip_Ability_special_bonus_birzha_homunculus_5" 				"Spit through magic immunity"
 "DOTA_Tooltip_Ability_special_bonus_birzha_homunculus_6" 				"I was born provokes for {s:value} seconds ."
 "DOTA_Tooltip_Ability_special_bonus_birzha_homunculus_6_description" 	"Taunts enemies within {s:value2} to hit the target of the ability for {s:value} seconds (does not pass through bkb)"
-"DOTA_Tooltip_Ability_special_bonus_birzha_homunculus_7" 				" I was born to improve"
+"DOTA_Tooltip_Ability_special_bonus_birzha_homunculus_7" 				" Improves I was born"
 "DOTA_Tooltip_Ability_special_bonus_birzha_homunculus_7_description" 	"When receiving lethal damage, avoids death and uses the ability. Cooldown {s:value} sec."
 "DOTA_Tooltip_Ability_special_bonus_birzha_homunculus_8" 				"The Dictionary deals {s:value}% damage to you"
 
@@ -8719,16 +8719,16 @@
 "DOTA_Tooltip_modifier_Panasenkov_catch" 					"Caught in the Hand"
 "DOTA_Tooltip_modifier_Panasenkov_catch_Description" 		"Stunned"
 
-"DOTA_Tooltip_Ability_Panasenkov_rakom" 					"Give it doggystyle"
+"DOTA_Tooltip_Ability_Panasenkov_rakom" 					"Straddle"
 "DOTA_Tooltip_Ability_Panasenkov_rakom_Description" 		"Puts the target in cancer mode, causing it to receive additional pure damage when receiving magical damage"
 "DOTA_Tooltip_Ability_Panasenkov_rakom_bonus_damage" 		"ADDITIONAL NET DAMAGE:"
 "DOTA_Tooltip_Ability_Panasenkov_rakom_duration" 			"DURATION:"
 "DOTA_Tooltip_Ability_Panasenkov_rakom_lore" 				"This hero was created thanks to <font color='#fffc00'>Grzegorz</font>"
 
-"DOTA_Tooltip_modifier_Panasenkov_rakom" 					"Stands in cancer pose"
+"DOTA_Tooltip_modifier_Panasenkov_rakom" 					"Straddle"
 "DOTA_Tooltip_modifier_Panasenkov_rakom_Description" 		"when receiving magic damage, additionally receives pure damage"
 
-"DOTA_Tooltip_Ability_Panasenkov_groza" 					"Thunderstorm of Soviets and Vatnikov"
+"DOTA_Tooltip_Ability_Panasenkov_groza" 					"Thunderstorm of Soviets and Vatniks"
 "DOTA_Tooltip_Ability_Panasenkov_groza_Description" 		"Panasenkov damages a random nearby enemy"
 "DOTA_Tooltip_Ability_Panasenkov_groza_damage" 				"DAMAGE:"
 "DOTA_Tooltip_Ability_Panasenkov_groza_radius" 				"RADIUS:"
@@ -8756,17 +8756,17 @@
 "DOTA_Tooltip_modifier_ponasenkov_ya_vas_killed" 							"I will destroy you"
 "DOTA_Tooltip_modifier_ponasenkov_ya_vas_killed_Description" 				"When the effect ends, you will take damage and be silenced. Using the ability will instantly reset the effect"
 
-"DOTA_Tooltip_modifier_Panasenkov_groza_debuff" 								"Thunderstorm of Soviets and Vatnikov"
+"DOTA_Tooltip_modifier_Panasenkov_groza_debuff" 								"Thunderstorm of Soviets and Vatniks"
 "DOTA_Tooltip_modifier_Panasenkov_groza_debuff_Description" 					"Each effect increases the ability's damage to you"
 
 "DOTA_Tooltip_Ability_special_bonus_birzha_ponasenkov_1" 					"+{s:value} duration You're caught in the act"
-"DOTA_Tooltip_Ability_special_bonus_birzha_ponasenkov_2" 					"-{s:value} sec cooldown Place cancer"
+"DOTA_Tooltip_Ability_special_bonus_birzha_ponasenkov_2" 					"-{s:value} sec cooldown Straddle"
 "DOTA_Tooltip_Ability_special_bonus_birzha_ponasenkov_3" 					"-{s:val ue} sec cooldown Singing"
-"DOTA_Tooltip_Ability_special_bonus_birzha_ponasenkov_4" 					"Cannot be dispelled with cancer"
+"DOTA_Tooltip_Ability_special_bonus_birzha_ponasenkov_4" 					"Cannot be dispelled Straddle"
 "DOTA_Tooltip_Ability_special_bonus_birzha_ponasenkov_5" 					"+{s:value} damage Singing"
-"DOTA_Tooltip_Ability_special_bonus_birzha_ponasenkov_6" 					"-{s:value} sec cooldown for Storm of Sovkov and Vatnikov"
+"DOTA_Tooltip_Ability_special_bonus_birzha_ponasenkov_6" 					"-{s:value} sec cooldown for Thunderstorm of Soviets and Vatniks"
 "DOTA_Tooltip_Ability_special_bonus_birzha_ponasenkov_7" 					"+{s:value} radius Singing"
-"DOTA_Tooltip_Ability_special_bonus_birzha_ponasenkov_8" 					"Improve Thunderstorm of Sovkov and Vatnikov"
+"DOTA_Tooltip_Ability_special_bonus_birzha_ponasenkov_8" 					"Improve Thunderstorm of Soviets and Vatniks"
 "DOTA_Tooltip_Ability_special_bonus_birzha_ponasenkov_8_description" 		"Each hit on the same target increases damage by {s:value}. Duration {s:value2} seconds."
 
 //================================================================ ===================================================== ===============
@@ -8783,13 +8783,13 @@
 "DOTA_Tooltip_ability_Doljan_RapBattle_interval" 					"IN TERVAL:"
 "DOTA_Tooltip_ability_Doljan_RapBattle_lore" 						"This hero was created thanks to <font color='#fffc00'>Alexander Rogovnin</font>"
 			
-"DOTA_Tooltip_modifier_Doljan_RapBattle_steal_buff" 					"Read the rap"
+"DOTA_Tooltip_modifier_Doljan_RapBattle_steal_buff" 					"Begin to rap"
 "DOTA_Tooltip_modifier_Doljan_RapBattle_steal_buff_Description" 		"Intelligence increased by %fMODIFIER_PROPERTY_STATS_INTELLECT_BONUS%"
 
 "DOTA_Tooltip_modifier_Doljan_RapBattle_steal_debuff" 				"Read the rap"
 "DOTA_Tooltip_modifier_Doljan_RapBattle_steal_debuff_Description" 	"Intelligence reduced by %fMODIFIER_PROPERTY_STATS_INTELLECT_BONUS%"
 
-"DOTA_TOOLTIP_modifier_Doljan_RapBattle_debuff" 						"Read the rap"
+"DOTA_TOOLTIP_modifier_Doljan_RapBattle_debuff" 						"Begin to rap"
 "DOTA_TOOLTIP_modifier_Doljan_RapBattle_debuff_Description" 			"They steal your intelligence and damage you"
 
 "DOTA_Tooltip_ability_doljan_trolling" 								"Trolling"
@@ -8826,13 +8826,13 @@
 "DOTA_Tooltip_modifier_Doljan_Intellect_stacks_Description" 			"Intelligence increased by %dMODIFIER_PROPERTY_STATS_INTELLECT_BONUS%"
 
 "DOTA_Tooltip_Ability_special_bonus_birzha_doljan_1" 				"+{s:value} to Trolling damage"
-"DOTA_Tooltip_Ability_special_bonus_birzha_doljan_2" 				"+{s:value}% intelligence damage Read the rap"
+"DOTA_Tooltip_Ability_special_bonus_birzha_doljan_2" 				"+{s:value}% intelligence damage Begin to rap"
 "DOTA_Tooltip_Ability_special_bonus_birzha_doljan_3" 				"+{s:value} power theft Trolling"
-"DOTA_Tooltip_Ability_special_bonus_birzha_doljan_4" 				"+{s:value} extra intelligence Overwhelm with intelligence"
+"DOTA_Tooltip_Ability_special_bonus_birzha_doljan_4" 				"+{s:value} extra intelligence Crush with intelligence"
 "DOTA_Tooltip_Ability_special_bonus_unique_doljan_2" 				"+2 charges Sip water"
 "DOTA_Tooltip_Ability_special_bonus_birzha_doljan_6" 				"-{s:value} Trolling cooldown"
 "DOTA_Tooltip_Ability_special_bonus_unique_doljan_1" 				"2 charges Read rap"
-"DOTA_Tooltip_Ability_special_bonus_birzha_doljan_8" 				"Read the rap deals attacks"
+"DOTA_Tooltip_Ability_special_bonus_birzha_doljan_8" 				"Begin to rap deals attacks"
 
 "DOTA_Tooltip_ability_Doljan_Intellect_scepter_description" 			"The ability becomes active. Deprives opponents of %mana_burn%%% of maximum mana and deals magic damage equal to the formula %damage_burn% + Doljansky's Intelligence * %scepter_int_multiple%"
 "DOTA_Tooltip_ability_Doljan_RapBattle_shard_description" 			"Reduces the interval to %shard_interval% seconds."
@@ -8879,12 +8879,12 @@
 "DOTA_Tooltip_ability_ram_wind_damage" 	"ADDITIONAL DAMAGE PER HIT ENEMY:"
 
 "DOTA_Tooltip_Ability_special_bonus_birzha_ram_1" 			"+{s:value} to damage per mana for Demonic Shield"
-"DOTA_Tooltip_Ability_special_bonus_unique_birzha_ram_2" 			"2 charges El Fur"
+"DOTA_Tooltip_Ability_special_bonus_unique_birzha_ram_2" 			"2 charges El Fura"
 "DOTA_Tooltip_Ability_special_bonus_birzha_ram_3" 			"The truck dispels positive effects"
 "DOTA_Tooltip_Ability_special_bonus_birzha_ram_4" 			"-{s:value} Truck reload sec"
 "DOTA_Tooltip_Ability_special_bonus_birzha_ram_5" 			"New ability Whirlwind"
 "DOTA_Tooltip_Ability_special_bonus_birzha_ram_6" 			"Combination of Fura and El Fura"
-"DOTA_Tooltip_Ability_special_bonus_birzha_ram_6_description" 	"El Fur deals {s:value}% more damage after Fur for {s:value2} seconds."
+"DOTA_Tooltip_Ability_special_bonus_birzha_ram_6_description" 	"El Fura deals {s:value}% more damage after Fura for {s:value2} seconds."
 "DOTA_Tooltip_Ability_special_bonus_birzha_ram_7" 			"+{s:value}% damage absorbed Demonic Shield"
 "DOTA_Tooltip_Ability_special_bonus_birzha_ram_8" 			"El fura around the hero"
 
