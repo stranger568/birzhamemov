@@ -1845,7 +1845,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"1"			
+			"value"						"0.75"			
 		}
 	}
 	"special_bonus_birzha_papich_5"
