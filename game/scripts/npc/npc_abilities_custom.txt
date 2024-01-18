@@ -2445,7 +2445,7 @@
 			"money"						"200 300 400"
 			"critical_damage"		
 			{
-				"value"					"140 170 200"
+				"value"					"125 150 175"
 				"LinkedSpecialBonus"	"special_bonus_birzha_ayano_6"
 			}
 			"tranqul_bonus_dmg"			"1.4 1.7 2"
@@ -2504,7 +2504,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"300"			
+			"value"						"150"			
 		}
 	}
 	"special_bonus_birzha_ayano_4"
@@ -2515,7 +2515,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"25"			
+			"value"						"15"			
 		}
 	}
 	"special_bonus_birzha_ayano_5"
@@ -2537,7 +2537,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"75"			
+			"value"						"50"			
 		}
 	}
 	"special_bonus_birzha_ayano_7"
