@@ -1706,6 +1706,7 @@ TextEntry #PlaceholderText
     height: 700px;
     box-shadow: inset 0px 1px 0px rgba(238, 245, 255, 0.02);
     background-color: gradient( radial, 0% 0%, 0% 0%, 140% 100%, from( #202833e4 ), to( #06080e ) );
+    visibility: collapse;
 }
 
 .HeroDonateBlockButtons 
@@ -1815,6 +1816,7 @@ TextEntry #PlaceholderText
     box-shadow: inset 0px 1px 0px rgba(238, 245, 255, 0.02);
     background-color: gradient( radial, 0% 0%, 0% 0%, 140% 100%, from( #202833e4 ), to( #06080e ) );
     margin-top: 5%;
+    visibility: collapse;
 }
 
 .DoubleRatingPanelHeader

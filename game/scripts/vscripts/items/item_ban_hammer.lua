@@ -82,6 +82,7 @@ function modifier_item_ban_hammer:OnTakeDamage(params)
 	if params.inflictor:IsItem() then return end
 	if params.damage < self:GetAbility():GetSpecialValueFor("min_damage_to_activate") then return end
 	if self:GetParent():HasModifier("modifier_item_ban_hammer_phylactery_cooldown") then return end
+    if self:GetParent():HasModifier("modifier_item_khanda_custom") then return end
 	if self:GetParent():FindAllModifiersByName("modifier_item_ban_hammer")[1] ~= self then return end
 	if (self:GetParent():GetAbsOrigin() - params.unit:GetAbsOrigin()):Length2D() > 1200 then return end
 	self:GetParent():AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_item_ban_hammer_phylactery_cooldown", {duration = self:GetAbility():GetSpecialValueFor("phylactery_cooldown")})

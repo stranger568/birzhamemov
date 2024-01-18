@@ -105,5 +105,5 @@
 	"npc_dota_hero_dawnbreaker"												"Какаши"
 	"npc_dota_hero_oracle"												"Аватар: Аанг"
 	"npc_dota_hero_overlord"												"Overlord"
-    "npc_dota_hero_kelthuzad"												                            "Кел'Тузад"
+    "npc_dota_hero_kelthuzad"												                            "Кел Тузад"
 }

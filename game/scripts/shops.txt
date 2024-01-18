@@ -186,7 +186,8 @@
 		"item"		"item_abyssal_blade"	
 		"item"		"item_revenants_brooch"	
 		"item"		"item_disperser"
-		"item"		"item_harpoon"					
+		"item"		"item_harpoon"			
+        "item"      "item_khanda_custom"		
 					
 	}
 		

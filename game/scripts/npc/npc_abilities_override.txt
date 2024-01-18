@@ -68,4 +68,6 @@
 	"item_recipe_phylactery"               "REMOVE"
 	"item_refresher"               "REMOVE"
 	"item_recipe_refresher"               "REMOVE"
+    "item_angels_demise"               "REMOVE"
+    "item_recipe_angels_demise"               "REMOVE"
 }

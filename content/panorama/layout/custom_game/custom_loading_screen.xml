@@ -11,10 +11,10 @@
 	<Panel class="AddonLoadingRoot" hittest="false">
 		<Panel id="CustomBg">
 
-		<Panel class="CashSteamADS" onactivate="ExternalBrowserGoToURL('http://Cashsteam.ru/?utm_source=dota&utm_medium=cpc&utm_campaign=bmemov')">
+		<!--<Panel class="CashSteamADS" onactivate="ExternalBrowserGoToURL('http://Cashsteam.ru/?utm_source=dota&utm_medium=cpc&utm_campaign=bmemov')">
 			<Label class="CashSteamLabel" text="Площадка для пополнения кошелька Steam в России" />
 			<Panel class="CashSteamIcon" />
-		</Panel>
+		</Panel> -->
 
 		<Panel class="TwitchADS" onactivate="ExternalBrowserGoToURL('https://www.twitch.tv/stranger568')">
 			<Label class="TwitchLabel" text="Стрим создателя кастомки - Игры с подписчиками / Разработка кастомки" />

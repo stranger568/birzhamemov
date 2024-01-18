@@ -20,19 +20,19 @@ TIME_OF_STATE[4] = 10
 
 if IsInToolsMode() or GameRules:IsCheatMode() then
 	TIME_OF_STATE[2] = 1
-	TIME_OF_STATE[4] = 5
+	--TIME_OF_STATE[4] = 5
 end
 
 birzha_hero_selection.BIRZHA_PLUS_HEROES = 
 {
-	"npc_dota_hero_migi",
-    "npc_dota_hero_skeleton_king",
-	"npc_dota_hero_keeper_of_the_light",
-	"npc_dota_hero_overlord",
-	"npc_dota_hero_silencer",
-	"npc_dota_hero_pudge",
-	"npc_dota_hero_dawnbreaker",
-	"npc_dota_hero_oracle",
+	--"npc_dota_hero_migi",
+    --"npc_dota_hero_skeleton_king",
+	--"npc_dota_hero_keeper_of_the_light",
+	--"npc_dota_hero_overlord",
+	--"npc_dota_hero_silencer",
+	--"npc_dota_hero_pudge",
+	--"npc_dota_hero_dawnbreaker",
+	--"npc_dota_hero_oracle",
 }
 
 BANNED_HEROES = {}
