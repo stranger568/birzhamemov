@@ -776,7 +776,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"100"			
+			"value"						"80"			
 		}
 	}
 	"special_bonus_birzha_brb_5"
@@ -809,7 +809,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"2.5"			
+			"value"						"1"			
 		}
 	}
 	"special_bonus_birzha_brb_8"
@@ -905,7 +905,7 @@
 				"LinkedSpecialBonus"	"special_bonus_birzha_scp683_3"
 			}
 			"max_stack"					"5"
-			"damage"					"1 1.5 2 2.5"
+			"damage"					"0.8 1.2 1.6 2"
 			"scepter_duration"			"5"
 			"scepter_radius"			"400"
 		}
@@ -1111,7 +1111,7 @@
 		{
 			"damage"					"80 120 160"
 			"damageDismember"			"100 200 300"
-			"duration"					"50"
+			"duration"					"20 35 50"
 			"dismember_duration_shard"	"1"
 			"rot_radius_shard"			"150"
 		}
