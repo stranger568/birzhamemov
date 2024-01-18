@@ -2004,7 +2004,7 @@
 		{
 			"damage_percent"
 			{
-				"value"							"15 25 35"
+				"value"							"15 22.5 30"
 				"LinkedSpecialBonus"			"special_bonus_birzha_vjlink_7"
 				"CalculateSpellDamageTooltip"	"0"
 			}	
@@ -2052,7 +2052,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"10"			
+			"value"						"5"			
 		}
 	}
 	"special_bonus_birzha_vjlink_5"
@@ -2091,7 +2091,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"20"			
+			"value"						"10"			
 		}
 	}
 	"special_bonus_birzha_vjlink_8"
@@ -2102,7 +2102,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"150"			
+			"value"						"100"			
 		}
 	}
 
