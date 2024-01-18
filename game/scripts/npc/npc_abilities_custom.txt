@@ -2986,7 +2986,7 @@
 			"hook_distance"				"1000 1150 1300 1450"
 			"vision_radius"				"500"
 			"vision_duration"			"4"
-			"length_damage"				"50"
+			"length_damage"				"35"
 		}
 	}
 
@@ -3004,6 +3004,7 @@
 		"AbilityCastRange"				"5000"
 		"AbilityCastPoint"				"0.4"	
 		"AbilityCooldown"				"15"
+                "AbilityManaCost"				"40 50 60 70"
 
 		"AbilityValues"
 		{
@@ -3148,7 +3149,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"100"			
+			"value"						"80"			
 		}
 	}
 	"special_bonus_birzha_mum_6"
