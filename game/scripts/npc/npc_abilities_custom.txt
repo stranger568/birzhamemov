@@ -4119,7 +4119,7 @@
 			}
 			"damage_reduced"		
 			{
-				"value"					"-20 -25 -30 -35"
+				"value"					"-15 -20 -25 -30"
 				"LinkedSpecialBonus"	"special_bonus_birzha_nolik_1"
 			}
 			"energy_lose"				"20 30 40 50"
@@ -4211,7 +4211,7 @@
 				"value"					"5"
 				"LinkedSpecialBonus"	"special_bonus_birzha_nolik_5"
 			}
-			"bonus_move_energy"			"0.2"
+			"bonus_move_energy"			"0.05"
 			"bonus_agility_energy"		"0.05"
 			"bonus_str_energy"			"0.05"
 		}
