@@ -42,9 +42,9 @@
 		"Ability12"		"special_bonus_birzha_bukin_5"
 		"Ability13"		"special_bonus_birzha_bukin_8"
 		"Ability14"		"special_bonus_birzha_bukin_4"
-		"Ability15"		"special_bonus_birzha_bukin_6"
+		"Ability15"		"special_bonus_birzha_bukin_7"
 		"Ability16"		"special_bonus_unique_bukin_2"
-		"Ability17"		"special_bonus_birzha_bukin_7"
+		"Ability17"		"special_bonus_birzha_bukin_6"
 	}
 
 	//=================================================================================================================
