@@ -2586,8 +2586,8 @@
 
 		"AbilityValues"
 		{
-			"bonus_damage"				"20 30 40 50"
-			"bonus_magic_amplify"		"25 30 35 40"
+			"bonus_damage"				"20 25 30 35"
+			"bonus_magic_amplify"		"30 45 60 75"
 			"armor_percent"				"50"
 		}
 	}
@@ -2600,7 +2600,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
-		"AbilityCooldown"				"22 18 14 12"
+		"AbilityCooldown"				"10 9 8 7"
 	}
 
 	"migi_speed"
@@ -2614,10 +2614,10 @@
 
 		"AbilityValues"
 		{
-			"movespeed"					"5 10 15 20"
+			"movespeed"					"5 7.5 10 12.5"
 			"evasion"		
 			{
-				"value"					"5 10 15 20"
+				"value"					"5 7.5 10 12.5"
 				"LinkedSpecialBonus"	"special_bonus_birzha_migi_1"
 			}
 		}
@@ -2635,10 +2635,10 @@
 
 		"AbilityValues"
 		{
-			"bonus_health"				"500 1000 1500"
-			"bonus_damage"				"50 100 150"
+			"bonus_health"				"250 500 750"
+			"bonus_damage"				"50 75 100"
 			"bonus_hp_regen"			"10 20 30"
-			"bonus_amplify"				"5 10 20"
+			"bonus_amplify"				"10 17.5 25"
 		}
 	}
 
@@ -2681,7 +2681,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"10"			
+			"value"						"7.5"			
 		}
 	}
 	"special_bonus_birzha_migi_2"
@@ -2714,7 +2714,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"10"			
+			"value"						"75"			
 		}
 	}
 	"special_bonus_birzha_migi_5"
@@ -2736,7 +2736,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"50"			
+			"value"						"25"			
 		}
 	}
 	"special_bonus_birzha_migi_7"
@@ -2758,7 +2758,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"30"			
+			"value"						"20"			
 		}
 	}
 
