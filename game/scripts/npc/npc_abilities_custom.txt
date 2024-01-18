@@ -4885,7 +4885,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"-5"			
+			"value"					"-3"			
 		}
 	}
 
