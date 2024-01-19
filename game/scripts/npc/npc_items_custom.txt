@@ -4180,7 +4180,7 @@
 		"AbilityTextureName"			"items/gunbai_uchiha"
 		"AbilityCooldown"				"15.0"
 		"AbilityManaCost"				"175"
-                "AbilityCastRange"				"90"
+                "AbilityCastRange"				"900"
 
 		"AbilityValues"
 		{
