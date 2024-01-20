@@ -538,7 +538,7 @@ end
 
 function modifier_face_newsong_shard:OnIntervalThink()
     if not IsServer() then return end
-    if self:GetCaster():HasShard() then
+    if (self:GetCaster():HasShard() == true and self:GetCaster():HasAbility("Face_NewSong") == true) then
         self.move_range = self.move_range + CalculateDistance(self.prevLoc, self:GetParent())
         if self.move_range >= 700 then
             self:Knock()
