@@ -313,7 +313,7 @@ function Kurumi_Zafkiel:OnSpellStart()
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_kurumi_donate_zafkiel", {duration = duration})
     end
 
-    self:GetCaster():EmitSound("kurult")
+    EmitGlobalSound("kurult")
 end
 
 modifier_kurumi_zafkiel_aura = class({})
