@@ -3175,7 +3175,7 @@
 			"bonus_mana_regen"		"3"
 			"damage"				"225"
 			"cleave"				"70"
-			"chance"				"25"
+			"chance"				"30"
 			"radius"				"650"
 		}
 	}
