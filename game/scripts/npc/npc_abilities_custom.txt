@@ -3673,7 +3673,7 @@
 		"AbilityUnitTargetTeam"	 	"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 		"AbilityUnitTargetType"	 	"DOTA_UNIT_TARGET_HERO"
 		"AbilityCooldown"		   	"12 10 8 6"
-		"AbilityManaCost"		   	"50 60 70 80"
+		"AbilityManaCost"		   	"10 20 30 40"
 		"AbilityCastRange"		  	"800"
 		"HasScepterUpgrade"				"1"
 
@@ -3744,7 +3744,7 @@
 			}
 			"bonus_armor"		
 			{
-				"value"					"0.5"
+				"value"					"0.25"
 				"LinkedSpecialBonus"	"special_bonus_birzha_tailer_1"
 			}
 		}
@@ -3766,10 +3766,10 @@
 		"AbilityValues"
 		{
 			"duration"				"20"
-			"bonus_strength"		"50 60 70"
+			"bonus_strength"		"30 40 50"
 			"movespeed_slow"		"-25"
 			"range"					"100"
-			"strength_multiplier"	"1 1.5 2"
+			"strength_multiplier"	"1.25 1.5 1.75"
 			"radius"				"300"
 		}
 	}
@@ -3805,7 +3805,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"30"			
+			"value"					"15"			
 		}
 	}
 	"special_bonus_birzha_tailer_4"
