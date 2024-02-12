@@ -2781,7 +2781,7 @@
 		{
 			"schoolboys_number"		
 			{
-				"value"					"5"
+				"value"					"2 3 4 5"
 				"LinkedSpecialBonus"	"special_bonus_birzha_navalny_1"
 			}
 			"schoolboys_duration"		"15"
@@ -2816,7 +2816,7 @@
 			}
 			"duration"					"10"
 			"damage"					"30 50 70 100"
-			"armor_reduction"			"4 6 8 10"
+			"armor_reduction"			"4 5 6 7"
 			"tick_rate"					"1"
 		}
 	}
@@ -2873,7 +2873,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"2"			
+			"value"						"3"			
 		}
 	}
 	"special_bonus_birzha_navalny_2"
@@ -2884,7 +2884,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"-7"			
+			"value"						"-5"			
 		}
 	}
 	"special_bonus_birzha_navalny_3"
@@ -2950,7 +2950,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"3"			
+			"value"						"1.5"			
 		}
 	}
 
