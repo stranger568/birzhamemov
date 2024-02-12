@@ -895,14 +895,14 @@
 		"difficulty"	"Pick_medium"
 		"role_hero"		"Pick_Tank"
 
-		"Ability10"		"special_bonus_birzha_face_6"
+		"Ability10"		"special_bonus_birzha_face_8"
 		"Ability11"		"special_bonus_birzha_face_2"
-		"Ability13"		"special_bonus_birzha_face_8"
-		"Ability12"		"special_bonus_birzha_face_5"
-		"Ability14"		"special_bonus_birzha_face_3"
+		"Ability13"		"special_bonus_birzha_face_6"
+		"Ability12"		"special_bonus_birzha_face_3"
+		"Ability14"		"special_bonus_birzha_face_5"
 		"Ability15"		"special_bonus_birzha_face_4"
 		"Ability16"		"special_bonus_birzha_face_1"
-		"Ability17" 	"special_bonus_birzha_face_7"
+		"Ability17" 	        "special_bonus_birzha_face_7"
 	}
 
 	//=================================================================================================================
@@ -925,9 +925,9 @@
 		"Ability6"		"dwayne_fight_of_death"
 		"Ability7"		"generic_hidden"
 
-		"Ability10"		"special_bonus_birzha_dwayne_1"
+		"Ability10"		"special_bonus_birzha_dwayne_3"
 		"Ability11"		"special_bonus_birzha_dwayne_2"
-		"Ability12"		"special_bonus_birzha_dwayne_3"
+		"Ability12"		"special_bonus_birzha_dwayne_1"
 		"Ability13"		"special_bonus_birzha_dwayne_4"
 		"Ability14"		"special_bonus_birzha_dwayne_5"
 		"Ability15"		"special_bonus_birzha_dwayne_6"
@@ -948,7 +948,7 @@
 
 		"AttributePrimary"			"DOTA_ATTRIBUTE_STRENGTH"
 
-		"AttributeBaseStrength"		"23"
+		"AttributeBaseStrength"		"32"
 		"AttributeStrengthGain"		"3.500000"
 		"AttributeBaseAgility"		"14"
 		"AttributeAgilityGain"		"1.500000"
@@ -985,7 +985,7 @@
 		"Ability6"			"Kudes_Items"
 		"Ability25"		""
 
-		"AttributeBaseStrength"		"23"
+		"AttributeBaseStrength"		"29"
 		"AttributeStrengthGain"		"3.200000"
 		"AttributeBaseAgility"		"20"
 		"AttributeAgilityGain"		"1.900000"
@@ -1020,11 +1020,11 @@
 		"Ability6"					"Hovan_GanstaBooms"
 		"Ability25"		""
 
-		"AttributeBaseStrength"			"23"
-		"AttributeStrengthGain"			"2.8"
+		"AttributeBaseStrength"			"26"
+		"AttributeStrengthGain"			"3.1"
 		"AttributeBaseAgility"			"22"
 		"AttributeAgilityGain"			"2.0000"
-		"AttributeBaseIntelligence"		"17"
+		"AttributeBaseIntelligence"		"19"
 		"AttributeIntelligenceGain"		"1.60000"
 		"AttributePrimary"			"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_medium"
@@ -1033,11 +1033,11 @@
 		"Ability10"		"special_bonus_birzha_hovan_1"
 		"Ability11"		"special_bonus_birzha_hovan_2"
 		"Ability12"		"special_bonus_birzha_hovan_3"
-		"Ability13"		"special_bonus_birzha_hovan_4"
-		"Ability14"		"special_bonus_birzha_hovan_5"
-		"Ability15"		"special_bonus_birzha_hovan_6"
+		"Ability13"		"special_bonus_birzha_hovan_5"
+		"Ability14"		"special_bonus_birzha_hovan_4"
+		"Ability15"		"special_bonus_birzha_hovan_8"
 		"Ability16"		"special_bonus_birzha_hovan_7"
-		"Ability17"		"special_bonus_birzha_hovan_8"
+		"Ability17"		"special_bonus_birzha_hovan_6"
 	}
 
 	//=================================================================================================================
@@ -1053,7 +1053,7 @@
 		"Ability6"					"Bullet_BulletInTheHead"
 		"Ability25"		""
 
-		"AttributeBaseStrength"		"23"
+		"AttributeBaseStrength"		"27"
 		"AttributeStrengthGain"		"2.900000"
 		"AttributeBaseIntelligence"		"19"
 		"AttributeIntelligenceGain"		"2.500000"
@@ -1128,8 +1128,8 @@
 
 		"AttributeBaseStrength"			"26"
 		"AttributeStrengthGain"			"3.4"
-		"AttributeBaseIntelligence"		"14"
-		"AttributeIntelligenceGain"		"1"
+		"AttributeBaseIntelligence"		"20"
+		"AttributeIntelligenceGain"		"1.7"
 		"AttributeBaseAgility"			"25"
 		"AttributeAgilityGain"			"1.4"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_STRENGTH"
@@ -1147,9 +1147,9 @@
 		"Ability11"		"special_bonus_birzha_overlord_2"
 		"Ability12"		"special_bonus_birzha_overlord_3"
 		"Ability13"		"special_bonus_birzha_overlord_4"
-		"Ability14"		"special_bonus_birzha_overlord_7"
+		"Ability14"		"special_bonus_birzha_overlord_6"
 		"Ability15"		"special_bonus_birzha_overlord_5"
-		"Ability16"		"special_bonus_birzha_overlord_6"
+		"Ability16"		"special_bonus_birzha_overlord_7"
 		"Ability17"		"special_bonus_birzha_overlord_8"
 	}
 
@@ -1186,10 +1186,10 @@
 		"Ability11"		"special_bonus_birzha_gorshok_2"
 		"Ability12"		"special_bonus_birzha_gorshok_3"
 		"Ability13"		"special_bonus_birzha_gorshok_4"
-		"Ability14"		"special_bonus_birzha_gorshok_5"
+		"Ability14"		"special_bonus_birzha_gorshok_8"
 		"Ability15"		"special_bonus_birzha_gorshok_6"
 		"Ability16"		"special_bonus_birzha_gorshok_7"
-		"Ability17"		"special_bonus_birzha_gorshok_8"
+		"Ability17"		"special_bonus_birzha_gorshok_5"
 	}
 
 	//=================================================================================================================
@@ -1210,24 +1210,24 @@
 		"Ability6" "Ruby_RoseStrike"
 		"Ability25"		""
 
-		"AttributeBaseStrength"			"25"
-		"AttributeStrengthGain"			"2.500000"
+		"AttributeBaseStrength"			"30"
+		"AttributeStrengthGain"			"2.900000"
 		"AttributeBaseAgility"			"23"
 		"AttributeAgilityGain"			"2.100000"
-		"AttributeBaseIntelligence"		"16"
-		"AttributeIntelligenceGain"		"1.500000"
+		"AttributeBaseIntelligence"		"18"
+		"AttributeIntelligenceGain"		"1.800000"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_medium"
 		"role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_ruby_1"
-		"Ability11"		"special_bonus_unique_ruby_2"
+		"Ability11"		"special_bonus_unique_ruby_4"
 		"Ability12"		"special_bonus_birzha_ruby_3"
-		"Ability13"		"special_bonus_birzha_ruby_4"
-		"Ability14"		"special_bonus_birzha_ruby_5"
+		"Ability13"		"special_bonus_birzha_ruby_2"
+		"Ability14"		"special_bonus_birzha_ruby_8"
 		"Ability15"		"special_bonus_birzha_ruby_6"
 		"Ability16"		"special_bonus_birzha_ruby_7"
-		"Ability17"		"special_bonus_unique_ruby_8"
+		"Ability17"		"special_bonus_unique_ruby_5"
 	}
 
 	//=================================================================================================================
@@ -1324,9 +1324,9 @@
 		"Ability6"			"Pistoletov_NewPirat"
 		"Ability25"		""
 
-		"AttributeBaseStrength"		"22"
-		"AttributeStrengthGain"		"2.5"
-		"AttributeBaseIntelligence"		"16"
+		"AttributeBaseStrength"		"30"
+		"AttributeStrengthGain"		"2.7"
+		"AttributeBaseIntelligence"		"19"
 		"AttributeIntelligenceGain"		"1.7"
 		"AttributeBaseAgility"		"19"
 		"AttributeAgilityGain"		"2.500000"
@@ -1357,8 +1357,8 @@
 		"Ability6"			"Garold_Joy"
 		"Ability25"		""
 
-		"AttributeBaseStrength"		"22"
-		"AttributeStrengthGain"		"2.1"
+		"AttributeBaseStrength"		"25"
+		"AttributeStrengthGain"		"2.4"
 		"AttributeBaseIntelligence"		"16"
 		"AttributeIntelligenceGain"		"1.800000"
 		"AttributeBaseAgility"		"19"
@@ -1395,7 +1395,7 @@
 
 		"AttributeBaseStrength"		"26"
 		"AttributeStrengthGain"		"3.5"
-		"AttributeBaseIntelligence"		"17"
+		"AttributeBaseIntelligence"		"20"
 		"AttributeIntelligenceGain"		"1.600000"
 		"AttributeBaseAgility"		"15"
 		"AttributeAgilityGain"		"2"
@@ -1466,8 +1466,8 @@
 		"Ability25"		""
 
 		"AttackRate"		"1.700000"
-		"AttributeBaseStrength"		"23"
-		"AttributeStrengthGain"		"3.200000"
+		"AttributeBaseStrength"		"32"
+		"AttributeStrengthGain"		"3.600000"
 		"AttributeBaseIntelligence"		"16"
 		"AttributeIntelligenceGain"		"1.300000"
 		"AttributeBaseAgility"		"21"
@@ -1503,7 +1503,7 @@
 		"Ability25"		""
 		
 		"MovementSpeed"		"305"
-		"AttributeBaseStrength"		"20"
+		"AttributeBaseStrength"		"27"
 		"AttributeStrengthGain"		"3.5"
 		"AttributeBaseAgility"		"15"
 		"AttributeAgilityGain"		"2.2"
@@ -1541,7 +1541,7 @@
 		"AttributeBaseStrength"		"21"
 		"AttributeStrengthGain"		"4.400000"
 		"AttributeBaseAgility"		"17"
-		"AttributeAgilityGain"		"1.500000"
+		"AttributeAgilityGain"		"1.700000"
 		"AttributeBaseIntelligence"		"20"
 		"AttributeIntelligenceGain"		"2.100000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
@@ -1759,13 +1759,13 @@
 		"Ability6"			"Scp_fast_movement"
 		"Ability25"		""
 		
-		"AttributeBaseStrength"		"20"
+		"AttributeBaseStrength"		"28"
 		"AttributeStrengthGain"		"2.1"
 		"AttributeBaseIntelligence"		"16"
 		"AttributeIntelligenceGain"		"1.800000"
 		"AttributeBaseAgility"		"22"
 		"AttributeAgilityGain"		"2.700000"
-		"MovementSpeed"					"250"
+		"MovementSpeed"					"280"
 		"AttackRange"					"50"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
 		"difficulty"	"Pick_easy"
@@ -3007,11 +3007,11 @@
 		"Ability25"		""
 
 		"AttributeBaseStrength"		"25"
-		"AttributeStrengthGain"		"1.800000"
+		"AttributeStrengthGain"		"2.000000"
 		"AttributeBaseIntelligence"		"20"
 		"AttributeIntelligenceGain"		"1.500000"
-		"AttributeBaseAgility"		"29"
-		"AttributeAgilityGain"		"2.800000"
+		"AttributeBaseAgility"		"33"
+		"AttributeAgilityGain"		"3.200000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
 		"difficulty"	"Pick_medium"
 		"role_hero"		"Pick_Carry"
@@ -3282,8 +3282,8 @@
 		"AttackDamageMin"				"0"
 		"AttackDamageMax"				"0"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
-		"AttributeBaseStrength"			"20"
-		"AttributeStrengthGain"			"2.700000"
+		"AttributeBaseStrength"			"18"
+		"AttributeStrengthGain"			"2.300000"
 		"AttributeBaseAgility"			"20"
 		"AttributeAgilityGain"			"1.500000"
 		"AttributeBaseIntelligence"		"35"
@@ -3599,11 +3599,11 @@
 		
 		"Ability10"		"special_bonus_birzha_dio_1"
 		"Ability11"		"special_bonus_birzha_dio_2"
-		"Ability12"		"special_bonus_birzha_dio_7"
+		"Ability12"		"special_bonus_birzha_dio_5"
 		"Ability13"		"special_bonus_birzha_dio_3"
 		"Ability14"		"special_bonus_birzha_dio_4"
 		"Ability15"		"special_bonus_birzha_dio_6"
-		"Ability16"		"special_bonus_birzha_dio_5"
+		"Ability16"		"special_bonus_birzha_dio_7"
 		"Ability17"		"special_bonus_birzha_dio_8"
 	}
 
@@ -3969,14 +3969,14 @@
 		"difficulty"	"Pick_easy"
 		"role_hero"		"Pick_Killer"
 
-        "Ability17"		"special_bonus_birzha_druzhko_2"
+                "Ability17"		"special_bonus_birzha_druzhko_7"
 		"Ability18"		"special_bonus_birzha_druzhko_4"
-		"Ability19"		"special_bonus_birzha_druzhko_6"
+		"Ability19"		"special_bonus_birzha_druzhko_8"
 		"Ability20"		"special_bonus_birzha_druzhko_3"
-		"Ability21"		"special_bonus_birzha_druzhko_1"
+		"Ability21"		"special_bonus_birzha_druzhko_2
 		"Ability22"		"special_bonus_birzha_druzhko_5"
-		"Ability23"		"special_bonus_birzha_druzhko_8"
-		"Ability24"		"special_bonus_birzha_druzhko_7"
+		"Ability23"		"special_bonus_birzha_druzhko_6"
+		"Ability24"		"special_bonus_birzha_druzhko_3"
 	}
 
 	//=================================================================================================================
@@ -4336,7 +4336,7 @@
 		"AbilityTalentStart" 		"17"
 		"Ability25"					""
 		"difficulty"	"Pick_hard"
-		"AttributeStrengthGain"			"3"
+		"AttributeStrengthGain"			"2"
 		"AttributeIntelligenceGain"		"4.3"
 		"AttributeAgilityGain"			"1.8"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
@@ -4390,7 +4390,7 @@
 		"Ability25"					""
 
 		"AttributeBaseStrength"			"18"
-		"AttributeStrengthGain"			"3"
+		"AttributeStrengthGain"			"2"
 
 		"AttributeBaseIntelligence"		"15"
 		"AttributeIntelligenceGain"		"4.3"
