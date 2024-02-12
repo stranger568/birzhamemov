@@ -88,3 +88,5 @@ function Commands:banner(player, arg)
     if not IsAdmin(player) then return end
     CustomGameEventManager:Send_ServerToAllClients("birzha_toast_manager_create", {text = arg[1], icon = "server_connect"} )
 end
+
+

@@ -454,7 +454,7 @@ function BirzhaData:RegisterSeasonInfo()
         CustomNetTables:SetTableValue('game_state', 'birzha_top_last_season', data)          
     end
     RequestData('https://' .. BirzhaData.url .. '/data/get_top_15.php', function(data) BirzhaData.SetTopMmr(data) end)
-    --RequestData('https://' .. BirzhaData.url .. '/data/get_donate_heroes.php', function(data) BirzhaData.SetDonateHeroes(data) end)
+    RequestData('https://' .. BirzhaData.url .. '/data/get_donate_heroes.php', function(data) BirzhaData.SetDonateHeroes(data) end)
     RequestData('https://' .. BirzhaData.url .. '/data/get_current_season.php', function(data) setup_gamedata(data) end) 
     RequestData('https://' .. BirzhaData.url .. '/data/get_top_last_season.php', function(data) setup_last_season(data) end) 
 end

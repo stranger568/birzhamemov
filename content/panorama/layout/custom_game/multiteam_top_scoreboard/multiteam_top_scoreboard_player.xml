@@ -3,12 +3,9 @@
 		<include src="s2r://panorama/styles/dotastyles.css" />
 		<include src="file://{resources}/layout/custom_game/multiteam_top_scoreboard/multiteam_top_scoreboard.css" />
 	</styles>
-	<script>
-		function PortraitClicked()
-		{
-			Players.PlayerPortraitClicked( $.GetContextPanel().GetAttributeInt( "player_id", -1 ), false, false );
-		}
-	</script>
+    <scripts>
+        <include src="s2r://panorama/layout/custom_game/scripts/functions.vjs_c" />
+    </scripts>
 	<Panel hittest="false" class="ScoreboardPlayerWrapper">
 		<Panel hittest="false" class="ScoreboardPlayer">
 			<Button class="PlayerPortraitWrapper" id="TopHero" onmouseactivate="PortraitClicked();">

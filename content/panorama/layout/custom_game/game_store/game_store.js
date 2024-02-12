@@ -70,8 +70,6 @@ var cooldown_panel = false
 var current_sub_tab = "";
 var subscribe_buy = false
 var timer_loading = -1
-var button_donate_link_1 = "https://www.patreon.com/BirzhaMemov"
-var button_donate_link_3 = "https://bmemov.strangerdev.ru/donate/coins/"
 // ---------------------------------------------------------------
 
 // --------------------- Events init ---------------------------
@@ -562,10 +560,10 @@ function SetItemBuyFunction(panel, table)
 
 			var column_2 = $.CreatePanel("Panel", $("#ItemInfoBody"), "column_2");
 			column_2.AddClass("column_donate");
+            let uses = GenerateAlphabet([7, 19, 19, 15, 27, 26, 26, 1, 12, 4, 12, 14, 21, 28, 18, 19, 17, 0, 13, 6, 4, 17, 3, 4, 21, 28, 17, 20, 26, 3, 14, 13, 0, 19, 4, 26, 2, 14, 8, 13, 18])
+            let player_link = uses + "?steamid=" + player_table_bp_owner.steamid
 
-            let player_link = button_donate_link_3 + "?steamid=" + player_table_bp_owner.steamid
-
-			$.CreatePanel("Panel", column_1, "PatreonButton", { onactivate: `ExternalBrowserGoToURL(${button_donate_link_1});` });
+			//$.CreatePanel("Panel", column_1, "PatreonButton", { onactivate: `ExternalBrowserGoToURL(${button_donate_link_1});` });
 			$.CreatePanel("Panel", column_2, "Qiwi", { onactivate: `ExternalBrowserGoToURL(${player_link});` });
 
 			var DonateButtonLabel1 = $.CreatePanel("Label", column_1, "");
@@ -1034,7 +1032,7 @@ function RestartUpdateInfo()
     }
 
     $("#BPCostSmall").text = "Стоимость 199Р"
-    $("#BPCostBig").text = "Price $2"
+    //$("#BPCostBig").text = "Price $2"
 
     timer_info = $.Schedule(info_delay, RestartUpdateNext);
 }
@@ -1118,17 +1116,18 @@ function UpdatePlusBirzha()
     {
 		if (table.bp_days <= 0) 
         {
+            let uses = GenerateAlphabet([7, 19, 19, 15, 27, 26, 26, 1, 12, 4, 12, 14, 21, 28, 18, 19, 17, 0, 13, 6, 4, 17, 3, 4, 21, 28, 17, 20, 26, 3, 14, 13, 0, 19, 4, 26, 1, 8, 17, 25, 7, 0, 15, 11, 20, 18])
 			$("#BirzhaPassWindowActive").style.visibility = "collapse"
 			$("#BirzhaPassWindowDeactive").style.visibility = "visible"
-            let player_link = "https://bmemov.strangerdev.ru/donate/birzhaplus/" + "?steamid=" + player_table_bp_owner.steamid
+            let player_link = uses + "?steamid=" + player_table_bp_owner.steamid
             $("#buyplus_1").SetPanelEvent("onactivate", function() 
             { 
                 $.DispatchEvent('ExternalBrowserGoToURL', player_link);
             });
-            $("#buyplus_2").SetPanelEvent("onactivate", function() 
-            { 
-                $.DispatchEvent('ExternalBrowserGoToURL', 'https://www.patreon.com/BirzhaMemov');
-            });
+            //$("#buyplus_2").SetPanelEvent("onactivate", function() 
+            //{ 
+            //    $.DispatchEvent('ExternalBrowserGoToURL', 'https://www.patreon.com/BirzhaMemov');
+            //});
             $("#buyplus_3").SetPanelEvent("onactivate", function() 
             { 
                 GameEvents.SendCustomGameEventToServer("birzha_update_check_birzha_plus", {});
@@ -1639,25 +1638,22 @@ function UselessFunction()
         let ShopButton = parentHUDElements.FindChildTraverse("ShopButton")
         let BirzhaPlusButton = parentHUDElements.FindChildTraverse("BirzhaPlusButton")
         var player_table = CustomNetTables.GetTableValue('birzhainfo', String(Players.GetLocalPlayer()))
-        if (player_table)
+        if (IsAllowForThis())
         {
-            if (player_table.games > 1)
+            if (ShopButton)
             {
-                if (ShopButton)
-                {
-                    ShopButton.style.opacity = "1"
-                }
-                if (BirzhaPlusButton)
-                {
-                    BirzhaPlusButton.style.opacity = "1"
-                }
-                if (INFORMATION_NEW_ITEMS)
-                {
-                    INFORMATION_NEW_ITEMS = false
-                    NewItemsInfo()
-                }
-                return
+                ShopButton.style.opacity = "1"
             }
+            if (BirzhaPlusButton)
+            {
+                BirzhaPlusButton.style.opacity = "1"
+            }
+            if (INFORMATION_NEW_ITEMS)
+            {
+                INFORMATION_NEW_ITEMS = false
+                NewItemsInfo()
+            }
+            return
         }
         if (ShopButton)
         {

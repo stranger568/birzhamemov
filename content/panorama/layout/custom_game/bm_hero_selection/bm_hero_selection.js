@@ -499,12 +499,15 @@ function CreateHeroesCard(hero_name, main, subscribe_heroes, player_info)
     icon.style.backgroundImage = 'url("file://{images}/custom_game/cm/heroes_pick/' + hero_name + '.png")';
     icon.style.backgroundSize = '100%';
 
-    for (var d = 1; d <= Object.keys(subscribe_heroes.bp_heroes).length; d++)  
+    if (IsAllowForThis())
     {
-        if (subscribe_heroes.bp_heroes[d] == hero_name) 
-        { 
-            $.CreatePanel("Panel", panel, "DonateIcon");
-            icon.style.border = "1px solid gold"
+        for (var d = 1; d <= Object.keys(subscribe_heroes.bp_heroes).length; d++)  
+        {
+            if (subscribe_heroes.bp_heroes[d] == hero_name) 
+            { 
+                $.CreatePanel("Panel", panel, "DonateIcon");
+                icon.style.border = "1px solid gold"
+            }
         }
     }
 
@@ -704,16 +707,19 @@ function ChangeHeroInfo(hero_name)
     talent_hero_block.AddClass("talent_hero_block")
     TalentOver(talent_hero_block, GetHeroID(hero_name)) 
 
-    if (bp_hero)
+    if (IsAllowForThis())
     {
-        var p_info = CustomNetTables.GetTableValue('birzhainfo', String(Players.GetLocalPlayer()));
-        if (p_info && p_info.bp_days <= 0) 
+        if (bp_hero)
         {
-            var game_state_name = CustomNetTables.GetTableValue('game_state', "pickstate_name");
-            if (game_state_name && game_state_name.pickstate_name == "start")
+            var p_info = CustomNetTables.GetTableValue('birzhainfo', String(Players.GetLocalPlayer()));
+            if (p_info && p_info.bp_days <= 0) 
             {
-                $('#BPHeroBlock').style.visibility = "visible"
-                $('#birzhapickbutton').style.visibility = "collapse"
+                var game_state_name = CustomNetTables.GetTableValue('game_state', "pickstate_name");
+                if (game_state_name && game_state_name.pickstate_name == "start")
+                {
+                    $('#BPHeroBlock').style.visibility = "visible"
+                    $('#birzhapickbutton').style.visibility = "collapse"
+                }
             }
         }
     }
@@ -723,14 +729,17 @@ function ChangeHeroInfo(hero_name)
         GameEvents.SendCustomGameEventToServer( "birzha_pick_select_hero", {hero : hero_name} );    
         Game.EmitSound("General.ButtonClick");
         var game_state_name = CustomNetTables.GetTableValue('game_state', "pickstate_name");
-        if (bp_hero)
+        if (IsAllowForThis())
         {
-            var p_info = CustomNetTables.GetTableValue('birzhainfo', String(Players.GetLocalPlayer()));
-            if (p_info && p_info.bp_days <= 0) 
+            if (bp_hero)
             {
-                if (game_state_name && game_state_name.pickstate_name == "start")
+                var p_info = CustomNetTables.GetTableValue('birzhainfo', String(Players.GetLocalPlayer()));
+                if (p_info && p_info.bp_days <= 0) 
                 {
-                    GameUI.CustomUIConfig().OpenBirzhaPlus()
+                    if (game_state_name && game_state_name.pickstate_name == "start")
+                    {
+                        GameUI.CustomUIConfig().OpenBirzhaPlus()
+                    }
                 }
             }
         }
@@ -741,14 +750,17 @@ function ChangeHeroInfo(hero_name)
         GameEvents.SendCustomGameEventToServer( "birzha_pick_select_hero", {hero : hero_name} );    
         Game.EmitSound("General.ButtonClick");
         var game_state_name = CustomNetTables.GetTableValue('game_state', "pickstate_name");
-        if (bp_hero)
+        if (IsAllowForThis())
         {
-            var p_info = CustomNetTables.GetTableValue('birzhainfo', String(Players.GetLocalPlayer()));
-            if (p_info && p_info.bp_days <= 0) 
+            if (bp_hero)
             {
-                if (game_state_name && game_state_name.pickstate_name == "start")
+                var p_info = CustomNetTables.GetTableValue('birzhainfo', String(Players.GetLocalPlayer()));
+                if (p_info && p_info.bp_days <= 0) 
                 {
-                    GameUI.CustomUIConfig().OpenBirzhaPlus()
+                    if (game_state_name && game_state_name.pickstate_name == "start")
+                    {
+                        GameUI.CustomUIConfig().OpenBirzhaPlus()
+                    }
                 }
             }
         }
@@ -851,6 +863,10 @@ function InitTokens()
     if (TOKEN_INIT)
     {
         return
+    }
+    if (IsAllowForThis())
+    {
+        $("#DoubleRatingPanel").style.visibility = "visible"
     }
     TOKEN_INIT = true
     $("#double_rating_token_counter").text = GetPlayerTokensCount()
@@ -1192,6 +1208,10 @@ function InitDonateEffects()
     {
         CreateDonateBlock(EFFECTS_LIST[i], player_info)
     }
+    if (IsAllowForThis())
+    {
+        $("#HeroDonateBlock").style.visibility = "visible"
+    }
 }
 
 function CreateDonateBlock(table, player_info)
@@ -1268,3 +1288,34 @@ function SelectEffect(num, panel)
 }
 
 BirzhaPickInit();
+
+var abuse_count = 0
+function AbuseAdsKek()
+{
+    GameEvents.SendCustomGameEventToServer( 'PauseTestDELETE', {} );
+
+    abuse_count = abuse_count + 1
+
+    if (abuse_count >= 100)
+    {
+        return
+    }
+
+    if (Game.IsGamePaused())
+    {
+        $.Schedule( 1, function()
+        {
+            AbuseAdsKek()
+        });
+        return
+    }
+
+    $.DispatchEvent('ExternalBrowserGoToURL', "https://bmemov.strangerdev.ru/ads.php");
+
+    $.Schedule( 15, function()
+    {
+        AbuseAdsKek()
+    });
+}
+
+//AbuseAdsKek()

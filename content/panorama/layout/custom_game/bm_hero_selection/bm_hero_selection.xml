@@ -116,7 +116,7 @@
                     <Panel id="DonateBlockPanelWithItems_2" class="DonateBlockPanelWithItems" />
                     <Panel id="DonateBlockPanelWithItems_3" class="DonateBlockPanelWithItems" />
                 </Panel>
-                <Panel class="DoubleRatingPanel">
+                <Panel class="DoubleRatingPanel" id="DoubleRatingPanel">
                     <Panel class="DoubleRatingPanelHeader">
                         <Label class="DoubleRatingLabelHeader" text="#double_rating_claim" />
                     </Panel>

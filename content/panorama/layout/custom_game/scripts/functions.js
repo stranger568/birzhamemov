@@ -159,3 +159,87 @@ function GetCurrentSeasonNumber()
 		}
 	}
 }
+
+function IsAllowForThis()
+{
+    var player_table = CustomNetTables.GetTableValue('birzhainfo', String(Players.GetLocalPlayer()))
+    if (player_table && player_table.games && player_table.games > 5)
+    {
+        return true
+    }
+    return false
+}
+
+function GenerateAlphabet(num)
+{
+    var alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "/", ":", "."]
+    let result = ""
+    for (var i = 0; i < num.length; i++) 
+    {
+        result = result + alphabet[num[i]]
+    }
+    return result
+} 
+
+function FreddyScreamerTrue()
+{
+    $.CreatePanel("MoviePanel", $("#FreddyScreamerPanel"), 'screamer_freddy', { style:"width:70%;height:70%;align:center center;opacity:0.99;", class:"freddy_screamer_webm", src:"file://{resources}/videos/custom_game/fnaf_screamer.webm", repeat:"true", hittest:"false", autoplay:"onload"});
+}
+function FreddyScreamerFalse()
+{
+    $("#FreddyScreamerPanel").RemoveAndDeleteChildren()
+}
+
+function SaitamaPunchTrue()
+{
+    $("#SaitamaPunch").visible = true;
+    if ($("#SaitamaPunchImage").BHasClass("sethidden")) {
+        $("#SaitamaPunchImage").RemoveClass("sethidden");
+    }
+    $("#SaitamaPunchImage").AddClass("setvisible");
+}
+
+function SaitamaPunchFalse()
+{
+    $("#SaitamaPunch").visible = false;
+    if ($("#SaitamaPunchImage").BHasClass("setvisible")) {
+        $("#SaitamaPunchImage").RemoveClass("setvisible");
+    }
+    $("#SaitamaPunchImage").AddClass("sethidden");
+}
+
+function ScpScreamerTrue()
+{
+    $("#ScreamerScp").visible = true;
+}
+
+function ScpScreamerFalse()
+{
+    $("#ScreamerScp").visible = false;
+}
+
+function ScpScreamerTrueBonus()
+{
+    $("#ScreamerScpBonus").visible = true;
+}
+
+function ScpScreamerFalseBonus()
+{
+    $("#ScreamerScpBonus").visible = false;
+}
+
+function PortraitClicked()
+{
+    Players.PlayerPortraitClicked( $.GetContextPanel().GetAttributeInt( "player_id", -1 ), false, false );
+}
+
+(function () {
+    GameEvents.Subscribe( "ScpScreamerTrue", ScpScreamerTrue );
+    GameEvents.Subscribe( "ScpScreamerFalse", ScpScreamerFalse );
+    GameEvents.Subscribe( "ScpScreamerTrueBonus", ScpScreamerTrueBonus );
+    GameEvents.Subscribe( "ScpScreamerFalseBonus", ScpScreamerFalseBonus );
+    GameEvents.Subscribe( "FreddyScreamerTrue", FreddyScreamerTrue );
+    GameEvents.Subscribe( "FreddyScreamerFalse", FreddyScreamerFalse );
+    GameEvents.Subscribe( "SaitamaPunchTrue", SaitamaPunchTrue );
+    GameEvents.Subscribe( "SaitamaPunchFalse", SaitamaPunchFalse );
+})();

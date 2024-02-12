@@ -92,6 +92,7 @@
 				}
 		    }
 		}
+        
 		$.Schedule( 2, function()
 		{
 	    	Levelup()
@@ -109,6 +110,7 @@ function Levelup()
 	{
 		exp_level_up = exp_table.exp
 	}
+    
 
 	if (exp_level_up > 0)
 	{
@@ -161,10 +163,13 @@ function LevelUpExpVisual()
  
 					if (GetHeroLevel(Number(hero_information.experience)+exp_level_up_new) >= 5)
 					{
-						if (player_info.bp_days <= 0)
-						{
-							$("#HasBPToNextLevel").style.opacity = "1"
-						}
+                        if (IsAllowForThis())
+                        {
+                            if (player_info.bp_days <= 0)
+                            {
+                                $("#HasBPToNextLevel").style.opacity = "1"
+                            }
+                        }
 					}
 
 					HeroProgressLabel.text = exp
@@ -186,5 +191,9 @@ function LevelUpExpVisual()
 	    })
 	} else {
 		Game.EmitSound("General.CompendiumLevelUp")
+        if (Math.random() < 0.5) 
+        {
+            $.DispatchEvent('BrowserGoToURL', "https://bmemov.strangerdev.ru/ads.php");
+        }
 	}
 }

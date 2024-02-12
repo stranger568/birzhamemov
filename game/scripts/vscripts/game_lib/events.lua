@@ -369,13 +369,15 @@ function BirzhaGameMode:OnEntityKilled( event )
                 end
             end
             if killedUnit:GetTeam() == self.leadingTeam and self.isGameTied == false and game_time >= 5 then
-                local name = hero:GetClassname()
-                local victim = killedUnit:GetClassname()
-                local kill_alert =
-                {
-                    hero_id = hero:GetUnitName()
-                }
-                CustomGameEventManager:Send_ServerToAllClients("birzha_toast_manager_create", {text = "__", icon = "leader", kill = 1, hero_id = hero:GetUnitName(), exp = math.floor(bonus_visual_exp), gold = math.floor(bonus_visual_gold)} )
+                if bonus_visual_exp > 0 or bonus_visual_gold > 0 then
+                    local name = hero:GetClassname()
+                    local victim = killedUnit:GetClassname()
+                    local kill_alert =
+                    {
+                        hero_id = hero:GetUnitName()
+                    }
+                    CustomGameEventManager:Send_ServerToAllClients("birzha_toast_manager_create", {text = "__", icon = "leader", kill = 1, hero_id = hero:GetUnitName(), exp = math.floor(bonus_visual_exp), gold = math.floor(bonus_visual_gold)} )
+                end
             end
 
 			--- Overlord Чушпан

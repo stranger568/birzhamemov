@@ -226,7 +226,6 @@ function SetHero(panel, hero)
 	panel.SetPanelEvent("onactivate", function() { 
         demo_default_hero = hero
         SetHeroPickerVisible( false );
-        $.Msg(hero)
         $("#SpawnHeroName").text = $.Localize("#" + hero)
         $("#HeroPickerImage").style.backgroundImage = 'url("file://{images}/custom_game/hight_hood/heroes/' + hero + '.png")'
         $("#HeroPickerImage").style.backgroundSize = "100%"

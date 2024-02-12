@@ -47,7 +47,6 @@ function Think()
 	    if ( (Abilities.GetLocalPlayerActiveAbility() != -1) && (Abilities.GetAbilityName(Abilities.GetLocalPlayerActiveAbility()) == "scp682_bite") ) {
 
 	    	let point_blank = Abilities.GetSpecialValueFor(Abilities.GetLocalPlayerActiveAbility(), "point_blank_range");
-	    	$.Msg(point_blank)
 	    	let origin = Entities.GetAbsOrigin( Players.GetLocalPlayerPortraitUnit() )
 
 	    	if (HasModifier(Players.GetLocalPlayerPortraitUnit(), "modifier_scp682_ultimate")) {

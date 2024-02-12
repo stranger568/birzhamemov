@@ -1,13 +1,13 @@
 <root>
 	<styles>
 		<include src="s2r://panorama/styles/dotastyles.css" />
-		<include src="file://{resources}/layout/custom_game/donate_shop/donate_shop.css" /> 
-		<include src="file://{resources}/layout/custom_game/donate_shop/birzha_plus.css" />
+		<include src="file://{resources}/layout/custom_game/game_store/game_store.css" /> 
+		<include src="file://{resources}/layout/custom_game/game_store/birzha_plus.css" />
 	</styles>
 	<scripts>
         <include src="s2r://panorama/layout/custom_game/scripts/donate_information.vjs_c" />
         <include src="s2r://panorama/layout/custom_game/scripts/functions.vjs_c" />
-		<include src="file://{resources}/layout/custom_game/donate_shop/donate_shop.js" />
+		<include src="file://{resources}/layout/custom_game/game_store/game_store.js" />
 	</scripts>
 
 	<Panel hittest="false" class="DonateShopMainPanel">
@@ -186,12 +186,12 @@
                                 <Label class="BPCostLabel" id="BPCostSmall" />
                             </Panel>
 						</Panel>
-						<Panel id="buyplus_2" class="ButtonBuySubscribe">
+						<!--<Panel id="buyplus_2" class="ButtonBuySubscribe">
 							<Label class="ButtonBuySubscribeHead" text="#ButtonBuySubscribeHead2" />
 							<Panel class="BPCostMain">
                                 <Label class="BPCostLabel" id="BPCostBig" />
                             </Panel>
-						</Panel>
+						</Panel>-->
                         <Panel id="buyplus_3" class="ButtonBuySubscribeCheck">
                             <Label class="ButtonBuySubscribeCheckMini" text="Уже купил" />
                         </Panel>
@@ -265,7 +265,7 @@
 			<Panel id="MainContainer" class="DonateShopPanelSecond">
 				<Panel id="PopularityDonate">
 					<Panel id="AdsChests" onactivate="SwitchTab('ItemsContainer', 'DonateItemsButton');SwitchShopTab('BorderDonateItems', 'BorderButton');"/>
-					<Panel id="AdsItem_1" onactivate="SwitchTab('ItemsContainer', 'DonateItemsButton');SwitchShopTab('SubscribeDonateItems', 'SubscribeButton');"/>
+					<Panel id="AdsItem_1" onactivate="GameUI.CustomUIConfig().OpenBirzhaPlus();ToggleShop();"/>
 				</Panel>
 				<Panel id="PopularityRecomDonate">
 					<Label text="#shop_recomended" id="PopularityRecomDonateInfo"/>

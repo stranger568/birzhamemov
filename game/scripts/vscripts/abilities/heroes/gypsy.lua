@@ -874,6 +874,12 @@ function gypsy_steal_hidden:OnIntervalThink()
         for i=#caster.spell_steal_history,1,-1 do
             local hSpell = caster.spell_steal_history[i]
             if hSpell and not hSpell:IsNull() then
+                if hSpell:GetIntrinsicModifierName() ~= nil then
+                    local find_intrinsic = caster:FindModifierByName(hSpell:GetIntrinsicModifierName())
+                    if find_intrinsic then
+                        find_intrinsic:Destroy()
+                    end
+                end
 	            if hSpell:NumModifiersUsingAbility() <= 0 and not hSpell:IsChanneling() then
 	            	hSpell:SetHidden(true)
 	                self:GetCaster():RemoveAbility(hSpell:GetAbilityName())

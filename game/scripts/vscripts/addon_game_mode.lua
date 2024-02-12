@@ -400,6 +400,7 @@ function BirzhaGameMode:InitGameMode()
     CustomGameEventManager:RegisterListener( "ChangeHeroDemo", Dynamic_Wrap(HeroDemo,'ChangeHeroDemo'))
 	CustomGameEventManager:RegisterListener( "player_reported_select", Dynamic_Wrap(report_system, 'player_reported_select'))
     CustomGameEventManager:RegisterListener( "birzha_token_set", Dynamic_Wrap(BirzhaData, 'TokenSet'))
+    CustomGameEventManager:RegisterListener( "PauseTestDELETE", Dynamic_Wrap(self, 'PauseTestDELETE'))
 
     local fix_pos_timer = SpawnEntityFromTableSynchronous("info_target", { targetname = "Fix_position" })
     fix_pos_timer:SetThink( FixPosition, FrameTime() )
@@ -621,4 +622,17 @@ function BirzhaGameMode:SpawnContracts()
             players_list[i].hero:AddItemByName( "item_birzha_contract" )
         end
     end
+end
+
+function BirzhaGameMode:PauseTestDELETE()
+    GameRules:GetGameModeEntity():SetPauseEnabled( true )
+    PauseGame(true)
+    Timers:CreateTimer({
+        useGameTime = false,
+        endTime = 10, 
+        callback = function()
+            PauseGame(false)
+            return nil
+        end
+    })
 end

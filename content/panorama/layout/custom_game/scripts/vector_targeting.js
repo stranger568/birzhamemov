@@ -148,7 +148,6 @@ function OnVectorTargetingStart(fStartWidth, fEndWidth, fCastLength, bDual, bIgn
 		{
 			radius_min = Abilities.GetSpecialValueFor(currentlyActiveVectorTargetAbility, "min_radius") + Abilities.GetSpecialValueFor(talent_ability, "value");
 			radius_max = Abilities.GetSpecialValueFor(currentlyActiveVectorTargetAbility, "max_radius") + Abilities.GetSpecialValueFor(talent_ability, "value");
-			$.Msg(Abilities.GetSpecialValueFor(talent_ability, "value"))
 		}
 
 		Particles.SetParticleControl(vectorTargetParticleNew, 0, Vector_raiseZ(worldPosition, 100));

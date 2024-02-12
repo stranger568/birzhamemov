@@ -100,7 +100,6 @@ GameEvents.Subscribe("birzha_toast_manager_create", birzha_toast_manager_create)
 
 function birzha_toast_manager_create(data)
 {
-    $.Msg(data.sound)
     if (data.sound)
     {
         Game.EmitSound(data.sound)
