@@ -42,9 +42,9 @@
 		"Ability12"		"special_bonus_birzha_bukin_5"
 		"Ability13"		"special_bonus_birzha_bukin_8"
 		"Ability14"		"special_bonus_birzha_bukin_4"
-		"Ability15"		"special_bonus_birzha_bukin_6"
+		"Ability15"		"special_bonus_birzha_bukin_7"
 		"Ability16"		"special_bonus_unique_bukin_2"
-		"Ability17"		"special_bonus_birzha_bukin_7"
+		"Ability17"		"special_bonus_birzha_bukin_6"
 	}
 
 	//=================================================================================================================
@@ -144,10 +144,10 @@
 		
 		"Ability10"		"special_bonus_birzha_versuta_1"
 		"Ability11"		"special_bonus_birzha_versuta_2"
-		"Ability12"		"special_bonus_birzha_versuta_3"
+		"Ability12"		"special_bonus_birzha_versuta_6"
 		"Ability13"		"special_bonus_birzha_versuta_4"
 		"Ability14"		"special_bonus_birzha_versuta_5"
-		"Ability15"		"special_bonus_birzha_versuta_6"
+		"Ability15"		"special_bonus_birzha_versuta_3"
 		"Ability16"		"special_bonus_birzha_versuta_7"
 		"Ability17"		"special_bonus_birzha_versuta_8"
 	}
@@ -271,9 +271,9 @@
 		"Ability10"				"special_bonus_birzha_papich_2"
 		"Ability11"				"special_bonus_birzha_papich_3"
 		"Ability12"				"special_bonus_birzha_papich_1"
-		"Ability13"				"special_bonus_birzha_papich_5"
+		"Ability13"				"special_bonus_birzha_papich_4"
 		"Ability14"				"special_bonus_birzha_papich_6"
-		"Ability15"				"special_bonus_birzha_papich_4"
+		"Ability15"				"special_bonus_birzha_papich_5"
 		"Ability16"				"special_bonus_birzha_papich_7"
 		"Ability17"				"special_bonus_birzha_papich_8"
 	}
@@ -402,9 +402,9 @@
 		"Ability6"					"migi_mutation"
 		"Ability7"					""
 
-		"Ability10"					"special_bonus_birzha_migi_1"
+		"Ability10"					"special_bonus_birzha_migi_3"
 		"Ability11"					"special_bonus_birzha_migi_2"
-		"Ability12"					"special_bonus_birzha_migi_3"
+		"Ability12"					"special_bonus_birzha_migi_1"
 		"Ability13"					"special_bonus_birzha_migi_4"
 		"Ability14"					"special_bonus_birzha_migi_5"
 		"Ability15"					"special_bonus_birzha_migi_6"
@@ -426,8 +426,8 @@
 		"ProjectileSpeed"			"0"
 		"AttributePrimary"			"DOTA_ATTRIBUTE_STRENGTH"
 
-		"AttributeBaseStrength"		"17"
-		"AttributeStrengthGain"		"2.000000"
+		"AttributeBaseStrength"		"27"
+		"AttributeStrengthGain"		"3.100000"
 		"AttributeBaseAgility"		"14"
 		"AttributeAgilityGain"		"1.600000"
 		"AttributeBaseIntelligence"		"23"
@@ -492,7 +492,7 @@
 		"AttributeBaseStrength"		"25"
 		"AttributeStrengthGain"		"3.000000"
 		"AttributeBaseIntelligence"		"14"
-		"AttributeIntelligenceGain"		"1.500000"
+		"AttributeIntelligenceGain"		"1.700000"
 		"AttributeBaseAgility"		"14"
 		"AttributeAgilityGain"		"1.500000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
@@ -553,8 +553,8 @@
 		"AttributePrimary"				"DOTA_ATTRIBUTE_STRENGTH"
 		"AttributeBaseStrength"			"23"
 		"AttributeStrengthGain"			"3.5"
-		"AttributeBaseAgility"			"18"
-		"AttributeAgilityGain"			"1.2"
+		"AttributeBaseAgility"			"17"
+		"AttributeAgilityGain"			"1.5"
 		"AttributeBaseIntelligence"		"15"
 		"AttributeIntelligenceGain"		"1.25"
 		"MovementSpeed"					"300"
@@ -688,10 +688,10 @@
 		
 		"Ability10"		"special_bonus_birzha_kaneki_1"
 		"Ability11"		"special_bonus_birzha_kaneki_2"
-		"Ability12"		"special_bonus_birzha_kaneki_4"
-		"Ability13"		"special_bonus_birzha_kaneki_6"
-		"Ability14"		"special_bonus_birzha_kaneki_5"
-		"Ability15"		"special_bonus_birzha_kaneki_3"
+		"Ability12"		"special_bonus_birzha_kaneki_3
+		"Ability13"		"special_bonus_birzha_kaneki_5"
+		"Ability14"		"special_bonus_birzha_kaneki_6"
+		"Ability15"		""special_bonus_birzha_kaneki_4"
 		"Ability16"		"special_bonus_unique_birzha_kaneki_8"
 		"Ability17"		"special_bonus_birzha_kaneki_7"
 	}

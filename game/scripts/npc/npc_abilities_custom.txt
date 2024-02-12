@@ -776,7 +776,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"100"			
+			"value"						"80"			
 		}
 	}
 	"special_bonus_birzha_brb_5"
@@ -809,7 +809,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"2.5"			
+			"value"						"1"			
 		}
 	}
 	"special_bonus_birzha_brb_8"
@@ -905,7 +905,7 @@
 				"LinkedSpecialBonus"	"special_bonus_birzha_scp683_3"
 			}
 			"max_stack"					"5"
-			"damage"					"1 1.5 2 2.5"
+			"damage"					"0.8 1.2 1.6 2"
 			"scepter_duration"			"5"
 			"scepter_radius"			"400"
 		}
@@ -1111,7 +1111,7 @@
 		{
 			"damage"					"80 120 160"
 			"damageDismember"			"100 200 300"
-			"duration"					"50"
+			"duration"					"20 35 50"
 			"dismember_duration_shard"	"1"
 			"rot_radius_shard"			"150"
 		}
@@ -1561,7 +1561,7 @@
 				"value"						"-0.5"
 				"LinkedSpecialBonus"		"special_bonus_birzha_saitama_6"
 			}
-			"max_charges"					"50"
+			"max_charges"					"25"
 		}
 	}
 
@@ -1587,7 +1587,7 @@
 		{
 			"damage"		
 			{
-				"value"						"300 400 500"
+				"value"						"200 275 350"
 				"LinkedSpecialBonus"		"special_bonus_birzha_saitama_8"
 			}
 			"knockback_duration"		"0.5"
@@ -1681,7 +1681,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"200"			
+			"value"						"100"			
 		}
 	}
 
@@ -1764,7 +1764,7 @@
 		"AbilityValues"
 		{
 			"aura_radius"				"900"
-			"move_speed_pct"			"4 6 8 10"
+			"move_speed_pct"			"3 4.5 6 7.5"
 			"attack_speed"				"7 14 21 28"
 			"armor"						"1.25 2 2.75 3.5"
 			"radius"		
@@ -1800,7 +1800,7 @@
 				"value"					"50"
 				"LinkedSpecialBonus"	"special_bonus_birzha_papich_7"
 			}
-			"crit_mult"					"300 400 500"
+			"crit_mult"					"250 300 350"
 		}
 	}
 
@@ -1845,7 +1845,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"1"			
+			"value"						"0.75"			
 		}
 	}
 	"special_bonus_birzha_papich_5"
@@ -1889,7 +1889,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"-1.5"			
+			"value"						"-1"			
 		}
 	}
 
@@ -2004,7 +2004,7 @@
 		{
 			"damage_percent"
 			{
-				"value"							"15 25 35"
+				"value"							"15 22.5 30"
 				"LinkedSpecialBonus"			"special_bonus_birzha_vjlink_7"
 				"CalculateSpellDamageTooltip"	"0"
 			}	
@@ -2052,7 +2052,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"10"			
+			"value"						"5"			
 		}
 	}
 	"special_bonus_birzha_vjlink_5"
@@ -2091,7 +2091,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"20"			
+			"value"						"10"			
 		}
 	}
 	"special_bonus_birzha_vjlink_8"
@@ -2102,7 +2102,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"150"			
+			"value"						"100"			
 		}
 	}
 
@@ -2136,7 +2136,7 @@
 			"bonus_attack_speed"	"50 100 150 200"
 			"phys_immunitet"		
 			{
-				"value"					"-10 -15 -20 -25"
+				"value"					"-12.5 -15 -17.5 -20"
 				"LinkedSpecialBonus"	"special_bonus_birzha_edwardbill_6"
 			}
 			"target_movespeed"		
@@ -2305,7 +2305,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"-25"			
+			"value"						"-20"			
 		}
 	}
 	"special_bonus_birzha_edwardbill_7"
@@ -2327,7 +2327,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"20"			
+			"value"						"10"			
 		}
 	}
 
@@ -2445,7 +2445,7 @@
 			"money"						"200 300 400"
 			"critical_damage"		
 			{
-				"value"					"140 170 200"
+				"value"					"125 150 175"
 				"LinkedSpecialBonus"	"special_bonus_birzha_ayano_6"
 			}
 			"tranqul_bonus_dmg"			"1.4 1.7 2"
@@ -2504,7 +2504,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"300"			
+			"value"						"150"			
 		}
 	}
 	"special_bonus_birzha_ayano_4"
@@ -2515,7 +2515,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"25"			
+			"value"						"15"			
 		}
 	}
 	"special_bonus_birzha_ayano_5"
@@ -2537,7 +2537,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"75"			
+			"value"						"50"			
 		}
 	}
 	"special_bonus_birzha_ayano_7"
@@ -2586,8 +2586,8 @@
 
 		"AbilityValues"
 		{
-			"bonus_damage"				"20 30 40 50"
-			"bonus_magic_amplify"		"25 30 35 40"
+			"bonus_damage"				"20 25 30 35"
+			"bonus_magic_amplify"		"30 45 60 75"
 			"armor_percent"				"50"
 		}
 	}
@@ -2600,7 +2600,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
-		"AbilityCooldown"				"22 18 14 12"
+		"AbilityCooldown"				"10 9 8 7"
 	}
 
 	"migi_speed"
@@ -2614,10 +2614,10 @@
 
 		"AbilityValues"
 		{
-			"movespeed"					"5 10 15 20"
+			"movespeed"					"5 7.5 10 12.5"
 			"evasion"		
 			{
-				"value"					"5 10 15 20"
+				"value"					"5 7.5 10 12.5"
 				"LinkedSpecialBonus"	"special_bonus_birzha_migi_1"
 			}
 		}
@@ -2635,10 +2635,10 @@
 
 		"AbilityValues"
 		{
-			"bonus_health"				"500 1000 1500"
-			"bonus_damage"				"50 100 150"
+			"bonus_health"				"250 500 750"
+			"bonus_damage"				"50 75 100"
 			"bonus_hp_regen"			"10 20 30"
-			"bonus_amplify"				"5 10 20"
+			"bonus_amplify"				"10 17.5 25"
 		}
 	}
 
@@ -2681,7 +2681,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"10"			
+			"value"						"7.5"			
 		}
 	}
 	"special_bonus_birzha_migi_2"
@@ -2714,7 +2714,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"10"			
+			"value"						"75"			
 		}
 	}
 	"special_bonus_birzha_migi_5"
@@ -2736,7 +2736,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"50"			
+			"value"						"25"			
 		}
 	}
 	"special_bonus_birzha_migi_7"
@@ -2758,7 +2758,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"30"			
+			"value"						"20"			
 		}
 	}
 
@@ -2857,7 +2857,7 @@
 			"bonus_damage"			  "90 135 180"
 			"duration"		
 			{
-				"value"					"10 15 20"
+				"value"					"20"
 				"LinkedSpecialBonus"	"special_bonus_birzha_navalny_7"
 			}
 			"hp_regen"	 				"60 70 80"
@@ -2986,7 +2986,7 @@
 			"hook_distance"				"1000 1150 1300 1450"
 			"vision_radius"				"500"
 			"vision_duration"			"4"
-			"length_damage"				"50"
+			"length_damage"				"35"
 		}
 	}
 
@@ -3004,6 +3004,7 @@
 		"AbilityCastRange"				"5000"
 		"AbilityCastPoint"				"0.4"	
 		"AbilityCooldown"				"15"
+                "AbilityManaCost"				"40 50 60 70"
 
 		"AbilityValues"
 		{
@@ -3148,7 +3149,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"100"			
+			"value"						"80"			
 		}
 	}
 	"special_bonus_birzha_mum_6"
@@ -3274,7 +3275,7 @@
 			"max_stacks"				"5"  
 			"damage"		
 			{
-				"value"					"15 20 25 30" 
+				"value"					"12.5 15 17.5 20" 
 				"LinkedSpecialBonus"	"special_bonus_birzha_venom_6"
 			}
 		}
@@ -3424,7 +3425,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"10"			
+			"value"					"5"			
 		}
 	}
 	"special_bonus_birzha_venom_7"
@@ -3523,7 +3524,7 @@
 			}
 			"bonus_armor"		
 			{
-				"value"					"15 20 25 30"
+				"value"					"10 15 20 25"
 				"LinkedSpecialBonus"	"special_bonus_birzha_azazin_2"
 			}
 			"duration"		
@@ -3575,7 +3576,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"25"			
+			"value"					"12.5"			
 		}
 	}
 
@@ -3621,7 +3622,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"1.5"			
+			"value"					"1"			
 		}
 	}
 	"special_bonus_birzha_azazin_6"
@@ -3632,7 +3633,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"50"			
+			"value"					"30"			
 		}
 	}
 	"special_bonus_birzha_azazin_7"
@@ -3643,7 +3644,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"20"			
+			"value"					"8"			
 		}
 	}
 	"special_bonus_birzha_azazin_8"
@@ -3654,7 +3655,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"-40"			
+			"value"					"-20"			
 		}
 	}
 
@@ -3672,7 +3673,7 @@
 		"AbilityUnitTargetTeam"	 	"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 		"AbilityUnitTargetType"	 	"DOTA_UNIT_TARGET_HERO"
 		"AbilityCooldown"		   	"12 10 8 6"
-		"AbilityManaCost"		   	"50 60 70 80"
+		"AbilityManaCost"		   	"10 20 30 40"
 		"AbilityCastRange"		  	"800"
 		"HasScepterUpgrade"				"1"
 
@@ -3743,7 +3744,7 @@
 			}
 			"bonus_armor"		
 			{
-				"value"					"0.5"
+				"value"					"0.25"
 				"LinkedSpecialBonus"	"special_bonus_birzha_tailer_1"
 			}
 		}
@@ -3765,10 +3766,10 @@
 		"AbilityValues"
 		{
 			"duration"				"20"
-			"bonus_strength"		"50 60 70"
+			"bonus_strength"		"30 40 50"
 			"movespeed_slow"		"-25"
 			"range"					"100"
-			"strength_multiplier"	"1 1.5 2"
+			"strength_multiplier"	"1.25 1.5 1.75"
 			"radius"				"300"
 		}
 	}
@@ -3804,7 +3805,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"30"			
+			"value"					"15"			
 		}
 	}
 	"special_bonus_birzha_tailer_4"
@@ -3997,7 +3998,7 @@
 		"AbilityValues"
 		{
 			"bonus_attack_speed" 	"4 6 8"
-			"bonus_armor" 			"0.25 0.5 0.75"
+			"bonus_armor" 			"0.25 0.45 0.65"
 			"duration" 				"15"
 			"radius" 				"500"
 			"damage" 				"50 75 100"
@@ -4006,7 +4007,7 @@
 				"value"					"30"
 				"LinkedSpecialBonus"	"special_bonus_birzha_kaneki_6"
 			}
-			"multi_str" 			"1 1.5 2"
+			"multi_str" 			"1 1.25 1.5"
 			"percent_tooltip"			"1"
 		}
 	}
@@ -4387,7 +4388,7 @@
 
 		"AbilityValues"
 		{
-			"duration_in"				"2 3 4 5"
+			"duration_in"				"2 2.5 3 3.5"
 			"duration_out"				"5"
 			"damage"		
 			{
@@ -4411,7 +4412,7 @@
 		"AbilityValues"
 		{
 			"charges"					"15"
-			"damage_reduced"			"1.5 2 2.5 3"
+			"damage_reduced"			"1.5 1.75 2 2.25"
 			"duration"					"10"
 			"radius"		
 			{
@@ -4484,7 +4485,7 @@
 			"base_damage"				"400 500 600"
 			"streak_damage"		
 			{
-				"value"					"200 300 400"
+				"value"					"100 175 250"
 				"LinkedSpecialBonus"	"special_bonus_birzha_pyramide_8"
 			}
 		}
@@ -4576,7 +4577,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"200"			
+			"value"					"150"			
 		}
 	}
 
@@ -13608,15 +13609,15 @@
 
 		"AbilityValues"
 		{
-			"stand_hp"					"1100 1400 1700 2000"
-			"stand_damage"				"30 50 70 90"
-			"stand_regen"				"3 4 5 6"
+			"stand_hp"					"700 1000 1300 1600"
+			"stand_damage"				"25 45 65 85"
+			"stand_regen"				"0"
 			"stand_ms"					"300 320 340 360"
 			"stand_armor"				"3 4 5 6"
-			"bat"						"1.5 1.4 1.3 1.2"
-			"stand_hp_per_level"		"90"
-			"stand_damage_per_level"	"7"
-			"radius"					"1300"
+			"bat"						"1.7 1.7 1.6 1.5"
+			"stand_hp_per_level"		"70"
+			"stand_damage_per_level"	"5"
+			"radius"					"900"
 		}
 	}
 
@@ -13647,13 +13648,13 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
 		"AbilityTextureName"			"polnaref/ragess"
-		"AbilityCooldown"				"30"
+		"AbilityCooldown"				"27"
 		"AbilityManaCost"				"50"
 
 		"AbilityValues"
 		{
-			"duration"					"1.2 1.5 1.8 2.1"
-			"attack_speed"				"0.3"
+			"duration"					"0.9 1.2 1.5 1.8"
+			"attack_speed"				"0.5"
 		}
 	}
 

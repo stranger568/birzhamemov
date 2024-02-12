@@ -4,7 +4,7 @@ LinkLuaModifier("modifier_sonic_dash", "abilities/heroes/sonic.lua", LUA_MODIFIE
 sonic_dash = class({})
 
 function sonic_dash:GetCooldown(level)
-    return (self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_sonic_1")) / ( self:GetCaster():GetCooldownReduction())
+    return (self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_sonic_1"))
 end
 
 function sonic_dash:OnSpellStart()

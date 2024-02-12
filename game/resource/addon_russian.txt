@@ -1,4 +1,4 @@
-"lang"
+	"lang"
 {
 	"Language"	"Russian"
 	"Tokens"
@@ -8687,7 +8687,7 @@
 "DOTA_Tooltip_ability_mina_radiation_field_damage_health_pct"		"%УРОН ОТ ТЕКУЩЕГО ЗДОРОВЬЯ:"
 
 "DOTA_Tooltip_ability_mina_nuclear_strike"							"Бомбы"
-"DOTA_Tooltip_ability_mina_nuclear_strike_Description"				"Димон поджигает свои взрывчатки, а после выбрасывает их каждые %interval% сек.\n<h1>Магическая бомба</h1>Наносит магический урон\n<h1>Магическая бомба</h1>Наносит физический урон и замедляет противников на %slow_duration% сек.\n<h1>Оглушающая бомба</h1>Наносит чистый урон и оглушает противников на %stun_duration% сек."
+"DOTA_Tooltip_ability_mina_nuclear_strike_Description"				"Димон поджигает свои взрывчатки, а после выбрасывает их каждые %interval% сек.\n<h1>Магическая бомба</h1>Наносит магический урон\n<h1>Физическая бомба</h1>Наносит физический урон и замедляет противников на %slow_duration% сек.\n<h1>Оглушающая бомба</h1>Наносит чистый урон и оглушает противников на %stun_duration% сек."
 "DOTA_Tooltip_ability_mina_nuclear_strike_damage"					"УРОН:"
 "DOTA_Tooltip_ability_mina_nuclear_strike_duration"					"ДЛИТЕЛЬНОСТЬ:"
 "DOTA_Tooltip_ability_mina_nuclear_strike_slow"						"%ЗАМЕДЛЕНИЕ СКОРОСТИ ПЕРЕДВИЖЕНИЯ:"

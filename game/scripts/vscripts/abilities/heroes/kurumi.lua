@@ -109,6 +109,7 @@ function modifier_Kurumi_eight_bullet:OnDestroy()
     if not IsServer() then return end
     
     self:GetCaster():EmitSound("Hero_PhantomLancer.Doppelganger.Appear")
+    self:GetCaster():EmitSound("kurumi_the_eighth_bullet_het_01")
     
     self:GetParent():RemoveNoDraw()
     
@@ -313,7 +314,7 @@ function Kurumi_Zafkiel:OnSpellStart()
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_kurumi_donate_zafkiel", {duration = duration})
     end
 
-    self:GetCaster():EmitSound("kurult")
+    EmitGlobalSound("kurult")
 end
 
 modifier_kurumi_zafkiel_aura = class({})
