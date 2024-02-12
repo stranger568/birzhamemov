@@ -6,9 +6,10 @@ item_gunbai_uchiha = class({})
 
 function item_gunbai_uchiha:OnSpellStart()
 	if not IsServer() then return end
-	self:GetCaster():EmitSound("Item.LotusOrb.Target")
+    local target = self:GetCursorTarget()
+	target:EmitSound("Item.LotusOrb.Target")
 	local duration = self:GetSpecialValueFor("active_duration")
-	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_item_lotus_orb_active", {duration = duration})
+	target:AddNewModifier(self:GetCaster(), self, "modifier_item_lotus_orb_active", {duration = duration})
 end
 
 function item_gunbai_uchiha:GetIntrinsicModifierName() 

@@ -65,7 +65,6 @@ function modifier_glad_sorry_target:OnCreated( kv )
     if not IsServer() then return end
     self:GetParent():SetForceAttackTarget( self:GetCaster() )
     self:GetParent():MoveToTargetToAttack( self:GetCaster() )
-    self.damage_interval = 0
     self:StartIntervalThink(FrameTime())
 end
 
@@ -78,12 +77,6 @@ function modifier_glad_sorry_target:OnIntervalThink( kv )
     else
         self:GetParent():SetForceAttackTarget( self:GetCaster() )
         self:GetParent():MoveToTargetToAttack( self:GetCaster() )
-    end
-    self.damage_interval = self.damage_interval + FrameTime()
-    if self.damage_interval >= 1 then
-        self.damage_interval = 0
-        local damage = self:GetAbility():GetSpecialValueFor("damage")
-        ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
     end
 end
 

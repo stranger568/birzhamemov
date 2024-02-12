@@ -1686,7 +1686,7 @@
 "DOTA_Tooltip_modifier_item_birzha_diffusal_blade_2_debuff_Description"					"Скорость передвижения снижена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% "
 
 "DOTA_Tooltip_Ability_item_chill_aquila"			"Кольцо Чилла"
-"DOTA_Tooltip_ability_item_chill_aquila_Description"				"<h1>Активное: Rune Double Damage</h1> Увеличивает базовый урон на 80% и даёт 15% к урону от заклинаний<br><br> Длительность %duration% сек.\n<h1>Пассивное: Aquila Aura</h1> Действует на союзников вокруг. Увеличивает их восстановление маны на %mana_regen% и броню на %armor% <br><br>Радиус: %radius%"
+"DOTA_Tooltip_ability_item_chill_aquila_Description"				"<h1>Активное: Rune Double Damage</h1> Увеличивает базовый урон на %active_bonus_damage%%% и даёт %active_spell_amp%%% к урону от заклинаний<br><br> Длительность %duration% сек.\n<h1>Пассивное: Aquila Aura</h1> Действует на союзников вокруг. Увеличивает их восстановление маны на %mana_regen% и броню на %armor% <br><br>Радиус: %radius%"
 "DOTA_Tooltip_ability_item_chill_aquila_lore"	"Данный предмет создан благодаря <font color='#fffc00'>HEX</font>"
 "DOTA_Tooltip_Ability_item_chill_aquila_bonus_agility"			"+$agi"
 "DOTA_Tooltip_Ability_item_chill_aquila_bonus_str"			"+$str"
@@ -1695,8 +1695,8 @@
 "DOTA_Tooltip_Ability_item_chill_aquila_bonus_at"			"+$attack"
 "DOTA_Tooltip_Ability_item_chill_aquila_bonus_armor"			"+$armor"
 
-"DOTA_Tooltip_modifier_chill_aquila_dd"	"Кольцо Чилла"
-"DOTA_Tooltip_modifier_chill_aquila_dd_Description"	"Базовый урон увеличен на 80%"
+"DOTA_Tooltip_modifier_chill_aquila_active"	"Кольцо Чилла"
+"DOTA_Tooltip_modifier_chill_aquila_active_Description"	"Базовый урон увеличен на %dMODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE%%% и магический урон на %dMODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE%%%"
 
 "DOTA_Tooltip_modifier_chill_aquila_aura_buff"	"Кольцо Чилла"
 "DOTA_Tooltip_modifier_chill_aquila_aura_buff_Description"	"Восстановление маны увеличено на %fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% и броня увеличена на %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%"
@@ -4430,7 +4430,6 @@
 "DOTA_Tooltip_ability_Valakas_sorry"						"Извинись перед дедом"
 "DOTA_Tooltip_ability_Valakas_sorry_Description"			"Глад Валакас заставляет врага извиниться перед ним"
 "DOTA_Tooltip_ability_Valakas_sorry_duration"				"ДЛИТЕЛЬНОСТЬ:"
-"DOTA_Tooltip_ability_Valakas_sorry_damage"				    "УРОН В СЕКУНДУ:"
 
 "Dota_Tooltip_modifier_glad_sorry_target"					"Извинись перед дедом"
 "Dota_Tooltip_modifier_glad_sorry_target_Description"		"Идет атаковать Глад Валакас и получает периодический урон"

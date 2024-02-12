@@ -1,5 +1,6 @@
 LinkLuaModifier( "modifier_chill_aquila_aura_buff", "items/chill_aquila", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_chill_aquila", "items/chill_aquila", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_chill_aquila_active", "items/chill_aquila", LUA_MODIFIER_MOTION_NONE )
 
 item_chill_aquila = class({})
 
@@ -9,8 +10,31 @@ end
 
 function item_chill_aquila:OnSpellStart()
 	if not IsServer() then return end
-	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_rune_doubledamage", {duration = self:GetSpecialValueFor("duration")})
+	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_chill_aquila_active", {duration = self:GetSpecialValueFor("duration")})
 	self:GetCaster():EmitSound("Rune.DD")
+end
+
+modifier_chill_aquila_active = class({})
+function modifier_chill_aquila_active:DeclareFunctions()
+    return
+    {
+        MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE,
+        MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE
+    }
+end
+
+function modifier_chill_aquila_active:GetModifierBaseDamageOutgoing_Percentage()
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("active_bonus_damage")
+end
+
+function modifier_chill_aquila_active:GetModifierSpellAmplify_Percentage()
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor("active_spell_amp")
+end
+
+function modifier_chill_aquila_active:GetEffectName()
+    return "particles/generic_gameplay/rune_doubledamage_owner.vpcf"
 end
 
 modifier_chill_aquila = class({})

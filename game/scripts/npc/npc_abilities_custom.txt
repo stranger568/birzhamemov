@@ -18563,7 +18563,7 @@
 	{
 		"BaseClass"						"ability_lua"
 		"ScriptFile"					"abilities/heroes/gypsy.lua"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT" | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
 		"AbilityTextureName"			"Gypsy/Tabor"
 		"AbilityCooldown"				"20 19 18 17"
 		"AbilityManaCost"				"70"
