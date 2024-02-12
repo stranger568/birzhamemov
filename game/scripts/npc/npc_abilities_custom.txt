@@ -3998,7 +3998,7 @@
 		"AbilityValues"
 		{
 			"bonus_attack_speed" 	"4 6 8"
-			"bonus_armor" 			"0.25 0.5 0.75"
+			"bonus_armor" 			"0.25 0.45 0.65"
 			"duration" 				"15"
 			"radius" 				"500"
 			"damage" 				"50 75 100"
@@ -4007,7 +4007,7 @@
 				"value"					"30"
 				"LinkedSpecialBonus"	"special_bonus_birzha_kaneki_6"
 			}
-			"multi_str" 			"1 1.5 2"
+			"multi_str" 			"1 1.25 1.5"
 			"percent_tooltip"			"1"
 		}
 	}
