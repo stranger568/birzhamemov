@@ -1561,7 +1561,7 @@
 				"value"						"-0.5"
 				"LinkedSpecialBonus"		"special_bonus_birzha_saitama_6"
 			}
-			"max_charges"					"50"
+			"max_charges"					"25"
 		}
 	}
 
@@ -1587,7 +1587,7 @@
 		{
 			"damage"		
 			{
-				"value"						"300 400 500"
+				"value"						"200 275 350"
 				"LinkedSpecialBonus"		"special_bonus_birzha_saitama_8"
 			}
 			"knockback_duration"		"0.5"
@@ -1681,7 +1681,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"200"			
+			"value"						"100"			
 		}
 	}
 
@@ -1764,7 +1764,7 @@
 		"AbilityValues"
 		{
 			"aura_radius"				"900"
-			"move_speed_pct"			"4 6 8 10"
+			"move_speed_pct"			"3 4.5 6 7.5"
 			"attack_speed"				"7 14 21 28"
 			"armor"						"1.25 2 2.75 3.5"
 			"radius"		
@@ -1800,7 +1800,7 @@
 				"value"					"50"
 				"LinkedSpecialBonus"	"special_bonus_birzha_papich_7"
 			}
-			"crit_mult"					"300 400 500"
+			"crit_mult"					"250 300 350"
 		}
 	}
 
@@ -1889,7 +1889,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"-1.5"			
+			"value"						"-1"			
 		}
 	}
 
