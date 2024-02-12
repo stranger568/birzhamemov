@@ -501,6 +501,7 @@ function modifier_Ruby_RoseStrike:OnAttackLanded( params )
     end
     if params.attacker == self:GetParent() then
         if params.target:IsWard() then return end
+        if params.no_attack_cooldown then return end
         if self:GetCaster():PassivesDisabled() then return end
         if not self:GetAbility():IsFullyCastable() then return end
         local chance = self:GetAbility():GetSpecialValueFor("trigger_chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_ruby_6")

@@ -6738,7 +6738,7 @@
 			"AbilityChargeRestoreTime"
 			{
 				"value"												 "20 16 12 8"
-				"special_bonus_unique_ruby_2"						   "-2"
+				"special_bonus_unique_ruby_2"						   "-3"
 			}
 			"AbilityCharges"
 			{
