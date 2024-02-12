@@ -2136,7 +2136,7 @@
 			"bonus_attack_speed"	"50 100 150 200"
 			"phys_immunitet"		
 			{
-				"value"					"-10 -15 -20 -25"
+				"value"					"-12.5 -15 -17.5 -20"
 				"LinkedSpecialBonus"	"special_bonus_birzha_edwardbill_6"
 			}
 			"target_movespeed"		
@@ -2305,7 +2305,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"-25"			
+			"value"						"-20"			
 		}
 	}
 	"special_bonus_birzha_edwardbill_7"
@@ -2327,7 +2327,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"20"			
+			"value"						"10"			
 		}
 	}
 
