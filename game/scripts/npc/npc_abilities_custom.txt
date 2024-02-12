@@ -3275,7 +3275,7 @@
 			"max_stacks"				"5"  
 			"damage"		
 			{
-				"value"					"15 20 25 30" 
+				"value"					"12.5 15 17.5 20" 
 				"LinkedSpecialBonus"	"special_bonus_birzha_venom_6"
 			}
 		}
@@ -3425,7 +3425,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"10"			
+			"value"					"5"			
 		}
 	}
 	"special_bonus_birzha_venom_7"
