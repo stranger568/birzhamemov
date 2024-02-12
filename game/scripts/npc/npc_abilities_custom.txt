@@ -2857,7 +2857,7 @@
 			"bonus_damage"			  "90 135 180"
 			"duration"		
 			{
-				"value"					"10 15 20"
+				"value"					"20"
 				"LinkedSpecialBonus"	"special_bonus_birzha_navalny_7"
 			}
 			"hp_regen"	 				"60 70 80"
