@@ -913,6 +913,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
 		"AbilityCooldown"				"20"
+                "AbilityManaCost"                               "50"
 
 		"AbilityValues"
 		{
@@ -1137,7 +1138,7 @@
 		"ScriptFile"					"items/angel"
 		"AbilityBehavior" 				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityTextureName"			"items/angel_boots"
-		"AbilityCooldown" 				"35"
+		"AbilityCooldown" 				"40"
 		"AbilityManaCost" 				"0"
 		"ItemCost" 						"6125"
 		"AbilityCastRange"				"900"
@@ -1159,8 +1160,8 @@
 			"duration" 					"30"
 			"bonus_health" 				"250"
 
-			"restore_mana_percent" 		"10"
-			"restore_health_percent" 	"5"
+			"restore_mana_percent" 		"6"
+			"restore_health_percent" 	"4"
 
 			"health_to_bonus"			"25"
 			"max_bonus_health_regen"	"20"
@@ -1519,7 +1520,7 @@
 			"bonus_damage"	  	"150"
 			"duration"		  	"7"
 			"base_coruprion_armor"	"-12"
-			"bonus_corruption_armor_percent"	"5"
+			"bonus_corruption_armor_percent"	"3.5"
 			"health_percent_per_corruption"	 "10"
 
 			"damage_stack_max"		"50"
@@ -1708,7 +1709,7 @@
 
 		"AbilityValues"
 		{
-			"str"								"80"
+			"str"								"70"
 			"hp"								"500"
 			"health_regen_percent_per_second"	"2.8"
 		}
@@ -1888,7 +1889,7 @@
 			"hp"							"550"
 			"mp"							"550"
 			"int"							"25"
-			"lifesteal"						"30"
+			"lifesteal"						"25"
 		}
   	}
 	
@@ -2000,7 +2001,7 @@
 	{					
 		"Model"							"models/props_gameplay/recipe.vmdl"
 		"BaseClass"					 "item_datadriven"
-		"ItemCost"						"1500"	
+		"ItemCost"						"2000"	
 		"ItemShopTags"					"int"
 		"ItemKillable" 					"0" 
 		"ItemRecipe"					"1"
@@ -2028,7 +2029,7 @@
 			"bonus_damage" 			"38"
 			"resist_effects" 		"75"
 			"duration" 				"2.5"
-			"lifesteal" 			"200"
+			"lifesteal" 			"175"
 			"hp_loss" 				"10"
 			"duration_satanic" 		"6"
 			"lifesteal_passive" 	"30"
@@ -2076,7 +2077,7 @@
 			"bonus_attack_speed_aura"		  	"30"
 			"minus_armor_aura"			 		"-5"
 			"duration"			 				"5.5"
-			"return_damage"						"100"
+			"return_damage"						"80"
 			"return_damage_passive"				"20"
 			"return_damage_passive_percentage" 	"20"	
 			"radius"						"1200"
@@ -2926,7 +2927,7 @@
 			"base_damage"				"80"
 			"base_damage_illsuion"		"45"
 			"think_interval"			"1"
-			"bonus_damage_magical"		"25"
+			"bonus_damage_magical"		"20"
 			"bonus_agility"				"4"
 			"bonus_strength"			"4"
 			"bonus_intellect"			"4"
@@ -3121,9 +3122,9 @@
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
 		"AbilityTextureName"			"items/force_staff_2"
 		"ItemCost"						"4000"
-		"AbilityCooldown"				"25"
+		"AbilityCooldown"				"22"
 		"AbilityManaCost"				"200"
-		"AbilityCastRange"				"1500"
+		"AbilityCastRange"				"1600"
 
 		"AbilityValues"
 		{
@@ -3165,12 +3166,12 @@
 		"AbilityTextureName"			"items/excalibur"
 		"AbilityCastAnimation"			"ACT_DOTA_ATTACK"
 		"ItemCost"						"9150"
-		"AbilityCooldown"				"30"
+		"AbilityCooldown"				"25"
 		"AbilityManaCost"				"50"
 
 		"AbilityValues"
 		{
-			"bonus_damage"			"143"
+			"bonus_damage"			"160"
 			"bonus_hp_regen"		"7.5"
 			"bonus_mana_regen"		"3"
 			"damage"				"225"
@@ -3520,9 +3521,9 @@
 			"attack_speed_per_level"		"1.5"
 			"armor_per_level"				"0.25"
 			"damage_per_level"				"2"
-			"bonus_magical_resistance"		"25"
+			"bonus_magical_resistance"		"20"
 			"bonus_hp_regen"				"5"
-			"bonus_armor"					"10"
+			"bonus_armor"					"5"
 		}
 	}
 
@@ -3963,7 +3964,7 @@
 		"AbilityChannelTime"			"10"
 		"AbilityManaCost" 				"250"
 		"AbilityCastRange"				"1100"
-		"AbilityManaCost"				"250"
+		"AbilityManaCost"				"150"
 		"ItemSellable"					"1"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
@@ -3975,7 +3976,7 @@
 		
 		"AbilityValues"
 		{
-			"bonus_stats"			 		"10"
+			"bonus_stats"			 		"15"
 
 			"bonus_mp_regen"		  		"2"
 			"bonus_armor"		  			"3"
@@ -3984,7 +3985,7 @@
 
 			"mana_regen_charge"		  	"1"
 			"health_regen_charge"		  	"2"
-			"spell_amplify_charge"		  "1.5"
+			"spell_amplify_charge"		  "2"
 
 			"souls_lose"					"34"
 
@@ -4171,31 +4172,34 @@
 	{
 		"BaseClass" 					"item_lua"
 		"ScriptFile" 					"items/gunbai_uchiha"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"Model"							"models/props_gameplay/red_box.vmdl" 
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
 		"AbilityTextureName"			"items/gunbai_uchiha"
 		"AbilityCooldown"				"15.0"
 		"AbilityManaCost"				"175"
+                "AbilityCastRange"				"900"
 
 		"AbilityValues"
 		{
-			"bonus_armor"		"10"
+			"bonus_armor"		"12"
 			"bonus_health_regen"	"6.5"
 			"bonus_mana_regen"		"4.0"
 			"bonus_mana"			"250"
 			"active_duration"		"6"
-			"bonus_damage"			"32"
+			"bonus_damage"			"40"
 			"crit_multiplier"		"160"
 			"proc_chance"			"30"
 			"proc_duration_self"	"3.0"
 			"proc_ms"				"15"
 			"as_stack"				"5"
-			"max_stacks"			"3"
+			"max_stacks"			"5"
 			"stack_duration"		"5.0"
-			"bonus_attack_speed"	"15"
-			"bonus_agility"			"16"
-			"bonus_ms"				"8"
+			"bonus_attack_speed"	"25"
+			"bonus_agility"			"25"
+			"bonus_ms"				"10"
 		}
 	}
 
