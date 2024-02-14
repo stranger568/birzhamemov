@@ -1484,7 +1484,7 @@
         [
             "sounds/birzha/shelby_stack_1.vsnd",
         ]
-        volume = "3.000000"
+        volume = "1.000000"
         pitch_rand_min = "-0.050000"
         pitch_rand_max = "0.050000"
         pitch = "1.000000"
@@ -1500,7 +1500,7 @@
         [
             "sounds/birzha/shelby_stack_2.vsnd",
         ]
-        volume = "3.000000"
+        volume = "1.000000"
         pitch_rand_min = "-0.050000"
         pitch_rand_max = "0.050000"
         pitch = "1.000000"
@@ -1516,7 +1516,7 @@
         [
             "sounds/birzha/shelby_stack_3.vsnd",
         ]
-        volume = "3.000000"
+        volume = "1.000000"
         pitch_rand_min = "-0.050000"
         pitch_rand_max = "0.050000"
         pitch = "1.000000"
@@ -1532,7 +1532,7 @@
         [
             "sounds/birzha/shelby_stack_4.vsnd",
         ]
-        volume = "3.000000"
+        volume = "1.000000"
         pitch_rand_min = "-0.050000"
         pitch_rand_max = "0.050000"
         pitch = "1.000000"
@@ -1548,7 +1548,7 @@
         [
             "sounds/birzha/shelby_stack_5.vsnd",
         ]
-        volume = "3.000000"
+        volume = "1.000000"
         pitch_rand_min = "-0.050000"
         pitch_rand_max = "0.050000"
         pitch = "1.000000"

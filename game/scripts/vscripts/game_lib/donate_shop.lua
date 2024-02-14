@@ -4,6 +4,27 @@ end
 
 require("game_lib/donate_info")
 
+function donate_shop:donate_change_item_active(data)
+    if data.PlayerID == nil then return end
+    local id = data.PlayerID
+    local item_id = tonumber(data.item_id)
+    local delete_item = data.delete_item
+    local player_donate_table = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data
+    if player_donate_table then
+        if DonateShopIsItemActive(id, item_id) then
+            table.remove_item(player_donate_table.player_items_active, item_id)
+        else
+            table.insert(player_donate_table.player_items_active, item_id)
+        end
+        CustomNetTables:SetTableValue('birzhashop', tostring(id), {doge_coin = player_donate_table.doge_coin, birzha_coin = player_donate_table.birzha_coin, player_items = player_donate_table.player_items, player_items_active = player_donate_table.player_items_active})
+    end
+    local player_info = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id]
+    local hero = player_info.selected_hero
+    if hero and hero:GetUnitName() ~= "npc_dota_hero_wisp" then
+        birzha_hero_selection:GiveHeroPlayer(id, player_info.picked_hero)
+    end
+end
+
 function donate_shop:BuyItem(data)
 	if data.PlayerID == nil then return end
 	local id = data.PlayerID
@@ -28,7 +49,7 @@ function donate_shop:BuyItem(data)
 				table.insert(player_donate_table.player_items, item_id)
 			end
             CustomGameEventManager:Send_ServerToPlayer(player, "shop_set_currency", {bitcoin = player_donate_table.birzha_coin, dogecoin = player_donate_table.doge_coin} )
-            CustomNetTables:SetTableValue('birzhashop', tostring(id), {doge_coin = player_donate_table.doge_coin, birzha_coin = player_donate_table.birzha_coin, player_items = player_donate_table.player_items})
+            CustomNetTables:SetTableValue('birzhashop', tostring(id), {doge_coin = player_donate_table.doge_coin, birzha_coin = player_donate_table.birzha_coin, player_items = player_donate_table.player_items, player_items_active = player_donate_table.player_items_active})
             CustomGameEventManager:Send_ServerToPlayer(player, "shop_accept_notification", {} )
 		else
 			CustomGameEventManager:Send_ServerToPlayer(player, "shop_error_notification", {error_name = "shop_no_bitcoin"} )
@@ -40,7 +61,7 @@ function donate_shop:BuyItem(data)
 			change_dogecoin_currency = tonumber(price) * -1
 			CustomGameEventManager:Send_ServerToPlayer(player, "shop_set_currency", {bitcoin = player_donate_table.birzha_coin, dogecoin = player_donate_table.doge_coin} )
 			table.insert(player_donate_table.player_items, item_id)
-			CustomNetTables:SetTableValue('birzhashop', tostring(id), {doge_coin = player_donate_table.doge_coin, birzha_coin = player_donate_table.birzha_coin, player_items = player_donate_table.player_items})
+			CustomNetTables:SetTableValue('birzhashop', tostring(id), {doge_coin = player_donate_table.doge_coin, birzha_coin = player_donate_table.birzha_coin, player_items = player_donate_table.player_items, player_items_active = player_donate_table.player_items_active})
 			CustomGameEventManager:Send_ServerToPlayer(player, "shop_accept_notification", {} )
 		else
 			CustomGameEventManager:Send_ServerToPlayer(player, "shop_error_notification", {error_name = "shop_no_dogecoin"} )
@@ -67,7 +88,7 @@ function donate_shop:AddPetFromStart(id)
     local player_info = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id]
     local pet_id = player_info.server_data.pet_id
     local hero = player_info.selected_hero
-    if hero and hero:GetUnitName() ~= "npc_dota_hero_wisp" and pet_id ~= 0 and pet_id ~= "0" then
+    if hero and hero:GetUnitName() ~= "npc_dota_hero_wisp" and pet_id ~= 0 and pet_id ~= "0" and pet_id ~= nil then
         if player_info.steamid == 113370083 then
             pet_id = "Insane"
         end
@@ -101,7 +122,7 @@ function donate_shop:ChangePetPremium(data)
     local pet_id = tonumber(data.pet_id)
     local hero = player_info.selected_hero
     --
-    if hero == nil or hero:GetUnitName() == "npc_dota_hero_wisp" then
+    if hero == nil or hero:GetUnitName() == "npc_dota_hero_wisp" or birzha_hero_selection.pick_ended == nil then
         if data.delete_pet == 0 then
             player_info.server_data.pet_id = pet_id
         else
@@ -197,6 +218,19 @@ function DonateShopIsItemBought(id, item)
 	return false
 end
 
+function DonateShopIsItemActive(id, item)
+    local player_info = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id]
+    if player_info then
+        local player_shop_table_items = player_info.server_data.player_items_active
+        for _, item_id in pairs(player_shop_table_items) do
+            if tostring(item_id) == tostring(item) then
+                return true
+            end
+        end
+    end
+	return false
+end
+
 function donate_shop:SelectVO(keys)
 	if keys.PlayerID == nil then return end
 	local player = PlayerResource:GetPlayer(keys.PlayerID)
@@ -253,6 +287,12 @@ function donate_shop:SelectVO(keys)
         local hero = PlayerResource:GetSelectedHeroEntity(keys.PlayerID)
         if hero then
             hero_name = hero:GetUnitName()
+        end
+        if current_chatwheel_event == "294" then
+            local smoke_particle = ParticleManager:CreateParticle("particles/econ/items/spectre/spectre_arcana/spectre_arcana_loadout_spawn_smoke.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
+            ParticleManager:ReleaseParticleIndex(smoke_particle)
+            local smoke_particle_2 = ParticleManager:CreateParticle("particles/bmsmoke_sound.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
+            ParticleManager:ReleaseParticleIndex(smoke_particle_2)
         end
 		CustomGameEventManager:Send_ServerToAllClients( 'chat_birzha_sound', {hero_name = hero_name, player_id = keys.PlayerID, sound_name = event_info["localize"], sound_name_global = sound_name})
     elseif event_info["type"] == "spray" then

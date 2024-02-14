@@ -30,7 +30,7 @@ function Dio_Kakyoin:OnSpellStart()
 	dirY = target:GetOrigin().y-caster:GetOrigin().y
 	kicked = target
 
-    if DonateShopIsItemBought(self:GetCaster():GetPlayerOwnerID(), 180) then
+    if DonateShopIsItemActive(self:GetCaster():GetPlayerOwnerID(), 180) then
         local p = ParticleManager:CreateParticle("particles/dio_arcana/kakyoin_attack_normal_punch.vpcf", PATTACH_ABSORIGIN,self:GetCaster())
         ParticleManager:SetParticleControl(p, 0,self:GetCaster():GetAbsOrigin())
         ParticleManager:SetParticleControl(p, 2, target:GetAbsOrigin())
@@ -249,7 +249,7 @@ function Dio_Wry:OnSpellStart()
 
     local particle = "particles/dio/dio_wry.vpcf"
 
-    if DonateShopIsItemBought(self:GetCaster():GetPlayerOwnerID(), 180) then
+    if DonateShopIsItemActive(self:GetCaster():GetPlayerOwnerID(), 180) then
         particle = "particles/dio_arcana/wryy_effect.vpcf"
         local dio_wryy_effect_bonus = ParticleManager:CreateParticle("particles/dio_arcana/dio_wryy_effect_bonus.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
         ParticleManager:SetParticleControl(dio_wryy_effect_bonus, 0, self:GetCaster():GetAbsOrigin())
@@ -300,7 +300,7 @@ function Dio_Wry:OnSpellStart()
 
         local particle = "particles/dio/dio_wry_debuff.vpcf"
     
-        if DonateShopIsItemBought(self:GetCaster():GetPlayerOwnerID(), 180) then
+        if DonateShopIsItemActive(self:GetCaster():GetPlayerOwnerID(), 180) then
             particle = "particles/dio_arcana/dio/dio_wry_debuff.vpcf"
         end
 
@@ -363,7 +363,7 @@ function Dio_Blink:OnSpellStart()
 
     self:GetCaster():EmitSound("Hero_FacelessVoid.TimeWalk.Aeons")
 
-    if DonateShopIsItemBought(self:GetCaster():GetPlayerOwnerID(), 180) then
+    if DonateShopIsItemActive(self:GetCaster():GetPlayerOwnerID(), 180) then
         self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_3)
         particle_jump = "particles/dio_arcana/dio_jump_arcana_preimage.vpcf"
     else
@@ -518,7 +518,7 @@ function Dio_TheWorld:OnUpgrade()
 
         self.the_world:Destroy()
         self.the_world = CreateUnitByName("npc_dio_theworld_"..level, origin_death, true, caster, nil, caster:GetTeamNumber())
-        if DonateShopIsItemBought(self:GetCaster():GetPlayerOwnerID(), 180) then
+        if DonateShopIsItemActive(self:GetCaster():GetPlayerOwnerID(), 180) then
             self.the_world:SetOriginalModel("models/dio_arcana/dio_the_world_arcana.vmdl")
         end
         self.the_world:SetControllableByPlayer(player, true)
@@ -558,7 +558,7 @@ function Dio_TheWorld:OnSpellStart()
         self.the_world = CreateUnitByName("npc_dio_theworld_"..level, origin, true, caster, nil, caster:GetTeamNumber())
         self.the_world:SetForwardVector(self:GetCaster():GetForwardVector())
         self.the_world:Stop()
-        if DonateShopIsItemBought(self:GetCaster():GetPlayerOwnerID(), 180) then
+        if DonateShopIsItemActive(self:GetCaster():GetPlayerOwnerID(), 180) then
             self.the_world:SetOriginalModel("models/dio_arcana/dio_the_world_arcana.vmdl")
         end
         self.the_world:SetControllableByPlayer(player, true)
@@ -585,7 +585,7 @@ function modifier_dio_TheWorld:OnCreated(keys)
     self.b_armor = self:GetAbility():GetSpecialValueFor("stand_armor")
     if not IsServer() then return end
 
-    if DonateShopIsItemBought(self:GetCaster():GetPlayerOwnerID(), 180) then
+    if DonateShopIsItemActive(self:GetCaster():GetPlayerOwnerID(), 180) then
         local particle = ParticleManager:CreateParticle( "particles/dio_arcana/the_world_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
         ParticleManager:SetParticleControlEnt( particle, 0, self:GetParent(), PATTACH_ABSORIGIN_FOLLOW, nil, self:GetParent():GetOrigin(), true )
         self:AddParticle(particle, false, false, -1, false, false)
@@ -737,7 +737,7 @@ end
 
 function modifier_dio_mudamudamuda:OnIntervalThink()
 	if IsServer() then
-        if DonateShopIsItemBought(self:GetCaster():GetPlayerOwnerID(), 180) then
+        if DonateShopIsItemActive(self:GetCaster():GetPlayerOwnerID(), 180) then
             local particle = ParticleManager:CreateParticle("particles/dio_arcana/mudamudamuda.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
             ParticleManager:SetParticleControlEnt( particle, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", Vector(0,0,0), true )
             ParticleManager:SetParticleControlEnt( particle, 3, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", Vector(0,0,0), true )
@@ -801,7 +801,7 @@ function modifier_Dio_Za_Warudo_aura:OnCreated()
     self.radius_per_time = self.max_radius / (self.cast_duration / FrameTime())
 
     local particle = "particles/dio/dio_sphere_ground.vpcf"
-    if DonateShopIsItemBought(self:GetCaster():GetPlayerOwnerID(), 180) then
+    if DonateShopIsItemActive(self:GetCaster():GetPlayerOwnerID(), 180) then
         particle = "particles/dio_arcana/dio_sphere_ground.vpcf"
     end
 	self.particle = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW, self:GetParent())

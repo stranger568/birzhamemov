@@ -668,7 +668,7 @@ function modifier_evrei_gold:OnIntervalThink()
         self:GetAbility():UseResources(false, false, false, true)
         self:GetParent():ModifyGold( money, true, 0 )
         self:GetParent():EmitSound("DOTA_Item.Hand_Of_Midas")
-        if DonateShopIsItemBought(self:GetParent():GetPlayerID(), 31) then
+        if DonateShopIsItemActive(self:GetParent():GetPlayerID(), 31) then
             local midas_particle = ParticleManager:CreateParticle("particles/econ/items/bounty_hunter/bounty_hunter_ti9_immortal/bh_ti9_immortal_jinada.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())    
             ParticleManager:SetParticleControlEnt(midas_particle, 1, caster, PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), false)
         else

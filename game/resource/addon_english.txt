@@ -792,6 +792,7 @@
 "sounds_291" 		"Dropped by for 5 minutes"
 "sounds_292" 		"Went through the wrong door"
 "sounds_293" 		"They shot at me"
+"sounds_294"		"Smokee"
 
 "shop_notification" "New sounds have been added to the store"
 "new_item_info" "New"
@@ -878,6 +879,7 @@
 "sounds_291_description" 		"Open the chat wheel and use sound - Visited for 5 minutes"
 "sounds_292_description" 		"Open the chat wheel and use sound - Entered the wrong door"
 "sounds_293_description" 		"Open the chat wheel and use sound - Did they shoot at me"
+"sounds_294_description"		"Open the chat wheel and use sound - Smokee"
 
 "spray_1" 			"Thanks Stranger"							
 "spray_2" 			"Nut"									
@@ -3566,7 +3568,7 @@
 "npc_dota_face_tombstone" 	"Gucci"
 "npc_dota_face_zombie" 		"Schoolboy"
 
-"DOTA_Tooltip_Ability_special_bonus_birzha_face_1" 				"-{s: value} Heit cooldown sec"
+"DOTA_Tooltip_Ability_special_bonus_birzha_face_1" 				"-{s:value} Heit cooldown sec"
 "DOTA_Tooltip_Ability_special_bonus_birzha_face_2" 				"+{s:value} to damage to GUCCI Store"
 "DOTA_Tooltip_Ability_special_bonus_birzha_face_3" 				"Enemies under Haith deal {s:value}% more damage"
 "DOTA_Tooltip_Ability_special_bonus_birzha_face_4" 				"+{s:value} damage New track"
@@ -3779,6 +3781,7 @@
 "DOTA_Tooltip_Ability_Bullet_BulletInTheHead" 								"Bullet to the Head"
 "DOTA_Tooltip_Ability_Bullet_BulletInTheHead_Description" 					"The Kama Bullet aims at an enemy unit and fires a devastating shot that deals damage from a great distance"
 "DOTA_Tooltip_Ability_Bullet_BulletInTheHead_damage" 						"DAMAGE:"
+"DOTA_Tooltip_Ability_Bullet_BulletInTheHead_strength_damage"				"%BONUS DAMAGE FROM STRENGTH:"
 "DOTA_Tooltip_Ability_Bullet_BulletInTheHead_cast_range" 					"CAST RANGE:"
 "DOTA_Tooltip_Ability_Bullet_BulletInTheHead_scepter_description" 			"Removes the delay before using m and stuns the enemy for %scepter_stun_duration% sec."
 
@@ -5290,7 +5293,7 @@
 "DOTA_Tooltip_Ability_Scream_TelephoneCall_duration_leave" 						"TIME UNTIL FEAR:"
 "DOTA_Tooltip_Ability_Scream_TelephoneCall_radius" 								"RADIUS:"
 "DOTA_Tooltip_Ability_Scream_TelephoneCall_lore" 								"This hero was created thanks to <font c olor='#fffc00'>Sion_Atlasia</font>"
-"DOTA_Tooltip_Ability_Scream_TelephoneCall_scepter_description" 					"Can be used anywhere on the map"
+"DOTA_Tooltip_Ability_Scream_TelephoneCall_shard_description" 					"Can be used anywhere on the map"
 
 "DOTA_Tooltip_modifier_Scream_TelephoneCall_radius_leave_aura" 					"Telephone Call"
 "DOTA_Tooltip_modifier_Scream_TelephoneCall_radius_leave_aura_Description" 		"If you don't leave this area, you'll get scared"
@@ -5323,7 +5326,7 @@
 "DOTA_Tooltip_Ability_Scream_night_Description" 								"Turns on night and gains invisibility, which is revealed in a %radius% around enemy heroes. For the duration of the ability, you have access to the ability Spooky Emergence"
 "DOTA_Tooltip_Ability_Scream_night_duration" 									"NIGHT DURATION:"
 "DOTA_Tooltip_Ability_Scream_night_lore" 										"This hero was created thanks to <font color='#fffc00'>Sion_Atlasia</font>"
-"DOTA_Tooltip_Ability_Scream_night_shard_description" 							"Scream gains vision on all enemy heroes that are not spell immune for the duration of the ability"
+"DOTA_Tooltip_Ability_Scream_night_scepter_description" 							"Scream gains vision on all enemy heroes that are not spell immune for the duration of the ability"
 
 "DOTA_Tooltip_Ability_Scream_night_two" 										"Spooky Appearance"
 "DOTA_Tooltip_Ability_Scream_night_two_Description" 							"Teleports Scream to the selected target after %tp_duration% seconds, and after teleporting the selected target is damaged and stunned"
@@ -8912,7 +8915,6 @@
 
 "DOTA_Tooltip_ability_kakashi_invoke" 									"Combination"
 "DOTA_Tooltip_ability_kakashi_invoke_Description" 						"Combines the elements of the used elements to create a new spell\n<h1>Unique cooldown</h1>For each level of Suiton, Doton, Raiton, the cooldown of the ability is reduced by %cooldown_per_sphere% sec.\n<h1>List of abilities</h1> h1>Click the help button to see a list of available combinations"
-"DOTA_Tooltip_ability_kakashi_invoke_movespeed_persentage" 				"%EXTRA MOVEMENT SPEED"
 "DOTA_Tooltip_ability_kakashi_invoke_lore" 								""
 
 "DOTA_Tooltip_ability_kakashi_empty1" 									"Empty ability"
@@ -9085,7 +9087,6 @@
 
 "DOTA_Tooltip_ability_aang_invoke" 									"Air"
 "DOTA_Tooltip_ability_aang_invoke_Description" 						"The avatar does everything with an eye on his native element of air. Combines active spheres, issuing a new ability\n<h1>Unique cooldown</h1>For each level of Water, Earth, Fire, the cooldown of the ability is reduced by % cooldown_per_sphere% sec .\n<h1>List of abilities</h1>Click the help button to see a list of available combinations"
-"DOTA_Tooltip_ability_aang_invoke_movespeed_persentage" 				"%ADDITIONAL MOVEMENT SPEED:"
 "DOTA_Tooltip_ability_aang_invoke_lore" 								"This hero was created thanks to <font color='#fffc00'>daertc </font>"
 
 "DOTA_Tooltip_ability_aang_empty1" 									"Empty ability"

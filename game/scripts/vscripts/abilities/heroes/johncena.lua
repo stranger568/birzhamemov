@@ -13,7 +13,7 @@ function johncena_Wrestling:OnUpgrade()
     if not IsServer() then return end
     local caster = self:GetCaster()
     local playerID = caster:GetPlayerID()
-    if DonateShopIsItemBought(playerID, 30) then
+    if DonateShopIsItemActive(playerID, 30) then
         if self:GetLevel() == 1 then
             caster:SetOriginalModel("models/items/tiny/tiny_prestige/tiny_prestige_lvl_02.vmdl")
         elseif self:GetLevel() == 2 then
@@ -162,7 +162,7 @@ function modifier_JohnCena_Chargehit:OnCreated( kv )
     self.bPlayedSound = false
     self.bInit = false
 
-    if DonateShopIsItemBought(self:GetParent():GetPlayerID(), 30) then
+    if DonateShopIsItemActive(self:GetParent():GetPlayerID(), 30) then
         local particle = ParticleManager:CreateParticle("particles/econ/items/primal_beast/primal_beast_2022_prestige/primal_beast_2022_prestige_onslaught_charge_active.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
         ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
         self:AddParticle(particle, false, false, -1, false, false)

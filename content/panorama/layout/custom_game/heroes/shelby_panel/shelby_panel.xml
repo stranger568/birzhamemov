@@ -1,0 +1,14 @@
+<root>
+	<styles>
+		<include src="file://{resources}/layout/custom_game/heroes/shelby_panel/shelby_panel.css" />
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+	</styles>
+	<scripts>
+        <include src="s2r://panorama/layout/custom_game/scripts/functions.vjs_c" />
+		<include src="file://{resources}/layout/custom_game/heroes/shelby_panel/shelby_panel.js" />
+	</scripts>
+
+	<Panel class="ShelbyPanelAbilitiesMain" hittest="false">
+		<Panel id="ShelbyPanelAbilities" class="ShelbyPanelAbilities" />
+	</Panel>
+</root>

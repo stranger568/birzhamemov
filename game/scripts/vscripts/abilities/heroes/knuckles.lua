@@ -614,7 +614,7 @@ function modifier_Knuckles_GetInTheTank:OnCreated()
     if self:GetParent():GetUnitName() == "npc_dota_hero_winter_wyvern" then
        --self:GetParent():SetModelScale(2)
     end
-    if DonateShopIsItemBought(playerID, 35) then
+    if DonateShopIsItemActive(playerID, 35) then
         self:GetParent():SetMaterialGroup("event")
     end
 end
@@ -626,7 +626,7 @@ function modifier_Knuckles_GetInTheTank:OnDestroy()
     if self:GetParent():GetUnitName() == "npc_dota_hero_winter_wyvern" then
         --self:GetParent():SetModelScale(0.5)
     end
-    if DonateShopIsItemBought(playerID, 35) then
+    if DonateShopIsItemActive(playerID, 35) then
         if self:GetParent():GetUnitName() == "npc_dota_hero_winter_wyvern" then
             self:GetParent():SetMaterialGroup("event")
         end

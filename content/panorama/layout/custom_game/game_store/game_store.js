@@ -445,7 +445,7 @@ function CreateItemInShop(panel, table, i)
 
 function CreateItemInInventory(panel, table, i) 
 {
-    (HasItemInventory(table[i][0]))
+    if (HasItemInventory(table[i][0]))
     {
         var Recom_item = $.CreatePanel("Panel", panel, "item_inventory_" + table[i][0]);
         Recom_item.AddClass("ItemInventory");

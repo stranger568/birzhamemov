@@ -484,6 +484,13 @@ end
 function BirzhaGameMode:OnNPCSpawned( event )
 	local hero = EntIndexToHScript(event.entindex)
 
+    if hero and not hero:IsHero() then
+        local twin_gate_portal_warp = hero:FindAbilityByName("twin_gate_portal_warp")
+        if twin_gate_portal_warp then
+            twin_gate_portal_warp:Destroy()
+        end
+    end
+
 	-- Дисконнект игрока
 	if hero and hero:HasModifier("modifier_birzha_disconnect") then
 		hero:AddNewModifier(hero, nil, "modifier_fountain_invulnerability", {})
@@ -703,266 +710,240 @@ function BirzhaGameMode:OnHeroInGame(hero)
 
     -- Heroes with Free Items
     if npcName == "npc_dota_hero_serega_pirat" then
-		hero.pirat_item_weapon = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_weapon/god_eater_weapon.vmdl" })
-		hero.pirat_item_weapon:FollowEntity(hero, true)
-		hero.pirat_item_offhand = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_off_hand/god_eater_off_hand.vmdl" })
-		hero.pirat_item_offhand:FollowEntity(hero, true)
-		hero.pirat_item_shoulder = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_shoulder/god_eater_shoulder.vmdl" })
-		hero.pirat_item_shoulder:FollowEntity(hero, true)
-		hero.pirat_item_head = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_head/god_eater_head.vmdl" })
-		hero.pirat_item_head:FollowEntity(hero, true)
-		hero.pirat_item_belt = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_belt/god_eater_belt.vmdl" })
-		hero.pirat_item_belt:FollowEntity(hero, true)
-		hero.pirat_item_arms = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_arms/god_eater_arms.vmdl" })
-		hero.pirat_item_arms:FollowEntity(hero, true)
-		hero.pirat_item_armor = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/antimage/god_eater_armor/god_eater_armor.vmdl" })
-		hero.pirat_item_armor:FollowEntity(hero, true)
+        local set_items = 
+        {
+            "models/items/antimage/god_eater_weapon/god_eater_weapon.vmdl",
+            "models/items/antimage/god_eater_off_hand/god_eater_off_hand.vmdl",
+            "models/items/antimage/god_eater_shoulder/god_eater_shoulder.vmdl",
+            "models/items/antimage/god_eater_head/god_eater_head.vmdl",
+            "models/items/antimage/god_eater_belt/god_eater_belt.vmdl",
+            "models/items/antimage/god_eater_arms/god_eater_arms.vmdl",
+            "models/items/antimage/god_eater_armor/god_eater_armor.vmdl",
+        }
+        for _, item in pairs(set_items) do
+            local model_item = SpawnEntityFromTableSynchronous("prop_dynamic", {model = item})
+            model_item:FollowEntity(hero, true)
+            if hero and hero.cosmetic_items == nil then
+                hero.cosmetic_items = {}
+            end
+            table.insert(hero.cosmetic_items, model_item)
+        end
 	end
 
     if npcName == "npc_dota_hero_sasake" then
-		hero.JuggHead = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/juggernaut/arcana/juggernaut_arcana_mask.vmdl"})
-		hero.JuggHead:FollowEntity(hero, true)
-		hero.JugLegs = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/juggernaut/armor_for_the_favorite_legs/armor_for_the_favorite_legs.vmdl"})
-		hero.JugLegs:FollowEntity(hero, true)
-		hero.JugSword = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/juggernaut/jugg_ti8/jugg_ti8_sword.vmdl"})
-		hero.JugSword:FollowEntity(hero, true)
-		hero.JugSword_particle = ParticleManager:CreateParticle("particles/econ/items/juggernaut/jugg_ti8_sword/jugg_ti8_crimson_sword_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.JugSword)
+        local set_items = 
+        {
+            "models/items/juggernaut/arcana/juggernaut_arcana_mask.vmdl",
+            "models/items/juggernaut/armor_for_the_favorite_legs/armor_for_the_favorite_legs.vmdl",
+            "models/items/juggernaut/jugg_ti8/jugg_ti8_sword.vmdl",
+        }
+        for _, item in pairs(set_items) do
+            local model_item = SpawnEntityFromTableSynchronous("prop_dynamic", {model = item})
+            model_item:FollowEntity(hero, true)
+            if hero and hero.cosmetic_items == nil then
+                hero.cosmetic_items = {}
+            end
+            table.insert(hero.cosmetic_items, model_item)
+            if _ == 3 then
+                ParticleManager:CreateParticle("particles/econ/items/juggernaut/jugg_ti8_sword/jugg_ti8_crimson_sword_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, model_item)
+            end
+        end
 	end
 
     if hero:GetUnitName() == "npc_dota_hero_void_spirit" then
-		hero.model_void_1 = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/queenofpain/queenofpain_arcana/queenofpain_arcana_head.vmdl"})
-		hero.model_void_1:FollowEntity(hero, true)
-		hero.model_void_2 = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/queenofpain/queenofpain_arcana/queenofpain_arcana_armor.vmdl"})
-		hero.model_void_2:FollowEntity(hero, true)
-		hero.effectvan = ParticleManager:CreateParticle("particles/econ/items/queen_of_pain/qop_arcana/qop_arcana_head_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.model_void_1)
+        local set_items = 
+        {
+            "models/items/queenofpain/queenofpain_arcana/queenofpain_arcana_head.vmdl",
+            "models/items/queenofpain/queenofpain_arcana/queenofpain_arcana_armor.vmdl",
+        }
+        for _, item in pairs(set_items) do
+            local model_item = SpawnEntityFromTableSynchronous("prop_dynamic", {model = item})
+            model_item:FollowEntity(hero, true)
+            if hero and hero.cosmetic_items == nil then
+                hero.cosmetic_items = {}
+            end
+            table.insert(hero.cosmetic_items, model_item)
+            if _ == 1 then
+                ParticleManager:CreateParticle("particles/econ/items/queen_of_pain/qop_arcana/qop_arcana_head_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, model_item)
+            end
+        end
 	end
 
     if hero:GetUnitName() == "npc_dota_hero_grimstroke" then
-		if hero ~= nil and hero:IsHero() then
-			local children = hero:GetChildren();
-			for k,child in pairs(children) do
-				if child:GetClassname() == "dota_item_wearable" and child:GetModelName() == "models/heroes/grimstroke/grimstroke_head_item.vmdl" then
-					child:RemoveSelf();
-				end
-			end
-		end
+        local grimstroke_list = 
+        {
+            ["models/heroes/grimstroke/grimstroke_head_item.vmdl"] = true,
+        }
+        BirzhaGameMode:DeleteAllItemFromHero(hero, grimstroke_list, nil)
 	end
 
     if npcName == "npc_dota_hero_abaddon" then
-		hero.WeaponMeepo = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/meepo/ti8_meepo_pitmouse_fraternity_weapon/ti8_meepo_pitmouse_fraternity_weapon.vmdl"})
-		hero.WeaponMeepo:FollowEntity(hero, true)
+		local WeaponMeepo = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/meepo/ti8_meepo_pitmouse_fraternity_weapon/ti8_meepo_pitmouse_fraternity_weapon.vmdl"})
+		WeaponMeepo:FollowEntity(hero, true)
+        if hero and hero.cosmetic_items == nil then
+            hero.cosmetic_items = {}
+        end
+        table.insert(hero.cosmetic_items, WeaponMeepo)
 	end
 
 	if npcName == "npc_dota_hero_enigma" then
-		hero.Ricardo = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/axe/ricardaxe.vmdl"})
-		hero.Ricardo:FollowEntity(hero, true)
+		local Ricardo = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/axe/ricardaxe.vmdl"})
+		Ricardo:FollowEntity(hero, true)
+        if hero and hero.cosmetic_items == nil then
+            hero.cosmetic_items = {}
+        end
+        table.insert(hero.cosmetic_items, Ricardo)
 	end
 
     if npcName == "npc_dota_hero_nyx_assassin" then
-		hero.Stray1 = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/rikimaru/ti6_blink_strike/riki_ti6_blink_strike.vmdl"})
-		hero.Stray1:FollowEntity(hero, true)
-		hero.Stray2 = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/rikimaru/umbrage/umbrage.vmdl"})
-		hero.Stray2:FollowEntity(hero, true)
-		hero.Stray3 = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/rikimaru/umbrage__offhand/umbrage__offhand.vmdl"})
-		hero.Stray3:FollowEntity(hero, true)
-		hero.Stray4 = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/rikimaru/riki_ti8_immortal_head/riki_ti8_immortal_head.vmdl"})
-		hero.Stray4:FollowEntity(hero, true)
-		hero.Stray5 = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/rikimaru/riki_cunning_corsair_ti_2017_tail/riki_cunning_corsair_ti_2017_tail.vmdl"})
-		hero.Stray5:FollowEntity(hero, true)
-		hero.stray_effect_1 = ParticleManager:CreateParticle("particles/econ/items/riki/riki_head_ti8/riki_head_ambient_ti8.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.Stray4)
-		hero.stray_effect_2 = ParticleManager:CreateParticle("particles/econ/items/riki/riki_immortal_ti6/riki_immortal_ti6_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.Stray1)
+        local set_items = 
+        {
+            "models/items/rikimaru/ti6_blink_strike/riki_ti6_blink_strike.vmdl",
+            "models/items/rikimaru/umbrage/umbrage.vmdl",
+            "models/items/rikimaru/umbrage__offhand/umbrage__offhand.vmdl",
+            "models/items/rikimaru/riki_ti8_immortal_head/riki_ti8_immortal_head.vmdl",
+            "models/items/rikimaru/riki_cunning_corsair_ti_2017_tail/riki_cunning_corsair_ti_2017_tail.vmdl",
+        }
+        for _, item in pairs(set_items) do
+            local model_item = SpawnEntityFromTableSynchronous("prop_dynamic", {model = item})
+            model_item:FollowEntity(hero, true)
+            if hero and hero.cosmetic_items == nil then
+                hero.cosmetic_items = {}
+            end
+            table.insert(hero.cosmetic_items, model_item)
+            if _ == 1 then
+                ParticleManager:CreateParticle("particles/econ/items/riki/riki_immortal_ti6/riki_immortal_ti6_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, model_item)
+            elseif _ == 4 then
+                ParticleManager:CreateParticle("particles/econ/items/riki/riki_head_ti8/riki_head_ambient_ti8.vpcf", PATTACH_ABSORIGIN_FOLLOW, model_item)
+            end
+        end
 	end
-
-
-
-
-
-    
-    
-    
-    
-
-    
-    
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	if hero:IsIllusion() then
-		hero:AddNewModifier( hero, nil, "modifier_birzha_illusion_cosmetics", {} )
-	end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	if hero:GetUnitName() == "npc_dota_hero_nevermore" then
-		if DonateShopIsItemBought(playerID, 27) then
-			if hero ~= nil and hero:IsHero() then
-				local children = hero:GetChildren();
-				for k,child in pairs(children) do
-					if child:GetClassname() == "dota_item_wearable" and child:GetModelName() ~= "models/heroes/shadow_fiend/shadow_fiend_head.vmdl" then
-						child:RemoveSelf();
-					end
-				end
-			end
+		if DonateShopIsItemActive(playerID, 27) then
+            local ignore_list = 
+            {
+                ["models/heroes/shadow_fiend/shadow_fiend_head.vmdl"] = true,
+            }
+            BirzhaGameMode:DeleteAllItemFromHero(hero, nil, ignore_list)
 			hero:SetOriginalModel("models/heroes/shadow_fiend/shadow_fiend_arcana.vmdl")
-			hero.NevermoreWings = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/heroes/shadow_fiend/arcana_wings.vmdl"})
-			hero.NevermoreWings:FollowEntity(hero, true)
-			hero.NevermorePauldrons = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/nevermore/ferrum_chiroptera_shoulder/ferrum_chiroptera_shoulder.vmdl"})
-			hero.NevermorePauldrons:FollowEntity(hero, true)
-			hero.NevermoreHead = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/heroes/shadow_fiend/head_arcana.vmdl"})
-			hero.NevermoreHead:FollowEntity(hero, true)
-			hero.NevermoreArms = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/shadow_fiend/arms_deso/arms_deso.vmdl"})
-			hero.NevermoreArms:FollowEntity(hero, true)
-
+            local set_items = 
+            {
+                "models/heroes/shadow_fiend/arcana_wings.vmdl",
+                "models/items/nevermore/ferrum_chiroptera_shoulder/ferrum_chiroptera_shoulder.vmdl",
+                "models/heroes/shadow_fiend/head_arcana.vmdl",
+                "models/items/shadow_fiend/arms_deso/arms_deso.vmdl",
+            }
+            for _, item in pairs(set_items) do
+                local model_item = SpawnEntityFromTableSynchronous("prop_dynamic", {model = item})
+                model_item:FollowEntity(hero, true)
+                if hero and hero.cosmetic_items == nil then
+                    hero.cosmetic_items = {}
+                end
+                table.insert(hero.cosmetic_items, model_item)
+            end
 			Timers:CreateTimer(0.25, function()
 				local desolator = ParticleManager:CreateParticle("particles/never_arcana/desolationhadow_fiend_desolation_ambient.vpcf", PATTACH_CUSTOMORIGIN, hero)
 				ParticleManager:SetParticleControlEnt( desolator, 0, hero, PATTACH_POINT_FOLLOW, "attach_arm_L", Vector(0,0,0), true )
 				ParticleManager:SetParticleControlEnt( desolator, 1, hero, PATTACH_POINT_FOLLOW, "attach_arm_R", Vector(0,0,0), true )
 			end)
-			
 			hero:AddNewModifier( hero, nil, "modifier_bp_never_reward", {})
 		end
 	end
 
 	if npcName == "npc_dota_hero_earthshaker" then
-		if DonateShopIsItemBought(playerID, 28) then
-			if hero ~= nil and hero:IsHero() then
-				local children = hero:GetChildren();
-				for k,child in pairs(children) do
-					if child:GetClassname() == "dota_item_wearable" then
-						child:RemoveSelf();
-					end
-				end
-			end
+		if DonateShopIsItemActive(playerID, 28) then
+			BirzhaGameMode:DeleteAllItemFromHero(hero, nil, nil)
 			hero:SetOriginalModel("models/items/earthshaker/earthshaker_arcana/earthshaker_arcana.vmdl")
-			hero.ValakasHead = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/earthshaker/earthshaker_arcana/earthshaker_arcana_head.vmdl"})
-			hero.ValakasHead:FollowEntity(hero, true)
-			hero.ValakasWeapon = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/earthshaker/ti9_immortal/ti9_immortal.vmdl"})
-			hero.ValakasWeapon:FollowEntity(hero, true)
-			hero.ValakasHands = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/earthshaker/frostivus2018_es_frozen_wastes_arms/frostivus2018_es_frozen_wastes_arms.vmdl"})
-			hero.ValakasHands:FollowEntity(hero, true)
-			hero.HeadSAaker = ParticleManager:CreateParticle("particles/econ/items/earthshaker/earthshaker_arcana/earthshaker_arcana_head_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.ValakasHead)
-			hero.WeaponShaker = ParticleManager:CreateParticle("particles/econ/items/earthshaker/earthshaker_ti9/earthshaker_ti9_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.ValakasWeapon)
-			hero:AddNewModifier( hero, nil, "modifier_bp_valakas_reward", {})
+            local set_items = 
+            {
+                "models/items/earthshaker/earthshaker_arcana/earthshaker_arcana_head.vmdl",
+                "models/items/earthshaker/ti9_immortal/ti9_immortal.vmdl",
+                "models/items/earthshaker/frostivus2018_es_frozen_wastes_arms/frostivus2018_es_frozen_wastes_arms.vmdl",
+            }
+            for _, item in pairs(set_items) do
+                local model_item = SpawnEntityFromTableSynchronous("prop_dynamic", {model = item})
+                model_item:FollowEntity(hero, true)
+                if hero and hero.cosmetic_items == nil then
+                    hero.cosmetic_items = {}
+                end
+                table.insert(hero.cosmetic_items, model_item)
+                if _ == 1 then
+                    ParticleManager:CreateParticle("particles/econ/items/earthshaker/earthshaker_arcana/earthshaker_arcana_head_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, model_item)
+                elseif _ == 2 then
+                    ParticleManager:CreateParticle("particles/econ/items/earthshaker/earthshaker_ti9/earthshaker_ti9_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, model_item)
+                end
+            end
 		end
 	end
 
 	if npcName == "npc_dota_hero_legion_commander" then
-		if DonateShopIsItemBought(playerID, 126) then
-			if hero ~= nil and hero:IsHero() then
-				local children = hero:GetChildren();
-				for k,child in pairs(children) do
-					if child:GetClassname() == "dota_item_wearable" then
-						child:RemoveSelf();
-					end
-				end
-			end
+		if DonateShopIsItemActive(playerID, 126) then
+			BirzhaGameMode:DeleteAllItemFromHero(hero, nil, nil)
 			hero:AddActivityModifier("dualwield")
 			hero:AddActivityModifier("arcana")
 			hero:SetMaterialGroup("1")
-			hero.AyanoHead = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/legion_commander/radiant_conqueror_head/radiant_conqueror_head.vmdl"})
-			hero.AyanoHead:FollowEntity(hero, true)
-			hero.AyanoArms = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/legion_commander/radiant_conqueror_arms/radiant_conqueror_arms.vmdl"})
-			hero.AyanoArms:FollowEntity(hero, true)
-			hero.AyanoBack = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/legion_commander/radiant_conqueror_back/radiant_conqueror_back.vmdl"})
-			hero.AyanoBack:FollowEntity(hero, true)
-			hero.AyanoShoulder = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/legion_commander/radiant_conqueror_shoulder/radiant_conqueror_shoulder.vmdl"})
-			hero.AyanoShoulder:FollowEntity(hero, true)
-			hero.AyanoLegs = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/legion_commander/radiant_conqueror_legs/radiant_conqueror_legs.vmdl"})
-			hero.AyanoLegs:FollowEntity(hero, true)
-			hero.AyanoSword = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/legion_commander/demon_sword.vmdl"})
-			hero.AyanoSword:FollowEntity(hero, true)
-
-			ParticleManager:CreateParticle("particles/econ/items/legion/legion_radiant_conqueror/legion_radiant_conqueror_back_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.AyanoBack)
-			ParticleManager:CreateParticle("particles/econ/items/legion/legion_radiant_conqueror/legion_radiant_conqueror_head_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.AyanoHead)
-			ParticleManager:CreateParticle("particles/econ/items/legion/legion_radiant_conqueror/legion_radiant_conqueror_shoulder_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.AyanoShoulder)
-
-			local particle_ayano_1 = ParticleManager:CreateParticle("particles/econ/items/legion/legion_weapon_voth_domosh/legion_arcana_weapon.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.AyanoSword)
-			ParticleManager:SetParticleControlEnt( particle_ayano_1, 0, hero, PATTACH_POINT_FOLLOW, "attach_attack1", Vector(0,0,0), true )
-			local particle_ayano_2 = ParticleManager:CreateParticle("particles/econ/items/legion/legion_weapon_voth_domosh/legion_arcana_weapon_offhand.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.AyanoSword)
-			ParticleManager:SetParticleControlEnt( particle_ayano_2, 0, hero, PATTACH_POINT_FOLLOW, "attach_attack2", Vector(0,0,0), true )
-
+            local set_items = 
+            {
+                "models/items/legion_commander/radiant_conqueror_head/radiant_conqueror_head.vmdl",
+                "models/items/legion_commander/radiant_conqueror_arms/radiant_conqueror_arms.vmdl",
+                "models/items/legion_commander/radiant_conqueror_back/radiant_conqueror_back.vmdl",
+                "models/items/legion_commander/radiant_conqueror_shoulder/radiant_conqueror_shoulder.vmdl",
+                "models/items/legion_commander/radiant_conqueror_legs/radiant_conqueror_legs.vmdl",
+                "models/items/legion_commander/demon_sword.vmdl",
+            }
+            for _, item in pairs(set_items) do
+                local model_item = SpawnEntityFromTableSynchronous("prop_dynamic", {model = item})
+                model_item:FollowEntity(hero, true)
+                if hero and hero.cosmetic_items == nil then
+                    hero.cosmetic_items = {}
+                end
+                table.insert(hero.cosmetic_items, model_item)
+                if _ == 1 then
+                    ParticleManager:CreateParticle("particles/econ/items/legion/legion_radiant_conqueror/legion_radiant_conqueror_head_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, model_item)
+                elseif _ == 3 then
+                    ParticleManager:CreateParticle("particles/econ/items/legion/legion_radiant_conqueror/legion_radiant_conqueror_back_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, model_item)
+                elseif _ == 4 then
+                    ParticleManager:CreateParticle("particles/econ/items/legion/legion_radiant_conqueror/legion_radiant_conqueror_shoulder_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, model_item)
+                elseif _ == 5 then
+                    local particle_ayano_1 = ParticleManager:CreateParticle("particles/econ/items/legion/legion_weapon_voth_domosh/legion_arcana_weapon.vpcf", PATTACH_ABSORIGIN_FOLLOW, model_item)
+                    ParticleManager:SetParticleControlEnt( particle_ayano_1, 0, hero, PATTACH_POINT_FOLLOW, "attach_attack1", Vector(0,0,0), true )
+                    local particle_ayano_2 = ParticleManager:CreateParticle("particles/econ/items/legion/legion_weapon_voth_domosh/legion_arcana_weapon_offhand.vpcf", PATTACH_ABSORIGIN_FOLLOW, model_item)
+                    ParticleManager:SetParticleControlEnt( particle_ayano_2, 0, hero, PATTACH_POINT_FOLLOW, "attach_attack2", Vector(0,0,0), true )
+                end
+            end
 			hero:AddNewModifier( hero, nil, "modifier_bp_ayano", {})
 		end
 	end
 
 	if npcName == "npc_dota_hero_monkey_king" then
-		if DonateShopIsItemBought(playerID, 130) then
-			if hero ~= nil and hero:IsHero() then
-				local children = hero:GetChildren();
-				for k,child in pairs(children) do
-					if child:GetClassname() == "dota_item_wearable" then
-						child:RemoveSelf();
-					end
-				end
-			end
-
+		if DonateShopIsItemActive(playerID, 130) then
+			BirzhaGameMode:DeleteAllItemFromHero(hero, nil, nil)
 			hero:AddActivityModifier("arcana")
-			
-			hero.BoyHead = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/monkey_king/monkey_king_arcana_head/mesh/monkey_king_arcana.vmdl"})
-			hero.BoyHead:FollowEntity(hero, true)
-			hero.BoyWeapon = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/monkey_king/monkey_king_immortal_weapon/monkey_king_immortal_weapon.vmdl"})
-			hero.BoyWeapon:FollowEntity(hero, true)
-			hero.BoyArmor = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/monkey_king/mk_ti9_immortal_armor/mk_ti9_immortal_armor.vmdl"})
-			hero.BoyArmor:FollowEntity(hero, true)
-			hero.BoyShoulder = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/monkey_king/mk_ti9_immortal_shoulder/mk_ti9_immortal_shoulder.vmdl"})
-			hero.BoyShoulder:FollowEntity(hero, true)
-			hero.BoyWeapon:SetMaterialGroup("2")
-			hero:SetMaterialGroup("1")
-			ParticleManager:CreateParticle("particles/econ/items/monkey_king/arcana/monkey_king_arcana_crown_fire.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.BoyHead)
-			ParticleManager:CreateParticle("particles/econ/items/monkey_king/mk_ti9_immortal/mk_ti9_immortal_armor_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.BoyArmor)
-			ParticleManager:CreateParticle("particles/econ/items/monkey_king/ti7_weapon/mk_ti7_golden_immortal_weapon_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.BoyWeapon)
+            hero:SetMaterialGroup("1")
+            local set_items = 
+            {
+                "models/items/monkey_king/monkey_king_arcana_head/mesh/monkey_king_arcana.vmdl",
+                "models/items/monkey_king/monkey_king_immortal_weapon/monkey_king_immortal_weapon.vmdl",
+                "models/items/monkey_king/mk_ti9_immortal_armor/mk_ti9_immortal_armor.vmdl",
+                "models/items/monkey_king/mk_ti9_immortal_shoulder/mk_ti9_immortal_shoulder.vmdl",
+            }
+            for _, item in pairs(set_items) do
+                local model_item = SpawnEntityFromTableSynchronous("prop_dynamic", {model = item})
+                model_item:FollowEntity(hero, true)
+                if hero and hero.cosmetic_items == nil then
+                    hero.cosmetic_items = {}
+                end
+                table.insert(hero.cosmetic_items, model_item)
+                if _ == 1 then
+                    ParticleManager:CreateParticle("particles/econ/items/monkey_king/arcana/monkey_king_arcana_crown_fire.vpcf", PATTACH_ABSORIGIN_FOLLOW, model_item)
+                elseif _ == 2 then
+                    ParticleManager:CreateParticle("particles/econ/items/monkey_king/ti7_weapon/mk_ti7_golden_immortal_weapon_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, model_item)
+                    hero.BoyWeapon:SetMaterialGroup("2")
+                elseif _ == 3 then
+                    ParticleManager:CreateParticle("particles/econ/items/monkey_king/mk_ti9_immortal/mk_ti9_immortal_armor_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, model_item)
+                end
+            end
 			local particle_boy_1 = ParticleManager:CreateParticle("particles/econ/items/monkey_king/arcana/monkey_king_arcana_fire.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
 			ParticleManager:SetParticleControl(particle_boy_1, 0, hero:GetAbsOrigin())
 			hero:AddNewModifier( hero, nil, "modifier_bp_dangerous_boy", {})
@@ -970,29 +951,22 @@ function BirzhaGameMode:OnHeroInGame(hero)
 	end
 
 	if hero:GetUnitName() == "npc_dota_hero_lycan" then
-		if DonateShopIsItemBought(playerID, 37) then
-			if hero ~= nil and hero:IsHero() then
-				local children = hero:GetChildren();
-				for k,child in pairs(children) do
-					if child:GetClassname() == "dota_item_wearable" then
-						child:RemoveSelf();
-					end
-				end
-			end
+		if DonateShopIsItemActive(playerID, 37) then
+			BirzhaGameMode:DeleteAllItemFromHero(hero, nil, nil)
 			hero:SetOriginalModel("models/creeps/knoll_1/werewolf_boss.vmdl")
 			hero:SetModelScale(1.4)
 		end
 	end
 
 	if hero:GetUnitName() == "npc_dota_hero_queenofpain" then
-		if DonateShopIsItemBought(playerID, 26) then
+		if DonateShopIsItemActive(playerID, 26) then
 			hero:SetOriginalModel("models/update_heroes/kurumi/kurumi_arcana.vmdl")
 			hero:SetModelScale(0.92)
 		end
 	end
 
 	if hero:GetUnitName() == "npc_dota_hero_faceless_void" then
-		if DonateShopIsItemBought(playerID, 180) then
+		if DonateShopIsItemActive(playerID, 180) then
 			hero:SetOriginalModel("models/dio_arcana/dio_arcana.vmdl")
 			hero:SetModelScale(1.03)
 			hero:AddNewModifier(hero, nil, "modifier_bp_dio", {})
@@ -1000,41 +974,308 @@ function BirzhaGameMode:OnHeroInGame(hero)
 	end
 
 	if hero:GetUnitName() == "npc_dota_hero_oracle" then
-		if DonateShopIsItemBought(playerID, 182) then
+		if DonateShopIsItemActive(playerID, 182) then
 			hero:SetOriginalModel("models/korra/korra_model.vmdl")
 			hero:AddNewModifier(hero, nil, "modifier_avatar_persona", {})
 		end
 	end
 
 	if hero:GetUnitName() == "npc_dota_hero_sonic" then
-		if DonateShopIsItemBought(playerID, 183) then
+		if DonateShopIsItemActive(playerID, 183) then
 			hero:SetOriginalModel("models/sonic_arcana/sonic_arcana.vmdl")
 			hero:AddNewModifier(hero, nil, "modifier_sonic_arcana", {})
 		end
 	end
 
 	if hero:GetUnitName() == "npc_dota_hero_alchemist" then
-		if DonateShopIsItemBought(playerID, 36) then
+		if DonateShopIsItemActive(playerID, 36) then
 			hero.brb_crown = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/birzhapass/crown_bigrussianboss.vmdl"})
 			hero.brb_crown:FollowEntity(hero, true)
 		end
 	end
 
-	if hero:GetUnitName() == "npc_dota_hero_pudge" then
-		if DonateShopIsItemBought(playerID, 25) then
-			hero:SetOriginalModel("models/items/pudge/arcana/pudge_arcana_base.vmdl")
-			hero.PudgeBack = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/pudge/arcana/pudge_arcana_back.vmdl"})
-			hero.PudgeBack:FollowEntity(hero, true)
-			hero.PudgeEffect = ParticleManager:CreateParticle("particles/econ/items/pudge/pudge_arcana/pudge_arcana_red_back_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.PudgeBack)
-			hero:AddNewModifier( hero, nil, "modifier_bp_mum_arcana", {})
+	if hero:GetUnitName() == "npc_dota_hero_bounty_hunter" then
+		if DonateShopIsItemActive(playerID, 31) then
+            local set_items = 
+            {
+                "models/items/bounty_hunter/bh_ti9_immortal_weapon/bh_ti9_immortal_weapon.vmdl"
+            }
+            for _, item in pairs(set_items) do
+                local model_item = SpawnEntityFromTableSynchronous("prop_dynamic", {model = item})
+                model_item:FollowEntity(hero, true)
+                if hero and hero.cosmetic_items == nil then
+                    hero.cosmetic_items = {}
+                end
+                table.insert(hero.cosmetic_items, model_item)
+                ParticleManager:CreateParticle("particles/econ/items/bounty_hunter/bounty_hunter_ti9_immortal/bh_ti9_immortal_weapon.vpcf", PATTACH_ABSORIGIN_FOLLOW, model_item)
+            end
 		end
-		if DonateShopIsItemBought(playerID, 39) then
-			hero.pudge_mask = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/birzhapass/pudge_kaneki_mask.vmdl"})
-			hero.pudge_mask:FollowEntity(hero, true)
+	end
+
+	if hero:GetUnitName() == "npc_dota_hero_tiny" then
+		if DonateShopIsItemActive(playerID, 30) then
+			hero:SetOriginalModel("models/items/tiny/tiny_prestige/tiny_prestige_lvl_01.vmdl")
+			hero:AddNewModifier( hero, nil, "modifier_bp_johncena", {})
+		end
+	end
+
+	if hero:GetUnitName() == "npc_dota_hero_ogre_magi" then
+		if DonateShopIsItemActive(playerID, 23) then
+			BirzhaGameMode:DeleteAllItemFromHero(hero, nil, nil)
+			hero:SetOriginalModel("models/creeps/ogre_1/boss_ogre.vmdl")
+		end
+	end
+
+    if hero:GetUnitName() == "npc_dota_hero_sand_king" then
+		if DonateShopIsItemActive(playerID, 22) then
+			hero:SetMaterialGroup("event")
+		end
+	end
+
+	if hero:GetUnitName() == "npc_dota_hero_pyramide" then
+		if DonateShopIsItemActive(playerID, 181) then
+			hero:SetMaterialGroup("battlepass")
+			hero:AddNewModifier(hero, nil, "modifier_pyramide_persona", {})
+		end
+	end
+
+	if hero:GetUnitName() == "npc_dota_hero_winter_wyvern" then
+		if DonateShopIsItemActive(playerID, 35) then
+			hero:SetMaterialGroup("event")
+		end
+	end
+
+	if npcName == "npc_dota_hero_omniknight" then
+		if DonateShopIsItemActive(playerID, 32) then
+            local set_items = 
+            {
+                "models/omniknight_zelensky_head.vmdl"
+            }
+            for _, item in pairs(set_items) do
+                local model_item = SpawnEntityFromTableSynchronous("prop_dynamic", {model = item})
+                model_item:FollowEntity(hero, true)
+                if hero and hero.cosmetic_items == nil then
+                    hero.cosmetic_items = {}
+                end
+                table.insert(hero.cosmetic_items, model_item)
+            end
+		end
+	end
+
+	if hero:GetUnitName() == "npc_dota_hero_dragon_knight" then
+        local weapon_dk_model = "models/items/dragon_knight/aurora_warrior_set_weapon/aurora_warrior_set_weapon.vmdl"
+		if DonateShopIsItemActive(playerID, 38) then
+			hero:SetOriginalModel("models/heroes/dragon_knight_persona/dk_persona_base.vmdl")
+            weapon_dk_model = "models/heroes/dragon_knight_persona/dk_persona_weapon_alt.vmdl"
+        end
+        local model_item = SpawnEntityFromTableSynchronous("prop_dynamic", {model = weapon_dk_model})
+        model_item:FollowEntity(hero, true)
+        if hero and hero.cosmetic_items == nil then
+            hero.cosmetic_items = {}
+        end
+        table.insert(hero.cosmetic_items, model_item)
+	end
+
+	if npcName == "npc_dota_hero_troll_warlord" then
+		if DonateShopIsItemActive(playerID, 24) then
+			BirzhaGameMode:DeleteAllItemFromHero(hero, nil, nil)
+            local set_items = 
+            {
+                "models/troll_warlord_gorin_stool.vmdl",
+                "models/heroes/troll_warlord/troll_warlord_head.vmdl",
+                "models/heroes/troll_warlord/troll_warlord_shoulders.vmdl",
+                "models/heroes/troll_warlord/mesh/troll_warlord_armor_model_lod0.vmdl",
+            }
+            for _, item in pairs(set_items) do
+                local model_item = SpawnEntityFromTableSynchronous("prop_dynamic", {model = item})
+                model_item:FollowEntity(hero, true)
+                if hero and hero.cosmetic_items == nil then
+                    hero.cosmetic_items = {}
+                end
+                table.insert(hero.cosmetic_items, model_item)
+            end
+			hero:SetRangedProjectileName("particles/gorin_attack_item.vpcf")
+		end
+	end
+
+	if hero:GetUnitName() == "npc_dota_hero_sniper" then
+		if DonateShopIsItemActive(playerID, 200) then
+			BirzhaGameMode:DeleteAllItemFromHero(hero, nil, nil)
+            local set_items = 
+            {
+                "models/items/sniper/scifi_sniper_test_shoulder/scifi_sniper_test_shoulder.vmdl",
+                "models/items/sniper/scifi_sniper_test_head/scifi_sniper_test_head.vmdl",
+                "models/items/sniper/scifi_sniper_test_gun/scifi_sniper_test_gun.vmdl",
+                "models/items/sniper/scifi_sniper_test_back/scifi_sniper_test_back.vmdl",
+                "models/items/sniper/scifi_sniper_test_arms/scifi_sniper_test_arms.vmdl",
+            }
+            for _, item in pairs(set_items) do
+                local model_item = SpawnEntityFromTableSynchronous("prop_dynamic", {model = item})
+                model_item:FollowEntity(hero, true)
+                if hero and hero.cosmetic_items == nil then
+                    hero.cosmetic_items = {}
+                end
+                table.insert(hero.cosmetic_items, model_item)
+                if _ == 2 then
+                    ParticleManager:CreateParticle("particles/econ/items/sniper/sniper_fall20_immortal/sniper_fall20_immortal_head.vpcf", PATTACH_POINT_FOLLOW, model_item)
+                elseif _ == 3 then
+                    ParticleManager:CreateParticle("particles/econ/items/sniper/sniper_fall20_immortal/sniper_fall20_immortal_weapon_ambient.vpcf", PATTACH_POINT_FOLLOW, model_item)
+                elseif _ == 4 then
+                    ParticleManager:CreateParticle("particles/econ/items/sniper/sniper_fall20_immortal/sniper_fall20_immortal_jetpack.vpcf", PATTACH_POINT_FOLLOW, model_item)
+                end
+            end
+			hero:AddActivityModifier("scifi")
+			hero:AddActivityModifier("SCIFI")
+			hero:AddActivityModifier("MGC")
+			hero:SetRangedProjectileName("particles/econ/items/sniper/sniper_fall20_immortal/sniper_fall20_immortal_base_attack.vpcf")
+		end
+	end
+
+	if hero:GetUnitName() == "npc_dota_hero_terrorblade" then
+		hero:AddActivityModifier("arcana")
+		hero:AddActivityModifier("abysm")
+		if DonateShopIsItemActive(playerID, 34) then
+			local TerrorbladeWeapons = 
+            {
+				["models/heroes/terrorblade/weapon.vmdl"] = true,
+				["models/items/terrorblade/corrupted_weapons/corrupted_weapons.vmdl"] = true,
+				["models/items/terrorblade/endless_purgatory_weapon/endless_purgatory_weapon.vmdl"] = true,
+				["models/items/terrorblade/knight_of_foulfell_terrorblade_weapon/knight_of_foulfell_terrorblade_weapon.vmdl"] = true,
+				["models/items/terrorblade/marauders_weapon/marauders_weapon.vmdl"] = true,
+				["models/items/terrorblade/tb_ti9_immortal_weapon/tb_ti9_immortal_weapon.vmdl"] = true,
+				["models/items/terrorblade/tb_samurai_weapon/tb_samurai_weapon.vmdl"] = true,
+				["models/heroes/terrorblade/terrorblade_weapon_planes.vmdl"] = true,
+			}
+            BirzhaGameMode:DeleteAllItemFromHero(hero, TerrorbladeWeapons, nil)
+            local set_items = 
+            {
+                "models/birzhapass/terrorblade_sobolev_book_left.vmdl",
+                "models/birzhapass/terrorblade_sobolev_book_right.vmdl",
+            }
+            for _, item in pairs(set_items) do
+                local model_item = SpawnEntityFromTableSynchronous("prop_dynamic", {model = item})
+                model_item:FollowEntity(hero, true)
+                if hero and hero.cosmetic_items == nil then
+                    hero.cosmetic_items = {}
+                end
+                table.insert(hero.cosmetic_items, model_item)
+            end
+			hero:AddNewModifier( hero, nil, "modifier_bp_sobolev", {})
+		end
+	end
+
+	if npcName == "npc_dota_hero_invoker" then
+		BirzhaGameMode:DeleteAllItemFromHero(hero, nil, nil)
+		if DonateShopIsItemActive(playerID, 33) then
+            hero:AddNewModifier( hero, nil, "modifier_bp_druzhko_reward", {})
+            local set_items = 
+            {
+                "models/items/invoker_kid/dark_artistry_kid/invoker_kid_dark_artistry_armor.vmdl",
+                "models/items/invoker_kid/dark_artistry_kid/invoker_kid_dark_artistry_shoulder.vmdl",
+                "models/items/invoker_kid/dark_artistry_kid/invoker_kid_dark_artistry_arms.vmdl",
+                "models/items/invoker_kid/dark_artistry_kid/invoker_kid_dark_artistry_back.vmdl",
+                "models/items/invoker_kid/dark_artistry_kid/magus_apex_kid.vmdl",
+            }
+            for _, item in pairs(set_items) do
+                local model_item = SpawnEntityFromTableSynchronous("prop_dynamic", {model = item})
+                model_item:FollowEntity(hero, true)
+                if hero and hero.cosmetic_items == nil then
+                    hero.cosmetic_items = {}
+                end
+                table.insert(hero.cosmetic_items, model_item)
+                if _ == 4 then
+                    ParticleManager:CreateParticle("particles/econ/items/invoker_kid/invoker_dark_artistry/invoker_kid_dark_artistry_cape_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, model_item)
+                elseif _ == 5 then
+                    ParticleManager:CreateParticle("particles/econ/items/invoker_kid/invoker_dark_artistry/invoker_kid_magus_apex_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, model_item)
+                end
+            end
+		else
+            local set_items = 
+            {
+                "models/heroes/invoker_kid/invoker_kid_cape.vmdl",
+                "models/heroes/invoker_kid/invoker_kid_sleeves.vmdl",
+            }
+            for _, item in pairs(set_items) do
+                local model_item = SpawnEntityFromTableSynchronous("prop_dynamic", {model = item})
+                model_item:FollowEntity(hero, true)
+                if hero and hero.cosmetic_items == nil then
+                    hero.cosmetic_items = {}
+                end
+                table.insert(hero.cosmetic_items, model_item)
+            end
+		end
+	end
+
+	if hero:GetUnitName() == "npc_dota_hero_skeleton_king" then
+		if DonateShopIsItemActive(playerID, 29) then
+			BirzhaGameMode:DeleteAllItemFromHero(hero, nil, nil)
+			hero:SetOriginalModel("models/items/wraith_king/arcana/wraith_king_arcana.vmdl")
+            local set_items = 
+            {
+                "models/items/wraith_king/arcana/wraith_king_arcana_weapon.vmdl",
+                "models/items/wraith_king/arcana/wraith_king_arcana_head.vmdl",
+                "models/items/wraith_king/arcana/wraith_king_arcana_shoulder.vmdl",
+                "models/items/wraith_king/arcana/wraith_king_arcana_arms.vmdl",
+                "models/items/wraith_king/arcana/wraith_king_arcana_back.vmdl",
+                "models/items/wraith_king/arcana/wraith_king_arcana_armor.vmdl",
+            }
+            for _, item in pairs(set_items) do
+                local model_item = SpawnEntityFromTableSynchronous("prop_dynamic", {model = item})
+                model_item:FollowEntity(hero, true)
+                if hero and hero.cosmetic_items == nil then
+                    hero.cosmetic_items = {}
+                end
+                table.insert(hero.cosmetic_items, model_item)
+                if _ == 1 then
+                    ParticleManager:CreateParticle("particles/econ/items/wraith_king/wraith_king_arcana/wk_arc_weapon.vpcf", PATTACH_ABSORIGIN_FOLLOW, model_item)
+                elseif _ == 2 then
+                    ParticleManager:CreateParticle("particles/econ/items/wraith_king/wraith_king_arcana/wk_arc_ambient_head.vpcf", PATTACH_ABSORIGIN_FOLLOW, model_item)
+                end
+            end
+			local AmbientEffect = ParticleManager:CreateParticle("particles/econ/items/wraith_king/wraith_king_arcana/wk_arc_ambient.vpcf", PATTACH_POINT_FOLLOW, hero)
+			ParticleManager:SetParticleControl(AmbientEffect, 0, hero:GetAbsOrigin())
+			ParticleManager:SetParticleControl(AmbientEffect, 1, hero:GetAbsOrigin())
+			ParticleManager:SetParticleControl(AmbientEffect, 2, hero:GetAbsOrigin())
+			ParticleManager:SetParticleControl(AmbientEffect, 3, hero:GetAbsOrigin())
+			ParticleManager:SetParticleControl(AmbientEffect, 4, hero:GetAbsOrigin())
+			ParticleManager:SetParticleControl(AmbientEffect, 5, hero:GetAbsOrigin())
+			ParticleManager:SetParticleControl(AmbientEffect, 6, hero:GetAbsOrigin())
+		end
+		if DonateShopIsItemActive(playerID, 198) then
+            local model_item = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/wraith_king/blistering_shade/mesh/blistering_shade_alt.vmdl"})
+            model_item:FollowEntity(hero, true)
+            model_item:SetMaterialGroup("witness")
+            if hero and hero.cosmetic_items == nil then
+                hero.cosmetic_items = {}
+            end
+            ParticleManager:CreateParticle("particles/econ/items/wraith_king/wraith_king_ti6_bracer/wraith_king_ti6_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, model_item)
+            table.insert(hero.cosmetic_items, model_item)
+			hero:AddNewModifier(hero, nil, "modifier_papich_hand_effect", {})
+		end
+	end
+
+	if hero:GetUnitName() == "npc_dota_hero_pudge" then
+		if DonateShopIsItemActive(playerID, 25) then
+			hero:SetOriginalModel("models/items/pudge/arcana/pudge_arcana_base.vmdl")
+			local PudgeBack = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/pudge/arcana/pudge_arcana_back.vmdl"})
+			PudgeBack:FollowEntity(hero, true)
+			ParticleManager:CreateParticle("particles/econ/items/pudge/pudge_arcana/pudge_arcana_red_back_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, PudgeBack)
+			hero:AddNewModifier( hero, nil, "modifier_bp_mum_arcana", {})
+            if hero and hero.cosmetic_items == nil then
+                hero.cosmetic_items = {}
+            end
+            table.insert(hero.cosmetic_items, PudgeBack)
+		end
+		if DonateShopIsItemActive(playerID, 39) then
+			local pudge_mask = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/pudge_mask_v2.vmdl"})
+			pudge_mask:FollowEntity(hero, true)
+            if hero and hero.cosmetic_items == nil then
+                hero.cosmetic_items = {}
+            end
+            table.insert(hero.cosmetic_items, pudge_mask)
 			hero:AddNewModifier( hero, nil, "modifier_bp_mum_mask", {})
 		end
-
-		if DonateShopIsItemBought(playerID, 179) then
+		if DonateShopIsItemActive(playerID, 179) then
 			if hero ~= nil and hero:IsHero() then
 				local children = hero:GetChildren();
 				for k,child in pairs(children) do
@@ -1047,256 +1288,47 @@ function BirzhaGameMode:OnHeroInGame(hero)
 					end
 				end
 			end
-			hero.pudge_gopo_back = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/pudge_gopo_set/gopo_back.vmdl"})
-			hero.pudge_gopo_back:FollowEntity(hero, true)
-			hero.pudge_gopo_left_arm = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/heroes/pudge/leftarm.vmdl"})
-			hero.pudge_gopo_left_arm:FollowEntity(hero, true)
-			hero.pudge_gopo_arm = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/pudge_gopo_set/gopo_arm.vmdl"})
-			hero.pudge_gopo_arm:FollowEntity(hero, true)
-			hero.pudge_gopo_head = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/pudge_gopo_set/gopo_head.vmdl"})
-			hero.pudge_gopo_head:FollowEntity(hero, true)
-			hero.pudge_gopo_belt = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/pudge_gopo_set/gopo_belt.vmdl"})
-			hero.pudge_gopo_belt:FollowEntity(hero, true)
-			hero.pudge_gopo_wepon = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/pudge_gopo_set/gopo_wepon.vmdl"})
-			hero.pudge_gopo_wepon:FollowEntity(hero, true)
+            local set_items = 
+            {
+                "models/pudge_gopo_set/gopo_back.vmdl",
+                "models/heroes/pudge/leftarm.vmdl",
+                "models/pudge_gopo_set/gopo_arm.vmdl",
+                "models/pudge_gopo_set/gopo_head.vmdl",
+                "models/pudge_gopo_set/gopo_belt.vmdl",
+                "models/pudge_gopo_set/gopo_wepon.vmdl",
+            }
+            for _, item in pairs(set_items) do
+                local model_item = SpawnEntityFromTableSynchronous("prop_dynamic", {model = item})
+                model_item:FollowEntity(hero, true)
+                if hero and hero.cosmetic_items == nil then
+                    hero.cosmetic_items = {}
+                end
+                table.insert(hero.cosmetic_items, model_item)
+            end
 		end
 	end
-
-	if hero:GetUnitName() == "npc_dota_hero_bounty_hunter" then
-		if DonateShopIsItemBought(playerID, 31) then
-			hero.BountyWeapon = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/bounty_hunter/bh_ti9_immortal_weapon/bh_ti9_immortal_weapon.vmdl"})
-			hero.BountyWeapon:FollowEntity(hero, true)
-			hero.WeaponEffect = ParticleManager:CreateParticle("particles/econ/items/bounty_hunter/bounty_hunter_ti9_immortal/bh_ti9_immortal_weapon.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.BountyWeapon)
-		end
+    if hero:IsIllusion() then
+		hero:AddNewModifier( hero, nil, "modifier_birzha_illusion_cosmetics", {} )
 	end
+end
 
-	if hero:GetUnitName() == "npc_dota_hero_skeleton_king" then
-		if DonateShopIsItemBought(playerID, 29) or IsInToolsMode() then
-			if hero ~= nil and hero:IsHero() then
-				local children = hero:GetChildren();
-				for k,child in pairs(children) do
-					if child:GetClassname() == "dota_item_wearable" then
-						child:RemoveSelf();
-					end
-				end
-			end
-			hero:SetOriginalModel("models/items/wraith_king/arcana/wraith_king_arcana.vmdl")
-			hero.PapichBloodShard = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/wraith_king/arcana/wraith_king_arcana_weapon.vmdl"})
-			hero.PapichBloodShard:FollowEntity(hero, true)
-			hero.PapichHead = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/wraith_king/arcana/wraith_king_arcana_head.vmdl"})
-			hero.PapichHead:FollowEntity(hero, true)
-			hero.PapichPauldrons = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/wraith_king/arcana/wraith_king_arcana_shoulder.vmdl"})
-			hero.PapichPauldrons:FollowEntity(hero, true)
-
-			if not DonateShopIsItemBought(playerID, 29) then
-				hero.PapichPunch = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/wraith_king/arcana/wraith_king_arcana_arms.vmdl"})
-				hero.PapichPunch:FollowEntity(hero, true)
-			end
-
-			hero.PapichCape = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/wraith_king/arcana/wraith_king_arcana_back.vmdl"})
-			hero.PapichCape:FollowEntity(hero, true)
-			hero.PapichArmor = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/wraith_king/arcana/wraith_king_arcana_armor.vmdl"})
-			hero.PapichArmor:FollowEntity(hero, true)
-			hero.SwordEffect = ParticleManager:CreateParticle("particles/econ/items/wraith_king/wraith_king_arcana/wk_arc_weapon.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.PapichBloodShard)
-			hero.HeadEffect = ParticleManager:CreateParticle("particles/econ/items/wraith_king/wraith_king_arcana/wk_arc_ambient_head.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.PapichHead)
-			hero.AmbientEffect = ParticleManager:CreateParticle("particles/econ/items/wraith_king/wraith_king_arcana/wk_arc_ambient.vpcf", PATTACH_POINT_FOLLOW, hero)
-			ParticleManager:SetParticleControl(hero.AmbientEffect, 0, hero:GetAbsOrigin())
-			ParticleManager:SetParticleControl(hero.AmbientEffect, 1, hero:GetAbsOrigin())
-			ParticleManager:SetParticleControl(hero.AmbientEffect, 2, hero:GetAbsOrigin())
-			ParticleManager:SetParticleControl(hero.AmbientEffect, 3, hero:GetAbsOrigin())
-			ParticleManager:SetParticleControl(hero.AmbientEffect, 4, hero:GetAbsOrigin())
-			ParticleManager:SetParticleControl(hero.AmbientEffect, 5, hero:GetAbsOrigin())
-			ParticleManager:SetParticleControl(hero.AmbientEffect, 6, hero:GetAbsOrigin())
-		end
-
-		if DonateShopIsItemBought(playerID, 198) or IsInToolsMode() then
-			hero.PapichPunch = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/wraith_king/blistering_shade/mesh/blistering_shade_alt.vmdl"})
-			hero.PapichPunch:FollowEntity(hero, true)
-			hero.PapichPunch:SetMaterialGroup("witness")
-			hero.PapichEffect = ParticleManager:CreateParticle("particles/econ/items/wraith_king/wraith_king_ti6_bracer/wraith_king_ti6_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.PapichPunch)
-			hero:AddNewModifier(hero, nil, "modifier_papich_hand_effect", {})
-		end
-		
-	end
-
-	if hero:GetUnitName() == "npc_dota_hero_sniper" then
-		if DonateShopIsItemBought(playerID, 200) or IsInToolsMode() then
-			if hero ~= nil and hero:IsHero() then
-				local children = hero:GetChildren();
-				for k,child in pairs(children) do
-					if child:GetClassname() == "dota_item_wearable" then
-						child:RemoveSelf();
-					end
-				end
-			end
-
-			hero.RangerShoulder = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/sniper/scifi_sniper_test_shoulder/scifi_sniper_test_shoulder.vmdl"})
-			hero.RangerShoulder:FollowEntity(hero, true)
-			hero.RangerHead = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/sniper/scifi_sniper_test_head/scifi_sniper_test_head.vmdl"})
-			hero.RangerHead:FollowEntity(hero, true)
-			hero.RangerGun = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/sniper/scifi_sniper_test_gun/scifi_sniper_test_gun.vmdl"})
-			hero.RangerGun:FollowEntity(hero, true)
-			hero.RangerBack = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/sniper/scifi_sniper_test_back/scifi_sniper_test_back.vmdl"})
-			hero.RangerBack:FollowEntity(hero, true)
-			hero.RangerArms = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/sniper/scifi_sniper_test_arms/scifi_sniper_test_arms.vmdl"})
-			hero.RangerArms:FollowEntity(hero, true)
-			hero:AddActivityModifier("scifi")
-			hero:AddActivityModifier("SCIFI")
-			hero:AddActivityModifier("MGC")
-			hero:SetRangedProjectileName("particles/econ/items/sniper/sniper_fall20_immortal/sniper_fall20_immortal_base_attack.vpcf")
-
-			hero.AmbientEffect1 = ParticleManager:CreateParticle("particles/econ/items/sniper/sniper_fall20_immortal/sniper_fall20_immortal_weapon_ambient.vpcf", PATTACH_POINT_FOLLOW, hero.RangerGun)
-			hero.AmbientEffect2 = ParticleManager:CreateParticle("particles/econ/items/sniper/sniper_fall20_immortal/sniper_fall20_immortal_head.vpcf", PATTACH_POINT_FOLLOW, hero.RangerHead)
-			hero.AmbientEffect3 = ParticleManager:CreateParticle("particles/econ/items/sniper/sniper_fall20_immortal/sniper_fall20_immortal_jetpack.vpcf", PATTACH_POINT_FOLLOW, hero.RangerBack)
-		end
-	end
-
-	if hero:GetUnitName() == "npc_dota_hero_tiny" then
-		if DonateShopIsItemBought(playerID, 30) then
-			hero:SetOriginalModel("models/items/tiny/tiny_prestige/tiny_prestige_lvl_01.vmdl")
-			hero:AddNewModifier( hero, nil, "modifier_bp_johncena", {})
-		end
-	end
-
-	if hero:GetUnitName() == "npc_dota_hero_terrorblade" then
-		hero:AddActivityModifier("arcana")
-		hero:AddActivityModifier("abysm")
-		if DonateShopIsItemBought(playerID, 34) then
-			local TerrorbladeWeapons = {
-				"models/heroes/terrorblade/weapon.vmdl",
-				"models/items/terrorblade/corrupted_weapons/corrupted_weapons.vmdl",
-				"models/items/terrorblade/endless_purgatory_weapon/endless_purgatory_weapon.vmdl",
-				"models/items/terrorblade/knight_of_foulfell_terrorblade_weapon/knight_of_foulfell_terrorblade_weapon.vmdl",
-				"models/items/terrorblade/marauders_weapon/marauders_weapon.vmdl",
-				"models/items/terrorblade/tb_ti9_immortal_weapon/tb_ti9_immortal_weapon.vmdl",
-				"models/items/terrorblade/tb_samurai_weapon/tb_samurai_weapon.vmdl",
-				"models/heroes/terrorblade/terrorblade_weapon_planes.vmdl",
-
-			}
-			if hero ~= nil and hero:IsHero() then
-				local children = hero:GetChildren();
-				for k,child in pairs(children) do
-					for _,weapon in pairs(TerrorbladeWeapons) do
-						if child:GetClassname() == "dota_item_wearable" and child:GetModelName() == weapon then
-							child:RemoveSelf();
-						end
-					end
-				end
-			end
-
-			hero.BookLeft = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/birzhapass/terrorblade_sobolev_book_left.vmdl"})
-			hero.BookLeft:FollowEntity(hero, true)
-			hero.BookRight = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/birzhapass/terrorblade_sobolev_book_right.vmdl"})
-			hero.BookRight:FollowEntity(hero, true)
-			hero:AddNewModifier( hero, nil, "modifier_bp_sobolev", {})
-		end
-	end
-
-	if hero:GetUnitName() == "npc_dota_hero_sand_king" then
-		if DonateShopIsItemBought(playerID, 22) then
-			hero:SetMaterialGroup("event")
-		end
-	end
-
-	if hero:GetUnitName() == "npc_dota_hero_pyramide" then
-		if DonateShopIsItemBought(playerID, 181) then
-			hero:SetMaterialGroup("battlepass")
-			hero:AddNewModifier(hero, nil, "modifier_pyramide_persona", {})
-		end
-	end
-
-	if hero:GetUnitName() == "npc_dota_hero_winter_wyvern" then
-		if DonateShopIsItemBought(playerID, 35) then
-			hero:SetMaterialGroup("event")
-		end
-	end
-
-	if hero:GetUnitName() == "npc_dota_hero_dragon_knight" then
-		if DonateShopIsItemBought(playerID, 38) then
-			hero:SetOriginalModel("models/heroes/dragon_knight_persona/dk_persona_base.vmdl")
-			hero.robbie_weapon = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/heroes/dragon_knight_persona/dk_persona_weapon_alt.vmdl"})
-			hero.robbie_weapon:FollowEntity(hero, true)
-		else
-			hero.robbie_weapon = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/dragon_knight/aurora_warrior_set_weapon/aurora_warrior_set_weapon.vmdl"})
-			hero.robbie_weapon:FollowEntity(hero, true)
-		end
-	end
-
-	if hero:GetUnitName() == "npc_dota_hero_ogre_magi" then
-		if DonateShopIsItemBought(playerID, 23) then
-			if hero ~= nil and hero:IsHero() then
-				local children = hero:GetChildren();
-				for k,child in pairs(children) do
-					if child:GetClassname() == "dota_item_wearable" then
-						child:RemoveSelf();
-					end
-				end
-			end
-			hero:SetOriginalModel("models/creeps/ogre_1/boss_ogre.vmdl")
-		end
-	end
-
-
-
-	if npcName == "npc_dota_hero_troll_warlord" then
-		if DonateShopIsItemBought(playerID, 24) then
-			if hero ~= nil and hero:IsHero() then
-				local children = hero:GetChildren();
-				for k,child in pairs(children) do
-					if child:GetClassname() == "dota_item_wearable" then
-							child:RemoveSelf();
-					end
-				end
-			end
-			hero.GorinStools = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/troll_warlord_gorin_stool.vmdl"})
-			hero.GorinStools:FollowEntity(hero, true)
-			hero.TrollHead = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/heroes/troll_warlord/troll_warlord_head.vmdl"})
-			hero.TrollHead:FollowEntity(hero, true)
-			hero.TrollShoulders = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/heroes/troll_warlord/troll_warlord_shoulders.vmdl"})
-			hero.TrollShoulders:FollowEntity(hero, true)
-			hero.TrollLod = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/heroes/troll_warlord/mesh/troll_warlord_armor_model_lod0.vmdl"})
-			hero.TrollLod:FollowEntity(hero, true)
-			hero:SetRangedProjectileName("particles/gorin_attack_item.vpcf")
-		end
-	end
-
-	if npcName == "npc_dota_hero_omniknight" then
-		if DonateShopIsItemBought(playerID, 32) then
-			hero.ZelenskyHead = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/omniknight_zelensky_head.vmdl"})
-			hero.ZelenskyHead:FollowEntity(hero, true)
-		end
-	end
-
-	if npcName == "npc_dota_hero_invoker" then
-		if hero ~= nil and hero:IsHero() then
-			local children = hero:GetChildren();
-			for k,child in pairs(children) do
-				if child:GetClassname() == "dota_item_wearable" then
-						child:RemoveSelf();
-				end
-			end
-		end
-		if DonateShopIsItemBought(playerID, 33) then
-			hero:AddNewModifier( hero, nil, "modifier_bp_druzhko_reward", {})
-		end
-		if DonateShopIsItemBought(playerID, 33) then
-			hero.InvokerBelt = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/invoker_kid/dark_artistry_kid/invoker_kid_dark_artistry_armor.vmdl"})
-			hero.InvokerBelt:FollowEntity(hero, true)
-			hero.InvokerBracer = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/invoker_kid/dark_artistry_kid/invoker_kid_dark_artistry_shoulder.vmdl"})
-			hero.InvokerBracer:FollowEntity(hero, true)
-			hero.InvokerArms = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/invoker_kid/dark_artistry_kid/invoker_kid_dark_artistry_arms.vmdl"})
-			hero.InvokerArms:FollowEntity(hero, true)
-			hero.InvokerBack = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/invoker_kid/dark_artistry_kid/invoker_kid_dark_artistry_back.vmdl"})
-			hero.InvokerBack:FollowEntity(hero, true)
-			hero.InvokerApexKid = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/items/invoker_kid/dark_artistry_kid/magus_apex_kid.vmdl"})
-			hero.InvokerApexKid:FollowEntity(hero, true)
-			hero.invoker_effect_1 = ParticleManager:CreateParticle("particles/econ/items/invoker_kid/invoker_dark_artistry/invoker_kid_dark_artistry_cape_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.InvokerBack)
-			hero.invoker_effect_2 = ParticleManager:CreateParticle("particles/econ/items/invoker_kid/invoker_dark_artistry/invoker_kid_magus_apex_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero.InvokerApexKid)
-		else
-			hero.InvokerBelt = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/heroes/invoker_kid/invoker_kid_cape.vmdl"})
-			hero.InvokerBelt:FollowEntity(hero, true)
-			hero.InvokerBracer = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/heroes/invoker_kid/invoker_kid_sleeves.vmdl"})
-			hero.InvokerBracer:FollowEntity(hero, true)
-		end
-	end
+function BirzhaGameMode:DeleteAllItemFromHero(hero, list, ignore_list)
+    if hero ~= nil and hero:IsHero() then
+        local children = hero:GetChildren();
+        for k,child in pairs(children) do
+            if list ~= nil then
+                if child:GetClassname() == "dota_item_wearable" and list[child:GetModelName()] ~= nil then
+                    child:RemoveSelf();
+                end
+            elseif ignore_list ~= nil then
+                if child:GetClassname() == "dota_item_wearable" and ignore_list[child:GetModelName()] == nil then
+                    child:RemoveSelf();
+                end
+            else
+                if child:GetClassname() == "dota_item_wearable" then
+                    child:RemoveSelf();
+                end
+            end
+        end
+    end
 end

@@ -655,6 +655,11 @@ BIRZHA_CHAT_WHEEL_EVENTS =
         type = "sound",
         localize = "По мне стреляли"
     },
+    ["294"] =
+    {
+        type = "sound",
+        localize = "Дымооок"
+    },
     ["88"] = {
         type = "spray"
     },

@@ -663,7 +663,7 @@ function modifier_mum_meat_hook_debuff:OnCreated(params)
     end
     self.damage = params.damage
     if self:GetParent():IsHero() then
-        if DonateShopIsItemBought(self:GetCaster():GetPlayerOwnerID(), 179) then
+        if DonateShopIsItemActive(self:GetCaster():GetPlayerOwnerID(), 179) then
             local particle = ParticleManager:CreateParticle("particles/pudge_gopo_particle.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
             ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
             self:AddParticle(particle, false, false, -1, false, false)
@@ -928,7 +928,7 @@ function modifier_fart_aura:OnCreated()
     self.slow = self:GetAbility():GetSpecialValueFor("movespeed")
     if not IsServer() then return end
     self:StartIntervalThink( 0.2 )
-    if DonateShopIsItemBought(self:GetCaster():GetPlayerID(), 25) then
+    if DonateShopIsItemActive(self:GetCaster():GetPlayerID(), 25) then
         if self:GetParent():IsHero() then
             self:GetParent().FartEffect = ParticleManager:CreateParticle("particles/econ/items/pudge/pudge_arcana/pudge_arcana_dismember_default.vpcf", PATTACH_ABSORIGIN, self:GetParent())
             ParticleManager:SetParticleControl(self:GetParent().FartEffect, 1, self:GetParent():GetAbsOrigin())

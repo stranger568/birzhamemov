@@ -15,7 +15,7 @@ function Scream_TelephoneCall:GetManaCost(level)
 end
 
 function Scream_TelephoneCall:GetCastRange(location, target)
-    if self:GetCaster():HasScepter() then
+    if self:GetCaster():HasShard() then
         return 25000
     end
     return self.BaseClass.GetCastRange(self, location, target)
@@ -372,7 +372,7 @@ function Scream_night:OnSpellStart()
 
 	GameRules:BeginNightstalkerNight(duration)
 
-	if not self:GetCaster():HasShard() then return end
+	if not self:GetCaster():HasScepter() then return end
 
     local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_ANY_ORDER, false)
 

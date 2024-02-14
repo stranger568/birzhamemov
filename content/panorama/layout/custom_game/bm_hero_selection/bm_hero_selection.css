@@ -1935,6 +1935,11 @@ TextEntry #PlaceholderText
     overflow: squish scroll;
 }
 
+#DonateBlockPanelWithItems_1
+{
+    visibility: collapse;
+}
+
 #DonateBlockPanelWithItems_3
 {
     visibility: collapse;

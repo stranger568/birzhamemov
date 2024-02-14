@@ -20,7 +20,7 @@ TIME_OF_STATE[4] = 10
 
 if IsInToolsMode() or GameRules:IsCheatMode() then
 	TIME_OF_STATE[2] = 1
-	--TIME_OF_STATE[4] = 5
+    TIME_OF_STATE[4] = 10
 end
 
 birzha_hero_selection.BIRZHA_PLUS_HEROES = 

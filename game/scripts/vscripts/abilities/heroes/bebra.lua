@@ -585,6 +585,10 @@ function modifier_shelby_ultimate_stack:GetAttributes() return MODIFIER_ATTRIBUT
 function modifier_shelby_ultimate_stack:OnCreated(params)
     if not IsServer() then return end
     self.ability_name = params.ability_name
+    local modifier = self:GetCaster():FindModifierByName("modifier_shelby_ultimate_passive")
+    if modifier then
+        CustomGameEventManager:Send_ServerToAllClients( 'thomas_shelby_buff_update', { abilities = modifier.unique_damage_list })
+    end
 end
 
 function modifier_shelby_ultimate_stack:OnDestroy()
@@ -592,6 +596,7 @@ function modifier_shelby_ultimate_stack:OnDestroy()
     local modifier = self:GetCaster():FindModifierByName("modifier_shelby_ultimate_passive")
     if modifier then
         modifier.unique_damage_list[self.ability_name] = nil
+        CustomGameEventManager:Send_ServerToAllClients( 'thomas_shelby_buff_update', { abilities = modifier.unique_damage_list })
     end
 end
 

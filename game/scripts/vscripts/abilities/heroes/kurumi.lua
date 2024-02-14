@@ -310,7 +310,7 @@ function Kurumi_Zafkiel:OnSpellStart()
 
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_kurumi_zafkiel_aura", {duration = duration})
 
-    if DonateShopIsItemBought(self:GetCaster():GetPlayerID(), 26) then
+    if DonateShopIsItemActive(self:GetCaster():GetPlayerID(), 26) then
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_kurumi_donate_zafkiel", {duration = duration})
     end
 

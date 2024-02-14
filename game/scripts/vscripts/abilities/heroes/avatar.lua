@@ -368,14 +368,9 @@ end
 function modifier_aang_invoke_passive:DeclareFunctions()
     local funcs = 
     {
-        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
         MODIFIER_EVENT_ON_DEATH
     }
     return funcs
-end
-
-function modifier_aang_invoke_passive:GetModifierMoveSpeedBonus_Percentage()
-    return self:GetAbility():GetSpecialValueFor( "movespeed_persentage" )
 end
 
 function aang_invoke:GetCooldown(level)

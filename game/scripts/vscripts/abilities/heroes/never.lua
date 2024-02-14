@@ -27,7 +27,7 @@ end
 
 function modifier_never_stupid_attack:OnCreated()
 	if not IsServer() then return end
-	if DonateShopIsItemBought(self:GetCaster():GetPlayerID(), 27) then
+	if DonateShopIsItemActive(self:GetCaster():GetPlayerID(), 27) then
 		self:GetCaster():SetRangedProjectileName("particles/never_arcana/never_arcana_attack.vpcf")
 	end
 end
@@ -172,7 +172,7 @@ end
 function modifier_never_spit:OnCreated()
 	if not IsServer() then return end
 	self.particle_spit = "particles/econ/items/shadow_fiend/sf_fire_arcana/sf_fire_arcana_shadowraze.vpcf"
-	if DonateShopIsItemBought(self:GetCaster():GetPlayerID(), 27) then
+	if DonateShopIsItemActive(self:GetCaster():GetPlayerID(), 27) then
 		self.particle_spit = "particles/never_arcana/sf_fire_arcana_shadowraze.vpcf"
 	end
 end
@@ -205,7 +205,7 @@ function modifier_never_spit:GetModifierProcAttack_BonusDamage_Physical( params 
 		chance = 100
 	end
 
-	if RollPercentage(chance) then	
+	if RollPseudoRandomPercentage(chance, 910, self:GetParent()) then	
 		params.target:AddNewModifier(params.attacker, self:GetAbility(), "modifier_birzha_bashed", {duration = duration * (1 - params.target:GetStatusResistance()) })
 
 		params.target:EmitSound("neverbash")
@@ -214,7 +214,7 @@ function modifier_never_spit:GetModifierProcAttack_BonusDamage_Physical( params 
 
 		local SpitEffect = ParticleManager:CreateParticle(self.particle_spit, PATTACH_ABSORIGIN, params.target)
 
-		if DonateShopIsItemBought(self:GetCaster():GetPlayerID(), 27) then
+		if DonateShopIsItemActive(self:GetCaster():GetPlayerID(), 27) then
 			ParticleManager:SetParticleControl(SpitEffect, 0, params.target:GetAbsOrigin())
 			ParticleManager:SetParticleControl(SpitEffect, 1, params.target:GetAbsOrigin())
 			ParticleManager:SetParticleControl(SpitEffect, 3, params.target:GetAbsOrigin())
@@ -288,7 +288,7 @@ function modifier_speed_friendly:OnCreated()
 
 	self.movespeed_caster = self:GetAbility():GetSpecialValueFor("movespeed_friendly")
 
-	if DonateShopIsItemBought(self:GetCaster():GetPlayerID(), 27) then
+	if DonateShopIsItemActive(self:GetCaster():GetPlayerID(), 27) then
 		local particle_never_speed = ParticleManager:CreateParticle("particles/econ/items/spirit_breaker/spirit_breaker_iron_surge/spirit_breaker_charge_iron.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
 		self:AddParticle(particle_never_speed, false, false, -1, false, false)
 	else
@@ -389,7 +389,7 @@ end
 
 function modifier_never_damage_team:OnCreated()
 	if not IsServer() then return end
-	if DonateShopIsItemBought(self:GetCaster():GetPlayerID(), 27) then
+	if DonateShopIsItemActive(self:GetCaster():GetPlayerID(), 27) then
 		local particle_never_damage = ParticleManager:CreateParticle("particles/never/ultimate_effect_arcana.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
 		self:AddParticle(particle_never_damage, false, false, -1, false, false)
 	else

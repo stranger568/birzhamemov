@@ -367,6 +367,7 @@ function BirzhaData:RegisterPlayer(player_id)
             doge_coin = 0,
             birzha_coin = 0,
             player_items = {},
+            player_items_active = {},
             heroes_matches = {},
             pet_id = 0,
             border_id = 0,
@@ -412,6 +413,7 @@ function BirzhaData:RegisterPlayerSiteInfo(data, player_id)
         doge_coin = tonumber(data.dogecoin_currency) or 0,
         birzha_coin = tonumber(data.bitcoin_currency) or 0,
         player_items = data.player_items or {},
+        player_items_active = data.player_items_active or {},
         heroes_matches = data.heroes_matches or {},
         pet_id = tonumber(data.pet_default) or 0,
         border_id = tonumber(data.default_border) or 0,
@@ -436,7 +438,7 @@ function BirzhaData:RegisterPlayerSiteInfo(data, player_id)
     CustomNetTables:SetTableValue("game_state", "party_map", BirzhaData.PARTY_NUMBER_LIST)
     CustomNetTables:SetTableValue("reported_info", tostring(player_id), {reported_info = player_info.players_repoted})
     CustomNetTables:SetTableValue('birzhainfo', tostring(player_id), player_info.server_data)
-    CustomNetTables:SetTableValue('birzhashop', tostring(player_id), {doge_coin = player_info.server_data.doge_coin, birzha_coin = player_info.server_data.birzha_coin, player_items = player_info.server_data.player_items})
+    CustomNetTables:SetTableValue('birzhashop', tostring(player_id), {doge_coin = player_info.server_data.doge_coin, birzha_coin = player_info.server_data.birzha_coin, player_items = player_info.server_data.player_items, player_items_active = player_info.server_data.player_items_active})
     CustomNetTables:SetTableValue('birzha_plus_data', tostring(player_id), {mmr = data.mmr})
 end
 
@@ -513,10 +515,25 @@ function BirzhaData.PostData()
             chatwheel_7 = BirzhaData.GetChatWheel(id, 7),
             chatwheel_8 = BirzhaData.GetChatWheel(id, 8),
             games = 1,
+            player_items_active = player_info.server_data.player_items_active,
         }
         table.insert(post_data.players, player_table)
     end
     SendData('https://' ..BirzhaData.url .. '/data/bm_post_player_data.php', post_data, nil)
+end
+
+function BirzhaData.PostDataItemTest()
+    if not BirzhaData.SERVER_CONNECTION then return end
+    local post_data = {players = {}}
+    for id, player_info in pairs(BirzhaData.PLAYERS_GLOBAL_INFORMATION) do
+        local player_table = 
+        {
+            steamid = player_info.steamid,
+            player_items_active = player_info.server_data.player_items_active,
+        }
+        table.insert(post_data.players, player_table)
+    end
+    SendData('https://' ..BirzhaData.url .. '/data/bm_post_player_data_test.php', post_data, nil)
 end
 
 function BirzhaData.PostHeroesInfo()

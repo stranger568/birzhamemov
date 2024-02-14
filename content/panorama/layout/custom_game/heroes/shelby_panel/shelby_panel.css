@@ -1,0 +1,43 @@
+.ShelbyPanelAbilitiesMain
+{
+	width: 100%;
+	height: 100%;
+}
+
+.ShelbyPanelAbilities
+{
+	align: left center;
+	flow-children: right-wrap;
+    margin-bottom: 160px;
+    margin-left: 55px;
+    width: 155px;
+}
+
+.ability_panel
+{
+    width: 32px;
+    height: 32px;
+    background-color: red;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.BuffImage
+{
+    width: 100%;
+    height: 100%;
+}
+
+.BuffImageItem
+{
+    vertical-align: center;
+    pre-transform-scale2d: 1.4;
+}
+
+.lock_button
+{
+    width: 100%;
+    height: 100%;
+    background-image: url("s2r://panorama/images/hud/reborn/ability_bevel_psd.vtex");
+    background-size: 100%;
+}

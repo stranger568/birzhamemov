@@ -369,7 +369,7 @@ end
 function Sobolev_Egoism:OnSpellStart()
 	if not IsServer() then return end
 
-	if DonateShopIsItemBought(self:GetCaster():GetPlayerID(), 34) then
+	if DonateShopIsItemActive(self:GetCaster():GetPlayerID(), 34) then
 		self:GetCaster():EmitSound( "SobolevArcana" )
 	else
 		self:GetCaster():EmitSound( "sobolevult" )
@@ -387,7 +387,7 @@ end
 
 function modifier_Sobolev_Egoism:OnDestroy()
     if not IsServer() then return end
-	if DonateShopIsItemBought(self:GetCaster():GetPlayerID(), 34) then
+	if DonateShopIsItemActive(self:GetCaster():GetPlayerID(), 34) then
 		self:GetCaster():StopSound("SobolevArcana")
 	else
 		self:GetCaster():StopSound("sobolevult")

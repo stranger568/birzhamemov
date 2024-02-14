@@ -6,6 +6,7 @@
 	</styles>
 
 	<scripts>
+        <include src="s2r://panorama/layout/custom_game/scripts/donate_information.vjs_c" />
         <include src="s2r://panorama/layout/custom_game/scripts/functions.vjs_c" />
 		<include src="s2r://panorama/layout/custom_game/bm_hero_selection/bm_hero_selection.vjs_c" />
 	</scripts>
@@ -94,25 +95,20 @@
             <Panel class="ItemsBlockInventory">
                 <Panel id="HeroDonateBlock" class="HeroDonateBlock">
                     <Panel id="HeroDonateBlockButtons" class="HeroDonateBlockButtons">
-                        <Panel class="HeroDonateBlockButton" id="ChangeDonateBlock_1">
+                        <Panel class="HeroDonateBlockButton HeroDonateBlockButton_active" id="ChangeDonateBlock_1" onactivate="ChangeDonateBlock('DonateBlockPanelWithItems_1', 'ChangeDonateBlock_1');">
                             <Panel class="ButtonBackgroundDonate" />
                             <Label class="donate_button_label_press" text="#items" />
-                            <Panel class="ComingSoon">
-                                <Label class="ComingSoonLabel" text="#birzha_coming" />
-                            </Panel>
                         </Panel>
                         <Panel class="HeroDonateBlockButton HeroDonateBlockButton_active HeroDonateBlockButton_selected" id="ChangeDonateBlock_2" onactivate="ChangeDonateBlock('DonateBlockPanelWithItems_2', 'ChangeDonateBlock_2');">
                             <Panel class="ButtonBackgroundDonate" />
                             <Label class="donate_button_label_press" text="#effects" />
                         </Panel>
-                        <Panel class="HeroDonateBlockButton" id="ChangeDonateBlock_3">
+                        <Panel class="HeroDonateBlockButton HeroDonateBlockButton_active" id="ChangeDonateBlock_3" onactivate="ChangeDonateBlock('DonateBlockPanelWithItems_3', 'ChangeDonateBlock_3');">
                             <Panel class="ButtonBackgroundDonate" />
                             <Label class="donate_button_label_press" text="#pets" />
-                            <Panel class="ComingSoon">
-                                <Label class="ComingSoonLabel" text="#birzha_coming" />
-                            </Panel>
                         </Panel>
                     </Panel>
+                    <Panel id="DonateBlockPanelWithItems_1" class="DonateBlockPanelWithItems" />
                     <Panel id="DonateBlockPanelWithItems_2" class="DonateBlockPanelWithItems" />
                     <Panel id="DonateBlockPanelWithItems_3" class="DonateBlockPanelWithItems" />
                 </Panel>

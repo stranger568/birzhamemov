@@ -792,6 +792,7 @@
 "sounds_291"		"Заглянул на 5 минут"
 "sounds_292"		"Зашел не в ту дверь"
 "sounds_293"		"По мне стреляли"
+"sounds_294"		"Дымоок"
 
 "shop_notification"         "В магазин были добавлены новые звуки"
 "new_item_info"             "New"
@@ -878,6 +879,7 @@
 "sounds_291_description"		"Откройте колесо чата и используйте звук - Заглянул на 5 минут"
 "sounds_292_description"		"Откройте колесо чата и используйте звук - Зашел не в ту дверь"
 "sounds_293_description"		"Откройте колесо чата и используйте звук - По мне стреляли"
+"sounds_294_description"		"Откройте колесо чата и используйте звук - Дымоок"
 
 "spray_1"			"Спасибо Stranger"							
 "spray_2"			"Орех"									
@@ -3788,6 +3790,7 @@
 "DOTA_Tooltip_Ability_Bullet_BulletInTheHead"								"Пуля в лоб"
 "DOTA_Tooltip_Ability_Bullet_BulletInTheHead_Description"					"Кама пуля целится во вражеского юнита и совершает сокрушительный выстрел, который наносит урон с огромной дистанции"
 "DOTA_Tooltip_Ability_Bullet_BulletInTheHead_damage"						"УРОН:"
+"DOTA_Tooltip_Ability_Bullet_BulletInTheHead_strength_damage"				"%ДОП. УРОН ОТ СИЛЫ:"
 "DOTA_Tooltip_Ability_Bullet_BulletInTheHead_cast_range"					"ДАЛЬНОСТЬ ПРИМЕНЕНИЯ:"
 "DOTA_Tooltip_Ability_Bullet_BulletInTheHead_scepter_description"			"Убирает задержку перед использованием и оглушает противника на %scepter_stun_duration% сек."
 
@@ -5299,7 +5302,7 @@
 "DOTA_Tooltip_Ability_Scream_TelephoneCall_duration_leave" 						"ВРЕМЯ ДО СТРАХА:"
 "DOTA_Tooltip_Ability_Scream_TelephoneCall_radius" 								"РАДИУС:"
 "DOTA_Tooltip_Ability_Scream_TelephoneCall_lore"								"Данный герой создан благодаря <font color='#fffc00'>Sion_Atlasia</font>"
-"DOTA_Tooltip_Ability_Scream_TelephoneCall_scepter_description"					"Можно использовать в любую часть карты"
+"DOTA_Tooltip_Ability_Scream_TelephoneCall_shard_description"					"Можно использовать в любую часть карты"
 
 "DOTA_Tooltip_modifier_Scream_TelephoneCall_radius_leave_aura" 					"Телефонный звонок"
 "DOTA_Tooltip_modifier_Scream_TelephoneCall_radius_leave_aura_Description" 		"Если вы не покините эту зону, то испугаетесь"
@@ -5332,7 +5335,7 @@
 "DOTA_Tooltip_Ability_Scream_night_Description" 								"Включает ночь и получает невидимость, которая раскрывается в радиусе %radius% возле вражеских героев. На время действия способности вам открывается доступ к способности Жуткое появление"
 "DOTA_Tooltip_Ability_Scream_night_duration" 									"ДЛИТЕЛЬНОСТЬ НОЧИ:"
 "DOTA_Tooltip_Ability_Scream_night_lore"										"Данный герой создан благодаря <font color='#fffc00'>Sion_Atlasia</font>"
-"DOTA_Tooltip_Ability_Scream_night_shard_description" 							"Крик получает обзор на всех вражеских героев, которые не имеют иммунитет к магии на время действия способности"
+"DOTA_Tooltip_Ability_Scream_night_scepter_description" 							"Крик получает обзор на всех вражеских героев, которые не имеют иммунитет к магии на время действия способности"
 
 "DOTA_Tooltip_Ability_Scream_night_two" 										"Жуткое появление"
 "DOTA_Tooltip_Ability_Scream_night_two_Description" 							"Телепортирует Крика к выбранной цели после %tp_duration% сек., а после телепортации выбранная цель получает урон и оглушение"
@@ -8921,7 +8924,6 @@
 
 "DOTA_Tooltip_ability_kakashi_invoke"									"Комбинация"
 "DOTA_Tooltip_ability_kakashi_invoke_Description"						"Комбинирует элементы использующихся стихий, чтобы создать новое заклинание\n<h1>Уникальная перезарядка</h1>За каждый уровень Суйтон, Дотон, Райтон перезарядка способности уменьшается на %cooldown_per_sphere% сек.\n<h1>Список способностей</h1>Нажмите кнопку помощи, чтобы посмотреть список доступных комбинаций"
-"DOTA_Tooltip_ability_kakashi_invoke_movespeed_persentage"				"%ДОП. СКОРОСТЬ ПЕРЕДВИЖЕНИЯ"
 "DOTA_Tooltip_ability_kakashi_invoke_lore"								""
 
 "DOTA_Tooltip_ability_kakashi_empty1"									"Пустая способность"
@@ -9094,7 +9096,6 @@
 
 "DOTA_Tooltip_ability_aang_invoke"									"Воздух"
 "DOTA_Tooltip_ability_aang_invoke_Description"						"Аватар все делает с оглядкой на свою родную стихию воздуха. Комбинирует активные сферы, выдавая новую способность\n<h1>Уникальная перезарядка</h1>За каждый уровень Вода, Земля, Огонь перезарядка способности уменьшается на %cooldown_per_sphere% сек.\n<h1>Список способностей</h1>Нажмите кнопку помощи, чтобы посмотреть список доступных комбинаций"
-"DOTA_Tooltip_ability_aang_invoke_movespeed_persentage"				"%ДОП. СКОРОСТЬ ПЕРЕДВИЖЕНИЯ:"
 "DOTA_Tooltip_ability_aang_invoke_lore"								"Данный герой создан благодаря <font color='#fffc00'>daertc</font>"
 
 "DOTA_Tooltip_ability_aang_empty1"									"Пустая способность"

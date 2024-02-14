@@ -15,6 +15,7 @@
         <CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/heroes/saitama_punch/saitama_punch.xml" />
         <CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/heroes/freddy_screamer/freddy_screamer.xml" />
         <CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/heroes/nolik_energy/nolik_energy.xml" />
+        <CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/heroes/shelby_panel/shelby_panel.xml" />
         <CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/bm_hero_selection/bm_hero_selection.xml" />
         <CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/birzha_leaderboard/birzha_leaderboard.xml" />
         <CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/game_store/game_store.xml" />

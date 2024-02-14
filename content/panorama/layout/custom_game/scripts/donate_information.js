@@ -93,6 +93,15 @@ var Items_heroes =
 	["38", "gem", "2000", "item_for_robbie", "item_for_robbie", false],
 	["39", "gem", "1000", "item_for_fatmum_2", "item_for_fatmum_2", false],
 	["130", "gem", "2000", "item_for_boy", "item_for_boy", false],
+
+    // Вне магазина
+	["180", "gold", "0", "bm_battlepass_info_100level_name", "bm_battlepass_info_100level_name", false, 0, 0],
+	["182", "gem", "0", "bm_battlepass_info_80level_name", "bm_battlepass_info_80level_name", false, 0, 0],
+	["179", "gem", "0", "bm_battlepass_info_40level_name", "bm_battlepass_info_40level_name", false, 0, 0],
+	["183", "gem", "0", "bm_battlepass_info_60level_name", "bm_battlepass_info_60level_name", false, 0, 0],
+	["181", "gem", "0", "bm_battlepass_info_20level_name", "bm_battlepass_info_20level_name", false, 0, 0],
+    ["198", "gem", "0", "battlepass_reward_198", "battlepass_reward_198", false, 0, 0],
+    ["200", "gem", "0", "battlepass_reward_200", "battlepass_reward_200", false, 0, 0],
 ]
 
 var Items_currency = 
@@ -166,25 +175,26 @@ var Items_sounds =
     ["274", "gold", "50", "sound", "sounds_274", false, 0], 
 
     // Тинькофф
-    ["275", "gold", "50", "sound", "sounds_275", false, 1], 
-    ["276", "gold", "50", "sound", "sounds_276", false, 1], 
-    ["277", "gold", "50", "sound", "sounds_277", false, 1], 
-    ["278", "gold", "50", "sound", "sounds_278", false, 1], 
-    ["279", "gold", "50", "sound", "sounds_279", false, 1], 
-    ["280", "gold", "50", "sound", "sounds_280", false, 1], 
-    ["281", "gold", "50", "sound", "sounds_281", false, 1], 
-    ["282", "gold", "50", "sound", "sounds_282", false, 1], 
-    ["283", "gold", "50", "sound", "sounds_283", false, 1], 
-    ["284", "gold", "50", "sound", "sounds_284", false, 1], 
-    ["285", "gold", "50", "sound", "sounds_285", false, 1], 
-    ["286", "gold", "50", "sound", "sounds_286", false, 1], 
-    ["287", "gold", "50", "sound", "sounds_287", false, 1], 
-    ["288", "gold", "50", "sound", "sounds_288", false, 1], 
-    ["289", "gold", "50", "sound", "sounds_289", false, 1], 
-    ["290", "gold", "50", "sound", "sounds_290", false, 1], 
-    ["291", "gold", "50", "sound", "sounds_291", false, 1],
-    ["292", "gold", "50", "sound", "sounds_292", false, 1], 
-    ["293", "gold", "50", "sound", "sounds_293", false, 1],
+    ["275", "gold", "50", "sound", "sounds_275", false, 0], 
+    ["276", "gold", "50", "sound", "sounds_276", false, 0], 
+    ["277", "gold", "50", "sound", "sounds_277", false, 0], 
+    ["278", "gold", "50", "sound", "sounds_278", false, 0], 
+    ["279", "gold", "50", "sound", "sounds_279", false, 0], 
+    ["280", "gold", "50", "sound", "sounds_280", false, 0], 
+    ["281", "gold", "50", "sound", "sounds_281", false, 0], 
+    ["282", "gold", "50", "sound", "sounds_282", false, 0], 
+    ["283", "gold", "50", "sound", "sounds_283", false, 0], 
+    ["284", "gold", "50", "sound", "sounds_284", false, 0], 
+    ["285", "gold", "50", "sound", "sounds_285", false, 0], 
+    ["286", "gold", "50", "sound", "sounds_286", false, 0], 
+    ["287", "gold", "50", "sound", "sounds_287", false, 0], 
+    ["288", "gold", "50", "sound", "sounds_288", false, 0], 
+    ["289", "gold", "50", "sound", "sounds_289", false, 0], 
+    ["290", "gold", "50", "sound", "sounds_290", false, 0], 
+    ["291", "gold", "50", "sound", "sounds_291", false, 0],
+    ["292", "gold", "50", "sound", "sounds_292", false, 0], 
+    ["293", "gold", "50", "sound", "sounds_293", false, 0],
+    ["294", "gold", "500", "sound", "sounds_294", false, 1],
 
     // Вне магазина
     ["165", "gold", "0", "sound", "sounds_49", false, 0, 1], 
@@ -356,3 +366,37 @@ var smiles =
     [162, "stray"],
     [163, "microcat"],
 ]
+
+
+var HEROES_ITEMS_INFO_START =
+{
+    22 : "npc_dota_hero_sand_king",
+    23 : "npc_dota_hero_ogre_magi",
+    24 : "npc_dota_hero_troll_warlord",
+    25 : "npc_dota_hero_pudge",
+    26 : "npc_dota_hero_queenofpain",
+    27 : "npc_dota_hero_nevermore",
+    28 : "npc_dota_hero_earthshaker",
+    29 : "npc_dota_hero_skeleton_king",
+    30 : "npc_dota_hero_tiny",
+    31 : "npc_dota_hero_bounty_hunter",
+    32 : "npc_dota_hero_omniknight",
+    33 : "npc_dota_hero_invoker",
+    34 : "npc_dota_hero_terrorblade",
+    126 : "npc_dota_hero_legion_commander",
+    35 : "npc_dota_hero_winter_wyvern",
+    36 : "npc_dota_hero_alchemist",
+    37 : "npc_dota_hero_lycan",
+    38 : "npc_dota_hero_dragon_knight",
+    39 : "npc_dota_hero_pudge",
+    130 : "npc_dota_hero_monkey_king",
+
+    // Вне магазина
+    180 : "npc_dota_hero_faceless_void",
+    182 : "npc_dota_hero_oracle",
+    179 : "npc_dota_hero_pudge",
+    183 : "npc_dota_hero_sonic",
+    181 : "npc_dota_hero_pyramide",
+    198 : "npc_dota_hero_skeleton_king",
+    200 : "npc_dota_hero_sniper",
+}

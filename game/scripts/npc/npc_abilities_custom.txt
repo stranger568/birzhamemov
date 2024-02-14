@@ -5934,8 +5934,8 @@
 			"scepter_radius"			"300"
 			"scepter_cooldown"			"10"
 			"scepter_stun_duration"		"2"
+            "strength_damage"			"50 75 100"
 		}
-               "strength_damage"			"50 75 100"
 	}
 
 	"special_bonus_birzha_bullet_1"
@@ -6903,11 +6903,6 @@
 		"BaseClass"						"special_bonus_base"														
 		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-
-                "AbilityValues"
-                {
-			"value"						"3"			
-		}
 	}
 	"special_bonus_unique_ruby_8"
 	{
@@ -13023,8 +13018,8 @@
 				"value"									"40 50 60 70"
 				"LinkedSpecialBonus"					"special_bonus_birzha_never_4"
 			}
-			"agility_gain"								"1 1.5 2 2.5"
-			"int_steal"									"-1 -1.5 -2 -2.5"
+			"agility_gain"								"1 1.25 1.5 1.75"
+			"int_steal"									"-1 -1.25 -1.5 -1.75"
 			"steal_duration"					
 			{
 				"value"									"30"
@@ -16755,7 +16750,7 @@
 		"AbilityValues"
 		{
 			"duration"				"6"
-			"stack_for_active"		"5"
+			"stack_for_active"		"3"
 			"attack_radius"			"600"
 			"damage"				"30 40 50"
 			"lifesteal"				"50"
@@ -16764,7 +16759,7 @@
 			"movespeed_stack"		"4 6 8"
 			"vision_stack"			"100"
 			"max_charges"			"5"
-			"charge_duration"		"5"
+			"charge_duration"		"7"
 		}
 	}
 
@@ -23059,7 +23054,6 @@
 		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
 		"AbilityCooldown"				"7"
-                "AbilitiManaCost"                               "50 100 150"
 		"AbilityValues"
 		{
 			"cooldown_per_sphere"			"0.3333"
@@ -23531,7 +23525,6 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
 		"AbilityCooldown"				"7"
 		"HasScepterUpgrade"				"1"
-                "AbilityManaCost"                               "50 100 150"
 
 		"AbilityValues"
 		{

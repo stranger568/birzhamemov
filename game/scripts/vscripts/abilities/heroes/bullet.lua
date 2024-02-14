@@ -507,7 +507,7 @@ function Bullet_BulletInTheHead:OnProjectileHit_ExtraData( target, location, ext
 
     target:EmitSound("Hero_Sniper.AssassinateDamage")
 
-    local damage = self:GetSpecialValueFor("damage")
+    local damage = self:GetSpecialValueFor("damage") + (self:GetCaster():GetStrength() / 100 * self:GetSpecialValueFor("strength_damage"))
 
     if self:GetCaster():HasTalent("special_bonus_birzha_bullet_8") then
         print(target:GetHealthPercent())

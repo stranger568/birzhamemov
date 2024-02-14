@@ -902,6 +902,7 @@ function IsHasTokenAndSubscribe()
 
 function ChangeDonateBlock(panel, button)
 {
+    $("#DonateBlockPanelWithItems_1").style.visibility = "collapse"
     $("#DonateBlockPanelWithItems_2").style.visibility = "collapse"
     $("#DonateBlockPanelWithItems_3").style.visibility = "collapse"
     for (var i = 0; i < $("#HeroDonateBlockButtons").GetChildCount(); i++) 
@@ -1013,6 +1014,25 @@ function HasItemInventory(item_id)
         }
     }
     return false
+}
+
+function HasItemInventoryActive(item_id)
+{
+    let player_table = CustomNetTables.GetTableValue("birzhashop", String(Players.GetLocalPlayer()))
+	if (player_table && player_table.player_items_active)
+	{
+		for (var d = 1; d <= Object.keys(player_table.player_items_active).length; d++) 
+		{
+			if (player_table.player_items_active[d])
+			{
+				if (String(player_table.player_items_active[d]) == String(item_id))
+				{
+					return true
+				}
+			}
+		}
+	}
+	return false
 }
    
 function GetAverageRating() {
@@ -1202,11 +1222,21 @@ var EFFECTS_LIST =
 
 function InitDonateEffects()
 {
+    $("#DonateBlockPanelWithItems_1").RemoveAndDeleteChildren()
     $("#DonateBlockPanelWithItems_2").RemoveAndDeleteChildren()
+    $("#DonateBlockPanelWithItems_3").RemoveAndDeleteChildren()
     let player_info = CustomNetTables.GetTableValue('birzhainfo', String(Players.GetLocalPlayer()));
     for (var i = 0; i < EFFECTS_LIST.length; i++) 
     {
         CreateDonateBlock(EFFECTS_LIST[i], player_info)
+    }
+    for (var i = 0; i < Items_pets.length; i++) 
+    {
+        CreatePetBlock(Items_pets[i], player_info)
+    }
+    for (var i = 0; i < Items_heroes.length; i++) 
+    {
+        CreateItemHeroesBlock(Items_heroes[i], player_info)
     }
     if (IsAllowForThis())
     {
@@ -1257,6 +1287,149 @@ function CreateDonateBlock(table, player_info)
         { 
             SelectEffect(table[2], Recom_item)
         });
+    }
+}
+
+function CreateItemHeroesBlock(table, player_info)
+{
+    let pick_hero = Players.GetPlayerSelectedHero(Players.GetLocalPlayer())
+    if (HEROES_ITEMS_INFO_START[table[0]] == pick_hero)
+    {
+        var Recom_item = $.CreatePanel("Panel", $("#DonateBlockPanelWithItems_1"), "item_inventory_" + table[0]);
+        Recom_item.AddClass("ItemInventory");
+    
+        var ItemImage = $.CreatePanel("Panel", Recom_item, "");
+        ItemImage.AddClass("ItemImage");
+        ItemImage.style.backgroundImage = 'url("file://{images}/custom_game/shop/itemicon/' + table[3] + '.png")';
+        ItemImage.style.backgroundSize = "100%"
+    
+        var ItemName = $.CreatePanel("Label", Recom_item, "ItemName");
+        ItemName.AddClass("ItemName");
+        ItemName.text = $.Localize( "#" + table[3] )
+    
+        var BuyItemPanel = $.CreatePanel("Panel", Recom_item, "BuyItemPanel");
+        BuyItemPanel.AddClass("BuyItemPanel");
+    
+        var ItemPrice = $.CreatePanel("Panel", BuyItemPanel, "ItemPrice");
+        ItemPrice.AddClass("ItemPrice");
+    
+        var PriceLabel = $.CreatePanel("Label", ItemPrice, "PriceLabel");
+        PriceLabel.AddClass("PriceLabel");
+        PriceLabel.text = $.Localize( "#effect_locked" )
+        BuyItemPanel.SetHasClass("item_buying", true)
+    
+        if (HasItemInventory(table[0]))
+        {
+            BuyItemPanel.SetHasClass("item_buying", false)
+            if (HasItemInventoryActive(table[0]))
+            {
+                BuyItemPanel.SetHasClass("item_deactive", true)
+                PriceLabel.text = $.Localize( "#shop_deactivate" )
+            }
+            else
+            {
+                BuyItemPanel.SetHasClass("item_deactive", false)
+                PriceLabel.text = $.Localize( "#shop_activate" )
+            }
+            Recom_item.SetPanelEvent("onactivate", function() 
+            { 
+                SetItemHero(table[0], Recom_item)
+            });
+        }
+    }
+}
+
+function SetItemHero(num, panel)
+{
+    let player_info = CustomNetTables.GetTableValue('birzhainfo', String(Players.GetLocalPlayer()));
+
+    if (!HasItemInventoryActive(num))
+    {
+    	panel.FindChildTraverse("BuyItemPanel").SetHasClass("item_deactive", true)
+        panel.FindChildTraverse("PriceLabel").text = $.Localize( "#shop_deactivate" )
+        GameEvents.SendCustomGameEventToServer( "donate_change_item_active", {item_id: num, delete_item:false} );
+    }
+    else
+    {
+    	panel.FindChildTraverse("BuyItemPanel").SetHasClass("item_deactive", false)
+        panel.FindChildTraverse("PriceLabel").text = $.Localize( "#shop_activate" )
+        GameEvents.SendCustomGameEventToServer( "donate_change_item_active", {item_id: num, delete_item: true} );
+    }
+}
+
+function CreatePetBlock(table, player_info)
+{
+    var Recom_item = $.CreatePanel("Panel", $("#DonateBlockPanelWithItems_3"), "item_inventory_" + table[0]);
+    Recom_item.AddClass("ItemInventory");
+    //SetItemInventory(Recom_item, table[i])
+
+    var ItemImage = $.CreatePanel("Panel", Recom_item, "");
+    ItemImage.AddClass("ItemImage");
+    ItemImage.style.backgroundImage = 'url("file://{images}/custom_game/shop/itemicon/' + table[3] + '.png")';
+    ItemImage.style.backgroundSize = "100%"
+
+    var ItemName = $.CreatePanel("Label", Recom_item, "ItemName");
+    ItemName.AddClass("ItemName");
+    ItemName.text = $.Localize( "#" + table[3] )
+
+    var BuyItemPanel = $.CreatePanel("Panel", Recom_item, "BuyItemPanel");
+    BuyItemPanel.AddClass("BuyItemPanel");
+
+    var ItemPrice = $.CreatePanel("Panel", BuyItemPanel, "ItemPrice");
+    ItemPrice.AddClass("ItemPrice");
+
+    var PriceLabel = $.CreatePanel("Label", ItemPrice, "PriceLabel");
+    PriceLabel.AddClass("PriceLabel");
+    PriceLabel.text = $.Localize( "#effect_locked" )
+    BuyItemPanel.SetHasClass("item_buying", true)
+
+    if (HasItemInventory(table[0]))
+    {
+        BuyItemPanel.SetHasClass("item_buying", false)
+        if (player_info.pet_id == table[0])
+        {
+            BuyItemPanel.SetHasClass("item_deactive", true)
+            PriceLabel.text = $.Localize( "#shop_deactivate" )
+        }
+        else
+        {
+            BuyItemPanel.SetHasClass("item_deactive", false)
+            PriceLabel.text = $.Localize( "#shop_activate" )
+        }
+        Recom_item.SetPanelEvent("onactivate", function() 
+        { 
+            SelectPet(table[0], Recom_item)
+        });
+    } else
+    {
+        Recom_item.style.visibility = "collapse"
+    }
+}
+
+function SelectPet(num, panel)
+{
+    let player_info = CustomNetTables.GetTableValue('birzhainfo', String(Players.GetLocalPlayer()));
+    let current_effect = player_info.pet_id
+
+    if (current_effect != num)
+    {
+    	for (var i = 0; i < $("#DonateBlockPanelWithItems_3").GetChildCount(); i++) 
+        {
+            if (!$("#DonateBlockPanelWithItems_3").GetChild(i).FindChildTraverse("BuyItemPanel").BHasClass("item_buying"))
+            {
+                $("#DonateBlockPanelWithItems_3").GetChild(i).FindChildTraverse("BuyItemPanel").SetHasClass("item_deactive", false)
+                $("#DonateBlockPanelWithItems_3").GetChild(i).FindChildTraverse("PriceLabel").text = $.Localize( "#shop_activate" )
+            }
+    	} 
+    	panel.FindChildTraverse("BuyItemPanel").SetHasClass("item_deactive", true)
+        panel.FindChildTraverse("PriceLabel").text = $.Localize( "#shop_deactivate" )
+        GameEvents.SendCustomGameEventToServer( "change_premium_pet", {pet_id: num, delete_pet:false} );
+    }
+    else
+    {
+    	panel.FindChildTraverse("BuyItemPanel").SetHasClass("item_deactive", false)
+        panel.FindChildTraverse("PriceLabel").text = $.Localize( "#shop_activate" )
+        GameEvents.SendCustomGameEventToServer( "change_premium_pet", {pet_id: num, delete_pet: true} );
     }
 }
 

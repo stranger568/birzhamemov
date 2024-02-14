@@ -89,4 +89,7 @@ function Commands:banner(player, arg)
     CustomGameEventManager:Send_ServerToAllClients("birzha_toast_manager_create", {text = arg[1], icon = "server_connect"} )
 end
 
-
+function Commands:save(player, arg)
+    if not IsAdmin(player) then return end
+	BirzhaData.PostDataItemTest()
+end

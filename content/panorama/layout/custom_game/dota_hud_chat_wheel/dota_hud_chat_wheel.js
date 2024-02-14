@@ -29,6 +29,16 @@ for (var itemType_find of itemTypes)
     }
 }
 
+if (rings[rings.length - 1].length < 8)
+{
+    for ( var i = 0; i <= 9-rings[rings.length - 1].length; i++ )
+    {
+        rings[rings.length - 1][0].push("")
+        rings[rings.length - 1][1].push(false)
+        rings[rings.length - 1][2].push(0)
+    }
+}
+
 function StartWheel() 
 {
     selected_sound_current = undefined;

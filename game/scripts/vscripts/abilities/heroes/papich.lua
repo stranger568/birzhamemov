@@ -563,7 +563,7 @@ function modifier_Papich_in_solo:GetModifierProcAttack_Feedback( params )
 
     if pass and self.one_shot == true then
         self:GetParent():EmitSound("papichcreet")
-        if DonateShopIsItemBought(self:GetCaster():GetPlayerID(), 29) then
+        if DonateShopIsItemActive(self:GetCaster():GetPlayerID(), 29) then
             local niia = ParticleManager:CreateParticle("particles/birzhapass/papich_critical_effect.vpcf", PATTACH_OVERHEAD_FOLLOW, params.target)
             ParticleManager:SetParticleControl(niia, 0, params.target:GetAbsOrigin())
             ParticleManager:SetParticleControl(niia, 7, params.target:GetAbsOrigin())

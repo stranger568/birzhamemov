@@ -3969,11 +3969,11 @@
 		"difficulty"	"Pick_easy"
 		"role_hero"		"Pick_Killer"
 
-                "Ability17"		"special_bonus_birzha_druzhko_7"
+        "Ability17"		"special_bonus_birzha_druzhko_7"
 		"Ability18"		"special_bonus_birzha_druzhko_4"
 		"Ability19"		"special_bonus_birzha_druzhko_8"
 		"Ability20"		"special_bonus_birzha_druzhko_3"
-		"Ability21"		"special_bonus_birzha_druzhko_2
+		"Ability21"		"special_bonus_birzha_druzhko_2"
 		"Ability22"		"special_bonus_birzha_druzhko_5"
 		"Ability23"		"special_bonus_birzha_druzhko_6"
 		"Ability24"		"special_bonus_birzha_druzhko_3"

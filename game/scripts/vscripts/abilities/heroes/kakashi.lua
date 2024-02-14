@@ -298,20 +298,8 @@ LinkLuaModifier( "modifier_kakashi_invoke_passive", "abilities/heroes/kakashi", 
 modifier_kakashi_invoke_passive = class({})
 
 function kakashi_invoke:GetIntrinsicModifierName() return "modifier_kakashi_invoke_passive" end
-
 function modifier_kakashi_invoke_passive:IsHidden() return true end
 function modifier_kakashi_invoke_passive:IsPurgable() return false end
-function modifier_kakashi_invoke_passive:DeclareFunctions()
-    local funcs = {
-        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
-    }
-
-    return funcs
-end
-
-function modifier_kakashi_invoke_passive:GetModifierMoveSpeedBonus_Percentage()
-    return self:GetAbility():GetSpecialValueFor( "movespeed_persentage" )
-end
 
 function kakashi_invoke:GetCooldown(level)
     local cooldown = 7
