@@ -16,24 +16,27 @@
         "#DOTA_Item_Build_Core_Items"
         {
             "item"        "item_baldezh"
+            "item"        "item_hand_of_midas_custom"
+            "item"        "item_radiance_2"
+            "item"        "item_aghanim"
         }
         "#DOTA_Item_Build_Late_Items"
         {
 	    "item"	  "item_imba_phase_boots_2"
-	    "item"	  "item_mem_cheburek"
-	    "item"	  "item_magic_crystalis"
+	    "item"	  "item_angel_boots"
 	    "item"	  "item_globus"
 	    "item"	  "item_stone_mask"
-	    "item"	  "item_magic_daedalus"
 	    "item"	  "item_sharoeb"
-	    "item"	  "item_radiance_2"
 	    "item"	  "item_armor_damned"
+	    "item"	  "item_shakal"
+            "item"        "item_magical_rapier"
+            "item"        "item_recipe_ship_magic_armor"
         }
         "#DOTA_Item_Build_Luxury_Items"
         {
             "item"        "item_moon_shard"
             "item"        "item_ultimate_mem"
-	       "item"	  "item_aghanims_shard"
+            "item"	  "item_aghanims_shard"
             "item"        "item_birzha_gem"
             "item"        "item_burger_sobolev"
             "item"        "item_burger_oblomoff"
