@@ -681,6 +681,9 @@ end
 function polnaref_rapier:OnSpellStart() 
     if not IsServer() then return end
     self.target = self:GetCursorPosition()
+    if self.target == self:GetCaster():GetAbsOrigin() then
+        self.target = self:GetCaster():GetAbsOrigin() * self:GetCaster():GetForwardVector()
+    end
     local duration = self:GetChannelTime()
     if self.target == nil then
         return

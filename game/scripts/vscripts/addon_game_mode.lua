@@ -15,9 +15,10 @@ require('utils/debug_')
 require('hero_demo/demo_core')
 require('utils/commands/custom_commands')
 require('utils/requests')
+require('utils/error_tracking')
 
 -- Сервер / Рейтинг / Донат
-require("game_lib/server")
+require('game_lib/server')
 require('game_lib/report_system')
 require('game_lib/donate_shop')
 

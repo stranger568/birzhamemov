@@ -141,9 +141,14 @@ function modifier_rat_courier_infection_unit:DeclareFunctions()
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
         MODIFIER_EVENT_ON_ATTACKED,
-        MODIFIER_PROPERTY_HEALTHBAR_PIPS
+        MODIFIER_PROPERTY_HEALTHBAR_PIPS,
+        MODIFIER_PROPERTY_DISABLE_HEALING
     }
     return decFuncs
+end
+
+function modifier_rat_courier_infection_unit:GetDisableHealing()
+    return 1
 end
 
 function modifier_rat_courier_infection_unit:GetOverrideAnimation()

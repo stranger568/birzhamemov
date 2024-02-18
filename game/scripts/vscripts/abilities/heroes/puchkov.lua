@@ -221,9 +221,14 @@ function modifier_puchkov_pigs_pig_boom:DeclareFunctions()
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
         MODIFIER_EVENT_ON_ATTACK_LANDED,
-        MODIFIER_PROPERTY_HEALTHBAR_PIPS
+        MODIFIER_PROPERTY_HEALTHBAR_PIPS,
+        MODIFIER_PROPERTY_DISABLE_HEALING
     }
     return decFuncs
+end
+
+function modifier_puchkov_pigs_pig_boom:GetDisableHealing()
+    return 1
 end
 
 function modifier_puchkov_pigs_pig_boom:GetAbsoluteNoDamageMagical()

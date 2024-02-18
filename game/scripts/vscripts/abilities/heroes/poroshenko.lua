@@ -455,9 +455,14 @@ function modifier_poroshenko_donbass_unit:DeclareFunctions()
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
         MODIFIER_EVENT_ON_ATTACK_LANDED,
-        MODIFIER_PROPERTY_HEALTHBAR_PIPS
+        MODIFIER_PROPERTY_HEALTHBAR_PIPS,
+        MODIFIER_PROPERTY_DISABLE_HEALING
     }
     return funcs
+end
+
+function modifier_poroshenko_donbass_unit:GetDisableHealing()
+    return 1
 end
 
 LinkLuaModifier("modifier_Poroshenko_flag_ukraine", "abilities/heroes/poroshenko", LUA_MODIFIER_MOTION_NONE)
@@ -526,7 +531,7 @@ function modifier_Poroshenko_flag_ukraine:DeclareFunctions()
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
         MODIFIER_EVENT_ON_ATTACKED,
         MODIFIER_PROPERTY_DISABLE_HEALING,
-        MODIFIER_PROPERTY_HEALTHBAR_PIPS
+        MODIFIER_PROPERTY_HEALTHBAR_PIPS,
     }
     return decFuncs
 end

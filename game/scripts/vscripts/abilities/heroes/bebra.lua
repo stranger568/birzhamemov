@@ -709,6 +709,12 @@ function thomas_ability_three:OnVectorCastStart(vStartLocation, vDirection)
     local distance = 900
     local speed = 1200
 
+    local caster_origin = self:GetCaster():GetAbsOrigin()
+    if caster_origin.x == vStartLocation.x and caster_origin.y == vStartLocation.y then
+        vStartLocation = caster_origin + self:GetCaster():GetForwardVector() * 50
+        vDirection = self:GetCaster():GetForwardVector()
+    end
+
     CreateModifierThinker(self:GetCaster(), self, "modifier_thomas_ability_three_buff", {
         duration        = distance / speed,
         direction_x     = vDirection.x,

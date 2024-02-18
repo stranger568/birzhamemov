@@ -47,6 +47,9 @@ function druzhko_unstable_magic:OnSpellStart()
 
     if self:GetCaster():HasTalent("special_bonus_birzha_druzhko_7") then
         local point = self:GetCursorPosition()
+        if point == self:GetCaster():GetAbsOrigin() then
+            point = self:GetCaster():GetAbsOrigin() + self:GetCaster():GetForwardVector()
+        end
         local direction = point-self:GetCaster():GetAbsOrigin()
         direction.z = 0
         local projectile_normalized = direction:Normalized()

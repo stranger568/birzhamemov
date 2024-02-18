@@ -150,6 +150,18 @@ function BirzhaGameMode:ExecuteOrderFilter( filterTable )
 		end
 	end
 
+    if unit and unit:HasModifier("modifier_serega_pirat_bike_cast") then
+        local lock_orders = 
+        {
+            [DOTA_UNIT_ORDER_DROP_ITEM] = true,
+            [DOTA_UNIT_ORDER_PICKUP_ITEM ] = true,
+            [DOTA_UNIT_ORDER_CAST_POSITION] = true,
+        }
+        if lock_orders[filterTable.order_type] then
+            return false
+        end
+    end
+
 	if unit and unit:HasModifier("modifier_JohnCena_Grabbed_buff") then
 		if filterTable.order_type == DOTA_UNIT_ORDER_CAST_POSITION   then
 			if EntIndexToHScript(filterTable["entindex_ability"]) == nil then return end

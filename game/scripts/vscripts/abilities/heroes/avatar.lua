@@ -853,6 +853,9 @@ function aang_ice_wall:OnSpellStart()
     if not IsServer() then return end
     local caster = self:GetCaster()
     local point = self:GetCursorPosition()
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = self:GetCaster():GetAbsOrigin() + self:GetCaster():GetForwardVector()
+    end
     local dir = point - caster:GetOrigin()
     dir.z = 0
     dir = dir:Normalized()

@@ -701,7 +701,8 @@ function kakashi_lightning:OnSpellStart()
         flag = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
     end
 
-    local info = {
+    local info = 
+    {
         EffectName = "",
         Ability = self,
         vSpawnOrigin = self:GetCaster():GetOrigin(), 
@@ -1539,6 +1540,9 @@ function kakashi_graze_wave:OnSpellStart()
     local caster = self:GetCaster()
     local origin = self:GetCaster():GetOrigin()
     local point = self:GetCursorPosition()
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = self:GetCaster():GetAbsOrigin() + self:GetCaster():GetForwardVector()
+    end
     local direction = ((point - self:GetCaster():GetAbsOrigin()) * Vector(1, 1, 0)):Normalized()
     local endpos = self:GetCaster():GetAbsOrigin() + direction * 340
     local flag = 0

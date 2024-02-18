@@ -19,6 +19,9 @@ travoman_land_mines.mine_sausage = {}
 function travoman_land_mines:OnSpellStart()
     if not IsServer() then return end
     local point = self:GetCursorPosition()
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = self:GetCaster():GetAbsOrigin() + self:GetCaster():GetForwardVector()
+    end
     self:GetCaster():EmitSound("travoman_land")
 
     if self:GetCaster():HasTalent("special_bonus_birzha_travoman_2") then

@@ -330,6 +330,9 @@ function Hovan_GanstaBooms:OnSpellStart()
     if not IsServer() then return end
     local caster = self:GetCaster()
     local point = self:GetCursorPosition()
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = self:GetCaster():GetAbsOrigin() + self:GetCaster():GetForwardVector()
+    end
     local radius = self:GetSpecialValueFor("radius")
     local duration = 4
 

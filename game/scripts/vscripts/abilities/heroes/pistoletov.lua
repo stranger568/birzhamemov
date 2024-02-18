@@ -609,9 +609,14 @@ function modifier_Pistoletov_NewPirat_boat:DeclareFunctions()
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
         MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
         MODIFIER_EVENT_ON_ATTACK_LANDED,
-        MODIFIER_PROPERTY_HEALTHBAR_PIPS
+        MODIFIER_PROPERTY_HEALTHBAR_PIPS,
+        MODIFIER_PROPERTY_DISABLE_HEALING
     }
     return funcs
+end
+
+function modifier_Pistoletov_NewPirat_boat:GetDisableHealing()
+    return 1
 end
 
 function modifier_Pistoletov_NewPirat_boat:GetModifierProcAttack_BonusDamage_Physical( params )

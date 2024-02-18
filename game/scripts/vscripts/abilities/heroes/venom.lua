@@ -468,6 +468,9 @@ end
 function venom_tentacle:OnSpellStart()
 	if not IsServer() then return end
 	local point = self:GetCursorPosition()
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = self:GetCaster():GetAbsOrigin() * self:GetCaster():GetForwardVector()
+    end
 	local direction = point - self:GetCaster():GetAbsOrigin()
 	direction.z = 0
 	direction = direction:Normalized()
@@ -638,6 +641,9 @@ function venom_reproduction:CastFilterResultTarget(target)
 	if target == self:GetCaster() then
 		return UF_FAIL_CUSTOM
 	end
+    if not target:IsHero() and target:IsConsideredHero() then
+        return UF_FAIL_CREEP
+    end
 	return UF_SUCCESS
 end	
 

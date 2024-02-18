@@ -62,16 +62,18 @@ function modifier_birzha_fountain_passive:OnIntervalThink()
     if BIRZHA_FOUNTAIN_GAME_TIMER <= 0 then return end
 	local units = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, 1150, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_ANY_ORDER, false )
 	for _,target in pairs(units) do
-        if target:IsRealHero() then
-		    target:EmitSound("Ability.LagunaBlade")
-        end
-		local nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_lina/lina_spell_laguna_blade.vpcf", PATTACH_CUSTOMORIGIN, nil )
-		ParticleManager:SetParticleControlEnt( nFXIndex, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetParent():GetOrigin() + Vector( 0, 0, 96 ), true )
-		ParticleManager:SetParticleControlEnt( nFXIndex, 1, target, PATTACH_POINT_FOLLOW, "attach_hitloc", target:GetOrigin(), true )
-		ParticleManager:ReleaseParticleIndex( nFXIndex )
-		ApplyDamage({attacker = self:GetParent(), victim = target, ability = self:GetAbility(), damage = target:GetMaxHealth() * 0.2, damage_type = DAMAGE_TYPE_PURE})
-        if not target:IsRealHero() then
-            target:Kill(self:GetAbility(), self:GetParent())
+        if target:GetUnitName() ~= "npc_dota_courier" then
+            if target:IsRealHero() then
+                target:EmitSound("Ability.LagunaBlade")
+            end
+            local nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_lina/lina_spell_laguna_blade.vpcf", PATTACH_CUSTOMORIGIN, nil )
+            ParticleManager:SetParticleControlEnt( nFXIndex, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetParent():GetOrigin() + Vector( 0, 0, 96 ), true )
+            ParticleManager:SetParticleControlEnt( nFXIndex, 1, target, PATTACH_POINT_FOLLOW, "attach_hitloc", target:GetOrigin(), true )
+            ParticleManager:ReleaseParticleIndex( nFXIndex )
+            ApplyDamage({attacker = self:GetParent(), victim = target, ability = self:GetAbility(), damage = target:GetMaxHealth() * 0.2, damage_type = DAMAGE_TYPE_PURE})
+            if not target:IsRealHero() then
+                target:Kill(self:GetAbility(), self:GetParent())
+            end
         end
 	end
 end

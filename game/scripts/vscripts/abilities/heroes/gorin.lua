@@ -324,6 +324,8 @@ modifier_gorin_rabies_primary = class({})
 function modifier_gorin_rabies_primary:OnCreated()
     if not IsServer() then return end
 
+    self.origin = self:GetCaster():GetAbsOrigin()
+
     self:GetParent():EmitSound("Hero_Riki.TricksOfTheTrade")
 
     local radius = self:GetAbility():GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_gorin_5")
@@ -371,7 +373,7 @@ function modifier_gorin_rabies_primary:OnDestroy()
         self:GetCaster().TrollLod = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/heroes/troll_warlord/mesh/troll_warlord_armor_model_lod0.vmdl"})
         self:GetCaster().TrollLod:FollowEntity(self:GetCaster(), true)
     end
-    FindClearSpaceForUnit(self:GetParent(), self:GetParent():GetAbsOrigin(), true)
+    FindClearSpaceForUnit(self:GetParent(), self.origin, true)
     self:GetParent():RemoveNoDraw()
     local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_riki/riki_tricks_end.vpcf", PATTACH_ABSORIGIN, self:GetParent())
     ParticleManager:ReleaseParticleIndex(particle)
@@ -402,6 +404,7 @@ end
 
 function modifier_gorin_rabies_primary:OnIntervalThink()
     if IsServer() then
+        self:GetCaster():SetAbsOrigin(self.origin)
         local ability = self:GetAbility()
         local caster = self:GetCaster()
         local origin = self:GetParent():GetAbsOrigin()

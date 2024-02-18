@@ -6,7 +6,11 @@ ruby_ranged_mode = class({})
 function ruby_ranged_mode:OnVectorCastStart(vStartLocation, vDirection)
     if not IsServer() then return end
     local effects = self:PlayEffects()
-
+    local caster_origin = self:GetCaster():GetAbsOrigin()
+    if caster_origin.x == vStartLocation.x and caster_origin.y == vStartLocation.y then
+        vStartLocation = caster_origin + self:GetCaster():GetForwardVector() * 50
+        vDirection = self:GetCaster():GetForwardVector()
+    end
     local vector = (vStartLocation-self:GetCaster():GetOrigin())
     local dist = vector:Length2D()
     vector.z = 0

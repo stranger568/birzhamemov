@@ -22,6 +22,9 @@ function migi_inside:CastFilterResultTarget(target)
     if not target:IsRealHero() then
         return UF_FAIL
     end
+    if target:HasModifier("modifier_kelthuzad_death_knight") then
+        return UF_FAIL_CONSIDERED_HERO
+    end
     local nResult = UnitFilter( target, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NOT_CREEP_HERO, self:GetCaster():GetTeamNumber() )
     if nResult ~= UF_SUCCESS then
         return nResult
@@ -253,7 +256,6 @@ function modifier_migi_inside_parent:DeclareFunctions()
         MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
         MODIFIER_PROPERTY_EVASION_CONSTANT,
         MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
-        MODIFIER_EVENT_ON_ATTACK_LANDED,
 
         MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
         MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
@@ -298,17 +300,7 @@ function modifier_migi_inside_parent:GetModifierPhysicalArmorBonus()
     return 0
 end
 
-function modifier_migi_inside_parent:OnAttackLanded(params)
-    if not IsServer() then return end
-    if params.attacker ~= self:GetParent() and params.target == self:GetParent() then
-        if bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) == DOTA_DAMAGE_FLAG_REFLECTION then return end
-        if not self:GetCaster():HasTalent("special_bonus_birzha_migi_4") then return end
-        local damage_return = self:GetCaster():FindTalentValue("special_bonus_birzha_migi_4") * params.original_damage / 100
-        ApplyDamage({victim = params.attacker, attacker = self:GetParent(), damage = damage_return, damage_type = params.damage_type,  damage_flags = DOTA_DAMAGE_FLAG_BYPASSES_BLOCK + DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION + DOTA_DAMAGE_FLAG_REFLECTION, ability = self:GetAbility()})
-    end
-end
-
-function modifier_migi_inside_parent:GetModifierAvoidDamage(keys)
+function modifier_migi_inside_parent:GetModifierAvoidDamage(params)
     local ab = self:GetCaster():FindAbilityByName("migi_bubble")
     if ab and ab:GetLevel() > 0 then
         if ab:IsFullyCastable() then
@@ -316,6 +308,12 @@ function modifier_migi_inside_parent:GetModifierAvoidDamage(keys)
             ParticleManager:SetParticleControl( nFXIndex, 0, Vector( 0, 0, -1000 ) )
             ParticleManager:SetParticleControlEnt(nFXIndex, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
             ab:UseResources(false, false, false, true)
+            if self:GetCaster():HasTalent("special_bonus_birzha_migi_4") then
+                if bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then
+                    local damage_return = self:GetCaster():FindTalentValue("special_bonus_birzha_migi_4") * params.original_damage / 100
+                    ApplyDamage({victim = params.attacker, attacker = self:GetParent(), damage = damage_return, damage_type = params.damage_type,  damage_flags = DOTA_DAMAGE_FLAG_BYPASSES_BLOCK + DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION + DOTA_DAMAGE_FLAG_REFLECTION, ability = self:GetAbility()})
+                end
+            end
             return 1
         else
             return 0

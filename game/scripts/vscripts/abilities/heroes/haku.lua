@@ -946,6 +946,12 @@ function modifier_haku_zerkala_wall:DeclareFunctions()
 end
 
 function modifier_haku_zerkala_wall:CheckState()
+    local parent_vector = self.parent:GetOrigin()-self.aura_origin
+    local parent_direction = parent_vector:Normalized()
+    local actual_distance = parent_vector:Length2D()
+    local wall_distance = actual_distance-self.radius
+    local isInside = (wall_distance)<0
+    if not isInside then return end
 	return 
 	{
 		[MODIFIER_STATE_MUTED] = true,

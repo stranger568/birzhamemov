@@ -14,6 +14,9 @@ function item_roscom_midas:CastFilterResultTarget(target)
     if not target:IsRealHero() then
         return UF_FAIL_CUSTOM
     end
+    if target:HasModifier("modifier_kelthuzad_death_knight") then
+        return UF_FAIL_CONSIDERED_HERO
+    end
     local nResult = UnitFilter( target, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_NOT_CREEP_HERO + DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS, self:GetCaster():GetTeamNumber() )
     if nResult ~= UF_SUCCESS then
         return nResult

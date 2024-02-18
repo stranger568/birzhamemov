@@ -403,9 +403,14 @@ function modifier_kelthuzad_zombie_ai:DeclareFunctions()
         MODIFIER_PROPERTY_HEALTHBAR_PIPS,
         MODIFIER_PROPERTY_PROCATTACK_BONUS_DAMAGE_PHYSICAL,
         MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE,
-        MODIFIER_PROPERTY_INVISIBILITY_LEVEL
+        MODIFIER_PROPERTY_INVISIBILITY_LEVEL,
+        MODIFIER_PROPERTY_DISABLE_HEALING
     }
     return decFuncs
+end
+
+function modifier_kelthuzad_zombie_ai:GetDisableHealing()
+    return 1
 end
 
 function modifier_kelthuzad_zombie_ai:GetAbsoluteNoDamageMagical()
@@ -722,7 +727,7 @@ function kelthuzad_death_knight:OnProjectileHit_ExtraData(caster_target, point, 
             for itemSlot = 0,16 do
                 local itemName = target:GetItemInSlot(itemSlot)
                 if itemName then 
-                    if itemName:GetName() ~= "item_rapier" and itemName:GetName() ~= "item_gem" and itemName:IsPermanent() then
+                    if itemName:GetName() ~= "item_rapier" and itemName:GetName() ~= "item_gem" and itemName:GetName() ~= "item_roscom_midas" and itemName:IsPermanent() then
                         local newItem = CreateItem(itemName:GetName(), nil, nil)
                         knight:AddItem(newItem)
                         if itemName and itemName:GetCurrentCharges() > 0 and newItem and not newItem:IsNull() then

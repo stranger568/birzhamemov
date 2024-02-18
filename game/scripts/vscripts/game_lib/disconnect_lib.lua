@@ -84,6 +84,10 @@ function IsPlayerAbandoned(id)
 end
 
 function BirzhaEvents:AutoWin()
+    local nNewState = GameRules:State_Get()
+    if nNewState ~= DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
+        return
+    end
     local winteam = nil
 	local teams_table = {2,3,6,7,8,9,10,11,12,13}
     for i=#teams_table, 1, -1 do

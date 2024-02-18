@@ -16,6 +16,9 @@ function pyramide_wires:OnSpellStart()
     if not IsServer() then return end
     local origin     = self:GetCaster():GetAbsOrigin()
     local point   = self:GetCursorPosition()
+    if point == self:GetCaster():GetAbsOrigin() then
+        point = self:GetCaster():GetAbsOrigin() + self:GetCaster():GetForwardVector()
+    end
     local new_origin = point - origin
     new_origin.z = 0
     local direction = new_origin:Normalized()
