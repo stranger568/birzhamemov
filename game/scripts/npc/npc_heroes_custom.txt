@@ -1809,10 +1809,10 @@
 		"Ability11"		"special_bonus_birzha_gitelman_2"
 		"Ability12"		"special_bonus_birzha_gitelman_3"
 		"Ability13"		"special_bonus_birzha_gitelman_4"
-		"Ability14"		"special_bonus_birzha_gitelman_5"
+		"Ability14"		"special_bonus_birzha_gitelman_8"
 		"Ability15"		"special_bonus_birzha_gitelman_6"
 		"Ability16"		"special_bonus_birzha_gitelman_7"
-		"Ability17"		"special_bonus_birzha_gitelman_8"
+		"Ability17"		"special_bonus_birzha_gitelman_5"
 	}
 
 	//=================================================================================================================
@@ -2599,7 +2599,7 @@
 		"Ability25"						""
 		
 		"AttributeBaseStrength"			"25"
-		"AttributeStrengthGain"			"2.600000"
+		"AttributeStrengthGain"			"2.200000"
 		"AttributeBaseIntelligence"		"15"
 		"AttributeIntelligenceGain"		"1.8000"
 		"AttributeBaseAgility"			"28"
@@ -3694,7 +3694,7 @@
 		"AttackDamageMax"				"50"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
 		"AttributeBaseStrength"			"18"
-		"AttributeStrengthGain"			"3.1"
+		"AttributeStrengthGain"			"2.5"
 		"AttributeBaseAgility"			"20"
 		"AttributeAgilityGain"			"1.800000"
 		"AttributeBaseIntelligence"		"24"
