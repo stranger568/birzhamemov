@@ -1983,7 +1983,7 @@
 		"AbilityValues"	
 		{
 			"armor_per_stack"			"1.5 2 2.5 3"
-			"attack_speed_per_stack"			"15 20 25 30"
+			"attack_speed_per_stack"			"5 10 15 20"
 			"maximum_stack"				"5"
 			"duration"					"10"
 		}
@@ -2004,7 +2004,7 @@
 		{
 			"damage_percent"
 			{
-				"value"							"15 22.5 30"
+				"value"							"15 20 25"
 				"LinkedSpecialBonus"			"special_bonus_birzha_vjlink_7"
 				"CalculateSpellDamageTooltip"	"0"
 			}	
@@ -7431,7 +7431,7 @@
 			{
 				"value"						"1 1.25 1.5 1.75"
 			}
-			"damage"						"130 170 210 250"
+			"damage"						"150 200 240 290"
 			"radius"		
 			{
 				"value"						"250"
@@ -10255,7 +10255,7 @@
 				"value"									"1 1.25 1.5 1.75"
 				"LinkedSpecialBonus"					"special_bonus_birzha_gitelman_4"
 			}
-			"stun_duration"			"4"
+			"stun_duration"			"3.5"
 			"shackle_distance"		"575"
 			"arrow_speed"			"1650"
 			"shackle_count"			"2 3 4 5"
@@ -10354,7 +10354,7 @@
 
 		"AbilityValues"
 		{
-			"value"							"1"		
+			"value"							"0.5"		
 		}
 	}
 	"special_bonus_birzha_gitelman_5"
@@ -11481,7 +11481,7 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
 		"AbilityManaCost"				"50"
-		"AbilityCooldown"				"15 13 11 9"
+		"AbilityCooldown"				"13 11 9 7"
 		"HasShardUpgrade"				"1"
 
 		"AbilityValues"
@@ -14291,7 +14291,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"35"			
+			"value"						"20"			
 		}
 	}
 	"special_bonus_birzha_yuno_8"
@@ -19578,7 +19578,7 @@
 		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_2"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
-		"AbilityCooldown"				"20 16 12 10"
+		"AbilityCooldown"				"18 16 14 12"
 		"AbilityManaCost"				"75"
 
 		"AbilityValues"
@@ -19622,7 +19622,7 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
-		"AbilityCooldown"				"25"
+		"AbilityCooldown"				"35"
 		"AbilityManaCost"				"100"
 		"LinkedAbility"					"freddy_costume_launch"
 		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
@@ -21423,7 +21423,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"160"				
+			"value"						"110"				
 		}
 	}
 	"special_bonus_birzha_yakubovich_7"
@@ -22857,7 +22857,7 @@
 		"AbilityCastPoint"				"0.05"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
 		"AbilityCastRange"				"1100"
-		"AbilityCooldown"			   "17"
+		"AbilityCooldown"			   "25"
 		"AbilityManaCost"				"200"	
 		"MaxLevel"					  "1"
 		"AbilityCastAnimation"		  "ACT_DOTA_CAST_ABILITY_1"
@@ -22902,7 +22902,7 @@
 	  
 		"AbilityValues"
 		{
-			"bonus_resist"   			"20 25 30"
+			"bonus_resist"   			"5 12.5 20"
 			"bonus_healt_regen"   		"10 20 30"
 			"bonus_mana_regen"   		"6 12 18"
 			"bonus_armor"   			"6 10 14"
@@ -22917,7 +22917,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"0.5"	
+			"value"						"0.25"	
 		}
 	}
 	"special_bonus_unique_birzha_ram_2"
