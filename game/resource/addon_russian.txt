@@ -7464,6 +7464,7 @@
 "DOTA_Tooltip_Ability_Rikardo_Fire_lore" 						"Hex посвящает этого героя Moskes Acabe"
 "DOTA_Tooltip_Ability_Rikardo_Fire_Description" 				"Рикардо настолько горяч, что буквально обжигает рядом стоящих врагов, нанося им периодический урон"
 "DOTA_Tooltip_Ability_Rikardo_Fire_damage" 						"УРОН В СЕКУНДУ:"
+"DOTA_Tooltip_Ability_Rikardo_Fire_multiplier" 						"Множитель урона за уровень героя:"
 "DOTA_Tooltip_Ability_Rikardo_Fire_radius" 						"РАДИУС:"
 "DOTA_Tooltip_ability_Rikardo_Fire_shard_description"			"Изменяет тип урона на чистый"
 
