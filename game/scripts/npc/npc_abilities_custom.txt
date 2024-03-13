@@ -18215,6 +18215,7 @@
 		"AbilityValues"
 		{
 			"damage"					"50"
+			"multiplier"             	"2"
 			"interval"		   		"0.5"
 			"radius"			 		"300"
 		}
