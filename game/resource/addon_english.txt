@@ -7463,7 +7463,7 @@
 "DOTA_Tooltip_Ability_Ricardo_Fire_lore" 						"Hex dedicates this hero to Moskes Acabe"
 "DOTA_Tooltip_Ability_Ricardo_Fire_Description" 				"Ricardo is so hot that he literally burns nearby enemies, causing them damage over time"
 "DOTA_Tooltip_Ability_Rikardo_Fire_damage" 						"DAMAGE PER SECOND:"
-"DOTA_Tooltip_Ability_Rikardo_Fire_multiplier" 						"Damage multiplier per hero level:"
+"DOTA_Tooltip_Ability_Rikardo_Fire_multiplier" 						"DAMAGE MULTIPLIER PER HERO LEVEL:"
 "DOTA_Tooltip_Ability_Ricardo_Fire_radius" 						"RADIUS:"
 "DOTA_Tooltip_ability_Ricardo_Fire_shard_description" 			"Changes the damage type to pure"
 
