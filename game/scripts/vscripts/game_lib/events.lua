@@ -222,7 +222,7 @@ function BirzhaGameMode:EndGame( victoryTeam )
 	Timers:CreateTimer(1, function()
 		GameRules:SetGameWinner( victoryTeam )
 	end)
-	if BirzhaData:GetPlayerCount() > 5 or IsInToolsMode() then
+	if BirzhaData:GetPlayerCount() > 3 or IsInToolsMode() then
 		CustomNetTables:SetTableValue("birzha_mmr", "game_winner", {t = victoryTeam} )
 		BirzhaData.PostData()
 		BirzhaData.PostHeroesInfo()
@@ -353,30 +353,33 @@ function BirzhaGameMode:OnEntityKilled( event )
 			end
             local bonus_visual_gold = 0
             local bonus_visual_exp = 0
-            if bonus and (game_time >= 5 or IsInToolsMode()) then
-                local memberID = hero:GetPlayerOwnerID()
-                local gold = (250 + (250 * game_time / 10)) + ((target_kills - attacker_kills) * 50)
-                local exp = (500 * (game_time / 5)) + ((target_kills - attacker_kills) * 100)
-                bonus_visual_gold = gold
-                bonus_visual_exp = exp
-                PlayerResource:ModifyGold( memberID, gold, true, 0 )
-                if hero:IsHero() then
-                    hero:AddExperience( exp, 0, false, false )
+
+            if GetMapName() ~= "birzhamemov_zxc" then
+                if bonus and (game_time >= 5 or IsInToolsMode()) then
+                    local memberID = hero:GetPlayerOwnerID()
+                    local gold = (250 + (250 * game_time / 10)) + ((target_kills - attacker_kills) * 50)
+                    local exp = (500 * (game_time / 5)) + ((target_kills - attacker_kills) * 100)
+                    bonus_visual_gold = gold
+                    bonus_visual_exp = exp
+                    PlayerResource:ModifyGold( memberID, gold, true, 0 )
+                    if hero:IsHero() then
+                        hero:AddExperience( exp, 0, false, false )
+                    end
+                else
+                    if hero:IsHero() then
+                        hero:AddExperience( 100, 0, false, false )
+                    end
                 end
-            else
-                if hero:IsHero() then
-                    hero:AddExperience( 100, 0, false, false )
-                end
-            end
-            if killedUnit:GetTeam() == self.leadingTeam and self.isGameTied == false and game_time >= 5 then
-                if bonus_visual_exp > 0 or bonus_visual_gold > 0 then
-                    local name = hero:GetClassname()
-                    local victim = killedUnit:GetClassname()
-                    local kill_alert =
-                    {
-                        hero_id = hero:GetUnitName()
-                    }
-                    CustomGameEventManager:Send_ServerToAllClients("birzha_toast_manager_create", {text = "__", icon = "leader", kill = 1, hero_id = hero:GetUnitName(), exp = math.floor(bonus_visual_exp), gold = math.floor(bonus_visual_gold)} )
+                if killedUnit:GetTeam() == self.leadingTeam and self.isGameTied == false and game_time >= 5 then
+                    if bonus_visual_exp > 0 or bonus_visual_gold > 0 then
+                        local name = hero:GetClassname()
+                        local victim = killedUnit:GetClassname()
+                        local kill_alert =
+                        {
+                            hero_id = hero:GetUnitName()
+                        }
+                        CustomGameEventManager:Send_ServerToAllClients("birzha_toast_manager_create", {text = "__", icon = "leader", kill = 1, hero_id = hero:GetUnitName(), exp = math.floor(bonus_visual_exp), gold = math.floor(bonus_visual_gold)} )
+                    end
                 end
             end
 

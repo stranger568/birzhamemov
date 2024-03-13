@@ -19,10 +19,23 @@
 			<Panel class="BirzhaPlusButtonIcon" />
 			<Label class="BirzhaPlusButtonLabel" text="#birzhaplus_button" />
 		</Panel>
+        <Panel id="BirzhaNotificationButton" onactivate="OpenNotification();">
+			<Panel class="BirzhaNotificationButtonIcon" />
+			<Label class="BirzhaNotificationButtonLabel" text="#notification_button" />
+		</Panel>
         <Panel class="NewItemsInfo" id="NewItemsInfo">
             <Label class="NewItemsInfoLabel" text="#shop_notification" />
         </Panel>
 		<Panel id="SmilesButton" onactivate="ToggleSmiles();" />
+
+        <Panel id="NotificationWindow" class="NotificationWindow opacity_notif" hittest="false">
+            <Panel class="NotificationHeader">
+                <Label class="NotificationHeaderLabel" text="#notification_button" />
+                <Panel class="CloseNotif" onactivate="OpenNotification();"/>
+            </Panel>
+            <Panel class="NotifList" id="NotifList" />
+        </Panel>
+
 		<Panel id="BirzhaPassWindow" hittest="false">
 			<Panel id="BirzhaPassWindowActive">
 				<Panel class="BirzhaPassLogo">

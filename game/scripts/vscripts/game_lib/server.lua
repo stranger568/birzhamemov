@@ -455,11 +455,17 @@ function BirzhaData:RegisterSeasonInfo()
     local setup_last_season = function(data)
         CustomNetTables:SetTableValue('game_state', 'birzha_top_last_season', data)          
     end
+    local updateNotif = function(data)
+        CustomNetTables:SetTableValue('birzha_notification', 'birzha_notification', data)          
+    end
     RequestData('https://' .. BirzhaData.url .. '/data/get_top_15.php', function(data) BirzhaData.SetTopMmr(data) end)
     RequestData('https://' .. BirzhaData.url .. '/data/get_donate_heroes.php', function(data) BirzhaData.SetDonateHeroes(data) end)
     RequestData('https://' .. BirzhaData.url .. '/data/get_current_season.php', function(data) setup_gamedata(data) end) 
-    RequestData('https://' .. BirzhaData.url .. '/data/get_top_last_season.php', function(data) setup_last_season(data) end) 
+    RequestData('https://' .. BirzhaData.url .. '/data/get_top_last_season.php', function(data) setup_last_season(data) end)
+    RequestData('https://' .. BirzhaData.url .. '/data/birzha_notification.json', function(data) updateNotif(data) end) 
 end
+
+
 
 function BirzhaData.SetDonateHeroes(data)
     for _, info in pairs(data) do
@@ -473,14 +479,17 @@ function BirzhaData.SetTopMmr(list)
 end
 
 function BirzhaData:CheckConnection()
-    if IsInToolsMode() then return end
+    local no_connect_count = 0
     for id, player_info in pairs(BirzhaData.PLAYERS_GLOBAL_INFORMATION) do
         if not player_info.server_data.connected then
-            BirzhaData.SERVER_CONNECTION = false
+            no_connect_count = no_connect_count + 1
         end
     end
+    if no_connect_count > 3 then
+        BirzhaData.SERVER_CONNECTION = false
+    end
     if BirzhaData.SERVER_CONNECTION then
-        if BirzhaData:GetPlayerCount() <= 5 then
+        if BirzhaData:GetPlayerCount() <= 3 then
             CustomGameEventManager:Send_ServerToAllClients("birzha_toast_manager_create", {text = "LowHumansInLobby", icon = "server_connect"} )
         end
     else

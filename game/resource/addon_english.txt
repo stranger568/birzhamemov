@@ -71,7 +71,7 @@
 "DOTA_SUBSHOP_SECRETSHOP" 			"Protection"
 
 "ServerNoConnection" "<b>No connection to the Birza Memov servers</b><br><br>This game will not be counted"
-"LowHumansInLobby"                  "<b>Less than 6 players in the lobby</b><br><br>This game will not be counted"
+"LowHumansInLobby"                  "<b>Less than 3 players in the lobby</b><br><br>This game will not be counted"
 
 "birzha_win_predict" 				"Predicts victory! Wins in a row:"
 "birzha_win_predict_1" 				"Predictions in a row"
@@ -276,6 +276,8 @@
 "item_216" 		"[Sound] This is the base"
 "item_217" 		"[Sound] Thi s is my perfect victory"
 "item_218" 		"[Sound] I condemn!!!"
+
+"notification_button"               "Notifications"
 
 //================================================================ ===================================================== ===============
 // Fountain and Circle
@@ -1353,8 +1355,11 @@
 "DOTA_Tooltip_Ability_item_overheal_trank_bonus_health" "+$health"
 "DOTA_Tooltip_ability_item_overheal_trank_lore" 	"This item was created thanks to <font color='#fffc00'>HEX</font>"
 
-"DOTA_Tooltip_Ability_item_angel_boots" 			"Angel Boots"
-"DOTA_Tooltip_ability_item_angel_boots_Description" 				"<h1>Active: Angelic Help</h1> Places a regeneration rune on all allies and summoned creatures within a %radius%, removing all negative effects and restoring health according to the formula (%restore_health% + %restore_health_percent%%% of max health) and mana according to the formula (%restore_mana% + %restore_mana_percent%%% of max mana)\n<h1>Passive: Faith</h1> Affects allies around in a %radius%. Increases their health recovery by %bonus_regen_aura% and armor by %bonus_armor_aura% <br><br>If the health of an allied hero is below %health_to_bonus%%%, then the aura will affect him more strongly, restoring %max_bonus_health_regen% health per second and increasing armor by %max_bonus_armor%"
+"DOTA_Tooltip_modifier_item_overheal_trank_active"							"Tranquil Boots 2"
+"DOTA_Tooltip_modifier_item_overheal_trank_active_Description"				"Regenerating %dMODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE%%% HP and %dMODIFIER_PROPERTY_MANA_REGEN_TOTAL_PERCENTAGE%%% mana per second."
+
+"DOTA_Tooltip_Ability_item_angel_boots" 			                    "Angel Boots"
+"DOTA_Tooltip_ability_item_angel_boots_Description" 				    "<h1>Active: Angelic Help</h1> Places a regeneration rune on all allies and summoned creatures within a %radius%, removing all negative effects and restoring health according to the formula (%restore_health% + %restore_health_percent%%% of max health) and mana according to the formula (%restore_mana% + %restore_mana_percent%%% of max mana)\n<h1>Passive: Faith</h1> Affects allies around in a %radius%. Increases their health recovery by %bonus_regen_aura% and armor by %bonus_armor_aura% <br><br>If the health of an allied hero is below %health_to_bonus%%%, then the aura will affect him more strongly, restoring %max_bonus_health_regen% health per second and increasing armor by %max_bonus_armor%"
 "DOTA_Tooltip_ability_item_angel_boots_bonus_movement_speed" 				"+$move_speed"
 "DOTA_Tooltip_ability_item_angel_boots_bonus_armor" 				"+$armor"
 "DOTA_Tooltip_ability_item_angel_boots_bonus_mana" 				"+$mana"
@@ -2045,6 +2050,9 @@
 
 "DOTA_Tooltip_modifier_item_orchid_custom_active" 					"Orchid Malevolence"
 "DOTA_Tooltip_modifier_item_orchid_custom_active_Description" 		"Cannot cast abilities. When the effect ends, take 30%% of the damage taken during the effect as magic damage."
+
+"DOTA_Tooltip_modifier_item_nullifier_purge_debuff_custom"							"Nullifier"
+"DOTA_Tooltip_modifier_item_nullifier_purge_debuff_custom_Description"				"The target is being constantly dispelled."
 
 "DOTA_Tooltip_modifier_item_bloodthorn_custom_active" 				"Bloodthorn"
 "DOTA_Tooltip_modifier_item_bloodthorn_custom_active_Description" 	"This creature cannot use abilities, and at the end of the action it will deal magic damage equal to 30%% of the damage taken.\nAll the same, this creature deals 130%% critical damage."

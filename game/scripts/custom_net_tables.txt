@@ -23,5 +23,6 @@
 		"exp_table",
 		"battlepass_info",
 		"reported_info",
+        "birzha_notification",
 	]
 }

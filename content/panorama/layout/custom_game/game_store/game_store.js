@@ -20,6 +20,14 @@ if (parentHUDElements)
 			$("#BirzhaPlusButton").SetParent(parentHUDElements);
 		}
 	}
+    if ($("#BirzhaNotificationButton")) 
+    {
+		if (parentHUDElements.FindChildTraverse("BirzhaNotificationButton")){
+			$("#BirzhaNotificationButton").DeleteAsync( 0 );
+		} else {
+			$("#BirzhaNotificationButton").SetParent(parentHUDElements);
+		}
+	}
 }
 
 // ---------------------------------------------------------------
@@ -1681,4 +1689,54 @@ function NewItemsInfo()
 
 var INFORMATION_NEW_ITEMS = true
 
+function OpenNotification()
+{
+    $("#NotificationWindow").SetHasClass("opacity_notif", !$("#NotificationWindow").BHasClass("opacity_notif"))
+}
+
+function InitNotif()
+{
+    $("#NotifList").RemoveAndDeleteChildren()
+    var NotifTable = CustomNetTables.GetTableValue("birzha_notification", "birzha_notification")
+    if (NotifTable)
+    {
+        for (var i = 1; i <= Object.keys(NotifTable).length; i++)
+        {
+            if (NotifTable[i] != null)
+            {
+                AddNotif(NotifTable[i])
+            }
+        }
+    }
+}
+
+function AddNotif(info)
+{
+    var table = player_table_bp_owner
+    if (Number(info["player"] != 0))
+    {
+        if (table)
+        {
+            if (Number(table.steamid) != Number(info["player"]))
+            {
+                return
+            }
+        } 
+        else
+        {
+            return
+        }
+    }
+    let NotificationBody = $.CreatePanel("Panel", $("#NotifList"), "")
+    NotificationBody.AddClass("NotificationBody")
+    let NotificationName = $.CreatePanel("Label", NotificationBody, "")
+    NotificationName.AddClass("NotificationName")
+    NotificationName.text = info["name"]
+    let NotificationDesc = $.CreatePanel("Label", NotificationBody, "")
+    NotificationDesc.AddClass("NotificationDesc")
+    NotificationDesc.html = true
+    NotificationDesc.text = info["description"]
+}
+
+InitNotif()
 UselessFunction()

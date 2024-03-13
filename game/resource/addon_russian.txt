@@ -71,7 +71,7 @@
 "DOTA_SUBSHOP_SECRETSHOP"			"Защита"
 
 "ServerNoConnection"                "<b>Нет подключения к серверам Биржи мемов</b><br><br>Данная игра не будет засчитана"
-"LowHumansInLobby"                  "<b>Меньше 6 игроков в лобби</b><br><br>Данная игра не будет засчитана"
+"LowHumansInLobby"                  "<b>Меньше 3 игроков в лобби</b><br><br>Данная игра не будет засчитана"
 
 "birzha_win_predict"				" Предсказывает победу ! Предсказаний подряд:"
 "birzha_win_predict_1"				"Предсказаний подряд"
@@ -991,6 +991,8 @@
 
 "your_id"							"Ваш ID: "
 
+"notification_button"               "Уведомления"
+
 //=================================================================================================================
 // Выбор героев
 //=================================================================================================================
@@ -1352,6 +1354,9 @@
 "DOTA_Tooltip_Ability_item_overheal_trank_bonus_regen"			"+$hp_regen"
 "DOTA_Tooltip_Ability_item_overheal_trank_bonus_health"   "+$health"
 "DOTA_Tooltip_ability_item_overheal_trank_lore"	"Данный предмет создан благодаря <font color='#fffc00'>HEX</font>"
+
+"DOTA_Tooltip_modifier_item_overheal_trank_active"							"Tranquil Boots 2"
+"DOTA_Tooltip_modifier_item_overheal_trank_active_Description"				"Восстанавливает %dMODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE%%% здоровья и %dMODIFIER_PROPERTY_MANA_REGEN_TOTAL_PERCENTAGE%%% маны в секунду."
 
 "DOTA_Tooltip_Ability_item_angel_boots"			"Angel Boots"
 "DOTA_Tooltip_ability_item_angel_boots_Description"				"<h1>Активное: Ангельская Помощь</h1> Накладывает на всех союзников и призванных существ в радиусе %radius% руну регенерации, снимая все отрицательные эффекты и восстанавливает здоровье по формуле (%restore_health% + %restore_health_percent%%% от макс. здоровья) и ману по формуле (%restore_mana% + %restore_mana_percent%%% от макс. маны)\n<h1>Пассивное: Вера</h1> Действует на союзников вокруг в радиусе %radius%. Увеличивает их восстановление здоровья на %bonus_regen_aura% и броню на %bonus_armor_aura% <br><br>Если уровень здоровья союзного героя ниже %health_to_bonus%%%, то аура будет действовать на него сильнее, восстанавливая %max_bonus_health_regen% здоровья в секунду и увеличивая броню на %max_bonus_armor%"
@@ -2045,6 +2050,9 @@
 
 "DOTA_Tooltip_modifier_item_orchid_custom_active"					"Orchid Malevolence"
 "DOTA_Tooltip_modifier_item_orchid_custom_active_Description"		"Не может применять способности. По окончании эффекта получит магический урон в размере 30%% от урона, полученного во время действия."
+
+"DOTA_Tooltip_modifier_item_nullifier_purge_debuff_custom"							"Nullifier"
+"DOTA_Tooltip_modifier_item_nullifier_purge_debuff_custom_Description"				"С этого существа постоянно развеиваются положительные эффекты."
 
 "DOTA_Tooltip_modifier_item_bloodthorn_custom_active"				"Bloodthorn"
 "DOTA_Tooltip_modifier_item_bloodthorn_custom_active_Description"	"Это существо не может применять способности, а в конце действия ему нанесется магический урон в размере 30%% от полученного урона.\nВсе атаки по этому существу наносят 130%% критического урона."

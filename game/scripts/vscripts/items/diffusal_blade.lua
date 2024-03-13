@@ -1,5 +1,6 @@
 LinkLuaModifier("modifier_item_birzha_diffusal_blade_2", "items/diffusal_blade", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_item_birzha_diffusal_blade_2_debuff", "items/diffusal_blade", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_item_nullifier_purge_debuff_custom", "modifiers/modifier_item_nullifier_purge_debuff_custom", LUA_MODIFIER_MOTION_NONE)
 
 item_birzha_diffusal_blade_2 = class({})
 
@@ -12,7 +13,8 @@ function item_birzha_diffusal_blade_2:OnSpellStart()
 	local duration = self:GetSpecialValueFor("duration")
 	local target = self:GetCursorTarget()
 	if target:TriggerSpellAbsorb(self) then return end
-	target:AddNewModifier(self:GetCaster(), self, "modifier_item_birzha_diffusal_blade_2_debuff", {duration = duration})
+	target:AddNewModifier(self:GetCaster(), self, "modifier_item_birzha_diffusal_blade_2_debuff", {duration = duration * (1 - target:GetStatusResistance())})
+    target:AddNewModifier(self:GetCaster(), self, "modifier_item_nullifier_purge_debuff_custom", {duration = duration * (1 - target:GetStatusResistance())})
 	target:Purge(true, false, false, false, false)
 end
 
@@ -107,9 +109,6 @@ end
 
 modifier_item_birzha_diffusal_blade_2_debuff = class({})
 
-function modifier_item_birzha_diffusal_blade_2_debuff:IsPurgable() return false end
-function modifier_item_birzha_diffusal_blade_2_debuff:IsPurgeException() return false end
-
 function modifier_item_birzha_diffusal_blade_2_debuff:GetTexture()
   	return "items/diff2"
 end
@@ -123,26 +122,4 @@ end
 function modifier_item_birzha_diffusal_blade_2_debuff:GetModifierMoveSpeedBonus_Percentage()
 	if not self:GetAbility() then return end
     return self:GetAbility():GetSpecialValueFor("slow_movespeed")
-end
-
-function modifier_item_birzha_diffusal_blade_2_debuff:OnCreated()
-	if IsServer() then
-		self:StartIntervalThink(0.2)
-		local overhead_particle = ParticleManager:CreateParticle("particles/items4_fx/nullifier_mute.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent())
-		self:AddParticle(overhead_particle, false, false, -1, false, false)
-	end
-end
-
-function modifier_item_birzha_diffusal_blade_2_debuff:OnIntervalThink()
-	if IsServer() then
-		self:GetParent():Purge(true, false, false, false, false)
-	end
-end
-
-function modifier_item_birzha_diffusal_blade_2_debuff:GetEffectName()
-	return "particles/items4_fx/nullifier_mute_debuff.vpcf"
-end
-
-function modifier_item_birzha_diffusal_blade_2_debuff:GetStatusEffectName()
-	return "particles/status_fx/status_effect_nullifier.vpcf"
 end

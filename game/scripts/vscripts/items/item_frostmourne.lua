@@ -94,13 +94,13 @@ function modifier_item_frostmorn_debuff:OnCreated()
 end
 
 function modifier_item_frostmorn_debuff:DeclareFunctions()
-    local funcs = {
+    local funcs = 
+    {
 		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
         MODIFIER_PROPERTY_HP_REGEN_AMPLIFY_PERCENTAGE,
 
     }
-
     return funcs
 end
 
@@ -129,6 +129,9 @@ function modifier_item_frostmorn_debuff:StatusEffectPriority()
 end
 
 modifier_item_frostmorn_active = class({})
+
+function modifier_item_frostmorn_active:IsPurgable() return false end
+function modifier_item_frostmorn_active:IsPurgeException() return false end
 
 function modifier_item_frostmorn_active:GetTexture()
     return "items/frostmourne"

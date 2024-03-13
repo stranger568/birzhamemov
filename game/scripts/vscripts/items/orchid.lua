@@ -99,10 +99,12 @@ end
 function modifier_item_orchid_custom_active:OnDestroy()
     if not IsServer() then return end
     if not self:GetAbility() then return end
-    local damage = self.damage * self:GetAbility():GetSpecialValueFor("silence_damage_percent") * 0.01
-    ParticleManager:SetParticleControl(ParticleManager:CreateParticle("particles/items2_fx/orchid_pop.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent()), 1, Vector(damage))
-    if damage > 0 then
-        ApplyDamage({ attacker = self:GetCaster(), victim = self:GetParent(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility() })
+    if self:GetRemainingTime() <= 0 then
+        local damage = self.damage * self:GetAbility():GetSpecialValueFor("silence_damage_percent") * 0.01
+        ParticleManager:SetParticleControl(ParticleManager:CreateParticle("particles/items2_fx/orchid_pop.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent()), 1, Vector(damage))
+        if damage > 0 then
+            ApplyDamage({ attacker = self:GetCaster(), victim = self:GetParent(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility() })
+        end
     end
 end
 
@@ -210,10 +212,12 @@ end
 function modifier_item_bloodthorn_custom_active:OnDestroy()
     if not IsServer() then return end
     if not self:GetAbility() then return end
-    local damage = self.damage * self:GetAbility():GetSpecialValueFor("silence_damage_percent") * 0.01
-    ParticleManager:SetParticleControl(ParticleManager:CreateParticle("particles/items2_fx/orchid_pop.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent()), 1, Vector(damage))
-    if damage > 0 then
-        ApplyDamage({ attacker = self:GetCaster(), victim = self:GetParent(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility() })
+    if self:GetRemainingTime() <= 0 then
+        local damage = self.damage * self:GetAbility():GetSpecialValueFor("silence_damage_percent") * 0.01
+        ParticleManager:SetParticleControl(ParticleManager:CreateParticle("particles/items2_fx/orchid_pop.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent()), 1, Vector(damage))
+        if damage > 0 then
+            ApplyDamage({ attacker = self:GetCaster(), victim = self:GetParent(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility() })
+        end
     end
 end
 

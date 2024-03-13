@@ -441,8 +441,10 @@ function modifier_homunculus_damn:OnAttackLanded( keys )
         if self:GetParent():IsIllusion() or self:GetParent():PassivesDisabled() then return end
         if RollPercentage(chance) then
             if keys.attacker:IsMagicImmune() then return end
-            keys.attacker:EmitSound("gomunkul3")
-            keys.attacker:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_homunculus_Spit_debuff_fountain", { duration = duration * (1 - keys.attacker:GetStatusResistance()) } )
+            if not keys.attacker:HasModifier("modifier_homunculus_iborn_aggres") then
+                keys.attacker:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_homunculus_Spit_debuff_fountain", { duration = duration * (1 - keys.attacker:GetStatusResistance()) } )
+                keys.attacker:EmitSound("gomunkul3")
+            end
             if self:GetParent():HasShard() then
                 local ability = self:GetParent():FindAbilityByName("Homunculus_Spit")
                 if ability then

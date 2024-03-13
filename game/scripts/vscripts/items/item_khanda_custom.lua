@@ -23,6 +23,7 @@ function modifier_item_khanda_custom:DeclareFunctions()
 		MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
 		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
 		MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,
+        MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
         MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE
 	}
 end
@@ -62,6 +63,12 @@ function modifier_item_khanda_custom:OnTakeDamage(params)
 	ParticleManager:ReleaseParticleIndex(particle_2)
 
 	params.unit:EmitSound("Item.Phylactery.Target")
+end
+
+function modifier_item_khanda_custom:GetModifierPreAttack_BonusDamage()
+	if self:GetAbility() then
+		return self:GetAbility():GetSpecialValueFor("bonus_damage")
+	end
 end
 
 function modifier_item_khanda_custom:GetModifierManaBonus()

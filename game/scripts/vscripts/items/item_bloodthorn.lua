@@ -1,6 +1,7 @@
 LinkLuaModifier("modifier_item_bloodthorn_arena", "items/item_bloodthorn", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_item_bloodthorn_arena_silence", "items/item_bloodthorn", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_item_bloodthorn_arena_crit", "items/item_bloodthorn", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_item_nullifier_purge_debuff_custom", "modifiers/modifier_item_nullifier_purge_debuff_custom", LUA_MODIFIER_MOTION_NONE)
 
 item_bloodthorn_2 = class({})
 
@@ -15,6 +16,7 @@ function item_bloodthorn_2:OnSpellStart()
 	target:TriggerSpellReflect(self)
 	target:EmitSound("DOTA_Item.Orchid.Activate")
 	target:AddNewModifier(self:GetCaster(), self, "modifier_item_bloodthorn_arena_silence", {duration = self:GetSpecialValueFor("duration") * (1 - target:GetStatusResistance())})
+    target:AddNewModifier(self:GetCaster(), self, "modifier_item_nullifier_purge_debuff_custom", {duration = self:GetSpecialValueFor("duration") * (1 - target:GetStatusResistance())})
 	target:Purge(true, false, false, false, false)
 	if self:GetCaster():GetUnitName() == "npc_dota_hero_void_spirit" then
         self:GetCaster():EmitSound("van_orchid")
@@ -145,20 +147,7 @@ end
 function modifier_item_bloodthorn_arena_silence:OnCreated()
 	if IsServer() then
 		self.damage = 0
-		self:StartIntervalThink(0.2)
-		local overhead_particle = ParticleManager:CreateParticle("particles/items4_fx/nullifier_mute.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent())
-		self:AddParticle(overhead_particle, false, false, -1, false, false)
 	end
-end
-
-function modifier_item_bloodthorn_arena_silence:OnIntervalThink()
-	if IsServer() then
-		self:GetParent():Purge(true, false, false, false, false)
-	end
-end
-
-function modifier_item_bloodthorn_arena_silence:GetStatusEffectName()
-	return "particles/status_fx/status_effect_nullifier.vpcf"
 end
 
 function modifier_item_bloodthorn_arena_silence:OnTakeDamage(params)
@@ -176,11 +165,13 @@ end
 function modifier_item_bloodthorn_arena_silence:OnDestroy()
 	if not IsServer() then return end
 	if not self:GetAbility() then return end
-	local damage = self.damage * self:GetAbility():GetSpecialValueFor("damage_pct") * 0.01
-	ParticleManager:SetParticleControl(ParticleManager:CreateParticle("particles/items2_fx/orchid_pop.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent()), 1, Vector(damage))
-	if damage > 0 then
-		ApplyDamage({ attacker = self:GetCaster(), victim = self:GetParent(), damage = damage, damage_type = self:GetAbility():GetAbilityDamageType(), damage_flags = DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION, ability = self:GetAbility() })
-	end
+    if self:GetRemainingTime() <= 0 then
+        local damage = self.damage * self:GetAbility():GetSpecialValueFor("damage_pct") * 0.01
+        ParticleManager:SetParticleControl(ParticleManager:CreateParticle("particles/items2_fx/orchid_pop.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent()), 1, Vector(damage))
+        if damage > 0 then
+            ApplyDamage({ attacker = self:GetCaster(), victim = self:GetParent(), damage = damage, damage_type = self:GetAbility():GetAbilityDamageType(), damage_flags = DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION, ability = self:GetAbility() })
+        end
+    end
 end
 
 modifier_item_bloodthorn_arena_crit = class({})
