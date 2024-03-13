@@ -250,7 +250,7 @@ function modifier_Rikardo_Fire:OnIntervalThink()
         if self:GetCaster():HasShard() then
             damage_type = DAMAGE_TYPE_PURE
         end 
-        local damage = self:GetAbility():GetSpecialValueFor("damage")   
+        local damage = self:GetCaster():GetLevel() * self:GetAbility():GetSpecialValueFor("multiplier") + self:GetAbility():GetSpecialValueFor("damage")
         if self:GetCaster():HasTalent("special_bonus_birzha_ricardo_5") then
             print("wtf")
             damage = unit:GetMaxHealth() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_ricardo_5")
