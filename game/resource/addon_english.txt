@@ -5445,7 +5445,8 @@
 "DOTA_Tooltip_ability_Kurumi_eight_bullet" 								"Eighth bullet, Het"
 "DOTA_Tooltip_ability_Kurumi_eight_bullet_Description" 					"Kurumi creates clones of herself that have the same power as her. After %delay% seconds, Kurumi herself, her clones, as well as two new clones with different characteristics appear at random points in the specified area. Extends the lifespan of all clones .\n\nDISPLAY TYPE: normal"
 "DOTA_Tooltip_ability_Kurumi_eight_bullet_Lore" 							"This hero was created thanks to <font color='#fffc00'>Kw1 te</font>"
-"DOTA_Tooltip_ability_Kurumi_eight_bullet_dmg_tooltip" 					"%CLONE DAMAGE:"
+"DOTA_Tooltip_ability_Kurumi_eight_bullet_illusion_1_damage_out_pct"					"%ILLUSION DAMAGE:"
+"DOTA_Tooltip_ability_Kurumi_eight_bullet_illusion_1_damage_in_pct"					"%DAMAGE TO ILLUSION:"
 "DOTA_Tooltip_ability_Kurumi_eight_bullet_target_aoe" 					"AREA OF APPLICATION:"
 "DOTA_Tooltip_ability_Kurumi_eight_bullet_search_radius" 				"LONS COLLECTION RANGE :"	
 "DOTA_Tooltip_ability_Kurumi_eight_bullet_illusion_duration" 			"CLONE LIFE TIME:"
@@ -6354,13 +6355,13 @@
 "DOTA_Tooltip_modifier_haku_aura_hero_Description" 			"Grants lifesteal and armor"
 
 "DOTA_Tooltip_Ability_haku_help" 							"Rescue"
-"DOTA_Tooltip_Ability_haku_help_Description" 				"Gives an ally an effect that saves them when they receive lethal damage, but kills Haku."
+"DOTA_Tooltip_Ability_haku_help_Description" 				"Gives an ally an effect that saves them when they receive lethal damage, causing Haku damage equal to healing."
 "DOTA_Tooltip_Ability_haku_help_duration" 					"DURATION:"
 "DOTA_Tooltip_Ability_haku_help_heal" 						"%HEALTH RESTORES:"
 "DOTA_Tooltip_Ability_haku_help_lore" 						"This hero was created thanks to <font color='#fffc00'>URRR</font>"
 
 "DOTA_Tooltip_modifier_haku_help" 							"Rescue"
-"DOTA_Tooltip_modifier_haku_help_Description" 				"Survives death, Haku dies instead"
+"DOTA_Tooltip_modifier_haku_help_Description" 				"Survives death, damaging Haku"
 
 "DOTA_Tooltip_Ability_haku_needle_shard_description" 		"Ability pierces magic immunity"
 "DOTA_Tooltip_Ability_haku_zerkala_scepter_description" 	"Reduces attack interval by %attack_cooldown_tooltip_scepter% sec."
