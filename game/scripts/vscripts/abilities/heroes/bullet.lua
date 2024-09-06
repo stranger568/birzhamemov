@@ -508,6 +508,7 @@ function Bullet_BulletInTheHead:OnProjectileHit_ExtraData( target, location, ext
     target:EmitSound("Hero_Sniper.AssassinateDamage")
 
     local damage = self:GetSpecialValueFor("damage") + (self:GetCaster():GetStrength() / 100 * self:GetSpecialValueFor("strength_damage"))
+    local damage_type = self:GetAbilityDamageType()
 
     if self:GetCaster():HasTalent("special_bonus_birzha_bullet_8") then
         print(target:GetHealthPercent())
@@ -517,14 +518,14 @@ function Bullet_BulletInTheHead:OnProjectileHit_ExtraData( target, location, ext
         end
     end
 
-    ApplyDamage({victim = target, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self})
+    if self:GetCaster():HasTalent("special_bonus_birzha_bullet_7") then
+        target:AddNewModifier(self:GetCaster(), self, "modifier_Bullet_BulletInTheHead_bonus_damage", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_7", "value2")})
+    end
+
+    ApplyDamage({victim = target, attacker = self:GetCaster(), damage = damage, damage_type = damage_type, ability = self})
     
     if self:GetCaster():HasTalent("special_bonus_birzha_bullet_1") then
         target:AddNewModifier(self:GetCaster(), self, "modifier_Bullet_BulletInTheHead_slow", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_1", "value2")})
-    end
-
-    if self:GetCaster():HasTalent("special_bonus_birzha_bullet_7") then
-        target:AddNewModifier(self:GetCaster(), self, "modifier_Bullet_BulletInTheHead_bonus_damage", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_7", "value2")})
     end
 
     if self:GetCaster():HasScepter() then
