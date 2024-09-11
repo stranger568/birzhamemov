@@ -1,0 +1,56 @@
+"itembuilds"
+{
+	"author"	"Solomon"
+	"hero"		"npc_dota_hero_nolik"
+	"tile"		"Birzha memov"
+
+	"items"
+	{
+		"#DOTA_Item_Build_Starting_Items"
+		{
+			"item"		"item_boots"
+			"item"		"item_abakan"
+		}
+		"#DOTA_Item_Build_Early_Game"
+        {
+			"item"		  "item_roscom_midas"
+			"item"		  "item_baldezh"
+        }
+		"#DOTA_Item_Build_Core_Items"
+		{
+			"item"		"item_phase_boots"
+			"item"		"item_chill_aquila"
+			"item"		"item_ghoul"
+			
+		}
+		"#DOTA_Item_Build_Mid_Items"
+		{
+			"item"		"item_memolator3"
+			"item"		"item_mega_spinner"
+			"item"		"item_sheepstick"
+	
+		}
+		"#DOTA_Item_Build_Late_Items"
+		{
+			"item"		"item_refresher_custom"
+			"item"		"item_demon_paper"
+			"item"		"item_cosmobaldezh"
+		}
+		"По ситуации"
+		{
+			"item"		"item_sphere"
+			"item"		"item_uebator"
+			"item"		"item_frostmorn"
+		}
+		"#DOTA_Item_Build_Luxury_Items"
+		{
+			"item"		"item_birzha_gem"
+			"item"		"item_burger_sobolev"
+			"item"		"item_burger_oblomoff"
+			"item"		"item_burger_larin"
+        	"item"		"item_refresher_shard_custom"
+        	"item"		"item_refresher_shard_custom"
+		}
+
+	}
+}
