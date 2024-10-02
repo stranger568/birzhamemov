@@ -32,7 +32,8 @@
                         "item"          "item_magical_repier"
                         "item"          "item_tar2"
                         "item"          "item_aether_lupa"
-                        "item"          "item_item_armor_damned"
+                        "item"          "item_armor_damned"
+                        "item"          "item_shakal"
 
 
 
