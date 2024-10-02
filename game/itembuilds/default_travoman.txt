@@ -1,0 +1,50 @@
+"itembuilds"
+{
+	"author"	""
+	"hero"		"npc_dota_hero_travoman"
+	"tile"		"Birzha memov"
+
+	"items"
+	{
+		"#DOTA_Item_Build_Starting_Items"
+		{
+			"item"		"item_boots"
+			"item"		"item_abakan"
+                        "item"          "item_flask"
+                        "item"          "item_bond"
+
+		}
+		"#DOTA_Item_Build_Early_Game"
+        {
+			"item"		  "item_roscom_midas"
+			"item"		  "item_aghanim"
+                        "item"            "item_baldezh"
+                        "item"            "item_angel_boots"
+        }
+		"#DOTA_Item_Build_Core_Items"
+		{
+			"item"		"item_magic_armor"
+                        "item"          "item_radiance_2"
+			"item"		"item_utimate_mem"
+                        "item"          "item_meteor"
+                        "item"          "item_sharoeb"
+                        "item"          "item_force_staff"
+                        "item"          "item_magical_repier"
+                        "item"          "item_tar2"
+                        "item"          "item_aether_lupa"
+                        "item"          "item_item_armor_damned"
+
+
+
+		"#DOTA_Item_Build_Luxury_Items"
+		{
+			"item"		"item_birzha_gem"
+			"item"		"item_burger_sobolev"
+			"item"		"item_burger_oblomoff"
+			"item"		"item_burger_larin"
+        	"item"		"item_refresher_shard_custom"
+        	"item"		"item_refresher_shard_custom"
+		}
+
+	}
+}
