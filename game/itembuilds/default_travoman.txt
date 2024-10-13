@@ -29,7 +29,7 @@
                         "item"          "item_meteor"
                         "item"          "item_sharoeb"
                         "item"          "item_force_staff"
-                        "item"          "item_magical_repier"
+                        "item"          "item_magical_rapier"
                         "item"          "item_tar2"
                         "item"          "item_aether_lupa"
                         "item"          "item_armor_damned"
