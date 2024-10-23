@@ -123,7 +123,7 @@ end
 
 function modifier_burger_agility:OnCreated()
     self.bonus = 10
-    self.movespeed = 1
+    self.movespeed = 2
 end
 
 function modifier_burger_agility:DeclareFunctions()
@@ -159,7 +159,7 @@ end
 
 function modifier_burger_intellect:OnCreated()
     self.bonus = 10
-    self.amplify = 1
+    self.amplify = 1.75
 end
 
 function modifier_burger_intellect:DeclareFunctions()
