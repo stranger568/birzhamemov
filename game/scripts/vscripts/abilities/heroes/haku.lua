@@ -1532,7 +1532,8 @@ function modifier_haku_help:OnTakeDamage( params )
 
     if self:GetParent():GetHealth() <= 1 then
     	local heal = self:GetParent():GetMaxHealth() / 100 * (self:GetAbility():GetSpecialValueFor("heal") + self:GetCaster():FindTalentValue("special_bonus_birzha_haku_5"))
-        self:GetCaster():BirzhaTrueKill( self:GetAbility(), params.attacker )
+        --self:GetCaster():BirzhaTrueKill( self:GetAbility(), params.attacker )
+	ApplyDamage({ victim = self:GetCaster(), attacker = self:GetCaster(), damage = heal, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility(), damage_flags = DOTA_DAMAGE_FLAG_NON_LETHAL + DOTA_DAMAGE_FLAG_HPLOSS + DOTA_DAMAGE_FLAG_NO_DAMAGE_MULTIPLIERS })
         self:GetParent():Heal(heal, self:GetAbility())
         self:Destroy()         
     end

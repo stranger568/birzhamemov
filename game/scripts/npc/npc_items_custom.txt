@@ -685,7 +685,7 @@
 		"AbilityValues"
 		{
 			"bonus_agi"							"10"
-			"movespeed"							"1"
+			"movespeed"							"2"
 		}
 	}
 
@@ -707,7 +707,7 @@
 		"AbilityValues"
 		{
 			"bonus_int"							"10"
-			"spell_amplify"						"1"
+			"spell_amplify"						"1.75"
 		}
 	}
 	

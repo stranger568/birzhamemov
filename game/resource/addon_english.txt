@@ -1263,7 +1263,7 @@
 //================================================================ ===================================================== ===============
 
 "DOTA_Tooltip_ability_item_burger_sobolev" 								"Sobolev Burger"
-"DOTA_Tooltip_ability_item_burger_sobolev_Description" 					"<h1>Use: Kusac</h1>Permanently adds %bonus_str% <font color='#FE4545'>Strength</font> to your hero and %resist%%% to effect resistance"
+"DOTA_Tooltip_ability_item_burger_sobolev_Description" 					"<h1>Use: Kusac</h1>Permanently adds %bonus_str% <font color='#FE4545'>Strength</font> to your hero and %resist%%% to status resistance"
 
 "DOTA_Tooltip_modifier_burger_strength" 									"Sobolev Burger"
 "DOTA_Tooltip_modifier_burger_strength_Description" 						"Number of burgers eaten"

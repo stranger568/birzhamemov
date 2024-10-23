@@ -1354,7 +1354,7 @@
 		
 		"AbilityValues"
 		{
-			"chance"			 			"50 75 100"
+			"chance"			 			"40 60 80"
 			"movespeed_talent"			 	"-40"
 		}
 	}
@@ -6570,7 +6570,7 @@
 		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
 		"AbilityTextureName"			"gorshok/wodoo"
 		"AbilityCooldown"				"50"
-		"AbilityManaCost"				"100 150 200"
+		"AbilityManaCost"				"50 100 150"
 		"HasShardUpgrade"				"1"
 
 		"AbilityValues"
@@ -7031,7 +7031,7 @@
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityTextureName"			"goku/blink"
-		"AbilityCooldown"				"10 8 6"
+		"AbilityCooldown"				"7"
 		"AbilityManaCost"				"60"
 		"AbilityCastRange"				"800"
 		"MaxLevel"						"3"
@@ -7062,7 +7062,7 @@
 			"duration"					"15"
 			"bonus_attribute"		
 			{
-				"value"						"15 20 25 30 35"
+				"value"						"10 15 20 25 30"
 				"LinkedSpecialBonus"		"special_bonus_birzha_goku_8"
 			}
 			"spell_amplify"		
@@ -9153,7 +9153,7 @@
 			"max_stacks"				"12"
 			"attack_speed"		
 			{
-				"value"						"20 25 30 35"
+				"value"						"15 20 25 30"
 				"LinkedSpecialBonus"		"special_bonus_birzha_kadet_6"
 			}
 		}
@@ -9182,7 +9182,7 @@
 			"bonus_damage"				"375 750 1125"
 			"lifesteal"		
 			{
-				"value"						"40 60 80"
+				"value"						"40 50 60"
 				"LinkedSpecialBonus"		"special_bonus_birzha_kadet_1"
 			}
 		}
@@ -9196,7 +9196,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"15"	
+			"value"						"10"	
 		}
 	}
 
@@ -11632,11 +11632,19 @@
 
 		"AbilityValues"
 		{
-			"illusion_1_damage_out_pct"		"-50 -40 -30 -20"
-			"illusion_1_damage_in_pct"		"275 250 225 200"
-			"illusion_2_damage_out_pct"		"-50 -40 -30 -20"
-			"illusion_2_damage_in_pct"		"275 250 225 200"
-			"dmg_tooltip"					"50 60 70 80"
+			"illusion_1_damage_out_pct"
+			{
+				"value"	 			"40 50 60 70"
+				"LinkedSpecialBonus"		"special_bonus_talent_kurumi_damage_illusions"
+			}
+			"illusion_1_damage_in_pct"		"305 275 255 235"
+			"illusion_2_damage_out_pct"		
+			{
+				"value"	 			"40 50 60 70"
+				"LinkedSpecialBonus"		"special_bonus_talent_kurumi_damage_illusions"
+			}
+			"illusion_2_damage_in_pct"		"305 275 255 235"
+			"dmg_tooltip"					"" //no longer necessary
 			"target_aoe"					"325"
 			"search_radius"					"900"
 			"delay"							"0.5"
@@ -11644,6 +11652,7 @@
 			"illusion_extended_duration"	"2"
 			"illusion_2_amount"				"1"
 		}
+
 	}
 
 	"Kurumi_god"
@@ -11706,7 +11715,7 @@
 
 		"AbilityValues"
 		{
-			"duration"				"2.5 3.25 4"
+			"duration"				"2.0 3 3.5"
 			"lifesteal"			 "100 120 140"	 
 		}
 	}
@@ -11733,7 +11742,7 @@
 
 		"AbilityValues"
 		{
-			"duration"			 	"2"
+			"duration"			 	"2.5"
 			"movespeed_ally"		"700"
 			"movespeed_enemy"	   "100"
 		}
@@ -11748,7 +11757,7 @@
 		"AbilityBehavior"		   "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_HIDDEN"
 		"AbilityUnitTargetTeam"	 "DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"	 "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityCooldown"		   "16"
+		"AbilityCooldown"		   "20"
 		"AbilityCastRange"		  "500"
 		"AbilityCastPoint"			"0.15"
 		"AbilityCastAnimation"		"ACT_DOTA_ATTACK"
@@ -11758,7 +11767,7 @@
 
 		"AbilityValues"
 		{
-			"cooldown"			 	"2"
+			"cooldown"			 	"3"
 		}
 	}
 
@@ -11836,7 +11845,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"-5"			
+			"value"					"-3"			
 		}
 	}
 	"special_bonus_birzha_kurumi_8"
@@ -11850,7 +11859,17 @@
 			"value"					"1"			
 		}
 	}
+	"special_bonus_talent_kurumi_damage_illusions"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 
+		"AbilityValues"
+		{
+			"value"					"10"			
+		}
+	}
 
 	//=================================================================================================================
 	// Мирай курияма
@@ -13065,10 +13084,10 @@
 
 		"AbilityValues"
 		{
-			"movespeed_friendly"	  	"20 25 30 35"
+			"movespeed_friendly"	  	"10 15 20 25"
 			"movespeed_caster"					
 			{
-				"value"									"19 26 33 40"
+				"value"									"14 20 26 32"
 				"LinkedSpecialBonus"					"special_bonus_birzha_never_1"
 			}
 			"duration"					"5"
@@ -13089,7 +13108,7 @@
 
 		"AbilityValues"
 		{
-			"bonus_damage"				"50 100 150"
+			"bonus_damage"				"40 95 150"
 			"bonus_damage_team"			"50"
 			"duration"					"15"
 		}
@@ -14060,7 +14079,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"-2"			
+			"value"						"-1"			
 		}
 	}
 	"special_bonus_birzha_van_4"
@@ -14093,7 +14112,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"3"			
+			"value"						"1.5"			
 		}
 	}
 	"special_bonus_birzha_van_7"
@@ -14104,7 +14123,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"-30"			
+			"value"						"-20"			
 		}
 	}
 	"special_bonus_birzha_van_8"
@@ -18214,8 +18233,8 @@
 
 		"AbilityValues"
 		{
-			"damage"					"50"
-			"multiplier"             	"2"
+			"damage"					"15"
+			"multiplier"             	"1.5"
 			"interval"		   		"0.5"
 			"radius"			 		"300"
 		}
@@ -18332,7 +18351,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"70"	
+			"value"						"50"	
 		}
 	}
 
@@ -18860,7 +18879,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
-		"AbilityCooldown"				"80 70 60"
+		"AbilityCooldown"				"90 85 75"
 		"AbilityManaCost"				"200 250 300"
 		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
@@ -18869,9 +18888,9 @@
 
 		"AbilityValues"
 		{
-			"radius"			"520"
+			"radius"			"500"
 			"duration"			"6"
-			"damage"			"200 250 300"
+			"damage"			"250 300 375"
 		}
 	}
 
@@ -19259,7 +19278,7 @@
 		"AbilityValues"
 		{
 			"damage"					"120 160 200 240"
-			"int_mult"					"2.25"
+			"int_mult"					"2"
 			"radius"					"550"
 			"silence_duration"			"0.5"
 		}
@@ -19444,7 +19463,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"0.25"
+			"value"						"0.5"
 		}
 	}
 	"special_bonus_birzha_miku_5"
@@ -22210,7 +22229,7 @@
 
 		"AbilityValues"
 		{
-			"damage_health_pct"			"10"
+			"damage_health_pct"			"5"
 		}
 	}
 
@@ -22267,7 +22286,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"-20"		
+			"value"						"-15"		
 		}
 	}	
 	"special_bonus_birzha_mina_3"
@@ -22289,7 +22308,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"-6"
+			"value"						"-4"
 		}
 	}
 	"special_bonus_birzha_mina_5"
@@ -22322,7 +22341,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"-0.25"			
+			"value"						"-0.20"			
 		}
 	}
 	"special_bonus_birzha_mina_8"

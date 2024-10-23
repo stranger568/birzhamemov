@@ -1,7 +1,7 @@
 "itembuilds"
 {
 	"author"	"Solomon"
-	"hero"		"npc_dota_hero_beastmaster"
+	"hero"		"npc_dota_hero_nolik"
 	"tile"		"Birzha memov"
 
 	"items"
@@ -18,35 +18,35 @@
         }
 		"#DOTA_Item_Build_Core_Items"
 		{
-			"item"		"item_weapon_shakal"
-			"item"		"item_blink_boots"
-			"item"		"item_ultimate_scepter"
+			"item"		"item_phase_boots"
+			"item"		"item_chill_aquila"
+			"item"		"item_ghoul"
 			
 		}
 		"#DOTA_Item_Build_Mid_Items"
 		{
-			"item"		"item_radiance_2"
-			"item"		"item_cuirass_3"
-			"item"		"item_globus"
+			"item"		"item_memolator3"
+			"item"		"item_mega_spinner"
+			"item"		"item_sheepstick"
 	
 		}
 		"#DOTA_Item_Build_Late_Items"
 		{
-			"item"		"item_ship_magic_armor"
-			"item"		"item_sharoeb"
-			"item"		"item_sheepstick"
+			"item"		"item_refresher_custom"
+			"item"		"item_demon_paper"
+			"item"		"item_cosmobaldezh"
 		}
 		"По ситуации"
 		{
 			"item"		"item_sphere"
 			"item"		"item_uebator"
-			"item"		"item_refresher_custom"
+			"item"		"item_frostmorn"
 		}
 		"#DOTA_Item_Build_Luxury_Items"
 		{
-			"item"		"item_ultimate_mem"
 			"item"		"item_birzha_gem"
 			"item"		"item_burger_sobolev"
+			"item"		"item_burger_oblomoff"
 			"item"		"item_burger_larin"
         	"item"		"item_refresher_shard_custom"
         	"item"		"item_refresher_shard_custom"
