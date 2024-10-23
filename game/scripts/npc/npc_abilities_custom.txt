@@ -11632,11 +11632,19 @@
 
 		"AbilityValues"
 		{
-			"illusion_1_damage_out_pct"		"-50 -40 -30 -20"
-			"illusion_1_damage_in_pct"		"275 250 225 200"
-			"illusion_2_damage_out_pct"		"-50 -40 -30 -20"
-			"illusion_2_damage_in_pct"		"275 250 225 200"
-			"dmg_tooltip"					"50 60 70 80"
+			"illusion_1_damage_out_pct"
+			{
+				"value"	 			"40 50 60 70"
+				"LinkedSpecialBonus"		"special_bonus_talent_kurumi_damage_illusions"
+			}
+			"illusion_1_damage_in_pct"		"305 275 255 235"
+			"illusion_2_damage_out_pct"		
+			{
+				"value"	 			"40 50 60 70"
+				"LinkedSpecialBonus"		"special_bonus_talent_kurumi_damage_illusions"
+			}
+			"illusion_2_damage_in_pct"		"305 275 255 235"
+			"dmg_tooltip"					"" //no longer necessary
 			"target_aoe"					"325"
 			"search_radius"					"900"
 			"delay"							"0.5"
@@ -11644,6 +11652,7 @@
 			"illusion_extended_duration"	"2"
 			"illusion_2_amount"				"1"
 		}
+
 	}
 
 	"Kurumi_god"
@@ -11850,7 +11859,17 @@
 			"value"					"1"			
 		}
 	}
+	"special_bonus_talent_kurumi_damage_illusions"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 
+		"AbilityValues"
+		{
+			"value"					"10"			
+		}
+	}
 
 	//=================================================================================================================
 	// Мирай курияма
