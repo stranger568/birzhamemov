@@ -6364,13 +6364,13 @@
 "DOTA_Tooltip_modifier_haku_aura_hero_Description" 			"Дарует вампиризм и броню"
 
 "DOTA_Tooltip_Ability_haku_help" 							"Спасение"
-"DOTA_Tooltip_Ability_haku_help_Description" 				"Накладывает на союзника эффект, который спасает его при получении летального урона, но убивает Хаку"
+"DOTA_Tooltip_Ability_haku_help_Description" 				"Накладывает на союзника эффект, который спасает его при получении летального урона, нанося Хаку урон равноценный лечению"
 "DOTA_Tooltip_Ability_haku_help_duration" 					"ДЛИТЕЛЬНОСТЬ:"
 "DOTA_Tooltip_Ability_haku_help_heal" 						"%ВОССТАНАВЛИВАЕТ ЗДОРОВЬЯ:"
 "DOTA_Tooltip_Ability_haku_help_lore"						"Данный герой создан благодаря <font color='#fffc00'>URRR</font>"
 
 "DOTA_Tooltip_modifier_haku_help"							"Спасение"
-"DOTA_Tooltip_modifier_haku_help_Description" 				"Выживает при смерти, вместо него погибнет Хаку"
+"DOTA_Tooltip_modifier_haku_help_Description" 				"Выживает при смерти, нанося урон Хаку"
 
 "DOTA_Tooltip_Ability_haku_needle_shard_description" 		"Способность проходит сквозь иммунитет к магии"
 "DOTA_Tooltip_Ability_haku_zerkala_scepter_description" 	"Уменьшает интервал атак на %attack_cooldown_tooltip_scepter% сек."
