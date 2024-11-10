@@ -1,9 +1,449 @@
-#base "../npc/new_heroes/nix_streamer.txt"
-#base "../npc/new_heroes/old_god.txt"
-#base "../npc/new_heroes/ashab.txt"
 
 "DOTAAbilities"
 {
+
+        "ashab_q"
+	{
+		"BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/ashab/ashab_q"
+		"AbilityUnitTargetTeam"		            "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
+        "AbilityUnitDamageType"			        "DAMAGE_TYPE_MAGICAL"
+		"AbilityTextureName"			        "ashab_q"
+        "AbilityCooldown"                       "20 19 18 17"
+        "AbilityCastRange"                      "1200"
+        "AbilityValues"
+        {
+            "speed"                             "600"
+            "radius"                            "200"
+            "duration"                          "3"
+            "damage_multiplier"                 "2 2.3 2.6 2.9"
+            "damage"                            "120 240 360 480"
+        }
+	}
+
+    "ashab_w"
+	{
+		"BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/ashab/ashab_w"
+		"AbilityUnitTargetTeam"		            "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
+        "AbilityUnitDamageType"			        "DAMAGE_TYPE_MAGICAL"
+		"AbilityTextureName"			        "ashab_w"
+        "AbilityCooldown"                       "20"
+        "AbilityCastRange"                      "1200"
+        "AbilityValues"
+        {
+            "radius"                            "500 550 600 650"
+            "duration_to_explosion"             "4"
+            "damage"                            "220 320 420 520"
+            "stun_duration"                     "1.2"
+        }
+	}
+
+    "ashab_e"
+	{
+		"BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/ashab/ashab_e"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
+		"AbilityTextureName"			        "ashab_e"
+        "MaxLevel"                              "5"
+        "AbilityValues"
+        {
+            "max_health_to_damage"              "5 7 9 11 13"
+            "chance"                            "17"
+            "duration"                          "3"
+            "movespeed_slow"                    "-100"
+            "attack_speed_slow"                 "50"
+        }
+	}
+
+    "ashab_f"
+	{
+		"BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/ashab/ashab_f"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
+		"AbilityTextureName"			        "ashab_f"
+        "MaxLevel"                              "1"
+	}
+
+    "ashab_r"
+	{
+		"BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/ashab/ashab_r"
+		"AbilityUnitTargetTeam"		            "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitDamageType"			        "DAMAGE_TYPE_MAGICAL"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
+        "AbilityType"					        "DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityTextureName"			        "ashab_r"
+        "AbilityCooldown"                       "120"
+        "AbilityValues"
+        {
+            "cast_time"                         "1"
+            "rocket_duration"                   "3"
+            "radius_explosion"                  "800"
+            "explosion_damage"                  "400 600 800"
+            "max_mult"                          "10"
+        }
+	}
+        "nix_marci_q"
+	{
+		"BaseClass"						    "ability_lua"
+		"ScriptFile"					    "abilities/heroes/nix_streamer/nix_marci_q"
+		"AbilityUnitTargetTeam"		        "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			    "DAMAGE_TYPE_PHYSICAL"
+		"AbilityBehavior"				    "DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityUnitTargetType"		        "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			        "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	        "SPELL_DISPELLABLE_YES"
+		"AbilityTextureName"			    "nix_marci_q"
+		"AbilityCooldown"				    "20 18 16 14"
+		"AbilityManaCost"				    "50 60 70 80"
+		"AbilityCastRange"				    "700"
+        "AbilityCastPoint"                  "0.3"
+        "LinkedAbility"                     "nix_phantom_q"
+        "AbilityCastAnimation"                  "ACT_DOTA_ATTACK"
+		"AbilityValues"
+		{
+            "radius_width"                  "200"
+            "knockback_distance"            "450 500 550 600"
+            "base_damage"                   "90 180 270 360"
+            "upgrade_damage_str"            "150"
+            "duration"                      "0.5"
+		}
+	}
+    "nix_marci_w"
+	{
+		"BaseClass"						    "ability_lua"
+		"ScriptFile"					    "abilities/heroes/nix_streamer/nix_marci_w"
+		"AbilityUnitTargetTeam"		        "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			    "DAMAGE_TYPE_MAGICAL"
+		"AbilityBehavior"				    "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityUnitTargetType"		        "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			        "SPELL_IMMUNITY_ENEMIES_YES"
+		"SpellDispellableType"	  	        "SPELL_DISPELLABLE_NO"
+		"AbilityTextureName"			    "nix_marci_w"
+		"AbilityCooldown"				    "19 18 17 16"
+		"AbilityManaCost"				    "60 70 80 90"
+        "AbilityCastPoint"                  "0.1"
+        "LinkedAbility"                     "nix_phantom_w"
+        "AbilityCastAnimation"                  "ACT_DOTA_CAST_ABILITY_4"
+		"AbilityValues"
+		{
+            "duration"                      "5"
+            "max_attacks"                   "3"
+            "bonus_attack_speed"            "60 80 100 120"
+            "radius"                        "250"
+            "damage_from_attack"            "20 30 40 50"
+            "upgrade_attacks"               "4"
+            "upgrade_duration"              "2"
+		}
+	}
+    "nix_marci_e"
+	{
+		"BaseClass"						    "ability_lua"
+		"ScriptFile"					    "abilities/heroes/nix_streamer/nix_marci_e"
+		"AbilityUnitTargetTeam"		        "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			    "DAMAGE_TYPE_PHYSICAL"
+		"AbilityBehavior"				    "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityUnitTargetType"		        "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			        "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	        "SPELL_DISPELLABLE_NO"
+		"AbilityTextureName"			    "nix_marci_e"
+		"AbilityCooldown"				    "18 17 16 15"
+		"AbilityManaCost"				    "60 70 80 90"
+        "LinkedAbility"                     "nix_phantom_e"
+		"AbilityValues"
+		{
+            "radius"                        "250"
+            "stun_duration"                 "1.1 1.3 1.5 1.7"
+            "upgrade_radius"                "500"
+            "upgrade_damage"                "40 60 80 100"
+		}
+	}
+    "nix_marci_d"
+	{
+		"BaseClass"						    "ability_lua"
+		"ScriptFile"					    "abilities/heroes/nix_streamer/nix_marci_d"
+		"AbilityUnitTargetTeam"		        "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			    "DAMAGE_TYPE_MAGICAL"
+		"AbilityBehavior"				    "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"AbilityUnitTargetType"		        "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			        "SPELL_IMMUNITY_ENEMIES_YES"
+		"SpellDispellableType"	  	        "SPELL_DISPELLABLE_NO"
+		"AbilityTextureName"			    "nix_marci_d"
+		"AbilityCooldown"				    "28 22 16"
+		"AbilityManaCost"				    "100"
+        "MaxLevel"                          "3"
+        "LinkedAbility"                     "nix_phantom_d"
+		"AbilityValues"
+		{
+            "last_damage_duration"          "1.5"
+            "upgrade_damage"                "120 130 140"
+		}
+	}
+    "nix_marci_r"
+	{
+		"BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/nix_streamer/nix_marci_r"
+		"AbilityUnitTargetTeam"		            "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
+		"AbilityTextureName"			        "nix_marci_r"
+		"AbilityCooldown"				        "9 6 3"
+		"AbilityManaCost"				        "40"
+        "AbilityType"					        "DOTA_ABILITY_TYPE_ULTIMATE"
+        "LinkedAbility"                         "nix_phantom_r"
+		"AbilityValues"
+		{
+            "manacost_from_current_mana"        "6"
+            "base_manacost"                     "40"
+		}
+	}
+
+    "nix_phantom_q"
+	{
+		"BaseClass"						    "ability_lua"
+		"ScriptFile"					    "abilities/heroes/nix_streamer/nix_phantom_q"
+		"AbilityUnitTargetTeam"		        "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityBehavior"				    "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"AbilityUnitTargetType"		        "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			        "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	        "SPELL_DISPELLABLE_YES"
+		"AbilityTextureName"			    "nix_phantom_q"
+		"AbilityCooldown"				    "16"
+		"AbilityManaCost"				    "90"
+		"AbilityCastRange"				    "450"
+        "AbilityCastPoint"                  "0.1"
+        "LinkedAbility"                     "nix_marci_q"
+		"AbilityValues"
+		{
+            "radius"                        "150"
+            "movement_attack_speed_steal"   "30 40 50 60"
+            "duration"                      "3"
+            "upgrade_radius"                "250"
+            "upgrade_duration"              "4"
+		}
+	}
+    "nix_phantom_w"
+	{
+		"BaseClass"						    "ability_lua"
+		"ScriptFile"					    "abilities/heroes/nix_streamer/nix_phantom_w"
+		"AbilityUnitTargetTeam"		        "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			    "DAMAGE_TYPE_MAGICAL"
+		"AbilityBehavior"				    "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_VECTOR_TARGETING | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"AbilityUnitTargetType"		        "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			        "SPELL_IMMUNITY_ENEMIES_YES"
+		"SpellDispellableType"	  	        "SPELL_DISPELLABLE_NO"
+		"AbilityTextureName"			    "nix_phantom_w"
+		"AbilityCooldown"				    "24 21 18 15"
+		"AbilityManaCost"				    "110 100 90 80"
+        "AbilityCastRange"				    "700"
+        "AbilityCastPoint"                  "0.2"
+        "LinkedAbility"                     "nix_marci_w"
+		"AbilityValues"
+		{
+            "knockback_distance"            "350"
+            "damage_from_attack"            "50"
+            "speed"                         "1200"
+            "length"                        "750"
+            "upgrade_length"                "950"
+		}
+	}
+    "nix_phantom_e"
+	{
+		"BaseClass"						    "ability_lua"
+		"ScriptFile"					    "abilities/heroes/nix_streamer/nix_phantom_e"
+		"AbilityUnitTargetTeam"		        "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			    "DAMAGE_TYPE_MAGICAL"
+		"AbilityBehavior"				    "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"AbilityUnitTargetType"		        "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			        "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	        "SPELL_DISPELLABLE_NO"
+		"AbilityTextureName"			    "nix_phantom_e"
+		"AbilityCooldown"				    "21 20 19 18"
+		"AbilityManaCost"				    "100"
+        "AbilityCastRange"				    "550"
+        "LinkedAbility"                     "nix_marci_e"
+        "HasScepterUpgrade"                 "1"
+        
+		"AbilityValues"
+		{
+            "radius"                        "400"
+            "duration"
+			{
+				"value"						"2 2.5 3 3.5"
+				"special_bonus_scepter"		"=6"
+			}
+            "cooldown_scepter_decrease"     "-3"
+            "damage"                        "100 130 160 190"
+            "upgrade_slow"                  "-30 -40 -50 -60"
+            "upgrade_think"                 "1"
+		}
+	}
+    "nix_phantom_d"
+	{
+		"BaseClass"						    "ability_lua"
+		"ScriptFile"					    "abilities/heroes/nix_streamer/nix_phantom_d"
+		"AbilityUnitTargetTeam"		        "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			    "DAMAGE_TYPE_MAGICAL"
+		"AbilityBehavior"				    "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"AbilityUnitTargetType"		        "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			        "SPELL_IMMUNITY_ENEMIES_YES"
+		"SpellDispellableType"	  	        "SPELL_DISPELLABLE_NO"
+		"AbilityTextureName"			    "nix_phantom_d"
+		"AbilityCooldown"				    "20 18 16"
+		"AbilityManaCost"				    "100"
+        "MaxLevel"                          "3"
+        "AbilityCastPoint"                  "0.2"
+        "LinkedAbility"                     "nix_marci_r"
+		"AbilityValues"
+		{
+            "speed"                         "800"
+            "radius"                        "200"
+            "distance"                      "1000"
+            "damage"                        "180 240 300"
+		}
+	}
+    "nix_phantom_r"
+	{
+		"BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/nix_streamer/nix_phantom_r"
+		"AbilityUnitTargetTeam"		            "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
+		"AbilityTextureName"			        "nix_phantom_r"
+		"AbilityCooldown"				        "9 6 3"
+		"AbilityManaCost"				        "40"
+        "AbilityType"					        "DOTA_ABILITY_TYPE_ULTIMATE"
+        "LinkedAbility"                         "nix_marci_d"
+		"AbilityValues"
+		{
+            "manacost_from_current_mana"        "6"
+            "base_manacost"                     "40"
+		}
+	}
+        "old_god_q"
+	{
+		"BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/old_god/old_god_q"
+		"AbilityUnitTargetTeam"		            "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
+		"AbilityTextureName"			        "old_god_q"
+		"AbilityCooldown"				        "20 18 16 14"
+		"AbilityManaCost"				        "85 90 95 100"
+        "AbilityCastRange"                      "1600"
+		"AbilityValues"
+		{
+            "base_attack_time"                  "1.2 1.1 1 0.9"
+            "duration"                          "7"
+            "max_range"                         "1200"
+		}
+	}
+
+    // вовчик
+    "old_god_w"
+	{
+		"BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/old_god/old_god_w"
+		"AbilityUnitTargetTeam"		            "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
+		"AbilityTextureName"			        "old_god_w"
+		"AbilityCooldown"				        "19 18 17 16"
+		"AbilityManaCost"				        "110 130 150 170"
+		"AbilityValues"
+		{
+            "duration"                          "6 8 10 12"
+            "outgoing_damage"                   "50 60 70 80"
+            "incoming_damage"                   "200"
+		}
+	}
+
+    "old_god_e"
+	{
+		"BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/old_god/old_god_e"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_YES"
+		"AbilityTextureName"			        "old_god_e"
+		"AbilityCooldown"				        "28 26 24 22"
+		"AbilityManaCost"				        "125"
+        "AbilityValues"
+		{
+            "shield_from_hp"                    "15 20 25 30"
+            "duration"                          "10"
+        }
+	}
+
+    // старый бог
+    "old_god_d"
+	{
+		"BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/old_god/old_god_d"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
+		"AbilityTextureName"			        "old_god_d"
+		"AbilityCooldown"				        "16"
+		"AbilityManaCost"				        "0"
+        "MaxLevel"                              "1"
+        "AbilityValues"
+		{
+            "attack_range"                      "150"
+            "duration"                          "8"
+        }
+	}
+
+    // выстрелы из глаз
+    "old_god_r"
+	{
+		"BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/old_god/old_god_r"
+		"AbilityUnitTargetTeam"		            "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
+		"AbilityTextureName"			        "old_god_r"
+        "AbilityType"					        "DOTA_ABILITY_TYPE_ULTIMATE"
+        "AbilityValues"
+		{
+            "radius"                            "1200"
+            "radius_damage"                     "200"
+            "interval"                          "0.25"
+            "damage"                            "80 160 240"
+            "min_distance"                      "200"
+            "ray_speed"                         "500 700 900"
+        }
+	}
 	"Version"	   "1"
 
 	//=================================================================================================================
