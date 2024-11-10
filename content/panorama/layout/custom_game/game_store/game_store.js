@@ -32,15 +32,6 @@ if (parentHUDElements)
 
 // ---------------------------------------------------------------
 
-// --------------------- Smiles Init ---------------------------
-var dotaHudChatControls = FindDotaHudElement("ChatControls");
-$("#SmilesButton").SetParent(dotaHudChatControls);
-dotaHudChatControls.MoveChildBefore(dotaHudChatControls.FindChildTraverse("SmilesButton"), dotaHudChatControls.FindChildTraverse("ChatEmoticonButton"))
-dotaHudChatControls.FindChildTraverse("ChatEmoticonButton").style.visibility = "collapse"
-// ---------------------------------------------------------------
-
-
-
 // --------------------- TABLE UPDATE ---------------------------
 var player_table = CustomNetTables.GetTableValue("birzhashop", String(Players.GetLocalPlayer()))
 var player_table_bp_owner = CustomNetTables.GetTableValue("birzhainfo", String(Players.GetLocalPlayer()))
@@ -71,24 +62,26 @@ function UpdatePlayerPassTable(table, key, data )
 // ---------------------------------------------------------------
 
 // --------------------- vars init ---------------------------
-var sound_preview = null;
 var toggle = false;
 var first_time = false;
 var cooldown_panel = false
 var current_sub_tab = "";
-var subscribe_buy = false
 var timer_loading = -1
+var is_visible_only_buy = false
 // ---------------------------------------------------------------
+
 
 // --------------------- Events init ---------------------------
 GameEvents.Subscribe( 'set_player_pet_from_data', set_player_pet_from_data ); 
-GameEvents.Subscribe( 'set_player_border_from_data', set_player_border_from_data ); 
+GameEvents.Subscribe( 'set_player_border_from_data', set_player_border_from_data );
+GameEvents.Subscribe( 'set_player_tip_from_data', set_player_tip_from_data );  
 GameEvents.Subscribe( 'shop_set_currency', SetCurrency );
 GameEvents.Subscribe( 'shop_error_notification', ErrorCreated );
 GameEvents.Subscribe( 'shop_accept_notification', AcceptCreated );
 // ---------------------------------------------------------------
 
-function ToggleShop() {
+function ToggleShop() 
+{
     if (toggle === false) {
     	if (cooldown_panel == false) {
     		Game.EmitSound("ui_goto_player_page")
@@ -99,7 +92,6 @@ function ToggleShop() {
 	            InitMainPanel()
 				InitItems()
 				SetMainCurrency()
-				InitInventory()
 				InitBirzhaChatWheel()
 				SwitchTab("MainContainer", "DonateMainButton")
 	        }  
@@ -134,10 +126,14 @@ function SwitchTab(tab, button)
 {
 	$("#MainContainer").style.visibility = "collapse";
 	$("#ItemsContainer").style.visibility = "collapse";
+    $("#BitcoinContainer").style.visibility = "collapse";
 	$("#CouriersContainer").style.visibility = "collapse";
 	$("#EffectsContainer").style.visibility = "collapse";
 	$("#BannersContainer").style.visibility = "collapse";
 	$("#ChatWheelBirzhaContainer").style.visibility = "collapse";
+    $("#TipsBirzhaContainer").style.visibility = "collapse";
+	$("#FiveBirzhaContainer").style.visibility = "collapse";
+    $("#ChestBirzhaContainer").style.visibility = "collapse";
 
 	$("#DonateMainButton").SetHasClass( "DonateNewMenuButtonSelected", false );
 	$("#DonateItemsButton").SetHasClass( "DonateNewMenuButtonSelected", false );
@@ -145,41 +141,42 @@ function SwitchTab(tab, button)
 	$("#DonateEffectsButton").SetHasClass( "DonateNewMenuButtonSelected", false );
 	$("#DonateBannersButton").SetHasClass( "DonateNewMenuButtonSelected", false );
 	$("#ChatWheelBirzhaButton").SetHasClass( "DonateNewMenuButtonSelected", false );
+    $("#TipsBirzhaButton").SetHasClass( "DonateNewMenuButtonSelected", false );
+    $("#FiveBirzhaButton").SetHasClass( "DonateNewMenuButtonSelected", false );
+    $("#ChestBirzhaButton").SetHasClass( "DonateNewMenuButtonSelected", false );
 
 	Game.EmitSound("ui_topmenu_select")
 
-	$("#" + button).SetHasClass( "DonateNewMenuButtonSelected", true );
+    if ($("#" + button))
+    {
+        $("#" + button).SetHasClass( "DonateNewMenuButtonSelected", true );
+    }
 
 	$("#" + tab).style.visibility = "visible";
 }
 
-function SwitchShopTab(tab, button) 
+function SelectChatWheelMenu(tab, button) 
 {
-	$("#AllDonateItems").style.visibility = "collapse";
-	$("#DogeCoinsItems").style.visibility = "collapse";
-	$("#PetsDonateItems").style.visibility = "collapse";
-	$("#HeroesDonateItems").style.visibility = "collapse";
-	$("#EffectsDonateItems").style.visibility = "collapse";
-	$("#CurrencysDonateItems").style.visibility = "collapse";
-	$("#SoundsDonateItems").style.visibility = "collapse";
-	$("#SpraysonateItems").style.visibility = "collapse";
-	$("#BorderDonateItems").style.visibility = "collapse";
-	$("#ToysDonateItems").style.visibility = "collapse";
+	$("#ChatWheelShopListSounds").style.visibility = "collapse";
+	$("#ChatWheelShopListSprays").style.visibility = "collapse";
+    $("#ChatWheelShopListToys").style.visibility = "collapse";
 
-	for (var i = 0; i < $("#MenuItems").GetChildCount(); i++) 
-	{
-		$("#MenuItems").GetChild(i).SetHasClass("selected_menu_shop", false)
-	}
+	$("#ChatWheelMenu_1").SetHasClass( "selected_chat_wheel_shop", false );
+	$("#ChatWheelMenu_2").SetHasClass( "selected_chat_wheel_shop", false );
+	$("#ChatWheelMenu_3").SetHasClass( "selected_chat_wheel_shop", false );
 
-	Game.EmitSound("ui_select_md")
-
-	$("#" + button).SetHasClass("selected_menu_shop", true)
+    if ($("#" + button))
+    {
+        $("#" + button).SetHasClass( "selected_chat_wheel_shop", true );
+    }
 
 	$("#" + tab).style.visibility = "visible";
 }
-
 
 function InitMainPanel() {
+
+    SetShowText($("#DonateShopInfoButtonIcon"), "#birzha_how_to_get_coins")
+
 	$('#PopularityRecomDonateItems').RemoveAndDeleteChildren()
 
 	for (var i = 0; i < Items_recomended.length; i++) 
@@ -195,117 +192,219 @@ function InitMainPanel() {
 
 function InitItems() 
 {
-	$('#AllDonateItems').RemoveAndDeleteChildren()
-	$('#HeroesDonateItems').RemoveAndDeleteChildren()
-	$('#PetsDonateItems').RemoveAndDeleteChildren()
-	$('#EffectsDonateItems').RemoveAndDeleteChildren()
-	$('#CurrencysDonateItems').RemoveAndDeleteChildren()
-	$('#SoundsDonateItems').RemoveAndDeleteChildren()
-	$('#SpraysonateItems').RemoveAndDeleteChildren()
-	$('#BorderDonateItems').RemoveAndDeleteChildren()
-	$('#DogeCoinsItems').RemoveAndDeleteChildren()
-	$('#ToysDonateItems').RemoveAndDeleteChildren()
+    // Валюта
+    $('#CurrencysDonateItems').RemoveAndDeleteChildren()
+    CreateItemList(Items_currency, $("#CurrencysDonateItems"))
 
-	Items_pets.sort(function (a, b) 
-	{
-	  	return Number(a[2])-Number(b[2])
-	});
+    // Предметы героев
+    $('#HeroesDonateItems').RemoveAndDeleteChildren()
+    CreateItemList(Items_heroes, $("#HeroesDonateItems"))
 
-	Items_effects.sort(function (a, b) 
-	{
-	  	return Number(a[2])-Number(b[2])
-	});
+    // Питомцы
+    $('#CouriersPanel').RemoveAndDeleteChildren()
+    CreateItemList(Items_pets, $("#CouriersPanel"))
 
-	Items_heroes.sort(function (a, b) 
-	{
-	  	return Number(a[2])-Number(b[2])
-	});
+    // Эффекты
+    $('#EffectsPanel').RemoveAndDeleteChildren()
+    CreateItemList(Items_effects, $("#EffectsPanel"))
 
-	Items_sounds.sort(function (a, b) 
-	{
-	  	return Number(b[6])-Number(a[6])
-	});
+    // Рамки
+    $('#BannersPanel').RemoveAndDeleteChildren()
+    CreateItemList(Items_borders, $("#BannersPanel"))
 
-	Items_dogecoins.sort(function (a, b) 
-	{
-	  	return Number(a[2])-Number(b[2])
-	});
+    // Пятюни
+    $('#FivePanel').RemoveAndDeleteChildren()
+    CreateItemList(Items_Five, $("#FivePanel"))
 
-	Items_borders.sort(function (a, b) 
-	{
-	  	return Number(a[2])-Number(b[2])
-	});
+    // Типы
+    $('#TipsPanel').RemoveAndDeleteChildren()
+    CreateItemList(Items_Tips, $("#TipsPanel"))
 
-	Items_sprays.sort(function (a, b) 
-	{
-	  	return Number(a[2])-Number(b[2])
-	});
+    // Сундуки
+    $('#ChestPanel').RemoveAndDeleteChildren()
+    CreateChestList(Items_chest, $("#ChestPanel"))
 
-	Items_toys.sort(function (a, b) 
-	{
-	  	return Number(a[2])-Number(b[2])
-	});
-
-	for (var i = 0; i < Items_heroes.length; i++) {
-		CreateItemInShop($('#AllDonateItems'), Items_heroes, i)
-		CreateItemInShop($('#HeroesDonateItems'), Items_heroes, i)
-	}
-
-	for (var i = 0; i < Items_pets.length; i++) {
-		CreateItemInShop($('#AllDonateItems'), Items_pets, i)
-		CreateItemInShop($('#PetsDonateItems'), Items_pets, i)
-	}
-
-	for (var i = 0; i < Items_effects.length; i++) {
- 		CreateItemInShop($('#AllDonateItems'), Items_effects, i)
- 		CreateItemInShop($('#EffectsDonateItems'), Items_effects, i)
-	}
-
-	for (var i = 0; i < Items_sounds.length; i++) {
-		CreateItemInShop($('#AllDonateItems'), Items_sounds, i)
-		CreateItemInShop($('#SoundsDonateItems'), Items_sounds, i)
-	}
-
-	for (var i = 0; i < Items_sprays.length; i++) {
-		CreateItemInShop($('#AllDonateItems'), Items_sprays, i)
-		CreateItemInShop($('#SpraysonateItems'), Items_sprays, i)
-	}
-
-	for (var i = 0; i < Items_borders.length; i++) {
-		CreateItemInShop($('#AllDonateItems'), Items_borders, i)
-		CreateItemInShop($('#BorderDonateItems'), Items_borders, i)
-	}
-
-	for (var i = 0; i < Items_toys.length; i++) {
-		CreateItemInShop($('#AllDonateItems'), Items_toys, i)
-		CreateItemInShop($('#ToysDonateItems'), Items_toys, i)
-	}
-
-	for (var i = 0; i < Items_dogecoins.length; i++) {
-		CreateItemInShop($('#DogeCoinsItems'), Items_dogecoins, i)
-	}
-
-	for (var i = 0; i < Items_currency.length; i++) {
- 		CreateItemInShop($('#CurrencysDonateItems'), Items_currency, i)
-	}
+    // Chat Wheel
+    $('#ChatWheelShopListSounds').RemoveAndDeleteChildren()
+    $('#ChatWheelShopListSprays').RemoveAndDeleteChildren()
+    $('#ChatWheelShopListToys').RemoveAndDeleteChildren()
+    CreateItemList(Items_sounds, $("#ChatWheelShopListSounds"), true, "sound")
+    CreateItemList(Items_sprays, $("#ChatWheelShopListSprays"), true, "spray")
+    CreateItemList(Items_toys, $("#ChatWheelShopListToys"), true, "toy")
 }
 
-function InitInventory() 
+function CreateChestList(item_list, panel)
 {
-	$('#CouriersPanel').RemoveAndDeleteChildren()
-	$('#EffectsPanel').RemoveAndDeleteChildren()
-	$('#BannersPanel').RemoveAndDeleteChildren()
-
-	for (var i = 0; i < Items_pets.length; i++) 
+    for (var i = 0; i < item_list.length; i++) 
     {
-		CreateItemInInventory($('#CouriersPanel'), Items_pets, i)
+        CreateChest(panel, item_list, i)
+    }
+}
+
+function CreateItemList(item_list, panel, is_wheel, type)
+{
+    item_list.sort(function (a, b) 
+	{
+	  	return Number(a[2])-Number(b[2])
+	});
+    
+    for (var i = 0; i < item_list.length; i++) 
+    {
+        if (HasItemInventory(item_list[i][0]))
+        {
+            if (is_wheel)
+            {
+                CreateItemInShopWheel(panel, item_list, i, type)
+            }
+            else
+            {
+                CreateItemInShop(panel, item_list, i)
+            }
+        }
 	}
-	for (var i = 0; i < Items_effects.length; i++) {
- 		CreateItemInInventory($('#EffectsPanel'), Items_effects, i)
-	}
-	for (var i = 0; i < Items_borders.length; i++) {
- 		CreateItemInInventory($('#BannersPanel'), Items_borders, i)
-	}
+    if (!is_visible_only_buy)
+    {
+        for (var i = 0; i < item_list.length; i++) 
+        {
+            if (!HasItemInventory(item_list[i][0]))
+            {
+                if (is_wheel)
+                {
+                    CreateItemInShopWheel(panel, item_list, i, type)
+                }
+                else
+                {
+                    CreateItemInShop(panel, item_list, i)
+                }
+            }
+        }
+    }
+}
+
+function CreateItemInShop(panel, table, i) 
+{
+    // Если предмет уникальный, то спавнить его в отображение только если он имеется
+    let is_item_unique = false
+    if (table[i][7] != null)
+    {
+        is_item_unique = true
+    }
+    if (!HasItemInventory(table[i][0]) && is_item_unique)
+    {
+        return
+    }
+    let item_id = ""
+    if (HasItemInventory(table[i][0]))
+    {
+        item_id = "item_inventory_" + table[i][0]
+    }
+
+    let ItemShop = $.CreatePanel("Panel", panel, item_id);
+    ItemShop.AddClass("ItemShop");
+    
+    // Если предмет новый, то сигма момент
+    if ( (table[i][6] != null) && (table[i][6] == true || table[i][6] == 1) )
+    {
+        let NewItemInfo = $.CreatePanel("Panel", ItemShop, "");
+        NewItemInfo.AddClass("NewItemInfoItem")
+
+        let NewItemInfoLabel = $.CreatePanel("Label", NewItemInfo, "");
+        NewItemInfoLabel.AddClass("NewItemInfoLabelItem")
+        NewItemInfoLabel.text = $.Localize("#new_item_info")
+    }
+
+    let ItemImage = $.CreatePanel("Panel", ItemShop, "");
+    ItemImage.AddClass("ItemImage");
+    ItemImage.style.backgroundImage = 'url("file://{images}/custom_game/shop/itemicon/' + table[i][3] + '.png")';
+    ItemImage.style.backgroundSize = "100%"
+
+    let BuyItemPanel = $.CreatePanel("Panel", ItemShop, "BuyItemPanel");
+    BuyItemPanel.AddClass("BuyItemPanel");
+
+    let ItemPrice = $.CreatePanel("Panel", BuyItemPanel, "ItemPrice");
+    ItemPrice.AddClass("ItemPrice");
+
+    let PriceIcon = $.CreatePanel("Panel", ItemPrice, "PriceIcon");
+
+    let PriceLabel = $.CreatePanel("Label", ItemPrice, "PriceLabel");
+    PriceLabel.AddClass("PriceLabel");
+
+    let ItemName = $.CreatePanel("Label", ItemShop, "ItemName");
+    ItemName.AddClass("ItemName");
+    ItemName.text = $.Localize( "#" + table[i][4] )
+
+    if (HasItemInventory(table[i][0]))
+    {
+        if ( (table[i][4].indexOf("pet") == 0) || (table[i][4].indexOf("border") == 0) || (table[i][4].indexOf("tip_") == 0) || (table[i][4].indexOf("five_") == 0) )  
+        {
+            SetItemInventory(ItemShop, table[i])
+            PriceIcon.style.visibility = "collapse"
+            PriceLabel.text = $.Localize( "#shop_activate" )
+
+            if ((table[i][4].indexOf("pet") == 0))
+            {
+                if (player_table_bp_owner && player_table_bp_owner.pet_id != 0)
+                {
+                    if (table[i][0] == player_table_bp_owner.pet_id)
+                    {
+                        BuyItemPanel.SetHasClass("item_deactive", true)
+                        PriceLabel.text = $.Localize( "#shop_deactivate" )
+                    }
+                }
+            }
+            else if ((table[i][4].indexOf("border") == 0))
+            {
+                if (player_table_bp_owner && player_table_bp_owner.border_id != 0)
+                {
+                    if (table[i][0] == player_table_bp_owner.border_id)
+                    {
+                        BuyItemPanel.SetHasClass("item_deactive", true)
+                        PriceLabel.text = $.Localize( "#shop_deactivate" )
+                    }
+                }
+            }
+            else if ((table[i][4].indexOf("tip_") == 0))
+            {
+                if (player_table_bp_owner && player_table_bp_owner.tip_id != 0)
+                {
+                    if (table[i][0] == player_table_bp_owner.tip_id)
+                    {
+                        BuyItemPanel.SetHasClass("item_deactive", true)
+                        PriceLabel.text = $.Localize( "#shop_deactivate" )
+                    }
+                }
+            }
+            else if ((table[i][4].indexOf("five_") == 0))
+            {
+                if (player_table_bp_owner && player_table_bp_owner.five_id != 0)
+                {
+                    if (table[i][0] == player_table_bp_owner.five_id)
+                    {
+                        BuyItemPanel.SetHasClass("item_deactive", true)
+                        PriceLabel.text = $.Localize( "#shop_deactivate" )
+                    }
+                }
+            }
+
+            UpdateItemActivate(table[i][0])	
+        }
+        else
+        {
+            BuyItemPanel.SetHasClass("item_buying", true)
+            PriceLabel.text = $.Localize( "#shop_bought" )
+            PriceIcon.style.visibility = "collapse"
+        }
+    }
+    else
+    {
+        PriceIcon.AddClass("PriceIcon" + table[i][1]);
+        PriceLabel.text = table[i][2]
+        if (Number(table[i][2]) > player_table.birzha_coin)
+        {
+            BuyItemPanel.SetHasClass("item_no_money", true)
+        }
+        SetItemBuyFunction(ItemShop, table[i])
+    }
 }
 
 function HasItemInventory(item_id)
@@ -353,24 +452,7 @@ function CreateItemInMain(panel, table, i)
 	ItemName.AddClass("ItemName");
 	ItemName.text = $.Localize( "#" + table[i][4] )
 
-    if (table[i][0] == "21" || table[i][0] == "135") 
-    {
-        if (player_table_bp_owner)
-        {
-            if (player_table_bp_owner.bp_days > 0 || subscribe_buy) 
-            {
-                Recom_item.SetPanelEvent("onactivate", function() {} );
-                BuyItemPanel.SetHasClass("item_buying", true)
-				PriceLabel.text = $.Localize( "#shop_bought" )
-				PriceIcon.style.visibility = "collapse" 
-            }
-            else
-            {
-                PriceLabel.text = table[i][2]
-            }
-        }
-    }
-    else if (HasItemInventory(table[i][0]))
+    if (HasItemInventory(table[i][0]))
     {
         Recom_item.SetPanelEvent("onactivate", function() {} );
         BuyItemPanel.SetHasClass("item_buying", true)
@@ -380,131 +462,100 @@ function CreateItemInMain(panel, table, i)
     else
     {
         PriceLabel.text = table[i][2]
+        if (Number(table[i][2]) > player_table.birzha_coin)
+        {
+            BuyItemPanel.SetHasClass("item_no_money", true)
+        }
     }
 }
 
-function CreateItemInShop(panel, table, i) 
+function SwapOnlyBuy()
 {
+    is_visible_only_buy = !is_visible_only_buy
+    $("#UpdateOnlyBuyButton").SetHasClass("UpdateOnlyBuyButtonActive", is_visible_only_buy)
+    InitItems()
+}
+
+function CreateItemInShopWheel(panel, table, i, type) 
+{
+    // Если предмет уникальный, то спавнить его в отображение только если он имеется
+    let is_item_unique = false
     if (table[i][7] != null)
+    {
+        is_item_unique = true
+    }
+    if (!HasItemInventory(table[i][0]) && is_item_unique)
     {
         return
     }
-
-    var Recom_item = $.CreatePanel("Panel", panel, "");
-    Recom_item.AddClass("ItemShop");
-    SetItemBuyFunction(Recom_item, table[i])
-
-    if ( (table[i][6] != null) && (table[i][6] == true || table[i][6] == 1) )
+    let item_id = ""
+    if (HasItemInventory(table[i][0]))
     {
-        var NewItemInfo = $.CreatePanel("Panel", Recom_item, "");
-        NewItemInfo.AddClass("NewItemInfoItem");
-        var NewItemInfoLabel = $.CreatePanel("Label", NewItemInfo, "");
-        NewItemInfoLabel.AddClass("NewItemInfoLabelItem"); 
-        NewItemInfoLabel.text = $.Localize("#new_item_info")
+        item_id = "item_inventory_" + table[i][0]
     }
 
-    var ItemImage = $.CreatePanel("Panel", Recom_item, "");
-    ItemImage.AddClass("ItemImage");
-    ItemImage.style.backgroundImage = 'url("file://{images}/custom_game/shop/itemicon/' + table[i][3] + '.png")';
-    ItemImage.style.backgroundSize = "100%"
+    let ItemShop = $.CreatePanel("Panel", panel, item_id);
+    ItemShop.AddClass("ItemShopLine");
 
-    var BuyItemPanel = $.CreatePanel("Panel", Recom_item, "BuyItemPanel");
-    BuyItemPanel.AddClass("BuyItemPanel");
+    if (type == "sound")
+    {
+        let ChatWheelIcon = $.CreatePanel("Panel", ItemShop, "");
+        ChatWheelIcon.AddClass("ChatWheelIcon"); 
+        ChatWheelIcon.SetPanelEvent("onactivate", function() 
+        {
+            Game.EmitSound("item_wheel_"+table[i][0])
+        })
+    }
+    else if (type == "spray")
+    {
+        let ChatWheelIcon = $.CreatePanel("Panel", ItemShop, "");
+        ChatWheelIcon.AddClass("ChatWheelIconSpray"); 
+    }
+    else if (type == "toy")
+    {
+        let ChatWheelIcon = $.CreatePanel("Panel", ItemShop, "");
+        ChatWheelIcon.AddClass("ChatWheelIconToy"); 
+    }
 
-    var ItemPrice = $.CreatePanel("Panel", BuyItemPanel, "ItemPrice");
+    let BuyItemPanelWheel = $.CreatePanel("Panel", ItemShop, "BuyItemPanelWheel");
+    BuyItemPanelWheel.AddClass("BuyItemPanelWheel");
+
+    let ItemPrice = $.CreatePanel("Panel", BuyItemPanelWheel, "ItemPrice");
     ItemPrice.AddClass("ItemPrice");
 
-    var PriceIcon = $.CreatePanel("Panel", ItemPrice, "PriceIcon");
-    PriceIcon.AddClass("PriceIcon" + table[i][1]);
+    let PriceIcon = $.CreatePanel("Panel", ItemPrice, "PriceIcon");
 
-    var PriceLabel = $.CreatePanel("Label", ItemPrice, "PriceLabel");
+    let PriceLabel = $.CreatePanel("Label", ItemPrice, "PriceLabel");
     PriceLabel.AddClass("PriceLabel");
-    PriceLabel.text = table[i][2]
 
-    var ItemName = $.CreatePanel("Label", Recom_item, "ItemName");
-    ItemName.AddClass("ItemName");
-    ItemName.text = $.Localize( "#" + table[i][4] )
-
-    if (table[i][0] == "21" || table[i][0] == "135") 
+    let ItemName = $.CreatePanel("Label", ItemShop, "ItemName");
+    ItemName.AddClass("ItemNameWheel");
+    ItemName.html = true
+    // Если предмет новый, то сигма момент
+    if ( (table[i][6] != null) && (table[i][6] == true || table[i][6] == 1) )
     {
-        if (player_table_bp_owner)
-        {
-            if (player_table_bp_owner.bp_days > 0 || subscribe_buy) 
-            {
-                Recom_item.SetPanelEvent("onactivate", function() {} );
-                BuyItemPanel.SetHasClass("item_buying", true)
-				PriceLabel.text = $.Localize( "#shop_bought" )
-				PriceIcon.style.visibility = "collapse" 
-            }
-        }
+        ItemName.text = "<font color='gold'>["+ $.Localize("#new_item_info") + "]</font> " + $.Localize( "#" + table[i][4] )
     }
-    else if (HasItemInventory(table[i][0]))
+    else
     {
-        Recom_item.SetPanelEvent("onactivate", function() {} );
-        BuyItemPanel.SetHasClass("item_buying", true)
+        ItemName.text = $.Localize( "#" + table[i][4] )
+    }
+
+    if (HasItemInventory(table[i][0]))
+    {
+        BuyItemPanelWheel.SetHasClass("item_buying", true)
         PriceLabel.text = $.Localize( "#shop_bought" )
         PriceIcon.style.visibility = "collapse"
     }
     else
     {
+        PriceIcon.AddClass("PriceIcon" + table[i][1]);
         PriceLabel.text = table[i][2]
-    }
-}
-
-function CreateItemInInventory(panel, table, i) 
-{
-    if (HasItemInventory(table[i][0]))
-    {
-        var Recom_item = $.CreatePanel("Panel", panel, "item_inventory_" + table[i][0]);
-        Recom_item.AddClass("ItemInventory");
-        SetItemInventory(Recom_item, table[i])
-
-        var ItemImage = $.CreatePanel("Panel", Recom_item, "");
-        ItemImage.AddClass("ItemImage");
-        ItemImage.style.backgroundImage = 'url("file://{images}/custom_game/shop/itemicon/' + table[i][3] + '.png")';
-        ItemImage.style.backgroundSize = "100%"
-
-        var ItemName = $.CreatePanel("Label", Recom_item, "ItemName");
-        ItemName.AddClass("ItemName");
-        ItemName.text = $.Localize( "#" + table[i][4] )
-
-        if ( (table[i][4].indexOf("pet") == 0) || (table[i][4].indexOf("border") == 0) )  
+        if (Number(table[i][2]) > player_table.birzha_coin)
         {
-            var BuyItemPanel = $.CreatePanel("Panel", Recom_item, "BuyItemPanel");
-            BuyItemPanel.AddClass("BuyItemPanel");
-
-            var ItemPrice = $.CreatePanel("Panel", BuyItemPanel, "ItemPrice");
-            ItemPrice.AddClass("ItemPrice");
-
-            var PriceLabel = $.CreatePanel("Label", ItemPrice, "PriceLabel");
-            PriceLabel.AddClass("PriceLabel");
-            PriceLabel.text = $.Localize( "#shop_activate" )
-
-            if ((table[i][4].indexOf("pet") == 0))
-            {
-                if (player_table_bp_owner && player_table_bp_owner.pet_id != 0)
-                {
-                    if (table[i][0] == player_table_bp_owner.pet_id)
-                    {
-                        BuyItemPanel.SetHasClass("item_deactive", true)
-                        PriceLabel.text = $.Localize( "#shop_deactivate" )
-                    }
-                }
-            }
-            if ((table[i][4].indexOf("border") == 0))
-            {
-                if (player_table_bp_owner && player_table_bp_owner.border_id != 0)
-                {
-                    if (table[i][0] == player_table_bp_owner.border_id)
-                    {
-                        BuyItemPanel.SetHasClass("item_deactive", true)
-                        PriceLabel.text = $.Localize( "#shop_deactivate" )
-                    }
-                }
-            }
-
-            UpdateItemActivate(table[i][0])	
+            BuyItemPanelWheel.SetHasClass("item_no_money", true)
         }
+        SetItemBuyFunction(ItemShop, table[i])
     }
 }
 
@@ -512,11 +563,6 @@ function CloseItemInfo()
 {
   	$("#info_item_buy").style.visibility = "collapse"
   	$("#ItemInfoBody").RemoveAndDeleteChildren()
-    if (sound_preview != null)
-    {
-        Game.StopSound(sound_preview)
-        sound_preview = null
-    }
 }
 
 function SetItemBuyFunction(panel, table)
@@ -529,11 +575,6 @@ function SetItemBuyFunction(panel, table)
 
     	if (table[4].indexOf("donate") !== 0) 
         {
-    		if (table[4].indexOf("sounds") == 0)
-            {
-    			sound_preview = Game.EmitSound("item_wheel_"+table[0])
-    		}
-
     		$("#ItemInfoBody").style.flowChildren = "down"
 
     		var Panel_for_desc = $.CreatePanel("Label", $("#ItemInfoBody"), "Panel_for_desc");
@@ -587,14 +628,30 @@ function SetItemBuyFunction(panel, table)
 
 function SetItemInventory(panel, table) 
 {
-	if (table[4].indexOf("pet") == 0) {
+	if (table[4].indexOf("pet") == 0) 
+    {
 		panel.SetPanelEvent("onactivate", function() { 
 	 		SelectCourier(table[0])
 	    });
 	}
-	if (table[4].indexOf("border") == 0) {
+	else if (table[4].indexOf("border") == 0) 
+    {
 		panel.SetPanelEvent("onactivate", function() { 
 	 		SelectBorder(table[0])
+	    });
+	}
+    else if (table[4].indexOf("tip_") == 0) 
+    {
+		panel.SetPanelEvent("onactivate", function() 
+        { 
+	 		SelectTip(table[0])
+	    });
+	}
+    else if (table[4].indexOf("five_") == 0) 
+    {
+		panel.SetPanelEvent("onactivate", function() 
+        { 
+	 		SelectFive(table[0])
 	    });
 	}
 }
@@ -607,8 +664,11 @@ function SelectCourier(num)
     {
     	for (var i = 0; i < $("#CouriersPanel").GetChildCount(); i++) 
         {
-    		$("#CouriersPanel").GetChild(i).FindChildTraverse("BuyItemPanel").SetHasClass("item_deactive", false)
-        	$("#CouriersPanel").GetChild(i).FindChildTraverse("PriceLabel").text = $.Localize( "#shop_activate" )
+            if ($("#CouriersPanel").GetChild(i).id != "")
+            {
+                $("#CouriersPanel").GetChild(i).FindChildTraverse("BuyItemPanel").SetHasClass("item_deactive", false)
+                $("#CouriersPanel").GetChild(i).FindChildTraverse("PriceLabel").text = $.Localize( "#shop_activate" )
+            }
     	} 
     	$("#item_inventory_"+num).FindChildTraverse("BuyItemPanel").SetHasClass("item_deactive", true)
         $("#item_inventory_"+num).FindChildTraverse("PriceLabel").text = $.Localize( "#shop_deactivate" )
@@ -630,9 +690,13 @@ function SelectParticle(num)
 {
     if (particle_selected != num)
     {
-    	for (var i = 0; i < $("#EffectsPanel").GetChildCount(); i++) {
-    		$("#EffectsPanel").GetChild(i).FindChildTraverse("BuyItemPanel").SetHasClass("item_deactive", false)
-        	$("#EffectsPanel").GetChild(i).FindChildTraverse("PriceLabel").text = $.Localize( "#shop_activate" )
+    	for (var i = 0; i < $("#EffectsPanel").GetChildCount(); i++) 
+        {
+            if ($("#EffectsPanel").GetChild(i).id != "")
+            {
+    		    $("#EffectsPanel").GetChild(i).FindChildTraverse("BuyItemPanel").SetHasClass("item_deactive", false)
+        	    $("#EffectsPanel").GetChild(i).FindChildTraverse("PriceLabel").text = $.Localize( "#shop_activate" )
+            }
     	} 
 
     	$("#item_inventory_"+num).FindChildTraverse("BuyItemPanel").SetHasClass("item_deactive", true)
@@ -653,9 +717,13 @@ function SelectBorder(num)
 {
     if (border_selected != num)
     {
-    	for (var i = 0; i < $("#BannersPanel").GetChildCount(); i++) {
-    		$("#BannersPanel").GetChild(i).FindChildTraverse("BuyItemPanel").SetHasClass("item_deactive", false)
-        	$("#BannersPanel").GetChild(i).FindChildTraverse("PriceLabel").text = $.Localize( "#shop_activate" )
+    	for (var i = 0; i < $("#BannersPanel").GetChildCount(); i++) 
+        {
+            if ($("#BannersPanel").GetChild(i).id != "")
+            {
+    		    $("#BannersPanel").GetChild(i).FindChildTraverse("BuyItemPanel").SetHasClass("item_deactive", false)
+        	    $("#BannersPanel").GetChild(i).FindChildTraverse("PriceLabel").text = $.Localize( "#shop_activate" )
+            }
     	} 
     	$("#item_inventory_"+num).FindChildTraverse("BuyItemPanel").SetHasClass("item_deactive", true)
         $("#item_inventory_"+num).FindChildTraverse("PriceLabel").text = $.Localize( "#shop_deactivate" )
@@ -671,70 +739,110 @@ function SelectBorder(num)
     }
 }
 
+
+var tip_selected = null;
+
+function SelectTip(num)
+{
+    if (tip_selected != num)
+    {
+    	for (var i = 0; i < $("#TipsPanel").GetChildCount(); i++) 
+        {
+            if ($("#TipsPanel").GetChild(i).id != "")
+            {
+    		    $("#TipsPanel").GetChild(i).FindChildTraverse("BuyItemPanel").SetHasClass("item_deactive", false)
+        	    $("#TipsPanel").GetChild(i).FindChildTraverse("PriceLabel").text = $.Localize( "#shop_activate" )
+            }
+    	} 
+    	$("#item_inventory_"+num).FindChildTraverse("BuyItemPanel").SetHasClass("item_deactive", true)
+        $("#item_inventory_"+num).FindChildTraverse("PriceLabel").text = $.Localize( "#shop_deactivate" )
+        GameEvents.SendCustomGameEventToServer( "change_tip_effect", {tip_id: num, delete_pet:false} );
+        tip_selected = num;
+    }
+    else
+    {
+    	$("#item_inventory_"+tip_selected).FindChildTraverse("BuyItemPanel").SetHasClass("item_deactive", false)
+        $("#item_inventory_"+tip_selected).FindChildTraverse("PriceLabel").text = $.Localize( "#shop_activate" )
+        GameEvents.SendCustomGameEventToServer( "change_tip_effect", {tip_id: num, delete_pet: true} );
+        tip_selected = null;
+    }
+}
+
+var five_selected = null;
+
+function SelectFive(num)
+{
+    if (five_selected != num)
+    {
+    	for (var i = 0; i < $("#FivePanel").GetChildCount(); i++) 
+        {
+            if ($("#FivePanel").GetChild(i).id != "")
+            {
+    		    $("#FivePanel").GetChild(i).FindChildTraverse("BuyItemPanel").SetHasClass("item_deactive", false)
+        	    $("#FivePanel").GetChild(i).FindChildTraverse("PriceLabel").text = $.Localize( "#shop_activate" )
+            }
+    	} 
+    	$("#item_inventory_"+num).FindChildTraverse("BuyItemPanel").SetHasClass("item_deactive", true)
+        $("#item_inventory_"+num).FindChildTraverse("PriceLabel").text = $.Localize( "#shop_deactivate" )
+        GameEvents.SendCustomGameEventToServer( "change_five_effect", {five_id: num, delete_pet:false} );
+        five_selected = num;
+    }
+    else
+    {
+    	$("#item_inventory_"+five_selected).FindChildTraverse("BuyItemPanel").SetHasClass("item_deactive", false)
+        $("#item_inventory_"+five_selected).FindChildTraverse("PriceLabel").text = $.Localize( "#shop_activate" )
+        GameEvents.SendCustomGameEventToServer( "change_five_effect", {five_id: num, delete_pet: true} );
+        five_selected = null;
+    }
+}
+
 //////////// ФУНКЦИЯ ПОКУПКИ /////////
 
 function BuyItemFunction(panel, table) 
 {
-	if ((typeof player_table.doge_coin !== 'undefined') && (typeof player_table.birzha_coin !== 'undefined')) 
+	if ((typeof player_table.birzha_coin !== 'undefined')) 
     {
 		if (table[1] == "gold") 
         {
 			GameEvents.SendCustomGameEventToServer( "donate_shop_buy_item", {item_id : table[0], price : table[2], currency : table[1], } );
 			LoadingCreated()
-		} 
-        else if (table[1] == "gem") 
-        {
-			GameEvents.SendCustomGameEventToServer( "donate_shop_buy_item", {item_id : table[0], price : table[2], currency : table[1], } );
-			LoadingCreated()
-		}
-
-		if (!table[5]) 
-        {
-			if (panel.id != "buyplus_1" && panel.id != "buyplus_2")
-			{
-				panel.SetPanelEvent("onactivate", function() {} );
-				panel.FindChildTraverse("BuyItemPanel").SetHasClass("item_buying", true)
-				panel.FindChildTraverse("PriceLabel").text = $.Localize( "#shop_bought" )
-				panel.FindChildTraverse("PriceIcon").DeleteAsync( 0 );
-			}
-		    if (table[0] == "21") 
-            {
-		    	subscribe_buy = true
-		    }
-		    if (table[0] == "135") 
-            {
-		    	subscribe_buy = true
-		    }
 		}
 	}
+
 	$.Schedule( 0.25, function()
     {
 		InitMainPanel()
 		InitItems()
-		InitInventory()
 	})
 }
 
 //////////// ФУНКЦИЯ УСТАНОВКИ БАЛАНСА ПРИ ПЕРВОМ ОТКРЫТИИ /////////
 function SetMainCurrency() 
 {
-	if ((typeof player_table.doge_coin !== 'undefined') && (typeof player_table.birzha_coin !== 'undefined')) 
+	if ((typeof player_table.birzha_coin !== 'undefined')) 
     {
 		$("#Currency").text = String(player_table.birzha_coin)
-		$("#Currency2").text = 	String(player_table.doge_coin)	
 	}
+    $.Msg(player_table_bp_owner.candies_count)
+    if ((typeof player_table_bp_owner.candies_count !== 'undefined')) 
+    {
+        $("#CurrencyCandy").text = String(player_table_bp_owner.candies_count)
+    }
 } 
 
 //////////// ФУНКЦИЯ УСТАНОВКИ БАЛАНСА ПОСЛЕ ПОКУПКИ /////////
 function SetCurrency(data) 
 {
-	if (data) {
-		if (typeof data.bitcoin !== 'undefined') {
+	if (data) 
+    {
+		if (typeof data.bitcoin !== 'undefined') 
+        {
 			$("#Currency").text = String(data.bitcoin)
 		}
-		if (typeof data.dogecoin !== 'undefined') {
-			$("#Currency2").text = 	String(data.dogecoin)	
-		}
+        if (typeof data.candies_count !== 'undefined') 
+        {
+            $("#CurrencyCandy").text = String(data.candies_count)
+        }
 	}
 }
 
@@ -747,10 +855,9 @@ function ErrorCreated(data)
     }
     LoadingClose()
 
-    if (data.error_name == "shop_no_bitcoin" || data.error_name == "shop_no_dogecoin")
+    if (data.error_name == "shop_no_bitcoin")
     {
         SwitchTab('ItemsContainer', 'DonateItemsButton');
-        SwitchShopTab('CurrencysDonateItems', 'CurrencyButton');
     }
 
     if (data && data.error_name)
@@ -800,7 +907,8 @@ function LoadingClose()
     timer_loading = -1;
 }
 
-function UpdateItemActivate(id) {
+function UpdateItemActivate(id) 
+{
 	if (courier_selected !== null) 
     {
 		if (id == courier_selected)
@@ -825,6 +933,22 @@ function UpdateItemActivate(id) {
         	$("#item_inventory_"+id).FindChildTraverse("PriceLabel").text = $.Localize( "#shop_deactivate" )
         }			
 	}
+    if (tip_selected !== null) 
+    {
+		if (id == tip_selected)
+		{
+    		$("#item_inventory_"+id).FindChildTraverse("BuyItemPanel").SetHasClass("item_deactive", true)
+        	$("#item_inventory_"+id).FindChildTraverse("PriceLabel").text = $.Localize( "#shop_deactivate" )
+        }			
+	}
+    if (five_selected !== null) 
+    {
+		if (id == five_selected)
+		{
+    		$("#item_inventory_"+id).FindChildTraverse("BuyItemPanel").SetHasClass("item_deactive", true)
+        	$("#item_inventory_"+id).FindChildTraverse("PriceLabel").text = $.Localize( "#shop_deactivate" )
+        }			
+	}
 }
 
 function set_player_pet_from_data(data) 
@@ -837,6 +961,12 @@ function set_player_border_from_data(data)
 {
 	var border_id = data.border_id
 	border_selected = border_id
+}
+
+function set_player_tip_from_data(data) 
+{
+	var tip_id = data.tip_id
+	tip_selected = tip_id
 }
  
 function InitBirzhaChatWheel()
@@ -1540,101 +1670,6 @@ function Init()
     UpdateAllStats() 
 }
 
-var toggle_smiles = false;
-var cooldown_panel_smiles = false
-
-function ToggleSmiles() {
-    if (toggle_smiles === false) {
-        if (cooldown_panel_smiles == false) {
-            toggle_smiles = true;
-            if ($("#SmilesWindow").BHasClass("sethidden")) {
-                $("#SmilesWindow").RemoveClass("sethidden");
-            }
-            InitSmiles()
-            $("#SmilesWindow").AddClass("setvisible");
-            $("#SmilesWindow").style.visibility = "visible"
-            cooldown_panel_smiles = true
-            $.Schedule( 0.503, function(){
-                cooldown_panel_smiles = false
-            })
-        }
-    } else {
-        if (cooldown_panel_smiles == false) {
-            toggle_smiles = false;
-            if ($("#SmilesWindow").BHasClass("setvisible")) {
-                $("#SmilesWindow").RemoveClass("setvisible");
-            }
-            $("#SmilesWindow").AddClass("sethidden");
-            cooldown_panel_smiles = true
-            $.Schedule( 0.503, function(){
-                cooldown_panel_smiles = false
-                $("#SmilesWindow").style.visibility = "collapse"
-            })
-        }
-    }
-}
-
-CheckSmileContainer()
-
-function CheckSmileContainer()
-{
-    var parentHUDElements = $.GetContextPanel().GetParent().GetParent().GetParent().GetParent().FindChildTraverse("HudChat");
-    if (parentHUDElements && !parentHUDElements.BHasClass("Active"))
-    {
-       if (toggle_smiles == true)
-       {
-            ToggleSmiles()
-       } 
-    }
-    $.Schedule(0.1, CheckSmileContainer)
-}
-
-function InitSmiles()
-{
-    $("#SmilesWindow").RemoveAndDeleteChildren()
-    for (var i = 0; i < smiles.length; i++) {
-        CreateSmiles(smiles[i])
-    }
-}
-
-function CreateSmiles(smile_table)
-{
-    let SmileBlock = $.CreatePanel("Panel", $("#SmilesWindow"), "");
-    SmileBlock.AddClass("SmileBlock");
-
-    let SmileIcon = $.CreatePanel("Panel", SmileBlock, "");
-    SmileIcon.AddClass("SmileIcon");
-    SmileIcon.style.backgroundImage = 'url("file://{images}/custom_game/smiles/' + smile_table[1] + '.png")';
-    SmileIcon.style.backgroundSize = "100%"
-
-    var player_table = CustomNetTables.GetTableValue("birzhashop", String(Players.GetLocalPlayer()))
-	var player_table_js = []
-
-	for (var d = 1; d < 300; d++) {
-		player_table_js.push(player_table.player_items[d])
-	}
-
-    let smile_deactivate = true
-    
-    for ( let item of player_table_js )
-    {
-        if (item == smile_table[0]) {
-            smile_deactivate = false
-            break
-        }
-    }
-
-    if (smile_deactivate)
-    {
-        let blocked = $.CreatePanel("Panel", SmileBlock, "" );
-        blocked.AddClass("BlockSmile");
-    } else {
-        SmileBlock.SetPanelEvent("onactivate", function() { 
-            GameEvents.SendCustomGameEventToServer("SelectSmile", {id : smile_table[0], smile_icon : smile_table[1]});
-        } );
-    }
-}
-
 function UselessFunction()
 {
     $.Schedule( 1, function()
@@ -1727,15 +1762,58 @@ function AddNotif(info)
             return
         }
     }
+    
     let NotificationBody = $.CreatePanel("Panel", $("#NotifList"), "")
     NotificationBody.AddClass("NotificationBody")
+
     let NotificationName = $.CreatePanel("Label", NotificationBody, "")
     NotificationName.AddClass("NotificationName")
     NotificationName.text = info["name"]
-    let NotificationDesc = $.CreatePanel("Label", NotificationBody, "")
-    NotificationDesc.AddClass("NotificationDesc")
-    NotificationDesc.html = true
-    NotificationDesc.text = info["description"]
+
+    let NotificationDesc = $.CreatePanel("Panel", NotificationBody, "");
+    NotificationDesc.BLoadLayoutSnippet("birzha_message_to_player");
+    NotificationDesc.SetDialogVariable("message", String(info["description"]));
+}
+
+function CreateChest(panel, table, i) 
+{
+    let ItemShop = $.CreatePanel("Panel", panel, "");
+    ItemShop.AddClass("ItemShop");
+    
+    // Если предмет новый, то сигма момент
+    if ( (table[i][3] != null) && (table[i][3] == true || table[i][3] == 1) )
+    {
+        let NewItemInfo = $.CreatePanel("Panel", ItemShop, "");
+        NewItemInfo.AddClass("NewItemInfoItem")
+
+        let NewItemInfoLabel = $.CreatePanel("Label", NewItemInfo, "");
+        NewItemInfoLabel.AddClass("NewItemInfoLabelItem")
+        NewItemInfoLabel.text = $.Localize("#new_item_info")
+    }
+
+    let ItemImage = $.CreatePanel("Panel", ItemShop, "");
+    ItemImage.AddClass("ItemImage");
+    ItemImage.style.backgroundImage = 'url("file://{images}/custom_game/shop/itemicon/' + table[i][1] + '.png")';
+    ItemImage.style.backgroundSize = "100%"
+
+    let BuyItemPanel = $.CreatePanel("Panel", ItemShop, "BuyItemPanel");
+    BuyItemPanel.AddClass("BuyItemPanel");
+
+    let ItemPrice = $.CreatePanel("Panel", BuyItemPanel, "ItemPrice");
+    ItemPrice.AddClass("ItemPrice");
+
+    let PriceLabel = $.CreatePanel("Label", ItemPrice, "PriceLabel");
+    PriceLabel.AddClass("PriceLabel");
+    PriceLabel.text = $.Localize("#check_chest")
+
+    let ItemName = $.CreatePanel("Label", ItemShop, "ItemName");
+    ItemName.AddClass("ItemName");
+    ItemName.text = $.Localize( "#" + table[i][2] )
+
+    ItemShop.SetPanelEvent("onactivate", function() 
+    {
+        GameEvents.SendCustomGameEventToServer( "shop_birzha_open_chest_get_items_list", { chest_id : table[i][0] } );
+    })
 }
 
 InitNotif()

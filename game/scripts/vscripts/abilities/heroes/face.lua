@@ -339,7 +339,11 @@ function modifier_face_tombstone:OnAttackLanded(keys)
         if self:GetCaster():HasTalent("special_bonus_birzha_face_8") then return end
         self.health = self.health - 1
         if self.health <= 0 then
-            self:GetParent():Kill(nil, keys.attacker)
+            if not keys.attacker:IsHero() then
+                self:GetParent():ForceKill(false)
+            else
+                self:GetParent():Kill(nil, keys.attacker)
+            end
         else
             self:GetParent():SetHealth(self.health)
         end
@@ -394,8 +398,9 @@ end
 
 function modifier_birzha_undying_tombstone_zombie_modifier:OnIntervalThink()
     if IsServer() then
+        if self.aggro_target == nil then return end
         if not self.aggro_target:IsAlive() or self.aggro_target == nil then
-            self:GetParent():Kill(nil, self:GetParent())
+            self:GetParent():ForceKill(false)
         end
         if not self:GetParent():CanEntityBeSeenByMyTeam(self.aggro_target) then
             ExecuteOrderFromTable({

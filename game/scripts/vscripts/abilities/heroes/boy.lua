@@ -44,8 +44,11 @@ function Pocik_VerySmall:OnProjectileHit_ExtraData(target, vLocation, table)
 
     if target ~= nil and ( not target:IsMagicImmune() ) and ( not target:TriggerSpellAbsorb( self ) ) then
         local gold_to_damage_ratio = self:GetSpecialValueFor("gold_to_damage_ratio")
-        local gold_damage = math.floor(target:GetGold() * gold_to_damage_ratio * 0.01)
-        if self:GetCaster():HasTalent("special_bonus_birzha_pocik_3") then
+        local gold_damage = 0
+        if target:IsRealHero() then
+            gold_damage = math.floor(target:GetGold() * gold_to_damage_ratio * 0.01)
+        end
+        if self:GetCaster():HasTalent("special_bonus_birzha_pocik_3") and target:IsRealHero() then
             local bonus_damage = math.floor(target:GetGold() * self:GetCaster():FindTalentValue("special_bonus_birzha_pocik_3") * 0.01)
             local modifier = self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Pocik_VerySmall_buff", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_pocik_3", "value2"), bonus_damage = bonus_damage})
         end
@@ -509,7 +512,9 @@ end
 function modifier_Pocik_penek_passive:GetAuraDuration() return 0 end
 
 function modifier_Pocik_penek_passive:GetAuraRadius()
-    return self:GetAbility():GetSpecialValueFor("radius")
+    if self:GetAbility() then
+        return self:GetAbility():GetSpecialValueFor("radius")
+    end
 end
 
 function modifier_Pocik_penek_passive:OnDestroy()
@@ -585,7 +590,7 @@ end
 
 function modifier_Pocik_penek_passive_aura:OnIntervalThink()
     if self:GetParent():IsBoss() then return end
-
+    if self:GetAuraOwner() == nil then return end
     local unit_location = self:GetParent():GetAbsOrigin()
     local vector_distance = self:GetAuraOwner():GetAbsOrigin() - unit_location
     local distance = (vector_distance):Length2D()

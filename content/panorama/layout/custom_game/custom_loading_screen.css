@@ -641,6 +641,13 @@
 
 }
 
+.AdsList
+{
+    flow-children: down;
+    padding: 100px;
+    margin-top: 50px;
+}
+
 .PariADS {
     animation-name: BackgroundPulse;
     animation-duration: 2s;
@@ -667,10 +674,7 @@
     animation-duration: 2s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
-    margin-left: 100px;
-    margin-top: 150px;
     width: 400px;
-    height: 150px;
     flow-children: down;
     background-image: url("s2r://panorama/images/custom_game/background_panel_ls_png.vtex");
     transition-property: pre-transform-scale2d;
@@ -682,13 +686,14 @@
     pre-transform-scale2d: 1.1;
 }
 
-.CashSteamIcon {
+.CashSteamIcon 
+{
     width: 460px;
     horizontal-align: center;
-    height: 130px;
+    height: 280px;
     margin-top: 3px;
     background-size: 100%;
-    background-image: url("file://{images}/custom_game/loading_screen/cashsteam_full.png");
+    background-image: url("file://{images}/custom_game/freebet.png");
 }
 
 .CashSteamLabel {
@@ -703,9 +708,8 @@
     animation-duration: 2s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
-    margin-left: 100px;
-    margin-top: 350px;
     width: 400px;
+    margin-top: 20px;
     height: 150px;
     flow-children: down;
     background-image: url("s2r://panorama/images/custom_game/background_panel_ls_png.vtex");
@@ -739,8 +743,7 @@
     animation-duration: 2s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
-    margin-left: 100px;
-    margin-top: 550px;
+    margin-top: 20px;
     width: 400px;
     height: 150px;
     flow-children: down;

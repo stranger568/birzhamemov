@@ -84,7 +84,7 @@ function CDOTA_BaseNPC:BirzhaTrueKill(ability, killer)
                 self:RemoveModifierByName(v)
             end
         end
-        for _, mod in pairs(v:FindAllModifiers()) do
+        for _, mod in pairs(self:FindAllModifiers()) do
             local tables = {}
             mod:CheckStateToTable(tables)
             for state_name, mod_table in pairs(tables) do

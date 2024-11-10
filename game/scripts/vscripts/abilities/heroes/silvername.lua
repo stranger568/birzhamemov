@@ -441,7 +441,14 @@ function modifier_silver_owl_talent:OnIntervalThink()
                 modifier_silver_owl_buff:Destroy()
             end
 		end
-	end
+	else
+        if GameRules:IsDaytime() then
+            local modifier_silver_owl_buff = self:GetParent():FindModifierByName("modifier_silver_owl_buff")
+            if modifier_silver_owl_buff and modifier_silver_owl_buff.ultimate_caster then
+                modifier_silver_owl_buff:Destroy()
+            end
+		end
+    end
 end
 
 silvername_eat_papaz = class({})

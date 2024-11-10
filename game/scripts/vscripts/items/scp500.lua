@@ -12,7 +12,7 @@ function item_scp500:OnSpellStart()
     local duration = self:GetSpecialValueFor("duration")
     self:GetCaster():EmitSound("scp500_cast")
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_item_scp500_buff", {duration = duration})
-    self:SpendCharge()
+    self:SpendCharge(0)
 end
 
 modifier_item_scp500 = class({})

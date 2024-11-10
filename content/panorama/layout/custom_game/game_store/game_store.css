@@ -45,11 +45,9 @@
     align: center center;
     visibility: collapse;
     flow-children: down;
-    transition-property: pre-transform-scale2d;
-    transition-duration: 0.25s;
     margin-bottom: 50px;
-    pre-transform-scale2d: 0;
-    transition-property: pre-transform-scale2d;
+    pre-transform-scale2d: 1;
+    transition-property: pre-transform-scale2d, opacity;
     transition-duration: 0.25s;
     border-top-color: #555555;
     border-left-color: #494949;
@@ -60,29 +58,26 @@
 }
 
 #DonateShopPanel.sethidden {
-    pre-transform-scale2d: 0;
-    transition-property: pre-transform-scale2d;
-    transition-duration: 0.25s;
+    opacity: 0;
 }
 
 #DonateShopPanel.setvisible {
-    pre-transform-scale2d: 1;
-    transition-property: pre-transform-scale2d;
-    transition-duration: 0.25s;
+    opacity: 1;
 }
 
 #DonateShopTopPanel {
     width: 100%;
     height: 100px;
-    flow-children: right;
+    flow-children: none;
     border-bottom: 1px solid black;
     background-image: url("s2r://panorama/images/conduct/ovw-bar-bg_png.vtex");
     background-size: 100% 150%;
     box-shadow: 0px 0px 4px 1px black;
 }
 
-.DonateShopTopButtons {
-    margin-left: 50px;
+.DonateShopTopButtons 
+{
+    margin-left: 5px;
     height: 100%;
     flow-children: right;
 }
@@ -232,12 +227,6 @@
     margin-bottom: 10px;
 }
 
-.item_buying
-{
-    background-image: url("file://{images}/custom_game/shop/select_closed.png");
-	background-size: 100%;  
-}
-
 .item_deactive
 {
     background-image: url("file://{images}/custom_game/shop/select_deactive.png");
@@ -274,6 +263,8 @@
     text-align: center;
     font-size: 15px;
     color: white;
+    text-transform: uppercase;
+    font-weight: semi-bold;
 }
 
 #PopularityRecomDonateInfo {
@@ -294,11 +285,12 @@
     font-family: Reaver;
 }
 
-.DonateShopTopCurrency {
-    margin-left: 140px;
+.DonateShopTopCurrency 
+{
     vertical-align: center;
-    flow-children: right;
     horizontal-align: right;
+    margin-right: 80px;
+    margin-bottom: 20px;
 }
 
 .DonateShopTopBPCurrency 
@@ -309,19 +301,19 @@
     flow-children: right;
 }
 
-.DonateShopCurrencyMain {
-    width: 210px;
+.DonateShopCurrencyMain 
+{
+    width: 250px;
     height: 50px;
     margin-top: 10px;
     margin-bottom: 10px;
-    flow-children: left;
 }
 
-.DonateShopCurrency {
-    width: 150px;
+.DonateShopCurrency 
+{
+    width: 170px;
     height: 30px;
     align: center center;
-    flow-children: right;
     background-color: rgba(0, 0, 0, 0.9);
 }
 .GoldText {
@@ -341,6 +333,24 @@
     tooltip-position: top;
 }
 
+.DonateShopInfoButton 
+{
+    width: 30px;
+    height: 30px;
+    align: right center;
+    tooltip-position: top;
+}
+
+.DonateShopInfoButtonIcon 
+{
+    width: 100%;
+    height: 100%;
+    background-image: url("s2r://panorama/images/control_icons/question_mark_circle_psd.vtex");
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: 90%;
+}
+
 .PlusLabel {
     width: 100%;
     height: 100%;
@@ -352,16 +362,18 @@
     wash-color: gold;
 }
 
-.CurrencyIconMain {
+.CurrencyIconMain 
+{
     width: 50px;
-    background-size: contain;
+    background-size: 100%;
     height: 100%;
+    margin-left: 20px;
+    horizontal-align: left;
     background-image: url("file://{images}/custom_game/shop/gold_icon.png");
-    transform: translateX( 30px ) translateY( -2px );
 }
 
 .DonateShopCurrencyMain2 {
-    width: 210px;
+    width: 150px;
     height: 50px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -416,11 +428,17 @@
     background-size: contain;
     background-repeat: no-repeat;
     height: 100%;
-    background-image: url("file://{images}/custom_game/shop/gem_icon.png");
+    background-image: url("file://{images}/custom_game/shop/itemicon/season_16.png");
     transform: translateX( 30px ) translateY( 3px );
 }
 
-#ItemsContainer {
+#BitcoinContainer 
+{
+    visibility: collapse;
+}
+
+#ItemsContainer 
+{
     visibility: collapse;
 }
 
@@ -433,7 +451,7 @@
 }
 
 #HeroesDonateItems {
-    visibility: collapse;
+    visibility: visible;
 }
 
 #BannersContainer {
@@ -441,6 +459,18 @@
 }
 
 #ChatWheelBirzhaContainer {
+    visibility: collapse;
+}
+
+#TipsBirzhaContainer {
+    visibility: collapse;
+}
+
+#FiveBirzhaContainer {
+    visibility: collapse;
+}
+
+#ChestBirzhaContainer {
     visibility: collapse;
 }
 
@@ -457,15 +487,13 @@
 }
 
 #PetsDonateItems,
-#DogeCoinsItems,
 #EffectsDonateItems,
 #SubscribeDonateItems,
 #SoundsDonateItems,
 #SpraysonateItems,
 #BorderDonateItems,
-#HeroesDonateItems,
-#ToysDonateItems,
-#CurrencysDonateItems {
+#ToysDonateItems
+{
     visibility: collapse;
 }
 
@@ -525,13 +553,14 @@
     }
 }
 
-.ItemShop {
+.ItemShop 
+{
     width: 190px;
     height: 170px;
     background-image: url("file://{images}/custom_game/shop/item_block_nobuy.png");
 	background-size: 100%;
-    margin-left: 27.5px;
-    margin-right: 27.5px;
+    margin-left: 25px;
+    margin-right: 25px;
     margin-top: 10px;
     margin-bottom: 10px;
     transition-duration: 0.25s;
@@ -765,8 +794,9 @@
 .CloseShop {
     width: 35px;
     height: 35px;
-    margin-left: 40px;
+    margin-right: 15px;
     margin-top: 15px;
+    horizontal-align: right;
     background-image: url("s2r://panorama/images/control_icons/x_close_grey_psd.vtex");
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -793,17 +823,17 @@
     margin-bottom: 10px;
 }
 
-
-
-.Item_desc {
+.Item_desc 
+{
     text-align: center;
     font-size: 16px;
     color:#daebff;
     align:  center center;
 }
 
-.DonateNewMenuButton {
-    width: 90px;
+.DonateNewMenuButton 
+{
+    width: 85px;
     height: 80px;
     margin-left: 5px;
     margin-right: 5px;
@@ -811,26 +841,19 @@
     margin-bottom: 10px;
 }
 
-.DonateNewMenuButton:hover {
+.DonateNewMenuButton:hover 
+{
     background-color: rgba(0,0,0,0.5);
     border: 1px solid #daebff;
     border-radius: 10px;
 }
 
-.DonateNewMenuButtonSelected {
+.DonateNewMenuButtonSelected 
+{
     background-color: rgba(0,0,0,0.5);
     border: 1px solid #daebff;
     border-radius: 10px;
 }
-
-
-
-
-
-
-
-
-
 
 .IconButtonBirzha {
     width: 30px;
@@ -855,44 +878,65 @@
     height: 60px;
 }
 
-#HomeIcon {
+#HomeIcon 
+{
     background-image: url("file://{images}/custom_game/shop/buttons/home.png");
     background-size: 100%;
 }
 
-#ItemsIcon {
+#ItemsIcon 
+{
     background-image: url("file://{images}/custom_game/shop/buttons/items.png");
     background-size: 100%;
 }
 
-#PetsIcon {
+#PetsIcon 
+{
     background-image: url("file://{images}/custom_game/shop/buttons/pets.png");
     background-size: 100%;
 }
 
-#ParticlesIcon {
+#ParticlesIcon 
+{
     background-image: url("file://{images}/custom_game/shop/buttons/particles.png");
     background-size: 100%;
 }
 
-#BannersIcon {
+#BannersIcon 
+{
     background-image: url("file://{images}/custom_game/shop/buttons/profile.png");
     background-size: 100%;
 }
 
-#ChatWheelBirzhaIcon {
+#ChatWheelBirzhaIcon 
+{
     background-image: url("file://{images}/custom_game/shop/buttons/chatwheel.png");
     background-size: 100%;
 }
 
-#RuletkaBirzhaIcon {
+#RuletkaBirzhaIcon 
+{
     background-image: url("file://{images}/custom_game/shop/buttons/ruletka.png");
     background-size: 100%;
 }
 
+#TipsBirzhaIcon 
+{
+    background-image: url("file://{images}/custom_game/shop/buttons/tips.png");
+    background-size: 100%;
+}
 
+#FiveBirzhaIcon 
+{
+    background-image: url("file://{images}/custom_game/shop/buttons/five.png");
+    background-size: 100%;
+}
 
-
+#ChestBirzhaIcon 
+{
+    background-image: url("file://{images}/custom_game/shop/buttons/chest.png");
+    background-size: 100%;
+}
 
 
 
@@ -956,9 +1000,11 @@
 
 #ChatWheelWheelPanel
 {
+    margin-top: 30px;
     width: fill-parent-flow( 1.0 );
     vertical-align: top;
     overflow: squish;
+    transform: translateX( -230px );
 }
 
 
@@ -1518,6 +1564,7 @@ margin: 0px;
 }
 #ChatWheelContents{
 width: 100%;
+height: 100%;
 align: center center;
 }
 #PingWheelContents{
@@ -3211,14 +3258,6 @@ visibility: visible;
     flow-children: right;
 }
 
-.LotteryDogeCoin
-{
-    background-image: url("file://{images}/custom_game/shop/gem_icon.png");
-    background-size: 100%;
-    width: 90px;
-    height: 90px;
-}
-
 .LotteryPriceCoin
 {
     vertical-align: center;
@@ -4116,14 +4155,6 @@ visibility: visible;
     animation-iteration-count: infinite;
 }
 
-.BuyPanel:hover .BattlePassIconDoge
-{
-    animation-name: SpinnerRotate;
-    animation-duration: 5s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-}
-
 .BuyBattlePassButton
 {
     background-color: gradient( linear, 0% 0%, 0% 100%, from( #2e6e94 ), to( #2e5094 ) );
@@ -4152,15 +4183,6 @@ visibility: visible;
 .BattlePassIconBit
 {
     background-image: url("file://{images}/custom_game/shop/gold_icon.png");
-    background-size: 100%;
-    width: 110px;
-    height: 110px;
-    horizontal-align: center;
-    margin-top: 30px;
-}
-.BattlePassIconDoge
-{
-    background-image: url("file://{images}/custom_game/shop/gem_icon.png");
     background-size: 100%;
     width: 110px;
     height: 110px;
@@ -4504,9 +4526,10 @@ visibility: visible;
 .ButtonInfo
 {
     padding: 25px;
-    margin-left: 20px;
+    horizontal-align: center;
     background-color: rgba(0,0,0,0.5);
     border: 1px solid black;
+    margin-top: 20px;
 }
 
 .ButtonInfoLabel
@@ -4547,11 +4570,8 @@ visibility: visible;
 .NewItemInfo
 {
     horizontal-align: right;
-    padding: 2px;
-    background-color: #0000007a;
-    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.4);
-    border: 1px solid black;
-    margin: 1px;
+    vertical-align: bottom;
+    horizontal-align: center;
     z-index: 5;
 }
 
@@ -4600,10 +4620,10 @@ visibility: visible;
 }
 
 .BirzhaNotificationButtonIcon {
-    background-image: url("s2r://panorama/images/control_icons/comment_psd.vtex");
-    background-size: contain;
-    width: 24px;
-    height:24px;
+    background-image: url("file://{images}/custom_game/notif/icon.png");
+	background-size: 100%;
+    width: 27px;
+    height:27px;
     brightness: 1;
     opacity: 1;
     horizontal-align: center;
@@ -4616,7 +4636,7 @@ visibility: visible;
     font-size: 12px;
     text-shadow: 0px 0px 1px 2 black;
     text-transform: uppercase;
-    margin-top: 4px;
+    margin-top: 2px;
     text-align: center;
 }
 
@@ -4624,7 +4644,7 @@ visibility: visible;
 {
     width: 800px;
     height: 550px;
-    background-image: url("file://{images}/custom_game/shop/background.png");
+    background-image: url("s2r://panorama/images/dpc/supclub_purchase_bg_psd.vtex");
     background-size: 100%;
     align: center center;
     flow-children: down;
@@ -4639,6 +4659,8 @@ visibility: visible;
     border-right-color: #404040;
     border-style: solid;
     border-width: 1px;
+    transition-property: pre-transform-scale2d, opacity;
+    transition-duration: 0.25s;
 }
 
 .opacity_notif
@@ -4664,6 +4686,7 @@ visibility: visible;
     font-weight: semi-bold;
     text-transform: uppercase;
     font-size: 24px;
+    text-shadow: 1px 1px 1px 2.0 black;
 }
 
 .CloseNotif 
@@ -4706,6 +4729,8 @@ visibility: visible;
     background-color: rgba(0, 0, 0, 0.7);
     flow-children: down;
     width: 100%;
+    border: 1px solid white;
+    border-brush: gradient(radial, 0% 0%, 20% 10%, 100% 100%, from(rgb(153, 151, 254)), to(rgba(153, 151, 254, 0.02)));
 }
 
 .NotificationName
@@ -4726,4 +4751,218 @@ visibility: visible;
     font-weight: semi-bold;
     font-size: 18px;
     margin-bottom: 5px;
+}
+
+.UpdateOnlyBuy
+{
+    flow-children: right;
+    horizontal-align: right;
+    vertical-align: center;
+    margin-top: 60px;
+    margin-right: 92px;
+    width: 210px;
+}
+
+.UpdateOnlyBuyButton
+{
+    width: 25px;
+    height: 25px;
+    background-image: url("file://{images}/custom_game/shop/false.png");
+	background-size: 100%;
+    vertical-align: center;
+    margin-right: 5px;
+    brightness: 0.8;
+    saturation: 0.9;
+}
+
+.UpdateOnlyBuyButtonActive
+{
+    background-image: url("file://{images}/custom_game/shop/true.png");
+	background-size: 100%;
+    saturation: 1;
+}
+
+.UpdateOnlyBuyLabel
+{
+    text-transform: uppercase;
+    font-weight: semi-bold;
+    color: white;
+    font-size: 14px;
+    text-shadow: 0px 0px 1px 3 black;
+    vertical-align: center;
+}
+
+.ChatWheelShop
+{
+    flow-children: down;
+    horizontal-align: right;
+    margin-top: 20px;
+    margin-right: 20px;
+    z-index: 5;
+}
+
+.ChatWheelMenu
+{
+    flow-children: right;
+}
+
+.ChatWheelMenuButton
+{
+    width: 120px;
+    height: 30px;
+    background-image: url("file://{images}/custom_game/shop/button_bg.png");
+    background-size: 100% 100%;
+    box-shadow: 0px 0px 1px 1px black;
+    margin: 2px;
+}
+
+.ChatWheelMenuButtonLabel
+{
+    align: center center;
+    font-weight: semi-bold;
+    color: white;
+}
+
+.ChatWheelShopList
+{
+    flow-children: down;
+    margin-top: 10px;
+    height: 550px;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.25);
+    overflow: squish scroll;
+}
+
+.selected_chat_wheel_shop 
+{
+    animation-name: BackgroundPulse22;
+    animation-duration: 4s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    border: 1px solid #A3CBEF;
+    box-shadow: 0px 0px 16px 0px #668BBC22;
+}
+
+#ChatWheelShopListSprays,
+#ChatWheelShopListToys
+{
+    visibility: collapse;
+}
+
+.ItemShopLine
+{
+    width: 100%;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.4);
+    margin: 2px;
+}
+
+.ChatWheelIcon
+{
+    width: 25px;
+    height: 25px;
+    vertical-align: center;
+    margin-left: 10px;
+    background-image: url("file://{images}/custom_game/button_audio_o_png.png");
+    background-size: 100%;
+}
+
+.ChatWheelIconSpray
+{
+    width: 25px;
+    height: 25px;
+    vertical-align: center;
+    margin-left: 10px;
+    background-image: url("file://{images}/custom_game/spray.png");
+    background-size: 100%;
+}
+
+.ChatWheelIconToy
+{
+    width: 25px;
+    height: 25px;
+    vertical-align: center;
+    margin-left: 10px;
+    background-image: url("file://{images}/custom_game/toy.png");
+    background-size: 100%;
+}
+
+.ItemNameWheel 
+{
+    text-align: left;
+    font-size: 15px;
+    vertical-align: center;
+    color: white;
+    font-weight: bold;
+    width: 55%;
+    height: 20px;
+    margin-left: 40px;
+    font-family: Reaver;
+}
+
+.BuyItemPanelWheel 
+{
+    width: 100px;
+    height: 30px;
+    background-image: url("file://{images}/custom_game/shop/select.png");
+	background-size: 100%;
+    align: right center;
+    margin-right: 20px;
+}
+
+.item_buying
+{
+    background-image: url("file://{images}/undefined.png");
+	background-size: 100%;  
+}
+
+.item_no_money
+{
+    background-image: url("file://{images}/custom_game/shop/select_closed.png");
+	background-size: 100%;  
+}
+
+.DonateShopTopCurrencyCandy
+{
+    vertical-align: center;
+    horizontal-align: right;
+    margin-right: 330px;
+    margin-bottom: 20px;
+}
+
+.DonateShopCurrencyMainCandy
+{
+    width: 80px;
+    height: 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.DonateShopCurrencyCandy
+{
+    width: 170px;
+    height: 30px;
+    align: center center;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.GoldTextCandy
+{
+    text-align: right;
+    font-size: 23px;
+    color: white;
+    font-weight: bold;
+    align: center center;
+    margin-right: 10px;
+    width: 100px;
+}
+
+.CurrencyIconMainCandy
+{
+    width: 50px;
+    background-size: 100%;
+    height: 100%;
+    margin-left: -20px;
+    horizontal-align: left;
+    background-image: url("file://{images}/custom_game/shop/gold_candy.png");
 }

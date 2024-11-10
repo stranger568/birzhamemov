@@ -1,0 +1,106 @@
+"DOTAAbilities"
+{
+    // привязка
+    "old_god_q"
+	{
+		"BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/old_god/old_god_q"
+		"AbilityUnitTargetTeam"		            "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
+		"AbilityTextureName"			        "old_god_q"
+		"AbilityCooldown"				        "20 18 16 14"
+		"AbilityManaCost"				        "85 90 95 100"
+        "AbilityCastRange"                      "1600"
+		"AbilityValues"
+		{
+            "base_attack_time"                  "1.2 1.1 1 0.9"
+            "duration"                          "7"
+            "max_range"                         "1200"
+		}
+	}
+
+    // вовчик
+    "old_god_w"
+	{
+		"BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/old_god/old_god_w"
+		"AbilityUnitTargetTeam"		            "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
+		"AbilityTextureName"			        "old_god_w"
+		"AbilityCooldown"				        "19 18 17 16"
+		"AbilityManaCost"				        "110 130 150 170"
+		"AbilityValues"
+		{
+            "duration"                          "6 8 10 12"
+            "outgoing_damage"                   "50 60 70 80"
+            "incoming_damage"                   "200"
+		}
+	}
+
+    "old_god_e"
+	{
+		"BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/old_god/old_god_e"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_YES"
+		"AbilityTextureName"			        "old_god_e"
+		"AbilityCooldown"				        "28 26 24 22"
+		"AbilityManaCost"				        "125"
+        "AbilityValues"
+		{
+            "shield_from_hp"                    "15 20 25 30"
+            "duration"                          "10"
+        }
+	}
+
+    // старый бог
+    "old_god_d"
+	{
+		"BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/old_god/old_god_d"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
+		"AbilityTextureName"			        "old_god_d"
+		"AbilityCooldown"				        "16"
+		"AbilityManaCost"				        "0"
+        "MaxLevel"                              "1"
+        "AbilityValues"
+		{
+            "attack_range"                      "150"
+            "duration"                          "8"
+        }
+	}
+
+    // выстрелы из глаз
+    "old_god_r"
+	{
+		"BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/old_god/old_god_r"
+		"AbilityUnitTargetTeam"		            "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
+		"AbilityTextureName"			        "old_god_r"
+        "AbilityType"					        "DOTA_ABILITY_TYPE_ULTIMATE"
+        "AbilityValues"
+		{
+            "radius"                            "1200"
+            "radius_damage"                     "200"
+            "interval"                          "0.25"
+            "damage"                            "80 160 240"
+            "min_distance"                      "200"
+            "ray_speed"                         "500 700 900"
+        }
+	}
+}

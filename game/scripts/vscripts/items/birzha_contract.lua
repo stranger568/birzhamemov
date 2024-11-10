@@ -6,7 +6,7 @@ item_birzha_contract = class({})
 function item_birzha_contract:OnSpellStart()
 	if not IsServer() then return end
     self:GetCaster():AddNewModifier(self:GetCaster(), nil, "modifier_item_birzha_contract_caster", {})
-	self:SpendCharge()
+	self:SpendCharge(0)
 end
 
 modifier_item_birzha_contract_caster = class({})
@@ -94,7 +94,7 @@ function modifier_item_birzha_contract_target:OnDeath( params )
         if not caster:IsHero() or caster:GetUnitName() == "npc_palnoref_chariot" or caster:GetUnitName() == "npc_dio_theworld_1" or caster:GetUnitName() == "npc_dio_theworld_2" or caster:GetUnitName() == "npc_dio_theworld_3" then
             caster = caster:GetOwner()
         end
-        if killer ~= self:GetParent() then
+        if killer and killer ~= self:GetParent() then
         	if killer:GetTeamNumber() == caster:GetTeamNumber()  then
         		caster:ModifyGold(BirzhaGameMode.contract_gold[killer:GetTeamNumber()], false, 0)
                 BirzhaGameMode.contract_gold[killer:GetTeamNumber()] = BirzhaGameMode.contract_gold[killer:GetTeamNumber()] + 500
@@ -110,7 +110,7 @@ function modifier_item_birzha_contract_target:OnDeath( params )
         if not killer:IsHero() then
             killer = killer:GetOwner()
         end
-        if killer == self:GetParent() then
+        if killer and killer == self:GetParent() then
             self:GetParent():ModifyGold(BirzhaGameMode.contract_gold[self:GetParent():GetTeamNumber()] * 2, false, 0)
             CustomGameEventManager:Send_ServerToAllClients("birzha_toast_manager_create", {text = "CancelContract", icon = "contract_lose", target = caster:GetUnitName(), caster = self:GetParent():GetUnitName(), sound="CancelContract"} )
             if not self:IsNull() then

@@ -13,16 +13,18 @@ end
 
 function item_burger_sobolev:OnSpellStart()
     if not IsServer() then return end
-    if not self:GetCaster():HasModifier("modifier_burger_strength") then
-        self.modifier = self:GetCaster():AddNewModifier(self:GetCaster(), nil, "modifier_burger_strength", {})
-        self.modifier:IncrementStackCount()
-    else
-    	self.modifier = self:GetCaster():FindModifierByName( "modifier_burger_strength" )
-        self.modifier:IncrementStackCount()
+    local original_modifier = "modifier_burger_strength"
+    local item_stack_count = self:GetCurrentCharges()
+    local find_modifier = self:GetCaster():FindModifierByName( original_modifier )
+    if not find_modifier then
+        find_modifier = self:GetCaster():AddNewModifier(self:GetCaster(), self, original_modifier, {})
+    end
+    for i=1, item_stack_count do
+        find_modifier:IncrementStackCount()
     end
     self:GetCaster():EmitSound("item_burger")
     self:GetCaster():CalculateStatBonus(true)
-    self:SpendCharge()
+    self:GetCaster():ConsumeItem(self)
 end
 
 item_burger_oblomoff = class({})
@@ -36,16 +38,18 @@ end
 
 function item_burger_oblomoff:OnSpellStart()
     if not IsServer() then return end
-    if not self:GetCaster():HasModifier("modifier_burger_agility") then
-        self.modifier = self:GetCaster():AddNewModifier(self:GetCaster(), nil, "modifier_burger_agility", {})
-        self.modifier:IncrementStackCount()
-    else
-    	self.modifier = self:GetCaster():FindModifierByName( "modifier_burger_agility" )
-        self.modifier:IncrementStackCount()
+    local original_modifier = "modifier_burger_agility"
+    local item_stack_count = self:GetCurrentCharges()
+    local find_modifier = self:GetCaster():FindModifierByName( original_modifier )
+    if not find_modifier then
+        find_modifier = self:GetCaster():AddNewModifier(self:GetCaster(), self, original_modifier, {})
+    end
+    for i=1, item_stack_count do
+        find_modifier:IncrementStackCount()
     end
     self:GetCaster():EmitSound("item_burger")
     self:GetCaster():CalculateStatBonus(true)
-    self:SpendCharge()
+    self:GetCaster():ConsumeItem(self)
 end
 
 item_burger_larin = class({})
@@ -59,16 +63,18 @@ end
 
 function item_burger_larin:OnSpellStart()
     if not IsServer() then return end
-    if not self:GetCaster():HasModifier("modifier_burger_intellect") then
-        self.modifier = self:GetCaster():AddNewModifier(self:GetCaster(), nil, "modifier_burger_intellect", {})
-        self.modifier:IncrementStackCount()
-    else
-    	self.modifier = self:GetCaster():FindModifierByName( "modifier_burger_intellect" )
-        self.modifier:IncrementStackCount()
+    local original_modifier = "modifier_burger_intellect"
+    local item_stack_count = self:GetCurrentCharges()
+    local find_modifier = self:GetCaster():FindModifierByName( original_modifier )
+    if not find_modifier then
+        find_modifier = self:GetCaster():AddNewModifier(self:GetCaster(), self, original_modifier, {})
+    end
+    for i=1, item_stack_count do
+        find_modifier:IncrementStackCount()
     end
     self:GetCaster():EmitSound("item_burger")
     self:GetCaster():CalculateStatBonus(true)
-    self:SpendCharge()
+    self:GetCaster():ConsumeItem(self)
 end
 
 modifier_burger_strength = class({})
@@ -82,8 +88,8 @@ function modifier_burger_strength:GetTexture()
 end
 
 function modifier_burger_strength:OnCreated()
-    self.bonus = 10
-    self.resist = 0.5
+    self.bonus = self:GetAbility():GetSpecialValueFor("bonus_str")
+    self.resist = self:GetAbility():GetSpecialValueFor("resist")
 end
 
 function modifier_burger_strength:RemoveOnDeath()
@@ -122,8 +128,8 @@ function modifier_burger_agility:GetTexture()
 end
 
 function modifier_burger_agility:OnCreated()
-    self.bonus = 10
-    self.movespeed = 2
+    self.bonus = self:GetAbility():GetSpecialValueFor("bonus_agi")
+    self.movespeed = self:GetAbility():GetSpecialValueFor("movespeed")
 end
 
 function modifier_burger_agility:DeclareFunctions()
@@ -158,8 +164,8 @@ function modifier_burger_intellect:GetTexture()
 end
 
 function modifier_burger_intellect:OnCreated()
-    self.bonus = 10
-    self.amplify = 1.75
+    self.bonus = self:GetAbility():GetSpecialValueFor("bonus_int")
+    self.amplify = self:GetAbility():GetSpecialValueFor("spell_amplify")
 end
 
 function modifier_burger_intellect:DeclareFunctions()

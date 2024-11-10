@@ -18,21 +18,16 @@
 	align: center center;
 	flow-children: down;
 	visibility: collapse;
-	pre-transform-scale2d: 0;
-	transition-property: pre-transform-scale2d;
+	transition-property: opacity;
 	transition-duration: 0.25s;
 }
 
 #LeaderboardWindow.sethidden {
-	pre-transform-scale2d: 0;
-	transition-property: pre-transform-scale2d;
-	transition-duration: 0.25s;
+    opacity: 0;
 }
 
 #LeaderboardWindow.setvisible {
-	pre-transform-scale2d: 1;
-	transition-property: pre-transform-scale2d;
-	transition-duration: 0.25s;
+    opacity: 1;
 }
 
 #LeaderBoardIcon {
@@ -422,11 +417,9 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	background-size: 100%;
 	align: center center;
 	visibility: collapse;
-	transition-property: pre-transform-scale2d;
-	transition-duration: 0.25s;
 	margin-bottom: 50px;
-	pre-transform-scale2d: 0;
-	transition-property: pre-transform-scale2d;
+	pre-transform-scale2d: 1;
+	transition-property: opacity;
 	transition-duration: 0.25s;
 	border-top-color: #555555;
 	border-left-color: #494949;
@@ -437,15 +430,11 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 }
 
 #BirzhaPassWindow.sethidden {
-	pre-transform-scale2d: 0;
-	transition-property: pre-transform-scale2d;
-	transition-duration: 0.25s;
+    opacity: 0;
 }
 
 #BirzhaPassWindow.setvisible {
-	pre-transform-scale2d: 1;
-	transition-property: pre-transform-scale2d;
-	transition-duration: 0.25s;
+	opacity: 1;
 }
 
 .CloseBattlepass 

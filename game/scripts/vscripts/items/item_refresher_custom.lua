@@ -136,5 +136,5 @@ function item_refresher_shard_custom:OnSpellStart()
 
     local particle = ParticleManager:CreateParticle("particles/items2_fx/refresher.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
     ParticleManager:SetParticleControlEnt(particle, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetCaster():GetAbsOrigin(), true)
-    self:SpendCharge()
+    self:SpendCharge(0)
 end

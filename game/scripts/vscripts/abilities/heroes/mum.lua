@@ -1113,6 +1113,7 @@ end
 
 function modifier_fut_mum_eat_target:OnIntervalThink()
     if not IsServer() then return end
+    if self:GetCaster():IsNull() then self:Destroy() return end
     if not self:GetCaster():IsAlive() then self:Destroy() return end
     self:GetParent():SetAbsOrigin(self:GetCaster():GetAbsOrigin())
     if self.count >= self.max then return end

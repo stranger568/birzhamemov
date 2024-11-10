@@ -228,6 +228,15 @@ function BirzhaGameMode:ExecuteOrderFilter( filterTable )
 		end
 	end
 
+    if filterTable.order_type == DOTA_UNIT_ORDER_CAST_TARGET then
+        local target = EntIndexToHScript(filterTable["entindex_target"])
+        if target and not target:IsNull() and target:IsBaseNPC() and (target:GetUnitName() == "npc_pumpkin_candies_custom") and unit:IsRealHero() then
+            if unit:HasModifier("modifier_order_cast") or unit:IsChanneling() then return false end
+            unit:AddNewModifier(hero, nil, "modifier_order_cast", {target = target:entindex()})
+            return false
+        end
+    end
+
 	if ( orderType ~= DOTA_UNIT_ORDER_PICKUP_ITEM or filterTable["issuer_player_id_const"] == -1 ) then
 		return true
 	else
@@ -243,7 +252,7 @@ function BirzhaGameMode:ExecuteOrderFilter( filterTable )
 		local player = PlayerResource:GetPlayer(filterTable["issuer_player_id_const"])
 		local hero = player:GetAssignedHero()
 
-		if (unit:IsCourier()) and (pickedItem:GetAbilityName() == "item_bag_of_gold" or pickedItem:GetAbilityName() == "item_treasure_chest" or pickedItem:GetAbilityName() == "item_treasure_chest_winter") then
+		if (unit:IsCourier()) and (pickedItem:GetAbilityName() == "item_bag_of_gold" or pickedItem:GetAbilityName() == "item_treasure_chest" or pickedItem:GetAbilityName() == "item_treasure_chest_winter" or pickedItem:GetAbilityName() == "item_hallowen_birzha_candy") then
 			local position = item:GetAbsOrigin()
 			filterTable["position_x"] = position.x
 			filterTable["position_y"] = position.y
@@ -252,7 +261,7 @@ function BirzhaGameMode:ExecuteOrderFilter( filterTable )
 			return true
 		end
 
-		if (not unit:IsRealHero()) and (pickedItem:GetAbilityName() == "item_bag_of_gold" or pickedItem:GetAbilityName() == "item_treasure_chest" or pickedItem:GetAbilityName() == "item_treasure_chest_winter") then
+		if (not unit:IsRealHero()) and (pickedItem:GetAbilityName() == "item_bag_of_gold" or pickedItem:GetAbilityName() == "item_treasure_chest" or pickedItem:GetAbilityName() == "item_treasure_chest_winter" or pickedItem:GetAbilityName() == "item_hallowen_birzha_candy") then
 			local position = item:GetAbsOrigin()
 			filterTable["position_x"] = position.x
 			filterTable["position_y"] = position.y

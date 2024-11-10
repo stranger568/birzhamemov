@@ -21,7 +21,7 @@ function ErrorTracking.Collect(stack)
     {
         ["error"] = tostring(stack),
     }
-    SendData('https://' ..BirzhaData.url .. '/data/post_error_data.php', post_data, nil)
+    --SendData('https://' ..BirzhaData.url .. '/bmemov/post_error_data.php', post_data, nil)
 	ErrorTracking.collected_errors = ErrorTracking.collected_errors.."\n"..stack
 	ErrorTracking.collected_errors = ""
 end

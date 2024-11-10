@@ -1,0 +1,4050 @@
+"queenofpain_pain_spawn_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_spawn_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_spawn_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_spawn_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "17.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_spawn_03"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_spawn_03.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_spawn_04"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_spawn_04.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "2.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "7.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_death_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_death_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_death_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_death_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_death_03"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_death_03.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "6.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_death_04"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_death_04.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_death_05"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_death_05.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_death_06"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_death_06.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_death_07"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_death_07.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_death_08"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_death_04.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "7.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_death_09"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_death_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_death_10"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_death_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_death_11"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_death_03.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_death_12"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_death_04.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_death_13"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_death_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_death_14"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_death_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_move_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_move_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_move_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_move_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_move_03"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_move_03.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_move_04"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_move_04.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_move_05"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_move_05.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_move_06"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_move_06.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_move_07"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_move_07.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_move_08"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_move_08.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_move_09"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_move_09.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_move_10"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_move_10.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_move_11"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_move_11.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_move_12"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_move_12.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_move_13"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_move_13.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_happy_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_happy_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "6.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_happy_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_happy_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "8.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_happy_03"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_happy_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "8.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_respawn_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_respawn_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_respawn_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_respawn_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_respawn_03"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_respawn_03.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_respawn_04"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_respawn_04.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_respawn_05"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_respawn_05.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_respawn_06"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_respawn_06.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "13.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_respawn_07"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_respawn_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_respawn_08"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_respawn_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_respawn_09"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_respawn_03.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_respawn_10"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_respawn_04.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_laugh_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_laugh_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_laugh_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_laugh_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_laugh_03"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_laugh_03.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_laugh_04"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_laugh_04.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_laugh_05"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_laugh_05.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "3.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_laugh_06"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_laugh_06.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_laugh_07"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_laugh_07.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "3.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_laugh_08"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_laugh_08.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_laugh_09"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_laugh_09.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_laugh_10"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_laugh_10.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "3.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_laugh_11"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_laugh_11.vsnd"
+							  "value0"        "sounds/heroes/kurumi/voice/pain_laugh_18.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_laugh_12"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_laugh_12.vsnd"
+							  "value1"        "sounds/heroes/kurumi/voice/pain_laugh_17.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_laugh_13"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_laugh_13.vsnd"
+							  "value1"        "sounds/heroes/kurumi/voice/pain_laugh_16.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_laugh_14"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_laugh_14.vsnd"
+							  "value1"        "sounds/heroes/kurumi/voice/pain_laugh_15.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+
+"queenofpain_pain_fastres_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_fastres_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "10.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_fastres_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_fastres_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_rival_10"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_rival_10.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_scepter_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_scepter_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "11.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_scepter_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_scepter_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "8.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_scepter_03"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_scepter_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_scepter_04"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_scepter_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "3.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_first_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_first_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "8.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_first_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_first_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "8.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_kill_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_kill_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_kill_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_kill_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_kill_03"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_kill_03.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "6.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_kill_04"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_kill_04.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_kill_05"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_kill_05.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "8.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_kill_06"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_kill_06.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_kill_07"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_kill_07.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "7.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_kill_08"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_kill_08.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_kill_09"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_kill_09.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "16.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_kill_10"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_kill_10.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_kill_11"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_kill_11.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "6.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_kill_12"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_kill_12.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "7.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_kill_13"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_kill_13.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "6.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_kill_14"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_kill_14.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_kill_15"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_kill_15.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "13.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_kill_16"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_kill_16.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "12.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_notyet_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_notyet_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_notyet_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_notyet_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_notyet_03"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_notyet_03.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_notyet_04"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_notyet_04.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_notyet_05"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_notyet_05.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_notyet_06"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_notyet_06.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_nomana_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_nomana_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_nomana_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_nomana_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_nomana_03"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_nomana_03.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_nomana_04"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_nomana_04.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "7.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_rare_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_rare_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "13.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_rare_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_rare_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "33.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_anger_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_anger_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_anger_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_anger_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_anger_03"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_anger_03.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_anger_04"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_anger_04.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_pain_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_pain_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_pain_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_pain_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_pain_03"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_pain_03.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_pain_04"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_pain_04.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_pain_05"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_pain_05.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_pain_06"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_pain_06.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_pain_07"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_pain_07.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_pain_08"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_pain_08.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_pain_09"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_pain_09.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_pain_10"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_pain_10.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_pain_11"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_pain_11.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_pain_12"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_pain_12.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_pain_13"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_pain_13.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_pain_14"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_pain_13.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_pain_15"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_pain_13.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_attack_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_attack_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_attack_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_attack_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "4.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_attack_03"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_attack_03.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_attack_04"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_attack_04.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "2.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_attack_05"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_attack_05.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "3.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_attack_06"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_attack_06.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "13.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_attack_07"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_attack_07.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "3.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_attack_08"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_attack_08.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "3.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_attack_09"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_attack_09.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_attack_10"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_attack_10.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_attack_11"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_attack_11.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_attack_12"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_attack_12.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_levelup_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_levelup_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "3.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_levelup_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_levelup_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "3.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_levelup_03"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_levelup_03.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "3.295714"  }
+                }
+            }
+        }
+    }
+}
+
+"queenofpain_pain_illus_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_illus_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "3.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_illus_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_illus_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "3.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_relic_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_relic_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "3.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_relic_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_relic_03.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "10.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_relic_03"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_relic_03.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_thanks_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_thanks_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "7.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_thanks_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_thanks_02.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "3.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_underattack_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_underattack_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "3.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_win_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_win_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "20.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_win_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_win_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_win_03"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_win_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_lose_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_lose_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_lose_02"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_lose_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+
+"queenofpain_pain_lose_03"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_lose_01.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_lose_04"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_lose_04.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_lose_04"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_lose_04.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"queenofpain_pain_lose_04"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_lose_04.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "5.295714"  }
+                }
+            }
+        }
+    }
+}
+"kurumi_zaphiel"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_zaphiel.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+					"distance_max"     {   "value"     "1600.000000"  }
+                }
+            }
+        }
+    }
+}
+"kurumi_alef"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_alef.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "1.295714"  }
+					"distance_max"     {   "value"     "1600.000000"  }
+
+                }
+            }
+        }
+    }
+}
+"kurumi_the_eighth_bullet_het_01"
+{
+    "operator_stacks"
+    {
+        "update_stack"
+        {
+            "reference_operator"
+            {
+                "operator"              "sos_reference_stack"
+                "reference_stack"       "dota_update_vo_switch"
+                "operator_variables"
+                {
+                    "vsnd_files"
+                    {
+                        "value"
+                        {
+                              "value0"        "sounds/heroes/kurumi/voice/pain_cast_01.vsnd"
+							  "value1"        "sounds/heroes/kurumi/voice/pain_cast_02.vsnd"
+							  "value2"        "sounds/heroes/kurumi/voice/pain_cast_03.vsnd"
+							  "value3"        "sounds/heroes/kurumi/voice/pain_cast_04.vsnd"
+                        }
+                    }
+                    "volume"            {   "value"     "1.000000"  }
+                    "pitch"             {   "value"     "1.000000"  }
+					"vsnd_duration"     {   "value"     "7.295714"  }
+
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

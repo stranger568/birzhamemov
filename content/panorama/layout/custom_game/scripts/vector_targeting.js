@@ -24,7 +24,7 @@ var marci_vectorRange = 800;
 var marci_currentlyActiveVectorTargetAbility;
 var marci_current_target_index;
 
-const defaultAbilities = ["jull_crive_realy", "ruby_ranged_mode", "haku_jump", "thomas_ability_three", "puchkov_hurricane"];
+const defaultAbilities = ["jull_crive_realy", "ruby_ranged_mode", "haku_jump", "thomas_ability_three", "puchkov_hurricane", "nix_phantom_w"];
 const ignoreAbilites = ["pangolier_swashbuckle", "enraged_wildkin_hurricane"]
 
 var radius_min = 0

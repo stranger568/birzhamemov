@@ -12,7 +12,7 @@ function gorin_choose_axe:GetAbilityTextureName()
     if self:GetCaster():HasModifier("modifier_gorin_choose_axe") then
         return "troll_warlord_berserkers_rage_active"
     else
-        return "troll_warlord_berserkers_rage"
+        return "Gorin/ChooseTheAxe"
     end
 end
 

@@ -36,6 +36,7 @@
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
 		"Model"							"models/props_gameplay/treasure_chest_gold.vmdl"
+        //"Model"                         "models/props_gameplay/pumpkin_rune.vmdl"
 		"ItemKillable"					"0"
 		"AbilityCastRange"				"100"
 		"AbilityCastPoint"				"0.0"
@@ -49,6 +50,29 @@
 		"ItemKillable"					"0"
 		"ItemCastOnPickup"				"1"
 		"DisplayOverheadAlertOnReceived" "0"
+	}
+
+    "item_hallowen_birzha_candy"
+	{
+		"AbilityTextureName"			    "candy"
+		"BaseClass"						    "item_bag_of_gold"
+		"AbilityBehavior"				    "DOTA_ABILITY_BEHAVIOR_ITEM"
+		"AbilityUnitTargetTeam"			    "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			    "DOTA_UNIT_TARGET_HERO"
+        "Model"                             "models/props_gameplay/halloween_candy.vmdl"
+		"ItemKillable"					    "0"
+		"AbilityCastRange"				    "0"
+		"AbilityCastPoint"				    "0.0"
+		"ItemPurchasable"				    "0"
+		"ItemShopTags"					    "consumable"
+		"ItemQuality"					    "consumable"
+		"ItemStackable"					    "1"
+		"ItemShareability"				    "ITEM_FULLY_SHAREABLE"
+		"ItemPermanent"					    "0"
+		"ItemInitialCharges"			    "0"
+		"ItemKillable"					    "0"
+		"ItemCastOnPickup"				    "1"
+		"DisplayOverheadAlertOnReceived"    "0"
 	}
 
 	"item_tpscroll"
@@ -685,7 +709,7 @@
 		"AbilityValues"
 		{
 			"bonus_agi"							"10"
-			"movespeed"							"2"
+			"movespeed"							"1"
 		}
 	}
 
@@ -707,7 +731,7 @@
 		"AbilityValues"
 		{
 			"bonus_int"							"10"
-			"spell_amplify"						"1.75"
+			"spell_amplify"						"1"
 		}
 	}
 	
@@ -743,7 +767,7 @@
 		"ScriptFile"				"items/bond"
   		"AbilityTextureName"		"item_bond"
   		"ItemCost"					"150"
-  		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+  		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
   		"ItemStackable"				"1"
 		"ItemPermanent"				"0"
 		"ItemInitialCharges"		"3"
@@ -822,7 +846,7 @@
 		"ScriptFile"				"items/bond"
   		"AbilityTextureName"		"item_vape"
   		"ItemCost"					"1750"
-  		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_AOE"
+  		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
 		"ItemDisassembleRule"		"DOTA_ITEM_DISASSEMBLE_NEVER"
   		"AOERadius"					"500"
 		"AbilityCooldown"		   "20"
@@ -4462,6 +4486,19 @@
             "mana_regen"				"0.7"
 			"slow"						"-50"
 			"slow_duration"				"1.5"
+		}
+	}
+
+    "item_recipe_meteor_hammer"
+	{
+		"Model"							"models/props_gameplay/recipe.vmdl"
+		"ItemCost"						"2300"	
+		"ItemShopTags"					""
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_meteor_hammer"
+		"ItemRequirements"
+		{
+			"01"						"item_crown"
 		}
 	}
 

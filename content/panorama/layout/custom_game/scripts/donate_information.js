@@ -13,56 +13,55 @@ var Items_ADS =
 	["ads_name_2", "birzhaplus"],
 ]
 
-var Items_dogecoins = []
-
 var Items_pets = 
 [
-	["1", "gem", "1500", "pet_1", "pet_1", false], 
-	["2", "gem", "1500", "pet_2", "pet_2", false],
-	["3", "gem", "1500", "pet_3", "pet_3", false],
-	["4", "gem", "1500", "pet_4", "pet_4", false],
-	["5", "gem", "1500", "pet_5", "pet_5", false],
-	["6", "gem", "1500", "pet_6", "pet_6", false],
-	["7", "gem", "1500", "pet_7", "pet_7", false],
-	["8", "gem", "1500", "pet_8", "pet_8", false],
-	["9", "gem", "1500", "pet_9", "pet_9", false],
-	["10", "gem", "1500", "pet_10", "pet_10", false],
-	["11", "gem", "1500", "pet_11", "pet_11", false],
-	["12", "gem", "1500", "pet_12", "pet_12", false],
-	["13", "gem", "1500", "pet_13", "pet_13", false],
-	["14", "gem", "1500", "pet_14", "pet_14", false],
-	["15", "gem", "1500", "pet_15", "pet_15", false],
-	["16", "gem", "1500", "pet_16", "pet_16", false],
-	["17", "gem", "1500", "pet_17", "pet_17", false],
-	["18", "gem", "1500", "pet_18", "pet_18", false],
-	["19", "gem", "1500", "pet_19", "pet_19", false],
-	["256", "gem", "3000", "pet_20", "pet_20", false],
+	["1", "gold", "500", "pet_1", "pet_1", false], 
+	["2", "gold", "500", "pet_2", "pet_2", false],
+	["3", "gold", "500", "pet_3", "pet_3", false],
+	["4", "gold", "500", "pet_4", "pet_4", false],
+	["5", "gold", "500", "pet_5", "pet_5", false],
+	["6", "gold", "500", "pet_6", "pet_6", false],
+	["7", "gold", "500", "pet_7", "pet_7", false],
+	["8", "gold", "500", "pet_8", "pet_8", false],
+	["9", "gold", "500", "pet_9", "pet_9", false],
+	["10", "gold", "500", "pet_10", "pet_10", false],
+	["11", "gold", "500", "pet_11", "pet_11", false],
+	["12", "gold", "500", "pet_12", "pet_12", false],
+	["13", "gold", "500", "pet_13", "pet_13", false],
+	["14", "gold", "500", "pet_14", "pet_14", false],
+	["15", "gold", "500", "pet_15", "pet_15", false],
+	["16", "gold", "500", "pet_16", "pet_16", false],
+	["17", "gold", "500", "pet_17", "pet_17", false],
+	["18", "gold", "500", "pet_18", "pet_18", false],
+	["19", "gold", "500", "pet_19", "pet_19", false],
+	["256", "gold", "1500", "pet_20", "pet_20", false],
 
     // Вне магазина
-    ["187", "gem", "0", "pet_187", "pet_187", false, 0, 1], 
-	["188", "gem", "0", "pet_188", "pet_188", false, 0, 1],
-	["189", "gem", "0", "pet_189", "pet_189", false, 0, 1],
-	["190", "gem", "0", "pet_190", "pet_190", false, 0, 1],
-	["191", "gem", "0", "pet_191", "pet_191", false, 0, 1],
-	["192", "gem", "0", "pet_192", "pet_192", false, 0, 1],
-	["193", "gem", "0", "pet_193", "pet_193", false, 0, 1],
+    ["187", "gold", "0", "pet_187", "pet_187", false, 0, 1], 
+	["188", "gold", "0", "pet_188", "pet_188", false, 0, 1],
+	["189", "gold", "0", "pet_189", "pet_189", false, 0, 1],
+	["190", "gold", "0", "pet_190", "pet_190", false, 0, 1],
+	["191", "gold", "0", "pet_191", "pet_191", false, 0, 1],
+	["192", "gold", "0", "pet_192", "pet_192", false, 0, 1],
+	["193", "gold", "0", "pet_193", "pet_193", false, 0, 1],
+    ["401", "gold", "0", "pet_401", "pet_401", false, 0, 1],
 ]
 
 var Items_effects = 
 [
-	["20", "gem", "2000", "particle_1", "particle_1", false],
-	["40", "gem", "2000", "particle_2", "particle_2", false],
-	["41", "gem", "2000", "particle_3", "particle_3", false],
-	["42", "gem", "2000", "particle_4", "particle_4", false],
-	["43", "gem", "2000", "particle_5", "particle_5", false],
-	["44", "gem", "2000", "particle_6", "particle_6", false],
-	["45", "gem", "2000", "particle_7", "particle_7", false],
-	["46", "gem", "2000", "particle_8", "particle_8", false],
-	["47", "gem", "2000", "particle_9", "particle_9", false],
-	["48", "gem", "2000", "particle_10", "particle_10", false],
-	["49", "gem", "2000", "particle_11", "particle_11", false],
-	["50", "gem", "2000", "particle_12", "particle_12", false],
-	["51", "gem", "2000", "particle_13", "particle_13", false],
+	["20", "gold", "500", "particle_1", "particle_1", false],
+	["40", "gold", "500", "particle_2", "particle_2", false],
+	["41", "gold", "500", "particle_3", "particle_3", false],
+	["42", "gold", "500", "particle_4", "particle_4", false],
+	["43", "gold", "500", "particle_5", "particle_5", false],
+	["44", "gold", "500", "particle_6", "particle_6", false],
+	["45", "gold", "500", "particle_7", "particle_7", false],
+	["46", "gold", "500", "particle_8", "particle_8", false],
+	["47", "gold", "500", "particle_9", "particle_9", false],
+	["48", "gold", "500", "particle_10", "particle_10", false],
+	["49", "gold", "500", "particle_11", "particle_11", false],
+	["50", "gold", "500", "particle_12", "particle_12", false],
+	["51", "gold", "500", "particle_13", "particle_13", false],
 ]
 
 var Items_subscribe = 
@@ -73,7 +72,7 @@ var Items_subscribe =
 
 var Items_heroes = 
 [
-	["22", "gem", "500", "item_for_scp", "item_for_scp", false],
+	["22", "gold", "250", "item_for_scp", "item_for_scp", false],
 	["23", "gold", "1500", "item_for_silvername", "item_for_silvername", false],
 	["24", "gold", "1000", "item_for_gorin", "item_for_gorin", false],
 	["25", "gold", "2500", "item_for_fatmum", "item_for_fatmum", false],
@@ -83,25 +82,25 @@ var Items_heroes =
 	["29", "gold", "2500", "item_for_papich", "item_for_papich", false],
 	["30", "gold", "1500", "item_for_johncena", "item_for_johncena", false],
 	["31", "gold", "1000", "item_for_jew", "item_for_jew", false],
-	["32", "gold", "500", "item_for_poroshenko", "item_for_poroshenko", false],
+	["32", "gold", "250", "item_for_poroshenko", "item_for_poroshenko", false],
 	["33", "gold", "2500", "item_for_druzhko", "item_for_druzhko", false],
 	["34", "gold", "1000", "item_for_sobolev", "item_for_sobolev", false],
 	["126", "gold", "2500", "item_for_ayano", "item_for_ayano", false],
-	["35", "gem", "500", "item_for_knuckles", "item_for_knuckles", false],
-	["36", "gem", "500", "item_for_bigrussianboss", "item_for_bigrussianboss", false],
-	["37", "gem", "2000", "item_for_versuta", "item_for_versuta", false],
-	["38", "gem", "2000", "item_for_robbie", "item_for_robbie", false],
-	["39", "gem", "1000", "item_for_fatmum_2", "item_for_fatmum_2", false],
-	["130", "gem", "2000", "item_for_boy", "item_for_boy", false],
+	["35", "gold", "250", "item_for_knuckles", "item_for_knuckles", false],
+	["36", "gold", "250", "item_for_bigrussianboss", "item_for_bigrussianboss", false],
+	["37", "gold", "2000", "item_for_versuta", "item_for_versuta", false],
+	["38", "gold", "2000", "item_for_robbie", "item_for_robbie", false],
+	["39", "gold", "1000", "item_for_fatmum_2", "item_for_fatmum_2", false],
+	["130", "gold", "2000", "item_for_boy", "item_for_boy", false],
 
     // Вне магазина
 	["180", "gold", "0", "bm_battlepass_info_100level_name", "bm_battlepass_info_100level_name", false, 0, 0],
-	["182", "gem", "0", "bm_battlepass_info_80level_name", "bm_battlepass_info_80level_name", false, 0, 0],
-	["179", "gem", "0", "bm_battlepass_info_40level_name", "bm_battlepass_info_40level_name", false, 0, 0],
-	["183", "gem", "0", "bm_battlepass_info_60level_name", "bm_battlepass_info_60level_name", false, 0, 0],
-	["181", "gem", "0", "bm_battlepass_info_20level_name", "bm_battlepass_info_20level_name", false, 0, 0],
-    ["198", "gem", "0", "battlepass_reward_198", "battlepass_reward_198", false, 0, 0],
-    ["200", "gem", "0", "battlepass_reward_200", "battlepass_reward_200", false, 0, 0],
+	["182", "gold", "0", "bm_battlepass_info_80level_name", "bm_battlepass_info_80level_name", false, 0, 0],
+	["179", "gold", "0", "bm_battlepass_info_40level_name", "bm_battlepass_info_40level_name", false, 0, 0],
+	["183", "gold", "0", "bm_battlepass_info_60level_name", "bm_battlepass_info_60level_name", false, 0, 0],
+	["181", "gold", "0", "bm_battlepass_info_20level_name", "bm_battlepass_info_20level_name", false, 0, 0],
+    ["198", "gold", "0", "battlepass_reward_198", "battlepass_reward_198", false, 0, 0],
+    ["200", "gold", "0", "battlepass_reward_200", "battlepass_reward_200", false, 0, 0],
 ]
 
 var Items_currency = 
@@ -110,10 +109,6 @@ var Items_currency =
 	["0", "", "$5 / 400 Рублей", "donate_5", "donate_bitcoin_2", true],
 	["0", "", "$10 / 800 Рублей", "donate_10", "donate_bitcoin_3", true],
 	["0", "", "$50 / 4000 Рублей", "donate_50", "donate_bitcoin_4", true],
-	["0", "gold", "250", "donate_2_2", "Ddonate_dogecoin_1", true], 
-	["0", "gold", "1250", "donate_5_2", "Ddonate_dogecoin_2", true],
-	["0", "gold", "2500", "donate_10_2", "Ddonate_dogecoin_3", true],
-	["0", "gold", "12250", "donate_50_2", "Ddonate_dogecoin_4", true],
 ]
 
 var Items_sounds = 
@@ -194,7 +189,7 @@ var Items_sounds =
     ["291", "gold", "50", "sound", "sounds_291", false, 0],
     ["292", "gold", "50", "sound", "sounds_292", false, 0], 
     ["293", "gold", "50", "sound", "sounds_293", false, 0],
-    ["294", "gold", "500", "sound", "sounds_294", false, 1],
+    ["294", "gold", "500", "sound", "sounds_294", false, 0],
 
     // Вне магазина
     ["165", "gold", "0", "sound", "sounds_49", false, 0, 1], 
@@ -228,145 +223,113 @@ var Items_sounds =
     ["216", "gold", "0", "sound", "sounds_216", false, 0, 1],
     ["217", "gold", "0", "sound", "sounds_217", false, 0, 1],
     ["218", "gold", "0", "sound", "sounds_218", false, 0, 1],
+    ["405", "gold", "0", "sound", "sounds_405", false, 0, 1],
 ]
 
 var Items_sprays = 
 [
-	["88",  "gem", "100", "spray_1", "spray_1", false, 0], 
-	["89",  "gem", "100", "spray_2", "spray_2", false, 0], 
-	["90",  "gem", "100", "spray_3", "spray_3", false, 0], 
-	["91",  "gem", "100", "spray_4", "spray_4", false, 0], 
-	["92",  "gem", "100", "spray_5", "spray_5", false, 0], 
-	["93",  "gem", "100", "spray_6", "spray_6", false, 0], 
-	["94",  "gem", "100", "spray_7", "spray_7", false, 0], 
-	["95",  "gem", "100", "spray_8", "spray_8", false, 0],
-	["96",  "gem", "100", "spray_9", "spray_9", false, 0], 
-	["97",  "gem", "100", "spray_10", "spray_10", false, 0], 
-	["98",  "gem", "100", "spray_11", "spray_11", false, 0], 
-	["99",  "gem", "100", "spray_12", "spray_12", false, 0], 
-	["100",  "gem", "100", "spray_13", "spray_13", false, 0], 
-	["101",  "gem", "100", "spray_14", "spray_14", false, 0], 
-	["102",  "gem", "100", "spray_15", "spray_15", false, 0], 
-	["103",  "gem", "100", "spray_16", "spray_16", false, 0],
-	["104",  "gem", "100", "spray_17", "spray_17", false, 0], 
-	["105",  "gem", "100", "spray_18", "spray_18", false, 0], 
-	["106",  "gem", "100", "spray_19", "spray_19", false, 0], 
-	["107",  "gem", "100", "spray_20", "spray_20", false, 0],
-	["108",  "gem", "100", "spray_21", "spray_21", false, 0], 
-	["109",  "gem", "100", "spray_22", "spray_22", false, 0], 
-	["110",  "gem", "100", "spray_23", "spray_23", false, 0], 
-	["111",  "gem", "100", "spray_24", "spray_24", false, 0],  
+	["88",  "gold", "50", "spray_1", "spray_1", false, 0], 
+	["89",  "gold", "50", "spray_2", "spray_2", false, 0], 
+	["90",  "gold", "50", "spray_3", "spray_3", false, 0], 
+	["91",  "gold", "50", "spray_4", "spray_4", false, 0], 
+	["92",  "gold", "50", "spray_5", "spray_5", false, 0], 
+	["93",  "gold", "50", "spray_6", "spray_6", false, 0], 
+	["94",  "gold", "50", "spray_7", "spray_7", false, 0], 
+	["95",  "gold", "50", "spray_8", "spray_8", false, 0],
+	["96",  "gold", "50", "spray_9", "spray_9", false, 0], 
+	["97",  "gold", "50", "spray_10", "spray_10", false, 0], 
+	["98",  "gold", "50", "spray_11", "spray_11", false, 0], 
+	["99",  "gold", "50", "spray_12", "spray_12", false, 0], 
+	["100",  "gold", "50", "spray_13", "spray_13", false, 0], 
+	["101",  "gold", "50", "spray_14", "spray_14", false, 0], 
+	["102",  "gold", "50", "spray_15", "spray_15", false, 0], 
+	["103",  "gold", "50", "spray_16", "spray_16", false, 0],
+	["104",  "gold", "50", "spray_17", "spray_17", false, 0], 
+	["105",  "gold", "50", "spray_18", "spray_18", false, 0], 
+	["106",  "gold", "50", "spray_19", "spray_19", false, 0], 
+	["107",  "gold", "50", "spray_20", "spray_20", false, 0],
+	["108",  "gold", "50", "spray_21", "spray_21", false, 0], 
+	["109",  "gold", "50", "spray_22", "spray_22", false, 0], 
+	["110",  "gold", "50", "spray_23", "spray_23", false, 0], 
+	["111",  "gold", "50", "spray_24", "spray_24", false, 0],  
 
     // Вне магазина
-    ["249",  "gem", "0", "spray_249", "spray_249", false, 0, 1], 
-	["250",  "gem", "0", "spray_250", "spray_250", false, 0, 1], 
-	["251",  "gem", "0", "spray_251", "spray_251", false, 0, 1], 
-	["252",  "gem", "0", "spray_252", "spray_252", false, 0, 1], 
-	["253",  "gem", "0", "spray_253", "spray_253", false, 0, 1],
-	["254",  "gem", "0", "spray_254", "spray_254", false, 0, 1], 
+    ["249",  "gold", "0", "spray_249", "spray_249", false, 0, 1], 
+	["250",  "gold", "0", "spray_250", "spray_250", false, 0, 1], 
+	["251",  "gold", "0", "spray_251", "spray_251", false, 0, 1], 
+	["252",  "gold", "0", "spray_252", "spray_252", false, 0, 1], 
+	["253",  "gold", "0", "spray_253", "spray_253", false, 0, 1],
+	["254",  "gold", "0", "spray_254", "spray_254", false, 0, 1], 
 ]
 
 var Items_borders = 
 [ 
 	["112",  "gold", "1500", "border_1", "border_1", false, 0], 
-	["115",  "gem", "1000", "border_2", "border_2", false, 0], 
+	["115",  "gold", "250", "border_2", "border_2", false, 0], 
 	["116",  "gold", "1500", "border_3", "border_3", false, 0], 
 	["117",  "gold", "1500", "border_4", "border_4", false, 0], 
 	["127",  "gold", "1500", "border_5", "border_5", false, 0], 
 	["128",  "gold", "1500", "border_6", "border_6", false, 0], 
-	["129",  "gem", "1000", "border_7", "border_7", false, 0], 
-	["164",  "gold", "1500", "border_8", "border_8", false, 0], 
-]
+	["129",  "gold", "250", "border_7", "border_7", false, 0], 
+	["164",  "gold", "1500", "border_8", "border_8", false, 0],
 
-var Items_toys = [ 
-	["124",  "gold", "500", "toys_1", "toys_1", false, 0], 
-	["125",  "gem", "500", "toys_2", "toys_2", false, 0],
-    
     // Вне магазина
-    ["184",  "gold", "0", "toys_3", "toys_3", false, 0, 1], 
+    ["404",  "gold", "0", "border_9", "border_9", false, 0, 1], 
 ]
 
-for ( var item of Items_pets )
-{
-	if (item[1] == "gem") {
-		Items_dogecoins.push(item);
-	}
-}
- 
-for ( var item of Items_effects )
-{
-	if (item[1] == "gem") {
-		Items_dogecoins.push(item);
-	}
-}
-
-for ( var item of Items_heroes )
-{
-	if (item[1] == "gem") {
-		Items_dogecoins.push(item);
-	}
-}
-
-for ( var item of Items_sounds )
-{
-	if (item[1] == "gem") {
-		Items_dogecoins.push(item);
-	}
-}
-
-for ( var item of Items_borders )
-{
-	if (item[1] == "gem") {
-		Items_dogecoins.push(item);
-	}
-}
-
-for ( var item of Items_sprays )
-{
-	if (item[1] == "gem") {
-		Items_dogecoins.push(item);
-	}
-}
-
-for ( var item of Items_toys )
-{
-	if (item[1] == "gem") {
-		Items_dogecoins.push(item);
-	}
-}
-
-var smiles = 
+var Items_toys = 
 [
-    [161, "StrangerBan"],
-    [136, "4elik"],
-    [137, "BirzhaMertva"],
-    [138, "Blin"],
-    [139, "Cat"],
-    [140, "CatSad"],
-    [141, "Clown"],
-    [142, "CoolStory"],
-    [143, "DwayneWut"],
-    [144, "Gachi"],
-    [145, "Head"],
-    [146, "insane"],
-    [147, "KekW"],
-    [148, "Like"],
-    [149, "Micro4el"],
-    [150, "Omegalul"],
-    [151, "Oreh"],
-    [152, "OrehDaun"],
-    [153, "PapichRetard"],
-    [154, "PenguinSuck"],
-    [155, "Pepega"],
-    [156, "PepegaClown"],
-    [157, "RoflanEbalo"],
-    [158, "RoflanPominki"],
-    [159, "Wut"],
-    [160, "WutMeme"],
-    [162, "stray"],
-    [163, "microcat"],
+	["124",  "gold", "500", "toys_1", "toys_1", false, 0], 
+	["125",  "gold", "500", "toys_2", "toys_2", false, 0],
 ]
 
+var Items_Tips =
+[
+   ["296",  "gold", "200", "tip_1", "tip_1", false, 1],
+   ["297",  "gold", "200", "tip_2", "tip_2", false, 1],  
+   ["298",  "gold", "200", "tip_3", "tip_3", false, 1],  
+   ["299",  "gold", "200", "tip_4", "tip_4", false, 1],  
+   ["300",  "gold", "200", "tip_5", "tip_5", false, 1],  
+   ["301",  "gold", "200", "tip_6", "tip_6", false, 1],  
+   ["302",  "gold", "200", "tip_7", "tip_7", false, 1],  
+   ["303",  "gold", "200", "tip_8", "tip_8", false, 1],  
+   ["304",  "gold", "200", "tip_9", "tip_9", false, 1],  
+   ["305",  "gold", "200", "tip_10", "tip_10", false, 1],  
+   ["306",  "gold", "200", "tip_11", "tip_11", false, 1],  
+   ["307",  "gold", "200", "tip_12", "tip_12", false, 1],  
+   ["308",  "gold", "200", "tip_13", "tip_13", false, 1],  
+   ["309",  "gold", "200", "tip_14", "tip_14", false, 1],  
+   ["310",  "gold", "200", "tip_15", "tip_15", false, 1],  
+   ["311",  "gold", "200", "tip_16", "tip_16", false, 1],  
+   ["312",  "gold", "200", "tip_17", "tip_17", false, 1],  
+   ["313",  "gold", "200", "tip_18", "tip_18", false, 1],  
+   ["314",  "gold", "200", "tip_19", "tip_19", false, 1],  
+   ["315",  "gold", "200", "tip_20", "tip_20", false, 1],  
+   ["316",  "gold", "200", "tip_21", "tip_21", false, 1],  
+   ["317",  "gold", "200", "tip_22", "tip_22", false, 1],  
+   ["318",  "gold", "200", "tip_23", "tip_23", false, 1],  
+   ["319",  "gold", "200", "tip_24", "tip_24", false, 1],  
+   ["320",  "gold", "200", "tip_25", "tip_25", false, 1],  
+   ["321",  "gold", "200", "tip_26", "tip_26", false, 1],  
+]
+
+var Items_Five =
+[
+    ["322",  "gold", "1500", "five_2", "five_2", false, 1], 
+    ["323",  "gold", "1500", "five_3", "five_3", false, 1], 
+    ["324",  "gold", "1500", "five_4", "five_4", false, 1], 
+    ["325",  "gold", "1500", "five_5", "five_5", false, 1], 
+
+    // Вне магазина
+    ["184",  "gold", "0", "five_1", "five_1", false, 0, 1],  
+    ["402",  "gold", "0", "five_6", "five_6", false, 0, 1],  
+]
+
+var Items_chest =
+[   
+    // id chest
+    ["1", "chest_1", "chest_1", 1], 
+]
 
 var HEROES_ITEMS_INFO_START =
 {
@@ -400,3 +363,62 @@ var HEROES_ITEMS_INFO_START =
     198 : "npc_dota_hero_skeleton_king",
     200 : "npc_dota_hero_sniper",
 }
+
+var TIP_SMILE_ICON =
+{
+    295: "file://{images}/custom_game/smiles/4elik.png",
+    297: "file://{images}/custom_game/smiles/BirzhaMertva.png",
+    298: "file://{images}/custom_game/smiles/Blin.png",
+    299: "file://{images}/custom_game/smiles/Cat.png",
+    300: "file://{images}/custom_game/smiles/CatSad.png",
+    301: "file://{images}/custom_game/smiles/Clown.png",
+    302: "file://{images}/custom_game/smiles/CoolStory.png",
+    303: "file://{images}/custom_game/smiles/DwayneWut.png",
+    304: "file://{images}/custom_game/smiles/Gachi.png",
+    305: "file://{images}/custom_game/smiles/Head.png",
+    306: "file://{images}/custom_game/smiles/insane.png",
+    307: "file://{images}/custom_game/smiles/KekW.png",
+    308: "file://{images}/custom_game/smiles/Like.png",
+    309: "file://{images}/custom_game/smiles/Micro4el.png",
+    310: "file://{images}/custom_game/smiles/Omegalul.png",
+    311: "file://{images}/custom_game/smiles/Oreh.png",
+    312: "file://{images}/custom_game/smiles/OrehDaun.png",
+    313: "file://{images}/custom_game/smiles/PapichRetard.png",
+    314: "file://{images}/custom_game/smiles/PenguinSuck.png",
+    315: "file://{images}/custom_game/smiles/Pepega.png",
+    316: "file://{images}/custom_game/smiles/PepegaClown.png",
+    317: "file://{images}/custom_game/smiles/RoflanEbalo.png",
+    318: "file://{images}/custom_game/smiles/RoflanPominki.png",
+    319: "file://{images}/custom_game/smiles/Wut.png",
+    320: "file://{images}/custom_game/smiles/WutMeme.png",
+    321: "file://{images}/custom_game/smiles/stray.png",
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

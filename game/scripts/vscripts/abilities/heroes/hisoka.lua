@@ -1145,7 +1145,7 @@ function modifier_bubble_unit:OnAttacked(keys)
         local new_health = self:GetParent():GetHealth() - 1
         if new_health <= 0 then
             self:GetParent():EmitSound("Hero_Grimstroke.InkCreature.Death")
-            self:GetParent():Kill(nil, keys.attacker)
+            self:GetParent():ForceKill(false)
             if not self:IsNull() then
                 self:Destroy()
             end

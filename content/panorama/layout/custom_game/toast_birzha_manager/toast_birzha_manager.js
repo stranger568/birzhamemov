@@ -27,9 +27,23 @@ function TipPlayerNotification(data)
 	one_player_nickname.AddClass("one_player_nickname")
 	one_player_nickname.text = playerInfo_1.player_name
 
-	let label_tip = $.CreatePanel("Label", notification_info, "")
-	label_tip.AddClass("label_tip")
-	label_tip.text = $.Localize("#tipped_" + data.type)
+    let tip_decoration = $.CreatePanel("Panel", notification_info, "")
+	tip_decoration.AddClass("tip_decoration")
+    
+    var player_table = CustomNetTables.GetTableValue('birzhainfo', String(data.player_id_1))
+    if (player_table && player_table.tip_id != 0)
+    {
+        let smile_icon = $.CreatePanel("Panel", tip_decoration, "")
+        smile_icon.AddClass("smile_icon")
+        smile_icon.style.backgroundImage = 'url("' + TIP_SMILE_ICON[player_table.tip_id] + '")'
+	    smile_icon.style.backgroundSize = "100%"
+    }
+    else
+    {
+        let label_tip = $.CreatePanel("Label", tip_decoration, "")
+        label_tip.AddClass("label_tip")
+        label_tip.text = $.Localize("#tipped_" + data.type)
+    }
 
 	let two_player = $.CreatePanel("Panel", notification_info, "")
 	two_player.AddClass("playerbox_two")

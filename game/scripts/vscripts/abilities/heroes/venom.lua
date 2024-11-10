@@ -422,7 +422,7 @@ function modifier_venom_punishment:OnTakeDamage(params)
 
 				ApplyDamage({ victim = unit, attacker = self:GetCaster(), damage = damage * stacks, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility() })
 
-				if not unit:IsAlive() then
+				if not unit:IsAlive() and unit:IsRealHero() then
 					unit:SetBaseStrength( math.max(1, unit:GetBaseStrength() - steal_str_kill) )
 					self:GetCaster():SetBaseStrength( self:GetCaster():GetBaseStrength() + steal_str_kill )
 				end

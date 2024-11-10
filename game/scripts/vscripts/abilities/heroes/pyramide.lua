@@ -223,8 +223,10 @@ end
 
 function modifier_pyramide_sud:OnIntervalThink()
     if not IsServer() then return end
-    self.box:SetAbsOrigin(self:GetParent():GetAbsOrigin())
-    self.box:SetForwardVector(self:GetParent():GetForwardVector())
+    if self.box and not self.box:IsNull() then
+        self.box:SetAbsOrigin(self:GetParent():GetAbsOrigin())
+        self.box:SetForwardVector(self:GetParent():GetForwardVector())
+    end
     if not self:CheckMotionControllers() then
         if not self:IsNull() then
             self:Destroy()

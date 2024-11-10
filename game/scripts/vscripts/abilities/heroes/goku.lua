@@ -769,7 +769,7 @@ function modifier_goku_saiyan:OnCreated()
 
     self.str = self:GetParent():GetStrength() * bonus
     self.agi = self:GetParent():GetAgility() * bonus
-    self.int = self:GetParent():GetIntellect() * bonus
+    self.int = self:GetParent():GetIntellect(false) * bonus
 
     self.swapab = false
 
@@ -822,7 +822,7 @@ function modifier_goku_saiyan:OnRefresh()
     local bonus = (self:GetAbility():GetSpecialValueFor("bonus_attribute") + self:GetCaster():FindTalentValue("special_bonus_birzha_goku_8")) / 100
     self.str = self:GetParent():GetStrength() * bonus
     self.agi = self:GetParent():GetAgility() * bonus
-    self.int = self:GetParent():GetIntellect() * bonus
+    self.int = self:GetParent():GetIntellect(false) * bonus
 end
 
 function modifier_goku_saiyan:OnDestroy()

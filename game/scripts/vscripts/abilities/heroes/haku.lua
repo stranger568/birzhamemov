@@ -1363,7 +1363,7 @@ function haku_needle_heal:OnProjectileHit( target, vLocation )
     if target==nil then return end
     local heal = self:GetSpecialValueFor( "heal" )
     if self:GetCaster():HasTalent("special_bonus_birzha_haku_1") then
-    	heal = heal + self:GetCaster():GetIntellect()
+    	heal = heal + self:GetCaster():GetIntellect(false)
     end
     target:Heal(heal, self)
     target:Purge(false, true, false, false, false)
@@ -1396,7 +1396,7 @@ function haku_eyes:OnSpellStart()
 		local facing = ( math.abs( AngleDiff(center_angle,facing_angle) ) < 85 )
 		if facing then
 			enemy:AddNewModifier( caster, self, "modifier_birzha_stunned_purge", {duration = (  self:GetSpecialValueFor( "stun_duration" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_haku_3"  )  ) * (1-enemy:GetStatusResistance()) } )
-			ApplyDamage({ victim = enemy, attacker = self:GetCaster(), damage = self:GetSpecialValueFor( "damage" ) + self:GetCaster():GetIntellect(), ability=self, damage_type = DAMAGE_TYPE_MAGICAL })
+			ApplyDamage({ victim = enemy, attacker = self:GetCaster(), damage = self:GetSpecialValueFor( "damage" ) + self:GetCaster():GetIntellect(false), ability=self, damage_type = DAMAGE_TYPE_MAGICAL })
 		end
 	end
 
@@ -1532,8 +1532,7 @@ function modifier_haku_help:OnTakeDamage( params )
 
     if self:GetParent():GetHealth() <= 1 then
     	local heal = self:GetParent():GetMaxHealth() / 100 * (self:GetAbility():GetSpecialValueFor("heal") + self:GetCaster():FindTalentValue("special_bonus_birzha_haku_5"))
-        --self:GetCaster():BirzhaTrueKill( self:GetAbility(), params.attacker )
-	ApplyDamage({ victim = self:GetCaster(), attacker = self:GetCaster(), damage = heal, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility(), damage_flags = DOTA_DAMAGE_FLAG_NON_LETHAL + DOTA_DAMAGE_FLAG_HPLOSS + DOTA_DAMAGE_FLAG_NO_DAMAGE_MULTIPLIERS })
+        ApplyDamage({ victim = self:GetCaster(), attacker = params.attacker, damage = heal, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility(), damage_flags = DOTA_DAMAGE_FLAG_NON_LETHAL + DOTA_DAMAGE_FLAG_HPLOSS + DOTA_DAMAGE_FLAG_NO_DAMAGE_MULTIPLIERS })
         self:GetParent():Heal(heal, self:GetAbility())
         self:Destroy()         
     end

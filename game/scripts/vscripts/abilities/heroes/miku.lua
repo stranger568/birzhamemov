@@ -45,7 +45,7 @@ function modifier_miku_MusicWave:GetAttributes()	return MODIFIER_ATTRIBUTE_MULTI
 
 function modifier_miku_MusicWave:OnCreated(keys)
 	if not IsServer() or not self:GetAbility() then return end
-	self.int = self:GetCaster():GetIntellect() * (self:GetAbility():GetSpecialValueFor("int_mult") + self:GetCaster():FindTalentValue("special_bonus_birzha_miku_4"))
+	self.int = self:GetCaster():GetIntellect(false) * (self:GetAbility():GetSpecialValueFor("int_mult") + self:GetCaster():FindTalentValue("special_bonus_birzha_miku_4"))
 	self.arc_damage			= self:GetAbility():GetSpecialValueFor("damage") + self.int + self:GetCaster():FindTalentValue("special_bonus_birzha_miku_1")
 	self.radius				= self:GetAbility():GetSpecialValueFor("radius") 
 	self.jump_delay			= 0.25
@@ -211,7 +211,7 @@ function modifier_miku_MusicBarrier_buff:OnCreated()
 	if not IsServer() then return end
 	if self:GetCaster():GetTeamNumber() == self:GetParent():GetTeamNumber() then return end
 	if self:GetAuraOwner():FindModifierByName("modifier_miku_MusicBarrier").units[self:GetParent():entindex()] == nil then
-		local damage = self:GetAbility():GetSpecialValueFor("damage_base") + (self:GetAbility():GetSpecialValueFor("int_scale") * self:GetCaster():GetIntellect())
+		local damage = self:GetAbility():GetSpecialValueFor("damage_base") + (self:GetAbility():GetSpecialValueFor("int_scale") * self:GetCaster():GetIntellect(false))
 		ApplyDamage({ victim = self:GetParent(), attacker = self:GetCaster(), damage = damage, ability=self:GetAbility(), damage_type = DAMAGE_TYPE_MAGICAL })
 		self:GetAuraOwner():FindModifierByName("modifier_miku_MusicBarrier").units[self:GetParent():entindex()] = self:GetParent()
 	end

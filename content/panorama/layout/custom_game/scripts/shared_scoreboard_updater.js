@@ -109,11 +109,12 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 				}
 			}
 
-			var bonus_dogecoin = CustomNetTables.GetTableValue('bonus_dogecoin', String(playerId));
+            var bonus_dogecoin = CustomNetTables.GetTableValue('bonus_dogecoin', String(playerId));
 			if (bonus_dogecoin)
 			{
 				_ScoreboardUpdater_SetTextSafe( playerPanel, "DogePlus", bonus_dogecoin.coin );
 			}
+
 			let rat_clib = " "
 			let calibrating_check = String(info.games_calibrating[GetCurrentSeasonNumber()])
 
@@ -483,6 +484,9 @@ function UpdateBorderPlayer(table, key, data )
 						AddBorderElectric(playerPanel);
 					} else if (data.border_id == 164) {
 						AddBorderAnimationSnake(playerPanel)
+					} else if (data.border_id == 404) 
+                    {
+						AddBorderDiretide(playerPanel)
 					}
 				}
 			}
@@ -911,6 +915,18 @@ function AddBorderElectric(panel)
 		border_bp.AddClass('border_electric');
 		//$.CreatePanel("DOTAScenePanel", HeroPortrait, "gold_particle", { style: "width:100%;height:100%;align:center center;", map: "heroes", particleonly:"true", camera:"electric_effect" });
 		$.CreatePanel("DOTAParticleScenePanel", HeroPortrait, "gold_particle", { style: "width:150px;height:200px;", particleName: "particles/electric_border.vpcf", particleonly:"true", startActive:"true", cameraOrigin:"0 0 165", lookAt:"0 0 0",  fov:"45", squarePixels:"true" });
+	}
+}
+
+function AddBorderDiretide(panel)
+{	
+	var playerPortrait = panel.FindChildInLayoutFile( "TopHero" );
+	if (playerPortrait)
+	{
+		var HeroPortrait = playerPortrait.FindChild('HeroIcon');
+		//$.CreatePanel("DOTAScenePanel", HeroPortrait, "gold_particle", { style: "width:100%;height:100%;align:center center;", map: "heroes", particleonly:"true", camera:"roflan_effect" });
+		var border_bp = $.CreatePanel('Panel', HeroPortrait, 'border_bp');
+		$.CreatePanel("DOTAParticleScenePanel", HeroPortrait, "gold_particle", { style: "width:150px;height:200px;", particleName: "particles/donate/diretide_border.vpcf", particleonly:"true", startActive:"true", cameraOrigin:"0 0 165", lookAt:"0 0 0",  fov:"57", squarePixels:"true" });
 	}
 }
 

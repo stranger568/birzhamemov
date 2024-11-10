@@ -7,7 +7,7 @@ item_armor_damned = class({})
 function item_armor_damned:OnSpellStart()
 	local blast_radius = self:GetSpecialValueFor("radius")
 	local blast_speed = 500
-	local damage = self:GetSpecialValueFor("damage") + self:GetCaster():GetIntellect()
+	local damage = self:GetSpecialValueFor("damage") + self:GetCaster():GetIntellect(false)
 	local blast_duration = blast_radius / blast_speed
 	local current_loc = self:GetCaster():GetAbsOrigin()
 	local caster	= self:GetCaster()

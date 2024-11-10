@@ -798,7 +798,7 @@ function V1lat_Eminem:OnProjectileHit( target, location )
         typedamage = DAMAGE_TYPE_PURE
     end
 
-    damage = damage + (self:GetCaster():GetIntellect() / 100 * multi)
+    damage = damage + (self:GetCaster():GetIntellect(false) / 100 * multi)
 
     if not target then return end
 

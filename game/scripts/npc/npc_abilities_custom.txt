@@ -1,7 +1,11 @@
+#base "../npc/new_heroes/nix_streamer.txt"
+#base "../npc/new_heroes/old_god.txt"
+#base "../npc/new_heroes/ashab.txt"
+
 "DOTAAbilities"
 {
 	"Version"	   "1"
-	
+
 	//=================================================================================================================
 	// Способности Карты
 	//=================================================================================================================
@@ -13,6 +17,16 @@
 		"UnlockMaxEffectIndex"			"0"
 		"EventID"						"0"
 		"AbilityCooldown"				"0"
+	}
+
+    "ability_custom_pumpkin_push"
+	{
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+		"BaseClass"             		"ability_lua"
+		"ScriptFile"					"abilities/ability_custom_pumpkin_push"
+		"AbilityTextureName"			"candy"
+		"MaxLevel" 						"1"
+		"IsOnCastBar"					"0"
 	}
 
 	"game_start"
@@ -641,12 +655,10 @@
 			"min_damage"		
 			{
 				"value"					"150"
-				"LinkedSpecialBonus"	"special_bonus_birzha_brb_2"
 			}
 			"max_damage"		
 			{
 				"value"					"200 300 400 500"
-				"LinkedSpecialBonus"	"special_bonus_birzha_brb_2"
 			}
 			"radius"					"175"
 		}

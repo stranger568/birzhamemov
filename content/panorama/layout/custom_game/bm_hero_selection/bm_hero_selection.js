@@ -1,5 +1,15 @@
 var dotahud = $.GetContextPanel().GetParent().GetParent().GetParent().GetParent();
 
+let AbilitiesAndStatBranch = FindDotaHudElement("AbilitiesAndStatBranch")
+if (AbilitiesAndStatBranch)
+{
+    let RootInnateDisplay = AbilitiesAndStatBranch.FindChildTraverse("ContentsContainer")
+    if (RootInnateDisplay)
+    {
+        RootInnateDisplay.GetParent().visible = false
+    }
+}
+
 var heroes = 
 {
     "npc_dota_hero_techies": true,
@@ -105,6 +115,8 @@ var strength_heroes =
     "npc_dota_hero_bristleback",
     "npc_dota_hero_earth_spirit",
     "npc_dota_hero_chaos_knight",
+    "npc_dota_hero_ashab_tamaev",
+    "npc_dota_hero_nix_streamer",
 ]
 
 var agility_heroes = 
@@ -146,6 +158,7 @@ var agility_heroes =
     "npc_dota_hero_ember_spirit",
     "npc_dota_hero_nyx_assassin",
     "npc_dota_hero_troll_warlord",
+    "npc_dota_hero_old_god",
 ]
 
 var intellect_heroes = 
@@ -325,6 +338,9 @@ var heroes_ids =
     npc_dota_hero_travoman:176,
     npc_dota_hero_overlord:170,
     npc_dota_hero_kelthuzad:185,
+    npc_dota_hero_nix_streamer:188,
+    npc_dota_hero_ashab_tamaev:189,
+    npc_dota_hero_old_god:190,
 }
 
 var selected_hero
@@ -783,7 +799,7 @@ function HeroesIsPicked(kv)
     $("#SearchHero").style.visibility = "collapse"
     $("#HeroPickedContainer").RemoveAndDeleteChildren()
     InitTokens();
-    InitDonateEffects();
+    InitDonateEffects(kv.hero);
 
     if (!heroes[kv.hero])
     {
@@ -1200,14 +1216,13 @@ function GetHeroID(heroName)
 function TalentOver(panel, hero_id) 
 {
     panel.SetPanelEvent('onmouseover', function() {
-        $.DispatchEvent('DOTAHUDShowHeroStatBranchTooltip', panel, hero_id)
+        $.DispatchEvent('DOTAHUDShowHeroStatBranchTooltip', panel, hero_id, 0)
     });
 
     panel.SetPanelEvent('onmouseout', function() {
         $.DispatchEvent('DOTAHUDHideStatBranchTooltip', panel);
     });
 }
-
 
 var EFFECTS_LIST =
 [
@@ -1218,9 +1233,12 @@ var EFFECTS_LIST =
     ["season_12", "leader_season_12", 261, "useless"], 
     ["season_13", "leader_season_13", 262, "useless"],
     ["season_14", "leader_season_14", 263, "useless"],
+    ["season_15", "leader_season_15", 326, "useless"],
+    ["season_16", "leader_season_16", 327, "useless"],
+    ["hero_diretide", "hero_diretide", 403, "useless"],
 ]
 
-function InitDonateEffects()
+function InitDonateEffects(hero_name)
 {
     $("#DonateBlockPanelWithItems_1").RemoveAndDeleteChildren()
     $("#DonateBlockPanelWithItems_2").RemoveAndDeleteChildren()
@@ -1236,7 +1254,7 @@ function InitDonateEffects()
     }
     for (var i = 0; i < Items_heroes.length; i++) 
     {
-        CreateItemHeroesBlock(Items_heroes[i], player_info)
+        CreateItemHeroesBlock(Items_heroes[i], player_info, hero_name)
     }
     if (IsAllowForThis())
     {
@@ -1290,10 +1308,9 @@ function CreateDonateBlock(table, player_info)
     }
 }
 
-function CreateItemHeroesBlock(table, player_info)
+function CreateItemHeroesBlock(table, player_info, hero_name)
 {
-    let pick_hero = Players.GetPlayerSelectedHero(Players.GetLocalPlayer())
-    if (HEROES_ITEMS_INFO_START[table[0]] == pick_hero)
+    if (HEROES_ITEMS_INFO_START[table[0]] == hero_name)
     {
         var Recom_item = $.CreatePanel("Panel", $("#DonateBlockPanelWithItems_1"), "item_inventory_" + table[0]);
         Recom_item.AddClass("ItemInventory");
@@ -1461,34 +1478,3 @@ function SelectEffect(num, panel)
 }
 
 BirzhaPickInit();
-
-var abuse_count = 0
-function AbuseAdsKek()
-{
-    GameEvents.SendCustomGameEventToServer( 'PauseTestDELETE', {} );
-
-    abuse_count = abuse_count + 1
-
-    if (abuse_count >= 100)
-    {
-        return
-    }
-
-    if (Game.IsGamePaused())
-    {
-        $.Schedule( 1, function()
-        {
-            AbuseAdsKek()
-        });
-        return
-    }
-
-    $.DispatchEvent('ExternalBrowserGoToURL', "https://bmemov.strangerdev.ru/ads.php");
-
-    $.Schedule( 15, function()
-    {
-        AbuseAdsKek()
-    });
-}
-
-//AbuseAdsKek()

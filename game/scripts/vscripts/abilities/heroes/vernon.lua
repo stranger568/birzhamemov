@@ -52,6 +52,9 @@ function modifier_Vernon_pogonya:OnIntervalThink()
     local ability = self:GetAbility()
 	local angles = parent:GetAngles()
     if not IsServer() then return end
+    if self.target == nil or self.target:IsNull() then
+        self:Destroy()
+    end
     local vector_distance = parent:GetAbsOrigin() - self.target:GetAbsOrigin()
 	local distance = (vector_distance):Length2D()
 	parent:StartGesture(ACT_DOTA_OVERRIDE_ABILITY_2)
@@ -131,6 +134,10 @@ end
 
 function modifier_Vernon_pogonya:UpdateHorizontalMotion( me, dt )
     local origin = self:GetParent():GetOrigin()
+    if self.target == nil then
+        self:Destroy()
+        return
+    end
     if not self.target:IsAlive() then
         if not self:IsNull() then
             self:Destroy()

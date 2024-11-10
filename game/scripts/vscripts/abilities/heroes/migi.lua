@@ -154,7 +154,7 @@ function modifier_migi_inside_parent:OnCreated()
     if self:GetCaster():HasModifier("modifier_migi_mutation_active") then
         self.strength_bonus = self:GetParent():GetStrength() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_migi_8")
         self.agility_bonus = self:GetParent():GetAgility() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_migi_8")
-        self.intellect_bonus = self:GetParent():GetIntellect() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_migi_8")
+        self.intellect_bonus = self:GetParent():GetIntellect(false) / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_migi_8")
     end
 
     self:SetHasCustomTransmitterData(true)
@@ -226,7 +226,7 @@ function modifier_migi_inside_parent:OnIntervalThink()
     if self:GetCaster():HasModifier("modifier_migi_mutation_active") then
         self.strength_bonus = self:GetParent():GetStrength() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_migi_8")
         self.agility_bonus = self:GetParent():GetAgility() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_migi_8")
-        self.intellect_bonus = self:GetParent():GetIntellect() / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_migi_8")
+        self.intellect_bonus = self:GetParent():GetIntellect(false) / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_migi_8")
     end
 
     self.armor = get_armor / 100 * bonus_armor_perc

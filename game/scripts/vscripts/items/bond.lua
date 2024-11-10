@@ -21,7 +21,7 @@ function item_bond:OnChannelFinish( bInterrupted )
 	local mana_regen = self:GetSpecialValueFor("reg")
     local intellect_reg = self:GetSpecialValueFor("intellect_reg") / 100
 
-	local manafromintellect = self:GetCaster():GetIntellect() * intellect_reg
+	local manafromintellect = self:GetCaster():GetIntellect(false) * intellect_reg
 	local mana = mana_regen + manafromintellect
 
 	self:GetCaster():GiveMana(mana)
@@ -47,7 +47,7 @@ function item_bond:OnChannelFinish( bInterrupted )
         end
     end)
 
-	self:SpendCharge()
+	self:SpendCharge(0)
 end
 
 item_kolba = class({})
@@ -73,7 +73,7 @@ function item_vape:OnChannelFinish( bInterrupted )
     local mana_regen = self:GetSpecialValueFor("reg")
     local intellect_reg = self:GetSpecialValueFor("intellect_reg") / 100
 
-    local manafromintellect = self:GetCaster():GetIntellect() * intellect_reg
+    local manafromintellect = self:GetCaster():GetIntellect(false) * intellect_reg
     local mana = mana_regen + manafromintellect
 
     self:GetCaster():GiveMana(mana)

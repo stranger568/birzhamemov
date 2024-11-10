@@ -163,7 +163,7 @@ function GetCurrentSeasonNumber()
 function IsAllowForThis()
 {
     var player_table = CustomNetTables.GetTableValue('birzhainfo', String(Players.GetLocalPlayer()))
-    if (player_table && player_table.games && player_table.games > 5)
+    if (player_table && player_table.games && player_table.games >= 5)
     {
         return true
     }

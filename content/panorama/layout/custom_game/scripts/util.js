@@ -39,6 +39,19 @@ GameEvents.Subscribe("CreateIngameErrorMessage", function(data)
     })
 })
 
+function FindModifierByName(EntityIndex, BuffName)
+{
+    for (let i = 0; i <= Entities.GetNumBuffs(EntityIndex) - 1; i++)
+    {
+        const BuffIndex = Entities.GetBuff(EntityIndex, i )
+        if(Buffs.GetName(EntityIndex, BuffIndex) == BuffName)
+        {
+            return BuffIndex
+        }
+    }
+    return "none"
+}
+
 GameEvents.Subscribe("panorama_cooldown_error", function(data) 
 {
     GameEvents.SendEventClientSide("dota_hud_error_message", 

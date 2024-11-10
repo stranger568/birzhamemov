@@ -16,7 +16,7 @@ function donate_shop:donate_change_item_active(data)
         else
             table.insert(player_donate_table.player_items_active, item_id)
         end
-        CustomNetTables:SetTableValue('birzhashop', tostring(id), {doge_coin = player_donate_table.doge_coin, birzha_coin = player_donate_table.birzha_coin, player_items = player_donate_table.player_items, player_items_active = player_donate_table.player_items_active})
+        CustomNetTables:SetTableValue('birzhashop', tostring(id), {birzha_coin = player_donate_table.birzha_coin, player_items = player_donate_table.player_items, player_items_active = player_donate_table.player_items_active})
     end
     local player_info = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id]
     local hero = player_info.selected_hero
@@ -34,53 +34,31 @@ function donate_shop:BuyItem(data)
 	local player =	PlayerResource:GetPlayer(id)
 	local player_donate_table = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data
 	local change_bitcoin_currency = 0
-	local change_dogecoin_currency = 0
 
     -- Если покупка за донат валюту
-	if tostring(currency) == "gold" then
-		if tonumber(player_donate_table.birzha_coin) >= tonumber(price) then
-			player_donate_table.birzha_coin = player_donate_table.birzha_coin - tonumber(price)
-			change_bitcoin_currency = tonumber(price) * -1
-			-- Если покупается валюта
-			if (item_id == "0") then
-				player_donate_table.doge_coin = player_donate_table.doge_coin + tonumber(price)
-				change_dogecoin_currency = tonumber(price)
-			else
-				table.insert(player_donate_table.player_items, item_id)
-			end
-            CustomGameEventManager:Send_ServerToPlayer(player, "shop_set_currency", {bitcoin = player_donate_table.birzha_coin, dogecoin = player_donate_table.doge_coin} )
-            CustomNetTables:SetTableValue('birzhashop', tostring(id), {doge_coin = player_donate_table.doge_coin, birzha_coin = player_donate_table.birzha_coin, player_items = player_donate_table.player_items, player_items_active = player_donate_table.player_items_active})
-            CustomGameEventManager:Send_ServerToPlayer(player, "shop_accept_notification", {} )
-		else
-			CustomGameEventManager:Send_ServerToPlayer(player, "shop_error_notification", {error_name = "shop_no_bitcoin"} )
-			return
-		end
-	elseif tostring(currency) == "gem" then
-		if tonumber(player_donate_table.doge_coin) >= tonumber(price) then
-			player_donate_table.doge_coin = player_donate_table.doge_coin - tonumber(price)
-			change_dogecoin_currency = tonumber(price) * -1
-			CustomGameEventManager:Send_ServerToPlayer(player, "shop_set_currency", {bitcoin = player_donate_table.birzha_coin, dogecoin = player_donate_table.doge_coin} )
-			table.insert(player_donate_table.player_items, item_id)
-			CustomNetTables:SetTableValue('birzhashop', tostring(id), {doge_coin = player_donate_table.doge_coin, birzha_coin = player_donate_table.birzha_coin, player_items = player_donate_table.player_items, player_items_active = player_donate_table.player_items_active})
-			CustomGameEventManager:Send_ServerToPlayer(player, "shop_accept_notification", {} )
-		else
-			CustomGameEventManager:Send_ServerToPlayer(player, "shop_error_notification", {error_name = "shop_no_dogecoin"} )
-			return
-		end
-	end
+    if tonumber(player_donate_table.birzha_coin) >= tonumber(price) then
+        player_donate_table.birzha_coin = player_donate_table.birzha_coin - tonumber(price)
+        change_bitcoin_currency = tonumber(price) * -1
+        table.insert(player_donate_table.player_items, item_id)
+        CustomGameEventManager:Send_ServerToPlayer(player, "shop_set_currency", {bitcoin = player_donate_table.birzha_coin} )
+        CustomNetTables:SetTableValue('birzhashop', tostring(id), {birzha_coin = player_donate_table.birzha_coin, player_items = player_donate_table.player_items, player_items_active = player_donate_table.player_items_active})
+        CustomGameEventManager:Send_ServerToPlayer(player, "shop_accept_notification", {} )
+    else
+        CustomGameEventManager:Send_ServerToPlayer(player, "shop_error_notification", {error_name = "shop_no_bitcoin"} )
+        return
+    end
 
 	local post_data = {
 		player = {
 			{
 				steamid = PlayerResource:GetSteamAccountID(id),
 				player_bitcoin = change_bitcoin_currency,
-				player_dogecoin = change_dogecoin_currency,
 				item_id = item_id,
 			}
 		},
 	}
 
-	SendData('https://' ..BirzhaData.url .. '/data/bm_post_buy_item.php', post_data, nil)
+	SendData('https://' ..BirzhaData.url .. '/bmemov/bm_post_buy_item.php', post_data, nil)
 end
 
 function donate_shop:AddPetFromStart(id)
@@ -177,6 +155,32 @@ function donate_shop:change_border_effect(data)
         player_info.server_data.border_id = border_id
     else
         player_info.server_data.border_id = nil 
+    end
+    CustomNetTables:SetTableValue('birzhainfo', tostring(id), player_info.server_data)
+end
+-- Смена типа
+function donate_shop:change_tip_effect(data)
+    if data.PlayerID == nil then return end
+    local id = data.PlayerID
+    local tip_id = tonumber(data.tip_id)
+    local player_info = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id]
+    if data.delete_pet == 0 then
+        player_info.server_data.tip_id = tip_id
+    else
+        player_info.server_data.tip_id = 0 
+    end
+    CustomNetTables:SetTableValue('birzhainfo', tostring(id), player_info.server_data)
+end
+-- Смена пятюни
+function donate_shop:change_five_effect(data)
+    if data.PlayerID == nil then return end
+    local id = data.PlayerID
+    local five_id = tonumber(data.five_id)
+    local player_info = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id]
+    if data.delete_pet == 0 then
+        player_info.server_data.five_id = five_id
+    else
+        player_info.server_data.five_id = 0 
     end
     CustomNetTables:SetTableValue('birzhainfo', tostring(id), player_info.server_data)
 end
@@ -394,9 +398,6 @@ function donate_shop:SelectVO(keys)
             toy_unit:SetNightTimeVisionRange(0)
             toy_unit:AddNewModifier(toy_unit, nil, "modifier_penguin_shop", {duration = 30})
         end
-        if current_chatwheel_event == "184" then
-            PlayerResource:GetSelectedHeroEntity(keys.PlayerID):AddNewModifier(PlayerResource:GetSelectedHeroEntity(keys.PlayerID), nil, "modifier_birzha_high_five", {duration = 20})
-        end
     end
 end
 
@@ -435,6 +436,15 @@ function donate_shop:PlayerTip(keys)
         if cooldown <= 0 then return nil end
         return 1
     end)
+end
+
+function donate_shop:StartHighFive(params)
+    if params.PlayerID == nil then return end
+    local player = PlayerResource:GetPlayer(params.PlayerID)
+    local hero = PlayerResource:GetSelectedHeroEntity(params.PlayerID)
+    if hero then
+        hero:AddNewModifier(hero, nil, "modifier_birzha_high_five", {duration = 10})
+    end
 end
 
 function donate_shop:SelectSmile(keys)
@@ -479,4 +489,99 @@ function donate_shop:AddedDonateStart(player, playerID)
 			player:AddNewModifier(player, nil, 'modifier_birzhapass_sound', {})
 		end 
 	end
+end
+
+function donate_shop:shop_birzha_open_chest_get_items_list(data)
+    if data.PlayerID == nil then return end
+    local id = data.PlayerID
+    local chest_id = tonumber(data.chest_id)
+    if BIRZHA_CHEST_INFO[chest_id] == nil then return end
+    local chest_info = 
+    {
+        ["chest_name"] = BIRZHA_CHEST_INFO[chest_id].chest_name,
+        ["chest_items"] = BIRZHA_CHEST_INFO[chest_id].chest_items,
+        ["chest_id"] = chest_id,
+        ["chest_cost"] = BIRZHA_CHEST_INFO[chest_id].chest_cost,
+        ["chest_cost_alt"] = BIRZHA_CHEST_INFO[chest_id].chest_cost_alt,
+    }
+    CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(id), 'shop_birzha_open_chest_information', {chest_info = chest_info} ) 
+end
+
+function donate_shop:shop_birzha_open_chest_get_reward(data)
+    if data.PlayerID == nil then return end
+    local id = data.PlayerID
+    local chest_id = tonumber(data.chest_id)
+    if BIRZHA_CHEST_INFO[chest_id] == nil then return end
+    local items_in_chest = BIRZHA_CHEST_INFO[chest_id].chest_items
+    local drop_id = donate_shop:GetRandomRewardFromChest(id, items_in_chest)
+    if drop_id == nil then return end
+    local chest_cost = BIRZHA_CHEST_INFO[chest_id].chest_cost
+    local chest_cost_alt = BIRZHA_CHEST_INFO[chest_id].chest_cost_alt
+    local player = PlayerResource:GetPlayer(id)
+    if BirzhaData.PLAYERS_GLOBAL_INFORMATION[id] == nil then return end
+    if BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.candies_count >= chest_cost_alt then
+        BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.candies_count = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.candies_count - chest_cost_alt
+    elseif BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.birzha_coin >= chest_cost then
+        BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.birzha_coin = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.birzha_coin - chest_cost
+    else
+        return
+    end
+    if drop_id.item_id == 999999 then
+        BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.birzha_coin = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.birzha_coin + 100
+        CustomGameEventManager:Send_ServerToPlayer(player, "shop_set_currency", {bitcoin = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.birzha_coin, candies_count = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.candies_count} )
+        CustomNetTables:SetTableValue('birzhashop', tostring(id), {birzha_coin = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.birzha_coin, player_items = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.player_items, player_items_active = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.player_items_active})
+        local post_data = 
+        {
+            player = 
+            {
+                {
+                    steamid = PlayerResource:GetSteamAccountID(id),
+                    player_bitcoin = 1000,
+                }
+            },
+        }
+        SendData('https://' ..BirzhaData.url .. '/bmemov/player_add_bitcoin.php', post_data, nil)
+    else
+        table.insert(BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.player_items, drop_id.item_id)
+        CustomGameEventManager:Send_ServerToPlayer(player, "shop_set_currency", {bitcoin = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.birzha_coin, candies_count = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.candies_count} )
+        CustomNetTables:SetTableValue('birzhashop', tostring(id), {birzha_coin = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.birzha_coin, player_items = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.player_items, player_items_active = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.player_items_active})
+        local post_data = 
+        {
+            player = 
+            {
+                {
+                    steamid = PlayerResource:GetSteamAccountID(id),
+                    player_bitcoin = 0,
+                    item_id = drop_id.item_id,
+                }
+            },
+        }
+        SendData('https://' ..BirzhaData.url .. '/bmemov/bm_post_buy_item.php', post_data, nil)
+    end
+    CustomNetTables:SetTableValue('birzhainfo', tostring(id), BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data)
+    CustomGameEventManager:Send_ServerToPlayer(player, 'shop_birzha_open_chest_active', {drop_id = drop_id.item_id, items = items_in_chest} ) 
+end
+
+function donate_shop:GetRandomRewardFromChest(id, items_in_chest)
+    local chances = 
+    {
+        ["immortal"] = 4,
+        ["legendary"] = 7,
+        ["mythical"] = 15,
+        ["rare"] = 30,
+        ["uncommon"] = 60,
+        ["common"] = 90,
+    }
+
+    local get_drop = items_in_chest[#items_in_chest]
+    repeat
+        for _, item_info in pairs(items_in_chest) do
+            print(item_info.rare)
+            if RollPercentage(chances[item_info.rare]) and not DonateShopIsItemBought(id, item_info.item_id) and item_info.item_id ~= 999999 then
+                get_drop = item_info
+            end
+        end
+    until not DonateShopIsItemBought(id, get_drop.item_id)
+
+    return get_drop
 end

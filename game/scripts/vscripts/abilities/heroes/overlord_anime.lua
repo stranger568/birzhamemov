@@ -374,6 +374,7 @@ function modifier_overlord_spell_3_invis:GetModifierAura()
 end
 
 function modifier_overlord_spell_3_invis:IsAura()
+    if self:GetParent():PassivesDisabled() then return false end
     return true
 end
 
@@ -417,6 +418,7 @@ function modifier_overlord_spell_3_illusion:GetModifierAura()
 end
 
 function modifier_overlord_spell_3_illusion:IsAura()
+    if self:GetParent():PassivesDisabled() then return false end
     return true
 end
 
@@ -452,6 +454,7 @@ function modifier_overlord_spell_3_cheat:GetModifierAura()
 end
 
 function modifier_overlord_spell_3_cheat:IsAura()
+    if self:GetParent():PassivesDisabled() then return false end
     return true
 end
 
@@ -542,6 +545,7 @@ function modifier_overlord_spell_4:GetModifierAura()
 end
 
 function modifier_overlord_spell_4:IsAura()
+    if self:GetParent():PassivesDisabled() then return false end
     return true
 end
 
@@ -695,6 +699,7 @@ function modifier_overlord_spell_5:DeclareFunctions()
 end
 
 function modifier_overlord_spell_5:GetModifierIncomingPhysicalDamage_Percentage()
+    if self:GetParent():PassivesDisabled() then return end
     return self:GetAbility():GetSpecialValueFor("damage_incoming")
 end
 

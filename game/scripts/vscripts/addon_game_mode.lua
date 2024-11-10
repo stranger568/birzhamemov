@@ -3,6 +3,7 @@ if BirzhaGameMode == nil then
 end
 
 -- Библиотеки
+Precache = require "utils/precache"
 require('addon_init')
 require('utils/table')
 require('utils/vector_targeting')
@@ -16,6 +17,7 @@ require('hero_demo/demo_core')
 require('utils/commands/custom_commands')
 require('utils/requests')
 require('utils/error_tracking')
+require('utils/valve_fix')
 
 -- Сервер / Рейтинг / Донат
 require('game_lib/server')
@@ -29,174 +31,6 @@ require('game_lib/events')
 require('game_lib/items')
 require('game_lib/filters')
 
-function Precache( context )
-	PrecacheResource( "soundfile", "soundevents/birzha/game_sounds_birzha.vsndevts", context ) 
-    PrecacheResource( "soundfile", "soundevents/birzha/game_sounds_birzha_2.vsndevts", context ) 
-    PrecacheResource( "soundfile", "soundevents/birzha/game_sounds_birzha_3.vsndevts", context ) 
-    PrecacheResource( "soundfile", "soundevents/birzha/game_sounds_birzha_4.vsndevts", context ) 
-    PrecacheResource( "soundfile", "soundevents/birzha/game_sounds_birzha_5.vsndevts", context ) 
-    PrecacheResource( "soundfile", "soundevents/birzha/game_sounds_birzha_6.vsndevts", context ) 
-	
-  	local heroes = LoadKeyValues("scripts/npc/dota_heroes.txt")
-  	for k,v in pairs(heroes) do
-  		PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_" .. k:gsub('npc_dota_hero_','') ..".vsndevts", context )  
-  		PrecacheResource( "soundfile", "soundevents/voscripts/game_sounds_vo_" .. k:gsub('npc_dota_hero_','') ..".vsndevts", context ) 
-  	end
-
-  	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_batrider.vsndevts", context )  
-  	PrecacheResource( "soundfile", "soundevents/game_sounds_creeps.vsndevts", context )  
-
-  	local list = 
-  	{
-    	model = 
-        {
-            "models/courier/baby_rosh/babyroshan.vmdl",
-            "models/courier/donkey_trio/mesh/donkey_trio.vmdl",
-            "models/courier/mechjaw/mechjaw.vmdl",
-            "models/courier/huntling/huntling.vmdl",
-            "models/items/courier/devourling/devourling.vmdl",
-            "models/courier/seekling/seekling.vmdl",
-            "models/courier/venoling/venoling.vmdl",
-            "models/items/courier/amaterasu/amaterasu.vmdl",
-            "models/items/courier/beaverknight_s2/beaverknight_s2.vmdl",
-            "models/items/courier/nian_courier/nian_courier.vmdl",
-            "models/items/courier/faceless_rex/faceless_rex.vmdl",
-            "models/pets/icewrack_wolf/icewrack_wolf.vmdl",
-
-            "models/apple_horo.vmdl",
-            "models/ball.vmdl",
-            "models/bogdan_wrench.vmdl",
-            "models/card.vmdl",
-            "models/cup_kaneki.vmdl",
-            "models/hero_knuckles.vmdl",
-            "models/hookah.vmdl",
-            "models/knuckles_tank.vmdl",
-            "models/omniknight_zelensky_head.vmdl",
-            "models/troll_warlord_gorin_stool.vmdl",
-            "models/yakub_car.vmdl",
-
-            "models/update_heroes/scp192/scp192.vmdl",
-            "models/heroes/anime/opm/saitama/saitama.vmdl",
-            "models/heroes/wraith_king/wraith_king.vmdl",
-            "models/heroes/meepo/meepo.vmdl",
-            "models/update_heroes/migi/migi.vmdl",
-            "models/venom/venom.vmdl",
-            "models/npc/npc_dingus/dingus.vmdl",
-            "models/heroes/undying/undying.vmdl",
-            "models/update_heroes/kaneki/kaneki.vmdl",
-            "models/nolik/nolik.vmdl",
-            "models/pyramide/pyramide.vmdl",
-            "models/items/tiny/tiny_bad_to_the_bone_belt/tiny_bad_to_the_bone_belt.vmdl",
-            "models/update_heroes/overlord_game/overlord.vmdl",
-            "models/creeps/neutral_creeps/n_creep_gargoyle/n_creep_gargoyle.vmdl",
-            "models/update_heroes/ruby/ruby.vmdl",
-            "models/update_heroes/goku/goku_base.vmdl",
-            "models/items/tiny/burning_stone_giant/burning_stone_giant_01.vmdl",
-            "models/update_heroes/guts/guts.vmdl",
-            "models/update_heroes/akame/akame.vmdl",
-            "models/update_heroes/shiro/shiro.vmdl",
-            "models/creeps/ogre_1/large_ogre.vmdl",
-            "models/update_heroes/scp173/scp173.vmdl",
-            "models/update_heroes/hisoka/hisoka.vmdl",
-            "models/update_heroes/illidan/illidan_base.vmdl",
-            "models/update_heroes/ghostface/ghost_face.vmdl",
-            "models/pirat/serega.vmdl",
-            "models/update_heroes/kurumi/kurumi_base.vmdl",
-            "models/kyriyama/girl_2.vmdl",
-            "models/update_heroes/monika/monika.vmdl",
-            "models/sonic/sonic.vmdl",
-            "models/update_heroes/rin/rin.vmdl",
-            "models/heroes/shadow_fiend/arcana_wings.vmdl",
-            "models/heroes/shadow_fiend/head_arcana.vmdl",
-            "models/heroes/shadow_fiend/shadow_fiend_arcana.vmdl",
-            "models/items/shadow_fiend/arms_deso/arms_deso.vmdl",
-            "models/heroes/juggernaut/juggernaut_arcana.vmdl",
-            "models/heroes/terrorblade/terrorblade_arcana.vmdl",
-            "models/heroes/polnaref/polnaref.vmdl",
-            "models/items/queenofpain/queenofpain_arcana/queenofpain_arcana.vmdl",
-            "models/update_heroes/yuno/yuno.vmdl",
-            "models/update_heroes/haku/haku_with_mask.vmdl",
-            "models/update_heroes/horo/horo.vmdl",
-            "models/dead_rat/dead_rat.vmdl",
-            "models/update_heroes/rem/rem.vmdl",
-            "models/update_heroes/knuckles/knuckles.vmdl",
-            "models/update_heroes/knuckles/knuckles.vmdl",
-            "models/knuckles_tank.vmdl",
-            "models/items/crystal_maiden/pw_cm_staff/crystal_maiden_weapon.vmdl",
-            "models/heroes/crystal_maiden/crystal_maiden_arcana_back.vmdl",
-            "models/items/crystal_maiden/immortal_shoulders/cm_immortal_shoulders.vmdl",
-            "models/items/crystal_maiden/winter_solstice_fashion/winter_solstice_fashion.vmdl",
-            "models/items/lina/origins_flamehair/origins_flamehair.vmdl",
-            "models/items/lina/lina_immortal_ii/mesh/lina_immortal_ii.vmdl",
-            "models/items/lina/lina_ti7/lina_ti7.vmdl",
-            "models/items/windrunner/ti6_falcon_bow/ti6_falcon_bow_model.vmdl",
-            "models/items/windrunner/sylvan_cascade/sylvan_cascade.vmdl",
-            "models/items/windrunner/orchid_flowersong_head/orchid_flowersong_head.vmdl",
-            "models/heroes/warlock/warlock.vmdl",
-            "models/tailer/shelby.vmdl",
-            "models/heroes/rikimaru/rikimaru.vmdl",
-            "models/jull/jull.vmdl",
-            "models/items/axe/ti9_jungle_axe/axe_bare.vmdl",
-            "models/update_heroes/felix/felix.vmdl",
-            "models/update_heroes/megumin/megumin.vmdl",
-            "models/heroes/keeper_of_the_light/keeper_of_the_light.vmdl",
-            "models/pump/pump.vmdl",
-            "models/update_heroes/dio_base/dio_base.vmdl",
-            "models/update_heroes/hatsune_miku/hatsune_miku.vmdl",
-            "models/freddy/freddy.vmdl",
-            "models/travoman/travoman_head.vmdl",
-            "models/update_heroes/train_thomas/train_thomas.vmdl",
-            "models/update_heroes/pucci/pucci.vmdl",
-            "models/heroes/invoker_kid/invoker_kid.vmdl",
-            "models/ns/ns_model.vmdl",
-            "models/dimon/dimon_model.vmdl",
-            "models/update_heroes/ram/ram.vmdl",
-            "models/update_heroes/kakashi/kakashi.vmdl",
-            "models/update_heroes/avatar_aang/avatar_aang.vmdl",
-            "models/update_heroes/overlord_anime/overlord.vmdl",
-        },
-    	soundfile = {
-            "soundevents/voscripts/game_sounds_vo_batrider.vsndevts",
-            "soundevents/voscripts/game_sounds_vo_void_spirit.vsndevts",
-            "soundevents/voscripts/game_sounds_vo_earth_spirit.vsndevts",
-            "soundevents/voscripts/game_sounds_vo_faceless_void.vsndevts",
-            "soundevents/game_sounds_creeps.vsndevts",
-            "soundevents/voscripts/game_sounds_vo_announcer_dlc_rick_and_morty.vsndevts",
-            "soundevents/soundevents_conquest.vsndevts",
-            "soundevents/voscripts/game_sounds_vo_terrorblade.vsndevts",
-            "soundevents/soundevents_minigames.vsndevts",
-            "soundevents/game_sounds_ui_imported.vsndevts"
-        },
-    	particle = 
-        {
-            "particles/econ/events/nexon_hero_compendium_2014/teleport_end_nexon_hero_cp_2014.vpcf",
-            "particles/units/heroes/hero_undying/undying_soul_rip_damage.vpcf",
-            "particles/leader/leader_overhead.vpcf",
-            "particles/last_hit/last_hit.vpcf",
-            "particles/units/heroes/hero_zuus/zeus_taunt_coin.vpcf",
-            "particles/addons_gameplay/player_deferred_light.vpcf",
-            "particles/items_fx/black_king_bar_avatar.vpcf",
-            "particles/treasure_courier_death.vpcf",
-            "particles/econ/wards/f2p/f2p_ward/f2p_ward_true_sight_ambient.vpcf",
-            "particles/econ/items/effigies/status_fx_effigies/gold_effigy_ambient_dire_lvl2.vpcf",
-            "particles/units/heroes/hero_kunkka/kunkka_ghost_ship_model.vpcf",
-            "particles/units/heroes/hero_kunkka/kunkka_ghost_ship.vpcf",
-            "particles/memolator3/memolator.vpcf",
-            "particles/generic_gameplay/generic_silenced.vpcf",
-            "particles/memolator2/desolator_projectile.vpcf",
-            "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_base_attack.vpcf",
-            "particles/items2_fx/veil_of_discord.vpcf",
-        },
-    	particle_folder = {}
-  	}
-
-  	for k,v in pairs(list) do
-    	for z,x in pairs(v) do 
-    		PrecacheResource(k, x, context)
-    	end
-  	end
-end
-
 function Activate()
 	BirzhaGameMode:InitGameMode()
 	BirzhaEvents:RegListeners()
@@ -205,23 +39,34 @@ function Activate()
 end
 
 function BirzhaGameMode:InitGameMode()
-	XP_PER_LEVEL_TABLE = {0,240,640,1160,1760,2440,3200,4000,4900,5900,7000,8200,9500,10900,12400,14000,15700,17500,19400,21400,23600,26000,28600,31400,34400,38400,43400,49400,56400,63900}
-
+    -- Измененная таблица опыта
 	GameRules:GetGameModeEntity():SetUseCustomHeroLevels(true)
-
 	if IsInToolsMode() then
-		XP_PER_LEVEL_TABLE = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 		GameRules:GetGameModeEntity():SetCustomHeroMaxLevel( 30 )
+        GameRules:GetGameModeEntity():SetCustomXPRequiredToReachNextLevel({0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0})
 	else
 		GameRules:GetGameModeEntity():SetCustomHeroMaxLevel( 30 )
+        GameRules:GetGameModeEntity():SetCustomXPRequiredToReachNextLevel({0,240,640,1160,1760,2440,3200,4000,4900,5900,7000,8200,9500,10900,12400,14000,15700,17500,19400,21400,23600,26000,28600,31400,34400,38400,43400,49400,56400,63900})
 	end
-
-	GameRules:GetGameModeEntity():SetCustomXPRequiredToReachNextLevel(XP_PER_LEVEL_TABLE)
-
+    -- Чит режим с тестом героев
 	if GameRules:IsCheatMode() then
     	HeroDemo:Init()
 	end
 
+    -- Дефолтные настройки овертроу
+    self.m_GatheredShuffledTeams = {}
+	self.spawnTime = 90
+	self.nNextSpawnItemNumber = 1
+	self.hasWarnedSpawn = false
+	self.leadingTeam = -1
+	self.runnerupTeam = -1
+	self.leadingTeamScore = 0
+	self.runnerupTeamScore = 0
+	self.isGameTied = true
+	self.tier1ItemBucket = {}
+	self.tier2ItemBucket = {}
+	self.tier3ItemBucket = {}
+	self.tier4ItemBucket = {}
 	self.m_TeamColors = {}
 	self.m_TeamColors[DOTA_TEAM_GOODGUYS] = { 61, 210, 150 }
 	self.m_TeamColors[DOTA_TEAM_BADGUYS]  = { 243, 201, 9 }
@@ -233,16 +78,7 @@ function BirzhaGameMode:InitGameMode()
 	self.m_TeamColors[DOTA_TEAM_CUSTOM_6] = { 27, 192, 216 }
 	self.m_TeamColors[DOTA_TEAM_CUSTOM_7] = { 199, 228, 13 }
 	self.m_TeamColors[DOTA_TEAM_CUSTOM_8] = { 140, 42, 244 }
-	self.winter_mode = false
-
-	for team = 0, (DOTA_TEAM_COUNT-1) do
-		color = self.m_TeamColors[ team ]
-		if color then
-			SetTeamCustomHealthbarColor( team, color[1], color[2], color[3] )
-		end
-	end
-
-	self.m_VictoryMessages = {}
+    self.m_VictoryMessages = {}
 	self.m_VictoryMessages[DOTA_TEAM_GOODGUYS] = "#VictoryMessage_GoodGuys"
 	self.m_VictoryMessages[DOTA_TEAM_BADGUYS]  = "#VictoryMessage_BadGuys"
 	self.m_VictoryMessages[DOTA_TEAM_CUSTOM_1] = "#VictoryMessage_Custom1"
@@ -253,32 +89,7 @@ function BirzhaGameMode:InitGameMode()
 	self.m_VictoryMessages[DOTA_TEAM_CUSTOM_6] = "#VictoryMessage_Custom6"
 	self.m_VictoryMessages[DOTA_TEAM_CUSTOM_7] = "#VictoryMessage_Custom7"
 	self.m_VictoryMessages[DOTA_TEAM_CUSTOM_8] = "#VictoryMessage_Custom8"
-
-	self.m_GatheredShuffledTeams = {}
-	self.numSpawnCamps = 5
-	self.specialItem = ""
-	self.spawnTime = 90
-	self.nNextSpawnItemNumber = 1
-	self.hasWarnedSpawn = false
-	self.allSpawned = false
-	self.leadingTeam = -1
-	self.runnerupTeam = -1
-	self.leadingTeamScore = 0
-	self.runnerupTeamScore = 0
-	self.isGameTied = true
-	self.countdownEnabled = false
-	self.itemSpawnIndex = 1
-	self.itemSpawnLocation = Entities:FindByName( nil, "greevil" )
-	self.tier1ItemBucket = {}
-	self.tier2ItemBucket = {}
-	self.tier3ItemBucket = {}
-	self.tier4ItemBucket = {}
-	self.CLOSE_TO_VICTORY_THRESHOLD = 5
-	self:GatherAndRegisterValidTeams()
-
-	GameRules:GetGameModeEntity().BirzhaGameMode = self
-
-	if GetMapName() == "birzhamemov_5v5v5" then
+    if GetMapName() == "birzhamemov_5v5v5" then
 		self.m_GoldRadiusMin = 100
 		self.m_GoldRadiusMax = 1400
 		self.m_GoldDropPercent = 10
@@ -299,7 +110,14 @@ function BirzhaGameMode:InitGameMode()
 		self.m_GoldDropPercent = 10
 		self.effectradius = 900
 	end
+    for team = 0, (DOTA_TEAM_COUNT-1) do
+		color = self.m_TeamColors[ team ]
+		if color then
+			SetTeamCustomHealthbarColor( team, color[1], color[2], color[3] )
+		end
+	end
 
+    -- Настройка количество игроков в команде
 	if GetMapName() == "birzhamemov_zxc" then
 		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_BADGUYS, 1 )
 		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_GOODGUYS, 1 )
@@ -332,11 +150,7 @@ function BirzhaGameMode:InitGameMode()
 		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_CUSTOM_1, 5 )
 	end
 
-	self.end_game_started = nil
-
-	GameRules:GetGameModeEntity():SetExecuteOrderFilter( Dynamic_Wrap( BirzhaGameMode, "ExecuteOrderFilter" ), self )
-	GameRules:GetGameModeEntity():SetDamageFilter( Dynamic_Wrap( BirzhaGameMode, "DamageFilter" ), self )
-	GameRules:GetGameModeEntity():SetHealingFilter( Dynamic_Wrap(BirzhaGameMode, "HealingFilter"), self )
+    -- Отдельные настройки игры
 	GameRules:GetGameModeEntity():SetCameraDistanceOverride(1300)
 	GameRules:GetGameModeEntity():SetFreeCourierModeEnabled( true )
 	GameRules:GetGameModeEntity():SetPauseEnabled( false )
@@ -350,33 +164,33 @@ function BirzhaGameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetTopBarTeamValuesVisible( false )
 	GameRules:SetHideKillMessageHeaders( true )
 	GameRules:SetUseUniversalShopMode( true )
-	GameRules:GetGameModeEntity():SetRuneEnabled( DOTA_RUNE_DOUBLEDAMAGE , true )
+    GameRules:GetGameModeEntity():SetLoseGoldOnDeath( false )
+	GameRules:GetGameModeEntity():SetFountainPercentageHealthRegen( 0 )
+	GameRules:GetGameModeEntity():SetFountainPercentageManaRegen( 0 )
+	GameRules:GetGameModeEntity():SetFountainConstantManaRegen( 0 )
+	GameRules:GetGameModeEntity():SetDaynightCycleDisabled(false)
+    GameRules:SetPostGameLayout( DOTA_POST_GAME_LAYOUT_DOUBLE_COLUMN )
+	GameRules:SetPostGameColumns({ DOTA_POST_GAME_COLUMN_LEVEL, DOTA_POST_GAME_COLUMN_KILLS, DOTA_POST_GAME_COLUMN_DEATHS, DOTA_POST_GAME_COLUMN_ASSISTS, DOTA_POST_GAME_COLUMN_DAMAGE,DOTA_POST_GAME_COLUMN_HEALING})
+    SendToServerConsole("dota_max_physical_items_purchase_limit 9999")
+
+    -- Настройки рун
+    GameRules:GetGameModeEntity():SetRuneEnabled( DOTA_RUNE_DOUBLEDAMAGE , true )
 	GameRules:GetGameModeEntity():SetRuneEnabled( DOTA_RUNE_HASTE, true )
 	GameRules:GetGameModeEntity():SetRuneEnabled( DOTA_RUNE_ILLUSION, true )
 	GameRules:GetGameModeEntity():SetRuneEnabled( DOTA_RUNE_INVISIBILITY, true )
 	GameRules:GetGameModeEntity():SetRuneEnabled( DOTA_RUNE_REGENERATION, false )
 	GameRules:GetGameModeEntity():SetRuneEnabled( DOTA_RUNE_ARCANE, true )
 	GameRules:GetGameModeEntity():SetRuneEnabled( DOTA_RUNE_BOUNTY, false )
-	GameRules:GetGameModeEntity():SetLoseGoldOnDeath( false )
-	GameRules:GetGameModeEntity():SetFountainPercentageHealthRegen( 0 )
-	GameRules:GetGameModeEntity():SetFountainPercentageManaRegen( 0 )
-	GameRules:GetGameModeEntity():SetFountainConstantManaRegen( 0 )
-	GameRules:GetGameModeEntity():SetDaynightCycleDisabled(false)
+
+    -- Быстрый спавн ввиде виспа
 	GameRules:GetGameModeEntity():SetCustomGameForceHero("npc_dota_hero_wisp")
-	GameRules:GetGameModeEntity():SetModifyGoldFilter(Dynamic_Wrap(self, "ModifyGoldFilter"), self)
+	
+    -- Фильтры
+	GameRules:GetGameModeEntity():SetExecuteOrderFilter( Dynamic_Wrap( BirzhaGameMode, "ExecuteOrderFilter" ), self )
+	GameRules:GetGameModeEntity():SetDamageFilter( Dynamic_Wrap( BirzhaGameMode, "DamageFilter" ), self )
+	GameRules:GetGameModeEntity():SetHealingFilter( Dynamic_Wrap(BirzhaGameMode, "HealingFilter"), self )
 
-    GameRules:SetPostGameLayout( DOTA_POST_GAME_LAYOUT_DOUBLE_COLUMN )
-	GameRules:SetPostGameColumns( {
-		DOTA_POST_GAME_COLUMN_LEVEL,
-		DOTA_POST_GAME_COLUMN_KILLS,
-		DOTA_POST_GAME_COLUMN_DEATHS,
-		DOTA_POST_GAME_COLUMN_ASSISTS,
-        DOTA_POST_GAME_COLUMN_DAMAGE,
-        DOTA_POST_GAME_COLUMN_HEALING,
-	} )
-
-	SendToServerConsole("dota_max_physical_items_purchase_limit 9999")
-
+    -- Ивенты доты
 	ListenToGameEvent( "game_rules_state_change", Dynamic_Wrap( self, 'OnGameRulesStateChange' ), self )
 	ListenToGameEvent( "npc_spawned", Dynamic_Wrap( self, "OnNPCSpawned" ), self )
 	ListenToGameEvent( "dota_team_kill_credit", Dynamic_Wrap( self, 'OnTeamKillCredit' ), self )
@@ -384,13 +198,17 @@ function BirzhaGameMode:InitGameMode()
 	ListenToGameEvent( "dota_item_picked_up", Dynamic_Wrap( self, "OnItemPickUp"), self )
 	ListenToGameEvent( "dota_npc_goal_reached", Dynamic_Wrap( self, "OnNpcGoalReached" ), self )
 	ListenToGameEvent( "player_chat", Dynamic_Wrap(ChatListener, 'OnPlayerChat'), ChatListener)
+    ListenToGameEvent('player_connect_full', Dynamic_Wrap(self, 'OnConnectFull'), self)
 
+    -- Кастомные ивенты
     CustomGameEventManager:RegisterListener( "birzha_contract_target_selected", Dynamic_Wrap(BirzhaData, "birzha_contract_target_selected"))
     CustomGameEventManager:RegisterListener( "birzha_update_check_birzha_plus", Dynamic_Wrap(BirzhaData, "birzha_update_check_birzha_plus"))
 	CustomGameEventManager:RegisterListener( "win_condition_predict", Dynamic_Wrap(BirzhaData, "win_condition_predict"))
 	CustomGameEventManager:RegisterListener( "change_premium_pet", Dynamic_Wrap(donate_shop, "ChangePetPremium"))
     CustomGameEventManager:RegisterListener( "donate_change_item_active", Dynamic_Wrap(donate_shop, "donate_change_item_active"))
 	CustomGameEventManager:RegisterListener( "change_border_effect", Dynamic_Wrap(donate_shop, "change_border_effect"))
+    CustomGameEventManager:RegisterListener( "change_tip_effect", Dynamic_Wrap(donate_shop, "change_tip_effect"))
+    CustomGameEventManager:RegisterListener( "change_five_effect", Dynamic_Wrap(donate_shop, "change_five_effect"))
     CustomGameEventManager:RegisterListener( "change_hero_effect", Dynamic_Wrap(donate_shop, "change_hero_effect"))
 	CustomGameEventManager:RegisterListener( "donate_shop_buy_item", Dynamic_Wrap(donate_shop, "BuyItem"))
 	CustomGameEventManager:RegisterListener( "PlayerTip", Dynamic_Wrap(donate_shop, 'PlayerTip'))
@@ -402,27 +220,23 @@ function BirzhaGameMode:InitGameMode()
     CustomGameEventManager:RegisterListener( "ChangeHeroDemo", Dynamic_Wrap(HeroDemo,'ChangeHeroDemo'))
 	CustomGameEventManager:RegisterListener( "player_reported_select", Dynamic_Wrap(report_system, 'player_reported_select'))
     CustomGameEventManager:RegisterListener( "birzha_token_set", Dynamic_Wrap(BirzhaData, 'TokenSet'))
-    CustomGameEventManager:RegisterListener( "PauseTestDELETE", Dynamic_Wrap(self, 'PauseTestDELETE'))
+    CustomGameEventManager:RegisterListener( "StartHighFive", Dynamic_Wrap(donate_shop, 'StartHighFive'))
+    CustomGameEventManager:RegisterListener( "shop_birzha_open_chest_get_items_list", Dynamic_Wrap(donate_shop, 'shop_birzha_open_chest_get_items_list'))
+    CustomGameEventManager:RegisterListener( "shop_birzha_open_chest_get_reward", Dynamic_Wrap(donate_shop, 'shop_birzha_open_chest_get_reward'))
 
+    -- Иниты либ
+    self:GatherAndRegisterValidTeams()
+    BirzhaData:RegisterSeasonInfo() 
+
+    -- Зимний мод
+    self.winter_mode = false
+
+    -- Think на определение позиции героя
     local fix_pos_timer = SpawnEntityFromTableSynchronous("info_target", { targetname = "Fix_position" })
     fix_pos_timer:SetThink( FixPosition, FrameTime() )
 
-	--local update_battlepass = SpawnEntityFromTableSynchronous("info_target", { targetname = "update_battlepass" })
-    --update_battlepass:SetThink( UpdBattlePass, 5 )
-
-	ListenToGameEvent('player_connect_full', Dynamic_Wrap(self, 'OnConnectFull'), self)
-	GameRules:GetGameModeEntity():SetThink( "OnThink", self, 1 ) 
-
-	BirzhaData:RegisterSeasonInfo()  
-end
-
-function BirzhaGameMode:ModifyGoldFilter(params)
-	return true
-end
-
-function UpdBattlePass()
-	donate_shop:UpdateBattlePassInfo()
-	return 5
+	-- Дефолтный think
+	GameRules:GetGameModeEntity():SetThink( "OnThink", self, 1 )  
 end
 
 function FixPosition()
@@ -465,9 +279,7 @@ function FixPosition()
 		"modifier_kaneki_pull_debuff",
 		"modifier_venom_tentacle",
 	}
-
 	local allHeroes = HeroList:GetAllHeroes()
-	
 	for _, hero in pairs(allHeroes) do
 		if hero:IsRealHero() then
 			local return_hero_position = true
@@ -489,7 +301,6 @@ function FixPosition()
 			end
 		end
 	end
-
 	return FrameTime()
 end
 
@@ -597,7 +408,7 @@ function BirzhaGameMode:GatherAndRegisterValidTeams()
 			maxPlayers = maxPlayersPerValidTeam
 		end
 
-		GameRules:SetCustomGameTeamMaxPlayers( team, maxPlayers )
+		--GameRules:SetCustomGameTeamMaxPlayers( team, maxPlayers )
 	end
 end
 
@@ -624,17 +435,4 @@ function BirzhaGameMode:SpawnContracts()
             players_list[i].hero:AddItemByName( "item_birzha_contract" )
         end
     end
-end
-
-function BirzhaGameMode:PauseTestDELETE()
-    GameRules:GetGameModeEntity():SetPauseEnabled( true )
-    PauseGame(true)
-    Timers:CreateTimer({
-        useGameTime = false,
-        endTime = 10, 
-        callback = function()
-            PauseGame(false)
-            return nil
-        end
-    })
 end

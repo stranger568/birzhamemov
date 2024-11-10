@@ -26,7 +26,7 @@
 				<Label class="LegendPanel ScoreCol_Items" text="#custom_end_screen_legend_items" />
 				<Label class="LegendPanel ScoreCol_Mmr" text="MMR" />
 				<Label class="LegendPanel ScoreCol_MmrPlus" />
-				<Label class="LegendPanel ScoreCol_DogePlus"/>
+                <Label class="LegendPanel ScoreCol_DogePlus"/>
 			</Panel>
 			<Panel id="TeamsContainer" />
 			<Button id="CloseButton" onactivate="Game.FinishGame();">

@@ -286,6 +286,7 @@ function modifier_saitama_buff:IsPurgable() return false end
 function modifier_saitama_buff:RemoveOnDeath() return false end
 
 function saitama_kick:GetIntrinsicModifierName()
+    if self:GetCaster():GetUnitName() ~= "npc_dota_hero_saitama" then return end
 	return "modifier_saitama_kick"
 end
 

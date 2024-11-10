@@ -14,44 +14,44 @@ BirzhaData.Coins_Table =
     ['birzhamemov_solo'] = 
     {
         [1] = 10,
-        [2] = 9,
-        [3] = 8,
-        [4] = 7,
-        [5] = 6,
-        [6] = 5,
-        [7] = 4,
-        [8] = 3,
+        [2] = 5,
+        [3] = 2,
+        [4] = 0,
+        [5] = 0,
+        [6] = 0,
+        [7] = 0,
+        [8] = 0,
     },
     ['birzhamemov_duo'] = 
     {
         [1] = 10,
-        [2] = 7,
-        [3] = 4,
-        [4] = 1,
+        [2] = 5,
+        [3] = 0,
+        [4] = 0,
         [5] = 0,
     },
     ['birzhamemov_trio'] = 
     {
         [1] = 10,
-        [2] = 7,
-        [3] = 4,
-        [4] = 1,
+        [2] = 5,
+        [3] = 0,
+        [4] = 0,
     },
     ['birzhamemov_5v5'] = 
     {
-        [1] = 30,
-        [2] = 15,
+        [1] = 0,
+        [2] = 0,
     },
     ['birzhamemov_zxc'] = 
     {
-        [1] = 1,
+        [1] = 0,
         [2] = 0,
     },
     ['birzhamemov_5v5v5'] = 
     {
-        [1] = 30,
-        [2] = 15,
-        [3] = 5,
+        [1] = 0,
+        [2] = 0,
+        [3] = 0,
     }
 }
 -------------- Массив калибровки
@@ -346,6 +346,7 @@ function BirzhaData:RegisterPlayer(player_id)
 		partyid = tonumber(tostring(PlayerResource:GetPartyID(player_id))),
         has_report = 0,
         player_win_predict_active = 0,
+        player_collect_candies = 0,
         players_repoted = {},
 
         -- Выбор героев
@@ -364,7 +365,6 @@ function BirzhaData:RegisterPlayer(player_id)
             games_calibrating = {},
             token_used = 0,
             bp_days = 0,
-            doge_coin = 0,
             birzha_coin = 0,
             player_items = {},
             player_items_active = {},
@@ -372,6 +372,8 @@ function BirzhaData:RegisterPlayer(player_id)
             pet_id = 0,
             border_id = 0,
             effect_id = 0,
+            tip_id = 0,
+            five_id = 0,
             vip = 0,
             premium = 0,
             gob = 0,
@@ -381,6 +383,7 @@ function BirzhaData:RegisterPlayer(player_id)
             win_predict = 0,
             reports = {},
             games = 0,
+            candies_count = 0,
             connected = false
         }
 	}
@@ -397,7 +400,7 @@ function BirzhaData:RegisterPlayer(player_id)
         BirzhaData.PARTY_NUMBER_LIST[player_id] = BirzhaData.PARTY_LIST[sPartyID]
     end
 
-    RequestData('https://' ..BirzhaData.url .. '/data/get_player_info.php?steamid=' .. PlayerResource:GetSteamAccountID(player_id), function(data) BirzhaData:RegisterPlayerSiteInfo(data, player_id) end)
+    RequestData('https://' ..BirzhaData.url .. '/bmemov/get_player_info.php?steamid=' .. PlayerResource:GetSteamAccountID(player_id), function(data) BirzhaData:RegisterPlayerSiteInfo(data, player_id) end)
 end
 
 function BirzhaData:RegisterPlayerSiteInfo(data, player_id)
@@ -410,7 +413,6 @@ function BirzhaData:RegisterPlayerSiteInfo(data, player_id)
         games_calibrating = data.games_calibrating[GetMapName()] or {},
         token_used = data.token_spended or 0,
         bp_days = tonumber(data.bp_days) or 0,
-        doge_coin = tonumber(data.dogecoin_currency) or 0,
         birzha_coin = tonumber(data.bitcoin_currency) or 0,
         player_items = data.player_items or {},
         player_items_active = data.player_items_active or {},
@@ -418,6 +420,8 @@ function BirzhaData:RegisterPlayerSiteInfo(data, player_id)
         pet_id = tonumber(data.pet_default) or 0,
         border_id = tonumber(data.default_border) or 0,
         effect_id = tonumber(data.default_effect) or 0,
+        tip_id = tonumber(data.default_tip) or 0,
+        five_id = tonumber(data.default_five) or 0,
         vip = tonumber(data.vip) or 0,
         premium = tonumber(data.premium) or 0,
         gob = tonumber(data.gob) or 0,
@@ -425,6 +429,7 @@ function BirzhaData:RegisterPlayerSiteInfo(data, player_id)
         leader = tonumber(data.leader) or 0,
         chat_wheel = data.chat_wheel or {0,0,0,0,0,0,0,0},
         win_predict = tonumber(data.win_predict) or 0,
+        candies_count = tonumber(data.candies_count) or 0,
         reports = data.reports or {},
         games = data.games or 0,
         connected = true,
@@ -438,7 +443,7 @@ function BirzhaData:RegisterPlayerSiteInfo(data, player_id)
     CustomNetTables:SetTableValue("game_state", "party_map", BirzhaData.PARTY_NUMBER_LIST)
     CustomNetTables:SetTableValue("reported_info", tostring(player_id), {reported_info = player_info.players_repoted})
     CustomNetTables:SetTableValue('birzhainfo', tostring(player_id), player_info.server_data)
-    CustomNetTables:SetTableValue('birzhashop', tostring(player_id), {doge_coin = player_info.server_data.doge_coin, birzha_coin = player_info.server_data.birzha_coin, player_items = player_info.server_data.player_items, player_items_active = player_info.server_data.player_items_active})
+    CustomNetTables:SetTableValue('birzhashop', tostring(player_id), {birzha_coin = player_info.server_data.birzha_coin, player_items = player_info.server_data.player_items, player_items_active = player_info.server_data.player_items_active})
     CustomNetTables:SetTableValue('birzha_plus_data', tostring(player_id), {mmr = data.mmr})
 end
 
@@ -458,14 +463,12 @@ function BirzhaData:RegisterSeasonInfo()
     local updateNotif = function(data)
         CustomNetTables:SetTableValue('birzha_notification', 'birzha_notification', data)          
     end
-    RequestData('https://' .. BirzhaData.url .. '/data/get_top_15.php', function(data) BirzhaData.SetTopMmr(data) end)
-    RequestData('https://' .. BirzhaData.url .. '/data/get_donate_heroes.php', function(data) BirzhaData.SetDonateHeroes(data) end)
-    RequestData('https://' .. BirzhaData.url .. '/data/get_current_season.php', function(data) setup_gamedata(data) end) 
-    RequestData('https://' .. BirzhaData.url .. '/data/get_top_last_season.php', function(data) setup_last_season(data) end)
-    RequestData('https://' .. BirzhaData.url .. '/data/birzha_notification.json', function(data) updateNotif(data) end) 
+    RequestData('https://' .. BirzhaData.url .. '/bmemov/get_top_15.php', function(data) BirzhaData.SetTopMmr(data) end)
+    RequestData('https://' .. BirzhaData.url .. '/bmemov/get_donate_heroes.php', function(data) BirzhaData.SetDonateHeroes(data) end)
+    RequestData('https://' .. BirzhaData.url .. '/bmemov/get_current_season.php', function(data) setup_gamedata(data) end) 
+    RequestData('https://' .. BirzhaData.url .. '/bmemov/get_top_last_season.php', function(data) setup_last_season(data) end)
+    RequestData('https://' .. BirzhaData.url .. '/bmemov/static_info/birzha_notification.json', function(data) updateNotif(data) end) 
 end
-
-
 
 function BirzhaData.SetDonateHeroes(data)
     for _, info in pairs(data) do
@@ -508,13 +511,16 @@ function BirzhaData.PostData()
             steamid = player_info.steamid,
             map_name = tostring(GetMapName()),
             mmr = BirzhaData.GetMmrByTeamPlace(id),
+            bitcoin = BirzhaData.GetBitcoinPlus(id),
+            candies_count = player_info.player_collect_candies or 0,
             win_predict = BirzhaData.GetPlayerWinPredict(id),
             games_calibrating = -1,
-            dogecoin_currency = BirzhaData.GetDogeCoins(id),
             token_spended = tostring(player_info.token_used),
             pet_default = tonumber(player_info.server_data.pet_default),
             default_border = tonumber(player_info.server_data.default_border),
             effect_id = tonumber(player_info.server_data.effect_id),
+            tip_id = tonumber(player_info.server_data.tip_id),
+            five_id = tonumber(player_info.server_data.five_id),
             chatwheel_1 = BirzhaData.GetChatWheel(id, 1),
             chatwheel_2 = BirzhaData.GetChatWheel(id, 2),
             chatwheel_3 = BirzhaData.GetChatWheel(id, 3),
@@ -528,7 +534,7 @@ function BirzhaData.PostData()
         }
         table.insert(post_data.players, player_table)
     end
-    SendData('https://' ..BirzhaData.url .. '/data/bm_post_player_data.php', post_data, nil)
+    SendData('https://' ..BirzhaData.url .. '/bmemov/bm_post_player_data.php', post_data, nil)
 end
 
 function BirzhaData.PostDataItemTest()
@@ -542,7 +548,7 @@ function BirzhaData.PostDataItemTest()
         }
         table.insert(post_data.players, player_table)
     end
-    SendData('https://' ..BirzhaData.url .. '/data/bm_post_player_data_test.php', post_data, nil)
+    SendData('https://' ..BirzhaData.url .. '/bmemov/bm_post_player_data_test.php', post_data, nil)
 end
 
 function BirzhaData.PostHeroesInfo()
@@ -576,7 +582,7 @@ function BirzhaData.PostHeroesInfo()
             table.insert(post_heroes_data.heroes, hero_table)
         end
     end
-    SendData('https://' ..BirzhaData.url .. '/data/post_hero_data.php', post_heroes_data, nil)
+    SendData('https://' ..BirzhaData.url .. '/bmemov/post_hero_data.php', post_heroes_data, nil)
 end
 
 function BirzhaData.PostHeroPlayerHeroInfo()
@@ -611,7 +617,7 @@ function BirzhaData.PostHeroPlayerHeroInfo()
             table.insert(post_player_info.heroes, hero_table)
         end
     end
-    SendData('https://' ..BirzhaData.url .. '/data/post_player_info.php', post_player_info, nil)
+    SendData('https://' ..BirzhaData.url .. '/bmemov/post_player_info.php', post_player_info, nil)
 end
 
 function BirzhaData:SendDataPlayerReports()
@@ -630,69 +636,11 @@ function BirzhaData:SendDataPlayerReports()
             table.insert(post_data.players, player_table)
         end
     end
-    SendData('https://' ..BirzhaData.url .. '/data/player_reports_upload.php', post_data, nil)
+    SendData('https://' ..BirzhaData.url .. '/bmemov/player_reports_upload.php', post_data, nil)
     return post_data
 end
 
 -- Запросы
-
-function BirzhaData.GetDogeCoins(id)
-    local winer_table = CustomNetTables:GetTableValue("birzha_mmr", "game_winner")
-
-    if IsPlayerAbandoned(id) then
-        CustomNetTables:SetTableValue('bonus_dogecoin', tostring(id), {coin = 0})
-        return 0
-    end
-
-    local data = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id]
-
-    local get_team_place = function(t)
-        local team = {}
-        local teams_table = {2,3,6,7,8,9,10,11,12,13}
-        if GetMapName() == "birzhamemov_solo" then
-            teams_table = {2,3,6,7,8,9,10,11}
-        elseif GetMapName() == "birzhamemov_duo" then
-            teams_table = {2,3,6,7,8}
-        elseif GetMapName() == "birzhamemov_trio" then
-            teams_table = {2,3,6,7}
-        elseif GetMapName() == "birzhamemov_5v5v5" then
-            teams_table = {2,3,6}
-        elseif GetMapName() == "birzhamemov_5v5" then
-            teams_table = {2,3}
-        elseif GetMapName() == "birzhamemov_zxc" then
-            teams_table = {2,3}
-        end
-        for _, i in ipairs(teams_table) do
-            local table_team_score = CustomNetTables:GetTableValue("game_state", tostring(i))
-            if table_team_score then
-                table.insert(team, {id = i, kills = table_team_score.kills} )
-            end
-        end    
-        table.sort( team, function(x,y) return y.kills < x.kills end )
-        for i = 1, #team do
-            if team[i].id == t then
-                return i
-            end    
-        end
-        return nil  
-    end
-
-    local place = get_team_place(data.team)
-    if winer_table and data.team == winer_table.t then
-        place = 1
-    end
-
-    local coin = 0
-
-    if place ~= nil then
-        local coin_table = BirzhaData.Coins_Table[GetMapName()]
-        coin = (coin_table[place] or 0)
-    end
-
-    coin = coin * (function(id) if HasBirzhaPlus(id) then return 2 end return 1 end)(id)
-    CustomNetTables:SetTableValue('bonus_dogecoin', tostring(id), {coin = coin})
-    return coin
-end
 
 function BirzhaData.GetHeroWinPlace(id)
     local winer_table = CustomNetTables:GetTableValue("birzha_mmr", "game_winner")
@@ -792,6 +740,75 @@ function BirzhaData.GetPlayerWinPredict(id)
         end
     end
 
+    return 0
+end
+
+function BirzhaData.GetBitcoinPlus(id)
+    local winer_table = CustomNetTables:GetTableValue("birzha_mmr", "game_winner")
+    local data = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id]
+    if IsPlayerAbandoned(id) then
+        CustomNetTables:SetTableValue('bonus_dogecoin', tostring(id), {coin = 0})
+        return 0
+    end
+    local winer_table = CustomNetTables:GetTableValue("birzha_mmr", "game_winner")
+    local get_team_place = function(t)
+        local team = {}
+        local teams_table = {2,3,6,7,8,9,10,11,12,13}
+        if GetMapName() == "birzhamemov_solo" then
+            teams_table = {2,3,6,7,8,9,10,11}
+        elseif GetMapName() == "birzhamemov_duo" then
+            teams_table = {2,3,6,7,8}
+        elseif GetMapName() == "birzhamemov_trio" then
+            teams_table = {2,3,6,7}
+        elseif GetMapName() == "birzhamemov_5v5v5" then
+            teams_table = {2,3,6}
+        elseif GetMapName() == "birzhamemov_5v5" then
+            teams_table = {2,3}
+        elseif GetMapName() == "birzhamemov_zxc" then
+            teams_table = {2,3}
+        end
+        for _, i in ipairs(teams_table) do
+            local table_team_score = CustomNetTables:GetTableValue("game_state", tostring(i))
+            if table_team_score then
+                table.insert(team, {id = i, kills = table_team_score.kills} )
+            end
+        end    
+        table.sort( team, function(x,y) return y.kills < x.kills end )
+        for i = 1, #team do
+            if team[i].id == t then
+                return i
+            end    
+        end   
+        return nil 
+    end
+
+    local place = get_team_place(data.team)
+    if winer_table and data.team == winer_table.t then
+        place = 1
+    end
+
+    local bonus_coin = 0
+    if place ~= nil then
+        local coin_table = BirzhaData.Coins_Table[GetMapName()]
+        bonus_coin = (coin_table[place] or 0)
+        local has_win = false
+        if data.player_win_predict_active == 1 then
+            if place == 1 then
+                has_win = true
+            end
+        end
+        if has_win then
+            if data.server_data.win_predict ~= nil then
+                if (data.server_data.win_predict + 1) % 10 == 0 then
+                    bonus_coin = bonus_coin + 100
+                end
+            end
+        end
+        bonus_coin = bonus_coin * (function(id) if HasBirzhaPlus(id) then return 2 end return 1 end)(id)
+        CustomNetTables:SetTableValue('bonus_dogecoin', tostring(id), {coin = bonus_coin})
+        return bonus_coin
+    end
+    CustomNetTables:SetTableValue('bonus_dogecoin', tostring(id), {coin = 0})
     return 0
 end
 
@@ -1116,7 +1133,7 @@ function BirzhaData:birzha_update_check_birzha_plus(params)
                 end
             end
         end
-        RequestData('https://' ..BirzhaData.url .. '/data/get_player_info.php?steamid=' .. PlayerResource:GetSteamAccountID(params.PlayerID), function(data) birzha_plus_updated(data, player_id) end)
+        RequestData('https://' ..BirzhaData.url .. '/bmemov/get_player_info.php?steamid=' .. PlayerResource:GetSteamAccountID(params.PlayerID), function(data) birzha_plus_updated(data, player_id) end)
     end
 end
 
@@ -1132,11 +1149,15 @@ function BirzhaData:birzha_contract_target_selected(data)
         end
     end
     if hero and target ~= nil then
-        print(modifier_item_birzha_contract_caster)
         local modifier_item_birzha_contract_caster = hero:FindModifierByName("modifier_item_birzha_contract_caster")
         if modifier_item_birzha_contract_caster then
             modifier_item_birzha_contract_caster.target = target
             modifier_item_birzha_contract_caster:Destroy()
         end
     end
+end
+
+function BirzhaData:AddCandyes(id)
+    if BirzhaData.PLAYERS_GLOBAL_INFORMATION[id] == nil then return end
+    BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].player_collect_candies = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].player_collect_candies + 1
 end

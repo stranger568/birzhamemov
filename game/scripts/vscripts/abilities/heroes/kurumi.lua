@@ -39,11 +39,11 @@ function Kurumi_eight_bullet:OnSpellStart()
         end
     end
     for i=1,illusion_count do
-        local outgoing_damage = self:GetSpecialValueFor("illusion_1_damage_out_pct")
-        local incoming_damage = self:GetSpecialValueFor("illusion_1_damage_in_pct")
+        local outgoing_damage = self:GetSpecialValueFor("illusion_1_damage_out_pct") - 100
+        local incoming_damage = self:GetSpecialValueFor("illusion_1_damage_in_pct") - 100
         if i > 1 then
-            outgoing_damage = self:GetSpecialValueFor("illusion_2_damage_out_pct")
-            incoming_damage = self:GetSpecialValueFor("illusion_2_damage_in_pct")
+            outgoing_damage = self:GetSpecialValueFor("illusion_2_damage_out_pct") - 100
+            incoming_damage = self:GetSpecialValueFor("illusion_2_damage_in_pct") - 100
         end
         local illusions = BirzhaCreateIllusion(self:GetCaster(), self:GetCaster(), 
         {

@@ -20,7 +20,7 @@ TIME_OF_STATE[4] = 10
 
 if IsInToolsMode() or GameRules:IsCheatMode() then
 	TIME_OF_STATE[2] = 1
-    TIME_OF_STATE[4] = 10
+    TIME_OF_STATE[4] = 1
 end
 
 birzha_hero_selection.BIRZHA_PLUS_HEROES = 
@@ -402,6 +402,7 @@ function birzha_hero_selection:GiveHeroPlayer(id,hero)
 	PlayerResource:ReplaceHeroWith(id, hero, 700, 0)
 	local new_hero = PlayerResource:GetSelectedHeroEntity(id)
 	if new_hero ~= nil then
+        birzha_hero_selection:PrecacheAbilities(new_hero)
 		new_hero:AddNewModifier( new_hero, nil, "modifier_birzha_start_game", {})
 		BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].selected_hero = new_hero
 	end
@@ -534,4 +535,15 @@ end
 
 function birzha_hero_selection:UpdateBannedHeroesLive()
     CustomNetTables:SetTableValue("birzha_pick", "banned_heroes", BANNED_HEROES)
+end
+
+function birzha_hero_selection:PrecacheAbilities(hero)
+    for i=0,10 do
+        local ability = hero:GetAbilityByIndex(i)
+        if ability then
+            PrecacheItemByNameAsync(ability:GetAbilityName(), function()
+                print("precache ", ability:GetAbilityName())
+            end)
+        end
+    end
 end

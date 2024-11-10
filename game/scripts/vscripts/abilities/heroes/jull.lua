@@ -559,7 +559,7 @@ function modifier_jull_light_future_laser:OnIntervalThink()
             damage_type = DAMAGE_TYPE_PURE
         end
 
-        local damage = self:GetAbility():GetSpecialValueFor("base_damage") + (self:GetCaster():GetIntellect() / 100 * self:GetAbility():GetSpecialValueFor("intellect_damage")) + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_1")
+        local damage = self:GetAbility():GetSpecialValueFor("base_damage") + (self:GetCaster():GetIntellect(false) / 100 * self:GetAbility():GetSpecialValueFor("intellect_damage")) + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_1")
 
         local modifier = self:GetCaster():FindModifierByName("modifier_jull_light_future_passive")
         if modifier then
@@ -649,7 +649,7 @@ function modifier_jull_light_future_passive:OnAttackLanded( params )
 
     if self:GetParent():IsIllusion() then return end
 
-    local damage = self:GetAbility():GetSpecialValueFor("base_damage") + (self:GetCaster():GetIntellect() / 100 * self:GetAbility():GetSpecialValueFor("intellect_damage")) + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_1")
+    local damage = self:GetAbility():GetSpecialValueFor("base_damage") + (self:GetCaster():GetIntellect(false) / 100 * self:GetAbility():GetSpecialValueFor("intellect_damage")) + self:GetCaster():FindTalentValue("special_bonus_birzha_jull_1")
 
     local modifier = self:GetCaster():FindModifierByName("modifier_jull_light_future_passive")
     if modifier then

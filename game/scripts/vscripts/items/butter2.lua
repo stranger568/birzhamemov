@@ -82,6 +82,7 @@ function modifier_item_butter2_active:CheckState()
         [MODIFIER_STATE_FLYING] = true,
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
         [MODIFIER_STATE_UNTARGETABLE] = true,
+        [MODIFIER_STATE_ATTACK_IMMUNE] = true,
     }
 
     return state

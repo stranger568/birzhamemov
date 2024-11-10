@@ -248,6 +248,7 @@ function modifier_gypsy_lucky:OnCreated()
         ["item_treasure_chest_bp_fake"] = true,
         ["item_bag_of_gold_bp_fake"] = true,
         ["item_bag_of_gold_van"] = true,
+        ["item_hallowen_birzha_candy"] = true,
         ["item_ultimate_mem"] = true,
         ["item_moon_shard"] = true,
         ["Durov_omni_slash"] = true,

@@ -4,6 +4,11 @@ LinkLuaModifier( "modifier_Bukin_HatTrickLeatherBall_debuff", "abilities/heroes/
 
 Bukin_HatTrickLeatherBall = class({})
 
+function Bukin_HatTrickLeatherBall:Precache(context)
+    PrecacheResource("particle", "particles/bukin/bukin_ball.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_clinkz/clinkz_burning_army.vpcf", context)
+end
+
 function Bukin_HatTrickLeatherBall:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end
@@ -273,6 +278,12 @@ function Bukin_Spears:GetBehavior()
     return behavior
 end
 
+function Bukin_Spears:Precache(context)
+    PrecacheResource("particle", "particles/econ/items/huskar/huskar_2021_immortal/huskar_2021_immortal_burning_spear_debuff.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_huskar/huskar_burning_spear_debuff.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_huskar/huskar_burning_spear.vpcf", context)
+end
+
 function Bukin_Spears:OnSpellStart()
     if not IsServer() then return end
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Bukin_Spears_shard", {duration = self:GetSpecialValueFor("duration_shard")})
@@ -535,6 +546,11 @@ function bukin_clubnogirls:GetAOERadius()
         return (self:GetSpecialValueFor("radius") * 2) + 50
     end
     return self:GetSpecialValueFor("radius") + 50
+end
+
+function bukin_clubnogirls:Precache(context)
+    PrecacheResource("particle", "particles/units/heroes/hero_monkey_king/monkey_king_furarmy_ring.vpcf", context)
+    PrecacheResource("particle", "particles/status_fx/status_effect_phantom_lancer_illusion.vpcf", context)
 end
 
 function bukin_clubnogirls:GetCooldown(level)

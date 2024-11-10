@@ -271,7 +271,7 @@ function Dio_Wry:OnSpellStart()
 		local current_mana = enemy:GetMana()
 
         if enemy:IsHero() then
-		    current_int = enemy:GetIntellect()
+		    current_int = enemy:GetIntellect(false)
         end
 
 		local multiplier = self:GetSpecialValueFor("float_multiplier") / 100
@@ -580,7 +580,7 @@ function modifier_dio_TheWorld:IsPurgable()
 end
 
 function modifier_dio_TheWorld:OnCreated(keys)
-    self.b_damage = self:GetAbility():GetSpecialValueFor("stand_damage") + ( self:GetCaster():GetIntellect() * (self:GetAbility():GetSpecialValueFor("bonus_damage")) )
+    self.b_damage = self:GetAbility():GetSpecialValueFor("stand_damage") + ( self:GetCaster():GetIntellect(false) * (self:GetAbility():GetSpecialValueFor("bonus_damage")) )
     self.b_health = self:GetAbility():GetSpecialValueFor("stand_hp")
     self.b_armor = self:GetAbility():GetSpecialValueFor("stand_armor")
     if not IsServer() then return end
@@ -606,7 +606,7 @@ function modifier_dio_TheWorld:OnCreated(keys)
 end
 
 function modifier_dio_TheWorld:OnRefresh(keys)
-    self.b_damage = self:GetAbility():GetSpecialValueFor("stand_damage") + ( self:GetCaster():GetIntellect() * (self:GetAbility():GetSpecialValueFor("bonus_damage")) )
+    self.b_damage = self:GetAbility():GetSpecialValueFor("stand_damage") + ( self:GetCaster():GetIntellect(false) * (self:GetAbility():GetSpecialValueFor("bonus_damage")) )
     self.b_armor = self:GetAbility():GetSpecialValueFor("stand_armor")
     if not IsServer() then return end
     self:GetParent():SetPhysicalArmorBaseValue(self.b_armor)
@@ -1093,7 +1093,7 @@ function modifier_dio_roller:OnDestroy()
     origin = GetGroundPosition(origin, self:GetParent())
     ParticleManager:SetParticleControl(particle, 0, origin)
     ParticleManager:SetParticleControl(particle, 1, Vector(200,200,200))
-    self:GetParent():Kill(nil, nil)
+    self:GetParent():ForceKill(false)
 end
 
 function modifier_dio_roller:UpdateHorizontalMotion( me, dt )

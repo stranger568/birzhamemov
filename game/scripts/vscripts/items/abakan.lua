@@ -23,5 +23,5 @@ function item_abakan:OnSpellStart()
             end
         end
     end
-    self:SpendCharge()
+    self:SpendCharge(0)
 end

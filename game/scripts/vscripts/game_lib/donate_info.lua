@@ -130,6 +130,10 @@ BIRZHA_PETS_LIST[256] =
 {
 	model = "models/banana_cat/catbanana.vmdl"
 }
+BIRZHA_PETS_LIST[401] = 
+{
+	model = "models/creeps/lane_creeps/creep_radiant_hulk/creep_radiant_diretide_ancient_hulk.vmdl"
+}
 BIRZHA_PETS_LIST["Insane"] = 
 {
 	effect = "particles/econ/courier/courier_devourling_gold/courier_devourling_gold_ambient.vpcf", 
@@ -535,6 +539,11 @@ BIRZHA_CHAT_WHEEL_EVENTS =
         type = "sound",
         localize = "Осууждаю !!!"
     },
+    ["405"] =
+    {
+        type = "sound",
+        localize = "Бу! Испугался"
+    },
     ["270"] =
     {
         type = "sound",
@@ -830,11 +839,86 @@ BIRZHA_EFFECTS_LIST =
     ["261"] = "modifier_leader_effect",
     ["262"] = "modifier_top_season_13_effect",
     ["263"] = "modifier_top_season_14_effect",
+    ["326"] = "modifier_top_season_15_effect",
+    ["327"] = "modifier_top_season_16_effect",
+    ["403"] = "modifier_effect_hero_diretide",
 }
 
-
-
-
-
-
-
+BIRZHA_CHEST_INFO =
+{
+    [1] = 
+    {
+        ["chest_name"] = "chest_1",
+        ["chest_cost"] = 250,
+        ["chest_cost_alt"] = 50,
+        ["chest_items"] = 
+        {
+            {
+                ["rare"] = "immortal",
+                ["item_name"] = "bm_battlepass_info_100level_name",
+                ["item_icon"] = "file://{images}/custom_game/shop/itemicon/bm_battlepass_info_100level_name.png",
+                ["item_id"] = 180,
+            },
+            {
+                ["rare"] = "immortal",
+                ["item_name"] = "bm_battlepass_info_60level_name",
+                ["item_icon"] = "file://{images}/custom_game/shop/itemicon/bm_battlepass_info_60level_name.png",
+                ["item_id"] = 183,
+            },
+            {
+                ["rare"] = "legendary",
+                ["item_name"] = "bm_battlepass_info_80level_name",
+                ["item_icon"] = "file://{images}/custom_game/shop/itemicon/bm_battlepass_info_80level_name.png",
+                ["item_id"] = 182,
+            },
+            {
+                ["rare"] = "mythical",
+                ["item_name"] = "bm_battlepass_info_40level_name",
+                ["item_icon"] = "file://{images}/custom_game/shop/itemicon/bm_battlepass_info_40level_name.png",
+                ["item_id"] = 179,
+            },
+            {
+                ["rare"] = "mythical",
+                ["item_name"] = "hero_diretide",
+                ["item_icon"] = "file://{images}/custom_game/shop/itemicon/hero_diretide.png",
+                ["item_id"] = 403,
+            },
+            {
+                ["rare"] = "rare",
+                ["item_name"] = "bm_battlepass_info_20level_name",
+                ["item_icon"] = "file://{images}/custom_game/shop/itemicon/bm_battlepass_info_20level_name.png",
+                ["item_id"] = 181,
+            },
+            {
+                ["rare"] = "rare",
+                ["item_name"] = "pet_401",
+                ["item_icon"] = "file://{images}/custom_game/shop/itemicon/pet_401.png",
+                ["item_id"] = 401,
+            },
+            {
+                ["rare"] = "rare",
+                ["item_name"] = "border_9",
+                ["item_icon"] = "file://{images}/custom_game/shop/itemicon/border_9.png",
+                ["item_id"] = 404,
+            },
+            {
+                ["rare"] = "uncommon",
+                ["item_name"] = "five_6",
+                ["item_icon"] = "file://{images}/custom_game/shop/itemicon/five_6.png",
+                ["item_id"] = 402,
+            },
+            {
+                ["rare"] = "common",
+                ["item_name"] = "sounds_405",
+                ["item_icon"] = "file://{images}/custom_game/shop/itemicon/sound.png",
+                ["item_id"] = 405,
+            },
+            {
+                ["rare"] = "common",
+                ["item_name"] = "battlepass_reward_229",
+                ["item_icon"] = "file://{images}/custom_game/shop/itemicon/bitcoin.png",
+                ["item_id"] = 999999,
+            },
+        },
+    },
+}

@@ -264,7 +264,7 @@ function modifier_gorshok_writer_goodwin_aura:OnCreated(keys)
 
     if IsServer() then
         self:SetHasCustomTransmitterData(true)
-        self.damage = (self:GetCaster():GetIntellect() * bonus_damage_int)
+        self.damage = (self:GetCaster():GetIntellect(false) * bonus_damage_int)
         self.attack_speed = (self:GetCaster():GetAgility() * bonus_attack_speed_agi)
         self.movespeed = (self:GetCaster():GetKills() * bonus_movespeed_kill)
         self.health = (self:GetCaster():GetStrength() * bonus_health_str)
@@ -448,7 +448,7 @@ function modifier_gorshok_wodoo:OnTakeDamage( params )
     if not IsServer() then return end
     local parent = self:GetParent()
     local target = params.unit
-    if parent == params.attacker:GetOwner() and target:GetTeamNumber() ~= parent:GetTeamNumber() then 
+    if params.attacker and parent == params.attacker:GetOwner() and target:GetTeamNumber() ~= parent:GetTeamNumber() then 
         local controlled = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED + DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD, FIND_ANY_ORDER, false)
         for i = #controlled, 1, -1 do
             if controlled[i] ~= nil and controlled[i]:GetUnitName() ~= "npc_gorshok_hunt" then

@@ -415,10 +415,10 @@ modifier_ns_tricks_item_cooldown = class({})
 function modifier_ns_tricks_item_cooldown:IsDebuff() return true end
 function modifier_ns_tricks_item_cooldown:OnCreated()
     if not IsServer() then return end
-    for i=0,8 do
-        local ability = self:GetParent():GetAbilityByIndex(i)
-        if ability and ability:GetCooldown(ability:GetLevel()) > 0 then
-            ability:UseResources(false, false, false, true)
+    for i=0,5 do
+        local item = self:GetParent():GetItemInSlot(i)
+        if item and item:GetCooldown(item:GetLevel()) > 0 then
+            item:UseResources(false, false, false, true)
         end
     end
     self:Destroy()
@@ -428,10 +428,10 @@ modifier_ns_tricks_ability_cooldown = class({})
 function modifier_ns_tricks_ability_cooldown:IsDebuff() return true end
 function modifier_ns_tricks_ability_cooldown:OnCreated()
     if not IsServer() then return end
-    for i=0,5 do
-        local item = self:GetParent():GetItemInSlot(i)
-        if item and item:GetCooldown(item:GetLevel()) > 0 then
-            item:UseResources(false, false, false, true)
+    for i=0,8 do
+        local ability = self:GetParent():GetAbilityByIndex(i)
+        if ability and ability:GetLevel() > 0 and ability:GetCooldown(ability:GetLevel()) > 0 then
+            ability:UseResources(false, false, false, true)
         end
     end
     self:Destroy()
@@ -651,7 +651,7 @@ function ns_old_beer:OnOrbImpact( params )
         end
     end
 
-    local glaive_pure_damage = self:GetCaster():GetIntellect() * (self:GetSpecialValueFor("intellect_damage_pct") + self:GetCaster():FindTalentValue("special_bonus_birzha_ns_5")) / 100
+    local glaive_pure_damage = self:GetCaster():GetIntellect(false) * (self:GetSpecialValueFor("intellect_damage_pct") + self:GetCaster():FindTalentValue("special_bonus_birzha_ns_5")) / 100
     SendOverheadEventMessage(nil, OVERHEAD_ALERT_BONUS_SPELL_DAMAGE, target, glaive_pure_damage, nil)
     ApplyDamage( { victim = target, attacker = self:GetCaster(), damage = glaive_pure_damage, damage_type = self:GetAbilityDamageType(), damage_flags = DOTA_DAMAGE_FLAG_NONE, ability = self } )
 

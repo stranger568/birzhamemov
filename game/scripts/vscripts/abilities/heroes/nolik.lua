@@ -76,6 +76,7 @@ function modifier_nolik_tech:OnCreated()
         ["item_treasure_chest_bp_fake"] = true,
         ["item_bag_of_gold_bp_fake"] = true,
         ["item_bag_of_gold_van"] = true,
+        ["item_hallowen_birzha_candy"] = true,
     }
 	local nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_keeper_of_the_light/keeper_chakra_magic.vpcf", PATTACH_CUSTOMORIGIN, self:GetCaster() )
 	ParticleManager:SetParticleControlEnt( nFXIndex, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetCaster():GetOrigin(), true )

@@ -109,5 +109,7 @@
     "npc_dota_hero_kelthuzad"           "1"
     "npc_dota_hero_sans"                "0"
     "npc_dota_hero_kirito"              "0"
-    "npc_dota_hero_nix_streamer"        "0"
+    "npc_dota_hero_nix_streamer"        "1"
+    "npc_dota_hero_ashab_tamaev"		"1"
+	"npc_dota_hero_old_god"				"1"
 }

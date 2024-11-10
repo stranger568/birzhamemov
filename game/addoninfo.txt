@@ -4,9 +4,7 @@
 	[
 		"birzhamemov_solo",
 		"birzhamemov_duo",
-		"birzhamemov_trio",
 		"birzhamemov_5v5v5",
-		"birzhamemov_5v5",
 		"birzhamemov_zxc",
 	]
 	IsPlayable = 1
@@ -16,25 +14,17 @@
 	]
 	map_options = 
 	[
-		{
+        {
 			MaxPlayers = 10
-			map = "birzhamemov_5v5"
+			map = "birzhamemov_solo"
 		},
-		{
-			MaxPlayers = 15
-			map = "birzhamemov_5v5v5"
-		},
-		{
-			MaxPlayers = 12
-			map = "birzhamemov_trio"
-		},
-		{
+        {
 			MaxPlayers = 10
 			map = "birzhamemov_duo"
 		},
 		{
-			MaxPlayers = 10
-			map = "birzhamemov_solo"
+			MaxPlayers = 15
+			map = "birzhamemov_5v5v5"
 		},
 		{
 			MaxPlayers = 2
@@ -44,7 +34,7 @@
 	HideInTools = false
 	IsTemplate = false
 	CheckAFKPlayers = true
-	DefaultMap = ""
+	DefaultMap = "birzhamemov_solo"
 	DisableIK = false
 	EnablePickRules = false
 	EventGame = false

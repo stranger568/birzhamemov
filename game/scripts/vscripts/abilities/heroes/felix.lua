@@ -191,8 +191,8 @@ end
 function Felix_WaterStream:OnProjectileHit(target, location, extra_data)
 	if not IsServer() then return end
 	local intellect_perc = self:GetSpecialValueFor("intellect_perc") + self:GetCaster():FindTalentValue("special_bonus_birzha_felix_4")
-	local damage = self:GetSpecialValueFor("damage") + (self:GetCaster():GetIntellect() / 100 * intellect_perc)
-	local heal = self:GetSpecialValueFor("heal") + (self:GetCaster():GetIntellect() / 100 * intellect_perc)
+	local damage = self:GetSpecialValueFor("damage") + (self:GetCaster():GetIntellect(false) / 100 * intellect_perc)
+	local heal = self:GetSpecialValueFor("heal") + (self:GetCaster():GetIntellect(false) / 100 * intellect_perc)
 
 	target:EmitSound("Hero_Morphling.AdaptiveStrike") 
 	   
@@ -407,7 +407,7 @@ end
 
 function modifier_Felix_NyashaCat_debuff:OnCreated()
 	local intellect_math_2 = self:GetAbility():GetSpecialValueFor("intellect_math_2")
-	self.heal_lose = self:GetAbility():GetSpecialValueFor("heal_lose") - (self:GetCaster():GetIntellect() / intellect_math_2)
+	self.heal_lose = self:GetAbility():GetSpecialValueFor("heal_lose") - (self:GetCaster():GetIntellect(false) / intellect_math_2)
 	if not IsServer() then return end
 	local NyashaCat_debuff_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_tidehunter/tidehunter_anchor_hero.vpcf", PATTACH_ABSORIGIN, self:GetParent())
 	ParticleManager:ReleaseParticleIndex(NyashaCat_debuff_particle)
@@ -415,7 +415,7 @@ end
 
 function modifier_Felix_NyashaCat_debuff:OnRefresh()
 	local intellect_math_2 = self:GetAbility():GetSpecialValueFor("intellect_math_2")
-	self.heal_lose = self:GetAbility():GetSpecialValueFor("heal_lose") - (self:GetCaster():GetIntellect() / intellect_math_2)
+	self.heal_lose = self:GetAbility():GetSpecialValueFor("heal_lose") - (self:GetCaster():GetIntellect(false) / intellect_math_2)
 end
 
 function modifier_Felix_NyashaCat_debuff:Custom_HealAmplifyReduce()
@@ -450,11 +450,11 @@ end
 
 function modifier_Felix_NyashaCat_buff:OnCreated()
 	local intellect_math = self:GetAbility():GetSpecialValueFor("intellect_math")
-	self.percent = self:GetAbility():GetSpecialValueFor( "bonus_attribute" ) + (self:GetCaster():GetIntellect() / intellect_math)
+	self.percent = self:GetAbility():GetSpecialValueFor( "bonus_attribute" ) + (self:GetCaster():GetIntellect(false) / intellect_math)
 	self.base_bonus = self:GetAbility():GetSpecialValueFor( "base_attribute" )
     self.str_bonus = self.base_bonus + (self:GetParent():GetStrength() / 100 * self.percent)
     self.agi_bonus = self.base_bonus + (self:GetParent():GetAgility() / 100 * self.percent)
-    self.int_bonus = self.base_bonus + (self:GetParent():GetIntellect() / 100 * self.percent)
+    self.int_bonus = self.base_bonus + (self:GetParent():GetIntellect(false) / 100 * self.percent)
     if not IsServer() then return end
     local NyashaCat_debuff_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_tidehunter/tidehunter_anchor_hero.vpcf", PATTACH_ABSORIGIN, self:GetParent())
 	ParticleManager:ReleaseParticleIndex(NyashaCat_debuff_particle)
@@ -462,11 +462,11 @@ end
 
 function modifier_Felix_NyashaCat_buff:OnRefresh()
 	local intellect_math = self:GetAbility():GetSpecialValueFor("intellect_math")
-	self.percent = self:GetAbility():GetSpecialValueFor( "bonus_attribute" ) + (self:GetCaster():GetIntellect() / intellect_math)
+	self.percent = self:GetAbility():GetSpecialValueFor( "bonus_attribute" ) + (self:GetCaster():GetIntellect(false) / intellect_math)
 	self.base_bonus = self:GetAbility():GetSpecialValueFor( "base_attribute" )
     self.str_bonus = self.base_bonus + (self:GetParent():GetStrength() / 100 * self.percent)
     self.agi_bonus = self.base_bonus + (self:GetParent():GetAgility() / 100 * self.percent)
-    self.int_bonus = self.base_bonus + (self:GetParent():GetIntellect() / 100 * self.percent)
+    self.int_bonus = self.base_bonus + (self:GetParent():GetIntellect(false) / 100 * self.percent)
 end
 
 function modifier_Felix_NyashaCat_buff:DeclareFunctions()
@@ -681,7 +681,7 @@ modifier_Felix_water_block = class({})
 function modifier_Felix_water_block:OnCreated()
 	if not IsServer() then return end
 	self.heal_b = 0
-	self.damage_absorb = self:GetAbility():GetSpecialValueFor( "base_dmg" ) + ( self:GetCaster():GetIntellect() * self:GetAbility():GetSpecialValueFor( "perc_dmg" ))
+	self.damage_absorb = self:GetAbility():GetSpecialValueFor( "base_dmg" ) + ( self:GetCaster():GetIntellect(false) * self:GetAbility():GetSpecialValueFor( "perc_dmg" ))
 	local Felix_NyashaCat = self:GetCaster():FindAbilityByName("Felix_NyashaCat")
 	if Felix_NyashaCat and Felix_NyashaCat:GetLevel() > 0 then
 		self.damage_absorb = self.damage_absorb + (self.damage_absorb/100*Felix_NyashaCat:GetSpecialValueFor( "bonus_heal" ))
@@ -725,7 +725,7 @@ end
 function modifier_Felix_water_block:OnRefresh()
 	if not IsServer() then return end
 	self.heal_b = 0
-	self.damage_absorb = self:GetAbility():GetSpecialValueFor( "base_dmg" ) + ( self:GetCaster():GetIntellect() * self:GetAbility():GetSpecialValueFor( "perc_dmg" ))
+	self.damage_absorb = self:GetAbility():GetSpecialValueFor( "base_dmg" ) + ( self:GetCaster():GetIntellect(false) * self:GetAbility():GetSpecialValueFor( "perc_dmg" ))
 	local Felix_NyashaCat = self:GetCaster():FindAbilityByName("Felix_NyashaCat")
 	if Felix_NyashaCat and Felix_NyashaCat:GetLevel() > 0 then
 		self.damage_absorb = self.damage_absorb + (self.damage_absorb/100*Felix_NyashaCat:GetSpecialValueFor( "bonus_heal" ))

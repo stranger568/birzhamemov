@@ -80,7 +80,7 @@ function ram_fura:OnProjectileHit( target, vLocation )
             local damage = self:GetSpecialValueFor( "damage" )
             ApplyDamage({victim = target, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self})
             if self:GetCaster():HasScepter() then
-                ApplyDamage({victim = target, attacker = self:GetCaster(), damage = self:GetCaster():GetIntellect(), damage_type = DAMAGE_TYPE_PURE, ability = self})
+                ApplyDamage({victim = target, attacker = self:GetCaster(), damage = self:GetCaster():GetIntellect(false), damage_type = DAMAGE_TYPE_PURE, ability = self})
             end
         end
 
@@ -228,7 +228,7 @@ function ram_ElFura:OnProjectileHit_ExtraData(target, location, ExtraData)
         ApplyDamage({victim = target, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self})
 
         if self:GetCaster():HasScepter() then
-            ApplyDamage({victim = target, attacker = self:GetCaster(), damage = self:GetCaster():GetIntellect(), damage_type = DAMAGE_TYPE_PURE, ability = self})
+            ApplyDamage({victim = target, attacker = self:GetCaster(), damage = self:GetCaster():GetIntellect(false), damage_type = DAMAGE_TYPE_PURE, ability = self})
         end
 
         local callback = function()

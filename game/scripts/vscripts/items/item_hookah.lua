@@ -125,7 +125,7 @@ modifier_hookah_regen = class({})
 
 function modifier_hookah_regen:OnCreated()
 	local intellect_reg = self:GetAbility():GetSpecialValueFor("intellect_reg") / 100
-	self.mana_regen = (self:GetAbility():GetSpecialValueFor("mana_regen") + (self:GetParent():GetIntellect() * intellect_reg)) * 0.1
+	self.mana_regen = (self:GetAbility():GetSpecialValueFor("mana_regen") + (self:GetParent():GetIntellect(false) * intellect_reg)) * 0.1
 	
 	if not IsServer() then return end
 

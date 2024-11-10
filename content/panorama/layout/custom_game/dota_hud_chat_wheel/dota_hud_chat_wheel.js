@@ -2,6 +2,7 @@ var favourites = new Array();
 var nowrings = 8;
 var selected_sound_current = undefined;
 var nowselect = 0;
+var default_button = null
 var itemTypes = [Items_sounds, Items_sprays, Items_toys];
 var rings = 
 [
@@ -313,30 +314,109 @@ function OnMouseOut(num) {
     $( "#Arrow" ).AddClass( "Hidden" );
 }
 
-(function() {
-	GameUI.CustomUIConfig().chatWheelLoaded = true;
+const english_language_button = 
+{
+    "q" : "й",
+    "w" : "ц",
+    "e" : "у",
+    "r" : "к",
+    "t" : "е",
+    "y" : "н",
+    "u" : "г",
+    "i" : "ш",
+    "o" : "щ",
+    "p" : "з",
+    "a" : "ф",
+    "s" : "ы",
+    "d" : "в",
+    "f" : "а",
+    "g" : "п",
+    "h" : "р",
+    "j" : "о",
+    "k" : "л",
+    "l" : "д",
+    "z" : "я",
+    "x" : "ч",
+    "c" : "с",
+    "v" : "м",
+    "b" : "и",
+    "n" : "т",
+    "m" : "ь",
+}
 
-    let button_bind = GetGameKeybind(DOTAKeybindCommand_t.DOTA_KEYBIND_CHAT_WHEEL)
-
-    if (GetGameKeybind(DOTAKeybindCommand_t.DOTA_KEYBIND_CHAT_WHEEL) == "") 
+const russian_language_button = 
+{
+    "й" : "q",
+    "ц" : "w",
+    "у" : "e",
+    "к" : "r",
+    "е" : "t",
+    "н" : "y",
+    "г" : "u",
+    "ш" : "i",
+    "щ" : "o",
+    "з" : "p",
+    "ф" : "a",
+    "ы" : "s",
+    "в" : "d",
+    "а" : "f",
+    "п" : "g",
+    "р" : "h",
+    "о" : "j",
+    "л" : "k",
+    "д" : "l",
+    "я" : "z",
+    "ч" : "x",
+    "с" : "c",
+    "м" : "v",
+    "и" : "b",
+    "т" : "n",
+    "ь" : "m",
+}
+ 
+function SetKeyBindChatWheel()
+{
+    let original_keybind = GetGameKeybind(DOTAKeybindCommand_t.DOTA_KEYBIND_CHAT_WHEEL).toLowerCase()
+    if (default_button != original_keybind ) 
     {
-        button_bind = "Y"
-    }
+        if (original_keybind == "")
+        {
+            original_keybind = "Y"
+        }
+        original_keybind = original_keybind.toLowerCase()
+        if (russian_language_button[original_keybind])
+        {
+            original_keybind = russian_language_button[original_keybind]
+        }
+        CreateKeyBind(original_keybind)
+        if (english_language_button[original_keybind])
+        {
+            CreateKeyBind(english_language_button[original_keybind])  
+        }
+        default_button = original_keybind
+        GameUI.CustomUIConfig().button_with_wheel = original_keybind.toUpperCase()
+    } 
+    $.Schedule( 1, SetKeyBindChatWheel );
+}
 
+function CreateKeyBind(key_name)
+{
     const name_bind = "WheelButton" + Math.floor(Math.random() * 99999999);
     Game.AddCommand("+" + name_bind, StartWheel, "", 0);
     Game.AddCommand("-" + name_bind, StopWheel, "", 0);
+    Game.CreateCustomKeyBind(key_name, "+" + name_bind);
+} 
 
-    GameUI.CustomUIConfig().button_with_wheel = button_bind
+function GetGameKeybind(command) 
+{
+    return Game.GetKeybindForCommand(command);
+}
 
-    Game.CreateCustomKeyBind(button_bind, "+" + name_bind);
-
+(function() {
+	GameUI.CustomUIConfig().chatWheelLoaded = true;
+    SetKeyBindChatWheel()
     $("#Wheel").visible = false;
     $("#Bubble").visible = false;
     $("#PhrasesContainer").visible = false;
     $("#ChangeWheelButtons").visible = false;
 })();
-
-function GetGameKeybind(command) {
-    return Game.GetKeybindForCommand(command);
-}

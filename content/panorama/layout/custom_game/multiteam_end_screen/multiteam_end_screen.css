@@ -679,10 +679,6 @@
     text-align: center;
 }
 
-.ScoreCol_DogePlus {
-    width: 60px;
-    text-align: center;
-}
 
 
 
@@ -693,27 +689,6 @@
 }
 
 
-
-#DogePanel {
-    flow-children: right;
-}
-
-#DogePlusImage {
-    vertical-align: center;
-    width: 25px;
-    background-size: 100% 100%;
-    height: 25px;
-    background-image: url("file://{images}/custom_game/shop/gem_icon.png");
-    margin-left: 5px;
-}
-
-#DogePlus {
-    margin-top: 1px;
-    color: white;
-    vertical-align: center;
-    font-size: 22px;
-    text-align: center;
-}
 
 
 
@@ -884,4 +859,35 @@
     background-size: 100%;
     width: 64px;
     height: 64px;
+}
+
+
+
+
+.ScoreCol_DogePlus 
+{
+    width: 70px;
+    text-align: center;
+}
+#DogePanel {
+    flow-children: right;
+}
+
+#DogePlusImage {
+    vertical-align: center;
+    width: 25px;
+    background-size: 100% 100%;
+    height: 25px;
+    background-image: url("file://{images}/custom_game/shop/gold_icon.png");
+    margin-left: 5px;
+}
+
+#DogePlus 
+{
+    margin-top: 1px;
+    color: white;
+    vertical-align: center;
+    font-size: 18px;
+    text-align: center;
+    margin-left: 2px;
 }

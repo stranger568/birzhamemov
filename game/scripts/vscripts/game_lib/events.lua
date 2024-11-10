@@ -3,6 +3,7 @@ _G.BIRZHA_FOUNTAIN_GAME_TIMER = 900
 _G.BIRZHA_TIMER_TO_END_GAME = 300
 _G.BIRZHA_GAME_ALL_TIMER = 0
 _G.BIRZHA_CONTRACT_TIME = 180
+_G.BIRZHA_SPAWN_PUMPKIN = false
 
 if IsInToolsMode() then
     BIRZHA_FOUNTAIN_GAME_TIMER = 10
@@ -46,15 +47,57 @@ function BirzhaGameMode:GameInProgressThink()
         end
     end
 
+    -- Тыква
+    --local pumpkin_time_spawn = 600
+    --if not BIRZHA_SPAWN_PUMPKIN and BIRZHA_GAME_ALL_TIMER >= pumpkin_time_spawn then
+    --    local random_pumpkin_spawn = Vector(0,0,0) + RandomVector( RandomFloat( 1500, 1800 ) )
+    --    local npc_pumpkin_candies_custom = CreateUnitByName( "npc_pumpkin_candies_custom", random_pumpkin_spawn, true, nil, nil, DOTA_TEAM_NEUTRALS )
+    --    FindClearSpaceForUnit(npc_pumpkin_candies_custom, random_pumpkin_spawn, true)
+    --    npc_pumpkin_candies_custom:AddNewModifier(npc_pumpkin_candies_custom, nil, "modifier_npc_pumpkin_candies_custom", {})
+    --    BIRZHA_SPAWN_PUMPKIN = true
+    --end
+
     -- Окончание игры
     if BIRZHA_FOUNTAIN_GAME_TIMER <= 0 and BIRZHA_TIMER_TO_END_GAME > 0 then
         BIRZHA_TIMER_TO_END_GAME = BIRZHA_TIMER_TO_END_GAME - 1
         GameTimerUpdater(BIRZHA_TIMER_TO_END_GAME, "endgametimer")
         if BIRZHA_TIMER_TO_END_GAME <= 0 and not GameRules:IsCheatMode() then
+            local leaderbirzha = BirzhaGameMode:GetTeamLeader()
             BirzhaGameMode:EndGame( leaderbirzha )
-            GameRules:SetGameWinner( leaderbirzha )
+            GameRules:SetCustomVictoryMessage( self.m_VictoryMessages[leaderbirzha] )
         end
     end
+end
+
+function BirzhaGameMode:GetTeamLeader()
+    local team = {}
+
+    local teams_table = {2,3,6,7,8,9,10,11,12,13}
+
+    if GetMapName() == "birzhamemov_solo" then
+        teams_table = {2,3,6,7,8,9,10,11}
+    elseif GetMapName() == "birzhamemov_duo" then
+        teams_table = {2,3,6,7,8}
+    elseif GetMapName() == "birzhamemov_trio" then
+        teams_table = {2,3,6,7}
+    elseif GetMapName() == "birzhamemov_5v5v5" then
+        teams_table = {2,3,6}
+    elseif GetMapName() == "birzhamemov_5v5" then
+        teams_table = {2,3}
+    elseif GetMapName() == "birzhamemov_zxc" then
+        teams_table = {2,3}
+    end
+
+    for _, i in ipairs(teams_table) do
+        local table_team_score = CustomNetTables:GetTableValue("game_state", tostring(i))
+        if table_team_score then
+            table.insert(team, {id = i, kills = table_team_score.kills} )
+        end
+    end   
+
+    table.sort( team, function(x,y) return y.kills < x.kills end )
+
+    return team[1].id
 end
 
 -- Установка времени для PUCCI
@@ -88,7 +131,6 @@ function BirzhaGameMode:OnGameRulesStateChange(params)
 	end
 	if nNewState == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
 		birzha_hero_selection:StartCheckingToStart()
-		self.countdownEnabled = true
 		CustomGameEventManager:Send_ServerToAllClients( "show_timer", {} )
 		DoEntFire( "center_experience_ring_particles", "Start", "0", 0, self, self  )
 		SpawnDonaters()
@@ -132,7 +174,7 @@ function BirzhaGameMode:OnItemPickUp( event )
 		owner = EntIndexToHScript(event.UnitEntityIndex)
 	end
 	if event.itemname == "item_bag_of_gold" then
-		PlayerResource:ModifyGold( owner:GetPlayerID(), 150, true, 0 )
+		PlayerResource:ModifyGold( owner:GetPlayerOwnerID(), 150, true, 0 )
 		SendOverheadEventMessage( owner, OVERHEAD_ALERT_GOLD, owner, 150, nil )
 		UTIL_Remove( item )
 	end
@@ -145,13 +187,19 @@ function BirzhaGameMode:OnItemPickUp( event )
 				break
 			end
 		end
-		PlayerResource:ModifyGold( owner:GetPlayerID(), gold, true, 0 )
+		PlayerResource:ModifyGold( owner:GetPlayerOwnerID(), gold, true, 0 )
 		SendOverheadEventMessage( owner, OVERHEAD_ALERT_GOLD, owner, gold, nil )
 		UTIL_Remove( item )
 	end
 	if event.itemname == "item_bag_of_gold_bp_fake" then
 		UTIL_Remove( item )
 	end
+    --if event.itemname == "item_hallowen_birzha_candy" then
+    --    print("llll")
+    --    local modifier_hallowen_birzha_candy = owner:AddNewModifier(owner, nil, "modifier_hallowen_birzha_candy", {})
+    --    print(modifier_hallowen_birzha_candy)
+	--	UTIL_Remove( item )
+	--end
 	if event.itemname == "item_treasure_chest" then
 		BirzhaGameMode:SpecialItemAdd( event )
 		UTIL_Remove( item )
@@ -287,6 +335,15 @@ function BirzhaGameMode:OnEntityKilled( event )
 		end
 
 		if killedUnit:IsRealHero() and heroTeam ~= killedTeam then
+
+            --if GetMapName() ~= "birzhamemov_zxc" then
+            --    if RollPercentage(25) or IsInToolsMode() then
+            --        local item_hallowen_birzha_candy = CreateItem( "item_hallowen_birzha_candy", nil, nil )
+		    --        local drop = CreateItemOnPositionForLaunch( killedUnit:GetAbsOrigin(), item_hallowen_birzha_candy )
+		    --        item_hallowen_birzha_candy:LaunchLootInitialHeight( false, 0, 100, 0.25, killedUnit:GetAbsOrigin() + RandomVector(150) )
+            --    end
+            --end
+
 			-- Бесполезные ивенты со звуками
             if killedUnit:GetUnitName() == "npc_dota_hero_treant" then
                 if RollPercentage(25) then
@@ -312,6 +369,9 @@ function BirzhaGameMode:OnEntityKilled( event )
                 if RollPercentage(25) then
                     hero:EmitSound("travoman_kill")
                 end
+            end
+            if killedUnit:GetUnitName() == "npc_dota_hero_old_god" then
+                EmitGlobalSound("stariy_death")
             end
             -- Бесполезный эффект за убийство
             if DonateShopIsItemBought(hero:GetPlayerOwnerID(), 194) then
@@ -499,6 +559,10 @@ function BirzhaGameMode:OnNPCSpawned( event )
 		hero:AddNewModifier(hero, nil, "modifier_fountain_invulnerability", {})
 	end
 
+    --if hero and hero:IsHero() and string.find(hero:GetModelName(), "models/heroes/") then
+    --    ParticleManager:CreateParticle("particles/econ/events/diretide_2020/hero_pumpkin_head/hero_pumpkin_head_ambient_model.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
+    --end
+
 	-- Шпага для чариота
 	if hero:GetUnitName() == "npc_palnoref_chariot" then
 		if not hero.chariot_sword or ( hero.chariot_sword and hero.chariot_sword == nil )then
@@ -545,6 +609,10 @@ function BirzhaGameMode:OnNPCSpawned( event )
     	end
     end
 
+    if hero and hero:IsHero() then
+        AddValveUselessMagicalResistance(hero)
+    end
+
 	-- Если спавнится настоящий герой
 	if hero:IsRealHero() then
 		local PlayerID = hero:GetPlayerOwnerID()
@@ -563,6 +631,9 @@ function BirzhaGameMode:OnNPCSpawned( event )
 			if hero.BirzhaFirstSpawned == nil then
 	   			hero:EmitSound("venom_start")
 	   		end
+	   	end
+        if hero:GetUnitName() == "npc_dota_hero_ashab_tamaev" then
+	   		hero:EmitSound("ashab_spawn")
 	   	end
 	   	if hero:GetUnitName() == "npc_dota_hero_travoman" then
 			if RollPercentage(25) or hero.BirzhaFirstSpawned == nil then
@@ -626,7 +697,14 @@ function BirzhaGameMode:OnNPCSpawned( event )
 			end
 			if hero:IsHero() then
 				BirzhaGameMode:AbilitiesStart(hero)
+                --local ability_custom_pumpkin_push = hero:AddAbility("ability_custom_pumpkin_push")
+                --if ability_custom_pumpkin_push then
+                --    ability_custom_pumpkin_push:SetLevel(1)
+                --end
 			end
+            if hero and hero:IsRealHero() then
+                ParticleManager:CreateParticleForPlayer("particles/rain_fx/econ_weather_pestilence.vpcf", PATTACH_EYES_FOLLOW, hero, hero:GetPlayerOwner())
+            end
             if IsInToolsMode() and PlayerResource:IsFakeClient(PlayerID) then
                 BirzhaData:RegisterPlayer(PlayerID)
                 BirzhaData.PLAYERS_GLOBAL_INFORMATION[PlayerID].selected_hero = hero
@@ -675,6 +753,9 @@ function BirzhaGameMode:AbilitiesStart(hero)
 		"jull_light_future",
 		"jull_steal_time",
         "kelthuzad_cold_undead",
+        "old_god_d",
+        "ashab_f",
+        "ashab_e",
 	}
 
 	for _, name in pairs(FastAbilities) do
@@ -710,7 +791,10 @@ function BirzhaGameMode:OnHeroInGame(hero)
             end
         end
 	end
-
+    if npcName == "npc_dota_hero_old_god" then
+        --local particle = ParticleManager:CreateParticle("particles/old_god/wisp_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
+        --ParticleManager:SetParticleControlEnt(particle, 0, hero, PATTACH_POINT_FOLLOW, "attach_hitloc", hero:GetAbsOrigin(), true)
+    end
     -- Heroes with Free Items
     if npcName == "npc_dota_hero_serega_pirat" then
         local set_items = 
@@ -877,6 +961,7 @@ function BirzhaGameMode:OnHeroInGame(hero)
                     ParticleManager:CreateParticle("particles/econ/items/earthshaker/earthshaker_ti9/earthshaker_ti9_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, model_item)
                 end
             end
+            hero:AddNewModifier( hero, nil, "modifier_bp_valakas_reward", {})
 		end
 	end
 

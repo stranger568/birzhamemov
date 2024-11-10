@@ -276,6 +276,8 @@
 "item_216" 		"[Sound] This is the base"
 "item_217" 		"[Sound] Thi s is my perfect victory"
 "item_218" 		"[Sound] I condemn!!!"
+"item_405"		"[Звук] Boo! Scared"
+"sounds_405"    "Boo! Scared"
 
 "notification_button"               "Notifications"
 
@@ -300,6 +302,8 @@
 // Panorama
 //================================================================ ===================================================== ===============
 
+"shop_visible_buy_items"                        "Show purchased"
+"birzha_data_message"                           "{s:message}"
 "endtimertext" 									"Time until the end of the game <br><br> Starts after the fountain is turned off and resets when any hero dies"
 "gametime" 										"Time until reward <br><br> The reward appears in the center of the map <br><br>10 seconds before the reward appears, all invisibility appears in the center for 12 seconds.<br><br>Items are divided into 4 ranks<br>1st rank - Items from 900 to 1500 gold (Drops up to 6 minutes)<br>2nd rank - Items from 2000 to 2500 gold (Drops from 6 minutes to 12 minutes)<br>3rd tier - Items from 4000 up to 5000 gold (Drops from 12 minutes to 18 minutes)<br>4th category - Items from 6000 to 7000 gold (Drops from 18 minutes to the end of the game)<br><br><h1>After 5 minutes of the game</h1> The leader always receives an item one rank lower than the current one<br><br>The last place in the game receives an item one rank higher than the current one, in Solo mode the last 2 places"
 "gametimename" 									"Game time <br><br> Day and night change every 5 minutes of play"
@@ -418,8 +422,11 @@
 "effect_unique" "Dragonball"
 "leader_season_12" "Leader of Season 12"
 "leader_season_13" "Leader of Season 13"
-"leader_season_14" "Leader of the 14th season"
+"leader_season_14" "Leader of Season 14"
+"leader_season_15" "Leader of Season 15"
+"leader_season_16" "Leader of Season 16"
 "effect_locked" "Unavailable"
+"hero_diretide"         "Diretide"
 
 //================================================================ ===================================================== ===============
 // Donat
@@ -469,8 +476,8 @@
 "shop_no_dogecoin" 	"Not enough Dogecoins"
 
 
-"birzhaplus_subscriber" "Subscriber BIRZHA PLUS - Remaining"
-
+"birzhaplus_subscriber"         "Subscriber BIRZHA PLUS - Remaining"
+"birzha_how_to_get_coins"       "<b>How to get Bitcoins?</b><br><br>• Play a game and enter the top 3 best<br>• Get to the top 10 of the season in Solo, Duo or Trio mode<br>• Every 10 wins<br>• Support the game"
 
 
 "ads_name_1" "New item"
@@ -524,9 +531,17 @@
 "shop_chatwheel" 		"Wheel"
 "shop_ruletka" 			"Lottery"
 "lottery_open" 			"Spin"
+"shop_tips"		        "Tips"
+"shop_five"		        "HighFive"
+"shop_chest"            "Chests"
 
 "ty_preorder" 			"You have already pre-ordered<br>Thank you!"
 "preorder" 				"Pre-order 50% discount<br>Release December 31st "
+"check_chest"           "View"
+
+"chest_1"               "Hallowen Chest"
+"item_drop_header"          "Your Drop"
+"claim_reward"          "Claim"
 
 "pet_1" 										"Baby Roshan"										
 "pet_2" 										"Donkey Trio"									
@@ -556,6 +571,7 @@
 "pet_191" 									"Pochita"
 "pet_192" 									"Squad Game Killer"
 "pet_193" 									"Mini Megumin"
+"pet_401"                                   "Pumpkin Warrior"
 
 "pet_1_description" 										"The pet will run after you throughout the game"									
 "pet_2_description" 										"The pet will run after you throughout the game"								
@@ -579,13 +595,13 @@
 "pet_20_description" 									"The pet will run after you throughout the game"
 
 "subscribe_1" 					"Subscription 30 days"
-"subscribe_1_description" 	"With a subscription you get: Choice of some heroes, statistics on heroes, accumulation of hero levels, doubling rating tokens and 2 times more Dogecoin"
+"subscribe_1_description" 	"With a subscription you get: Choice of some heroes, statistics on heroes, accumulation of hero levels, doubling rating tokens and 2 times more Bitcoins"
 
 "subscribe_2" 					"Subscription 180 days"
-"subscribe_2_description" 	"With a subscription you get: Choice of some heroes, statistics on heroes, accumulation of hero levels, doubling rating tokens and 2 times more Dogecoin"
+"subscribe_2_description" 	"With a subscription you get: Choice of some heroes, statistics on heroes, accumulation of hero levels, doubling rating tokens and 2 times more Bitcoins"
 
 "subscribe_big_name" 			"Subscription includes:"
-"subscribe_big_name_description" "� Selection of some heroes<br><br>� Statistics on heroes<br><br>� Accumulation of hero levels<br><br>� Rating doubling tokens<br><br>� 2 times more Dogecoin <br><br>� Opportunity to praise the player"
+"subscribe_big_name_description" "• Selection of some heroes<br><br>• Statistics on heroes<br><br>• Accumulation of hero levels<br><br>• Rating doubling tokens<br><br>• 2 times more Bitcoins <br><br>• Opportunity to praise the player"
 
 
 "bp_reward_inf1" "Select unique heroes"
@@ -603,8 +619,8 @@
 "bp_reward_inf5" "Praise"
 "bp_reward_inf5_description" "It doesn't matter how you use praise - to celebrate with an ally or to celebrate a great game by an opponent."
 
-"bp_reward_inf6" "More Dogs"
-"bp_reward_inf6_description" "For each game you will receive twice as many Dogecoins"
+"bp_reward_inf6" "More Bitcoins"
+"bp_reward_inf6_description" "For each game you will receive twice as many Bitcoins"
 
 "ButtonBuySubscribeHead" 				"Purchase a subscription (RF)"
 "ButtonBuySubscribeHead2" 				"Purchase a subscription (NOT RF)"
@@ -967,13 +983,77 @@
 "border_8" 	"Fire Snake Frame"
 "border_8_description" 	"Your hero on the top leaderboard has a border with the Fire Snake effect"
 
+"border_9"      "Diretide"
+
 "toys_1" 	"Pancake"
 "toys_1_description" "Open the chat wheel on Y and use - Pancake. You can push, kick and bully him"
 
 "toys_2" 	"Penguin"
 "toys_2_description" "Open the chat wheel on Y and use - Penguin. You can push, kick and bully him"
 
-"toys_3" 	"High five"
+"five_1"	            "Cat"
+"five_2"                "Golden"
+"five_2_description"    ""
+"five_3"                "Rainbow"
+"five_3_description"    ""
+"five_4"                "Fire"
+"five_4_description"    ""
+"five_5"                "Magma"
+"five_5_description"    ""
+"five_6"                "Zombie"
+
+"tip_1"                     "4elik"
+"tip_1_description"         ""
+"tip_2"                     "BirzhaMertva"
+"tip_2_description"         ""
+"tip_3"                     "Blin"
+"tip_3_description"         ""
+"tip_4"                     "Cat"
+"tip_4_description"         ""
+"tip_5"                     "CatSad"
+"tip_5_description"         ""
+"tip_6"                     "Clown"
+"tip_6_description"         ""
+"tip_7"                     "CoolStory"
+"tip_7_description"         ""
+"tip_8"                     "DwayneWut"
+"tip_8_description"         ""
+"tip_9"                     "Gachi"
+"tip_9_description"         ""
+"tip_10"                    "Head"
+"tip_10_description"        ""
+"tip_11"                    "insane"
+"tip_11_description"        ""
+"tip_12"                    "KekW"
+"tip_12_description"        ""
+"tip_13"                    "Like"
+"tip_13_description"        ""
+"tip_14"                    "Micro4el"
+"tip_14_description"        ""
+"tip_15"                    "Omegalul"
+"tip_15_description"        ""
+"tip_16"                    "Oreh"
+"tip_16_description"        ""
+"tip_17"                    "OrehDaun"
+"tip_17_description"        ""
+"tip_18"                    "PapichRetard"
+"tip_18_description"        ""
+"tip_19"                    "PenguinSuck"
+"tip_19_description"        ""
+"tip_20"                    "Pepega"
+"tip_20_description"        ""
+"tip_21"                    "PepegaClown"
+"tip_21_description"        ""
+"tip_22"                    "RoflanEbalo"
+"tip_22_description"        ""
+"tip_23"                    "RoflanPominki"
+"tip_23_description"        ""
+"tip_24"                    "stray"
+"tip_24_description"        ""
+"tip_25"                    "WutMeme"
+"tip_25_description"        ""
+"tip_26"                    "Wut"
+"tip_26_description"        ""
 
 "shop_toys" 			"Toys"
 "donate_bitcoin_1" 	"500 Bitcoin"
@@ -1108,6 +1188,11 @@
 "DOTA_Tooltip_ability_item_bag_of_gold_bp_fake_Description" 	"Gives 300 gold"
 "DOTA_Tooltip_ability_item_treasure_chest_bp_fake" 	"Treasure Chest"
 "DOTA_Tooltip_ability_item_treasure_chest_bp_fake_Description" 	"Grants a random item based on your position in the leadership table"
+"DOTA_Tooltip_ability_item_hallowen_birzha_candy"	"Hallowen Candy"
+"DOTA_Tooltip_ability_item_hallowen_birzha_candy_Description"	"Collect candies and take them to the pumpkin that appears randomly after 10 minutes of the game. Candies can be exchanged for a chest in the store"
+"DOTA_Tooltip_modifier_hallowen_birzha_candy"									"Candies"
+"DOTA_Tooltip_modifier_hallowen_birzha_candy_Description"						"Number of candies collected per kill"
+"npc_pumpkin_candies_custom"    "Тыква"
 
 "report_button_description" 		"Report. You need to tag 2 players who you think are playing unfairly"
 
@@ -1888,7 +1973,7 @@
 
 "DOTA_Tooltip_Ability_item_nuts" 			"Nuts"
 "DOTA_Tooltip_ability_item_nuts_Description" 					"<h1>Active: Eat</h1> Gives the owner %attack_speed% attack speed and %movespeed% movement speed, but prevents him from using abilities. Lasts for %duration% seconds."
-"DOTA_Tooltip_ability_item_nuts_Lore" 						"This item was created thanks to <font color='#fffc00'>�</font>"
+"DOTA_Tooltip_ability_item_nuts_Lore" 						"This item was created thanks to <font color='#fffc00'></font>"
 "DOTA_Tooltip_ability_item_nuts_bonus_attack_speed" 			"+$attack"
 "DOTA_Tooltip_ability_item_nuts_bonus_damage" 				"+$damage"
 "DOTA_Tooltip_ability_item_nuts_lifesteal" 					"%+$lifesteal"
@@ -4385,20 +4470,20 @@
 "DOTA_Tooltip_ability_johncena_Wrestling_bonus_damage" 			"EXTRA DAMAGE:"
 "DOTA_Tooltip_ability_johncena_Wrestling_bonus_armor" 			"ADDITIONAL ARMOR:"
 "DOTA_Tooltip_ability_johncena_Wrestling_minus_attack_speed" 	"ATTACK SPEED SLOW:"
-"DOTA_Tooltip_ability_johncena_Wrestling_Lore" 					"This hero was created thanks to <font color='#fffc00'>G�nter O Dim</font>"
+"DOTA_Tooltip_ability_johncena_Wrestling_Lore" 					"This hero was created thanks to <font color='#fffc00'>Gnter O Dim</font>"
 
 "DOTA_Tooltip_ability_JohnCena_Chargehit" 						"Running Strike "
 "DOTA_Tooltip_ability_JohnCena_Chargehit_Description" 			"Cena does a sharp running kick. If there was an enemy in his path, he will receive damage and a short-term stun"
 "DOTA_Tooltip_ability_JohnCena_Chargehit_damage" 				"DAMAGE:"
 "DOTA_Tooltip_ability_JohnCena_Chargehit_stun_duration" 			"STUN DURATION:"
-"DOTA_Tooltip_ability_JohnCena_Chargehit_Lore" 					"This hero was created thanks to <font color='#fffc00'>G�nter O Dim</font>"
+"DOTA_Tooltip_ability_JohnCena_Chargehit_Lore" 					"This hero was created thanks to <font color='#fffc00'>Gnter O Dim</font>"
 
 "DOTA_Tooltip_ability_JohnCena_greater_bash" 					"From the bend"
 "DOTA_Tooltip_ability_JohnCena_greater_bash_Description" 		"Gives a chance to stun an enemy and knock them back"
 "DOTA_Tooltip_ability_JohnCena_greater_bash_chance" 				"%CHANCE:"
 "DOTA_Tooltip_ability_JohnCena_greater_bash_damage" 				"% SPEED AS DAMAGE:"
 "DOTA_Tooltip_ability_JohnCena_greater_bash_duration" 			"STUN DURATION"
-"DOTA_Tooltip_ability_JohnCena_greater_bash_Lore" 				"This hero was created thanks to <font color='#fffc00'>G�nter O Dim</font>"
+"DOTA_Tooltip_ability_JohnCena_greater_bash_Lore" 				"This hero was created thanks to <font color='#fffc00'>Gnter O Dim</font>"
 
 "DOTA_Tooltip_ability_JohnCena_Grab" 							"Grab"
 "DOTA_Tooltip_ability_JohnCena_Grab_Description" 				"John Cena grabs an enemy and holds it for a while. At any time, he can throw it to a selected point, then the enemy will receive damage"
@@ -4406,7 +4491,7 @@
 "DOTA_Tooltip_ability_JohnCena_Grab_duration" 					"GRAB DURATION:"
 "DOTA_Tooltip_ability_JohnCena_Grab_stun_duration" 				"STUN DURATION:"
 "DOTA_Tooltip_ability_JohnCena_Grab_slow_pct" 					"%MOVEMENT SPEED SLOW :"
-"DOTA_Tooltip_ability_JohnCena_Grab_Lore" 						"This hero was created thanks to <font color='#fffc00'>G�nter O Dim</font>"
+"DOTA_Tooltip_ability_JohnCena_Grab_Lore" 						"This hero was created thanks to <font color='#fffc00'>Gnter O Dim</font>"
 
 "DOTA_Tooltip_modifier_JohnCena_Grabbed_debuff" 					"Grabbed"
 "DOTA_Tooltip_modifier_JohnCena_Grabbed_debuff_Description" 		" Stunned"
@@ -9488,22 +9573,194 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_kelthuzad_7" 			"Dead men copy attack effects"
 "DOTA_Tooltip_Ability_special_bonus_birzha_kelthuzad_8" 			"-{s:value}% of incoming damage Death Knight"
 
-//================================================================ ===================================================== ===============
-// SANS
-//================================================================ ===================================================== ===============
+//=================================================================================================================
+// САНС
+//=================================================================================================================
 
-"npc_dota_hero_sans" 												"Sans"
+"npc_dota_hero_sans"												    "Санс"
 
-//================================================================ ===================================================== ===============
-// KIRITO
-//================================================================ ===================================================== ===============
+//=================================================================================================================
+// КИРИТО
+//=================================================================================================================
 
-"npc_dota_hero_kirito" 												"Kirito"
+"npc_dota_hero_kirito"												    "Кирито"
 
-//================================================================ ===================================================== ===============
-// NICS
-//================================================================ ===================================================== ===============
+//=================================================================================================================
+// НИКС
+//=================================================================================================================
 
-"npc_dota_hero_nix_streamer" 										"Nix"
+"npc_dota_hero_nix_streamer"										        "Nix"
+
+"DOTA_Tooltip_Ability_nix_marci_q"                                          "Siuuuu"
+"DOTA_Tooltip_Ability_nix_marci_q_description"                              "Издает громкий крик, который раскидывает противников перед собой в указанную точку. Все откинувшиеся противники получают урон\n<h1>Эффект усиления</h1>Увеличивает урон способности на %upgrade_damage_str%%% от силы героя"
+"DOTA_Tooltip_Ability_nix_marci_q_radius_width"                             "РАДИУС:"
+"DOTA_Tooltip_Ability_nix_marci_q_knockback_distance"                       "ДАЛЬНОСТЬ ОТКИДЫВАНИЯ:"
+"DOTA_Tooltip_Ability_nix_marci_q_base_damage"                              "УРОН:"
+
+"DOTA_Tooltip_Ability_nix_marci_w"                                          "Жрите мясо"
+"DOTA_Tooltip_Ability_nix_marci_w_description"                              "Никс сжирает сочный стейк из ресторана, что дает ему положительный эффект. Эффект увеличивает ненадолго скорость атаки и каждая атака такая атака наносит больше урона соседним целям\n<h1>Эффект усиления</h1>Увеличивает количество атак до %upgrade_attacks% и длительность в %upgrade_duration% раза"
+"DOTA_Tooltip_Ability_nix_marci_w_duration"                                 "ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_Ability_nix_marci_w_max_attacks"                              "КОЛИЧЕСТВО АТАК:"
+"DOTA_Tooltip_Ability_nix_marci_w_bonus_attack_speed"                       "ДОП. СКОРОСТЬ АТАКИ:"
+"DOTA_Tooltip_Ability_nix_marci_w_radius"                                   "РАДИУС:"
+"DOTA_Tooltip_Ability_nix_marci_w_damage_from_attack"                       "%УРОН ВЗРЫВА ОТ АТАКИ:"
+
+"DOTA_Tooltip_modifier_nix_marci_w"					                        "Жрите мясо"
+"DOTA_Tooltip_modifier_nix_marci_w_Description"		                        "Каждая атака наносит прорубающий урон и скорость атаки увеличена на %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%"
+
+"DOTA_Tooltip_Ability_nix_marci_e"                                          "Лудотряска"
+"DOTA_Tooltip_Ability_nix_marci_e_description"                              "Левин ставит очередную ставочку, оглушая этим противников неподалеку\n<h1>Эффект усиления</h1>Увеличивает радиус способности до %upgrade_radius% и наносит %upgrade_damage% урона"
+"DOTA_Tooltip_Ability_nix_marci_e_radius"                                   "РАДИУС:"
+"DOTA_Tooltip_Ability_nix_marci_e_stun_duration"                            "ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
+
+"DOTA_Tooltip_Ability_nix_marci_d"                                          "Stone Island"
+"DOTA_Tooltip_Ability_nix_marci_d_description"                              "Никс телепортируется в спину к последнему противнику, которому нанес урон за последние %last_damage_duration% сек.\n<h1>Эффект усиления</h1>Следующая атака после использования способности нанесет %upgrade_damage%%% критического урона"
+
+"DOTA_Tooltip_modifier_nix_marci_d_buff"					                "Stone Island"
+"DOTA_Tooltip_modifier_nix_marci_d_buff_Description"		                "Следующая атака будет критической"
+
+"DOTA_Tooltip_Ability_nix_marci_r"                                          "Пас на правина"
+"DOTA_Tooltip_Ability_nix_marci_r_description"                              "Никс меняет свою личность с Левина на Правина. Его основной атрибут становится Интеллект и меняются основные способности. Также применение дарует эффект усиления следующей использованной способности"
+"DOTA_Tooltip_Ability_nix_marci_r_manacost_from_current_mana"               "%СТОИМОСТЬ МАНЫ ОТ ТЕКУЩЕЙ МАНЫ:"
+"DOTA_Tooltip_Ability_nix_marci_r_base_manacost"                            "БАЗОВАЯ СТОИМОСТЬ МАНЫ:"
+
+"DOTA_Tooltip_Ability_nix_phantom_q"                                        "На забив"
+"DOTA_Tooltip_Ability_nix_phantom_q_description"                            "Никс высасывает из противников в области их скорость атаки и скорость передвижения, забирая все себе\n<h1>Эффект усиления</h1>Увеличивает радиус способности до %upgrade_radius% и длительность до %upgrade_duration% секунд"
+"DOTA_Tooltip_Ability_nix_phantom_q_radius"                                 "РАДИУС:"
+"DOTA_Tooltip_Ability_nix_phantom_q_movement_attack_speed_steal"            "ВОРОВСТВО СКОРОСТИ:"
+"DOTA_Tooltip_Ability_nix_phantom_q_duration"                               "ДЛИТЕЛЬНОСТЬ ЭФФЕКТА:"
+
+"DOTA_Tooltip_modifier_nix_phantom_q_buff"					                "На забив"
+"DOTA_Tooltip_modifier_nix_phantom_q_buff_Description"		                "Скорость атаки и скорость передвижения увеличены на %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%"
+
+"DOTA_Tooltip_modifier_nix_phantom_q_debuff"					            "На забив"
+"DOTA_Tooltip_modifier_nix_phantom_q_debuff_Description"		            "Скорость атаки и скорость передвижения уменьшены на %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%"
+
+"DOTA_Tooltip_Ability_nix_phantom_w"                                        "Сила медитации"
+"DOTA_Tooltip_Ability_nix_phantom_w_description"                            "Призывает сферу спокойствия, которая пролетает по указанному пути и расталкивает всех противников, нанося им урон от вашей атаки\n<h1>Эффект усиления</h1>Увеличивает дальность способности до %upgrade_length% и добавляет эффект полной атаки"
+"DOTA_Tooltip_Ability_nix_phantom_w_knockback_distance"                     "ДАЛЬНОСТЬ ОТКИДЫВАНИЯ:"
+"DOTA_Tooltip_Ability_nix_phantom_w_damage_from_attack"                     "%УРОН ОТ АТАКИ:"
+"DOTA_Tooltip_Ability_nix_phantom_w_speed"                                  "СКОРОСТЬ ПОЛЕТА:"
+"DOTA_Tooltip_Ability_nix_phantom_w_length"                                 "ДАЛЬНОСТЬ ПОЛЕТА:"
+
+"DOTA_Tooltip_Ability_nix_phantom_e"                                        "Пасека"
+"DOTA_Tooltip_Ability_nix_phantom_e_description"                            "Правин устанавливает пасеку в выбранном месте, игроки вышедшие и вышедшие из области пасеки получают урон<br>\n<h1>Эффект усиления</h1>Враги внутри области замедляются на %upgrade_slow%%% каждые %upgrade_think% сек."
+"DOTA_Tooltip_Ability_nix_phantom_e_radius"                                 "РАДИУС:"
+"DOTA_Tooltip_Ability_nix_phantom_e_duration"                               "ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_Ability_nix_phantom_e_damage"                                 "УРОН:"
+"DOTA_Tooltip_Ability_nix_phantom_e_scepter_description"                    "Уменьшает перезарядку способности за каждого вышедшего или зашедшего героя на %cooldown_scepter_decrease% сек."
+
+"DOTA_Tooltip_modifier_nix_phantom_e_debuff"					            "Пасека"
+"DOTA_Tooltip_modifier_nix_phantom_e_debuff_Description"		            "Замедлен на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%"
+
+"DOTA_Tooltip_Ability_nix_phantom_d"                                        "Ебануть арбузом"
+"DOTA_Tooltip_Ability_nix_phantom_d_description"                            "Правин выкидывает арбуз из своего кармана на противников, если на пути арбуза будет враг, то он разобьется об него и нанесет урон\n<h1>Эффект усиления</h1>Увеличивает дальность способности на 100% и взрыв арбуза наносит урон по области\n<h1>Эффект Пасеки</h1>Если арбуз пролетит через область пасеки, то его урон и скорость полета увеличивается вдвое"
+"DOTA_Tooltip_Ability_nix_phantom_d_speed"                                  "СКОРОСТЬ ПОЛЕТА:"
+"DOTA_Tooltip_Ability_nix_phantom_d_radius"                                 "РАДИУС ЗАДЕВАНИЯ:"
+"DOTA_Tooltip_Ability_nix_phantom_d_distance"                               "ДИСТАНЦИЯ ПОЛЕТА:"
+"DOTA_Tooltip_Ability_nix_phantom_d_damage"                                 "УРОН:"
+
+"DOTA_Tooltip_Ability_nix_phantom_r"                                        "Пас на левина"
+"DOTA_Tooltip_Ability_nix_phantom_r_description"                            "Никс меняет свою личность с Правина на Левина. Его основной атрибут становится Сила и меняются основные способности. Также применение дарует эффект усиления следующей использованной способности"
+"DOTA_Tooltip_Ability_nix_phantom_r_manacost_from_current_mana"             "%СТОИМОСТЬ МАНЫ ОТ ТЕКУЩЕЙ МАНЫ:"
+"DOTA_Tooltip_Ability_nix_phantom_r_base_manacost"                          "БАЗОВАЯ СТОИМОСТЬ МАНЫ:"
+
+//=================================================================================================================
+// Старый бог
+//=================================================================================================================
+
+"npc_dota_hero_old_god"                                                                 "Старый бог"
+
+"DOTA_Tooltip_Ability_old_god_q"                                                        "Большие яйца"
+"DOTA_Tooltip_Ability_old_god_q_description"                                            "Старый бог врывается прямо в противника, показывая у кого большие яйца. Вы притягиваетесь к противнику с уменьшенной базовой скоростью атаки. А также если цель пытается от вас убежать, то она получает замедление зависимое от расстояния между вами.<br>\n<h1>Бонус от Старый бог!</h1>Старый бог постоянно стреляет по привязанному врагу, даже если не атакует его."
+"DOTA_Tooltip_Ability_old_god_q_base_attack_time"                                       "БАЗОВАЯ СКОРОСТЬ АТАКИ:"
+"DOTA_Tooltip_Ability_old_god_q_duration"                                               "ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_Ability_old_god_q_max_range"                                              "ДАЛЬНОСТЬ ПРИВЯЗКИ:"
+
+"DOTA_Tooltip_modifier_old_god_q"					                                    "Большие яйца"
+"DOTA_Tooltip_modifier_old_god_q_Description"		                                    "Привязался к противнику. Базовая скорость атаки по привязанному противнику намного меньше"
+
+"DOTA_Tooltip_Ability_old_god_w"                                                        "Вовчик?"
+"DOTA_Tooltip_Ability_old_god_w_description"                                            "Да сука кто такой вовчик. Внезапно возле старого бога появляется тот самый Вовчик, который на удивление сильно похож на него. Он также копирует возможность стрелять лазерами из глаз<br>\n<h1>Бонус от Старый бог!</h1>Призывает каким-то образом 2 Вовчика."
+"DOTA_Tooltip_Ability_old_god_w_duration"                                               "ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_Ability_old_god_w_outgoing_damage"                                        "%ИСХОДЯЩИЙ УРОН ИЛЛЮЗИИ:"
+"DOTA_Tooltip_Ability_old_god_w_incoming_damage"                                        "%ВХОДЯЩИЙ УРОН ИЛЛЮЗИИ:"
+
+"DOTA_Tooltip_Ability_old_god_e"                                                        "Натура"
+"DOTA_Tooltip_Ability_old_god_e_description"                                            "Внезапный донат с любимой песней. Старый бог получает щит, который поглощает физический входящий урон<br>\n<h1>Бонус от Старый бог!</h1>Щит защищает от всего входящего урона"
+"DOTA_Tooltip_Ability_old_god_e_shield_from_hp"                                         "%ТЕКУЩЕЕ ЗДОРОВЬЕ В ЩИТ:"
+"DOTA_Tooltip_Ability_old_god_e_duration"                                               "ДЛИТЕЛЬНОСТЬ:"
+
+"DOTA_Tooltip_modifier_old_god_e"					                                    "Натура"
+"DOTA_Tooltip_modifier_old_god_e_Description"		                                    "Защита от входящего урона"
+
+"DOTA_Tooltip_Ability_old_god_d"                                                        "Старый бог!"
+"DOTA_Tooltip_Ability_old_god_d_description"                                            "Старый показывает свои фирменные мышцы, получая уникальный эффект, который ненадолго дарует бонусы для других его способностей. Дополнительно получает %attack_range% дальности атаки"
+"DOTA_Tooltip_Ability_old_god_d_duration"                                               "ДЛИТЕЛЬНОСТЬ:"
+
+"DOTA_Tooltip_modifier_old_god_d"					                                    "Старый бог!"
+"DOTA_Tooltip_modifier_old_god_d_Description"		                                    "Боевой клич. Способности получили дополнительные эффекты, а дальность атаки увеличена на %dMODIFIER_PROPERTY_ATTACK_RANGE_BONUS%"
+
+"DOTA_Tooltip_Ability_old_god_r"                                                        "Лазеры из глаз"
+"DOTA_Tooltip_Ability_old_god_r_description"                                            "Подошла короночка. Старый бог выпускает 2 лазера из своих глаз, которые следуют за ближайшим противников или же за текущей целью атаки. Цель лазера получает переодический урон.<br>\n<h1>Бонус от Старый бог!</h1>Способность проходит сквозь иммунитет к магии"
+"DOTA_Tooltip_Ability_old_god_r_radius"                                                 "РАДИУС ПОИСКА:"
+"DOTA_Tooltip_Ability_old_god_r_radius_damage"                                          "РАДИУС ЛАЗЕРА:"
+"DOTA_Tooltip_Ability_old_god_r_interval"                                               "ИНТЕРВАЛ УРОНА:"
+"DOTA_Tooltip_Ability_old_god_r_damage"                                                 "УРОН:"
+"DOTA_Tooltip_Ability_old_god_r_ray_speed"                                              "СКОРОСТЬ ЛАЗЕРОВ:"
+
+//=================================================================================================================
+// Асхаб Тамаев
+//=================================================================================================================
+
+"npc_dota_hero_ashab_tamaev"                                                                "Асхаб Тамаев"
+
+"DOTA_Tooltip_Ability_ashab_q"                                                              "Дать леща"
+"DOTA_Tooltip_Ability_ashab_q_description"                                                  "Опять какой-то малой плохо про тебя говорит. Асхаб подбегает к выбранной цели и дает ей леща, такая атака нанесет в %damage_multiplier% раза больше урона. Если на пути будут еще противники, то Асхаб их оттолкнет и нанесет урон. Во время бега его нельзя замедлить, оглушить и.т.д."
+"DOTA_Tooltip_Ability_ashab_q_speed"                                                        "СКОРОСТЬ БЕГА:"
+"DOTA_Tooltip_Ability_ashab_q_radius"                                                       "РАДИУС РАСКИДЫВАНИЯ:"
+"DOTA_Tooltip_Ability_ashab_q_duration"                                                     "ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_Ability_ashab_q_damage"                                                       "УРОН РАСКИДЫВАНИЯ:"
+
+"DOTA_Tooltip_modifier_ashab_q"					                                            "Дать леща"
+"DOTA_Tooltip_modifier_ashab_q_Description"		                                            "Бежит дать леща"
+
+"DOTA_Tooltip_Ability_ashab_w"                                                              "Это моя машина!"
+"DOTA_Tooltip_Ability_ashab_w_description"                                                  "Тамаев садится в свою любимую машину, привораживая толпу к себе. После окончания действия эффекта, машина взрывается и все получают оглушение"
+"DOTA_Tooltip_Ability_ashab_w_radius"                                                       "РАДИУС:"
+"DOTA_Tooltip_Ability_ashab_w_duration_to_explosion"                                        "ВРЕМЯ ДО ВЗРЫВА:"
+"DOTA_Tooltip_Ability_ashab_w_damage"                                                       "УРОН:"
+"DOTA_Tooltip_Ability_ashab_w_stun_duration"                                                "ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
+
+"DOTA_Tooltip_modifier_ashab_w"					                                            "Это моя машина!"
+"DOTA_Tooltip_modifier_ashab_w_Description"		                                            "Провокация школьников на машину"
+
+"DOTA_Tooltip_modifier_ashab_w_debuff"					                                    "Это моя машина!"
+"DOTA_Tooltip_modifier_ashab_w_debuff_Description"		                                    "Пошел смотреть на Тамаева в машине"
+
+"DOTA_Tooltip_Ability_ashab_e"                                                              "Мышцы на химикатах"
+"DOTA_Tooltip_Ability_ashab_e_description"                                                  "Тамаев уже совсем сошел с ума, накачался нереально жестко. Часть максимального здоровья теперь дает урон, а атаки имеют возможность сломать ноги или руки противника"
+"DOTA_Tooltip_Ability_ashab_e_max_health_to_damage"                                         "%МАКС. ЗДОРОВЬЯ В УРОН:"
+"DOTA_Tooltip_Ability_ashab_e_chance"                                                       "%ШАНС:"
+"DOTA_Tooltip_Ability_ashab_e_duration"                                                     "ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_Ability_ashab_e_movespeed_slow"                                               "%ЗАМЕДЛЕНИЕ СКОРОСТИ ПЕРЕДВИЖЕНИЯ:"
+"DOTA_Tooltip_Ability_ashab_e_attack_speed_slow"                                            "%ЗАМЕДЛЕНИЕ СКОРОСТИ АТАКИ:"
+
+"DOTA_Tooltip_modifier_ashab_e_debuff_hand"					                                "Сломаны руки"
+"DOTA_Tooltip_modifier_ashab_e_debuff_hand_Description"		                                "Скорость атаки сильно уменьшена"
+
+"DOTA_Tooltip_modifier_ashab_e_debuff_legs"					                                "Сломаны ноги"
+"DOTA_Tooltip_modifier_ashab_e_debuff_legs_Description"		                                "Скорость передвижения сильно уменьшена"
+
+"DOTA_Tooltip_Ability_ashab_f"                                                              "Длинная шея"
+"DOTA_Tooltip_Ability_ashab_f_description"                                                  "Имеет постоянный летающий обзор"
+
+"DOTA_Tooltip_Ability_ashab_r"                                                              "Ракетка"
+"DOTA_Tooltip_Ability_ashab_r_description"                                                  "Асхаб запускает свою любимую ракетку в цель, но перед этим проверяет коэффициент урона, который будет нанесен в месте взрыва"
+"DOTA_Tooltip_Ability_ashab_r_cast_time"                                                    "ВРЕМЯ ПОДСЧЕТА:"
+"DOTA_Tooltip_Ability_ashab_r_rocket_duration"                                              "ЗАДЕРЖКА ДО ВЗРЫВА:"
+"DOTA_Tooltip_Ability_ashab_r_radius_explosion"                                             "РАДИУС ВЗРЫВА:"
+"DOTA_Tooltip_Ability_ashab_r_explosion_damage"                                             "БАЗОВЫЙ УРОН:"
+"DOTA_Tooltip_Ability_ashab_r_max_mult"                                                     "МАКС. КОЭФФ:"
 }	
 }

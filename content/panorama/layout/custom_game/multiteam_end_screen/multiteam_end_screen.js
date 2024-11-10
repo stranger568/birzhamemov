@@ -191,9 +191,5 @@ function LevelUpExpVisual()
 	    })
 	} else {
 		Game.EmitSound("General.CompendiumLevelUp")
-        if (Math.random() < 0.5) 
-        {
-            $.DispatchEvent('BrowserGoToURL', "https://bmemov.strangerdev.ru/ads.php");
-        }
 	}
 }

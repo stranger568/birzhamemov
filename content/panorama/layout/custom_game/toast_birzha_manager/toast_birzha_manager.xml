@@ -1,5 +1,6 @@
 <root>
 	<scripts>
+        <include src="s2r://panorama/layout/custom_game/scripts/donate_information.vjs_c" />
 		<include src="s2r://panorama/layout/custom_game/toast_birzha_manager/toast_birzha_manager.vjs_c" />
 	</scripts>
 	<styles>

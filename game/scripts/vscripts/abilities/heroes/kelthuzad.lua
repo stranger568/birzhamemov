@@ -308,6 +308,7 @@ function modifier_kelthuzad_zombie_handler:SpawnNewZombie()
     if not IsServer() then return end
 
 	local zombie = CreateUnitByName("npc_dota_kelthuzad_zombie_"..RandomInt(1, 2), self:GetParent():GetAbsOrigin(), true, self:GetCaster(), nil, self:GetCaster():GetTeamNumber())
+    zombie:SetOwner(self:GetCaster())
 	table.insert(self.zombies, zombie)
     
 	zombie:EmitSound("Undying_Zombie.Spawn")
@@ -342,7 +343,7 @@ function modifier_kelthuzad_zombie_handler:OnDeath(params)
     for i=1, #self.zombies do
         local zombie = self.zombies[i]
         if zombie and not zombie:IsNull() and zombie:IsAlive() then
-            zombie:Kill(nil, nil)
+            zombie:ForceKill(false)
         end
     end
 
@@ -366,6 +367,9 @@ function modifier_kelthuzad_zombie_ai:OnCreated()
     local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_undying/undying_zombie_spawn.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
     ParticleManager:ReleaseParticleIndex(particle)
     self.health = self:GetAbility():GetSpecialValueFor( "attack_count_die" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_kelthuzad_1")
+    self:GetParent():SetBaseMaxHealth(self.health * 2)
+    self:GetParent():SetMaxHealth(self.health * 2)
+    self:GetParent():SetHealth(self.health * 2)
 end
 
 function modifier_kelthuzad_zombie_ai:OnDestroy()
@@ -377,7 +381,7 @@ function modifier_kelthuzad_zombie_ai:OnDestroy()
             if modifier_kelthuzad_zombie_handler.zombies[i] and modifier_kelthuzad_zombie_handler.zombies[i] == self:GetParent() then
                 table.remove(modifier_kelthuzad_zombie_handler.zombies, i)
                 if self:GetParent():IsAlive() then
-                    self:GetParent():Kill(nil, nil)
+                    self:GetParent():ForceKill(false)
                 end
                 break
             end
@@ -432,9 +436,13 @@ end
 function modifier_kelthuzad_zombie_ai:OnAttackLanded(params)
     if not IsServer() then return end
     if params.target == self:GetParent() then
-        self.health = self.health - 1
+        if self:GetParent():IsRealHero() then
+            self.health = self.health - 2
+        else
+            self.health = self.health - 1
+        end
         if self.health <= 0 then
-            self:GetParent():Kill(nil, params.attacker)
+            self:GetParent():ForceKill(false)
         else
             self:GetParent():SetHealth(self.health)
         end
@@ -443,10 +451,11 @@ end
 
 function modifier_kelthuzad_zombie_ai:GetModifierProcAttack_BonusDamage_Physical(params)
     local bonus_damage = 0
-    if self:GetParent():HasModifier("modifier_kelthuzad_king_blood_active_cold") then
-        bonus_damage = self:GetCaster():GetIntellect() / 100 * self:GetAbility():GetSpecialValueFor("bonus_intellect_damage")
+    local modifier_kelthuzad_king_blood_active_cold = self:GetParent():FindModifierByName("modifier_kelthuzad_king_blood_active_cold")
+    if modifier_kelthuzad_king_blood_active_cold then
+        bonus_damage = self:GetCaster():GetIntellect(false) / 100 * modifier_kelthuzad_king_blood_active_cold:GetAbility():GetSpecialValueFor("bonus_intellect_damage")
     end
-    if self:GetCaster():HasModifier("special_bonus_birzha_kelthuzad_7") then
+    if self:GetCaster():HasTalent("special_bonus_birzha_kelthuzad_7") then
         self:GetCaster():PerformAttack(params.target, true, true, true, false, false, true, true)
     end
 	return self:GetCaster():GetAverageTrueAttackDamage(nil) + bonus_damage
@@ -699,10 +708,14 @@ end
 function kelthuzad_death_knight:OnProjectileHit_ExtraData(caster_target, point, table)
     if not IsServer() then return end
     local target = EntIndexToHScript(table.target)
+    if self.knight ~= nil then
+        self.knight:RemoveModifierByName("modifier_kelthuzad_death_knight")
+    end
     if target then
         local spawn_point = self:GetCaster():GetAbsOrigin() + RandomVector(250)
         local knight = CreateUnitByName( target:GetUnitName(), spawn_point, true, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber()  )
         if knight then
+            self.knight = knight
             knight:AddNewModifier(self:GetCaster(), self, "modifier_kelthuzad_death_knight", {duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_kelthuzad_6")})
             knight:SetUnitCanRespawn(true)
             knight:SetRespawnsDisabled(true)
@@ -713,6 +726,7 @@ function kelthuzad_death_knight:OnProjectileHit_ExtraData(caster_target, point, 
             knight:SetControllableByPlayer(self:GetCaster():GetPlayerOwnerID(), true)
             knight:SetRenderColor(85, 85, 85)
             knight:SetAbilityPoints(0)
+            knight:SetPlayerID(self:GetCaster():GetPlayerOwnerID())
             knight:SetHasInventory(false)
             knight:SetCanSellItems(false)
             Timers:CreateTimer(FrameTime(), function()
@@ -751,12 +765,17 @@ function kelthuzad_death_knight:OnProjectileHit_ExtraData(caster_target, point, 
                 local ability = target:GetAbilityByIndex(i)
                 if ability then
                     local knight_ability = knight:FindAbilityByName(ability:GetAbilityName())
-                    if knight_ability then
-                        knight_ability:SetLevel(ability:GetLevel())
-                    end
                     if i == 5 then
                         if not self:GetCaster():HasScepter() then
                             knight_ability:SetActivated(false)
+                        else
+                            if knight_ability then
+                                knight_ability:SetLevel(ability:GetLevel())
+                            end
+                        end
+                    else
+                        if knight_ability then
+                            knight_ability:SetLevel(ability:GetLevel())
                         end
                     end
                 end
@@ -818,6 +837,19 @@ function modifier_kelthuzad_death_knight:OnDestroy()
             mod:Destroy()
         end
     end
+    local units = FindUnitsInRadius( self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, -1, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD + DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false )
+    for _, unit in pairs(units) do
+        if unit ~= self:GetParent() then
+            if unit:IsRealHero() then
+                for _, mod in pairs(unit:FindAllModifiers()) do
+                    if mod and mod:GetCaster() == self:GetParent() then
+                        mod:Destroy()
+                    end
+                end
+            end
+        end
+    end
+    self:GetAbility().knight = nil
     UTIL_Remove(self:GetParent())
 end
 

@@ -271,7 +271,9 @@ function modifier_knuckles_spit_debuff:DeclareFunctions()
 end
 
 function modifier_knuckles_spit_debuff:GetModifierMoveSpeedBonus_Percentage()
-    return self:GetAbility():GetSpecialValueFor('movespeed_slow')
+    if self:GetAbility() then
+        return self:GetAbility():GetSpecialValueFor('movespeed_slow')
+    end
 end
 
 Knuckles_queens = class({}) 

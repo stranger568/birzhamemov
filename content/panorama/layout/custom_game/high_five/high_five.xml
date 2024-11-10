@@ -1,0 +1,20 @@
+<root>
+    <scripts>
+        <include src="s2r://panorama/layout/custom_game/scripts/functions.vjs_c" />
+        <include src="file://{resources}/layout/custom_game/high_five/high_five.js" />
+    </scripts>
+    <styles>
+        <include src="file://{resources}/layout/custom_game/high_five/high_five.css" />
+    </styles>
+    <snippets>
+        <snippet name="HighFiveSnippet">
+            <Button id="HighFive" class="__HF_Remove__">
+                <Panel class="PanelImageB">
+
+                </Panel>
+            </Button>
+        </snippet>
+    </snippets>
+    <Panel>
+    </Panel>
+</root>

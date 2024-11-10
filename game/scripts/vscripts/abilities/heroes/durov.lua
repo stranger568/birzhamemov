@@ -112,7 +112,7 @@ function modifier_Durov_AttackOnPoliceman:OnIntervalThink()
     self.current_count = self.current_count + 1
     local previous_position = self:GetParent():GetAbsOrigin()
     local current_target = self.heroes[self.current_count]
-    if current_target and not current_target:IsNull() and current_target:IsAlive() and not (current_target:IsInvisible() and not caster:CanEntityBeSeenByMyTeam(current_target)) and not current_target:IsAttackImmune() then
+    if current_target and not current_target:IsNull() and current_target:IsAlive() and not (current_target:IsInvisible() and not self:GetParent():CanEntityBeSeenByMyTeam(current_target)) and not current_target:IsAttackImmune() then
         self:GetParent():EmitSound("Hero_EmberSpirit.SleightOfFist.Damage")
         local slash_pfx = ParticleManager:CreateParticle("particles/units/heroes/hero_ember_spirit/ember_spirit_sleightoffist_tgt.vpcf", PATTACH_ABSORIGIN_FOLLOW, current_target)
         ParticleManager:SetParticleControl(slash_pfx, 0, current_target:GetAbsOrigin())
@@ -487,7 +487,9 @@ function modifier_Durov_DropMoneyInFace_slow:DeclareFunctions()
 end
 
 function modifier_Durov_DropMoneyInFace_slow:GetModifierMoveSpeedBonus_Percentage()
-    return self:GetAbility():GetSpecialValueFor("tooltip_slow")
+    if self:GetAbility() then
+        return self:GetAbility():GetSpecialValueFor("tooltip_slow")
+    end
 end
 
 LinkLuaModifier( "modifier_Durov_Vpn_buff", "abilities/heroes/durov.lua", LUA_MODIFIER_MOTION_NONE )
@@ -535,7 +537,7 @@ function modifier_Durov_Vpn_buff:OnCreated()
     elseif self:GetParent():GetPrimaryAttribute() == 1 then
         self.attribute_bonus = self:GetParent():GetAgility() / 100 * self.percent
     elseif self:GetParent():GetPrimaryAttribute() == 2 then
-        self.attribute_bonus = self:GetParent():GetIntellect() / 100 * self.percent
+        self.attribute_bonus = self:GetParent():GetIntellect(false) / 100 * self.percent
     end
 
     local damage = self:GetAbility():GetSpecialValueFor("damage") - 100 + self:GetCaster():FindTalentValue("special_bonus_birzha_durov_6")

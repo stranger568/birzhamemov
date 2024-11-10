@@ -191,7 +191,9 @@ function modifier_thomas_ability_two_one_gypsy:OnAttackLanded(params)
         modifier_dolgi:SetStackCount(modifier_dolgi:GetStackCount() + money_steal)
     else
         local modifier_dolgi = params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_thomas_shelby_debuff_dolgi", {})
-        modifier_dolgi:SetStackCount(modifier_dolgi:GetStackCount() + money_steal)
+        if modifier_dolgi then
+            modifier_dolgi:SetStackCount(modifier_dolgi:GetStackCount() + money_steal)
+        end
     end
 end
 

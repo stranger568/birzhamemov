@@ -122,7 +122,9 @@ function modifier_never_stupid_steal_target_debuff:DeclareFunctions()
 end
 
 function modifier_never_stupid_steal_target_debuff:GetModifierBonusStats_Intellect()
-    return self:GetAbility():GetSpecialValueFor("int_steal") * self:GetStackCount()
+    if self:GetAbility() then
+        return self:GetAbility():GetSpecialValueFor("int_steal") * self:GetStackCount()
+    end
 end
 
 modifier_never_stupid_steal_caster = class({})

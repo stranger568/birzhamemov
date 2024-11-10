@@ -125,7 +125,7 @@ function modifier_modifier_eul_cyclone_birzha:OnDestroy()
     ResolveNPCPositions(self:GetParent():GetAbsOrigin(), 128)
     self:GetParent():SetAngles(self.angle[1], self.angle[2], self.angle[3])
     if not self:GetAbility() then return end
-    local damage = self:GetAbility():GetSpecialValueFor("damage") + (self:GetCaster():GetIntellect() * self:GetAbility():GetSpecialValueFor("int_mult"))
+    local damage = self:GetAbility():GetSpecialValueFor("damage") + (self:GetCaster():GetIntellect(false) * self:GetAbility():GetSpecialValueFor("int_mult"))
     if self:GetParent():GetTeamNumber() ~= self:GetCaster():GetTeamNumber() then
         ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
     end

@@ -25,7 +25,7 @@ function modifier_pump_charm:OnCreated()
 
     self:StartIntervalThink(0.5)
 
-    self.damage = self:GetAbility():GetSpecialValueFor("damage") + (self:GetParent():GetIntellect() / 100 * (self:GetAbility():GetSpecialValueFor("int_multiplier") + self:GetCaster():FindTalentValue("special_bonus_birzha_pump_2")))
+    self.damage = self:GetAbility():GetSpecialValueFor("damage") + (self:GetParent():GetIntellect(false) / 100 * (self:GetAbility():GetSpecialValueFor("int_multiplier") + self:GetCaster():FindTalentValue("special_bonus_birzha_pump_2")))
     self.bonus_damage = self:GetAbility():GetSpecialValueFor("bonus_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_pump_3")
     self.radius = self:GetAbility():GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_pump_1")
 

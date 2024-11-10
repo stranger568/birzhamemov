@@ -3,7 +3,7 @@ function RequestData(url, callback)
     if req then
 	    req:Send(function(res)
 	        if res.StatusCode ~= 200 then
-	            print("[Birzha Request] Не удалось подключится к серверу, ошибка "..res.StatusCode)   
+	            print("[Birzha Request] Не удалось подключится к серверу, ошибка "..res.StatusCode.." "..url)  
 	            return
 	        end
 	        if callback then
@@ -24,7 +24,7 @@ function SendData(url, data, callback)
 		req:SetHTTPRequestGetOrPostParameter('token', encoded_token)
 		req:Send(function(res)
         if res.StatusCode ~= 200 then
-            print("[Birzha Request] Не удалось отправить данные, ошибка "..res.StatusCode)   
+            print("[Birzha Request] Не удалось отправить данные, ошибка "..res.StatusCode.." "..url)   
             return
         end
 		if callback then

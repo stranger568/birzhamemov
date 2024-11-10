@@ -196,7 +196,7 @@ function ZapThem(caster, ability, source, target, damage)
 		end
 
 		if caster:GetPrimaryAttribute() == 2 then
-			damage = damage + (caster:GetIntellect() * ability:GetSpecialValueFor("attribute_mult"))
+			damage = damage + (caster:GetIntellect(false) * ability:GetSpecialValueFor("attribute_mult"))
 		end
 	end
 	

@@ -475,6 +475,7 @@ function Poroshenko_flag_ukraine:OnSpellStart()
     local point = self:GetCursorPosition()
     local duration = self:GetSpecialValueFor("duration")
     local unit = CreateUnitByName("npc_dota_flag_ukraine_unit", point, true, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
+    unit.invul = true
     unit:SetForwardVector(self:GetCaster():GetForwardVector() * -1)
     unit:AddNewModifier(self:GetCaster(), self, "modifier_Poroshenko_flag_ukraine", {duration = duration})
     unit:EmitSound("DOTA_Item.ObserverWard.Activate")

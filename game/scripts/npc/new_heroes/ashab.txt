@@ -1,0 +1,102 @@
+"DOTAAbilities"
+{
+    "ashab_q"
+	{
+		"BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/ashab/ashab_q"
+		"AbilityUnitTargetTeam"		            "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
+        "AbilityUnitDamageType"			        "DAMAGE_TYPE_MAGICAL"
+		"AbilityTextureName"			        "ashab_q"
+        "AbilityCooldown"                       "20 19 18 17"
+        "AbilityCastRange"                      "1200"
+        "AbilityValues"
+        {
+            "speed"                             "600"
+            "radius"                            "200"
+            "duration"                          "3"
+            "damage_multiplier"                 "2 2.3 2.6 2.9"
+            "damage"                            "120 240 360 480"
+        }
+	}
+
+    "ashab_w"
+	{
+		"BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/ashab/ashab_w"
+		"AbilityUnitTargetTeam"		            "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
+        "AbilityUnitDamageType"			        "DAMAGE_TYPE_MAGICAL"
+		"AbilityTextureName"			        "ashab_w"
+        "AbilityCooldown"                       "20"
+        "AbilityCastRange"                      "1200"
+        "AbilityValues"
+        {
+            "radius"                            "500 550 600 650"
+            "duration_to_explosion"             "4"
+            "damage"                            "220 320 420 520"
+            "stun_duration"                     "1.2"
+        }
+	}
+
+    "ashab_e"
+	{
+		"BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/ashab/ashab_e"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
+		"AbilityTextureName"			        "ashab_e"
+        "MaxLevel"                              "5"
+        "AbilityValues"
+        {
+            "max_health_to_damage"              "5 7 9 11 13"
+            "chance"                            "17"
+            "duration"                          "3"
+            "movespeed_slow"                    "-100"
+            "attack_speed_slow"                 "50"
+        }
+	}
+
+    "ashab_f"
+	{
+		"BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/ashab/ashab_f"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
+		"AbilityTextureName"			        "ashab_f"
+        "MaxLevel"                              "1"
+	}
+
+    "ashab_r"
+	{
+		"BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/ashab/ashab_r"
+		"AbilityUnitTargetTeam"		            "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitDamageType"			        "DAMAGE_TYPE_MAGICAL"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
+        "AbilityType"					        "DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityTextureName"			        "ashab_r"
+        "AbilityCooldown"                       "120"
+        "AbilityValues"
+        {
+            "cast_time"                         "1"
+            "rocket_duration"                   "3"
+            "radius_explosion"                  "800"
+            "explosion_damage"                  "400 600 800"
+            "max_mult"                          "10"
+        }
+	}
+}

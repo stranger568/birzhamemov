@@ -52,7 +52,9 @@ function Hovan_Pyramide:OnProjectileHit( target, vLocation )
         ApplyDamage( { victim = target, attacker = self:GetCaster(), damage = stun_damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self } )
 
         self:GetCaster():ModifyGold( gold, true, 0 )
-        target:ModifyGold( gold * -1, true, 0 )
+        if target:IsRealHero() then
+            target:ModifyGold( gold * -1, true, 0 )
+        end
 
         target:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned_purge", {duration = stun_duration * (1-target:GetStatusResistance()) })
 

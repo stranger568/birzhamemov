@@ -88,6 +88,15 @@
 						</Panel>
 					</Panel>
 
+                    <Panel hittest="false" class="TopMmrClassExclusive">
+						<Panel class="ExclusiveDonaterBackground" />
+						<DOTAParticleScenePanel id="ProgressBurner" style="width:100%;height:100%;wash-color:gold;vertical-align:center;" squarePixels="true" hittest="false" particleName="particles/ui/ui_progressbar_burner.vpcf" particleonly="true" cameraOrigin="-350 0 0" lookAt="0 -350 0" fov="90" />
+						<Panel class="PlayerInfoTableCreators">
+							<DOTAAvatarImage steamid="76561198082122400" class="AvatarTopMmr" />
+							<DOTAUserName steamid="76561198082122400" class="TopMmrNick" />
+						</Panel>
+					</Panel>
+
 					<Panel hittest="false" class="TopMmrClass">
 						<Panel class="PlayerInfoTableCreators">
 							<DOTAAvatarImage steamid="76561199232233912" class="AvatarTopMmr" />
@@ -183,7 +192,7 @@
 							<DOTAUserName steamid="76561198224912332" class="TopMmrNick" />
 						</Panel>
 					</Panel>
-										<Panel hittest="false" class="TopMmrClass">
+					<Panel hittest="false" class="TopMmrClass">
 						<Panel class="PlayerInfoTableCreators">
 							<DOTAAvatarImage steamid="76561198225671100" class="AvatarTopMmr" />
 							<DOTAUserName steamid="76561198225671100" class="TopMmrNick" />

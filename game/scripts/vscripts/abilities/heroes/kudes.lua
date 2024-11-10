@@ -76,6 +76,7 @@ function Kudes_GoldHook:OnSpellStart()
     --EmitSoundOnLocationWithCaster(target:GetAbsOrigin(), "Hero_Pudge.AttackHookRetract", self:GetCaster())
     --self:GetCaster():EmitSound("Hero_Pudge.AttackHookExtend")
 
+    target:RemoveModifierByName("modifier_Kudes_GoldHook")
     local mod = target:AddNewModifier(self:GetCaster(), self, "modifier_Kudes_GoldHook", {particle = hook_particle, duration = duration })
     mod.proj = proj
 end

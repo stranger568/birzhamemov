@@ -31,7 +31,7 @@ function item_ultimate_mem:OnSpellStart()
     if self:GetCaster():GetUnitName() == "npc_dota_hero_void_spirit" then
         self:GetCaster():EmitSound("van_scepter")
     end
-    self:SpendCharge()
+    target:ConsumeItem(self)
 end
 
 modifier_item_ultimate_mem = class({})

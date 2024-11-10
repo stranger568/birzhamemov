@@ -11,20 +11,19 @@
 	<Panel class="AddonLoadingRoot" hittest="false">
 		<Panel id="CustomBg">
 
-		<!--<Panel class="CashSteamADS" onactivate="ExternalBrowserGoToURL('http://Cashsteam.ru/?utm_source=dota&utm_medium=cpc&utm_campaign=bmemov')">
-			<Label class="CashSteamLabel" text="Площадка для пополнения кошелька Steam в России" />
-			<Panel class="CashSteamIcon" />
-		</Panel> -->
-
-		<Panel class="TwitchADS" onactivate="ExternalBrowserGoToURL('https://www.twitch.tv/stranger568')">
-			<Label class="TwitchLabel" text="Стрим создателя кастомки - Игры с подписчиками / Разработка кастомки" />
-			<Panel class="TwitchIcon" />
-		</Panel>
-
-		<Panel class="TelegramADS" onactivate="ExternalBrowserGoToURL('https://t.me/penguin568')">
-			<Label class="TelegramLabel" text="Telegram Канал создателя с информацией о кастомке и не только" />
-			<Panel class="TelegramIcon" />
-		</Panel>
+        <Panel class="AdsList">
+            <Panel class="CashSteamADS" onactivate="ExternalBrowserGoToURL('https://pxl.leads.su/click/a26786e8dc3821cf9c991c825740fb81?erid=get_it_soon')">
+                <Panel class="CashSteamIcon" />
+            </Panel>
+            <Panel class="TwitchADS" onactivate="ExternalBrowserGoToURL('https://www.twitch.tv/stranger568')">
+                <Label class="TwitchLabel" text="Стрим создателя кастомки - Игры с подписчиками / Разработка кастомки" />
+                <Panel class="TwitchIcon" />
+            </Panel>
+            <Panel class="TelegramADS" onactivate="ExternalBrowserGoToURL('https://t.me/penguin568')">
+                <Label class="TelegramLabel" text="Telegram Канал создателя с информацией о кастомке и не только" />
+                <Panel class="TelegramIcon" />
+            </Panel>
+        </Panel>
 
 		<Panel id="InfoWidgets" class="WidgetRow">
             <Panel id="RankedInfo" class="Widget">
@@ -151,12 +150,12 @@
 						</Panel>
 						<Panel id="NextTip" class="TipButton"/>
 					</Panel>
-					<Panel id="DonateContainer" onactivate="ExternalBrowserGoToURL('https://bmemov.strangerdev.ru/ads.php')">
+					<!-- <Panel id="DonateContainer" onactivate="ExternalBrowserGoToURL('https://bmemov.strangerdev.ru/ads.php')">
 						<Label class="NewWidgetLabel" text="#ContributepanelZaim"/>
 						<Panel id="DonateInformation">
 							<Label id="TipLabel" text="#LoadingDonateZaim"/>
 						</Panel>
-					</Panel>
+					</Panel> -->
 					<Panel id="DonateContainer_2" onactivate="ExternalBrowserGoToURL('https://bmemov.strangerdev.ru/updates/birzha_die_part_1/')">
 						<Label class="NewWidgetLabel" text="#Updatename"/>
 						<Panel id="DonateInformation_2">

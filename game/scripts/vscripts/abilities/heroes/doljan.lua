@@ -66,7 +66,7 @@ function modifier_Doljan_RapBattle_debuff:OnIntervalThink()
     local current_stack_debuff = self:GetParent():GetModifierStackCount( "modifier_Doljan_RapBattle_steal_debuff", self:GetCaster() )
 
     local intellect_bonus = self:GetAbility():GetSpecialValueFor("intellect_bonus") + self:GetCaster():FindTalentValue("special_bonus_birzha_doljan_3")
-    local damage = self:GetCaster():GetIntellect() / 100 * multi
+    local damage = self:GetCaster():GetIntellect(false) / 100 * multi
 
     if self:GetParent():IsInvulnerable() or self:GetParent():IsIllusion() or ( not self:GetCaster():IsAlive()) then
         if not self:IsNull() then
@@ -421,7 +421,7 @@ function Doljan_Intellect:OnSpellStart()
 
     for k,enemy in pairs(enemyHeroes) do
         local manaburn = enemy:GetMaxMana() * manaburn_percent
-        local manaburn_damage = self:GetSpecialValueFor("damage_burn") + (self:GetCaster():GetIntellect() * self:GetSpecialValueFor("scepter_int_multiple"))
+        local manaburn_damage = self:GetSpecialValueFor("damage_burn") + (self:GetCaster():GetIntellect(false) * self:GetSpecialValueFor("scepter_int_multiple"))
         enemy:Script_ReduceMana(manaburn, self)
         ApplyDamage({victim = enemy, attacker = self:GetCaster(), ability = self, damage = manaburn_damage, damage_type = DAMAGE_TYPE_MAGICAL})
         local particle = ParticleManager:CreateParticle("particles/doljan_scepter.vpcf", PATTACH_POINT_FOLLOW, enemy)

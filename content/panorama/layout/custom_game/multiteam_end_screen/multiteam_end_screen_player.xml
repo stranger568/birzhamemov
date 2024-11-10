@@ -34,7 +34,7 @@
 			<Panel id="MmrPanel" class="ScoreCol_MmrPlus ScoreboardPanel">
 				<Label id="MmrPlus" text="+ 0" />
 			</Panel>
-			<Panel id="DogePanel" class="ScoreCol_DogePlus ScoreboardPanel">
+            <Panel id="DogePanel" class="ScoreCol_DogePlus ScoreboardPanel">
 				<Panel id="DogePlusImage" />
 				<Label id="DogePlus" text="0" />
 			</Panel>

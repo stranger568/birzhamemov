@@ -170,7 +170,7 @@ function azazin_agressive:IllusionCast(illusion)
     local enemies = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), illusion:GetAbsOrigin(), nil, self:GetSpecialValueFor("illusion_radius"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false )
     illusion:AddNewModifier( illusion, self, "modifier_azazin_agressive", { duration = duration } )
     for _,enemy in pairs(enemies) do
-        if not enemy:IsDuel() then
+        if not enemy:IsDuel() and enemy.invul == nil then
             enemy:AddNewModifier( illusion, self, "modifier_azazin_agressive_debuff", { duration = duration } )
         end
     end  

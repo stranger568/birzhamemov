@@ -146,6 +146,7 @@ end
 
 function modifier_Akame_slice:OnDestroy()
     if not IsServer() then return end
+    FindClearSpaceForUnit(self:GetParent(), self:GetParent():GetAbsOrigin(), true)
     self:GetCaster():MoveToPositionAggressive(self:GetCaster():GetAbsOrigin())
 end
 

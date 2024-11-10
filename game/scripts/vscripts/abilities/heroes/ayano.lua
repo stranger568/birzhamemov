@@ -173,8 +173,8 @@ end
 
 function Ayano_Tranquilizer:OnProjectileHit( target, vLocation )
     if not IsServer() then return end
-    if target:IsMagicImmune() then return end
     if target==nil then return end
+    if target:IsMagicImmune() then return end
     if target:TriggerSpellAbsorb( self ) then return end
     local damage = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_ayano_1")
 

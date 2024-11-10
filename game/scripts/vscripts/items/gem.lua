@@ -5,7 +5,7 @@ item_birzha_gem = class({})
 function item_birzha_gem:OnSpellStart()
 	if not IsServer() then return end
 	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_item_birzha_gem", {})
-	self:SpendCharge()
+	self:GetCaster():ConsumeItem(self)
 end
 
 modifier_item_birzha_gem = class({})

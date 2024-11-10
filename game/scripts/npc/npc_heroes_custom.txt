@@ -1,5 +1,6 @@
 "DOTAHeroes"
 {
+	
 	//=================================================================================================================
 	// Начальный герой для выбора героев
 	//=================================================================================================================
@@ -34,7 +35,8 @@
 		"AttributePrimary"				"DOTA_ATTRIBUTE_STRENGTH"
 		"ArmorPhysical"		"4"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 		"Ability10"		"special_bonus_birzha_bukin_3"
 		"Ability11"		"special_bonus_birzha_bukin_1"
@@ -69,7 +71,8 @@
 		"AttributeIntelligenceGain"		"1.800000"
 		"AttributePrimary"			"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 		"Ability10"		"special_bonus_birzha_brb_1"
 		"Ability11"		"special_bonus_birzha_brb_5"
@@ -106,7 +109,8 @@
 		"AttributeAgilityGain"			"2.5"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"					"Pick_medium"
-		"role_hero"						"Pick_Carry"
+		"Facets"        ""
+        "role_hero"						"Pick_Carry"
 
 		"Ability10"		"special_bonus_birzha_scp683_1"
 		"Ability11"		"special_bonus_birzha_scp683_2"
@@ -139,7 +143,8 @@
 		"AttributeIntelligenceGain"		"1.40000"
 		"AttributePrimary"			"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_versuta_1"
 		"Ability11"		"special_bonus_birzha_versuta_2"
@@ -174,7 +179,8 @@
 		"AttributeIntelligenceGain"		"1.700000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 		"Ability10"		"special_bonus_birzha_tereshin_1"
 		"Ability11"		"special_bonus_birzha_tereshin_2"
@@ -218,7 +224,8 @@
 		"Ability25"						""
 	
 		"difficulty"					"Pick_medium"
-		"role_hero"						"Pick_Carry"
+		"Facets"        ""
+        "role_hero"						"Pick_Carry"
 
 		"ArmorPhysical"					"0"
 		"AttackCapabilities"			"DOTA_UNIT_CAP_MELEE_ATTACK"
@@ -265,7 +272,8 @@
 		"AttributeAgilityGain"			"1.700000"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"					"Pick_easy"
-		"role_hero"						"Pick_Carry"
+		"Facets"        ""
+        "role_hero"						"Pick_Carry"
 
 		"Ability10"				"special_bonus_birzha_papich_2"
 		"Ability11"				"special_bonus_birzha_papich_3"
@@ -298,7 +306,8 @@
 		"AttributeAgilityGain"		"1.900000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_vjlink_1"
 		"Ability11"		"special_bonus_birzha_vjlink_2"
@@ -335,7 +344,8 @@
 		"MovementSpeed"		"315"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_edwardbill_1"
 		"Ability11"		"special_bonus_birzha_edwardbill_2"
@@ -370,7 +380,8 @@
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
 		"ArmorPhysical"			"4"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 		"Ability10"		"special_bonus_birzha_ayano_1"
 		"Ability11"		"special_bonus_birzha_ayano_2"
@@ -413,7 +424,8 @@
 		"Ability25"					""
 
 		"difficulty"				"Pick_medium"
-		"role_hero"					"Pick_Support"
+		"Facets"        ""
+        "role_hero"					"Pick_Support"
 
 		"ArmorPhysical"				"1"
 		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
@@ -462,7 +474,8 @@
 		"AttributeAgilityGain"		"1.300000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_navalny_6"
 		"Ability11"		"special_bonus_birzha_navalny_8"
@@ -496,7 +509,8 @@
 		"AttributeAgilityGain"		"1.500000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Killer"
+		"Facets"        ""
+        "role_hero"		"Pick_Killer"
 		
 		"Ability10"		"special_bonus_strength_10"
 		"Ability11"		"special_bonus_birzha_mum_3"
@@ -539,7 +553,8 @@
 		"Ability25"						""
 	
 		"difficulty"					"Pick_medium"
-		"role_hero"						"Pick_Killer"
+		"Facets"        ""
+        "role_hero"						"Pick_Killer"
 
 		"ArmorPhysical"					"-3"
 		"AttackCapabilities"			"DOTA_UNIT_CAP_MELEE_ATTACK"
@@ -589,7 +604,8 @@
 		"AttributeAgilityGain"		"2.200000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Tank"
+		"Facets"        ""
+        "role_hero"		"Pick_Tank"
 		
 		"Ability10"		"special_bonus_birzha_azazin_1"
 		"Ability11"		"special_bonus_birzha_azazin_2"
@@ -632,7 +648,8 @@
 		"Ability25"						""
 	
 		"difficulty"					"Pick_easy"
-		"role_hero"						"Pick_Carry"
+		"Facets"        ""
+        "role_hero"						"Pick_Carry"
 
 		"ArmorPhysical"					"0"
 		"AttackCapabilities"			"DOTA_UNIT_CAP_MELEE_ATTACK"
@@ -683,7 +700,8 @@
 		"AttributeAgilityGain"		"2.800000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_kaneki_1"
 		"Ability11"		"special_bonus_birzha_kaneki_2"
@@ -725,7 +743,8 @@
 		"Ability25"						""
 	
 		"difficulty"					"Pick_medium"
-		"role_hero"						"Pick_Killer"
+		"Facets"        ""
+        "role_hero"						"Pick_Killer"
 
 		"ArmorPhysical"					"2"
 		"AttackCapabilities"			"DOTA_UNIT_CAP_MELEE_ATTACK"
@@ -778,7 +797,8 @@
 		"Ability25"		""
 
 		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Killer"
+		"Facets"        ""
+        "role_hero"		"Pick_Killer"
 
 		"ArmorPhysical"				"1"
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
@@ -825,7 +845,8 @@
 		"AttributeIntelligenceGain"		"0"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_klichko_1"
 		"Ability11"		"special_bonus_birzha_klichko_2"
@@ -849,6 +870,7 @@
 		"Ability4"			"generic_hidden"
 		"Ability5"			"generic_hidden"
 		"Ability6"			"Vernon_silence"
+        "Ability8"		    "generic_hidden"
 		"Ability25"		""
 
 		"AttributeBaseStrength"		"24"
@@ -859,7 +881,8 @@
 		"AttributeIntelligenceGain"		"1.600000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Killer"
+		"Facets"        ""
+        "role_hero"		"Pick_Killer"
 
 		"Ability10"		"special_bonus_birzha_vernon_4"
 		"Ability11"		"special_bonus_birzha_vernon_3"
@@ -892,7 +915,8 @@
 		"AttributeIntelligenceGain"	"1.9"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Tank"
+		"Facets"        ""
+        "role_hero"		"Pick_Tank"
 
 		"Ability10"		"special_bonus_birzha_face_8"
 		"Ability11"		"special_bonus_birzha_face_2"
@@ -936,7 +960,8 @@
 		"Ability25"					""
 
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Killer"
+		"Facets"        ""
+        "role_hero"		"Pick_Killer"
 
 		"ArmorPhysical"				"3"
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
@@ -992,9 +1017,10 @@
 		"AttributeIntelligenceGain"		"1.800000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
-		"Ability10"		"special_bonus_birzha_kudes_1"
+        "Ability10"		"special_bonus_birzha_kudes_1"
 		"Ability11"		"special_bonus_birzha_kudes_4"
 		"Ability12"		"special_bonus_birzha_kudes_3"
 		"Ability13"		"special_bonus_birzha_kudes_2"
@@ -1027,7 +1053,8 @@
 		"AttributeIntelligenceGain"		"1.60000"
 		"AttributePrimary"			"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_hovan_1"
 		"Ability11"		"special_bonus_birzha_hovan_2"
@@ -1060,7 +1087,8 @@
 		"AttributeAgilityGain"		"1.600000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Killer"
+		"Facets"        ""
+        "role_hero"		"Pick_Killer"
 		
 		"Ability10"		"special_bonus_birzha_bullet_1"
 		"Ability11"		"special_bonus_birzha_bullet_3"
@@ -1095,7 +1123,8 @@
 		"AttackRate"		"1.700000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 		"Ability10"			"special_bonus_birzha_abdul_1"
 		"Ability11"			"special_bonus_birzha_abdul_2"
@@ -1134,7 +1163,8 @@
 		"AttributePrimary"				"DOTA_ATTRIBUTE_STRENGTH"
 		"AttackRate"		"1.700000"
 		"AttackAnimationPoint"		"0.560000"
-		"role_hero"		"Pick_Summoner"
+		"Facets"        ""
+        "role_hero"		"Pick_Summoner"
 		"AttackSpeedActivityModifiers"
 		{
 			"fast"		"175"
@@ -1179,7 +1209,8 @@
 		"AttributeAgilityGain"			"1.8"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_hard"
-		"role_hero"		"Pick_Summoner"
+		"Facets"        ""
+        "role_hero"		"Pick_Summoner"
 
 		"Ability10"		"special_bonus_birzha_gorshok_1"
 		"Ability11"		"special_bonus_birzha_gorshok_2"
@@ -1217,7 +1248,8 @@
 		"AttributeIntelligenceGain"		"1.800000"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_ruby_1"
 		"Ability11"		"special_bonus_birzha_ruby_4"
@@ -1265,7 +1297,8 @@
 		"AttributeAgilityGain"		"1.9"
 		"AttributeBaseIntelligence"		"18"
 		"AttributeIntelligenceGain"		"2.3"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 		"Ability10"		"special_bonus_birzha_goku_1"
 		"Ability11"		"special_bonus_birzha_goku_2"
@@ -1298,7 +1331,8 @@
 		"AttributeIntelligenceGain"		"1.800000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_poroshenko_1"
 		"Ability11"		"special_bonus_birzha_poroshenko_2"
@@ -1331,7 +1365,8 @@
 		"AttributeAgilityGain"		"2.500000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_pistoletov_2"
 		"Ability11"		"special_bonus_birzha_pistoletov_5"
@@ -1364,7 +1399,8 @@
 		"AttributeAgilityGain"		"2.100000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Tank"
+		"Facets"        ""
+        "role_hero"		"Pick_Tank"
 		
 		"Ability17"		"special_bonus_birzha_garold_8"
 		"Ability16"		"special_bonus_birzha_garold_5"
@@ -1400,7 +1436,8 @@
 		"AttributeAgilityGain"		"2"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_johncena_4"
 		"Ability11"		"special_bonus_birzha_johncena_1"
@@ -1434,7 +1471,8 @@
 		"AttributeBaseAgility"		"17"
 		"AttributeAgilityGain"		"1.400000"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Tank"
+		"Facets"        ""
+        "role_hero"		"Pick_Tank"
 		
 		"Ability10"		"special_bonus_birzha_valakas_1"
 		"Ability11"		"special_bonus_birzha_valakas_2"
@@ -1473,7 +1511,8 @@
 		"AttributeAgilityGain"		"2.00000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 		"Ability10"		"special_bonus_birzha_guts_3"
 		"Ability11"		"special_bonus_birzha_guts_1"
@@ -1510,7 +1549,8 @@
 		"AttributeIntelligenceGain"		"1.9"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Tank"
+		"Facets"        ""
+        "role_hero"		"Pick_Tank"
 
 		"Ability10"		"special_bonus_birzha_grem_1"
 		"Ability11"		"special_bonus_birzha_grem_2"
@@ -1545,7 +1585,8 @@
 		"AttributeIntelligenceGain"		"2.100000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_hard"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 		"Ability10"		"special_bonus_birzha_red21_1"
 		"Ability11"		"special_bonus_birzha_red21_2"
@@ -1578,7 +1619,8 @@
 		"AttributeIntelligenceGain"		"1.200000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
 		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 		"Ability10"		"special_bonus_birzha_durov_1"
 		"Ability11"		"special_bonus_birzha_durov_2"
@@ -1613,9 +1655,10 @@
 		"MovementSpeed"					"295"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
 		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 		
-		"Ability10"		"special_bonus_birzha_kadet_1"
+        "Ability10"		"special_bonus_birzha_kadet_1"
 		"Ability11"		"special_bonus_birzha_kadet_2"
 		"Ability12"		"special_bonus_birzha_kadet_3"
 		"Ability13"		"special_bonus_birzha_kadet_5"
@@ -1652,7 +1695,8 @@
 		"AttributeIntelligenceGain"		"1.6"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
 		"difficulty"	"Pick_hard"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 		"Ability10"				"special_bonus_birzha_akame_1"
 		"Ability11"				"special_bonus_birzha_akame_2"
@@ -1692,7 +1736,8 @@
 		"AttackDamageMax"		"45"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 	
 		"Ability10"		"special_bonus_birzha_shiro_1"
 		"Ability11"		"special_bonus_birzha_shiro_2"
@@ -1729,7 +1774,8 @@
 		"AttributeIntelligenceGain"		"2.000000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
 		"difficulty"	"Pick_hard"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_silver_1"
 		"Ability11"		"special_bonus_birzha_silver_5"
@@ -1768,7 +1814,8 @@
 		"AttackRange"					"50"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
 		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_scp_1"
 		"Ability11"		"special_bonus_birzha_scp_2"
@@ -1801,7 +1848,8 @@
 		"AttributeAgilityGain"		"3.200000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
 		"difficulty"	"Pick_hard"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 
 		"Ability10"		"special_bonus_birzha_gitelman_1"
@@ -1836,7 +1884,8 @@
 		"AttributeAgilityGain"			"3.7"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_pocik_1"
 		"Ability11"		"special_bonus_birzha_pocik_6"
@@ -1879,7 +1928,8 @@
 		"AttackDamageMax"		"47"
 		"ArmorPhysical"		"1"
 		"difficulty"	"Pick_hard"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 		"Ability10"		"special_bonus_birzha_hisoka_1"
 		"Ability11"		"special_bonus_birzha_hisoka_2"
@@ -1914,7 +1964,8 @@
 		"AttributeAgilityGain"		"3.200000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
 		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 		"Ability10"						"special_bonus_birzha_illidan_2"
 		"Ability11"						"special_bonus_birzha_illidan_4"
@@ -1951,7 +2002,8 @@
 		"AttributeAgilityGain"			"3.2"
 		"AttributePrimary"	"DOTA_ATTRIBUTE_AGILITY"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 		"Ability10"		"special_bonus_birzha_scream_5"
 		"Ability11"		"special_bonus_birzha_scream_2"
@@ -1984,6 +2036,7 @@
 	    "Ability4"						"serega_pirat_bike_release"
 	    "Ability5"						"generic_hidden"
 	    "Ability6"						"serega_pirat_tilt"
+        "Ability8"		                "generic_hidden"
 	
 		"Ability10"						"special_bonus_birzha_serega_pirat_1"
 		"Ability11"						"special_bonus_birzha_serega_pirat_2"				
@@ -1997,7 +2050,8 @@
 		"Ability25"						""
 	
 		"difficulty"					"Pick_hard"
-		"role_hero"						"Pick_Carry"
+		"Facets"        ""
+        "role_hero"						"Pick_Carry"
 
 		"ArmorPhysical"					"0"
 		"AttackCapabilities"			"DOTA_UNIT_CAP_MELEE_ATTACK"
@@ -2047,14 +2101,15 @@
 		"AttributeIntelligenceGain"		"1.7"
 		"AttributeBaseAgility"			"29"
 		"AttributeAgilityGain"			"3"
-		"MovementSpeed"				"285"
-		"AttributePrimary"			"DOTA_ATTRIBUTE_AGILITY"
-		"difficulty"				"Pick_hard"
-		"role_hero"				"Pick_Carry"
+		"MovementSpeed"					"285"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
+		"difficulty"	"Pick_hard"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_agility_6"
 		"Ability11"		"special_bonus_birzha_kurumi_1"
-	        "Ability12"		"special_bonus_birzha_kurumi_3"
+	    "Ability12"		"special_bonus_birzha_kurumi_3"
 		"Ability13"		"special_bonus_talent_kurumi_damage_illusions"
 		"Ability14"		"special_bonus_birzha_kurumi_7"
 		"Ability15"		"special_bonus_birzha_kurumi_4"
@@ -2092,7 +2147,8 @@
 		"Ability25"		""
 
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Killer"
+		"Facets"        ""
+        "role_hero"		"Pick_Killer"
 
 		"ArmorPhysical"				"1"
 
@@ -2156,7 +2212,8 @@
 		"AttributeAgilityGain"		"3.200000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_monika_1"
 		"Ability11"		"special_bonus_birzha_monika_2"
@@ -2194,7 +2251,8 @@
 		"Ability25"						""
 				
 		"difficulty"					"Pick_easy"
-		"role_hero"						"Pick_Carry"
+		"Facets"        ""
+        "role_hero"						"Pick_Carry"
 
 		"ArmorPhysical"					"0"
 		"AttackCapabilities"			"DOTA_UNIT_CAP_RANGED_ATTACK"
@@ -2250,7 +2308,8 @@
 		"Ability25"					""
 
 		"difficulty"				"Pick_hard"
-		"role_hero"					"Pick_Killer"
+		"Facets"        ""
+        "role_hero"					"Pick_Killer"
 
 		"ArmorPhysical"					"1"
 		"AttackCapabilities"			"DOTA_UNIT_CAP_MELEE_ATTACK"
@@ -2300,7 +2359,8 @@
 		"AttributeAgilityGain"			"3.200000"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
 		"difficulty"					"Pick_easy"
-		"role_hero"						"Pick_Killer"
+		"Facets"        ""
+        "role_hero"						"Pick_Killer"
 
 		"Ability10"						"special_bonus_birzha_rin_1"
 		"Ability11"						"special_bonus_birzha_rin_2"
@@ -2336,7 +2396,8 @@
 		"AttributeAgilityGain"		"2.8"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
 		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 		"Ability10"		"special_bonus_birzha_never_4"
 		"Ability11"		"special_bonus_birzha_never_7"
@@ -2386,7 +2447,8 @@
 		"Ability25"					""
 
 		"difficulty"	"Pick_hard"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 		"ArmorPhysical"		"0"
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
@@ -2454,7 +2516,8 @@
 		"AttributeAgilityGain"			"4.500000"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 
 		"Ability10"		"special_bonus_birzha_sobolev_1"
@@ -2501,7 +2564,8 @@
 		"AttributeBaseAgility"		"34"
 		"AttributeAgilityGain"		"3.2"
 		"difficulty"	"Pick_hard"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 		"Ability10"		"special_bonus_birzha_polnaref_1"
 		"Ability11"		"special_bonus_birzha_polnaref_2"
@@ -2545,7 +2609,8 @@
 		"AttackDamageMax"	"40"
 		"ArmorPhysical"		"1"
 
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 		"difficulty"	"Pick_hard"
 
 		"AttackSpeedActivityModifiers"
@@ -2606,7 +2671,8 @@
 		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
 		"MovementSpeed"					"325"
 		"difficulty"					"Pick_medium"
-		"role_hero"						"Pick_Carry"
+		"Facets"        ""
+        "role_hero"						"Pick_Carry"
 		
 		"Ability10"						"special_bonus_birzha_yuno_1"
 		"Ability11"						"special_bonus_birzha_yuno_2"
@@ -2640,7 +2706,8 @@
 		"ModelScale"				"0.85"
 		"Model"						"models/update_heroes/haku/haku_with_mask.vmdl"
 		"DisableWearables"			"1"
-		"role_hero"					"Pick_Carry"
+		"Facets"        ""
+        "role_hero"					"Pick_Carry"
 
 		"AttributeBaseStrength"			"21"
 		"AttributeStrengthGain"			"2.3"
@@ -2719,7 +2786,8 @@
 		"AttackRange"					"150"
 
 		"difficulty"					"Pick_hard"
-		"role_hero"						"Pick_Support"
+		"Facets"        ""
+        "role_hero"						"Pick_Support"
 
 		"Ability10"		"special_bonus_birzha_horo_1"
 		"Ability11"		"special_bonus_birzha_horo_2"
@@ -2752,7 +2820,8 @@
 		"AttributeAgilityGain"			"4"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
 		"difficulty"	"Pick_hard"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 		"Ability10"		"special_bonus_birzha_golovach_1"
 		"Ability11"		"special_bonus_birzha_golovach_2"
@@ -2784,7 +2853,8 @@
 		"AttributeBaseIntelligence"		"19"
 		"AttributeIntelligenceGain"		"2.000000"
 		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_evrei_2"
 		"Ability11"		"special_bonus_birzha_evrei_1"
@@ -2818,7 +2888,8 @@
 		"AttributeBaseIntelligence"	"15"
 		"AttributeIntelligenceGain"	"1.7"
 		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 	
 		"Ability10"				"special_bonus_birzha_robbie_1"
 		"Ability11"				"special_bonus_birzha_robbie_2"
@@ -2859,7 +2930,8 @@
 		"Ability25"		""
 
 		"difficulty"	"Pick_hard"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 		"ArmorPhysical"				"1"
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
@@ -2924,7 +2996,8 @@
 		"AttackRange"					"250"
 		"ProjectileSpeed"				"1800"
 		"difficulty"					"Pick_medium"
-		"role_hero"						"Pick_Carry"
+		"Facets"        ""
+        "role_hero"						"Pick_Carry"
 		
 		"Ability10"						"special_bonus_birzha_rem_1"
 		"Ability11"						"special_bonus_birzha_rem_2"
@@ -2961,7 +3034,8 @@
 		"AttributeAgilityGain"			"2.600000"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
 		"difficulty"	"Pick_hard"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_knuckles_1"
 		"Ability11"		"special_bonus_birzha_knuckles_2"
@@ -3013,7 +3087,8 @@
 		"AttributeAgilityGain"		"3.200000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_bogdan_1"
 		"Ability11"		"special_bonus_birzha_bogdan_2"
@@ -3049,7 +3124,8 @@
 		"MovementSpeed"		"290"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 		"Ability10"		"special_bonus_birzha_ranger_1"
 		"Ability11"		"special_bonus_birzha_ranger_2"
@@ -3094,7 +3170,8 @@
 		"Ability25"						""
 	
 		"difficulty"					"Pick_hard"
-		"role_hero"						"Pick_Carry"
+		"Facets"        ""
+        "role_hero"						"Pick_Carry"
 
 		"ArmorPhysical"					"0"
 		"AttackCapabilities"			"DOTA_UNIT_CAP_MELEE_ATTACK"
@@ -3143,7 +3220,8 @@
 		"AttributeIntelligenceGain"		"1.800000"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
 		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 		"Ability10"		"special_bonus_birzha_gachi_1"
 		"Ability11"		"special_bonus_birzha_gachi_2"
@@ -3192,7 +3270,8 @@
 		"MovementSpeed"		"320"
 		"MovementTurnRate"		"0.600000"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 		"Ability10"		"special_bonus_birzha_stray_1"
 		"Ability11"		"special_bonus_birzha_stray_2"
@@ -3225,7 +3304,8 @@
 		"AttributeAgilityGain"		"2.90000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_gorin_1"
 		"Ability11"		"special_bonus_birzha_gorin_2"
@@ -3269,7 +3349,8 @@
 		"Ability25"						""
 	
 		"difficulty"					"Pick_hard"
-		"role_hero"						"Pick_Killer"
+		"Facets"        ""
+        "role_hero"						"Pick_Killer"
 
 		"ArmorPhysical"					"1"
 		"AttackCapabilities"			"DOTA_UNIT_CAP_RANGED_ATTACK"
@@ -3319,7 +3400,8 @@
 		"AttributeAgilityGain"			"1.300000"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
 		"difficulty"	"Pick_hard"
-		"role_hero"		"Pick_Killer"
+		"Facets"        ""
+        "role_hero"		"Pick_Killer"
 
 		"Ability10"		"special_bonus_birzha_zema_4"
 		"Ability11"		"special_bonus_birzha_zema_1"
@@ -3360,7 +3442,8 @@
 		"Ability25"		""
 
 		"difficulty"	"Pick_hard"
-		"role_hero"		"Pick_Killer"
+		"Facets"        ""
+        "role_hero"		"Pick_Killer"
 
 		"AttributeBaseStrength"		"21"
 		"AttributeStrengthGain"		"2.500000"
@@ -3413,7 +3496,8 @@
 		"AttackDamageMin"			"28"
 		"AttackDamageMax"			"34"
 		"difficulty"	"Pick_hard"
-		"role_hero"		"Pick_Support"
+		"Facets"        ""
+        "role_hero"		"Pick_Support"
 
 		"Ability15"		"special_bonus_birzha_felix_1"
 		"Ability16"		"special_bonus_birzha_felix_2"
@@ -3452,7 +3536,8 @@
 		"AttributeAgilityGain"		"2.200000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Killer"
+		"Facets"        ""
+        "role_hero"		"Pick_Killer"
 		
 		"Ability10"		"special_bonus_birzha_megumin_1"
 		"Ability11"		"special_bonus_birzha_megumin_2"
@@ -3478,15 +3563,16 @@
 		"Ability4"			"gypsy_steal_slot2"
 		"Ability5"			"gypsy_steal_slot1"
 		"Ability6"			"gypsy_steal"
-		"Ability7"			""
-		"Ability8"			""
-		"Ability9"			""
-		"Ability10"			""
+		"Ability7"			"generic_hidden"
+		"Ability8"			"generic_hidden"
+		"Ability9"			"generic_hidden"
+		"Ability10"			"generic_hidden"
 
 		"Ability25"			""
 
 		"difficulty"		"Pick_medium"
-		"role_hero"			"Pick_Killer"
+		"Facets"        ""
+        "role_hero"			"Pick_Killer"
 
 		"AttributeBaseStrength"			"18"
 		"AttributeStrengthGain"			"2.2"
@@ -3544,7 +3630,8 @@
 		"Ability25"		""
 
 		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Support"
+		"Facets"        ""
+        "role_hero"		"Pick_Support"
 
 		"ArmorPhysical"				"1"
 		"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
@@ -3594,7 +3681,8 @@
 		"AttributeAgilityGain"		"1.2"	
 		"AttributePrimary"			"DOTA_ATTRIBUTE_INTELLECT"
 		"difficulty"	"Pick_hard"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 		
 		"Ability10"		"special_bonus_birzha_dio_1"
 		"Ability11"		"special_bonus_birzha_dio_2"
@@ -3636,7 +3724,8 @@
 		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
 
 		"difficulty"	"Pick_hard"
-		"role_hero"		"Pick_Support"
+		"Facets"        ""
+        "role_hero"		"Pick_Support"
 		
 		"Ability10"		"special_bonus_birzha_miku_1"
 		"Ability11"		"special_bonus_birzha_miku_2"
@@ -3680,7 +3769,8 @@
 		"Ability25"						""
 	
 		"difficulty"					"Pick_medium"
-		"role_hero"						"Pick_Killer"
+		"Facets"        ""
+        "role_hero"						"Pick_Killer"
 
 		"ArmorPhysical"					"3"
 		"AttackCapabilities"			"DOTA_UNIT_CAP_MELEE_ATTACK"
@@ -3738,7 +3828,8 @@
 		"Ability25"						""
 	
 		"difficulty"					"Pick_hard"
-		"role_hero"						"Pick_Killer"
+		"Facets"        ""
+        "role_hero"						"Pick_Killer"
 
 		"ArmorPhysical"					"1"
 		"AttackCapabilities"			"DOTA_UNIT_CAP_RANGED_ATTACK"
@@ -3791,7 +3882,8 @@
 		"ArmorPhysical"					"5"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Killer"
+		"Facets"        ""
+        "role_hero"		"Pick_Killer"
 		
 		"Ability10"		"special_bonus_birzha_thomas_1"
 		"Ability11"		"special_bonus_birzha_thomas_2"
@@ -3833,7 +3925,8 @@
 		"Ability25"					""
 
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Support"
+		"Facets"        ""
+        "role_hero"		"Pick_Support"
 
 		"ArmorPhysical"				"1"
 
@@ -3883,7 +3976,8 @@
 		"AttributeIntelligenceGain"		"3.500000"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
 		"difficulty"	"Pick_hard"
-		"role_hero"		"Pick_Killer"
+		"Facets"        ""
+        "role_hero"		"Pick_Killer"
 		
 		"Ability10"		"special_bonus_birzha_slidan_5"
 		"Ability11"		"special_bonus_birzha_slidan_1"
@@ -3919,7 +4013,8 @@
 		"ArmorPhysical"		"3"
 		"StatusHealth"		"260"
 		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Carry"
+		"Facets"        ""
+        "role_hero"		"Pick_Carry"
 
 		"Ability10"		"special_bonus_birzha_morgenshtern_1"
 		"Ability11"		"special_bonus_birzha_morgenshtern_2"
@@ -3966,7 +4061,8 @@
 		"AttributeIntelligenceGain"		"5.000000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
 		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Killer"
+		"Facets"        ""
+        "role_hero"		"Pick_Killer"
 
         "Ability17"		"special_bonus_birzha_druzhko_7"
 		"Ability18"		"special_bonus_birzha_druzhko_4"
@@ -4000,7 +4096,8 @@
 		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
 
 		"difficulty"	"Pick_hard"
-		"role_hero"		"Pick_Killer"
+		"Facets"        ""
+        "role_hero"		"Pick_Killer"
 
 		"Ability10"		"special_bonus_birzha_puchkov_1"
 		"Ability11"		"special_bonus_birzha_puchkov_2"
@@ -4037,7 +4134,8 @@
 		"AttributeAgilityGain"		"1.200000"	
 		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Killer"
+		"Facets"        ""
+        "role_hero"		"Pick_Killer"
 
 		"Ability10"		"special_bonus_birzha_yakubovich_1"
 		"Ability11"		"special_bonus_birzha_yakubovich_2"
@@ -4060,6 +4158,7 @@
 		"Ability4"					"generic_hidden"
 		"Ability5"					"V1lat_AiAiAi_slam"
 		"Ability6"					"V1lat_Eminem"
+        "Ability8"		            "generic_hidden"
 		"Ability25"					""
 
 		"AttributeBaseStrength"			"22"
@@ -4071,7 +4170,8 @@
 		"ArmorPhysical"					"2.000000"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"	
 		"difficulty"					"Pick_medium"
-		"role_hero"						"Pick_Killer"
+		"Facets"        ""
+        "role_hero"						"Pick_Killer"
 
 		"Ability10"						"special_bonus_birzha_v1lat_2"
 		"Ability11"						"special_bonus_birzha_v1lat_3"
@@ -4104,7 +4204,8 @@
 		"AttributeAgilityGain"		"1.2"	
 		"AttributePrimary"			"DOTA_ATTRIBUTE_INTELLECT"
 		"difficulty"	"Pick_medium"
-		"role_hero"		"Pick_Killer"
+		"Facets"        ""
+        "role_hero"		"Pick_Killer"
 		
 		"Ability10"		"special_bonus_birzha_homunculus_1"
 		"Ability11"		"special_bonus_birzha_homunculus_2"
@@ -4146,7 +4247,8 @@
 		"AttributeIntelligenceGain"		"3.5"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
 		"difficulty"					"Pick_easy"
-		"role_hero"						"Pick_Carry"
+		"Facets"        ""
+        "role_hero"						"Pick_Carry"
 
 		"Ability12"		"special_bonus_birzha_ns_1"
 		"Ability13"		"special_bonus_birzha_ns_2"
@@ -4185,7 +4287,8 @@
 		"AttackDamageMin"		"47"
 		"AttackDamageMax"		"49"
 		"difficulty"	"Pick_hard"
-		"role_hero"		"Pick_Killer"
+		"Facets"        ""
+        "role_hero"		"Pick_Killer"
 
       	"Ability10"		"special_bonus_birzha_mina_4"
 		"Ability11"		"special_bonus_birzha_mina_1"
@@ -4218,7 +4321,8 @@
 		"AttributeIntelligenceGain"		"3.400000"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
 		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Killer"
+		"Facets"        ""
+        "role_hero"		"Pick_Killer"
 
 		"Ability10"		"special_bonus_birzha_ponasenkov_7"
 		"Ability11"		"special_bonus_birzha_ponasenkov_4"
@@ -4241,6 +4345,7 @@
 		"Ability4"	"generic_hidden"
 		"Ability5"	"generic_hidden"
 		"Ability6"	"Doljan_Intellect"
+        "Ability9"		"generic_hidden"
 		"Ability25"		""
 
 		"AttributeBaseStrength"			"18"
@@ -4251,7 +4356,8 @@
 		"AttributeAgilityGain"			"2.100000"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
 		"difficulty"	"Pick_hard"
-		"role_hero"		"Pick_Killer"
+		"Facets"        ""
+        "role_hero"		"Pick_Killer"
 
 		"Ability10"		"special_bonus_birzha_doljan_1"
 		"Ability11"		"special_bonus_birzha_doljan_2"
@@ -4290,7 +4396,8 @@
 		"AttributeAgilityGain"		"1.800000"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_INTELLECT"
 		"difficulty"	"Pick_easy"
-		"role_hero"		"Pick_Killer"
+		"Facets"        ""
+        "role_hero"		"Pick_Killer"
 
 		"Ability10"		"special_bonus_birzha_ram_4"
 		"Ability11"		"special_bonus_birzha_ram_1"
@@ -4345,7 +4452,8 @@
 		"DisableWearables"	"1"
 		"ModelScale"	"0.75"
 		"AttackRange"	"100"
-		"role_hero"		"Pick_Killer"
+		"Facets"        ""
+        "role_hero"		"Pick_Killer"
 		"Model"			"models/update_heroes/kakashi/kakashi.vmdl"
 
 		"Ability17"		"special_bonus_birzha_kakashi_1"
@@ -4408,7 +4516,8 @@
 		"DisableWearables"	"1"
 		"Model"			"models/update_heroes/avatar_aang/avatar_aang.vmdl"
 		"ModelScale"	"1"
-		"role_hero"		"Pick_Killer"
+		"Facets"        ""
+        "role_hero"		"Pick_Killer"
 
 		"Ability17"		"special_bonus_birzha_avatar_1"
 		"Ability18"		"special_bonus_birzha_avatar_2"
@@ -4441,7 +4550,8 @@
 		"Ability7"		"overlord_spellbook_close"
 
 		"difficulty"	"Pick_hard"
-		"role_hero"		"Pick_Killer"
+		"Facets"        ""
+        "role_hero"		"Pick_Killer"
 
 		"Ability8"				"Overlord_spell_1"
 		"Ability9"				"Overlord_spell_2"
@@ -4508,7 +4618,8 @@
         "SoundSet"		                "Hero_Lich"
 
         "difficulty"	                "Pick_Easy"
-		"role_hero"		                "Pick_Carry"
+		"Facets"        ""
+        "role_hero"		                "Pick_Carry"
 
         "Ability1"		                "kelthuzad_die_and_decripify"
 		"Ability2"		                "kelthuzad_zombie"
@@ -4610,12 +4721,26 @@
     {
         "BaseClass"				        "npc_dota_hero_drow_ranger"
 		"HeroID"				        "188"
-        "Model"					        "models/heroes/marci/marci_base.vmdl"
+        "Model"					        "models/nix/nix_marci.vmdl"
         "ModelScale"                    "1"
         "SoundSet"		                "Hero_PhantomAssassin"
 
-        "difficulty"					"Pick_medium"
-		"role_hero"						"Pick_Carry"
+        "difficulty"					"Pick_hard"
+		"Facets"                        ""
+        "role_hero"						"Pick_Carry"
+
+        "Ability1"                      "nix_marci_q"
+        "Ability2"                      "nix_marci_w"
+        "Ability3"                      "nix_marci_e"
+        "Ability4"                      "nix_marci_d"
+        "Ability5"                      "generic_hidden"
+        "Ability6"                      "nix_marci_r"
+
+        "Ability7"                      "nix_phantom_q"
+        "Ability8"                      "nix_phantom_w"
+        "Ability9"                      "nix_phantom_e"
+        "Ability19"                     "nix_phantom_d"
+        "Ability20"                     "nix_phantom_r"
 
 		"ArmorPhysical"					"3"
 		"AttackCapabilities"			"DOTA_UNIT_CAP_MELEE_ATTACK"
@@ -4627,23 +4752,150 @@
 		"AttackDamageMin"				"42"
 		"AttackDamageMax"				"46"
 
-		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_STRENGTH"
 		"AttributeBaseStrength"			"23"
 		"AttributeStrengthGain"			"3.3"
 		"AttributeBaseAgility"			"20"
 		"AttributeAgilityGain"			"2.3"
 		"AttributeBaseIntelligence"		"20"
 		"AttributeIntelligenceGain"		"3"
+
+        "Ability10"                     "ad_special_bonus_gold_lvl10_l"
+        "Ability11"                     "ad_special_bonus_gold_lvl10_r"
+
+        "Ability12"                     "ad_special_bonus_gold_lvl15_l"
+        "Ability13"                     "ad_special_bonus_gold_lvl15_r"
+
+        "Ability14"                     "ad_special_bonus_gold_lvl20_l"
+        "Ability15"                     "ad_special_bonus_gold_lvl20_r"
+
+        "Ability16"                     "ad_special_bonus_gold_lvl25_l"
+        "Ability17"                     "ad_special_bonus_gold_lvl25_r"
     }
+
+    "npc_dota_hero_ashab_tamaev"
+    {
+        "BaseClass"				        "npc_dota_hero_lion"
+		"HeroID"				        "189"
+        "Model"					        "models/ashab/ashab.vmdl"
+        "ModelScale"                    "1"
+        "SoundSet"		                "Hero_Axe"
+
+        "difficulty"					"Pick_easy"
+		"Facets"                        ""
+        "role_hero"						"Pick_Carry"
+
+		"ArmorPhysical"					"3"
+		"AttackCapabilities"			"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackRate"					"1.700000"
+		"BaseAttackSpeed"				"110"
+		"AttackAnimationPoint"			"0.330000"
+		"AttackRange"					"150"
+        "MovementSpeed"					"300"
+		"AttackDamageMin"				"1"
+		"AttackDamageMax"				"1"
+
+        "Ability1"                      "ashab_q"
+        "Ability2"                      "ashab_w"
+        "Ability3"                      "ashab_e"
+        "Ability4"                      "generic_hidden"
+        "Ability5"                      "ashab_f"
+        "Ability6"                      "ashab_r"
+
+        "Ability10"                     "ad_special_bonus_gold_lvl10_l"
+        "Ability11"                     "ad_special_bonus_gold_lvl10_r"
+
+        "Ability12"                     "ad_special_bonus_gold_lvl15_l"
+        "Ability13"                     "ad_special_bonus_gold_lvl15_r"
+
+        "Ability14"                     "ad_special_bonus_gold_lvl20_l"
+        "Ability15"                     "ad_special_bonus_gold_lvl20_r"
+
+        "Ability16"                     "ad_special_bonus_gold_lvl25_l"
+        "Ability17"                     "ad_special_bonus_gold_lvl25_r"
+
+        "AttackSpeedActivityModifiers"
+		{
+			"fast"		"170"
+		}
+
+        "MovementSpeedActivityModifiers"
+		{
+			"jog"		"0"
+			"run"		"340"
+		}
+
+		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
+		"AttributeBaseStrength"			"30"
+		"AttributeStrengthGain"			"4"
+
+		"AttributeBaseAgility"			"20"
+		"AttributeAgilityGain"			"2.4"
+
+		"AttributeBaseIntelligence"		"0"
+		"AttributeIntelligenceGain"		"0"
+    }
+
+    "npc_dota_hero_old_god"
+    {
+        "BaseClass"				        "npc_dota_hero_phoenix"
+		"HeroID"				        "190"
+        "Model"		                    "models/old_god/old_god.vmdl"
+        "ModelScale"                    "1"
+        "SoundSet"		                "Hero_Wisp"
+
+        "difficulty"					"Pick_easy"
+		"Facets"                        ""
+        "role_hero"						"Pick_Carry"
+
+        "Ability1"                      "old_god_q"
+        "Ability2"                      "old_god_w"
+        "Ability3"                      "old_god_e"
+        "Ability4"                      "old_god_d"
+        "Ability5"                      "generic_hidden"
+        "Ability6"                      "old_god_r"
+
+		"ArmorPhysical"					"3"
+		"AttackCapabilities"			"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackRate"					"1.700000"
+		"BaseAttackSpeed"				"110"
+		"AttackAnimationPoint"			"0.330000"
+		"AttackRange"					"600"
+        "MovementSpeed"					"300"
+		"AttackDamageMin"				"1"
+		"AttackDamageMax"				"1"
+
+        "ProjectileModel"		        "particles/units/heroes/hero_wisp/wisp_base_attack.vpcf"
+		"ProjectileSpeed"		        "1200"
+
+		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
+		"AttributeBaseStrength"			"18"
+		"AttributeStrengthGain"			"1.8"
+		"AttributeBaseAgility"			"26"
+		"AttributeAgilityGain"			"3.2"
+		"AttributeBaseIntelligence"		"12"
+		"AttributeIntelligenceGain"		"2.7"
+
+        "Ability10"                     "ad_special_bonus_gold_lvl10_l"
+        "Ability11"                     "ad_special_bonus_gold_lvl10_r"
+
+        "Ability12"                     "ad_special_bonus_gold_lvl15_l"
+        "Ability13"                     "ad_special_bonus_gold_lvl15_r"
+
+        "Ability14"                     "ad_special_bonus_gold_lvl20_l"
+        "Ability15"                     "ad_special_bonus_gold_lvl20_r"
+
+        "Ability16"                     "ad_special_bonus_gold_lvl25_l"
+        "Ability17"                     "ad_special_bonus_gold_lvl25_r"
+    }
+
 	// "npc_dota_hero_ancient_apparition"
-	// "npc_dota_hero_lion"
 	// "npc_dota_hero_mirana"
 	// "npc_dota_hero_broodmother"
 	// "npc_dota_hero_death_prophet"
 	// "npc_dota_hero_obsidian_destroyer"
 	// "npc_dota_hero_shadow_demon"
 	// "npc_dota_hero_skywrath_mage"
-	// "npc_dota_hero_phoenix"
 	// "npc_dota_hero_hoodwink"
 }
 

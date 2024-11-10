@@ -62,15 +62,15 @@ function modifier_power_orb:OnIntervalThink()
     if self:GetAbility():GetSecondaryCharges() == 1 then
         self.str_perc = self:GetParent():GetStrength() / 100 * self.select_attribute_pct
         self.agi_perc = self:GetParent():GetAgility() / 100 * self.unselect_attribute_pct
-        self.int_perc = self:GetParent():GetIntellect() / 100 * self.unselect_attribute_pct
+        self.int_perc = self:GetParent():GetIntellect(false) / 100 * self.unselect_attribute_pct
     elseif self:GetAbility():GetSecondaryCharges() == 2 then
         self.str_perc = self:GetParent():GetStrength() / 100 * self.unselect_attribute_pct
         self.agi_perc = self:GetParent():GetAgility() / 100 * self.select_attribute_pct
-        self.int_perc = self:GetParent():GetIntellect() / 100 * self.unselect_attribute_pct
+        self.int_perc = self:GetParent():GetIntellect(false) / 100 * self.unselect_attribute_pct
     elseif self:GetAbility():GetSecondaryCharges() == 3 then
         self.str_perc = self:GetParent():GetStrength() / 100 * self.unselect_attribute_pct
         self.agi_perc = self:GetParent():GetAgility() / 100 * self.unselect_attribute_pct
-        self.int_perc = self:GetParent():GetIntellect() / 100 * self.select_attribute_pct
+        self.int_perc = self:GetParent():GetIntellect(false) / 100 * self.select_attribute_pct
     end
     self:GetParent():CalculateStatBonus(true)
 end

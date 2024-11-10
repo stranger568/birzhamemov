@@ -75,7 +75,7 @@ function modifier_armageddon_casting:OnIntervalThink()
 	local units = FindUnitsInRadius(self.caster:GetTeamNumber(), point, nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
 				
 	for _,unit in pairs(units) do
-		local damageTable = { victim = unit, attacker = self.caster, damage = self.damage + (self.caster:GetIntellect() / 100 * self.multi), damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()}
+		local damageTable = { victim = unit, attacker = self.caster, damage = self.damage + (self.caster:GetIntellect(false) / 100 * self.multi), damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()}
 		ApplyDamage(damageTable)
 	end
 
