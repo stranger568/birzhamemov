@@ -712,6 +712,12 @@ function modifier_brb_test_damage:DeclareFunctions()
 end
 
 function modifier_brb_test_damage:GetModifierIncomingDamage_Percentage()
+    if self:GetParent():GetUnitName() == "npc_dota_hero_pyramide" then
+        return self.damage / 2
+    end
+    if self:GetParent():GetUnitName() == "npc_dota_hero_pyramide" and self:GetCaster():HasScepter() then
+        return self.damage / 4
+    end
     if self:GetParent() ~= self:GetCaster() and self:GetCaster():HasScepter() then
         return self.damage / 2
     end
