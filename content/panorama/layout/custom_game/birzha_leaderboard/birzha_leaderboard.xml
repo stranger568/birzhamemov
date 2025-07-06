@@ -6,7 +6,8 @@
 	</styles>
 
 	<scripts>
-    <include src="s2r://panorama/layout/custom_game/scripts/functions.vjs_c" />
+        <include src="s2r://panorama/layout/custom_game/scripts/util.vjs_c" />
+        <include src="s2r://panorama/layout/custom_game/scripts/functions.vjs_c" />
 		<include src="s2r://panorama/layout/custom_game/birzha_leaderboard/birzha_leaderboard.vjs_c" />
 	</scripts>
 
@@ -36,7 +37,7 @@
 						<Panel id="duo" class="ButtonMap" onactivate="ToggleMap('duo', 'birzhamemov_duo');">
 							<Label class="ButtonMapLabel" text="Duo" />
 						</Panel>
-						<Panel id="trio" class="ButtonMap" onactivate="ToggleMap('trio', 'birzhamemov_trio');">
+						<!--<Panel id="trio" class="ButtonMap" onactivate="ToggleMap('trio', 'birzhamemov_trio');">
 							<Label class="ButtonMapLabel" text="Trio" />
 						</Panel>
 						<Panel id="5v5v5" class="ButtonMap" onactivate="ToggleMap('5v5v5', 'birzhamemov_5v5v5');">
@@ -44,7 +45,7 @@
 						</Panel>
 						<Panel id="5v5" class="ButtonMap" onactivate="ToggleMap('5v5', 'birzhamemov_5v5');">
 							<Label class="ButtonMapLabel" text="5v5" />
-						</Panel>
+						</Panel>-->
 						<Panel id="zxc" class="ButtonMap" onactivate="ToggleMap('zxc', 'birzhamemov_zxc');">
 							<Label class="ButtonMapLabel" text="ZXC" />
 						</Panel>
@@ -56,16 +57,6 @@
 				</Panel>
 
 				<Panel id="DeveloperInfoContainer" hittest="true">
-
-					<Panel class = "InfoLeaderboardblockCreators">
-						<Label text = "#DevelopersLabel" class = "InfoLeaderboardblockPlayer"/>
-					</Panel>
-					<Panel hittest="false" class="TopMmrClass">
-						<Panel class="PlayerInfoTableCreators">
-							<DOTAAvatarImage steamid="76561198066362606" class="AvatarTopMmr" />
-							<DOTAUserName steamid="76561198066362606" class="TopMmrNick" />
-						</Panel>
-					</Panel>
 					<Panel class = "InfoLeaderboardblockCreators">
 						<Label text = "#DonatersLabel" class = "InfoLeaderboardblockPlayer"/>
 					</Panel>

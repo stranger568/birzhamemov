@@ -54,9 +54,9 @@ function ToggleMap(button, map_name)
 {
 	$("#solo").SetHasClass( "ButtonMapSelect", false );
 	$("#duo").SetHasClass( "ButtonMapSelect", false );
-	$("#trio").SetHasClass( "ButtonMapSelect", false );
-	$("#5v5v5").SetHasClass( "ButtonMapSelect", false );
-	$("#5v5").SetHasClass( "ButtonMapSelect", false );
+	//$("#trio").SetHasClass( "ButtonMapSelect", false );
+	//$("#5v5v5").SetHasClass( "ButtonMapSelect", false );
+	//$("#5v5").SetHasClass( "ButtonMapSelect", false );
 	$("#zxc").SetHasClass( "ButtonMapSelect", false );
 	Game.EmitSound("ui_topmenu_select")
 	$("#" + button).SetHasClass( "ButtonMapSelect", true );
@@ -111,7 +111,8 @@ function GetMmrTop(map_name) {
 	{
 		if (topmmr[map_name])
 		{
-			for (var i = 1; i <= Object.keys(topmmr[map_name]).length; i++) {
+			for (var i = 1; i <= Object.keys(topmmr[map_name]).length; i++) 
+            {
 				CreatePlayer(topmmr[map_name][i], i)
 			}
 		}
@@ -131,9 +132,9 @@ function CreatePlayer(table, count)
 	let player_nickname_and_avatar = $.CreatePanel("Panel", player_panel, "")
 	player_nickname_and_avatar.AddClass("PlayerInfoTable")
 
-	$.CreatePanel("DOTAAvatarImage", player_nickname_and_avatar, "TopMmrAvatar", { style: "width:32px;height:32px;", accountid: table.steamid });
+	$.CreatePanel("DOTAAvatarImage", player_nickname_and_avatar, "TopMmrAvatar", { style: "width:32px;height:32px;border: 1px solid #b38aff;border-radius: 100%;", class: "AvatarTopMmr", accountid: table.steamid });
     $.CreatePanel("DOTAUserName", player_nickname_and_avatar, "NickLabelid", { class: "TopMmrNick", steamid: table.steamid });
-  
+
     let player_rating_panel = $.CreatePanel("Panel", player_panel, "")
 	player_rating_panel.AddClass("MmrInfoTable")
 
@@ -143,47 +144,4 @@ function CreatePlayer(table, count)
 	let player_rating = $.CreatePanel("Label", player_rating_panel, "")
 	player_rating.AddClass("TopMmrReatingCount")
 	player_rating.text = (table.mmr || 0)
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

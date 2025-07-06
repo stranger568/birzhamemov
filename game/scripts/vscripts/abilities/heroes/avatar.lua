@@ -1,11 +1,45 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_birzha_silenced", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_aang_quas", "abilities/heroes/avatar", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_aang_quas_passive", "abilities/heroes/avatar", LUA_MODIFIER_MOTION_NONE )
 
 aang_quas = class({})
 
-LinkLuaModifier( "modifier_aang_quas", "abilities/heroes/avatar", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_aang_quas_passive", "abilities/heroes/avatar", LUA_MODIFIER_MOTION_NONE )
+function aang_quas:Precache(context)
+    PrecacheResource("model", "models/update_heroes/avatar_aang/avatar_aang.vmdl", context)
+    PrecacheResource("model", "models/korra/korra_model.vmdl", context)
+    PrecacheResource("particle", "particles/korra/quas_sphere.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_invoker/invoker_quas_orb.vpcf", context)
+    PrecacheResource("particle", "particles/korra/wex_sphere.vpcf", context)
+    PrecacheResource("particle", "particles/avatar/aang_earth_orb.vpcf", context)
+    PrecacheResource("particle", "particles/korra/exort_sphere.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_invoker/invoker_exort_orb.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_nevermore/nevermore_necro_souls.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_invoker/invoker_invoke.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_jakiro/jakiro_ice_path.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_jakiro/jakiro_ice_path_b.vpcf", context)
+    PrecacheResource("particle", "particles/aang_ice.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_jakiro/jakiro_icepath_debuff.vpcf", context)
+    PrecacheResource("particle", "particles/avatar/avatar_vacuum.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_leshrac/leshrac_split_earth.vpcf", context)
+    PrecacheResource("particle", "particles/avatar/aang_jumping.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_elder_titan/elder_titan_echo_stomp.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_tiny/tiny_toss_blur.vpcf", context)
+    PrecacheResource("particle", "particles/econ/events/fall_2022/forcestaff/forcestaff_base_fall2022.vpcf", context)
+    PrecacheResource("particle", "particles/econ/items/lina/lina_head_headflame/lina_spell_dragon_slave_headflame.vpcf", context)
+    PrecacheResource("particle", "particles/aang_lightning.vpcf", context)
+    PrecacheResource("particle", "particles/avatar/aang_avatar_boom.vpcf", context)
+    PrecacheResource("particle", "particles/avatar/aang_avatar_effect.vpcf", context)
+    PrecacheResource("particle", "particles/econ/items/windrunner/windranger_arcana/windranger_arcana_debut_start.vpcf", context)
+    PrecacheResource("particle", "particles/avatar/aang_avatar_shield.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_nyx_assassin/nyx_assassin_burrow_exit.vpcf", context)
+    PrecacheResource("particle", "particles/avatar/avatar_meteor_ground.vpcf", context)
+    PrecacheResource("particle", "particles/avatar/avatar_meteor_effect.vpcf", context)
+    PrecacheResource("particle", "particles/avatar/meteor_crush.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_jakiro/jakiro_liquid_fire_explosion.vpcf", context)
+    PrecacheResource("particle", "particles/neutral_fx/ursa_thunderclap.vpcf", context)
+end
 
 function aang_quas:GetIntrinsicModifierName() 
     return "modifier_aang_quas_passive"
@@ -695,7 +729,9 @@ LinkLuaModifier("modifier_aang_lunge_damage", "abilities/heroes/avatar.lua", LUA
 aang_lunge = class({})
 
 function aang_lunge:GetCastRange(location, target)
-    return ability_manager:GetValueQuas(self, self:GetCaster(), "range")
+    if IsClient() then
+        return ability_manager:GetValueQuas(self, self:GetCaster(), "range")
+    end
 end
 
 function aang_lunge:GetAbilityChargeRestoreTime(level)
@@ -721,30 +757,31 @@ function aang_lunge:OnSpellStart()
     if point == self:GetCaster():GetAbsOrigin() then
         point = point + self:GetCaster():GetForwardVector()
     end
-    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_aang_lunge", {
-        duration    = math.min((point - self:GetCaster():GetAbsOrigin()):Length2D(), self:GetCastRange( self:GetCaster():GetOrigin(), self:GetCaster() )),
-        x           = point.x,
-        y           = point.y,
-        z           = point.z
-    })
-    local vDirection = point - self:GetCaster():GetOrigin()
-    vDirection.z = 0.0
-    vDirection = vDirection:Normalized()
+    local distance = ability_manager:GetValueQuas(self, self:GetCaster(), "range")
+    local direction = point - self:GetCaster():GetAbsOrigin()
+    direction.z = 0
+    local current_distance = direction:Length2D()
+    direction = direction:Normalized()
+    if current_distance > distance then
+        point = self:GetCaster():GetAbsOrigin() + direction * distance
+        current_distance = distance
+    end
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_aang_lunge", {x = point.x, y = point.y, z = point.z})
     local flag = DOTA_DAMAGE_FLAG_NONE
-    local info = {
+    local info = 
+    {
         EffectName = 'particles/units/heroes/hero_morphling/morphling_waveform.vpcf',
         Ability = self,
         vSpawnOrigin = self:GetCaster():GetOrigin(), 
         fStartRadius = 100,
         fEndRadius = 100,
-        vVelocity = vDirection * 1100,
-        fDistance = #(point - self:GetCaster():GetOrigin()),
+        vVelocity = direction * 1100,
+        fDistance = current_distance,
         Source = self:GetCaster(),
         iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
         iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
         iUnitTargetFlags = flag,
     }
-
     ProjectileManager:CreateLinearProjectile( info )
 end
 
@@ -953,21 +990,23 @@ function modifier_aang_ice_wall_thinker:OnIntervalThink()
 end
 
 function modifier_aang_ice_wall_thinker:PlayEffects1()
-    local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_jakiro/jakiro_ice_path.vpcf", PATTACH_WORLDORIGIN, self.parent )
-    ParticleManager:SetParticleControl( effect_cast, 0, self.startpoint )
-    ParticleManager:SetParticleControl( effect_cast, 1, self.endpoint )
-    ParticleManager:SetParticleControl( effect_cast, 2, Vector( 0, 0, self.delay ) )
-    ParticleManager:ReleaseParticleIndex( effect_cast )
+    local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_jakiro/jakiro_ice_path.vpcf", PATTACH_WORLDORIGIN, self.parent )
+	ParticleManager:SetParticleControl( particle, 0, self.startpoint )
+	ParticleManager:SetParticleControl( particle, 1, self.endpoint )
+	ParticleManager:SetParticleControl( particle, 2, Vector( self.duration + self.delay, 0, 0 ) )
+    ParticleManager:SetParticleControl( particle, 3, Vector( self.radius, 0, 0 ) )
+    ParticleManager:SetParticleControl( particle, 6, Vector( 1, 1, 1 ) )
+    self:AddParticle(particle, false, false, -1, false, false)
 end
 
 function modifier_aang_ice_wall_thinker:PlayEffects2()
-    local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_jakiro/jakiro_ice_path_b.vpcf", PATTACH_WORLDORIGIN, self.parent )
-    ParticleManager:SetParticleControl( effect_cast, 0, self.startpoint )
-    ParticleManager:SetParticleControl( effect_cast, 1, self.endpoint )
-    ParticleManager:SetParticleControl( effect_cast, 2, Vector( self.delay + self.duration, 0, 0 ) )
-    ParticleManager:SetParticleControl( effect_cast, 9, self.startpoint )
-    ParticleManager:SetParticleControlEnt( effect_cast, 9, self.caster, PATTACH_POINT_FOLLOW, "attach_attack1", Vector(0,0,0), true)
-    ParticleManager:ReleaseParticleIndex( effect_cast )
+    --local effect_cast = ParticleManager:CreateParticle( "particles/units/heroes/hero_jakiro/jakiro_ice_path_b.vpcf", PATTACH_WORLDORIGIN, self.parent )
+    --ParticleManager:SetParticleControl( effect_cast, 0, self.startpoint )
+    --ParticleManager:SetParticleControl( effect_cast, 1, self.endpoint )
+    --ParticleManager:SetParticleControl( effect_cast, 2, Vector( self.delay + self.duration, 0, 0 ) )
+    --ParticleManager:SetParticleControl( effect_cast, 9, self.startpoint )
+    --ParticleManager:SetParticleControlEnt( effect_cast, 9, self.caster, PATTACH_POINT_FOLLOW, "attach_attack1", Vector(0,0,0), true)
+    --ParticleManager:ReleaseParticleIndex( effect_cast )
     self.parent:EmitSound("Hero_Jakiro.IcePath")
 end
 
@@ -1216,7 +1255,13 @@ end
 aang_jumping = class({})
 
 function aang_jumping:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    local cooldown = self.BaseClass.GetCooldown( self, level )
+    local aang_wex = self:GetCaster():FindAbilityByName("aang_wex")
+    if aang_wex then
+        local wex_level = aang_wex:GetLevel() - 1
+        cooldown = self.BaseClass.GetCooldown( self, wex_level )
+    end
+    return cooldown
 end
 
 function aang_jumping:GetCastRange(location, target)
@@ -1333,7 +1378,11 @@ end
 
 function aang_agility:OnAbilityPhaseStart()
     self.vTargetPosition = self:GetCursorPosition()
-    return self:FindEnemies()
+    if not self:FindEnemies() then
+        DisplayError(self:GetCaster():GetPlayerOwnerID(), "#dota_hud_error_no_target")
+        return false
+    end
+    return true
 end
 
 function aang_agility:OnSpellStart()
@@ -1353,7 +1402,7 @@ function modifier_agility_toss:OnCreated( kv )
     self.caster = self:GetCaster()
     self.parent = self:GetParent()
     if not IsServer() then return end
-    local duration = 1.4
+    local duration = 1.4 * (1-self.parent:GetStatusResistance())
     self.point = Vector(kv.point_x, kv.point_y, kv.point_z)
 
     self.modifier = self.parent:AddNewModifier(
@@ -1780,7 +1829,7 @@ function aang_fire_hit:OnSpellStart()
         end
 
         local callback = function( bInterrupted )
-            self:GetCaster():Stop()
+            --self:GetCaster():Stop()
         end
         knockback:SetEndCallback( callback )
     else
@@ -1957,6 +2006,25 @@ end
 function aang_avatar:OnAbilityPhaseInterrupted()
     self:GetCaster():FadeGesture(ACT_DOTA_CAST_REFRACTION)
     self:StopEffects1( false )
+end
+
+function aang_avatar:GetCooldown(level)
+    local cooldown_decrease = 0
+    if self:GetCaster():HasScepter() then
+        cooldown_decrease = (self:GetSpecialValueFor("scepter_cooldown") * self:GetCaster():GetModifierStackCount("modifier_aang_invoke_passive", self:GetCaster()))
+    end
+    return math.max(self.BaseClass.GetCooldown( self, level ) - cooldown_decrease, 1)
+end
+
+function aang_avatar:GetCastPoint()
+    local cast_point = 2
+    local aang_wex = self:GetCaster():FindAbilityByName("aang_wex")
+    if aang_wex then
+        local wex_level = aang_wex:GetLevel()
+        local list = {2,1.9,1.8,1.7,1.6,1.5,1.4}
+        cast_point = list[wex_level]
+    end
+    return cast_point
 end
 
 function aang_avatar:OnSpellStart()
@@ -2239,10 +2307,16 @@ function aang_firestone:OnAbilityPhaseStart()
 end
 
 function aang_firestone:GetCooldown(level)
-    if self:GetCaster():HasShard() then
-        return self.BaseClass.GetCooldown( self, level ) - self:GetSpecialValueFor("shard_cooldown")
+    local cooldown = self.BaseClass.GetCooldown( self, level )
+    local aang_wex = self:GetCaster():FindAbilityByName("aang_wex")
+    if aang_wex then
+        local wex_level = aang_wex:GetLevel() - 1
+        cooldown = self.BaseClass.GetCooldown( self, wex_level )
     end
-    return self.BaseClass.GetCooldown( self, level )
+    if self:GetCaster():HasShard() then
+        return cooldown - self:GetSpecialValueFor("shard_cooldown")
+    end
+    return cooldown
 end
 
 function aang_firestone:OnSpellStart()

@@ -7,6 +7,37 @@ LinkLuaModifier("modifier_kelthuzad_die_and_decripify_thinker_friendly_buff", "a
 
 kelthuzad_die_and_decripify = class({})
 
+function kelthuzad_die_and_decripify:Precache(context)
+    local particle_list = 
+    {
+        "particles/dead_lich/dead_lich_decay.vpcf",
+        "particles/dead_lich/recuto_projectile.vpcf",
+        "particles/dead_lich/dead_lich_pre_cast_cold.vpcf",
+        "particles/dead_lich/dead_lich_ability_cold.vpcf",
+        "particles/dead_lich/dead_lich_cast_after.vpcf",
+        "particles/units/heroes/hero_crystalmaiden/maiden_frostbite_buff.vpcf",
+        "particles/units/heroes/hero_crystalmaiden/maiden_shard_frostbite.vpcf",
+        "particles/dead_lich/skverna_thinker.vpcf",
+        "particles/units/heroes/hero_undying/undying_zombie_spawn.vpcf",
+        "particles/status_fx/status_effect_rupture.vpcf",
+        "particles/dead_lich/effect_thirst_owner.vpcf",
+        "particles/units/heroes/hero_ancient_apparition/ancient_apparition_chilling_touch_buff.vpcf",
+        "particles/units/heroes/hero_lich/lich_ice_spire_debuff.vpcf",
+        "particles/status_fx/status_effect_frost_lich.vpcf",
+        "particles/dead_lich/steal_soul_target.vpcf",
+        "particles/dead_lich/knight_die_effect.vpcf",
+        "particles/dead_lich/knight_effect_ambient_shadow.vpcf",
+        "particles/dead_lich_death_knight_effect.vpcf",
+        "particles/dead_lich/death_knight_spawn_effect.vpcf",
+        "particles/dead_lich/chain_cast.vpcf",
+        "particles/dead_lich/dead_lich_chain_effect.vpcf",
+        "particles/dead_lich/chain_pulling.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function kelthuzad_die_and_decripify:GetAOERadius()
     return self:GetSpecialValueFor("radius")
 end

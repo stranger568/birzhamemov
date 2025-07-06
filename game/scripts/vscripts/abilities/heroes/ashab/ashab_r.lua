@@ -11,9 +11,24 @@ function ashab_r:Precache(context)
     PrecacheResource("particle", "particles/ashab/rocket_explosion.vpcf", context)
 end
 
+function ashab_r:GetBehavior()
+    if self:GetCaster():HasScepter() then
+        return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET + DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR_AOE
+    end
+    return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
+end
+
+function ashab_r:GetAOERadius()
+    return self:GetSpecialValueFor("radius_explosion")
+end
+
 function ashab_r:OnSpellStart()
     if not IsServer() then return end
     local target = self:GetCursorTarget()
+    local point = self:GetCursorPosition()
+    if target == nil then
+        target = CreateModifierThinker(self:GetCaster(), self, "modifier_invulnerable", {duration = 10}, point, self:GetCaster():GetTeamNumber(), false)
+    end
     local cast_time = self:GetSpecialValueFor("cast_time")
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_ashab_r", {duration = cast_time+0.1, target = target:entindex()})
 end
@@ -43,6 +58,8 @@ function modifier_ashab_r:OnCreated(params)
     self.modifier_ashab_r_launch = self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_ashab_r_launch", {target = params.target})
     self.randomize = 0
     self.random_x = 1
+    self.max_mult = self:GetAbility():GetSpecialValueFor("max_mult")
+    self.min_mult = self:GetAbility():GetSpecialValueFor("min_mult")
     EmitGlobalSound("ashab_rocket")
     self:StartIntervalThink(0.2)
 end
@@ -54,7 +71,7 @@ function modifier_ashab_r:OnIntervalThink()
     end
     self.randomize = self.randomize + 1
     if self.randomize >= 5 then
-        self.random_x = RandomInt(0, 9)
+        self.random_x = RandomInt(self.min_mult, self.max_mult)
         self.particle_random = ParticleManager:CreateParticle("particles/ashab/ashab_r_rollcounter.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent())
         ParticleManager:SetParticleControl(self.particle_random, 0, self:GetParent():GetAbsOrigin())
         ParticleManager:SetParticleControl(self.particle_random, 1, Vector(self.random_x, 1, 0))
@@ -63,7 +80,7 @@ function modifier_ashab_r:OnIntervalThink()
         return
     end
     self:GetParent():EmitSound("Hero_OgreMagi.Fireblast.x1")
-    self.random_x = RandomInt(0, 9)
+    self.random_x = RandomInt(self.min_mult, self.max_mult)
     self.particle_random = ParticleManager:CreateParticle("particles/ashab/ashab_r_rollcounter.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent())
     ParticleManager:SetParticleControl(self.particle_random, 0, self:GetParent():GetAbsOrigin())
     ParticleManager:SetParticleControl(self.particle_random, 1, Vector(self.random_x, 1, 0))

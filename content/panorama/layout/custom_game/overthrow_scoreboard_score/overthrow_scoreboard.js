@@ -1,12 +1,6 @@
-"use strict";
-
-var parentHUDElements = $.GetContextPanel().GetParent().GetParent().GetParent().FindChild("HUDElements");
-if ($.GetContextPanel() && parentHUDElements)
-{
-	$.GetContextPanel().SetParent(parentHUDElements);
-}
- 
-var toggle = false
+var minimap_container = FindDotaHudElement("minimap_container");
+$("#NewTimersPanels").SetParent(minimap_container);
+let ORIGINAL_PANEL_WITH_TIMERS = minimap_container.FindChildTraverse("NewTimersPanels")
 
 function UpdateTimer( data )
 {
@@ -16,10 +10,16 @@ function UpdateTimer( data )
 	timerText += ":";
 	timerText += data.timer_second_10;
 	timerText += data.timer_second_01;
-	if ($("#Timer"))
-	{
-		$( "#Timer" ).text = timerText;
-	}
+
+    let original_time = data.original_time
+    let full_original_time = data.full_original_time
+    let NewTimerRadial = ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("BirzhaRewardTime").FindChildTraverse("NewTimerRadial")
+    if (NewTimerRadial)
+    {
+        NewTimerRadial.style.clip = "radial(50.0% 50.0%, 0deg," + (360 * (1 - (original_time / full_original_time))) + "deg)"
+    }
+
+	ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("Timer" ).text = timerText;
 }
 
 function RefreshFountainTimer(data)
@@ -31,25 +31,16 @@ function RefreshFountainTimer(data)
 	timerText += data.timer_second_10;
 	timerText += data.timer_second_01;
 
-	if ($("#EndTimer"))
-	{
-		$( "#EndTimer" ).text = timerText;
-	}
-}
+    let original_time = data.original_time
+    let full_original_time = data.full_original_time
+    ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("BirzhaEnd").visible = original_time > 0
+    let NewTimerRadial = ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("BirzhaEnd").FindChildTraverse("NewTimerRadial")
+    if (NewTimerRadial)
+    {
+        NewTimerRadial.style.clip = "radial(50.0% 50.0%, 0deg," + (360 * (1 - (original_time / full_original_time))) + "deg)"
+    }
 
-function ToggleInfo()
-{
-	if (toggle === false) {
-		$.GetContextPanel().FindChildTraverse("AllVictoryPanel").style.transform = "translateX( 1000px )"
-		$.GetContextPanel().FindChildTraverse("ContractPanel").style.transform = "translateX( 1000px )"
-		$.GetContextPanel().FindChildTraverse("InfoText").text = $.Localize("#OpenGameInfo")
-		toggle = true
-	} else {
-		$.GetContextPanel().FindChildTraverse("AllVictoryPanel").style.transform = "translateX( 0px )"
-		$.GetContextPanel().FindChildTraverse("ContractPanel").style.transform = "translateX( 0px )"
-		$.GetContextPanel().FindChildTraverse("InfoText").text = $.Localize("#CloseGameInfo")
-		toggle = false
-	}
+	ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("EndTimer" ).text = timerText;
 }
 
 function FountainUpdateTimer( data )
@@ -61,10 +52,16 @@ function FountainUpdateTimer( data )
 	timerText += data.timer_second_10;
 	timerText += data.timer_second_01;
 
-	if ($("#FountainTimer"))
-	{
-		$( "#FountainTimer" ).text = timerText;
-	}
+    let original_time = data.original_time
+    let full_original_time = data.full_original_time
+    ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("BirzhaFountainTime").visible = original_time > 0
+    let NewTimerRadial = ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("BirzhaFountainTime").FindChildTraverse("NewTimerRadial")
+    if (NewTimerRadial)
+    {
+        NewTimerRadial.style.clip = "radial(50.0% 50.0%, 0deg," + (360 * (1 - (original_time / full_original_time))) + "deg)"
+    }
+
+	ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("FountainTimer" ).text = timerText;
 }
 
 
@@ -77,12 +74,8 @@ function ContractTime( data )
 	timerText += data.timer_second_10;
 	timerText += data.timer_second_01;
 
-	if ($("#ContractTimer"))
-	{
-		$( "#ContractTimer" ).text = timerText;
-	}
+	ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("ContractTimer" ).text = timerText;
 }
-
 
 function gametimer( data )
 {
@@ -92,65 +85,41 @@ function gametimer( data )
 	timerText += ":";
 	timerText += data.timer_second_10;
 	timerText += data.timer_second_01;
+	ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("GameTimer" ).text = timerText;
 
-	if ($("#GameTimer"))
-	{
-		$( "#GameTimer" ).text = timerText;
-	}
-
-	if ($( "#TimerGame" )) {
-		if (Game.IsDayTime()) {
-			$( "#TimerGame" ).style.backgroundImage = "url('s2r://panorama/images/hud/reborn/icon_sun_psd.vtex');"
-		} else {
-			$( "#TimerGame" ).style.backgroundImage = "url('s2r://panorama/images/hud/reborn/icon_moon_psd.vtex');"
-		}
-	}
-}
-
-function SetShowText(panel, text)
-{
-	if (panel)
-	{
-		panel.SetPanelEvent('onmouseover', function() {
-        $.DispatchEvent('DOTAShowTextTooltip', panel, $.Localize(text)); });
-        
-	    panel.SetPanelEvent('onmouseout', function() {
-	        $.DispatchEvent('DOTAHideTextTooltip', panel);
-	    }); 
-	}      
+    if (Game.IsDayTime()) 
+    {
+        ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("GameTime" ).style.backgroundImage = "url('s2r://panorama/images/hud/reborn/icon_sun_psd.vtex');"
+        ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("GameTime").style.backgroundSize = "100%"
+    } 
+    else 
+    {
+        ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("GameTime" ).style.backgroundImage = "url('s2r://panorama/images/hud/reborn/icon_moon_psd.vtex');"
+        ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("GameTime").style.backgroundSize = "100%"
+    }
 }
 
 function ShowTimer( data )
 {
-	if ($("#Timer"))
-	{
-		$( "#Timer" ).AddClass( "timer_visible" );
-	}
+	ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("Timer" ).AddClass( "timer_visible" );
 }
 
 function AlertTimer( data )
 {
-	if ($("#Timer"))
-	{
-		$( "#Timer" ).AddClass( "timer_alert" );
-	}
+	ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("Timer" ).AddClass( "timer_alert" );
 }
 
 function HideTimer( data )
 {
-	if ($("#Timer"))
-	{
-		$( "#Timer" ).AddClass( "timer_hidden" );
-
-	}
+	ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("Timer" ).AddClass( "timer_hidden" );
 }
 
 function UpdateKillsToWin()
 {
 	var victory_condition = CustomNetTables.GetTableValue( "game_state", "scores_to_win" );
-	if (( victory_condition ) && (victory_condition.kills) && $("#VictoryPoints"))
+	if (( victory_condition ) && (victory_condition.kills) && ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("VictoryPoints"))
 	{
-		$("#VictoryPoints").text = victory_condition.kills;
+		ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("VictoryPoints").text = victory_condition.kills;
 	}
 }
 
@@ -159,42 +128,13 @@ function OnGameStateChanged( table, key, data )
 	UpdateKillsToWin();
 }
 
-
-function AddHeroInPanel(data)
-{
-	if ($("#HeroIcons"))
-	{
-		var Hero = $.CreatePanel("Panel", $("#HeroIcons"), "hero_name_" + data.hero);
-		Hero.AddClass("Hero");
-
-		var HeroImage = $.CreatePanel("Panel", Hero, "HeroImage");
-		HeroImage.AddClass("HeroIcon");
-		HeroImage.style.backgroundImage = 'url("file://{images}/custom_game/cm/heroes_pick/' + data.hero + '.png")'
-
-		var HeroName = $.CreatePanel("Label", Hero, "HeroName");
-		HeroName.AddClass("HeroName");
-		HeroName.text = $.Localize("#" + data.hero)
-	}	
-}
-
-function RemoveHeroPanel(data)
-{
-	if ($("#HeroIcons"))
-	{
-		$("#HeroIcons").FindChildTraverse("hero_name_" + data.hero).DeleteAsync(0.1)
-	}	
-}
-
 (function()
 {
-	GameEvents.Subscribe( 'contract_hero_add', AddHeroInPanel );
-	GameEvents.Subscribe( 'contract_hero_delete', RemoveHeroPanel );
-	SetShowText($( "#BirzhaScore" ), $.Localize("#gamekills"))
-	SetShowText($( "#BirzhaRewardTime" ), $.Localize("#gametime"))
-	SetShowText($( "#BirzhaGameTime" ), $.Localize("#gametimename"))
-	SetShowText($( "#BirzhaFountainTime" ), $.Localize("#fountaintime"))
-	SetShowText($( "#BirzhaEnd" ), $.Localize("#endtimertext"))
-	SetShowText($( "#BirzhaContractTime" ), $.Localize("#contracttext"))
+	ShowTextForPanel(ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("BirzhaScore" ), $.Localize("#gamekills"))
+	ShowTextForPanel(ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("BirzhaRewardTime" ), $.Localize("#gametime"))
+	ShowTextForPanel(ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("BirzhaGameTime" ), $.Localize("#gametimename"))
+	ShowTextForPanel(ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("BirzhaFountainTime" ), $.Localize("#fountaintime"))
+	ShowTextForPanel(ORIGINAL_PANEL_WITH_TIMERS.FindChildTraverse("BirzhaEnd" ), $.Localize("#endtimertext"))
 	UpdateKillsToWin();
 	CustomNetTables.SubscribeNetTableListener( "game_state", OnGameStateChanged );
     GameEvents.Subscribe( "countdown", UpdateTimer );
@@ -206,4 +146,3 @@ function RemoveHeroPanel(data)
     GameEvents.Subscribe( "overtime_alert", HideTimer );
     GameEvents.Subscribe( "contarct_time", ContractTime );
 })();
-

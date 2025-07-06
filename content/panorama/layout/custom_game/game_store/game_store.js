@@ -3,31 +3,19 @@ var parentHUDElements = FindDotaHudElement("HUDElements").FindChildTraverse("Men
 // --------------------- Buttons init ---------------------------
 if (parentHUDElements)
 {
-	if ($("#ShopButton")) 
+    let buttons_name = ["ShopButton", "BirzhaPlusButton", "BirzhaNotificationButton"];
+    for (let i = 0; i < buttons_name.length; i++) 
     {
-		if (parentHUDElements.FindChildTraverse("ShopButton"))
+        let check_in_button = parentHUDElements.FindChildTraverse(buttons_name[i])
+        if (check_in_button)
         {
-			$("#ShopButton").DeleteAsync( 0 );
-		} else {
-			$("#ShopButton").SetParent(parentHUDElements);
-		}
-	}
-	if ($("#BirzhaPlusButton")) 
-    {
-		if (parentHUDElements.FindChildTraverse("BirzhaPlusButton")){
-			$("#BirzhaPlusButton").DeleteAsync( 0 );
-		} else {
-			$("#BirzhaPlusButton").SetParent(parentHUDElements);
-		}
-	}
-    if ($("#BirzhaNotificationButton")) 
-    {
-		if (parentHUDElements.FindChildTraverse("BirzhaNotificationButton")){
-			$("#BirzhaNotificationButton").DeleteAsync( 0 );
-		} else {
-			$("#BirzhaNotificationButton").SetParent(parentHUDElements);
-		}
-	}
+            check_in_button.DeleteAsync( 0 );
+        }
+        $.Schedule( 0.25, function()
+        {
+            $("#"+buttons_name[i]).SetParent(parentHUDElements);
+        })
+    }
 }
 
 // ---------------------------------------------------------------
@@ -44,10 +32,10 @@ function UpdatePlayerShopTable(table, key, data )
 	{
 		if (key == Players.GetLocalPlayer()) 
         {
-            player_table = CustomNetTables.GetTableValue("birzhashop", String(Players.GetLocalPlayer()))
+            player_table = data
 		}
 	}
-}
+} 
 
 function UpdatePlayerPassTable(table, key, data ) 
 {
@@ -55,7 +43,7 @@ function UpdatePlayerPassTable(table, key, data )
 	{
 		if (key == Players.GetLocalPlayer()) 
         {
-            player_table_bp_owner = CustomNetTables.GetTableValue("birzhainfo", String(Players.GetLocalPlayer()))
+            player_table_bp_owner = data
 		}
 	}
 }
@@ -1680,7 +1668,6 @@ function UselessFunction()
     {
         let ShopButton = parentHUDElements.FindChildTraverse("ShopButton")
         let BirzhaPlusButton = parentHUDElements.FindChildTraverse("BirzhaPlusButton")
-        var player_table = CustomNetTables.GetTableValue('birzhainfo', String(Players.GetLocalPlayer()))
         if (IsAllowForThis())
         {
             if (ShopButton)
@@ -1774,7 +1761,7 @@ function AddNotif(info)
     NotificationDesc.BLoadLayoutSnippet("birzha_message_to_player");
     NotificationDesc.SetDialogVariable("message", String(info["description"]));
 }
-
+ 
 function CreateChest(panel, table, i) 
 {
     let ItemShop = $.CreatePanel("Panel", panel, "");

@@ -147,7 +147,7 @@ function birzha_toast_manager_create(data)
     }
     else if (data.dropped_item)
     {
-        skill_desc.text = " <font color='#FFD700'>" + $.Localize( "#"+data.hero_id ) + "</font> " + $.Localize("#OverthrowTextPickup") + " <font color='#FF8C00'>" + $.Localize("#DOTA_Tooltip_Ability_" + data.dropped_item)
+        skill_desc.text = " <font color='#FFD700'>" + $.Localize( "#"+data.hero_id ) + "</font> " + $.Localize("#OverthrowTextPickup")
     }
     else if (data.kill)
     {
@@ -158,9 +158,11 @@ function birzha_toast_manager_create(data)
         skill_desc.text = $.Localize("#"+data.text)
     }
 
-    $.Schedule(6, function() {
+    $.Schedule(6, function() 
+    {
         notification.RemoveClass("visible")
     })
+    
     notification.DeleteAsync(7)    
 }
 

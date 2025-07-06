@@ -61,6 +61,7 @@ function HeroDemo:Init()
 end
 
 function HeroDemo:CreateDemoChest()
+    BirzhaGameMode:WarnItem()
 	BirzhaGameMode:SpawnItem()
 end
 
@@ -96,7 +97,7 @@ function HeroDemo:OnRefreshButtonPressed( eventSourceIndex )
 	for count, hero in ipairs(AllHeroes) do
 		for i=0, hero:GetAbilityCount()-1 do
 	        local ability = hero:GetAbilityByIndex( i )
-	        if ability and ability:GetAbilityType()~=DOTA_ABILITY_TYPE_ATTRIBUTES then
+	        if ability and ability:GetAbilityType()~=ABILITY_TYPE_ATTRIBUTES then
 	            ability:RefreshCharges()
 	            ability:EndCooldown()
 	        end
@@ -141,7 +142,7 @@ function HeroDemo:OnFreeSpellsButtonPressed( eventSourceIndex )
 		for count, hero in ipairs(AllHeroes) do
 			for i=0, hero:GetAbilityCount()-1 do
 		        local ability = hero:GetAbilityByIndex( i )
-		        if ability and ability:GetAbilityType()~=DOTA_ABILITY_TYPE_ATTRIBUTES then
+		        if ability and ability:GetAbilityType()~=ABILITY_TYPE_ATTRIBUTES then
 		            ability:RefreshCharges()
 		            ability:EndCooldown()
 		        end

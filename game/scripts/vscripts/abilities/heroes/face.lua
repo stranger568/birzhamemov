@@ -4,6 +4,24 @@ LinkLuaModifier( "modifier_face_ShopGucci_debuff", "abilities/heroes/face.lua", 
 
 Face_ShopGucci = class({})
 
+function Face_ShopGucci:Precache(context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_night_stalker/nightstalker_ulti.vpcf",
+        "particles/face/1.vpcf",
+        "particles/status_fx/status_effect_beserkers_call.vpcf",
+        "particles/units/heroes/hero_undying/undying_tombstone.vpcf",
+        "particles/neutral_fx/skeleton_spawn.vpcf",
+        "particles/units/heroes/hero_lycan/lycan_howl_cast.vpcf",
+        "particles/units/heroes/hero_lycan/lycan_howl_buff.vpcf",
+        "particles/units/heroes/hero_sandking/sandking_epicenter.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+    PrecacheResource("model", "models/heroes/nightstalker/nightstalker_night.vmdl", context)
+end
+
 function Face_ShopGucci:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end
@@ -418,16 +436,6 @@ function modifier_birzha_undying_tombstone_zombie_modifier:OnIntervalThink()
     end
 end
 
-
-
-
-
-
-
-
-
-
-
 LinkLuaModifier("modifier_face_esketit", "abilities/heroes/face.lua", LUA_MODIFIER_MOTION_NONE)
 
 face_esketit = class({})
@@ -602,20 +610,6 @@ function modifier_face_newsong_shard:Knock()
         unit:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_knockback", knockbackProperties)
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 modifier_face_newsong = class({})
 

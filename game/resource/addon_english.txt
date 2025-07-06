@@ -12,18 +12,18 @@
 "DOTA_GameMode_15" 	                            "BIRZHA MEMOV"
 "DOTA_Tooltip_ability_item_bag_of_gold" 	"Bitcoin"
 "DOTA_Tooltip_ability_item_bag_of_gold_Description" 	"Gives 150 gold"
-"DOTA_Tooltip_ability_item_treasure_chest" 	"Item Chest"
-"DOTA_Tooltip_ability_item_treasure_chest_Description" 	"Grants a random item based on your position on the leaderboard"
-"DOTA_Tooltip_ability_item_treasure_chest_winter" 	"New Year's gift"
-"DOTA_Tooltip_ability_item_treasure_chest_winter_Description" 	"Grants a random item based on your position on the leaderboard"
+"DOTA_Tooltip_ability_item_treasure_chest"	            "Сундук с наградой"
+"DOTA_Tooltip_ability_item_treasure_chest_Description"	"Дает 3 случайных предмета на выбор. Разряд предмета зависит от вашего положения в таблице лидерства"
+"DOTA_Tooltip_ability_item_treasure_chest_winter"	            "Сундук с наградой"
+"DOTA_Tooltip_ability_item_treasure_chest_winter_Description"	"Дает 3 случайных предмета на выбор. Разряд предмета зависит от вашего положения в таблице лидерства"
 "PointsToWin" 	"More {d:points_to_win}"
 "PointsToWin_CloseToVictory" 	"More {d:points_to_win}"
 "PointsToWin_VeryCloseToVictory" 	"More {d:points_to_win}!"
 "PointsToWin_Victory" 	"Victory"
 "Chest" 	"ITEM"
-"ItemWillSpawn" 	"<b>Central Chest</b><br><br>A chest with a random item will soon fall into the center"
-"ItemHasSpawned" 	"<b>Central chest</b><br><br>The chest has already landed in the center of the circle, take it quickly"
-"OverthrowTextPickup" 	"took the central chest and received"
+"ItemWillSpawn"	"<b>Сундук с наградой</b><br><br>Он скоро упадет в случайной точке, с него можно получить случайный предмет"
+"ItemHasSpawned"	"<b>Сундук с наградой</b><br><br>Он уже приземлился, забирайте быстрее"
+"OverthrowTextPickup"	"забрал сундук с наградой"
 "Remaining" 	"REmaining"
 "KillMessageText" 	"kills the leader and gets a bonus"
 "KillMessageText_gold" 	" gold and "
@@ -34,6 +34,8 @@
 "DOTA_Shop_Category_Basics" 				"BIRZHA ITEMS"
 "DOTA_Shop_Category_Upgrades" 			"DOTA ITEMS"
 "bp_level_max_end" 						"You have reached the maximum hero level <br>For the next level you need to purchase a BIRZHA PLUS subscription"
+"tip_one_in_game_without_bp"            "Без подписки вы можете похвалить лишь 1 раз за игру"
+"percent_winrate"           "Winrate: "
 
 "DOTA_Tooltip_modifier_birzha_stunned" 							"Stun"
 "DOTA_Tooltip_modifier_birzha_stunned_purge" 					"Stun"
@@ -76,6 +78,7 @@
 "birzha_win_predict" 				"Predicts victory! Wins in a row:"
 "birzha_win_predict_1" 				"Predictions in a row"
 "birzha_win_predict_2" 				"Predict victory"
+"birzha_win_predict_3"				"You Predict victory"
 
 "dota_hud_error_contract_health_percentage" 	"Target is below 50% health"
 
@@ -171,7 +174,7 @@
 "ScepterSelectedHeroes_Button" 				"SCEPTER"
 "ShardSelectedHeroes_Button" 				"SHARD"
 
-"Demo_Chest" 								"Central Chest"
+"Demo_Chest" 								"Сундук с наградой"
 
 "ChooseHero_Button" 							"Create a hero"
 "SpawnEnemyHero_Button" 						"ENEMY"
@@ -304,11 +307,12 @@
 
 "shop_visible_buy_items"                        "Show purchased"
 "birzha_data_message"                           "{s:message}"
-"endtimertext" 									"Time until the end of the game <br><br> Starts after the fountain is turned off and resets when any hero dies"
-"gametime" 										"Time until reward <br><br> The reward appears in the center of the map <br><br>10 seconds before the reward appears, all invisibility appears in the center for 12 seconds.<br><br>Items are divided into 4 ranks<br>1st rank - Items from 900 to 1500 gold (Drops up to 6 minutes)<br>2nd rank - Items from 2000 to 2500 gold (Drops from 6 minutes to 12 minutes)<br>3rd tier - Items from 4000 up to 5000 gold (Drops from 12 minutes to 18 minutes)<br>4th category - Items from 6000 to 7000 gold (Drops from 18 minutes to the end of the game)<br><br><h1>After 5 minutes of the game</h1> The leader always receives an item one rank lower than the current one<br><br>The last place in the game receives an item one rank higher than the current one, in Solo mode the last 2 places"
-"gametimename" 									"Game time <br><br> Day and night change every 5 minutes of play"
-"fountaintime" 									"The duration of the fountain <br><br> After the time expires, the fountain stops attacking enemies"
-"gamekills" 										"Points for victory <br><br>Killing - 1 point<br>Killing the Boss - 5 points"
+"birzha_take_neutral_item"                      "Выберите награду {s:neutral_tier}-го разряда"
+"endtimertext"									"Время до конца игры<br><br>Сбрасывается при смерти любого героя"
+"gametime"										"Время до сундука с наградой<br><br>Сундук появляется в случайной точке и дает 3 случайных предмета на выбор. Разряд предмета зависит от вашего положения в таблице лидерства<br><br>За 10 сек. до появления, на карте отображается место появления"
+"gametimename"									"Время игры <br><br> День и ночь меняются каждые 5 минут игры"
+"fountaintime"									"Время действия фонтана <br><br> После окончания времени, фонтан перестает атаковать врагов"
+"gamekills"										"Очков для победы"
 
 "OpenGameInfo" 									"Open game information"
 "CloseGameInfo" 									"Close game information"
@@ -395,8 +399,8 @@
 "Sovetsforyou" 												"Our Discord channel"
 "Sovetsforyou_discord" 										"Do you want to know how to play a certain character? Chat or find a teammate for joint games? Then all this is in our Discord channel"
 "Contributepanel" 											"Developer Support"
-"Updatename" 												"New update - Exchange is dead 09/06/23"
-"Updatedescription" 											"Click to read"
+"Updatename"												"Новое обновление - Еще живем 08.06.25"
+"Updatedescription"											"Добавлен Кобольд и Антон<br>Нажмите чтобы прочитать"
 
 "ContributepanelZaim" "Free custom game support"
 "LoadingDonateZaim" "Just click on this panel, open the site and close. This way you can support the project for the release of new updates"
@@ -1085,6 +1089,7 @@
 "birzhaagi" 	"Dexterity"
 "birzhaint" 	"Intelligence"
 "birzharatehood" "Rating: "
+"custom_end_screen_legend_rating" "Rating"
 
 "BIRZHA_PICK_STATE_START" "Loading.."
 "BIRZHA_PICK_STATE_SELECT" "Hero selection"
@@ -1186,8 +1191,8 @@
 
 "DOTA_Tooltip_ability_item_bag_of_gold_bp_fake" 	"BitCoin"
 "DOTA_Tooltip_ability_item_bag_of_gold_bp_fake_Description" 	"Gives 300 gold"
-"DOTA_Tooltip_ability_item_treasure_chest_bp_fake" 	"Treasure Chest"
-"DOTA_Tooltip_ability_item_treasure_chest_bp_fake_Description" 	"Grants a random item based on your position in the leadership table"
+"DOTA_Tooltip_ability_item_treasure_chest_bp_fake"	            "Сундук с наградой"
+"DOTA_Tooltip_ability_item_treasure_chest_bp_fake_Description"	"Дает 3 случайных предмета на выбор. Разряд предмета зависит от вашего положения в таблице лидерства"
 "DOTA_Tooltip_ability_item_hallowen_birzha_candy"	"Hallowen Candy"
 "DOTA_Tooltip_ability_item_hallowen_birzha_candy_Description"	"Collect candies and take them to the pumpkin that appears randomly after 10 minutes of the game. Candies can be exchanged for a chest in the store"
 "DOTA_Tooltip_modifier_hallowen_birzha_candy"									"Candies"
@@ -1461,12 +1466,13 @@
 "DOTA_Tooltip_modifier_item_birzha_gem"						  				"GEM OF TRUE SIGHT"
 "DOTA_Tooltip_modifier_item_birzha_gem_Description" 						"You have received the Sharoeb gem EFFECT"
 
-"DOTA_Tooltip_Ability_item_roscom_midas" 							"The Hand of Roskomnadzor"
+"DOTA_Tooltip_Ability_item_roscom_midas" 							"Hand of Roskomnadzor"
 "DOTA_Tooltip_ability_item_roscom_midas_Description" 				"<h1>Active: Theft</h1> Steals gold from the target %gold_b% + %gold%%% of the target's gold\n<h1>Passive: Hand of midas</h1>Increases gold gain by %passive_bonus % in a minute"
 "DOTA_Tooltip_ability_item_roscom_midas_Lore" 						""
 "DOTA_Tooltip_ability_item_roscom_midas_Attackspeed" 				"+$attack"
 "DOTA_Tooltip_ability_item_roscom_midas_atribute" 					"+$all"
 "DOTA_Tooltip_modifier_item_roscom_midas_cooldown" 					"Robbery"
+"DOTA_Tooltip_modifier_item_roscom_midas_cooldown_description"		"Cant be a repeat target Hand of Roskomnadzor"
 
 "DOTA_Tooltip_Ability_item_hand_of_midas_custom" 					"Hand of midas"
 "DOTA_Tooltip_ability_item_hand_of_midas_custom_Description" 		"<h1>Passive: Golden Hand</h1>Increases gold gain by %passive_bonus% per minute"
@@ -2208,6 +2214,14 @@
 "DOTA_Tooltip_Ability_item_refresher_shard_custom" 					"Refresher Shard"
 "DOTA_Tooltip_ability_item_refresher_shard_custom_Description" 	"<h1>Active: Reset</h1 > Resets the cooldown of all items and abilities.<br><br>Disappears after use"
 
+"DOTA_Tooltip_Ability_item_tpscroll_custom"										"Town Portal Scroll"
+"DOTA_Tooltip_ability_item_tpscroll_custom_Description"							"<h1>Использование: Teleport</h1>После 2 сек. произнесения заклинания, телепортирует героя на его базу"
+"DOTA_Tooltip_ability_item_tpscroll_custom_Note0"								"Оцепенение прерывает и не позволяет совершить телепортацию."
+"DOTA_Tooltip_ability_item_tpscroll_custom_Lore"								"То, что нужно истинному герою."
+
+"DOTA_Tooltip_modifier_custom_ability_teleport"							        "Town Portal Scroll"
+"DOTA_Tooltip_modifier_custom_ability_teleport_Description"					    "Телепортация на базу"
+
 //================================================================ ===================================================== ===============
 // Bosses
 //================================================================ ===================================================== ===============
@@ -2610,11 +2624,11 @@
 // Skeleton King | Papich | EvilArthas
 //================================================================ ===================================================== ===============
 
-"npc_dota_hero_skeleton_king" 	"Papic"
+"npc_dota_hero_skeleton_king" 	                                        "Papich"
 
-"DOTA_Tooltip_ability_Papich_HellFire_Blast" 						"Papanister's Fist"
-"DOTA_Tooltip_ability_Papich_HellFire_Blast_Description" 			"Papich gives a fist to the target, stunning them and dealing damage to them. After the stun ends, the target continues to receive damage for some time"
-"DOTA_Tooltip_ability_Papich_HellFire_Blast_duration" 				"STUN DURATION:"
+"DOTA_Tooltip_ability_Papich_HellFire_Blast" 						    "Papanister's Fist"
+"DOTA_Tooltip_ability_Papich_HellFire_Blast_Description" 			    "Papich gives a fist to the target, stunning them and dealing damage to them. After the stun ends, the target continues to receive damage for some time"
+"DOTA_Tooltip_ability_Papich_HellFire_Blast_duration" 				    "STUN DURATION:"
 "DOTA_Tooltip_ability_Papich_HellFire_Blast_damage" 					"DAMAGE:"
 "DOTA_Tooltip_ability_Papich_HellFire_Blast_per_damage" 				"DAMAGE PER SECOND:"
 "DOTA_Tooltip_ability_Papich_HellFire_Blast_movespeed_slow" 			"%MOVEMENT SPEED SLOW:"
@@ -2625,12 +2639,12 @@
 "DOTA_Tooltip_modifier_hellfire_blast_slow" 							"Papanister's Fist"
 "DOTA_Tooltip_modifier_hellfire_blast_slow_Description" 				"Slowed by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. You take damage."
 
-"DOTA_Tooltip_ability_Papich_reincarnation" 						"Immortality"
-"DOTA_Tooltip_ability_Papich_reincarnation_Description" 			"After death, Papich turns into a ghost and then returns to life"
-"DOTA_Tooltip_ability_Papich_reincarnation_duration" 				"DURATION:"
-"DOTA_Tooltip_ability_Papich_reincarnation_health_reincarnation" 	"%HEALTH AFTER DEATH:"
-"DOTA_Tooltip_Ability_Papich_reincarnation_scepter_description" 	"Duration is reduced by %scepter_duration_mult% times, but can attack"
-"DOTA_Tooltip_ability_Papich_reincarnation_shard_description" 		"When emerging from immortality, releases the Papanister's Fist at all enemies within the %scepter_radius%"
+"DOTA_Tooltip_ability_Papich_reincarnation" 						    "Immortality"
+"DOTA_Tooltip_ability_Papich_reincarnation_Description" 			    "After death, Papich turns into a ghost and remains alive for some time."
+"DOTA_Tooltip_ability_Papich_reincarnation_duration" 				    "DURATION:"
+"DOTA_Tooltip_ability_Papich_reincarnation_health_reincarnation" 	    "%HEALTH AFTER DEATH:"
+"DOTA_Tooltip_Ability_Papich_reincarnation_scepter_description" 	    "While in ghost form, Papich gains %scepter_lifesteal%%% lifesteal from attacks. If the health received is greater than the damage received, the hero will remain alive"
+"DOTA_Tooltip_ability_Papich_reincarnation_shard_description" 		    "When emerging from immortality, releases the Papanister's Fist at all enemies within the %scepter_radius%"
 
 "DOTA_Tooltip_modifier_papich_reincarnation_wraith_form" "Immortality"
 "DOTA_Tooltip_modifier_papich_reincarnation_wraith_form_description" ""
@@ -3558,7 +3572,6 @@
 "DOTA_Tooltip_Ability_Vernon_power_cogs_mana_burn" "MANA BURN:"
 "DOTA_Tooltip_Ability_Vernon_power_cogs_attacks_to_destroy" "ATTACKS TO DESTROY:"
 "DOTA_Tooltip_Ability_Vernon_power_cogs_lore" 	"This hero was created thanks to <font color='#fffc00'>St_Toha</font>"
-"DOTA_Tooltip_Ability_Vernon_power_cogs_scepter_description" 	"Creates a second barrier"
 
 "DOTA_Tooltip_modifier_Vernon_power_cogs_cog_push" "Electric Push"
 "DOTA_Tooltip_modifier_Vernon_power_cogs_cog_push_in" "Electric Punch"
@@ -5586,6 +5599,7 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_kurumi_6" 						"Seventh Bullet: Zain through magic immunity"	
 "DOTA_Tooltip_ability_special_bonus_birzha_kurumi_7" 						"-{s:value} sec cooldown Eighth bullet, hit"
 "DOTA_Tooltip_ability_special_bonus_birzha_kurumi_8" 						"+{s:value} clone Eighth bullet, het"	
+"DOTA_Tooltip_ability_special_bonus_talent_kurumi_damage_illusions"         "+{s:value}% clone damage Eighth bullet"
 
 //================================================================ ===================================================== ===============
 // Kuriyama // Girl
@@ -9263,7 +9277,7 @@
 "DOTA_Tooltip_ability_aang_avatar_silence_duration" 					"SILENCE DURATION:"
 "DOTA_Tooltip_ability_aang_avatar_bonus_vision" 						"ADDITIONAL REVIEW:"
 "DOTA_Tooltip_ability_aang_avatar_lore" 								"This hero was created thanks to <font col or='#fffc00'>daertc</font>"
-"DOTA_Tooltip_Ability_aang_avatar_scepter_description" 				"Unlimited waves, but loses %scepter_soul% soul on death"
+"DOTA_Tooltip_Ability_aang_avatar_scepter_description" 				"Unlimited waves, but loses %scepter_soul% soul on death. Каждая душа уменьшает перезарядку способности на %scepter_cooldown% сек."
 
 "DOTA_Tooltip_modifier_aang_invoke_passive" 							"Avatar"
 "DOTA_Tooltip_modifier_aang_invoke_passive_Description" 				"Amount of Energy"
@@ -9592,21 +9606,23 @@
 "npc_dota_hero_nix_streamer"										        "Nix"
 
 "DOTA_Tooltip_Ability_nix_marci_q"                                          "Siuuuu"
-"DOTA_Tooltip_Ability_nix_marci_q_description"                              "Издает громкий крик, который раскидывает противников перед собой в указанную точку. Все откинувшиеся противники получают урон\n<h1>Эффект усиления</h1>Увеличивает урон способности на %upgrade_damage_str%%% от силы героя"
+"DOTA_Tooltip_Ability_nix_marci_q_description"                              "Выпинывает ближайших противников в указанную точку.\n<h1>Эффект усиления</h1>Увеличивает урон способности на %upgrade_damage_str%%% от силы героя"
 "DOTA_Tooltip_Ability_nix_marci_q_radius_width"                             "РАДИУС:"
 "DOTA_Tooltip_Ability_nix_marci_q_knockback_distance"                       "ДАЛЬНОСТЬ ОТКИДЫВАНИЯ:"
 "DOTA_Tooltip_Ability_nix_marci_q_base_damage"                              "УРОН:"
 
 "DOTA_Tooltip_Ability_nix_marci_w"                                          "Жрите мясо"
-"DOTA_Tooltip_Ability_nix_marci_w_description"                              "Никс сжирает сочный стейк из ресторана, что дает ему положительный эффект. Эффект увеличивает ненадолго скорость атаки и каждая атака такая атака наносит больше урона соседним целям\n<h1>Эффект усиления</h1>Увеличивает количество атак до %upgrade_attacks% и длительность в %upgrade_duration% раза"
+"DOTA_Tooltip_Ability_nix_marci_w_description"                              "Никс сжирает сочный стейк из ресторана, что дает ему положительный эффект. В течение %duration% сек. его атаки оставляют на жертвах метку, которая снимается и оглушает противника при следующем получении урона от Nix. Также по целям под меткой Nix наносит критический урон. Способности также могут оставить метку на жертве.\n<h1>Эффект усиления</h1>Увеличивает длительность в %upgrade_duration% раза"
 "DOTA_Tooltip_Ability_nix_marci_w_duration"                                 "ДЛИТЕЛЬНОСТЬ:"
-"DOTA_Tooltip_Ability_nix_marci_w_max_attacks"                              "КОЛИЧЕСТВО АТАК:"
-"DOTA_Tooltip_Ability_nix_marci_w_bonus_attack_speed"                       "ДОП. СКОРОСТЬ АТАКИ:"
-"DOTA_Tooltip_Ability_nix_marci_w_radius"                                   "РАДИУС:"
-"DOTA_Tooltip_Ability_nix_marci_w_damage_from_attack"                       "%УРОН ВЗРЫВА ОТ АТАКИ:"
+"DOTA_Tooltip_Ability_nix_marci_w_stun_duration"                            "ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
+"DOTA_Tooltip_Ability_nix_marci_w_critical_damage"                          "%КРИТИЧЕСКИЙ УРОН:"
+"DOTA_Tooltip_Ability_nix_marci_w_mark_duration"                            "ДЛИТЕЛЬНОСТЬ МЕТКИ:"
 
 "DOTA_Tooltip_modifier_nix_marci_w"					                        "Жрите мясо"
-"DOTA_Tooltip_modifier_nix_marci_w_Description"		                        "Каждая атака наносит прорубающий урон и скорость атаки увеличена на %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%"
+"DOTA_Tooltip_modifier_nix_marci_w_Description"		                        "Каждая атака оставляет метку на противниках"
+
+"DOTA_Tooltip_modifier_nix_marci_w_debuff"					                "Жрите мясо"
+"DOTA_Tooltip_modifier_nix_marci_w_debuff_Description"		                "Атака от Nix оглушит вас и нанесет критический урон"
 
 "DOTA_Tooltip_Ability_nix_marci_e"                                          "Лудотряска"
 "DOTA_Tooltip_Ability_nix_marci_e_description"                              "Левин ставит очередную ставочку, оглушая этим противников неподалеку\n<h1>Эффект усиления</h1>Увеличивает радиус способности до %upgrade_radius% и наносит %upgrade_damage% урона"
@@ -9622,10 +9638,10 @@
 "DOTA_Tooltip_Ability_nix_marci_r"                                          "Пас на правина"
 "DOTA_Tooltip_Ability_nix_marci_r_description"                              "Никс меняет свою личность с Левина на Правина. Его основной атрибут становится Интеллект и меняются основные способности. Также применение дарует эффект усиления следующей использованной способности"
 "DOTA_Tooltip_Ability_nix_marci_r_manacost_from_current_mana"               "%СТОИМОСТЬ МАНЫ ОТ ТЕКУЩЕЙ МАНЫ:"
-"DOTA_Tooltip_Ability_nix_marci_r_base_manacost"                            "БАЗОВАЯ СТОИМОСТЬ МАНЫ:"
+"DOTA_Tooltip_Ability_nix_marci_r_lifesteal"                                "%ВАМПИРИЗМ:"
 
 "DOTA_Tooltip_Ability_nix_phantom_q"                                        "На забив"
-"DOTA_Tooltip_Ability_nix_phantom_q_description"                            "Никс высасывает из противников в области их скорость атаки и скорость передвижения, забирая все себе\n<h1>Эффект усиления</h1>Увеличивает радиус способности до %upgrade_radius% и длительность до %upgrade_duration% секунд"
+"DOTA_Tooltip_Ability_nix_phantom_q_description"                            "Никс высасывает из противников в области их скорость атаки и скорость передвижения, забирая все себе\n<h1>Эффект усиления</h1>Cпособность также ворует урон противников"
 "DOTA_Tooltip_Ability_nix_phantom_q_radius"                                 "РАДИУС:"
 "DOTA_Tooltip_Ability_nix_phantom_q_movement_attack_speed_steal"            "ВОРОВСТВО СКОРОСТИ:"
 "DOTA_Tooltip_Ability_nix_phantom_q_duration"                               "ДЛИТЕЛЬНОСТЬ ЭФФЕКТА:"
@@ -9639,12 +9655,12 @@
 "DOTA_Tooltip_Ability_nix_phantom_w"                                        "Сила медитации"
 "DOTA_Tooltip_Ability_nix_phantom_w_description"                            "Призывает сферу спокойствия, которая пролетает по указанному пути и расталкивает всех противников, нанося им урон от вашей атаки\n<h1>Эффект усиления</h1>Увеличивает дальность способности до %upgrade_length% и добавляет эффект полной атаки"
 "DOTA_Tooltip_Ability_nix_phantom_w_knockback_distance"                     "ДАЛЬНОСТЬ ОТКИДЫВАНИЯ:"
-"DOTA_Tooltip_Ability_nix_phantom_w_damage_from_attack"                     "%УРОН ОТ АТАКИ:"
+"DOTA_Tooltip_Ability_nix_phantom_w_damage"                                 "УРОН:"
 "DOTA_Tooltip_Ability_nix_phantom_w_speed"                                  "СКОРОСТЬ ПОЛЕТА:"
 "DOTA_Tooltip_Ability_nix_phantom_w_length"                                 "ДАЛЬНОСТЬ ПОЛЕТА:"
 
 "DOTA_Tooltip_Ability_nix_phantom_e"                                        "Пасека"
-"DOTA_Tooltip_Ability_nix_phantom_e_description"                            "Правин устанавливает пасеку в выбранном месте, игроки вышедшие и вышедшие из области пасеки получают урон<br>\n<h1>Эффект усиления</h1>Враги внутри области замедляются на %upgrade_slow%%% каждые %upgrade_think% сек."
+"DOTA_Tooltip_Ability_nix_phantom_e_description"                            "Правин устанавливает пасеку в выбранном месте, игроки вышедшие и вышедшие из области пасеки получают урон<br>\n<h1>Эффект усиления</h1>Увеличивает урон способности на %upgrade_damage_int%%% от интеллекта"
 "DOTA_Tooltip_Ability_nix_phantom_e_radius"                                 "РАДИУС:"
 "DOTA_Tooltip_Ability_nix_phantom_e_duration"                               "ДЛИТЕЛЬНОСТЬ:"
 "DOTA_Tooltip_Ability_nix_phantom_e_damage"                                 "УРОН:"
@@ -9659,11 +9675,12 @@
 "DOTA_Tooltip_Ability_nix_phantom_d_radius"                                 "РАДИУС ЗАДЕВАНИЯ:"
 "DOTA_Tooltip_Ability_nix_phantom_d_distance"                               "ДИСТАНЦИЯ ПОЛЕТА:"
 "DOTA_Tooltip_Ability_nix_phantom_d_damage"                                 "УРОН:"
+"DOTA_Tooltip_Ability_nix_phantom_d_damage_percent"                         "%УРОН ОТ МАКС. ЗДОРОВЬЯ ЦЕЛИ:"
 
 "DOTA_Tooltip_Ability_nix_phantom_r"                                        "Пас на левина"
 "DOTA_Tooltip_Ability_nix_phantom_r_description"                            "Никс меняет свою личность с Правина на Левина. Его основной атрибут становится Сила и меняются основные способности. Также применение дарует эффект усиления следующей использованной способности"
 "DOTA_Tooltip_Ability_nix_phantom_r_manacost_from_current_mana"             "%СТОИМОСТЬ МАНЫ ОТ ТЕКУЩЕЙ МАНЫ:"
-"DOTA_Tooltip_Ability_nix_phantom_r_base_manacost"                          "БАЗОВАЯ СТОИМОСТЬ МАНЫ:"
+"DOTA_Tooltip_Ability_nix_phantom_r_spell_lifesteal"                        "%МАГ. ВАМПИРИЗМ:"
 
 //=================================================================================================================
 // Старый бог
@@ -9675,6 +9692,7 @@
 "DOTA_Tooltip_Ability_old_god_q_description"                                            "Старый бог врывается прямо в противника, показывая у кого большие яйца. Вы притягиваетесь к противнику с уменьшенной базовой скоростью атаки. А также если цель пытается от вас убежать, то она получает замедление зависимое от расстояния между вами.<br>\n<h1>Бонус от Старый бог!</h1>Старый бог постоянно стреляет по привязанному врагу, даже если не атакует его."
 "DOTA_Tooltip_Ability_old_god_q_base_attack_time"                                       "БАЗОВАЯ СКОРОСТЬ АТАКИ:"
 "DOTA_Tooltip_Ability_old_god_q_duration"                                               "ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_Ability_old_god_q_max_slow"                                               "%МАКС. ЗАМЕДЛЕНИЕ:"
 "DOTA_Tooltip_Ability_old_god_q_max_range"                                              "ДАЛЬНОСТЬ ПРИВЯЗКИ:"
 
 "DOTA_Tooltip_modifier_old_god_q"					                                    "Большие яйца"
@@ -9709,6 +9727,15 @@
 "DOTA_Tooltip_Ability_old_god_r_damage"                                                 "УРОН:"
 "DOTA_Tooltip_Ability_old_god_r_ray_speed"                                              "СКОРОСТЬ ЛАЗЕРОВ:"
 
+"DOTA_Tooltip_Ability_special_bonus_unique_old_god_1"                                   "+{s:bonus_outgoing_damage}% к урону иллюзий Вовчик"
+"DOTA_Tooltip_Ability_special_bonus_unique_old_god_2"                                   "-{s:bonus_incoming_damage}% урона по иллюзиям Вовчик"
+"DOTA_Tooltip_Ability_special_bonus_unique_old_god_3"                                   "Базовое развеивание Натура"
+"DOTA_Tooltip_Ability_special_bonus_unique_old_god_4"                                   "+{s:bonus_shield_from_hp}% здоровья в щит Натура "
+"DOTA_Tooltip_Ability_special_bonus_unique_old_god_5"                                   "-{s:bonus_interval} интервал урона Лазеры из Глаз"
+"DOTA_Tooltip_Ability_special_bonus_unique_old_god_6"                                   "-{s:bonus_base_attack_time} базовая скорость атаки Большие яйца"
+"DOTA_Tooltip_Ability_special_bonus_unique_old_god_7"                                   "-{s:bonus_AbilityCooldown} секунд перезарядки Старый бог"
+"DOTA_Tooltip_Ability_special_bonus_unique_old_god_8"                                   "+{s:bonus_max_slow}% макс. замедления Большие яйца"
+
 //=================================================================================================================
 // Асхаб Тамаев
 //=================================================================================================================
@@ -9731,6 +9758,7 @@
 "DOTA_Tooltip_Ability_ashab_w_duration_to_explosion"                                        "ВРЕМЯ ДО ВЗРЫВА:"
 "DOTA_Tooltip_Ability_ashab_w_damage"                                                       "УРОН:"
 "DOTA_Tooltip_Ability_ashab_w_stun_duration"                                                "ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
+"DOTA_Tooltip_Ability_ashab_w_shard_description"                                            "Способность становится направленной. Герой мнгновенно оказывается в выбранной точке и использует эту способность. Дальность применения 1200"
 
 "DOTA_Tooltip_modifier_ashab_w"					                                            "Это моя машина!"
 "DOTA_Tooltip_modifier_ashab_w_Description"		                                            "Провокация школьников на машину"
@@ -9743,8 +9771,9 @@
 "DOTA_Tooltip_Ability_ashab_e_max_health_to_damage"                                         "%МАКС. ЗДОРОВЬЯ В УРОН:"
 "DOTA_Tooltip_Ability_ashab_e_chance"                                                       "%ШАНС:"
 "DOTA_Tooltip_Ability_ashab_e_duration"                                                     "ДЛИТЕЛЬНОСТЬ:"
-"DOTA_Tooltip_Ability_ashab_e_movespeed_slow"                                               "%ЗАМЕДЛЕНИЕ СКОРОСТИ ПЕРЕДВИЖЕНИЯ:"
-"DOTA_Tooltip_Ability_ashab_e_attack_speed_slow"                                            "%ЗАМЕДЛЕНИЕ СКОРОСТИ АТАКИ:"
+"DOTA_Tooltip_Ability_ashab_e_movespeed_slow"                                               "%ЗАМЕДЛЕНИЕ СКОРОСТИ ПЕРЕДВИЖЕНИЯ ЦЕЛИ:"
+"DOTA_Tooltip_Ability_ashab_e_attack_speed_slow"                                            "%ЗАМЕДЛЕНИЕ СКОРОСТИ АТАКИ ЦЕЛИ:"
+"DOTA_Tooltip_Ability_ashab_e_attack_speed_slow_self"                                       "%ЗАМЕДЛЕНИЕ СКОРОСТИ АТАКИ АСХАБА:"
 
 "DOTA_Tooltip_modifier_ashab_e_debuff_hand"					                                "Сломаны руки"
 "DOTA_Tooltip_modifier_ashab_e_debuff_hand_Description"		                                "Скорость атаки сильно уменьшена"
@@ -9762,5 +9791,23 @@
 "DOTA_Tooltip_Ability_ashab_r_radius_explosion"                                             "РАДИУС ВЗРЫВА:"
 "DOTA_Tooltip_Ability_ashab_r_explosion_damage"                                             "БАЗОВЫЙ УРОН:"
 "DOTA_Tooltip_Ability_ashab_r_max_mult"                                                     "МАКС. КОЭФФ:"
+"DOTA_Tooltip_Ability_ashab_r_min_mult"                                                     "МИН. КОЭФФ:"
+"DOTA_Tooltip_Ability_ashab_r_scepter_description"                                          "Способность можно применить на точку"
+
+"DOTA_Tooltip_Ability_special_bonus_unique_ashab_1"                                         "+{s:bonus_stun_duration} сек. длительность оглушения Моя машина"
+"DOTA_Tooltip_Ability_special_bonus_unique_ashab_2"                                         "-{s:bonus_AbilityCooldown} сек. перезарядки Дать леща"
+"DOTA_Tooltip_Ability_special_bonus_unique_ashab_3"                                         "+{s:bonus_chance}% шанс Мышцы на химикатах"
+"DOTA_Tooltip_Ability_special_bonus_unique_ashab_4"                                         "+{s:bonus_radius} к радиусу Это моя машина"
+"DOTA_Tooltip_Ability_special_bonus_unique_ashab_5"                                         "Отталкивание Дать Леща срабатывает на цель"
+"DOTA_Tooltip_Ability_special_bonus_unique_ashab_6"                                         "-{s:bonus_AbilityCooldown} сек. перезарядки Ракетка"
+"DOTA_Tooltip_Ability_special_bonus_unique_ashab_7"                                         "+{s:bonus_max_health_to_damage}% урона от Мышцы на химикатах"
+"DOTA_Tooltip_Ability_special_bonus_unique_ashab_8"                                         "+{s:bonus_min_mult} мин/макс коэфф Ракетка"
+
+"npc_dota_azazin_antosha"                                                                   "Антон"
+"npc_dota_azazin_kobold"                                                                    "Кобольд"
+"spawn_anton"                                                                               "В центральном круге появился Антоша"
+"spawn_kobold"                                                                              "В центральном круге появился Кобольд"
+"DOTA_Tooltip_ability_item_bag_of_gold_event"	                                            "Биткоин"
+"DOTA_Tooltip_ability_item_bag_of_gold_event_Description"	                                "Дает 25 золота"
 }	
 }

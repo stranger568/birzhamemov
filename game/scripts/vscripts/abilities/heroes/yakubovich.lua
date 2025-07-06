@@ -5,6 +5,27 @@ LinkLuaModifier("modifier_Yakubovich_GiftsInTheStudio_barier", "abilities/heroes
 
 Yakubovich_GiftsInTheStudio = class({})
 
+function Yakubovich_GiftsInTheStudio:Precache(context)
+    PrecacheResource("model", "models/yakub_car.vmdl", context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_dark_seer/dark_seer_vacuum.vpcf",
+        "particles/econ/items/disruptor/disruptor_resistive_pinfold/disruptor_ecage_formation.vpcf",
+        "particles/econ/items/disruptor/disruptor_resistive_pinfold/disruptor_ecage_kineticfield.vpcf",
+        "particles/econ/items/timbersaw/timbersaw_ti9/timbersaw_ti9_chakram.vpcf",
+        "particles/econ/items/timbersaw/timbersaw_ti9/timbersaw_ti9_chakram_stay.vpcf",
+        "particles/econ/items/timbersaw/timbersaw_ti9/timbersaw_ti9_chakram_return.vpcf",
+        "particles/status_fx/status_effect_frost.vpcf",
+        "particles/econ/items/timbersaw/timbersaw_ti9_gold/timbersaw_ti9_chakram_gold.vpcf",
+        "particles/econ/items/timbersaw/timbersaw_ti9_gold/timbersaw_ti9_chakram_gold_stay.vpcf",
+        "particles/econ/items/timbersaw/timbersaw_ti9_gold/timbersaw_ti9_chakram_gold_return.vpcf",
+        "particles/status_fx/status_effect_frost.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Yakubovich_GiftsInTheStudio:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end
@@ -544,6 +565,7 @@ function modifier_yakubovich_roll_thinker:PlayEffects3()
     self.effect_cast = ParticleManager:CreateParticle( "particles/econ/items/timbersaw/timbersaw_ti9/timbersaw_ti9_chakram_return.vpcf", PATTACH_ABSORIGIN_FOLLOW, self.parent )
     ParticleManager:SetParticleControl( self.effect_cast, 0, self:GetParent():GetOrigin() )
     ParticleManager:SetParticleControlEnt( self.effect_cast, 1, self.caster, PATTACH_ABSORIGIN_FOLLOW, nil, self.caster:GetOrigin(), true )
+    ParticleManager:SetParticleControlEnt( self.effect_cast, 6, self.caster, PATTACH_ABSORIGIN_FOLLOW, nil, self.caster:GetOrigin(), true)
     ParticleManager:SetParticleControl( self.effect_cast, 2, Vector( self.speed, 0, 0 ) )
     ParticleManager:SetParticleControl( self.effect_cast, 16, Vector( 0, 0, 0 ) )
     EmitSoundOn( "Hero_Shredder.Chakram.Return", self.parent )
@@ -1022,6 +1044,7 @@ function modifier_yakubovich_roll_thinker_scepter:PlayEffects3()
     self.effect_cast = ParticleManager:CreateParticle( "particles/econ/items/timbersaw/timbersaw_ti9_gold/timbersaw_ti9_chakram_gold_return.vpcf", PATTACH_ABSORIGIN_FOLLOW, self.parent )
     ParticleManager:SetParticleControl( self.effect_cast, 0, self:GetParent():GetOrigin() )
     ParticleManager:SetParticleControlEnt( self.effect_cast, 1, self.caster, PATTACH_ABSORIGIN_FOLLOW, nil, self.caster:GetOrigin(), true )
+    ParticleManager:SetParticleControlEnt( self.effect_cast, 6, self.caster, PATTACH_ABSORIGIN_FOLLOW, nil, self.caster:GetOrigin(), true)
     ParticleManager:SetParticleControl( self.effect_cast, 2, Vector( self.speed, 0, 0 ) )
     ParticleManager:SetParticleControl( self.effect_cast, 16, Vector( 0, 0, 0 ) )
     EmitSoundOn( "Hero_Shredder.Chakram.Return", self.parent )
@@ -1069,26 +1092,3 @@ end
 function modifier_yakubovich_roll_debuff_scepter:GetStatusEffectName()
     return "particles/status_fx/status_effect_frost.vpcf"
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

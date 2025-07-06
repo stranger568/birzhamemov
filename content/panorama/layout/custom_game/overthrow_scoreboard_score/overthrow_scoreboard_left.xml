@@ -4,6 +4,7 @@
 		<include src="s2r://panorama/layout/custom_game/overthrow_scoreboard_score/overthrow_scoreboard.vcss_c" />
 	</styles>
 	<scripts>
+        <include src="s2r://panorama/layout/custom_game/scripts/util.vjs_c" />
         <include src="s2r://panorama/layout/custom_game/scripts/functions.vjs_c" />
 		<include src="s2r://panorama/layout/custom_game/overthrow_scoreboard_score/overthrow_scoreboard.vjs_c" />
 	</scripts>

@@ -8,6 +8,27 @@ LinkLuaModifier( "modifier_Miku_ritmic_song_movespeed", "abilities/heroes/miku.l
 
 Miku_MusicWave = class({})
 
+function Miku_MusicWave:Precache(context)
+    PrecacheResource("model", "models/update_heroes/hatsune_miku/hatsune_miku.vmdl", context)
+    local particle_list = 
+    {
+        "particles/miku/miku_musicwave.vpcf",
+        "particles/miku/miku_musicwave.vpcf",
+        "particles/miku/miku_musicbarrier.vpcf",
+        "particles/miku/miku_healsound.vpcf",
+        "particles/units/heroes/hero_siren/naga_siren_siren_song_cast.vpcf",
+        "particles/units/heroes/hero_siren/naga_siren_song_aura.vpcf",
+        "particles/units/heroes/hero_siren/naga_siren_song_debuff.vpcf",
+        "particles/miku_ritmic.vpcf",
+        "particles/status_fx/status_effect_morphling_morph_target.vpcf",
+        "particles/status_miku_ritmic.vpcf",
+        "particles/miku_battlesong.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Miku_MusicWave:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

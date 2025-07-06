@@ -5,6 +5,15 @@ LinkLuaModifier( "modifier_Doljan_RapBattle_steal_buff", "abilities/heroes/dolja
 
 Doljan_RapBattle = class({}) 
 
+function Doljan_RapBattle:Precache(context)
+    PrecacheResource("particle", "particles/econ/items/razor/razor_punctured_crest/razor_static_link_blade.vpcf", context)
+    PrecacheResource("particle", "particles/econ/items/undying/undying_pale_augur/undying_pale_augur_decay.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_undying/undying_decay_strength_xfer.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_undying/undying_decay_strength_buff.vpcf", context)
+    PrecacheResource("particle", "particles/doljan_scepter.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_pudge/pudge_fleshheap_count.vpcf", context)
+end
+
 function Doljan_RapBattle:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

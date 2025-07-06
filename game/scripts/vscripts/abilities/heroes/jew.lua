@@ -1,10 +1,24 @@
-LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier("modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier("modifier_jew_flame_guard", "abilities/heroes/jew", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_jew_flame_guard_shard", "abilities/heroes/jew", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_jew_flame_guard_shard_aura", "abilities/heroes/jew", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_jew_flame_guard_shard_debuff", "abilities/heroes/jew", LUA_MODIFIER_MOTION_NONE)
 
 jew_flame_guard = class({}) 
+
+function jew_flame_guard:Precache(context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_ember_spirit/ember_spirit_flameguard.vpcf",
+        "particles/econ/items/slark/slark_ti6_blade/slark_ti6_blade_essence_shift_gold.vpcf",
+        "particles/units/heroes/hero_bounty_hunter/bounty_hunter_suriken_toss.vpcf",
+        "particles/econ/items/bounty_hunter/bounty_hunter_ti9_immortal/bh_ti9_immortal_jinada.vpcf",
+        "particles/items2_fx/hand_of_midas.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
 
 function jew_flame_guard:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )

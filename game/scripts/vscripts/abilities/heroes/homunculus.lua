@@ -7,6 +7,22 @@ LinkLuaModifier( "modifier_homunculus_iborn_aggres", "abilities/heroes/homunculu
 
 Homunculus_IBorn = class({})
 
+function Homunculus_IBorn:Precache(context)
+    local particle_list = 
+    {
+        "particles/homunculus_iborn_buff.vpcf",
+        "particles/status_fx/status_effect_beserkers_call.vpcf",
+        "particles/units/heroes/hero_venomancer/venomancer_venomous_gale.vpcf",
+        "particles/units/heroes/hero_venomancer/venomancer_gale_poison_debuff.vpcf",
+        "particles/units/heroes/hero_venomancer/venomancer_poison_nova.vpcf",
+        "particles/units/heroes/hero_venomancer/venomancer_gale_poison_debuff.vpcf",
+        "particles/status_fx/status_effect_poison_venomancer.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Homunculus_IBorn:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_homunculus_2")
 end

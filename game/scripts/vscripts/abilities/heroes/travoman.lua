@@ -3,6 +3,29 @@ LinkLuaModifier( "modifier_travoman_land_mines", "abilities/heroes/travoman", LU
 
 travoman_land_mines = class({})
 
+function travoman_land_mines:Precache(context)
+    PrecacheResource("model", "models/travoman/travoman_head.vmdl", context)
+    local particle_list = 
+    {
+        "particles/econ/items/techies/techies_arcana/techies_land_mine_arcana.vpcf",
+        "particles/units/heroes/hero_techies/techies_land_mine_explode.vpcf",
+        "particles/econ/items/techies/techies_arcana/techies_stasis_trap_arcana.vpcf",
+        "particles/units/heroes/hero_techies/techies_stasis_trap_explode.vpcf",
+        "particles/status_fx/status_effect_techies_stasis.vpcf",
+        "particles/units/heroes/hero_techies/techies_blast_off_trail.vpcf",
+        "particles/econ/items/techies/techies_arcana/techies_suicide_arcana.vpcf",
+        "particles/units/heroes/hero_techies/techies_blast_off.vpcf",
+        "particles/generic_gameplay/generic_silence.vpcf",
+        "particles/travoman_plant_arcana.vpcf",
+        "particles/econ/items/techies/techies_arcana/techies_remote_mine_arcana.vpcf",
+        "particles/ui_mouseactions/range_display.vpcf",
+        "particles/econ/items/techies/techies_arcana/techies_remote_mines_detonate_arcana.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function travoman_land_mines:GetAOERadius()
     return self:GetSpecialValueFor("radius")
 end
@@ -828,7 +851,7 @@ function travoman_focused_detonate:OnSpellStart()
         Timers:CreateTimer(FrameTime()*(i-1), function()
             local detonate_ability_handler = remote_mines[i]:FindAbilityByName("travoman_remote_mines_self_detonate")
             if detonate_ability_handler then
-                detonate_ability_handler:OnSpellStart()
+                detonate_ability_handler:OnSpellStart(true)
             end
         end)
     end
@@ -843,13 +866,27 @@ function travoman_remote_mines_self_detonate:Spawn()
     end
 end
 
-function travoman_remote_mines_self_detonate:OnSpellStart()
+function travoman_remote_mines_self_detonate:OnSpellStart(use_ability, bonus_delay)
     if not IsServer() then return end
     local owner = self:GetCaster():GetOwner()
     local ability = owner:FindAbilityByName("travoman_remote_mines")
     local scepter = owner:HasShard()
     local damage = ability:GetSpecialValueFor("damage")
     local radius = ability:GetSpecialValueFor("radius")
+
+    local techies_caster = ability:GetCaster()
+    if not use_ability then
+        local units = PlayerResource:GetSelectedEntities(self:GetCaster():GetPlayerOwnerID())
+        for _, id in pairs(units) do
+            local unit = EntIndexToHScript(id)
+            if unit and unit ~= self:GetCaster() and unit:HasAbility("travoman_remote_mines_self_detonate") and unit:GetPlayerOwnerID() == self:GetCaster():GetPlayerOwnerID() then
+                local travoman_remote_mines_self_detonate = unit:FindAbilityByName("travoman_remote_mines_self_detonate")
+                if travoman_remote_mines_self_detonate then
+                    travoman_remote_mines_self_detonate:OnSpellStart(true)
+                end
+            end
+        end
+    end
 
     self:GetCaster():EmitSound("Hero_Techies.RemoteMine.Activate")
     self:GetCaster():EmitSound("travoman_ultimate")
@@ -861,15 +898,14 @@ function travoman_remote_mines_self_detonate:OnSpellStart()
     ParticleManager:SetParticleControl(particle_explosion_fx, 3, self:GetCaster():GetAbsOrigin())
     ParticleManager:ReleaseParticleIndex(particle_explosion_fx)
 
+    AddFOWViewer(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), radius, radius, false)
+    
     local flag = 0
-
     local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, FIND_ANY_ORDER, false)
-
     for _,enemy in pairs(enemies) do
         local damage_type = DAMAGE_TYPE_MAGICAL
-        ApplyDamage({victim = enemy, attacker = owner, damage = damage, damage_type = damage_type, ability = ability, damage_flags = DOTA_DAMAGE_FLAG_REFLECTION, })
+        ApplyDamage({victim = enemy, attacker = owner, damage = damage, damage_type = damage_type, ability = ability, damage_flags = DOTA_DAMAGE_FLAG_REFLECTION })
     end
-
     self:GetCaster():ForceKill(true)
 end
 

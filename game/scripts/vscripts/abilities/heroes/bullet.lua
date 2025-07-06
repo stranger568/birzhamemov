@@ -4,6 +4,18 @@ LinkLuaModifier( "modifier_bullet_taa_debuff", "abilities/heroes/bullet", LUA_MO
 
 bullet_taa = class({}) 
 
+function bullet_taa:Precache(context)
+    PrecacheResource("particle", "particles/units/heroes/hero_tusk/tusk_walruspunch_start.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_tusk/tusk_walruskick_tgt.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_snapfire/hero_snapfire_armor_debuff.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_tusk/tusk_walruskick_tgt.vpcf", context)
+    PrecacheResource("particle", "particles/bullet_attack_speed_buff.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_sniper/sniper_assassinate.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_sniper/sniper_crosshair.vpcf", context)
+    PrecacheResource("particle", "particles/econ/items/wraith_king/wraith_king_arcana/wk_arc_slow_debuff.vpcf", context)
+    PrecacheResource("particle", "particles/bullet_debuff_asassinatebloodseeker_rupture.vpcf", context)
+end
+
 function bullet_taa:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

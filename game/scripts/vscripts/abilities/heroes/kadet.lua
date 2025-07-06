@@ -3,6 +3,24 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 Kadet_fuck_faggots = class({})
 
+function Kadet_fuck_faggots:Precache(context)
+    local particle_list = 
+    {
+        "particles/econ/items/wraith_king/wraith_king_ti6_bracer/wraith_king_ti6_hellfireblast.vpcf",
+        "particles/kadet/kadet_army.vpcf",
+        "particles/units/heroes/hero_dark_willow/dark_willow_shadow_attack.vpcf",
+        "particles/kadet/kadet_army_status.vpcf",
+        "particles/units/heroes/hero_dark_willow/dark_willow_shadow_realm.vpcf",
+        "particles/units/heroes/hero_monkey_king/monkey_king_quad_tap_stack.vpcf",
+        "particles/units/heroes/hero_monkey_king/monkey_king_quad_tap_start.vpcf",
+        "particles/units/heroes/hero_monkey_king/monkey_king_quad_tap_overhead.vpcf",
+        "particles/generic_gameplay/generic_lifesteal.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Kadet_fuck_faggots:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

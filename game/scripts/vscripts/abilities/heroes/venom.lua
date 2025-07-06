@@ -9,6 +9,29 @@ LinkLuaModifier( "modifier_venom_hunger_visual_buff",  "abilities/heroes/venom.l
 
 venom_hunger = class({})
 
+function venom_hunger:Precache(context)
+    PrecacheResource("model", "models/venom/venom.vmdl", context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_night_stalker/nightstalker_shard_hunter.vpcf",
+        "particles/units/heroes/hero_life_stealer/life_stealer_infest_cast.vpcf",
+        "particles/venom/venom_hunger_cast.vpcf",
+        "particles/bs_pull_target.vpcf",
+        "particles/venom/ambient_run.vpcf",
+        "particles/venom/effect_ambient_smokeunits/heroes/hero_dark_seer/dark_seer_surge.vpcf",
+        "particles/venom/sadist_caster.vpcf",
+        "particles/venom/sadist_target.vpcf",
+        "particles/venom/venom_punishment.vpcf",
+        "particles/venom/tentacle.vpcf",
+        "particles/venom/venom_reproduction.vpcf",
+        "particles/units/heroes/hero_terrorblade/terrorblade_metamorphosis_ambient.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
+
 function venom_hunger:GetCastRange(location, target)
     return self.BaseClass.GetCastRange(self, location, target)
 end

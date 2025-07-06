@@ -9,6 +9,9 @@
     </scripts>
 	<Panel class="PlayerRow">
 		<Panel id="PlayerRowContainer">
+            <Panel class="PlayerAvatarPanel">
+                <DOTAAvatarImage id="AvatarImage" class="PlayerAvatarC" steamid="" />
+            </Panel>
 			<Panel id="Hero" class="ScoreCol_Hero ScoreboardPanel">
 				<Image id="HeroIcon" heroimagestyle="landscape" scaling="stretch-to-fit-preserve-aspect" />
 			</Panel>
@@ -30,8 +33,8 @@
 			<Panel id="AssistsContainer" class="ScoreCol_Assists ScoreboardPanel">
 				<Label id="Assists" text="999" />
 			</Panel>
-			<Panel id="ReportButtonPlayer" class="ReportButtonPlayer">
-				<Panel class="ReportIcon" />
+            <Panel id="RatingContainer" class="ScoreCol_Rating ScoreboardPanel">
+				<Label id="Rating" text="999" />
 			</Panel>
 		</Panel>
 		<Panel id="UltimateIndicatorBG" class="UltimateIndicatorShared" />

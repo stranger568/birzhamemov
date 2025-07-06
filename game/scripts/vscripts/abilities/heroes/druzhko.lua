@@ -2,6 +2,18 @@ LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modi
 
 druzhko_unstable_magic = class({})
 
+function druzhko_unstable_magic:Precache(context)
+    PrecacheResource("particle", "particles/units/heroes/hero_lina/lina_spell_laguna_blade.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_lina/lina_spell_laguna_blade_shard_scorch.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_lina/lina_spell_laguna_blade_shard_units_hit.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_lion/lion_spell_finger_of_death.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_crystalmaiden/maiden_frostbite.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_antimage/antimage_spellshield_reflect.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_antimage/antimage_spellshield.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_antimage/antimage_spellshield_reflect.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_crystalmaiden/maiden_frostbite_buff.vpcf", context)
+end
+
 function druzhko_unstable_magic:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

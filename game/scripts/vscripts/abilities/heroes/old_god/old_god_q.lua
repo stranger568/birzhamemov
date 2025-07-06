@@ -12,18 +12,31 @@ end
 function old_god_q:OnSpellStart()
     if not IsServer() then return end
     local target = self:GetCursorTarget()
+    self:GetCaster():EmitSound("stariy_teaser")
+    self:UseThisAbility(self:GetCaster(), target)
+    local old_god_w = self:GetCaster():FindAbilityByName("old_god_w")
+    if self:GetCaster():HasShard() and old_god_w and old_god_w:GetLevel() > 0 and old_god_w.illusion_table then
+        for _, illusion in pairs(old_god_w.illusion_table) do
+            if illusion and not illusion:IsNull() and illusion:IsAlive() then
+                self:UseThisAbility(illusion, target)
+            end
+        end
+    end
+end
+
+function old_god_q:UseThisAbility(caster, target)
     local duration = self:GetSpecialValueFor("duration")
     local max_range = self:GetSpecialValueFor("max_range")
-    local distance = (target:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Length2D()
-    local modifier_old_god_q = self:GetCaster():FindModifierByName("modifier_old_god_q")
+    local distance = (target:GetAbsOrigin() - caster:GetAbsOrigin()):Length2D()
+    if target:TriggerSpellAbsorb(self) then return end
+    local modifier_old_god_q = caster:FindModifierByName("modifier_old_god_q")
     if modifier_old_god_q then
         modifier_old_god_q:Destroy()
     end
     if distance > max_range then
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_old_god_q_move", {target = target:entindex()})
+        caster:AddNewModifier(caster, self, "modifier_old_god_q_move", {target = target:entindex()})
     end
-    self:GetCaster():EmitSound("stariy_teaser")
-    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_old_god_q", {duration = duration, target = target:entindex()})
+    caster:AddNewModifier(caster, self, "modifier_old_god_q", {duration = duration, target = target:entindex()})
 end
 
 function old_god_q:OnProjectileHit(target, vLocation)
@@ -100,7 +113,9 @@ function modifier_old_god_q:OnIntervalThink()
         self.modifier_old_god_q_debuff_movement:SetStackCount(distance)
     end
     if distance > self:GetAbility():GetCastRange(self:GetParent():GetAbsOrigin(), self:GetParent()) then
-        self:Destroy()
+        if not self:GetParent():HasModifier("modifier_old_god_q_move") then
+            self:Destroy()
+        end
         return
     end
     if distance > self.max_range then
@@ -158,6 +173,10 @@ modifier_old_god_q_debuff_movement = class({})
 function modifier_old_god_q_debuff_movement:IsHidden() return true end
 function modifier_old_god_q_debuff_movement:IsPurgable() return false end
 function modifier_old_god_q_debuff_movement:IsPurgeException() return false end
+function modifier_old_god_q_debuff_movement:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+function modifier_old_god_q_debuff_movement:OnCreated()
+    self.max_slow = self:GetAbility():GetSpecialValueFor("max_slow")
+end
 function modifier_old_god_q_debuff_movement:DeclareFunctions()
     return
     {
@@ -165,5 +184,5 @@ function modifier_old_god_q_debuff_movement:DeclareFunctions()
     }
 end
 function modifier_old_god_q_debuff_movement:GetModifierMoveSpeedBonus_Percentage()
-    return (100 * (self:GetStackCount() / self:GetAbility():GetSpecialValueFor("max_range"))) * -1
+    return (self.max_slow * (self:GetStackCount() / self:GetAbility():GetSpecialValueFor("max_range"))) * -1
 end

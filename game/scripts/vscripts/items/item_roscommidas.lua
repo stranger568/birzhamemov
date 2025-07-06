@@ -35,26 +35,18 @@ function item_roscom_midas:OnSpellStart()
     local target = self:GetCursorTarget()
     local gold_percent = self:GetSpecialValueFor("gold")
     local gold_base = self:GetSpecialValueFor("gold_b")
-
     local gold = math.floor(target:GetGold() / 100 * gold_percent) + gold_base
-
     if target:TriggerSpellAbsorb(self) then return end
-
 	target:EmitSound("DOTA_Item.Hand_Of_Midas")
-
 	local midas_particle = ParticleManager:CreateParticle("particles/roscommidas/roscom_midas.vpcf", PATTACH_ABSORIGIN_FOLLOW, target)	
 	ParticleManager:SetParticleControlEnt(midas_particle, 1, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetCaster():GetAbsOrigin(), false)
 	SendOverheadEventMessage(self:GetCaster(), OVERHEAD_ALERT_GOLD, self:GetCaster(), gold, nil)
-
     if gold > 400 then
         self:GetCaster():EmitSound("midas_special")
     end
-
 	target:ModifyGold(-gold, false, 0)
-
 	self:GetCaster():ModifyGold(gold, false, 0)
-
-    target:AddNewModifier(self:GetCaster(), self, "modifier_item_roscom_midas_cooldown", {duration = 30})
+    target:AddNewModifier(self:GetCaster(), self, "modifier_item_roscom_midas_cooldown", {duration = 15})
 end
 
 modifier_item_roscom_midas_cooldown = class({})

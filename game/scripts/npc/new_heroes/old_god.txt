@@ -14,11 +14,21 @@
 		"AbilityCooldown"				        "20 18 16 14"
 		"AbilityManaCost"				        "85 90 95 100"
         "AbilityCastRange"                      "1600"
+        "HasShardUpgrade"                       "1"
 		"AbilityValues"
 		{
-            "base_attack_time"                  "1.2 1.1 1 0.9"
-            "duration"                          "7"
+            "base_attack_time"
+            {
+                "value"                             "1.2 1.1 1 0.9"
+                "special_bonus_unique_old_god_6"    "-0.1"
+            }
+            "duration"                          "4"
             "max_range"                         "1200"
+            "max_slow"
+            {
+                "value"                             "25"
+                "special_bonus_unique_old_god_8"    "+75"
+            }
 		}
 	}
 
@@ -38,8 +48,16 @@
 		"AbilityValues"
 		{
             "duration"                          "6 8 10 12"
-            "outgoing_damage"                   "50 60 70 80"
-            "incoming_damage"                   "200"
+            "outgoing_damage"
+            {
+                "value"                         "25 30 35 40"
+                "special_bonus_unique_old_god_1"                              "+10"
+            }
+            "incoming_damage"
+            {
+                "value"                         "200"
+                "special_bonus_unique_old_god_2"                              "-50"
+            }
 		}
 	}
 
@@ -56,7 +74,11 @@
 		"AbilityManaCost"				        "125"
         "AbilityValues"
 		{
-            "shield_from_hp"                    "15 20 25 30"
+            "shield_from_hp"
+            {
+                "value"                                 "15 20 25 30"
+                "special_bonus_unique_old_god_4"        "+10"
+            }
             "duration"                          "10"
         }
 	}
@@ -71,11 +93,15 @@
 		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
 		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
 		"AbilityTextureName"			        "old_god_d"
-		"AbilityCooldown"				        "16"
 		"AbilityManaCost"				        "0"
         "MaxLevel"                              "1"
         "AbilityValues"
 		{
+            "AbilityCooldown"
+            {
+                "value" "16"
+                "special_bonus_unique_old_god_7"    "-6"
+            }
             "attack_range"                      "150"
             "duration"                          "8"
         }
@@ -92,15 +118,71 @@
 		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
 		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
 		"AbilityTextureName"			        "old_god_r"
-        "AbilityType"					        "DOTA_ABILITY_TYPE_ULTIMATE"
+        "AbilityType"					        "ABILITY_TYPE_ULTIMATE"
+        "HasScepterUpgrade"                     "1"
+        "AbilityCooldown"                       "50"
         "AbilityValues"
 		{
-            "radius"                            "1200"
+            "radius"                            "800"
             "radius_damage"                     "200"
-            "interval"                          "0.25"
-            "damage"                            "80 160 240"
+            "interval"
+            {
+                "value"                             "0.25"
+                "special_bonus_unique_old_god_5"    "-0.1"
+            }
+            "damage"                            "60 90 120"
             "min_distance"                      "200"
             "ray_speed"                         "500 700 900"
+            "duration"                          "10"
         }
+	}
+
+    "special_bonus_unique_old_god_1"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+    "special_bonus_unique_old_god_2"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+    "special_bonus_unique_old_god_3"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+    "special_bonus_unique_old_god_4"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+    "special_bonus_unique_old_god_5"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+    "special_bonus_unique_old_god_6"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+    "special_bonus_unique_old_god_7"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+    "special_bonus_unique_old_god_8"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 	}
 }

@@ -3,6 +3,26 @@ LinkLuaModifier("modifier_Zema_MagicDamage_debuff", "abilities/heroes/zema", LUA
 
 Zema_CosmoTeleport = class({})
 
+function Zema_CosmoTeleport:Precache(context)
+    local particle_list = 
+    {
+        "particles/zema/zema_cosmoteleport.vpcf",
+        "particles/econ/events/ti8/blink_dagger_ti8_end.vpcf",
+        "particles/zema/phoenix_sunray.vpcf",
+        "particles/units/heroes/hero_phoenix/phoenix_sunray_mane.vpcf",
+        "particles/units/heroes/hero_phoenix/phoenix_sunray_flare.vpcf",
+        "particles/zema/phoenix_sunray_debuff.vpcf",
+        "particles/zema/phoenix_sunray_debuff.vpcf",
+        "particles/units/heroes/hero_dark_willow/dark_willow_wisp_spell.vpcf",
+        "particles/status_fx/status_effect_ghost.vpcf",
+        "particles/items2_fx/veil_of_discord_debuff.vpcf",
+        "particles/bluehole/enigma_blackhole_ti5.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Zema_CosmoTeleport:GetCooldown(level)
 	return (self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_zema_8")) / ( self:GetCaster():GetCooldownReduction())
 end

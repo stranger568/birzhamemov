@@ -4,6 +4,23 @@ LinkLuaModifier( "modifier_blue_incision_buff", "abilities/heroes/rin.lua", LUA_
 
 blue_incision = class({})
 
+function blue_incision:Precache(context)
+    PrecacheResource("model", "models/update_heroes/rin/rin.vmdl", context)
+    local particle_list = 
+    {
+        "particles/rino/rino_shock.vpcf",
+        "particles/rino/rino_shock_debuff.vpcf",
+        "particles/rino/rino_flameguard2.vpcf",
+        "particles/rino/rino.vpcf",
+        "particles/rino/rino.vpcf",
+        "particles/rino/rino_shock.vpcf",
+        "particles/rino/rino_ultimate.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function blue_incision:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_rin_3")
 end

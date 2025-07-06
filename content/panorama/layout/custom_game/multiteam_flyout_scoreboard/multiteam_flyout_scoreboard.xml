@@ -5,6 +5,7 @@
         <include src="s2r://panorama/layout/custom_game/multiteam_flyout_scoreboard/multiteam_flyout_scoreboard.vcss_c" />
     </styles>
     <scripts>
+        <include src="s2r://panorama/layout/custom_game/scripts/util.vjs_c" />
         <include src="s2r://panorama/layout/custom_game/scripts/functions.vjs_c" />
         <include src="s2r://panorama/layout/custom_game/scripts/shared_scoreboard_updater.vjs_c" />
         <include src="s2r://panorama/layout/custom_game/multiteam_flyout_scoreboard/multiteam_flyout_scoreboard.vjs_c" />
@@ -18,6 +19,7 @@
 			<Label class="LegendPanel ScoreCol_Kills" text="#custom_end_screen_legend_kills" />
 			<Label class="LegendPanel ScoreCol_Deaths" text="#custom_end_screen_legend_deaths" />
 			<Label class="LegendPanel ScoreCol_Assists" text="#custom_end_screen_legend_assists" />
+            <Label class="LegendPanel ScoreCol_Rating" text="#custom_end_screen_legend_rating" />
 		</Panel>
 		<Panel id="TeamsContainer" />
     </Panel>

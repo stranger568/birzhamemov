@@ -3,7 +3,22 @@ LinkLuaModifier( "modifier_Pistoletov_dolphin", "abilities/heroes/pistoletov", L
 LinkLuaModifier( "modifier_Pistoletov_dolphin_debuff", "abilities/heroes/pistoletov", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 
-Pistoletov_dolphin = class({}) 
+Pistoletov_dolphin = class({})
+
+function Pistoletov_dolphin:Precache(context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_slardar/slardar_crush.vpcf",
+        "particles/units/heroes/hero_slardar/slardar_crush_entity.vpcf",
+        "particles/units/heroes/hero_tidehunter/tidehunter_anchor_hero.vpcf",
+        "particles/econ/items/legion/legion_weapon_voth_domosh/legion_duel_start_ring_arcana.vpcf",
+        "particles/units/heroes/hero_legion_commander/legion_commander_duel_victory.vpcf",
+        "particles/units/heroes/hero_morphling/morphling_base_attack.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
 
 function Pistoletov_dolphin:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )

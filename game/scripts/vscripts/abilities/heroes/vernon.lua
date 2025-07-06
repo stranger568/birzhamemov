@@ -2,6 +2,28 @@ LinkLuaModifier("modifier_Vernon_pogonya", "abilities/heroes/vernon.lua", LUA_MO
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 Vernon_pogonya = class({})
 
+function Vernon_pogonya:Precache(context)
+    local particle_list = 
+    {
+        "particles/econ/events/new_bloom/pig_death.vpcf",
+        "particles/units/heroes/hero_rattletrap/rattletrap_cog_deploy.vpcf",
+        "particles/units/heroes/hero_rattletrap/rattletrap_cog_ambient_blur.vpcf",
+        "particles/units/heroes/hero_rattletrap/rattletrap_cog_ambient.vpcf",
+        "particles/units/heroes/hero_rattletrap/rattletrap_cog_attack.vpcf",
+        "particles/units/heroes/hero_rattletrap/rattletrap_cog_attack.vpcf",
+        "particles/items_fx/black_king_bar_avatar.vpcf",
+        "particles/status_fx/status_effect_avatar.vpcf",
+        "particles/vernon/vernon_stomp.vpcf",
+        "particles/units/heroes/hero_antimage/antimage_spellshield_reflect.vpcf",
+        "particles/units/heroes/hero_silencer/silencer_global_silence.vpcf",
+        "particles/units/heroes/hero_silencer/silencer_global_silence_hero.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+    PrecacheResource("model", "models/props_gameplay/pig_balloon.vmdl", context)
+end
+
 function Vernon_pogonya:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_vernon_1")
 end
@@ -227,7 +249,7 @@ function Vernon_power_cogs:OnSpellStart()
 
     local radius_thinker = cogs_radius
     if self:GetCaster():HasScepter() then
-        radius_thinker = cogs_radius * 1.6
+        --radius_thinker = cogs_radius * 1.6
     end
 
     if self:GetCaster():HasTalent("special_bonus_birzha_vernon_6") then
@@ -252,28 +274,28 @@ function Vernon_power_cogs:OnSpellStart()
 		cog_vector = RotatePosition(caster_pos, QAngle(0, 360 / 8, 0), cog_vector)
 	end
     
-    for cog = 1, 16 do
-    		if self:GetCaster():HasScepter() then
-			local second_cog = CreateUnitByName("npc_dota_rattletrap_cog", second_cog_vector, false, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
-			second_cog:SetModel("models/items/rattletrap/the_seeker_of_the_lost_artifact_cogs/the_seeker_of_the_lost_artifact_cogs.vmdl")
-			second_cog:SetOriginalModel("models/items/rattletrap/the_seeker_of_the_lost_artifact_cogs/the_seeker_of_the_lost_artifact_cogs.vmdl")
-			self:GetCaster():EmitSound("VernonDrell")
-			
-			second_cog:AddNewModifier(self:GetCaster(), self, "modifier_Vernon_power_cogs_power_cogs",
-			{
-				duration 	= self:GetSpecialValueFor("duration"),
-				x 			= (second_cog_vector - caster_pos).x,
-				y 			= (second_cog_vector - caster_pos).y,
-				
-				center_x	= caster_pos.x,
-				center_y	= caster_pos.y,
-				center_z	= caster_pos.z,
-				second_gear	= true
-			})
-			
-			second_cog_vector = RotatePosition(caster_pos, QAngle(0, 360 / 16, 0), second_cog_vector)
-		end
-    end
+    --for cog = 1, 16 do
+    --	if self:GetCaster():HasScepter() then
+	--		local second_cog = CreateUnitByName("npc_dota_rattletrap_cog", second_cog_vector, false, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
+	--		second_cog:SetModel("models/items/rattletrap/the_seeker_of_the_lost_artifact_cogs/the_seeker_of_the_lost_artifact_cogs.vmdl")
+	--		second_cog:SetOriginalModel("models/items/rattletrap/the_seeker_of_the_lost_artifact_cogs/the_seeker_of_the_lost_artifact_cogs.vmdl")
+	--		self:GetCaster():EmitSound("VernonDrell")
+	--		
+	--		second_cog:AddNewModifier(self:GetCaster(), self, "modifier_Vernon_power_cogs_power_cogs",
+	--		{
+	--			duration 	= self:GetSpecialValueFor("duration"),
+	--			x 			= (second_cog_vector - caster_pos).x,
+	--			y 			= (second_cog_vector - caster_pos).y,
+	--			
+	--			center_x	= caster_pos.x,
+	--			center_y	= caster_pos.y,
+	--			center_z	= caster_pos.z,
+	--			second_gear	= true
+	--		})
+	--		
+	--		second_cog_vector = RotatePosition(caster_pos, QAngle(0, 360 / 16, 0), second_cog_vector)
+	--	end
+    --end
 	
 	local deploy_particle	= ParticleManager:CreateParticle("particles/units/heroes/hero_rattletrap/rattletrap_cog_deploy.vpcf", PATTACH_ABSORIGIN, self:GetCaster())
 	ParticleManager:ReleaseParticleIndex(deploy_particle)
@@ -354,12 +376,13 @@ function modifier_Vernon_power_cogs_power_cogs:OnIntervalThink()
 		if self.powered and not enemy:HasModifier("modifier_zema_cosmic_blindness_debuff") and not enemy:HasModifier("modifier_pangolier_gyroshell") and not enemy:HasModifier("modifier_Vernon_power_cogs_cog_push_in") and math.abs(AngleDiff(VectorToAngles(self:GetParent():GetForwardVector()).y, VectorToAngles(enemy:GetAbsOrigin() - self:GetParent():GetAbsOrigin()).y)) > 90 then
 			enemy:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_Vernon_power_cogs_cog_push_in", 
 			{
-				duration	= 0.5,
+				duration	= self.push_duration,
 				damage		= self.damage,
 				mana_burn	= self.mana_burn,
 				push_length	= 0
 			})
 			if self:GetAbility():GetCaster():HasTalent("special_bonus_birzha_vernon_3") then
+                print(self:GetCaster():FindTalentValue("special_bonus_birzha_vernon_3"))
 				enemy:AddNewModifier(self:GetParent(), self:GetAbility(), "modifier_birzha_stunned", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_vernon_3")})
 			end	
 			if self.particle then
@@ -774,24 +797,3 @@ function modifier_Vernon_silence:CheckState()
 	end
     return funcs
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

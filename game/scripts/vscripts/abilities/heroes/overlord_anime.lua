@@ -8,6 +8,42 @@ local BOOK_TABLE_3 = {"overlord_spellbook_close","Overlord_spell_11","Overlord_s
 
 overlord_spellbook_close = class({})
 
+function overlord_spellbook_close:Precache(context)
+    PrecacheResource("model", "models/update_heroes/overlord_anime/overlord.vmdl", context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_brewmaster/brewmaster_primal_split.vpcf",
+        "particles/units/heroes/hero_clinkz/clinkz_strafe_fire.vpcf",
+        "particles/econ/items/enchantress/enchantress_virgas/ench_impetus_virgas.vpcf",
+        "particles/olyasha/olyasha_love_smoke.vpcf",
+        "particles/olyasha/olyasha_love_heart_debuff.vpcf",
+        "particles/overlord_anime/shield_skelet.vpcf",
+        "particles/status_fx/status_effect_phantom_lancer_illusion.vpcf",
+        "particles/overlord_anime/overlord_status_death.vpcf",
+        "particles/units/heroes/hero_brewmaster/brewmaster_void_pulse.vpcf",
+        "particles/econ/items/necrolyte/necro_ti9_immortal/necro_ti9_immortal_shroud.vpcf",
+        "particles/overlord_anime/overlord_heart.vpcf",
+        "particles/overlord_anime/overlord_heart_debuff.vpcf",
+        "particles/wraith_king_custom.vpcf",
+        "particles/repel_overlord_custom/omniknight_repel_buff_ti8_2.vpcf",
+        "particles/overlord_anime/overlord_flame.vpcf",
+        "particles/units/heroes/hero_invoker/invoker_deafening_blast.vpcf",
+        "particles/units/heroes/hero_bloodseeker/bloodseeker_rupture.vpcf",
+        "particles/econ/items/outworld_devourer/od_ti8/od_ti8_santies_eclipse_area.vpcf",
+        "particles/econ/courier/courier_trail_international_2014/courier_international_2014.vpcf",
+        "particles/particle_overlord_boom.vpcf",
+        "particles/particle_overlord_boom_talent.vpcf",
+        "particles/units/heroes/hero_phoenix/phoenix_supernova_reborn.vpcf",
+        "particles/econ/items/enigma/enigma_world_chasm/enigma_blackhole_ti5.vpcf",
+        "particles/overlord_anime/ultimate_timer.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+    PrecacheResource("model", "models/clock_overlord.vmdl", context)
+end
+
+
 function overlord_spellbook_close:GetAbilityTextureName()
     if self:GetCaster():GetModifierStackCount("modifier_Overlord_use_book", self:GetCaster()) == 1 then
         return "overlord_anime/one_book"

@@ -146,7 +146,7 @@
 		"item"		"item_solar_crest"
 		//"item"		"item_rune_breaker"
 		//"item"		"item_aether_staff"
-		"item"		"item_orchid_custom"	
+		"item"		"item_orchid"	
 		"item"		"item_refresher_custom"
 		"item"		"item_sheepstick"
 		"item"		"item_glimmer_cape"

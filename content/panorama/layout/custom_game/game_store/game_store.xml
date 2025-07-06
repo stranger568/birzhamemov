@@ -6,6 +6,7 @@
         <include src="file://{resources}/layout/custom_game/game_store/items_chest.css" />
 	</styles>
 	<scripts>
+        <include src="s2r://panorama/layout/custom_game/scripts/util.vjs_c" />
         <include src="s2r://panorama/layout/custom_game/scripts/donate_information.vjs_c" />
         <include src="s2r://panorama/layout/custom_game/scripts/functions.vjs_c" />
 		<include src="file://{resources}/layout/custom_game/game_store/game_store.js" />

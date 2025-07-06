@@ -9,6 +9,9 @@ function old_god_e:OnSpellStart()
     if modifier_old_god_e then
         modifier_old_god_e:Destroy()
     end
+    if self:GetCaster():HasTalent("special_bonus_unique_old_god_3") then
+        self:GetCaster():Purge(false, true, false, false, false)
+    end
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_old_god_e", {duration = duration})
 end
 
@@ -46,7 +49,6 @@ function modifier_old_god_e:GetModifierIncomingPhysicalDamageConstant( params )
             return self:GetStackCount()
         end 
     end
-    self:PlayEffects5()
     if params.damage >= self:GetStackCount() then
         self:Destroy()
         return -self:GetStackCount()
@@ -65,7 +67,6 @@ function modifier_old_god_e:GetModifierIncomingDamageConstant( params )
             return self:GetStackCount()
         end 
     end
-    self:PlayEffects5()
     if params.damage>=self:GetStackCount() then
         self:Destroy()
         return -self:GetStackCount()

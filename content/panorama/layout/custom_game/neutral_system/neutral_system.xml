@@ -1,0 +1,30 @@
+<root>
+	<styles>
+		<include src="file://{resources}/layout/custom_game/neutral_system/neutral_system.css" />
+	</styles>
+	<scripts>
+        <include src="file://{resources}/layout/custom_game/scripts/util.js" />
+		<include src="file://{resources}/layout/custom_game/neutral_system/neutral_system.js" />
+	</scripts>
+	<Panel hittest="false" style="width:100%;height:100%;">
+		<Panel class="NeutralSlotCustom" id="NeutralSlotCustom">
+            <Panel id="inventory_neutral_level_up_custom" hittest="false">
+                <Panel class="NeutralLevelUpAvailableGlow" hittest="false" />
+                <DOTAScenePanel class="NeutralBurstFX" map="scenes/hud/levelupburst" animate-during-pause="true" renderdeferred="false" rendershadows="false" camera="camera_1" hittest="false" particleonly="true" />
+                <Button id="CraftNeutral" onactivate="OpenRollerPanel()" hittest="true">
+                    <Panel class="LevelUpNeutralButton">
+                        <Panel class="LevelUpNeutralButtonBackground" />
+                        <Image class="LevelUpNeutralButtonIconShadow" src="file://{images}/custom_game/shop/buttons/chest.png" scaling="stretch-to-fit-preserve-aspect" />
+                        <Image class="LevelUpNeutralButtonIcon" src="file://{images}/custom_game/shop/buttons/chest.png" scaling="stretch-to-fit-preserve-aspect" />
+                    </Panel>
+                </Button>
+            </Panel>
+        </Panel>
+        <Panel class="NeutralsRollerPanel" id="NeutralsRollerPanel">
+            <Panel class="HeaderRoller">
+                <Label class="HeaderText" id="HeaderText" text="#birzha_take_neutral_item" />
+            </Panel>
+            <Panel class="ItemsListNeutrals" id="ItemsListNeutrals" />
+        </Panel>
+	</Panel>
+</root>

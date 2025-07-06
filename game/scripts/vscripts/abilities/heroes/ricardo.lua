@@ -3,6 +3,22 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 Ricardo_Zhopa = class({})
 
+function Ricardo_Zhopa:Precache(context)
+    local particle_list = 
+    {
+        "particles/ricardo/ricardo_zhopa_effect.vpcf",
+        "particles/ricardo/ricardo_maslo_kokosa.vpcf",
+        "particles/ricardo/ricardo_maslo_kokosa_debuff.vpcf",
+        "particles/ricardo/status_effect_ricardo.vpcf",
+        "particles/ricardo_fire.vpcf",
+        "particles/econ/items/faceless_void/faceless_void_bracers_of_aeons/fv_bracers_of_aeons_red_timedialate.vpcf",
+        "particles/econ/items/faceless_void/faceless_void_bracers_of_aeons/fv_bracers_of_aeons_timedialate.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Ricardo_Zhopa:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

@@ -6,7 +6,24 @@ LinkLuaModifier("modifier_slidan_default_tower", "abilities/heroes/slidan", LUA_
 LinkLuaModifier("modifier_slidan_passive", "abilities/heroes/slidan", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_slidan_worldedit_stack", "abilities/heroes/slidan", LUA_MODIFIER_MOTION_NONE)
 
-Slidan_WorldEdit = class({}) 
+Slidan_WorldEdit = class({})
+
+function Slidan_WorldEdit:Precache(context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_doom_bringer/doom_scorched_earth.vpcf",
+        "particles/units/heroes/hero_doom_bringer/doom_infernal_blade_debuff.vpcf",
+        "particles/world_shrine/radiant_shrine_active.vpcf",
+        "particles/units/heroes/hero_lion/lion_spell_mana_drain.vpcf",
+        "particles/slidan/slidan_suckdick.vpcf",
+        "particles/status_fx/status_effect_doom.vpcf",
+        "particles/units/heroes/hero_doom_bringer/doom_bringer_doom.vpcf",
+        "particles/units/heroes/hero_tinker/tinker_rearm.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
 
 function Slidan_WorldEdit:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
@@ -504,7 +521,7 @@ function Slidan_ReallyClassic:OnChannelFinish( bInterrupted )
 
     for i=0,caster:GetAbilityCount()-1 do
         local ability = caster:GetAbilityByIndex( i )
-        if ability and ability:GetAbilityType()~=DOTA_ABILITY_TYPE_ATTRIBUTES then
+        if ability and ability:GetAbilityType()~=ABILITY_TYPE_ATTRIBUTES then
             ability:RefreshCharges()
             ability:EndCooldown()
         end

@@ -3,6 +3,24 @@ LinkLuaModifier( "modifier_ruby_ranged_mode", "abilities/heroes/ruby.lua", LUA_M
 
 ruby_ranged_mode = class({})
 
+function ruby_ranged_mode:Precache(context)
+    PrecacheResource("model", "models/update_heroes/ruby/ruby.vmdl", context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_pangolier/pangolier_swashbuckler_dash.vpcf",
+        "particles/ruby_particle_ranged_mode.vpcf",
+        "particles/units/heroes/hero_medusa/medusa_stone_gaze_active.vpcf",
+        "particles/units/heroes/hero_medusa/medusa_stone_gaze_debuff.vpcf",
+        "particles/units/heroes/hero_medusa/medusa_stone_gaze_facing.vpcf",
+        "particles/status_fx/status_effect_medusa_stone_gaze.vpcf",
+        "particles/units/heroes/hero_medusa/medusa_stone_gaze_debuff_stoned.vpcf",
+        "particles/econ/items/axe/axe_weapon_bloodchaser/axe_attack_blur_counterhelix_bloodchaser.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function ruby_ranged_mode:OnVectorCastStart(vStartLocation, vDirection)
     if not IsServer() then return end
     local effects = self:PlayEffects()

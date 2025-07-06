@@ -30,7 +30,7 @@ end
 function item_refresher_custom:OnSpellStart()
 	for i=0, self:GetCaster():GetAbilityCount()-1 do
         local ability = self:GetCaster():GetAbilityByIndex( i )
-        if ability and ability:GetAbilityType()~=DOTA_ABILITY_TYPE_ATTRIBUTES and not self:NotRefresher( ability ) then
+        if ability and ability:GetAbilityType()~=ABILITY_TYPE_ATTRIBUTES and not self:NotRefresher( ability ) then
             ability:RefreshCharges()
             ability:EndCooldown()
         end
@@ -110,7 +110,7 @@ end
 function item_refresher_shard_custom:OnSpellStart()
     for i=0, self:GetCaster():GetAbilityCount()-1 do
         local ability = self:GetCaster():GetAbilityByIndex( i )
-        if ability and ability:GetAbilityType()~=DOTA_ABILITY_TYPE_ATTRIBUTES and not self:NotRefresher( ability ) then
+        if ability and ability:GetAbilityType()~=ABILITY_TYPE_ATTRIBUTES and not self:NotRefresher( ability ) then
             ability:RefreshCharges()
             ability:EndCooldown()
         end

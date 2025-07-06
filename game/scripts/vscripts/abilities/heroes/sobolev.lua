@@ -3,6 +3,20 @@ LinkLuaModifier( "modifier_sobolev_Bash_passive", "abilities/heroes/sobolev.lua"
 
 Sobolev_Bash = class({})
 
+function Sobolev_Bash:Precache(context)
+    PrecacheResource("model", "models/heroes/terrorblade/terrorblade_arcana.vmdl", context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_slark/slark_shadow_dance_dummy.vpcf",
+        "particles/units/heroes/hero_puck/puck_phase_shift.vpcf",
+        "particles/status_fx/status_effect_phase_shift.vpcf",
+        "particles/econ/items/lifestealer/lifestealer_immortal_backbone_gold/lifestealer_immortal_backbone_gold_rage.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Sobolev_Bash:GetIntrinsicModifierName() 
 	return "modifier_sobolev_Bash_passive"
 end

@@ -49,7 +49,7 @@
 }
 
 .Leaderboardblock {
-	height: 560px;
+	height: 580px;
 	flow-children: right;
 	horizontal-align: center;
 }
@@ -68,42 +68,70 @@
 }
 
 .MainInformationButtonLeader {
-	background-color: gradient(linear, 0% 0%, 0% 100%, from(#4d09cadd), to(#9109ca));
-	border-top: 1px solid #6F819B22;
-	border-left: 1px solid #6F819B22;
-	border-right: 1px solid #6F819B11;
-	border-bottom: 1px solid #3F414B33;
-	width: 300px;
-	height: 45px;
-	margin-top: 15px;
-	align: center center;
-	transition-property: brightness;
-	transition-duration: 0.15s;
-	transition-timing-function: ease-in-out;
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#5a2aaa), to(#3a1a6a));
+    border: 1px solid #8a7ac844;
+    border-top: 1px solid #b388ff66;
+    border-bottom: 1px solid #2a1a4a;
+    box-shadow: 0px 2px 4px #00000066, fill 0px 0px 8px #5a2aaa33;
+    
+    width: 320px;
+    height: 48px;
+    margin-top: 5px;
+    align: center center;
+    
+    transition-property: brightness, transform, box-shadow;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+    
+    /* Frosted glass effect */
+    background-image: url("s2r://panorama/images/dpc/supclub_purchase_bg_psd.vtex");
+    background-size: 100% 100%;
+    background-img-opacity: 0.8;
 }
 
 .MainInformationButtonLeader Label {
-	font-size: 18px;
-	color: white;
-	text-transform: uppercase;
-	font-weight: bold;
-	horizontal-align: center;
-	text-shadow: 0px 0px 5px 2 black;
-	align: center center;
+    font-size: 20px;
+    color: gradient(linear, 0% 0%, 0% 100%, from(#ffffff), to(#e4c7ff));
+    text-transform: uppercase;
+    font-weight: bold;
+    horizontal-align: center;
+    text-shadow: 0px 0px 8px #000000aa;
+    align: center center;
+    letter-spacing: 1px;
+    font-family: titleFont;
 }
 
 .MainInformationButtonLeader:hover {
-	brightness: 1.2;
+    brightness: 1.3;
+    transform: translateY(-1px);
+    box-shadow: 0px 4px 8px #00000088, fill 0px 0px 12px #6a3aaa66;
+    border-top: 1px solid #d6b5ff88;
 }
 
 .MainInformationButtonLeader:active {
-	brightness: 0.8;
+    brightness: 0.9;
+    transform: translateY(1px);
+    box-shadow: 0px 1px 2px #00000044;
+}
+
+/* Pulse animation for special buttons */
+@keyframes 'ButtonPulse' {
+    0% { brightness: 1; pre-transform-scale2d: 1; box-shadow: 0px 2px 4px #00000066; }
+    50% { brightness: 1.4; pre-transform-scale2d: 1.02; box-shadow: 0px 4px 12px #6a3aaa88; }
+    100% { brightness: 1; pre-transform-scale2d: 1; box-shadow: 0px 2px 4px #00000066; }
+}
+
+.MainInformationButtonLeader.Pulse {
+    animation-name: ButtonPulse;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
 }
 
 #DeveloperInfoContainer {
 	margin-top: 40px;
 	width: 550px;
-	height: 490px;
+	height: 100%;
 	margin-left: 25px;
 	margin-right: 25px;
 	flow-children: down;
@@ -114,6 +142,7 @@
 	height: 580px;
 	margin-left: 25px;
 	margin-right: 25px;
+    flow-children: down;
 }
 
 #DeveloperInfoContainer {
@@ -122,10 +151,10 @@
 
 .InfoLeaderboardblock {
 	width: 100%;
-	height: 40px;
-	background-color: rgba(0, 0, 0, 0.6);
+	height: 35px;
+	background-color: #04010680;
+    border-radius: 12px;
 	border: 1px solid #38424b;
-	margin-top: 40px;
 }
 
 .InfoLeaderboardblockPlayer {
@@ -138,31 +167,41 @@
 
 .InfoLeaderboardblockCreators {
 	width: 100%;
-	height: 40px;
-	background-color: rgba(0, 0, 0, 0.3);
+	height: 35px;
+	background-color: #04010680;
+    border-radius: 12px;
 	border: 1px solid #38424b;
+    margin-bottom: 2px;
 }
 
 .PlayerInfoTableCreators {
 	flow-children: right;
 	align: left center;
-	width: 300px;
+	width: 500px;
 	margin-left: 10px;
 }
 
-.TopMmrClass {
+.TopMmrClass 
+{
 	width: 100%;
 	height: 45px;
-	border: 1px solid #38424b;
+	border: 1px solid #6a5aaa;
 	align: left top;
+    border-radius: 12px;
+    brightness: 1.2;
+    background-color: gradient(linear, 0% 0%, 100% 0%, from(#2a1a5a88), to(#1c0a4a88));
+    margin-bottom: 5px;
 }
 
-.TopMmrClassExclusive {
+.TopMmrClassExclusive 
+{
 	width: 100%;
 	height: 45px;
 	border: 1px solid white;
 	align: left top;
 	border-brush: gradient(linear, 30% 100%, 90% 0%, from(#cc8727), color-stop(0.08, #e7a850), color-stop(0.38, #f5d7ad), color-stop(0.68, #c0780b), color-stop(0.8, #754705), to(#643f0b));
+    border-radius: 12px;
+    margin-bottom: 5px;
 }
 
 .ExclusiveDonaterBackground {
@@ -198,19 +237,23 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	height: 32px;
 	width: 32px;
 	background-size: contain;
+    border: 1px solid #b38aff;
+    border-radius: 100%;
 }
 
-.TopMmrNick Label {
+.TopMmrNick Label 
+{
 	font-size: 18px;
-	color: #ffffff;
+	color: #e2d4ff;
 	vertical-align: center;
-	margin-left: 5px;
-	margin-top: 5px;
-	height: 18px;
+	margin-left: 10px;
+    text-overflow: shrink;
+    font-weight: semi-bold;
 }
 
 .TopMmrNick {
 	width: 100%;
+    vertical-align: center;
 }
 
 .MmrInfoTable {
@@ -253,6 +296,7 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	align: center center;
 	font-weight: semi-bold;
 	text-transform: uppercase;
+    margin-top: 10px;
 }
 
 .MainTextInformation {
@@ -281,7 +325,7 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 #PlayersList {
 	width: 100%;
 	flow-children: down;
-	margin-top: 80px;
+    margin-top: 2px;
 }
 
 .ButtonsMaps {
@@ -330,22 +374,23 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	text-align: center;
 }
 
-.ButtonMap {
-	width: fill-parent-flow( 1 );
-	margin-left: 5px;
-	margin-right: 5px;
-	height: 30px;
-	vertical-align: bottom;
-	background-color: gradient(linear, 0% 0%, 100% 100%, from(#401b80), color-stop(0.5, #763fdb), to(#401b80));
-	border: 1px solid #aaabe733;
-	transition-property: height, brightness;
-	transition-duration: 0.2s;
-    margin-bottom: 5px;
-	brightness: 0.6;
+.ButtonMap 
+{
+    width: fill-parent-flow(1);
+    margin: 0px 6px;
+    height: 36px;
+    background-color: gradient(linear, 0% 0%, 100% 100%, from(#2a1a5a), to(#4a3a8a));
+    border: 1px solid #6a5aaa;
+    transition-property: brightness, transform;
+    transition-duration: 0.2s;
+    brightness: 0.8;
+    border-radius: 12px;
 }
 
-.ButtonMap:hover {
-	brightness: 1.05;
+.ButtonMap:hover 
+{
+    brightness: 1.2;
+    transform: translateY(1px);
 }
 
 .ButtonMap_2 
@@ -367,7 +412,8 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 }
 
 .ButtonMapSelect {
-	brightness: 1.1;
+    brightness: 1.2;
+    transform: translateY(1px);
 }
 
 .ButtonMapLabel {

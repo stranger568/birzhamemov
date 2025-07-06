@@ -3,6 +3,21 @@ LinkLuaModifier( "modifier_gypsy_tabor_illusion","abilities/heroes/gypsy.lua",LU
 
 gypsy_tabor = class({})
 
+function gypsy_tabor:Precache(context)
+    local particle_list = 
+    {
+        "particles/gypsy_horse_endof_the_light_blinding_light_aoe.vpcf",
+        "particles/gypsy_horse.vpcf",
+        "particles/gypsy_horse_endof_the_light_blinding_light_aoe.vpcf",
+        "particles/gypsy/skill_debosh.vpcf",
+        "particles/gypsy/gypsy_multicast.vpcf",
+        "particles/units/heroes/hero_rubick/rubick_spell_steal.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function gypsy_tabor:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_gypsy_2")
 end
@@ -243,6 +258,7 @@ function modifier_gypsy_lucky:OnCreated()
     {
         ["gypsy_steal"] = true,
         ["item_bag_of_gold"] = true,
+        ["item_bag_of_gold_event"] = true,
         ["item_treasure_chest"] = true,
         ["item_treasure_chest_winter"] = true,
         ["item_treasure_chest_bp_fake"] = true,

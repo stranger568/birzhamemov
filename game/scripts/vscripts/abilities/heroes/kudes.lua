@@ -8,6 +8,28 @@ LinkLuaModifier( "modifier_Kudes_GoldHook_shard_debuff", "abilities/heroes/kudes
 
 Kudes_GoldHook = class({})
 
+function Kudes_GoldHook:Precache(context)
+    local particle_list = 
+    {
+        "particles/pudge_meathook_2.vpcf",
+        "particles/units/heroes/hero_mars/mars_spear_burning_trail.vpcf",
+        "particles/units/heroes/hero_jakiro/jakiro_liquid_fire_debuff.vpcf",
+        "particles/units/heroes/hero_earthshaker/earthshaker_totem_leap_blur.vpcf",
+        "particles/kudes/kudes_arena.vpcf",
+        "particles/kudes/arena_shard.vpcf",
+        "particles/units/heroes/hero_mars/mars_arena_of_blood_impact.vpcf",
+        "particles/units/heroes/hero_sniper/concussive_grenade_disarm.vpcf",
+        "particles/items_fx/black_king_bar_avatar.vpcf",
+        "particles/status_fx/status_effect_avatar.vpcf",
+        "particles/units/heroes/hero_pangolier/pangolier_tailthump_buff.vpcf",
+        "particles/units/heroes/hero_pangolier/pangolier_tailthump_buff_egg.vpcf",
+        "particles/units/heroes/hero_pangolier/pangolier_tailthump_buff_streaks.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 Kudes_GoldHook.hooks = {}
 
 function Kudes_GoldHook:GetCooldown(level)

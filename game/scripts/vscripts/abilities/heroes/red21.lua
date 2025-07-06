@@ -3,6 +3,20 @@ LinkLuaModifier( "modifier_red_Vomit_shard_root", "abilities/heroes/red21.lua", 
 
 red_vomit = class({})
 
+function red_vomit:Precache(context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_venomancer/venomancer_venomous_gale.vpcf",
+        "particles/units/heroes/hero_venomancer/venomancer_gale_poison_debuff.vpcf",
+        "particles/red21_shardcepter_sticky_snare_root.vpcf",
+        "particles/units/heroes/hero_ogre_magi/ogre_magi_bloodlust_buff.vpcf",
+        "particles/units/heroes/hero_clinkz/clinkz_strafe.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function red_vomit:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

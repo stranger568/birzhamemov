@@ -4,17 +4,19 @@
 		<include src="s2r://panorama/layout/custom_game/bm_hero_selection/bm_hero_selection.vcss_c" />
 		<include src="s2r://panorama/styles/banners/front_page_dota_plus_debut.vcss_c" />
 	</styles>
-
 	<scripts>
+        <include src="s2r://panorama/layout/custom_game/scripts/util.vjs_c" />
         <include src="s2r://panorama/layout/custom_game/scripts/donate_information.vjs_c" />
         <include src="s2r://panorama/layout/custom_game/scripts/functions.vjs_c" />
+        <include src="s2r://panorama/layout/custom_game/bm_hero_selection/selection_config.vjs_c" />
+        <include src="s2r://panorama/layout/custom_game/bm_hero_selection/selection_util.vjs_c" />
 		<include src="s2r://panorama/layout/custom_game/bm_hero_selection/bm_hero_selection.vjs_c" />
+        <include src="s2r://panorama/layout/custom_game/bm_hero_selection/heroes_list.vjs_c" />
 	</scripts>
-
 	<Panel class="CustomPick" onfocus="DropInputFocus()">
 		<Movie src="file://{resources}/videos/custom_game/loading/outlanders_header.webm" id="MovieBackground2" style="width:100%;height:100%;" repeat="true" controls="none" hittest="false" autoplay="onload" />
         <MoviePanel src="file://{resources}/videos/heroes/npc_dota_hero_pudge.webm" id="MovieBackground" style="opacity: 0;" controls="none" hittest="false" onload="BirzhaHeroSelectionLoad();" autoplay="onload"/>
-		<Panel id="StateInfoGlobal" class="StateInfoGlobalClass">
+        <Panel id="StateInfoGlobal" class="StateInfoGlobalClass">
 			<Panel style="horizontal-align: center;">
 				<DOTAParticleScenePanel id="pick_timer_particle" class="pick_timer_particle" particleName="particles/hero_selection/time_fx.vpcf" particleOnly="true" cameraOrigin="0 0 165" lookAt="0 0 0" fov="65" squarePixels="true" startActive="true"/>
 				<Label id="PickTimer" class="PickTimerClass" text="" />
@@ -35,22 +37,28 @@
                     <Panel class="AllHeroesList" id="AllHeroesList" />
 			    </Panel>
 		    </Panel>
-            <Panel id = "HeroInfoCont" class = "HeroInfoContClass">
-                <Panel id ="HeroInformation" class="HeroInformation">
+            <Panel id="HeroInfoCont" class="HeroInfoContClass">
+                <Panel id="HeroInformation" class="HeroInformation">
                     <Panel class="HeroInfoMain">
-                        <Panel id='HeroModel' class="HeroModel"/>
-                        <Label text = "" id = "hero_name_info" class = "HeroNameInfoClass"/>
-                    </Panel> 
-                    <Label text="" html="true" id="HeroDifficulty" />
-                    <Label text="" html="true" id="HeroRole" />
-                    <Panel class="BirzaAbilitiesPanel">
-                        <Label class="BirzaAbilitiesLabel"	text="#Pick_abilities" />
+                        <Panel id="HeroModel" class="HeroModel"/>
+                        <Panel class="HeroBasicInfo">
+                            <Label id="hero_name_info" class="HeroNameInfoClass"/>
+                            <Label html="true" id="HeroDifficulty" />
+                            <Label html="true" id="HeroRole" />
+                            <Panel class="WinratePanel">
+                                <Label class="WinrateLabel" text="#percent_winrate" />
+                                <Label html="true" id="HeroWinrate" class="HeroWinrate" />
+                            </Panel>
+                        </Panel>
                     </Panel>
-                    <Panel id = 'BirzaAbilitiesInfo'/>
+                    <Panel class="BirzaAbilitiesPanel">
+                        <Label class="BirzaAbilitiesLabel" text="#Pick_abilities" />
+                    </Panel>
+                    <Panel id="BirzaAbilitiesInfo" />
                     <Panel id="BirzaAbilitiesPanelBonus" class='BirzaAbilitiesPanelBonus'>
                         <Label class="BirzaAbilitiesLabelBonus"	text="#Pick_Bonusabilities" />
                     </Panel>
-                    <Panel id = 'BirzaAbilitiesInfoBonus'/>
+                    <Panel id='BirzaAbilitiesInfoBonus'/>
                 </Panel>
                 <Panel class="BottomPanel" >
                     <Panel id="BannedButtonsPick" class="BannedButtonsPick">
@@ -129,5 +137,6 @@
                 </Panel>
             </Panel>
         </Panel>
+        <Panel class="PlayersList" id="PlayersList" />
 	</Panel>
 </root>

@@ -2689,42 +2689,27 @@
 	//=================================================================================================================
 	"npc_dota_hero_arc_warden"
 	{
-		"ProjectileModel"			"particles/haku_attack.vpcf"
-
-		"Ability1"					"haku_needle"
-		"Ability2"					"haku_jump"
-		"Ability3"					"haku_frost_attack"
-		"Ability4"					"haku_zerkalo"
-		"Ability5"					"haku_mask"
-		"Ability6"					"haku_zerkala"
-		"Ability7"					"haku_needle_heal"
-		"Ability8"					"haku_eyes"
-		"Ability9"					"haku_aura"
-		"Ability10"					"haku_help"
-		"Ability25"					""
-
-		"ModelScale"				"0.85"
-		"Model"						"models/update_heroes/haku/haku_with_mask.vmdl"
-		"DisableWearables"			"1"
-		"Facets"        ""
-        "role_hero"					"Pick_Carry"
-
-		"AttributeBaseStrength"			"21"
+        "ProjectileModel"			    "particles/haku_attack.vpcf"
+        "ModelScale"				    "0.85"
+		"Model"						    "models/update_heroes/haku/haku_with_mask.vmdl"
+		"DisableWearables"			    "1"
+		"Facets"                        ""
+        "role_hero"					    "Pick_Carry"
+        "difficulty"	                "Pick_hard"
+        "AttributeBaseStrength"			"21"
 		"AttributeStrengthGain"			"2.3"
 		"AttributeBaseAgility"			"25"
 		"AttributeAgilityGain"			"3.4"
 		"AttributeBaseIntelligence"		"18"
 		"AttributeIntelligenceGain"		"2.5"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
-
-		"AttackRate"		"1.700000"
-		"MovementSpeed"		"305"
-		"AttackRange"		"520"
-		"AttackDamageMin"	"37"
-		"AttackDamageMax"	"40"
-		"ArmorPhysical"		"3"
-
-		"AttackSpeedActivityModifiers"
+		"AttackRate"		            "1.700000"
+		"MovementSpeed"		            "305"
+		"AttackRange"		            "520"
+		"AttackDamageMin"	            "37"
+		"AttackDamageMax"	            "40"
+		"ArmorPhysical"		            "3"
+        "AttackSpeedActivityModifiers"
 		{
 			"fast"		"190"
 			"faster"	"300"
@@ -2745,9 +2730,21 @@
 				"regular"		"0.50000"
 			}
 		}
-		"AbilityTalentStart" 		"11"
-		"difficulty"	"Pick_hard"
 
+        "Ability1"					    "haku_needle"
+		"Ability2"					    "haku_jump"
+		"Ability3"					    "haku_frost_attack"
+		"Ability4"					    "haku_zerkalo"
+		"Ability5"					    "haku_mask"
+		"Ability6"					    "haku_zerkala"
+
+        "Ability7"					        "haku_needle_heal"
+		"Ability8"					        "haku_eyes"
+		"Ability9"					        "haku_aura"
+		"Ability10"					        "haku_help"
+		"Ability25"					        ""
+
+		"AbilityTalentStart" 		"11"
 		"Ability11"		"special_bonus_birzha_haku_1"
 		"Ability12"		"special_bonus_birzha_haku_2"
 		"Ability13"		"special_bonus_birzha_haku_3"
@@ -4785,15 +4782,15 @@
 		"Facets"                        ""
         "role_hero"						"Pick_Carry"
 
-		"ArmorPhysical"					"3"
+		"ArmorPhysical"					"5"
 		"AttackCapabilities"			"DOTA_UNIT_CAP_MELEE_ATTACK"
-		"AttackRate"					"1.700000"
-		"BaseAttackSpeed"				"110"
+		"AttackRate"					"2"
+		"BaseAttackSpeed"				"120"
 		"AttackAnimationPoint"			"0.330000"
 		"AttackRange"					"150"
-        "MovementSpeed"					"300"
-		"AttackDamageMin"				"1"
-		"AttackDamageMax"				"1"
+        "MovementSpeed"					"305"
+		"AttackDamageMin"				"18"
+		"AttackDamageMax"				"24"
 
         "Ability1"                      "ashab_q"
         "Ability2"                      "ashab_w"
@@ -4802,17 +4799,17 @@
         "Ability5"                      "ashab_f"
         "Ability6"                      "ashab_r"
 
-        "Ability10"                     "ad_special_bonus_gold_lvl10_l"
-        "Ability11"                     "ad_special_bonus_gold_lvl10_r"
+        "Ability10"                     "special_bonus_unique_ashab_1"
+        "Ability11"                     "special_bonus_unique_ashab_2"
 
-        "Ability12"                     "ad_special_bonus_gold_lvl15_l"
-        "Ability13"                     "ad_special_bonus_gold_lvl15_r"
+        "Ability12"                     "special_bonus_unique_ashab_3"
+        "Ability13"                     "special_bonus_unique_ashab_4"
 
-        "Ability14"                     "ad_special_bonus_gold_lvl20_l"
-        "Ability15"                     "ad_special_bonus_gold_lvl20_r"
+        "Ability14"                     "special_bonus_unique_ashab_5"
+        "Ability15"                     "special_bonus_unique_ashab_6"
 
-        "Ability16"                     "ad_special_bonus_gold_lvl25_l"
-        "Ability17"                     "ad_special_bonus_gold_lvl25_r"
+        "Ability16"                     "special_bonus_unique_ashab_7"
+        "Ability17"                     "special_bonus_unique_ashab_8"
 
         "AttackSpeedActivityModifiers"
 		{
@@ -4825,9 +4822,9 @@
 			"run"		"340"
 		}
 
-		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_STRENGTH"
 		"AttributeBaseStrength"			"30"
-		"AttributeStrengthGain"			"4"
+		"AttributeStrengthGain"			"3.2"
 
 		"AttributeBaseAgility"			"20"
 		"AttributeAgilityGain"			"2.4"
@@ -4858,17 +4855,17 @@
 		"ArmorPhysical"					"3"
 		"AttackCapabilities"			"DOTA_UNIT_CAP_RANGED_ATTACK"
 		"AttackRate"					"1.700000"
-		"BaseAttackSpeed"				"110"
+		"BaseAttackSpeed"				"90"
 		"AttackAnimationPoint"			"0.330000"
 		"AttackRange"					"600"
-        "MovementSpeed"					"300"
-		"AttackDamageMin"				"1"
-		"AttackDamageMax"				"1"
+        "MovementSpeed"					"330"
+		"AttackDamageMin"				"30"
+		"AttackDamageMax"				"36"
 
         "ProjectileModel"		        "particles/units/heroes/hero_wisp/wisp_base_attack.vpcf"
 		"ProjectileSpeed"		        "1200"
 
-		"AttributePrimary"				"DOTA_ATTRIBUTE_INTELLECT"
+		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
 		"AttributeBaseStrength"			"18"
 		"AttributeStrengthGain"			"1.8"
 		"AttributeBaseAgility"			"26"
@@ -4876,17 +4873,17 @@
 		"AttributeBaseIntelligence"		"12"
 		"AttributeIntelligenceGain"		"2.7"
 
-        "Ability10"                     "ad_special_bonus_gold_lvl10_l"
-        "Ability11"                     "ad_special_bonus_gold_lvl10_r"
+        "Ability10"                     "special_bonus_unique_old_god_1"
+        "Ability11"                     "special_bonus_unique_old_god_2"
 
-        "Ability12"                     "ad_special_bonus_gold_lvl15_l"
-        "Ability13"                     "ad_special_bonus_gold_lvl15_r"
+        "Ability12"                     "special_bonus_unique_old_god_3"
+        "Ability13"                     "special_bonus_unique_old_god_4"
 
-        "Ability14"                     "ad_special_bonus_gold_lvl20_l"
-        "Ability15"                     "ad_special_bonus_gold_lvl20_r"
+        "Ability14"                     "special_bonus_unique_old_god_5"
+        "Ability15"                     "special_bonus_unique_old_god_6"
 
-        "Ability16"                     "ad_special_bonus_gold_lvl25_l"
-        "Ability17"                     "ad_special_bonus_gold_lvl25_r"
+        "Ability16"                     "special_bonus_unique_old_god_7"
+        "Ability17"                     "special_bonus_unique_old_god_8"
     }
 
 	// "npc_dota_hero_ancient_apparition"

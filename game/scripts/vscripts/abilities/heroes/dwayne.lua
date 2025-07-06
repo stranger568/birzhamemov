@@ -3,6 +3,18 @@ LinkLuaModifier( "modifier_dwayne_throw_stone", "abilities/heroes/dwayne.lua", L
 
 dwayne_throw_stone = class({})
 
+function dwayne_throw_stone:Precache(context)
+    PrecacheResource("model", "models/items/tiny/tiny_bad_to_the_bone_belt/tiny_bad_to_the_bone_belt.vmdl", context)
+    PrecacheResource("particle", "particles/dwayne/attack_proj.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_tiny/tiny_avalanche_projectile.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_tiny/tiny_avalanche.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_tiny/tiny_toss_blur.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_tiny/tiny_toss_impact.vpcf", context)
+    PrecacheResource("particle", "particles/neutral_fx/ogre_bruiser_smash.vpcf", context)
+    PrecacheResource("particle", "particles/dwayne/ultimate_proj_particle.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_snapfire/hero_snapfire_ultimate_calldown.vpcf", context)
+end
+
 function dwayne_throw_stone:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_dwayne_1")
 end

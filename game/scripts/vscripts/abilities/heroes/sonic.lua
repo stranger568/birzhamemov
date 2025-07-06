@@ -3,6 +3,37 @@ LinkLuaModifier("modifier_sonic_dash", "abilities/heroes/sonic.lua", LUA_MODIFIE
 
 sonic_dash = class({})
 
+function sonic_dash:Precache(context)
+    PrecacheResource("model", "models/sonic/sonic.vmdl", context)
+    PrecacheResource("model", "models/sonic_arcana/sonic_arcana.vmdl", context)
+    PrecacheResource("particle", "particles/sonic/sonic_arcana_ambient.vpcf", context)
+    local particle_list = 
+    {
+        "particles/sonic/sonic_arcana_ambient.vpcf",
+        "particles/sonic/one_skill.vpcf",
+        "particles/sonic_arcana/one_skill.vpcf",
+        "particles/units/heroes/hero_pangolier/pangolier_tailthump_cast.vpcf",
+        "particles/sonic_jump_end.vpcf",
+        "particles/sonic_arcana/thunder_clap.vpcf",
+        "particles/units/heroes/hero_pangolier/pangolier_tailthump_hero.vpcf",
+        "particles/units/heroes/hero_pangolier/pangolier_tailthump_hero.vpcf",
+        "particles/units/heroes/hero_pangolier/pangolier_tailthump_shield_impact.vpcf",
+        "particles/sonic/sonic_gotta.vpcf",
+        "particles/sonic/sonic_gotta_ambient.vpcf",
+        "particles/sonic_arcana/sonic_gotta.vpcf",
+        "particles/sonic_arcana/sonic_gotta_ambient.vpcf",
+        "particles/sonic/sonic_gotta.vpcf",
+        "particles/sonic_arcana/sonic_gotta.vpcf",
+        "particles/units/heroes/hero_brewmaster/brewmaster_fire_ambient.vpcf",
+        "particles/sonic/sound_damage.vpcf",
+        "particles/sonic_arcana/sound_damage.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+    PrecacheResource("model", "models/sonic/sonic_ball.vmdl", context)
+end
+
 function sonic_dash:GetCooldown(level)
     return (self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_sonic_1"))
 end

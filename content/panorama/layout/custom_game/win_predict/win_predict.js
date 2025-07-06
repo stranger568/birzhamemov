@@ -8,6 +8,10 @@ function open_win_predict()
         $("#WinPredictTopCounterLabel").text = String(birzhainfo.win_predict)
     }
     $("#WinPredict").SetHasClass("open", true)
+    $.Schedule(1, function()
+    {
+        $("#WinPredict").SetHasClass("Pulse", true)
+    })
 }
 
 GameEvents.Subscribe( 'close_win_predict', close_win_predict);
@@ -19,6 +23,8 @@ function close_win_predict()
 
 function WinCondition()
 {
-    $("#WinPredictButton").style.opacity = "0"
+    $("#WinPredictButton").SetPanelEvent("onactivate", function() {});
+    $("#WinPredictButton").SetHasClass("IsClick", true)
+    $("#WinPredictButtonLabel").text = $.Localize("#birzha_win_predict_3")
     GameEvents.SendCustomGameEventToServer( "win_condition_predict", {} );
 }

@@ -333,9 +333,9 @@ function UpdateTimer()
 	Game.AutoAssignPlayersToTeams();
 
 	if (Game.GetMapInfo().map_display_name == "birzhamemov_solo") {
-		Game.ShufflePlayerTeamAssignments();
-		Game.ShufflePlayerTeamAssignments();
-		Game.ShufflePlayerTeamAssignments();
+		//Game.ShufflePlayerTeamAssignments();
+		//Game.ShufflePlayerTeamAssignments();
+		//Game.ShufflePlayerTeamAssignments();
 	}
 
 	Game.SetRemainingSetupTime( 4 ); 

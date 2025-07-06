@@ -1,5 +1,6 @@
 LinkLuaModifier("modifier_nix_marci_w", "abilities/heroes/nix_streamer/nix_marci_w", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_nix_marci_w_debuff", "abilities/heroes/nix_streamer/nix_marci_w", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_nix_marci_w_handler", "abilities/heroes/nix_streamer/nix_marci_w", LUA_MODIFIER_MOTION_NONE)
 
 nix_marci_w = class({})
 
@@ -8,6 +9,27 @@ function nix_marci_w:Precache( context )
     PrecacheResource( "particle", "particles/nix/nix_marci_w_overhead.vpcf", context )
     PrecacheResource( "particle", "particles/nix/nix_marci_w_buff.vpcf", context )
     PrecacheResource( "particle", "particles/nix/nix_marci_w_pulse_new.vpcf", context )
+    PrecacheResource( "particle", "particles/nix_custom/nix_w_strike.vpcf", context )
+end
+
+function nix_marci_w:GetIntrinsicModifierName()
+    return "modifier_nix_marci_w_handler"
+end
+
+function nix_marci_w:AttackBashed(target, parry)
+    local stun_duration = self:GetSpecialValueFor("stun_duration")
+    target:AddNewModifier(self:GetCaster(), self, "modifier_bashed", {duration = stun_duration * (1 - target:GetStatusResistance())})
+    local coup_pfx = ParticleManager:CreateParticle("particles/nix_custom/nix_w_strike.vpcf", PATTACH_ABSORIGIN_FOLLOW, target)
+    ParticleManager:SetParticleControlEnt(coup_pfx, 0, target, PATTACH_POINT_FOLLOW, "attach_hitloc", target:GetAbsOrigin(), true)
+    ParticleManager:SetParticleControl(coup_pfx, 1, target:GetAbsOrigin())
+    local line = (target:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Normalized()
+    ParticleManager:SetParticleControlTransformForward( coup_pfx, 1, target:GetOrigin(), -line )
+    ParticleManager:ReleaseParticleIndex(coup_pfx)
+end
+
+function nix_marci_w:AddTargetMark(target)
+    local mark_duration = self:GetSpecialValueFor("mark_duration")
+    target:AddNewModifier(self:GetCaster(), self, "modifier_nix_marci_w_debuff", {duration = mark_duration * (1 - target:GetStatusResistance())})
 end
 
 function nix_marci_w:OnSpellStart()
@@ -26,98 +48,71 @@ function nix_marci_w:OnSpellStart()
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_nix_marci_w", {duration = duration, has_upgrade = has_upgrade})
 end
 
-modifier_nix_marci_w = class({})
-function modifier_nix_marci_w:IsPurgable() return false end
-function modifier_nix_marci_w:IsPurgeException() return false end
-
-function modifier_nix_marci_w:OnCreated(params)
-    self.max_attacks = self:GetAbility():GetSpecialValueFor("max_attacks")
-    self.bonus_attack_speed = self:GetAbility():GetSpecialValueFor("bonus_attack_speed")
-    self.radius = self:GetAbility():GetSpecialValueFor("radius")
-    self.damage_from_attack = self:GetAbility():GetSpecialValueFor("damage_from_attack")
-    if params.has_upgrade then
-        self.max_attacks = self:GetAbility():GetSpecialValueFor("upgrade_attacks")
-    end
-    if not IsServer() then return end
-    local overhead_effect = ParticleManager:CreateParticle("particles/nix/nix_marci_w_overhead.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent())
-    self:AddParticle(overhead_effect, false, false, -1, false, false)
-    self:SetStackCount(self.max_attacks)
-end
-
-function modifier_nix_marci_w:OnRefresh(params)
-    self.max_attacks = self:GetAbility():GetSpecialValueFor("max_attacks")
-    self.bonus_attack_speed = self:GetAbility():GetSpecialValueFor("bonus_attack_speed")
-    self.radius = self:GetAbility():GetSpecialValueFor("radius")
-    self.damage_from_attack = self:GetAbility():GetSpecialValueFor("damage_from_attack")
-    if params.has_upgrade then
-        self.max_attacks = self:GetAbility():GetSpecialValueFor("upgrade_attacks")
-    end
-    if not IsServer() then return end
-    self:SetStackCount(self.max_attacks)
-end
-
-function modifier_nix_marci_w:GetEffectName()
-    return "particles/nix/nix_marci_w_buff.vpcf"
-end
-
-function modifier_nix_marci_w:DeclareFunctions()
+modifier_nix_marci_w_handler = class({})
+function modifier_nix_marci_w_handler:IsHidden() return true end
+function modifier_nix_marci_w_handler:IsPurgable() return false end
+function modifier_nix_marci_w_handler:IsPurgeException() return false end
+function modifier_nix_marci_w_handler:RemoveOnDeath() return false end
+function modifier_nix_marci_w_handler:DeclareFunctions()
     return
     {
-        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-        MODIFIER_EVENT_ON_ATTACK,
+        MODIFIER_EVENT_ON_ATTACK_LANDED,
+        MODIFIER_EVENT_ON_ATTACK_START,
+        MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE,
     }
 end
 
-function modifier_nix_marci_w:GetModifierAttackSpeedBonus_Constant()
-    return self.bonus_attack_speed
-end
-
-function modifier_nix_marci_w:OnAttack(params)
+function modifier_nix_marci_w_handler:OnAttackStart(params)
     if not IsServer() then return end
     if params.attacker ~= self:GetParent() then return end
-    if self:GetStackCount() <= 0 then return end
-    if params.no_attack_cooldown then return end
-    if self:GetParent():HasModifier("modifier_nix_marci_w_debuff") then return end
-    self:DecrementStackCount()
-    self:Pulse(params.target)
-    if self:GetStackCount() <= 0 then
-        self:Destroy()
+    local modifier_nix_marci_w_debuff = params.target:FindModifierByName("modifier_nix_marci_w_debuff")
+    if modifier_nix_marci_w_debuff then
+        self.is_mark_attack = true
+    else
+        self.is_mark_attack = false
+        self.is_upgrade_mark = false
     end
 end
 
-function modifier_nix_marci_w:Pulse(target)
-    if not IsServer() then return end
-    local particle = ParticleManager:CreateParticle("particles/nix/nix_marci_w_pulse_new.vpcf", PATTACH_WORLDORIGIN, nil)
-    ParticleManager:SetParticleControl(particle, 0, target:GetAbsOrigin())
-    ParticleManager:SetParticleControl(particle, 1, Vector(self.radius, self.radius / 2, self.radius / 4))
-    ParticleManager:ReleaseParticleIndex(particle)
-    local units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), target:GetAbsOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false)
-    for _, unit in pairs(units) do
-        if unit ~= target then
-            local modifier_nix_marci_w_debuff = self:GetCaster():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_nix_marci_w_debuff", {})
-            self:GetCaster():PerformAttack(unit, true, true, true, true, false, false, true)
-            if modifier_nix_marci_w_debuff then
-                modifier_nix_marci_w_debuff:Destroy()
-            end
-        end
+function modifier_nix_marci_w_handler:GetModifierPreAttack_CriticalStrike(params)
+    if self.is_mark_attack then
+        return self:GetAbility():GetSpecialValueFor("critical_damage")
     end
+end
+
+function modifier_nix_marci_w_handler:OnAttackLanded(params)
+    if not IsServer() then return end
+    if params.attacker ~= self:GetParent() then return end
+    local has_mark = false
+    local modifier_nix_marci_w_debuff = params.target:FindModifierByName("modifier_nix_marci_w_debuff")
+    if modifier_nix_marci_w_debuff then
+        self:GetAbility():AttackBashed(params.target)
+        modifier_nix_marci_w_debuff:Destroy()
+        has_mark = true
+    end
+    self.is_mark_attack = false
+    if self:GetCaster():HasModifier("modifier_nix_marci_w") and not has_mark then
+        self:GetAbility():AddTargetMark(params.target)
+    end
+end
+
+modifier_nix_marci_w = class({})
+function modifier_nix_marci_w:IsPurgable() return false end
+function modifier_nix_marci_w:IsPurgeException() return false end
+function modifier_nix_marci_w:GetEffectName()
+    return "particles/nix/nix_marci_w_buff.vpcf"
+end
+function modifier_nix_marci_w:GetEffectAttachType()
+    return PATTACH_ABSORIGIN_FOLLOW
 end
 
 modifier_nix_marci_w_debuff = class({})
 function modifier_nix_marci_w_debuff:IsHidden() return true end
-function modifier_nix_marci_w_debuff:IsPurgable() return false end
-function modifier_nix_marci_w_debuff:IsPurgeException() return false end
-function modifier_nix_marci_w_debuff:DeclareFunctions()
-    return
-    {
-        MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE
-    }
-end
-function modifier_nix_marci_w_debuff:GetModifierDamageOutgoing_Percentage()
+function modifier_nix_marci_w_debuff:OnCreated()
     if not IsServer() then return end
-    return -100 + self:GetAbility():GetSpecialValueFor("damage_from_attack")
+    local overhead_effect = ParticleManager:CreateParticle("particles/nix/nix_marci_w_overhead.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent())
+    self:AddParticle(overhead_effect, false, false, -1, false, false)
 end
-
 
 
 

@@ -13,6 +13,7 @@ class HighFive {
         this.heroIndex = Game.GetPlayerInfo(this.playerId).player_selected_hero_entity_index;
         this.keybind_button = null;
         this.Tick();
+        SetBuffs()
     }
     RemoveOnRestart() {
         dotaHud.FindChildrenWithClassTraverse("__HF_Remove__").forEach(panel => panel.DeleteAsync(0));
@@ -26,7 +27,7 @@ class HighFive {
         high_five.SetPanelEvent("onactivate", () => this.HighFive());
         high_five.SetPanelEvent("onmouseover", () => {
             var entindex = Players.GetLocalPlayerPortraitUnit();
-            $.DispatchEvent("DOTAShowAbilityTooltipForEntityIndex", this.button, "high_five", entindex);
+            $.DispatchEvent("DOTAShowAbilityTooltipForEntityIndex", this.button, "seasonal_ti10_high_five", entindex);
         });
         high_five.SetPanelEvent("onmouseout", () => $.DispatchEvent("DOTAHideAbilityTooltip", high_five));
         high_five.SetParent(container);
@@ -50,4 +51,16 @@ class HighFive {
         $.Schedule(0.03, () => this.Tick());
     }
 }
+
+function SetBuffs() 
+{
+    var buffs = FindDotaHudElement("buffs");
+    if (buffs)
+        buffs.style.marginBottom = "196px";
+    var debuffs = FindDotaHudElement("debuffs");
+    if (debuffs)
+        debuffs.style.marginBottom = "196px";
+}
+
+
 var highfive = new HighFive();

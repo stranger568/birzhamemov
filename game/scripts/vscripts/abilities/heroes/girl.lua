@@ -4,6 +4,24 @@ LinkLuaModifier("modifier_girl_blood_controll_debuff", "abilities/heroes/girl.lu
 
 girl_blood_controll = class({})
 
+function girl_blood_controll:Precache(context)
+    PrecacheResource("model", "models/kyriyama/girl_2.vmdl", context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_grimstroke/grimstroke_darkartistry_proj.vpcf",
+        "particles/units/heroes/hero_grimstroke/grimstroke_darkartistry_dmg.vpcf",
+        "particles/units/heroes/hero_void_spirit/astral_step/void_spirit_astral_step.vpcf",
+        "particles/girl/critical_attack.vpcf",
+        "particles/girl/girl_blades_of_blood.vpcf",
+        "particles/girl/girl_three_sphere1.vpcf",
+        "particles/girl/debuff_blades_of_blood.vpcf",
+        "particles/girl/berserk_mod_buff.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function girl_blood_controll:GetCastRange(location, target)
     if IsClient() then
         return self:GetSpecialValueFor("range") + self:GetCaster():FindTalentValue("special_bonus_birzha_girl_1")

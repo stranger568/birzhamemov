@@ -4,6 +4,25 @@ LinkLuaModifier("modifier_Poroshenko_slava_ukraine_sniper", "abilities/heroes/po
 
 Poroshenko_Slava_Ukraine = class({}) 
 
+function Poroshenko_Slava_Ukraine:Precache(context)
+    PrecacheResource("model", "models/omniknight_zelensky_head.vmdl", context)
+    local particle_list = 
+    {
+        "particles/econ/items/razor/razor_ti6/razor_plasmafield_ti6.vpcf",
+        "particles/polnaref/polnaref_sleep.vpcf",
+        "particles/generic_gameplay/generic_sleep.vpcf",
+        "particles/poroshenko/poroshenko_slava_ukraine.vpcf",
+        "particles/poroshenko/status_effect_poroshenko_slava.vpcf",
+        "particles/poroshenko/poroshenko_fat.vpcf",
+        "particles/poroshenko/poroshenko_fat_debuff.vpcf",
+        "particles/units/heroes/hero_huskar/huskar_berserkers_blood_glow.vpcf",
+        "particles/poroshenko/flag_ukraine.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Poroshenko_Slava_Ukraine:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end
@@ -511,6 +530,7 @@ function modifier_Poroshenko_flag_ukraine:CheckState()
     local state = 
     {
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+        [MODIFIER_STATE_ROOTED] = true,
     }
     return state
 end

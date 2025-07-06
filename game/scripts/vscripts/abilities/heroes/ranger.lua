@@ -3,6 +3,22 @@ LinkLuaModifier( "modifier_Ranger_NailGun_buff" , "abilities/heroes/ranger", LUA
 
 Ranger_NailGun = class({}) 
 
+function Ranger_NailGun:Precache(context)
+    local particle_list = 
+    {
+        "particles/econ/items/sniper/sniper_charlie/sniper_assassinate_charlie.vpcf",
+        "particles/units/heroes/hero_gob_squad/rocket_blast.vpcf",
+        "particles/units/heroes/hero_gob_squad/rocket_blast_explosion.vpcf",
+        "particles/units/heroes/hero_gyrocopter/gyro_flak_cannon_overhead.vpcf",
+        "particles/units/heroes/hero_gyrocopter/gyro_base_attack.vpcf",
+        "particles/ranger_jump_receive.vpcf",
+        "particles/econ/items/earthshaker/earthshaker_totem_ti6/earthshaker_totem_ti6_cast_v2.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Ranger_NailGun:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

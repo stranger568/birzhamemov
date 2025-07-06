@@ -26,7 +26,7 @@ function nix_phantom_w:OnVectorCastStart(vStartLocation, vDirection)
     end
     self:GetCaster():EmitSound("Hero_Undying.Tombstone.Enter")
     local speed = self:GetSpecialValueFor( "dash_speed" )
-    CreateModifierThinker(self:GetCaster(), self, "modifier_nix_phantom_w_thinker", {has_upgrade = has_upgrade, start_point_x = vStartLocation.x, start_point_y = vStartLocation.y, direction_x = vDirection.x, direction_y = vDirection.y}, self:GetCaster():GetAbsOrigin(), self:GetCaster():GetTeamNumber(), false)
+    CreateModifierThinker(self:GetCaster(), self, "modifier_nix_phantom_w_thinker", {has_upgrade = has_upgrade, start_point_x = vStartLocation.x, start_point_y = vStartLocation.y, direction_x = vDirection.x, direction_y = vDirection.y}, vStartLocation, self:GetCaster():GetTeamNumber(), false)
 end
 
 modifier_nix_phantom_w_thinker = class({})
@@ -40,7 +40,6 @@ function modifier_nix_phantom_w_thinker:OnCreated(params)
     self.direction_end = Vector(params.direction_x, params.direction_y, 0)
     self.initial_distance = (self.start_point - self:GetParent():GetAbsOrigin()):Length2D()
     self.initial_direction = (self.start_point - self:GetParent():GetAbsOrigin()):Normalized()
-    self.start_movement = true
     self.length = self:GetAbility():GetSpecialValueFor("length")
     self.speed = self:GetAbility():GetSpecialValueFor("speed")
     self.targets = {}
@@ -57,22 +56,11 @@ end
 
 function modifier_nix_phantom_w_thinker:OnIntervalThink()
     if not IsServer() then return end
-    if self.start_movement then
-        local speed = self.speed * FrameTime()
-        local new_position = self:GetParent():GetAbsOrigin() + self.initial_direction * speed
-        new_position = GetGroundPosition(new_position, nil) + Vector(0, 0, 175)
-        self:GetParent():SetAbsOrigin(new_position)
-        self.initial_distance = self.initial_distance - speed
-        if self.initial_distance <= 0 then
-            self.start_movement = false
-        end
-    else
-        local speed = self.speed * FrameTime()
-        local new_position = self:GetParent():GetAbsOrigin() + self.direction_end * speed
-        new_position = GetGroundPosition(new_position, nil) + Vector(0, 0, 175)
-        self:GetParent():SetAbsOrigin(new_position)
-        self.length = self.length - speed
-    end
+    local speed = self.speed * FrameTime()
+    local new_position = self:GetParent():GetAbsOrigin() + self.direction_end * speed
+    new_position = GetGroundPosition(new_position, nil) + Vector(0, 0, 175)
+    self:GetParent():SetAbsOrigin(new_position)
+    self.length = self.length - speed
     self:UpdateDamage()
     if self.particle then
         ParticleManager:SetParticleControl(self.particle, 0, self:GetParent():GetAbsOrigin())
@@ -85,19 +73,22 @@ end
 
 function modifier_nix_phantom_w_thinker:UpdateDamage()
     if not IsServer() then return end
-    local units = FindUnitsInRadius(self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, 150, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false)
+    local nix_marci_w = self:GetCaster():FindAbilityByName("nix_marci_w")
+    local units = FindUnitsInRadius(self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, 150, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false)
     for _,unit in pairs(units) do
         if not self.targets[unit:entindex()] then
             self.targets[unit:entindex()] = true
-            local damage = self:GetCaster():GetAverageTrueAttackDamage(nil) / 100 * self:GetAbility():GetSpecialValueFor("damage_from_attack")
-            ApplyDamage({victim = unit, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
-            if self.has_upgrade then
-                self:GetCaster():PerformAttack(unit, true, true, true, true, false, false, true)
+            if unit:GetTeamNumber() ~= self:GetCaster():GetTeamNumber() then
+                local damage = self:GetAbility():GetSpecialValueFor("damage")
+                ApplyDamage({victim = unit, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
+                if self.has_upgrade then
+                    self:GetCaster():PerformAttack(unit, true, true, true, true, false, false, true)
+                end
+                if nix_marci_w and nix_marci_w:GetLevel() > 0 then
+                    nix_marci_w:AddTargetMark(unit)
+                end
             end
-            local direction = unit:GetAbsOrigin() - self:GetParent():GetAbsOrigin()
-            direction.z = 0
-            direction = direction:Normalized()
-            unit:AddNewModifier(self:GetCaster(), self, "modifier_generic_knockback_lua",{ direction_x = direction.x, direction_y = direction.y, distance = self:GetAbility():GetSpecialValueFor("knockback_distance"), height = 5, duration = 0.25 })
+            unit:AddNewModifier(self:GetCaster(), self, "modifier_generic_knockback_lua",{ direction_x = self.direction_end.x, direction_y = self.direction_end.y, distance = self:GetAbility():GetSpecialValueFor("knockback_distance"), height = 5, duration = 0.25, IsStun = unit:GetTeamNumber() ~= self:GetCaster():GetTeamNumber() })
         end
     end
 end

@@ -5,6 +5,7 @@
 	</styles>
 
 	<scripts>
+        <include src="s2r://panorama/layout/custom_game/scripts/util.vjs_c" />
         <include src="s2r://panorama/layout/custom_game/scripts/functions.vjs_c" />
 		<include src="s2r://panorama/layout/custom_game/heroes/ring_hud/ring_hud.vjs_c" />
 	</scripts>

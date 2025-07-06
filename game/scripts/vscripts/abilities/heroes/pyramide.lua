@@ -7,6 +7,27 @@ LinkLuaModifier( "modifier_pyramide_wires_damage", "abilities/heroes/pyramide", 
 
 pyramide_wires = class({})
 
+function pyramide_wires:Precache(context)
+    PrecacheResource("model", "models/pyramide/pyramide.vmdl", context)
+    PrecacheResource("particle", "particles/pyramide/pyramide_persona_rupture.vpcf", context)
+    local particle_list = 
+    {
+        "particles/pyramide/pyramide_persona_rupture.vpcf",
+        "particles/pyramide/ability_wire_thinker.vpcf",
+        "particles/units/heroes/hero_bloodseeker/bloodseeker_rupture.vpcf",
+        "particles/pyramide/pyramide_effect_picture.vpcf",
+        "particles/pyramide/box_effect.vpcf",
+        "particles/units/heroes/hero_sven/sven_spell_great_cleave.vpcf",
+        "particles/pyramide/fog_fx_aghanim.vpcf",
+        "particles/pyramide/explosion_aghanim.vpcf",
+        "particles/pyramide/explosion_aghanim.vpcf",
+        "particles/econ/items/wraith_king/wraith_king_arcana/wk_arc_weapon_blur_critical.vpcf",
+        "particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
 
 function pyramide_wires:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_pyramide_2")
@@ -765,7 +786,7 @@ end
 
 function UpdateTargetLeader(parent)
     local team = {}
-    local teams_table = {2,3,6,7,8,9,10,11,12,13}
+    local teams_table = table.deepcopy(_G.GET_TEAM_LIST[GetMapName()])
     for _, i in ipairs(teams_table) do
         local table_team_score = CustomNetTables:GetTableValue("game_state", tostring(i))
         if table_team_score then

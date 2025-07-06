@@ -3,6 +3,31 @@ LinkLuaModifier( "modifier_Kurumi_eight_bullet", "abilities/heroes/kurumi.lua", 
 
 Kurumi_eight_bullet = class({})
 
+function Kurumi_eight_bullet:Precache(context)
+    PrecacheResource("model", "models/update_heroes/kurumi/kurumi_base.vmdl", context)
+    PrecacheResource("model", "models/update_heroes/kurumi/kurumi_arcana.vmdl", context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_phantom_lancer/phantom_lancer_doppleganger_aoe.vpcf",
+        "particles/units/heroes/hero_phantom_lancer/phantom_lancer_doppleganger_illlmove.vpcf",
+        "particles/units/heroes/hero_phantom_lancer/phantom_lancer_spawn_illusion.vpcf",
+        "particles/items_fx/black_king_bar_avatar.vpcf",
+        "particles/status_fx/status_effect_avatar.vpcf",
+        "particles/econ/events/ti6/mjollnir_shield_ti6.vpcf",
+        "particles/units/heroes/hero_bane/bane_sap.vpcf",
+        "particles/generic_gameplay/generic_lifesteal.vpcf",
+        "particles/kurumi_ultimate_debuff_v2.vpcf",
+        "particles/status_fx/status_effect_faceless_chronosphere.vpcf",
+        "particles/kurumi/kurumi_ultimate_donate.vpcf",
+        "particles/econ/items/sniper/sniper_fall20_immortal/sniper_fall20_immortal_base_attack.vpcf",
+        "particles/status_fx/status_effect_purple_poison.vpcf",
+        "particles/kurumi_shard_attack.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Kurumi_eight_bullet:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_kurumi_7")
 end
@@ -92,12 +117,14 @@ function modifier_Kurumi_eight_bullet:IsPurgable() return false end
 
 function modifier_Kurumi_eight_bullet:OnCreated(keys)
     if not IsServer() then return end
-    
+    local parent = self:GetParent()
     self.new_pos = Vector(keys.new_pos_x, keys.new_pos_y, keys.new_pos_z)
-
-    Timers:CreateTimer(FrameTime(), function()
-        self:GetParent():AddNoDraw()
-    end)
+    
+    --Timers:CreateTimer(FrameTime(), function()
+        --if parent and not parent:IsNull() then
+            parent:AddNoDraw()
+        --end
+    --end)
     
     local doppleganger_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_phantom_lancer/phantom_lancer_doppleganger_illlmove.vpcf", PATTACH_WORLDORIGIN, self:GetParent())
     ParticleManager:SetParticleControl(doppleganger_particle, 0, self:GetParent():GetAbsOrigin())
@@ -111,7 +138,9 @@ function modifier_Kurumi_eight_bullet:OnDestroy()
     self:GetCaster():EmitSound("Hero_PhantomLancer.Doppelganger.Appear")
     self:GetCaster():EmitSound("kurumi_the_eighth_bullet_het_01")
     
-    self:GetParent():RemoveNoDraw()
+    if self:GetParent():IsAlive() then
+        self:GetParent():RemoveNoDraw()
+    end
     
     if self:GetParent():IsAlive() then
         FindClearSpaceForUnit(self:GetParent(), self.new_pos, true)

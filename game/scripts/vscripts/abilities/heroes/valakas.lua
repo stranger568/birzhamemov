@@ -3,6 +3,25 @@ LinkLuaModifier( "modifier_glad_sorry_target", "abilities/heroes/valakas.lua", L
 
 Valakas_sorry = class({})
 
+function Valakas_sorry:Precache(context)
+    local particle_list = 
+    {
+        "particles/birzhapass/valakas_arcana_sorry_owner.vpcf",
+        "particles/econ/items/axe/axe_helm_shoutmask/axe_beserkers_call_owner_shoutmask.vpcf",
+        "particles/birzhapass/valakas_arcana_sorry_owner_effect.vpcf",
+        "particles/status_fx/status_effect_beserkers_call.vpcf",
+        "particles/econ/items/earthshaker/earthshaker_arcana/earthshaker_arcana_aftershock.vpcf",
+        "particles/units/heroes/hero_legion_commander/legion_commander_courage_hit.vpcf",
+        "particles/econ/items/earthshaker/earthshaker_arcana/earthshaker_arcana_blink_end.vpcf",
+        "particles/units/heroes/hero_earthshaker/earthshaker_totem_buff.vpcf",
+        "particles/birzhapass/valakas_arcana_gadza.vpcf",
+        "particles/econ/items/earthshaker/egteam_set/hero_earthshaker_egset/earthshaker_echoslam_start_egset.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Valakas_sorry:GetAbilityTextureName()
 	if self:GetCaster():HasModifier("modifier_bp_valakas_reward") then
 		return "Valakas/Sorry_arcana"

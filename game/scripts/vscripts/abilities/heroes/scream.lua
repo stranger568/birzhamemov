@@ -6,6 +6,29 @@ LinkLuaModifier("modifier_Scream_TelephoneCall_leave", "abilities/heroes/scream.
 
 Scream_TelephoneCall = class({})
 
+function Scream_TelephoneCall:Precache(context)
+    PrecacheResource("model", "models/update_heroes/ghostface/ghost_face.vmdl", context)
+    local particle_list = 
+    {
+        "particles/scream/scream_call.vpcf",
+        "particles/status_fx/status_effect_frost.vpcf",
+        "particles/scream/scream_call_overhead.vpcf",
+        "particles/units/heroes/hero_night_stalker/nightstalker_crippling_fear_aura.vpcf",
+        "particles/units/heroes/hero_grimstroke/grimstroke_cast_soulchain.vpcf",
+        "particles/units/heroes/hero_bloodseeker/bloodseeker_bloodbath.vpcf",
+        "particles/scream/scream_rush_debuff.vpcf",
+        "particles/scream/scream_rush_marker.vpcf",
+        "particles/scream/scream_rush_rope.vpcf",
+        "particles/units/heroes/hero_spectre/spectre_desolate.vpcf",
+        "particles/armor_scream_blood.vpcf",
+        "particles/items2_fx/smoke_of_deceit.vpcf",
+        "particles/units/heroes/hero_grimstroke/grimstroke_ink_swell_aoe.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Scream_TelephoneCall:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

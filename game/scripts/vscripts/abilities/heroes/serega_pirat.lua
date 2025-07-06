@@ -8,6 +8,30 @@ LinkLuaModifier("modifier_serega_pirat_bike_debuff", "abilities/heroes/serega_pi
 
 serega_pirat_bike = class({})
 
+function serega_pirat_bike:Precache(context)
+    PrecacheResource("model", "models/pirat/serega.vmdl", context)
+    PrecacheResource("model", "models/pirat/bike.vmdl", context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_phantom_assassin_persona/pa_persona_phantom_strike_start.vpcf",
+        "particles/pirat_bike_finder.vpcf",
+        "particles/pirat/pirat_bike_chargeup.vpcf",
+        "particles/pirat/pirat_bike_charge_active.vpcf",
+        "particles/units/heroes/hero_primal_beast/primal_beast_onslaught_impact.vpcf",
+        "particles/units/heroes/hero_phantom_assassin_persona/pa_persona_phantom_strike_start.vpcf",
+        "particles/units/heroes/hero_phantom_assassin_persona/pa_persona_phantom_blur_active.vpcf",
+        "particles/econ/events/fall_2021/radiance_owner_fall_2021.vpcf",
+        "particles/generic_gameplay/generic_manaburn.vpcf",
+        "particles/econ/events/fall_2021/radiance_fall_2021.vpcf",
+        "particles/units/heroes/hero_antimage/antimage_blink_start.vpcf",
+        "particles/units/heroes/hero_antimage/antimage_blink_end.vpcf",
+        "particles/pirat/battlefuryeffect.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function serega_pirat_bike:OnSpellStart()
 	if not IsServer() then return end
 	local duration = self:GetSpecialValueFor( "chargeup_time" )

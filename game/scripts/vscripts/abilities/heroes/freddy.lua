@@ -9,6 +9,22 @@ LinkLuaModifier( "modifier_freddy_scream_fear", "abilities/heroes/freddy.lua", L
 
 freddy_scream = class({})
 
+function freddy_scream:Precache(context)
+    PrecacheResource("model", "models/freddy/freddy.vmdl", context)
+    local particle_list = 
+    {
+        "particles/freddy/toy_screamstart.vpcf",
+        "particles/freddy/freddy_aoe_fear.vpcf",
+        "particles/freddy/costume_launch_testice_shards_projectile_stout.vpcf",
+        "particles/freddy_prikol_effectmigi_infected.vpcf",
+        "particles/freddy/spring_effect.vpcf",
+        "particles/freddy_prikol_2freddy_prikol_effectmigi_infected.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function freddy_scream:GetCooldown(iLevel)
 	return self.BaseClass.GetCooldown( self, iLevel ) + self:GetCaster():FindTalentValue("special_bonus_birzha_freddy_1")
 end

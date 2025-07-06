@@ -5,6 +5,21 @@ LinkLuaModifier( "modifier_LenaGolovach_Donate", "abilities/heroes/golovach.lua"
 
 LenaGolovach_Donate = class({})
 
+function LenaGolovach_Donate:Precache(context)
+    local particle_list = 
+    {
+        "particles/econ/items/axe/ti9_jungle_axe/ti9_jungle_axe_attack_blur_counterhelix.vpcf",
+        "particles/golovach_taunt.vpcf",
+        "particles/units/heroes/hero_shredder/shredder_death.vpcf",
+        "particles/units/heroes/hero_tinker/tinker_missile_dud.vpcf",
+        "particles/units/heroes/hero_tinker/tinker_missile.vpcf",
+        "particles/units/heroes/hero_tinker/tinker_missle_explosion.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function LenaGolovach_Donate:GetCastRange(location, target)
     return self:GetSpecialValueFor("radius")
 end

@@ -3,6 +3,30 @@ LinkLuaModifier("modifier_Knuckles_army", "abilities/heroes/knuckles", LUA_MODIF
 
 Knuckles_army = class({})
 
+function Knuckles_army:Precache(context)
+    PrecacheResource("model", "models/knuckles_tank.vmdl", context)
+    PrecacheResource("model", "models/update_heroes/knuckles/knuckles.vmdl", context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_invoker/invoker_alacrity_buff.vpcf",
+        "particles/status_fx/status_effect_alacrity.vpcf",
+        "particles/units/heroes/hero_phantom_lancer/phantom_lancer_spawn_illusion.vpcf",
+        "particles/units/heroes/hero_phantom_lancer/phantom_lancer_spawn_illusion.vpcf",
+        "particles/econ/items/windrunner/windrunner_weapon_rainmaker/windrunner_spell_powershot_rainmaker.vpcf",
+        "particles/econ/items/windrunner/windrunner_ti6/windrunner_spell_powershot_ti6.vpcf",
+        "particles/units/heroes/hero_windrunner/windrunner_spell_powershot.vpcf",
+        "particles/units/heroes/hero_lina/lina_spell_dragon_slave.vpcf",
+        "particles/units/heroes/hero_crystalmaiden/maiden_freezing_field_snow.vpcf",
+        "particles/generic_gameplay/generic_slowed_cold.vpcf",
+        "particles/status_fx/status_effect_frost_lich.vpcf",
+        "particles/units/heroes/hero_techies/techies_base_attack.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+    PrecacheResource("model", "models/update_heroes/knuckles/knuckles_tank.vmdl", context)
+end
+
 function Knuckles_army:GetIntrinsicModifierName()
     return "modifier_Knuckles_army"
 end
@@ -28,7 +52,6 @@ end
 
 function Knuckles_army:OnSpellStart()
     if not IsServer() then return end
-
     local modifier = self:GetCaster():FindModifierByName("modifier_Knuckles_army")
     local max_illusions = self:GetSpecialValueFor("max_illusions") + self:GetSpecialValueFor("scepter_bonus_illusions") + self:GetCaster():FindTalentValue("special_bonus_birzha_knuckles_6")
     local illusion_duration = self:GetSpecialValueFor("illusion_duration") + self:GetSpecialValueFor("scepter_bonus_duration")

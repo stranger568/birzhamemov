@@ -4,6 +4,23 @@ LinkLuaModifier( "modifier_thomas_smoke_debuff", "abilities/heroes/thomas.lua", 
 
 Thomas_smoke = class({})
 
+function Thomas_smoke:Precache(context)
+    PrecacheResource("model", "models/update_heroes/train_thomas/train_thomas.vmdl", context)
+    local particle_list = 
+    {
+        "particles/thomas/venomancer_poison_nova.vpcf",
+        "particles/debuff/venomancer_poison_debuff_nova.vpcf",
+        "particles/units/heroes/hero_bounty_hunter/bounty_hunter_windwalk_smoke.vpcf",
+        "particles/units/heroes/hero_clinkz/clinkz_windwalk_smoke_light.vpcf",
+        "particles/econ/items/shadow_fiend/sf_fire_arcana/sf_fire_arcana_loadout_char_fire.vpcf",
+        "particles/units/heroes/hero_techies/techies_blast_off.vpcf",
+        "particles/econ/items/windrunner/windrunner_cape_cascade/windrunner_windrun_cascade.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Thomas_smoke:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

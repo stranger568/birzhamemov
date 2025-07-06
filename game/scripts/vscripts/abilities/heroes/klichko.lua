@@ -6,6 +6,26 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 klichko_charge_of_darkness = class({})
 
+function klichko_charge_of_darkness:Precache(context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_spirit_breaker/spirit_breaker_charge.vpcf",
+        "particles/status_fx/status_effect_charge_of_darkness.vpcf",
+        "particles/units/heroes/hero_spirit_breaker/spirit_breaker_charge_target.vpcf",
+        "particles/units/heroes/hero_ursa/ursa_overpower_buff.vpcf",
+        "particles/status_fx/status_effect_overpower.vpcf",
+        "particles/units/heroes/hero_spirit_breaker/spirit_breaker_greater_bash.vpcf",
+        "particles/units/heroes/hero_spirit_breaker/spirit_breaker_greater_bash.vpcf",
+        "particles/units/heroes/hero_lone_druid/lone_druid_savage_roar.vpcf",
+        "particles/units/heroes/hero_lone_druid/lone_druid_savage_roar_debuff.vpcf",
+        "particles/status_fx/status_effect_lone_druid_savage_roar.vpcf",
+        "particles/econ/items/invoker/invoker_ti7/invoker_ti7_alacrity_buff.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function klichko_charge_of_darkness:GetCooldown(level)
     if self:GetCaster():HasShard() then
         return self:GetSpecialValueFor("scepter_cooldown")

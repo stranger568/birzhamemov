@@ -11,6 +11,28 @@ LinkLuaModifier( "modifier_hook_damage_cooldown", "abilities/heroes/mum.lua", LU
 
 mum_meat_hook = class({})
 
+function mum_meat_hook:Precache(context)
+    PrecacheResource("model", "models/items/pudge/arcana/pudge_arcana_base.vmdl", context)
+    local particle_list = 
+    {
+        "particles/blood_mum_hook_effect.vpcf",
+        "particles/units/heroes/hero_pudge/pudge_meathook_impact.vpcf",
+        "particles/pudge_attack_speed_scepter.vpcf",
+        "particles/pudge_gopo_particle.vpcf",
+        "particles/econ/items/mirana/mirana_crescent_arrow/mirana_spell_crescent_arrow.vpcf",
+        "particles/econ/items/bristleback/ti7_head_nasal_goo/bristleback_ti7_crimson_nasal_goo_proj.vpcf",
+        "particles/units/heroes/hero_pudge/pudge_rot.vpcf",
+        "particles/perdezh/riki_smokebomb.vpcf",
+        "particles/econ/items/pudge/pudge_arcana/pudge_arcana_dismember_default.vpcf",
+        "particles/mum/pudge_stack.vpcf",
+        "particles/pudge/pudgerage.vpcf",
+        "particles/units/heroes/hero_pudge/pudge_fleshheap_count.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 mum_meat_hook.hooks = {}
 
 function mum_meat_hook:OnAbilityPhaseStart()
@@ -31,7 +53,7 @@ function mum_meat_hook:GetCastRange(location, target)
     if self:GetHookStyle(2) then
         bonus = 800
     end
-    return self:GetSpecialValueFor( "hook_distance" ) + self:GetCaster():GetCastRangeBonus() + bonus
+    return self:GetSpecialValueFor( "hook_distance" ) + bonus
 end
 
 function mum_meat_hook:OnAbilityPhaseInterrupted()

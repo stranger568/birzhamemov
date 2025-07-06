@@ -6,6 +6,22 @@ LinkLuaModifier( "modifier_Pocik_VerySmall_buff", "abilities/heroes/boy.lua", LU
 
 Pocik_VerySmall = class({})
 
+function Pocik_VerySmall:Precache(context)
+    PrecacheResource("particle", "particles/ethereal/ethereal_blade.vpcf", context)
+    PrecacheResource("particle", "particles/econ/items/troll_warlord/troll_warlord_ti7_axe/troll_ti7_axe_bash_explosion.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_monkey_king/monkey_king_jump_stomp.vpcf", context)
+    PrecacheResource("particle", "particles/ethereal/ethereal_blade.vpcf", context)
+    PrecacheResource("particle", "particles/dangerous_boy_speed_buff.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_kunkka/kunkka_spell_x_spot.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_treant/treant_eyesintheforest.vpcf", context)
+    PrecacheResource("particle", "particles/pocik/penek_effect.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_pugna/pugna_netherblast.vpcf", context)
+    PrecacheResource("particle", "particles/pocik_tether.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_monkey_king/monkey_king_strike_cast.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_monkey_king/monkey_king_strike.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_monkey_king/monkey_king_strike_slow_impact.vpcf", context)
+end
+
 function Pocik_VerySmall:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

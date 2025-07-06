@@ -1625,4 +1625,77 @@
         event_type = "1.000000"
         vsnd_duration = 1.959184
     }
+    "sound_hit_1" = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/1.vsnd",
+            "sounds/2.vsnd",
+            "sounds/3.vsnd",
+            "sounds/4.vsnd",
+        ]
+        volume = "12.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 21.216000
+    }
+    "sound_hit_5" = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/3455.vsnd",
+        ]
+        volume = "12.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 21.216000
+    }
+    "sound_kill" = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/kill.vsnd",
+        ]
+        volume = "8.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 21.216000
+    }
+    "sound_anton1" = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/anton1.vsnd",
+            "sounds/anton2.vsnd",
+            "sounds/anton3.vsnd",
+            "sounds/anton4.vsnd",
+            "sounds/anton6.vsnd",
+            "sounds/anton7.vsnd",
+            "sounds/anton8.vsnd",
+        ]
+        volume = "8.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 21.216000
+    }
 }

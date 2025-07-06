@@ -4,6 +4,7 @@ end
 
 -- Библиотеки
 Precache = require "utils/precache"
+require('configs/const')
 require('addon_init')
 require('utils/table')
 require('utils/vector_targeting')
@@ -18,6 +19,7 @@ require('utils/commands/custom_commands')
 require('utils/requests')
 require('utils/error_tracking')
 require('utils/valve_fix')
+require("utils/selection")
 
 -- Сервер / Рейтинг / Донат
 require('game_lib/server')
@@ -33,7 +35,7 @@ require('game_lib/filters')
 
 function Activate()
 	BirzhaGameMode:InitGameMode()
-	BirzhaEvents:RegListeners()
+	BMConnections:RegListeners()
 	StartTimerLoading()
 	SendToServerConsole("tv_delay 10")
 end
@@ -48,6 +50,7 @@ function BirzhaGameMode:InitGameMode()
 		GameRules:GetGameModeEntity():SetCustomHeroMaxLevel( 30 )
         GameRules:GetGameModeEntity():SetCustomXPRequiredToReachNextLevel({0,240,640,1160,1760,2440,3200,4000,4900,5900,7000,8200,9500,10900,12400,14000,15700,17500,19400,21400,23600,26000,28600,31400,34400,38400,43400,49400,56400,63900})
 	end
+    
     -- Чит режим с тестом героев
 	if GameRules:IsCheatMode() then
     	HeroDemo:Init()
@@ -67,6 +70,7 @@ function BirzhaGameMode:InitGameMode()
 	self.tier2ItemBucket = {}
 	self.tier3ItemBucket = {}
 	self.tier4ItemBucket = {}
+    self.tier5ItemBucket = {}
 	self.m_TeamColors = {}
 	self.m_TeamColors[DOTA_TEAM_GOODGUYS] = { 61, 210, 150 }
 	self.m_TeamColors[DOTA_TEAM_BADGUYS]  = { 243, 201, 9 }
@@ -89,27 +93,28 @@ function BirzhaGameMode:InitGameMode()
 	self.m_VictoryMessages[DOTA_TEAM_CUSTOM_6] = "#VictoryMessage_Custom6"
 	self.m_VictoryMessages[DOTA_TEAM_CUSTOM_7] = "#VictoryMessage_Custom7"
 	self.m_VictoryMessages[DOTA_TEAM_CUSTOM_8] = "#VictoryMessage_Custom8"
+    
+    self.m_GoldRadiusMin = 100
+	self.m_GoldRadiusMax = 550
+	self.m_GoldDropPercent = 8
+	self.effectradius = 900
+    
     if GetMapName() == "birzhamemov_5v5v5" then
 		self.m_GoldRadiusMin = 100
 		self.m_GoldRadiusMax = 1400
-		self.m_GoldDropPercent = 10
+		self.m_GoldDropPercent = 8
 		self.effectradius = 1400
 	elseif GetMapName() == "birzhamemov_5v5" then
 		self.m_GoldRadiusMin = 100
 		self.m_GoldRadiusMax = 1400
-		self.m_GoldDropPercent = 10
+		self.m_GoldDropPercent = 8
 		self.effectradius = 1400
 	elseif GetMapName() == "birzhamemov_zxc" then
 		self.m_GoldRadiusMin = 100
 		self.m_GoldRadiusMax = 1400
-		self.m_GoldDropPercent = 10
+		self.m_GoldDropPercent = 8
 		self.effectradius = 1400
-	else
-		self.m_GoldRadiusMin = 100
-		self.m_GoldRadiusMax = 550
-		self.m_GoldDropPercent = 10
-		self.effectradius = 900
-	end
+    end
     for team = 0, (DOTA_TEAM_COUNT-1) do
 		color = self.m_TeamColors[ team ]
 		if color then
@@ -130,6 +135,8 @@ function BirzhaGameMode:InitGameMode()
 		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_CUSTOM_4, 1 )
 		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_CUSTOM_5, 1 )
 		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_CUSTOM_6, 1 )
+        GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_CUSTOM_7, 1 )
+        GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_CUSTOM_8, 1 )
 	elseif GetMapName() == "birzhamemov_duo" then
 		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_BADGUYS, 2 )
 		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_GOODGUYS, 2 )
@@ -153,12 +160,15 @@ function BirzhaGameMode:InitGameMode()
     -- Отдельные настройки игры
 	GameRules:GetGameModeEntity():SetCameraDistanceOverride(1300)
 	GameRules:GetGameModeEntity():SetFreeCourierModeEnabled( true )
+    GameRules:GetGameModeEntity():SetUseTurboCouriers( true )
 	GameRules:GetGameModeEntity():SetPauseEnabled( false )
 	GameRules:SetCustomGameEndDelay( 0 )
 	GameRules:SetCustomVictoryMessageDuration( 20 )
 	GameRules:SetPreGameTime( 0 )
-	GameRules:SetStrategyTime( 0 )
-	GameRules:SetShowcaseTime( 0 )
+	GameRules:SetStrategyTime( TIME_OF_STATE[4] )
+	GameRules:SetShowcaseTime( 1 )
+    GameRules:SetHeroSelectionTime(9999999)
+    GameRules:SetHeroSelectPenaltyTime(0)
 	GameRules:SetFilterMoreGold( true )
 	GameRules:GetGameModeEntity():SetTopBarTeamValuesOverride( true )
 	GameRules:GetGameModeEntity():SetTopBarTeamValuesVisible( false )
@@ -169,6 +179,8 @@ function BirzhaGameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetFountainPercentageManaRegen( 0 )
 	GameRules:GetGameModeEntity():SetFountainConstantManaRegen( 0 )
 	GameRules:GetGameModeEntity():SetDaynightCycleDisabled(false)
+    GameRules:GetGameModeEntity():SetGiveFreeTPOnDeath(false)
+    GameRules:GetGameModeEntity():SetTPScrollSlotItemOverride("item_tpscroll_custom")
     GameRules:SetPostGameLayout( DOTA_POST_GAME_LAYOUT_DOUBLE_COLUMN )
 	GameRules:SetPostGameColumns({ DOTA_POST_GAME_COLUMN_LEVEL, DOTA_POST_GAME_COLUMN_KILLS, DOTA_POST_GAME_COLUMN_DEATHS, DOTA_POST_GAME_COLUMN_ASSISTS, DOTA_POST_GAME_COLUMN_DAMAGE,DOTA_POST_GAME_COLUMN_HEALING})
     SendToServerConsole("dota_max_physical_items_purchase_limit 9999")
@@ -181,9 +193,6 @@ function BirzhaGameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetRuneEnabled( DOTA_RUNE_REGENERATION, false )
 	GameRules:GetGameModeEntity():SetRuneEnabled( DOTA_RUNE_ARCANE, true )
 	GameRules:GetGameModeEntity():SetRuneEnabled( DOTA_RUNE_BOUNTY, false )
-
-    -- Быстрый спавн ввиде виспа
-	GameRules:GetGameModeEntity():SetCustomGameForceHero("npc_dota_hero_wisp")
 	
     -- Фильтры
 	GameRules:GetGameModeEntity():SetExecuteOrderFilter( Dynamic_Wrap( BirzhaGameMode, "ExecuteOrderFilter" ), self )
@@ -191,14 +200,14 @@ function BirzhaGameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetHealingFilter( Dynamic_Wrap(BirzhaGameMode, "HealingFilter"), self )
 
     -- Ивенты доты
-	ListenToGameEvent( "game_rules_state_change", Dynamic_Wrap( self, 'OnGameRulesStateChange' ), self )
-	ListenToGameEvent( "npc_spawned", Dynamic_Wrap( self, "OnNPCSpawned" ), self )
-	ListenToGameEvent( "dota_team_kill_credit", Dynamic_Wrap( self, 'OnTeamKillCredit' ), self )
-	ListenToGameEvent( "entity_killed", Dynamic_Wrap( self, 'OnEntityKilled' ), self )
-	ListenToGameEvent( "dota_item_picked_up", Dynamic_Wrap( self, "OnItemPickUp"), self )
-	ListenToGameEvent( "dota_npc_goal_reached", Dynamic_Wrap( self, "OnNpcGoalReached" ), self )
-	ListenToGameEvent( "player_chat", Dynamic_Wrap(ChatListener, 'OnPlayerChat'), ChatListener)
-    ListenToGameEvent('player_connect_full', Dynamic_Wrap(self, 'OnConnectFull'), self)
+	ListenToGameEvent("game_rules_state_change", Dynamic_Wrap( self, 'OnGameRulesStateChange' ), self )
+	ListenToGameEvent("npc_spawned", Dynamic_Wrap( self, "OnNPCSpawned" ), self )
+	ListenToGameEvent("dota_team_kill_credit", Dynamic_Wrap( self, 'OnTeamKillCredit' ), self )
+	ListenToGameEvent("entity_killed", Dynamic_Wrap( self, 'OnEntityKilled' ), self )
+	ListenToGameEvent("dota_item_picked_up", Dynamic_Wrap( self, "OnItemPickUp"), self )
+	ListenToGameEvent("dota_npc_goal_reached", Dynamic_Wrap( self, "OnNpcGoalReached" ), self )
+	ListenToGameEvent("player_chat", Dynamic_Wrap(ChatListener, 'OnPlayerChat'), ChatListener)
+    ListenToGameEvent("player_connect_full", Dynamic_Wrap(self, 'OnConnectFull'), self)
 
     -- Кастомные ивенты
     CustomGameEventManager:RegisterListener( "birzha_contract_target_selected", Dynamic_Wrap(BirzhaData, "birzha_contract_target_selected"))
@@ -223,10 +232,12 @@ function BirzhaGameMode:InitGameMode()
     CustomGameEventManager:RegisterListener( "StartHighFive", Dynamic_Wrap(donate_shop, 'StartHighFive'))
     CustomGameEventManager:RegisterListener( "shop_birzha_open_chest_get_items_list", Dynamic_Wrap(donate_shop, 'shop_birzha_open_chest_get_items_list'))
     CustomGameEventManager:RegisterListener( "shop_birzha_open_chest_get_reward", Dynamic_Wrap(donate_shop, 'shop_birzha_open_chest_get_reward'))
+    CustomGameEventManager:RegisterListener( "birzha_neutral_item_choose", Dynamic_Wrap(self, 'birzha_neutral_item_choose'))
 
     -- Иниты либ
     self:GatherAndRegisterValidTeams()
-    BirzhaData:RegisterSeasonInfo() 
+    BirzhaData:RegisterSeasonInfo()
+    BirzhaData:GetHeroesWinrate()
 
     -- Зимний мод
     self.winter_mode = false
@@ -240,45 +251,7 @@ function BirzhaGameMode:InitGameMode()
 end
 
 function FixPosition()
-	local check_modifiers = 
-	{
-		"modifier_girl_charge_of_attack",
-		"modifier_aang_vacuum",
-		"modifier_aang_lunge",
-		"modifier_Akame_slice",
-		"modifier_agility_toss",
-		"modifier_dio_kakyoin_debuff",
-		"modifier_dwayne_stone_strength_arc_lua",
-		"modifier_dwayne_stone_strength",
-		"modifier_goku_dragon_punch",
-		"modifier_klichko_charge_of_darkness",
-		"modifier_Kudes_GoldHook_debuff",
-		"modifier_migi_inside",
-		"modifier_mum_meat_hook_debuff",
-		"modifier_Panasenkov_catch_caster",
-		"modifier_rem_morgenshtern",
-		"modifier_stray_rat",
-		"modifier_Vernon_power_cogs_cog_push",
-		"modifier_Vernon_power_cogs_cog_push_in",
-		"modifier_python_active",
-		"modifier_Yakubovich_GiftsInTheStudio_vacuum",
-		"modifier_zema_cosmic_blindness_debuff",
-		"modifier_rat_burrow_destroy",
-		"modifier_rat_burrow_cast",
-		"modifier_kakashi_lightning",
-		"modifier_kakashi_raikiri",
-		"modifier_dio_roller",
-		"modifier_dio_roller_caster",
-		"modifier_Pocik_penek_passive_aura",
-		"modifier_illidan_KidsHit_scepter",
-		"modifier_olyasha_love",
-		"modifier_JohnCena_Chargehit",
-		"modifier_sonic_dash",
-		"modifier_sonic_crash_generic_arc_lua",
-		"modifier_sonic_gottagofast",
-		"modifier_kaneki_pull_debuff",
-		"modifier_venom_tentacle",
-	}
+	local check_modifiers = _G.MOTION_MODIFIERS_CUSTOM
 	local allHeroes = HeroList:GetAllHeroes()
 	for _, hero in pairs(allHeroes) do
 		if hero:IsRealHero() then
@@ -370,7 +343,6 @@ function BirzhaGameMode:UpdateScoreboard()
 	end
 
 	local leader = sortedTeams[1].teamID
-	leaderbirzha = sortedTeams[1].teamID
 	self.leadingTeam = leader
 	self.runnerupTeam = sortedTeams[2].teamID
 	self.leadingTeamScore = sortedTeams[1].teamScore
@@ -400,15 +372,7 @@ function BirzhaGameMode:GatherAndRegisterValidTeams()
 	local maxPlayersPerValidTeam = math.floor( 10 / numTeams )
 	self.m_GatheredShuffledTeams = ShuffledList( foundTeamsList )
 	for team = 0, (DOTA_TEAM_COUNT-1) do
-		local maxPlayers = 0
-		
 		CustomNetTables:SetTableValue("game_state", tostring(team), {kills = 0})
-
-		if ( nil ~= TableFindKey( foundTeamsList, team ) ) then
-			maxPlayers = maxPlayersPerValidTeam
-		end
-
-		--GameRules:SetCustomGameTeamMaxPlayers( team, maxPlayers )
 	end
 end
 
@@ -435,4 +399,29 @@ function BirzhaGameMode:SpawnContracts()
             players_list[i].hero:AddItemByName( "item_birzha_contract" )
         end
     end
+end
+
+function BirzhaGameMode:SpawnAntosha()
+    local npc_dota_azazin_antosha = CreateUnitByName("npc_dota_azazin_antosha", Vector(0, 0, 0) + RandomVector(200), true, nil, nil, DOTA_TEAM_NEUTRALS)
+    npc_dota_azazin_antosha:AddNewModifier(npc_dota_azazin_antosha, nil, "modifier_npc_dota_azazin_antosha", {})
+end
+
+function BirzhaGameMode:SpawnKobold()
+    local npc_dota_azazin_kobold = CreateUnitByName("npc_dota_azazin_kobold", Vector(0, 0, 0) + RandomVector(200), true, nil, nil, DOTA_TEAM_NEUTRALS)
+    npc_dota_azazin_kobold:AddNewModifier(npc_dota_azazin_kobold, nil, "modifier_npc_dota_azazin_kobold", {})
+end
+
+function BirzhaGameMode:SpawnGoldKobold( spawnPoint, isEvent )
+    local item_n = "item_bag_of_gold_event"
+    if isEvent then
+        item_n = "item_bag_of_gold"
+    end
+	local newItem = CreateItem( item_n, nil, nil )
+    newItem.is_cooldown_take = true
+    Timers:CreateTimer(0.3, function()
+        newItem.is_cooldown_take = nil
+    end)
+	local drop = CreateItemOnPositionForLaunch(spawnPoint, newItem )
+	newItem:LaunchLootInitialHeight( false, 0, 500, 0.3, spawnPoint + RandomVector( RandomInt(100, 200) ))
+	newItem:SetContextThink( "KillLoot", function() return BirzhaGameMode:KillLoot( newItem, drop ) end, 20 )
 end

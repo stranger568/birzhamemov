@@ -2,6 +2,21 @@ LinkLuaModifier( "modifier_naval_meeting_talent", "abilities/heroes/navalny.lua"
 
 Naval_meeting = class({})
 
+function Naval_meeting:Precache(context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_alchemist/alchemist_acid_spray.vpcf",
+        "particles/units/heroes/hero_alchemist/alchemist_acid_spray_debuff.vpcf",
+        "particles/units/heroes/hero_alchemist/alchemist_acid_spray_debuff.vpcf",
+        "particles/units/heroes/hero_dragon_knight/dragon_knight_transform_red_spotlight.vpcf",
+        "particles/econ/items/omniknight/omni_ti8_head/omniknight_repel_buff_ti8.vpcf",
+        "particles/econ/items/bloodseeker/bloodseeker_eztzhok_weapon/bloodseeker_bloodrage_eztzhok.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Naval_meeting:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

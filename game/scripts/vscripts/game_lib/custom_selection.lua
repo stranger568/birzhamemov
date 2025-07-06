@@ -6,12 +6,14 @@ BIRZHA_PICK_STATE_BAN = "BIRZHA_PICK_STATE_BAN"
 BIRZHA_PICK_STATE_SELECT = "BIRZHA_PICK_STATE_SELECT"
 BIRZHA_PICK_STATE_PRE_END = "BIRZHA_PICK_STATE_PRE_END"
 BIRZHA_PICK_STATE_END = "BIRZHA_PICK_STATE_END"
+
 PICK_STATE_STATUS = {}
 PICK_STATE_STATUS[1] = BIRZHA_PICK_STATE_PLAYERS_LOADED
 PICK_STATE_STATUS[2] = BIRZHA_PICK_STATE_BAN
 PICK_STATE_STATUS[3] = BIRZHA_PICK_STATE_SELECT
 PICK_STATE_STATUS[4] = BIRZHA_PICK_STATE_PRE_END
 PICK_STATE_STATUS[5] = BIRZHA_PICK_STATE_END
+
 TIME_OF_STATE = {}
 TIME_OF_STATE[1] = 7
 TIME_OF_STATE[2] = 25
@@ -20,7 +22,7 @@ TIME_OF_STATE[4] = 10
 
 if IsInToolsMode() or GameRules:IsCheatMode() then
 	TIME_OF_STATE[2] = 1
-    TIME_OF_STATE[4] = 1
+    TIME_OF_STATE[4] = 0
 end
 
 birzha_hero_selection.BIRZHA_PLUS_HEROES = 
@@ -31,8 +33,13 @@ birzha_hero_selection.BIRZHA_PLUS_HEROES =
 	"npc_dota_hero_overlord",
 	"npc_dota_hero_silencer",
 	"npc_dota_hero_pudge",
-	"npc_dota_hero_dawnbreaker",
-	"npc_dota_hero_oracle",
+}
+
+birzha_hero_selection.BIRZHA_NO_BANNED_HEROES =
+{
+    -- ["npc_dota_hero_nix_streamer"] = true,
+    -- ["npc_dota_hero_ashab_tamaev"] = true,
+    -- ["npc_dota_hero_old_god"] = true,
 }
 
 BANNED_HEROES = {}
@@ -188,7 +195,7 @@ function birzha_hero_selection:PlayerSelect( params )
 	if PICK_STATE == BIRZHA_PICK_STATE_BAN then
 		if params.random then return end
 		if not player_info or player_info.ban_count <= 0 then return end
-		if not IsHeroNotAvailable(params.hero) then
+		if not IsHeroNotAvailable(params.hero) and not birzha_hero_selection.BIRZHA_NO_BANNED_HEROES[params.hero] then
 			player_info.ban_count = player_info.ban_count - 1
 			CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(id), 'ban_count_changed', {count = player_info.ban_count})
 			table.insert(BANNED_HEROES, params.hero)
@@ -204,9 +211,7 @@ function birzha_hero_selection:PlayerSelect( params )
 			is_random_hero = true
 		end
 		if IsHeroNotAvailable(params.hero) or player_info.picked_hero then return end
-
         local is_has_subscribe_to_hero = true
-
 		if not GameRules:IsCheatMode() then
 			for _, donate_hero in pairs(birzha_hero_selection.BIRZHA_PLUS_HEROES) do
 				if donate_hero == params.hero then
@@ -217,20 +222,12 @@ function birzha_hero_selection:PlayerSelect( params )
 				end
 			end
 		end
-
         if is_has_subscribe_to_hero then
             player_info.picked_hero = params.hero
             table.insert(PICKED_HEROES, params.hero)
             birzha_hero_selection:UpdatePickedHeroesLive()
-            if GetMapName() == "birzhamemov_zxc" or GetMapName() == "birzhamemov_samepick" then
-                CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(id), 'hero_is_picked', {hero = params.hero, is_random_hero = is_random_hero})
-                birzha_hero_selection:GiveHeroPlayer(id, player_info.picked_hero)
-                CheckPlayerHeroes()
-                return
-            end
             CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(id), 'hero_is_picked', {hero = params.hero, is_random_hero = is_random_hero})
             birzha_hero_selection:GiveHeroPlayer(id, player_info.picked_hero)
-            CheckPlayerHeroes()
         end
 	end
 end
@@ -247,8 +244,7 @@ function birzha_hero_selection:PlayerRerandom( params )
 		table.insert(PICKED_HEROES, params.hero)
         birzha_hero_selection:UpdatePickedHeroesLive()
 		CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(pid), 'hero_is_picked', {hero = params.hero, is_random_hero = 0})
-		birzha_hero_selection:GiveHeroPlayer(pid, pinfo.picked_hero)
-		CheckPlayerHeroes()
+		birzha_hero_selection:GiveHeroPlayer(pid, pinfo.picked_hero, true)
 	end
 end
 
@@ -299,14 +295,12 @@ function birzha_hero_selection:EndSelectionStage()
 end
 
 function birzha_hero_selection:StartPreEndSelection()
-	Debug:Execute( function()
-		PICK_STATE = BIRZHA_PICK_STATE_PRE_END
-		CustomGameEventManager:Send_ServerToAllClients( 'birzha_pick_preend_start', {} )
-		birzha_hero_selection:GiveHeroes()
-		birzha_hero_selection:StartTimers( TIME_OF_STATE[4], function()
-			birzha_hero_selection:EndSelection()
-		end )	
-	end)
+    PICK_STATE = BIRZHA_PICK_STATE_PRE_END
+    CustomGameEventManager:Send_ServerToAllClients( 'birzha_pick_preend_start', {} )
+    birzha_hero_selection:GiveHeroes()
+    birzha_hero_selection:StartTimers( TIME_OF_STATE[4], function()
+        birzha_hero_selection:EndSelection()
+    end)
 end
 
 function birzha_hero_selection:EndSelection()
@@ -315,52 +309,6 @@ function birzha_hero_selection:EndSelection()
 	birzha_hero_selection.pick_ended = true
 	CustomNetTables:SetTableValue('game_state', 'pickstate', {v = 'ended'})
 	CustomGameEventManager:Send_ServerToAllClients( 'birzha_pick_end', {} )
-    BirzhaGameMode:InitObservers()
-	GameRules:SetTimeOfDay(0.25)
-	CustomGameEventManager:Send_ServerToAllClients( 'open_win_predict', {})
-    BirzhaData:CheckConnection()
-    Timers:CreateTimer({
-		useGameTime = false,
-		endTime = 15,
-		callback = function()
-			CustomGameEventManager:Send_ServerToAllClients( 'close_win_predict', {})  
-			return nil
-		end
-	})
-    if not IsInToolsMode() then
-        Convars:SetFloat("host_timescale", 0.25)
-        Timers:CreateTimer({
-            useGameTime = false,
-            endTime = 1.5,
-            callback = function()
-                Convars:SetFloat("host_timescale", 1)
-                return nil
-            end
-        })
-    end
-	for pid, pinfo in pairs( BirzhaData.PLAYERS_GLOBAL_INFORMATION ) do
-		if not IsPlayerDisconnected(pid) then
-			local hero = pinfo.selected_hero
-			if hero then
-				local player = PlayerResource:GetPlayer(pid)
-				if player then
-					CustomGameEventManager:Send_ServerToPlayer(player, "set_camera_target", {id = hero:entindex()} )
-				end
-                hero:RemoveModifierByName("modifier_birzha_start_game")
-				hero:AddNewModifier( hero, nil, "modifier_birzha_start_movespeed", {duration = 10})
-				hero:SetGold(700, true)
-			end
-		end
-	end
-    for pid, pinfo in pairs( BirzhaData.PLAYERS_GLOBAL_INFORMATION ) do
-		if not IsPlayerDisconnected(pid) then
-			local hero = pinfo.selected_hero
-			if hero then
-                birzha_hero_selection:AddDonateFromStart(pid)
-                donate_shop:AddedDonateStart(hero, pid)
-			end
-		end
-	end
 end
 
 function birzha_hero_selection:AddDonateFromStart(id)
@@ -373,6 +321,34 @@ function birzha_hero_selection:AddDonateFromStart(id)
             player_info.selected_hero:AddDonate(id)
         end
 	end
+end
+
+function birzha_hero_selection:EndSelectionAndStartGameFromDota()
+    for _, team in pairs(_G.GET_TEAM_LIST[GetMapName()]) do
+        AddFOWViewer(team, Vector(0,0,0), BirzhaGameMode.effectradius, 3600, false)
+    end
+    CustomGameEventManager:Send_ServerToAllClients( 'open_win_predict', {})
+    BirzhaData:CheckConnection()
+    GameRules:SetTimeOfDay(0.25)
+    Timers:CreateTimer({
+        useGameTime = false,
+        endTime = 15,
+        callback = function()
+            CustomGameEventManager:Send_ServerToAllClients( 'close_win_predict', {})  
+            return nil
+        end
+    })
+    if not IsInToolsMode() then
+        Convars:SetFloat("host_timescale", 0.25)
+        Timers:CreateTimer({
+            useGameTime = false,
+            endTime = 1.5,
+            callback = function()
+                Convars:SetFloat("host_timescale", 1)
+                return nil
+            end
+        })
+    end
 end
 
 -- Менее важные функции
@@ -397,15 +373,14 @@ function CheckPlayerHeroes()
 	birzha_hero_selection:EndSelectionStage()
 end
 
-function birzha_hero_selection:GiveHeroPlayer(id,hero)
-	local wisp = PlayerResource:GetSelectedHeroEntity(id)
-	PlayerResource:ReplaceHeroWith(id, hero, 700, 0)
-	local new_hero = PlayerResource:GetSelectedHeroEntity(id)
-	if new_hero ~= nil then
-        birzha_hero_selection:PrecacheAbilities(new_hero)
-		new_hero:AddNewModifier( new_hero, nil, "modifier_birzha_start_game", {})
-		BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].selected_hero = new_hero
-	end
+function birzha_hero_selection:GiveHeroPlayer(id, hero, rerandom)
+    local player = PlayerResource:GetPlayer(id)
+    if player then
+        if PlayerResource:GetSelectedHeroName(id) == "" or rerandom then
+            player:SetSelectedHero(hero)
+        end
+    end
+    CheckPlayerHeroes()
 end
 
 function birzha_hero_selection:GiveHeroes()
@@ -416,18 +391,33 @@ function birzha_hero_selection:GiveHeroes()
 			BirzhaData.PLAYERS_GLOBAL_INFORMATION[pid].picked_hero = hero
 			table.insert(PICKED_HEROES, hero)
             birzha_hero_selection:UpdatePickedHeroesLive()
-			if IsPlayerDisconnected(pid) then
-				birzha_hero_selection.DISCONNECTED[pid] = hero
-			else
-				CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(pid), 'hero_is_picked', {hero = hero})
-				birzha_hero_selection:GiveHeroPlayer(pid, hero)
-			end
+			CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(pid), 'hero_is_picked', {hero = hero})
+			birzha_hero_selection:GiveHeroPlayer(pid, hero)
 		end
 	end
 end
 
--- Дополнительные функции
+function birzha_hero_selection:DisconnectPlayer(id)
+    if PICK_STATE == BIRZHA_PICK_STATE_END then return end
+    if PICK_STATE == BIRZHA_PICK_STATE_PRE_END then return end
+    if GameRules:State_Get() ~= DOTA_GAMERULES_STATE_HERO_SELECTION then return end
+    if PlayerResource:GetSelectedHeroName(id) ~= "" then return end
+    local player_info = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id]
+    if player_info == nil then return end
+    if player_info.picked_hero == nil then
+        local hero = birzha_hero_selection:RandomHeroForPlayer()
+        if hero then
+            CustomGameEventManager:Send_ServerToAllClients( 'random_hero_chat', { hero = hero, id = id })
+            BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].picked_hero = hero
+            table.insert(PICKED_HEROES, hero)
+            birzha_hero_selection:UpdatePickedHeroesLive()
+            CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(id), 'hero_is_picked', {hero = hero})
+            birzha_hero_selection:GiveHeroPlayer(id, hero)
+        end
+    end
+end
 
+-- Дополнительные функции
 function IsHeroDonate(hero)
 	for _, donate in pairs(birzha_hero_selection.BIRZHA_PLUS_HEROES) do
 		if hero == donate then
@@ -535,15 +525,4 @@ end
 
 function birzha_hero_selection:UpdateBannedHeroesLive()
     CustomNetTables:SetTableValue("birzha_pick", "banned_heroes", BANNED_HEROES)
-end
-
-function birzha_hero_selection:PrecacheAbilities(hero)
-    for i=0,10 do
-        local ability = hero:GetAbilityByIndex(i)
-        if ability then
-            PrecacheItemByNameAsync(ability:GetAbilityName(), function()
-                print("precache ", ability:GetAbilityName())
-            end)
-        end
-    end
 end

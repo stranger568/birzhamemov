@@ -4,6 +4,24 @@ LinkLuaModifier( "modifier_Panasenkov_catch_caster", "abilities/heroes/panasenko
 
 Panasenkov_catch = class({})
 
+function Panasenkov_catch:Precache(context)
+    local particle_list = 
+    {
+        "particles/panasenkov/panasenkov_catch.vpcf",
+        "particles/units/heroes/hero_leshrac/leshrac_diabolic_edict.vpcf",
+        "particles/panasenkov/panasenkov_groza.vpcf",
+        "particles/units/heroes/hero_oracle/oracle_purifyingflames_cast.vpcf",
+        "particles/units/heroes/hero_leshrac/leshrac_pulse_nova_ambient.vpcf",
+        "particles/units/heroes/hero_leshrac/leshrac_pulse_nova.vpcf",
+        "particles/units/heroes/hero_silencer/silencer_last_word_status_cast.vpcf",
+        "particles/econ/items/silencer/silencer_ti6/silencer_last_word_status_ti6.vpcf",
+        "particles/econ/items/silencer/silencer_ti6/silencer_last_word_dmg_ti6.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Panasenkov_catch:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

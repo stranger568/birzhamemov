@@ -3,6 +3,21 @@ LinkLuaModifier( "modifier_Daniil_StormBolt_target", "abilities/heroes/navat.lua
 
 Daniil_StormBolt = class({})
 
+function Daniil_StormBolt:Precache(context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_zuus/zuus_lightning_bolt.vpcf",
+        "particles/navat/laughingrush_effect.vpcf",
+        "particles/navat/laughingrush_effect.vpcf",
+        "particles/units/heroes/hero_stormspirit/stormspirit_overload_ambient.vpcf",
+        "particles/units/heroes/hero_stormspirit/stormspirit_overload_discharge.vpcf",
+        "particles/navat/vortexsilence_debuff.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Daniil_StormBolt:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

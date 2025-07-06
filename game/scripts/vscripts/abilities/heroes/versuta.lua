@@ -7,6 +7,27 @@ LinkLuaModifier( "modifier_birzha_bashed", "modifiers/modifier_birzha_dota_modif
 
 modifier_versuta_dog = class({})
 
+function Versuta_son_dog:Precache(context)
+    PrecacheResource("model", "models/creeps/knoll_1/werewolf_boss.vmdl", context)
+    PrecacheResource("model", "models/items/courier/shibe_dog_cat/shibe_dog_cat.vmdl", context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_lion/lion_spell_voodoo.vpcf",
+        "particles/units/heroes/hero_lycan/lycan_shapeshift_cast.vpcf",
+        "particles/units/heroes/hero_lycan/lycan_shapeshift_revert.vpcf",
+        "particles/units/heroes/hero_lycan/lycan_shapeshift_buff.vpcf",
+        "particles/units/heroes/hero_lycan/lycan_shapeshift_buff.vpcf",
+        "particles/units/heroes/hero_ursa/ursa_overpower_buff.vpcf",
+        "particles/versuta_status_over.vpcf",
+        "particles/units/heroes/hero_pudge/pudge_dismember.vpcf",
+        "particles/econ/items/pudge/pudge_immortal_arm/pudge_immortal_arm_rot_gold.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+    PrecacheResource("model", "models/items/lycan/ultimate/thegreatcalamityti4/thegreatcalamityti4.vmdl", context)
+end
+
 function Versuta_son_dog:GetIntrinsicModifierName()
     return "modifier_versuta_dog"
 end

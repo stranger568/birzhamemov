@@ -139,17 +139,24 @@
     transition-timing-function: ease-out;
     transform: translateX(500px);
     flow-children: right;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 4px;
+    box-shadow: rgba(0, 0, 0, 0.8) 0px 0px 4px;
     horizontal-align: right;
+
+    border: 1px solid #ffffff;
+	border-brush: gradient(linear, 0% 0%, 0% 20%, from(#000000), to(#41035d3f));
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
 .game_notification_icon
 {
-    width: 90px;
-    height: 90px;
+    width: 75px;
+    height: 75px;
     vertical-align: center;
     margin-left: 10px;
     border: 1px solid black;
+    box-shadow: rgba(0,0,0,0.6) 0px 0px 8px 1px;
+    border-radius: 10px;
 }
 
 .game_notification_description

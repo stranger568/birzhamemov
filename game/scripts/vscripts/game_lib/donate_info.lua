@@ -850,7 +850,7 @@ BIRZHA_CHEST_INFO =
     {
         ["chest_name"] = "chest_1",
         ["chest_cost"] = 250,
-        ["chest_cost_alt"] = 50,
+        ["chest_cost_alt"] = 0,
         ["chest_items"] = 
         {
             {

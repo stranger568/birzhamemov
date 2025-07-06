@@ -4,6 +4,24 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 Megumin_armageddon = class ({})
 
+function Megumin_armageddon:Precache(context)
+    PrecacheResource("model", "models/update_heroes/megumin/megumin.vmdl", context)
+    local particle_list = 
+    {
+        "particles/booom/megumin/bolt.vpcf",
+        "particles/booom/megumin/meteor/megumin_meteor.vpcf",
+        "particles/units/heroes/hero_invoker/invoker_chaos_meteor_burn_debuff.vpcf",
+        "particles/econ/events/winter_major_2016/radiant_fountain_regen_wm_lvl3.vpcf",
+        "particles/booom/1.vpcf",
+        "particles/units/heroes/hero_huskar/huskar_inner_fire.vpcf",
+        "particles/booom/1.vpcf",
+        "particles/units/heroes/hero_techies/techies_blast_off.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Megumin_armageddon:GetCooldown(level)
     return self.BaseClass.GetCooldown(self, level)
 end

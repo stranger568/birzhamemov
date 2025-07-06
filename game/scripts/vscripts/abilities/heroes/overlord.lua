@@ -7,6 +7,26 @@ LinkLuaModifier( "modifier_overlord_prihvosti_venom_talent_debuff", "abilities/h
 
 overlord_prihvosti = class({}) 
 
+function overlord_prihvosti:Precache(context)
+    PrecacheResource("model", "models/update_heroes/overlord_game/overlord.vmdl", context)
+    local particle_list = 
+    {
+        "particles/overlord_anime/overlord_screen_white.vpcf",
+        "particles/units/heroes/hero_venomancer/venomancer_gale_poison_debuff.vpcf",
+        "particles/neutral_fx/black_dragon_fireball_projectile.vpcf",
+        "particles/lava_overlord.vpcf",
+        "particles/lava_overlord_2.vpcf",
+        "particles/units/heroes/hero_snapfire/hero_snapfire_burn_debuff.vpcf",
+        "particles/status_fx/status_effect_snapfire_magma.vpcf",
+        "particles/units/heroes/hero_centaur/centaur_return_buff.vpcf",
+        "particles/items2_fx/mask_of_madness.vpcf",
+        "particles/winter_fx/healing_campfire_ward.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function overlord_prihvosti:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

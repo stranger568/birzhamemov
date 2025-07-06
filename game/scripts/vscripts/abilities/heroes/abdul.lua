@@ -1,7 +1,21 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier("modifier_Abdulov_DefenceFromMushrooms", "abilities/heroes/abdul", LUA_MODIFIER_MOTION_NONE)
 
-Abdulov_DefenceFromMushrooms = class({}) 
+Abdulov_DefenceFromMushrooms = class({})
+
+function Abdulov_DefenceFromMushrooms:Precache(context)
+    PrecacheResource("particle", "particles/econ/items/legion/legion_fallen/legion_fallen_press_a.vpcf", context)
+    PrecacheResource("particle", "particles/status_fx/status_effect_life_stealer_rage.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_chaos_knight/chaos_knight_reality_rift.vpcf", context)
+    PrecacheResource("particle", "particles/items2_fx/medallion_of_courage.vpcf", context)
+    PrecacheResource("particle", "particles/abdul/underlord_pitofmalice_2.vpcf", context)
+    PrecacheResource("particle", "particles/abdul_shard.vpcf", context)
+    PrecacheResource("particle", "particles/econ/items/underlord/underlord_ti8_immortal_weapon/underlord_crimson_ti8_immortal_pitofmalice_stun.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_batrider/batrider_firefly_debuff.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_axe/axe_culling_blade.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_axe/axe_culling_blade_kill.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_axe/axe_culling_blade.vpcf", context)
+end
 
 function Abdulov_DefenceFromMushrooms:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )

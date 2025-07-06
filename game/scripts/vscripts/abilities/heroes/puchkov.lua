@@ -6,6 +6,25 @@ LinkLuaModifier( "modifier_puchkov_pigs_pig_boom", "abilities/heroes/puchkov", L
 
 puchkov_pigs = class({}) 
 
+function puchkov_pigs:Precache(context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_techies/techies_land_mine.vpcf",
+        "particles/units/heroes/hero_techies/techies_remote_mines_detonate.vpcf",
+        "particles/units/heroes/hero_arc_warden/arc_warden_flux_cast.vpcf",
+        "particles/units/heroes/hero_arc_warden/arc_warden_flux_tgt.vpcf",
+        "particles/puchkov/smeh_start.vpcf",
+        "particles/units/heroes/hero_grimstroke/grimstroke_ink_swell_aoe.vpcf",
+        "particles/puchkov/puchkov_ultimate.vpcf",
+        "particles/units/heroes/hero_puck/puck_dreamcoil_tether.vpcf",
+        "particles/neutral_fx/wildkin_ripper_hurricane_ambient.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+    PrecacheResource("model", "models/items/courier/gnomepig/gnomepig.vmdl", context)
+end
+
 function puchkov_pigs:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_puchkov_8")
 end

@@ -4,6 +4,37 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 haku_needle = class({})
 
+function haku_needle:Precache(context)
+    PrecacheResource("model", "models/update_heroes/haku/haku_with_mask.vmdl", context)
+    PrecacheResource("model", "models/update_heroes/haku/haku_without_mask.vmdl", context)
+    local particle_list = 
+    {
+        "particles/haku_dagger.vpcf",
+        "particles/haku_effect.vpcf",
+        "particles/units/heroes/hero_crystalmaiden_persona/cm_persona_nova.vpcf",
+        "particles/units/heroes/hero_marci/marci_rebound_bounce_impact.vpcf",
+        "particles/units/heroes/hero_marci/marci_rebound_charge_projectile.vpcf",
+        "particles/units/heroes/hero_marci/marci_rebound_bounce.vpcf",
+        "particles/units/heroes/hero_marci/marci_rebound_landing_zone.vpcf",
+        "particles/units/heroes/hero_marci/marci_rebound_bounce_impact.vpcf",
+        "particles/units/heroes/hero_crystalmaiden/maiden_frostbite_buff.vpcf",
+        "particles/units/heroes/hero_ancient_apparition/ancient_apparition_ice_blast_debuff.vpcf",
+        "particles/status_fx/status_effect_wyvern_cold_embrace.vpcf",
+        "particles/units/heroes/hero_ancient_apparition/ancient_apparition_chilling_touch.vpcf",
+        "particles/units/heroes/hero_ancient_apparition/ancient_apparition_chilling_touch_buff.vpcf",
+        "particles/haku_dagger.vpcf",
+        "particles/econ/courier/courier_trail_international_2014/courier_international_2014.vpcf",
+        "particles/econ/courier/courier_trail_international_2014/courier_international_2014.vpcf",
+        "particles/haku_dagger.vpcf",
+        "particles/generic_gameplay/generic_lifesteal.vpcf",
+        "particles/emperor_time.vpcf",
+        "particles/devil_trigger22.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function haku_needle:CastFilterResultTarget( hTarget )
     if hTarget:IsMagicImmune() and (not self:GetCaster():HasShard()) then
         return UF_FAIL_MAGIC_IMMUNE_ENEMY
@@ -946,6 +977,7 @@ function modifier_haku_zerkala_wall:DeclareFunctions()
 end
 
 function modifier_haku_zerkala_wall:CheckState()
+    if self.parent:IsNull() then return end
     local parent_vector = self.parent:GetOrigin()-self.aura_origin
     local parent_direction = parent_vector:Normalized()
     local actual_distance = parent_vector:Length2D()
@@ -1227,7 +1259,9 @@ function modifier_haku_zerkalo_parent:OnCreated(params)
     self:GetCaster():FindAbilityByName("haku_needle"):SetHidden(true)
     self:GetCaster():FindAbilityByName("haku_jump"):SetHidden(true)
     self:GetCaster():FindAbilityByName("haku_frost_attack"):SetHidden(true)
-    self:GetCaster():FindAbilityByName("haku_mask"):SetHidden(true)
+    if GetMapName() ~= "birzhamemov_solo" then
+        self:GetCaster():FindAbilityByName("haku_mask"):SetHidden(true)
+    end
     self:GetCaster():FindAbilityByName("haku_zerkala"):SetHidden(true)
 end
 
@@ -1250,7 +1284,9 @@ function modifier_haku_zerkalo_parent:OnDestroy()
     self:GetCaster():FindAbilityByName("haku_needle"):SetHidden(false)
     self:GetCaster():FindAbilityByName("haku_jump"):SetHidden(false)
     self:GetCaster():FindAbilityByName("haku_frost_attack"):SetHidden(false)
-    self:GetCaster():FindAbilityByName("haku_mask"):SetHidden(false)
+    if GetMapName() ~= "birzhamemov_solo" then
+        self:GetCaster():FindAbilityByName("haku_mask"):SetHidden(false)
+    end
     self:GetCaster():FindAbilityByName("haku_zerkala"):SetHidden(false)
 end
 
@@ -1558,4 +1594,3 @@ function modifier_haku_help:PlayEffects()
 	ParticleManager:SetParticleControlEnt(effect_cast_2, 4, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
 	self:AddParticle(effect_cast_2,false,false, -1,false,false)
 end
-

@@ -1,9 +1,33 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_birzha_bashed", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
-
 LinkLuaModifier("modifier_horo_forest_girl_wolf", "abilities/heroes/horo", LUA_MODIFIER_MOTION_NONE)
 
 horo_forest_girl = class({}) 
+
+function horo_forest_girl:Precache(context)
+    PrecacheResource("model", "models/update_heroes/horo/horo.vmdl", context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_furion/furion_sprout.vpcf",
+        "particles/units/heroes/hero_lycan/lycan_summon_wolves_spawn.vpcf",
+        "particles/a_horo/apple_horo.vpcf",
+        "particles/units/heroes/hero_lycan/lycan_summon_wolves_spawn.vpcf",
+        "particles/units/heroes/hero_snapfire/hero_snapfire_cookie_buff.vpcf",
+        "particles/units/heroes/hero_snapfire/hero_snapfire_cookie_receive.vpcf",
+        "particles/units/heroes/hero_snapfire/hero_snapfire_cookie_landing.vpcf",
+        "particles/units/heroes/hero_furion/furion_curse_of_forest_cast.vpcf",
+        "particles/units/heroes/hero_furion/furion_curse_of_forest_debuff.vpcf",
+        "particles/a_horo/horo_ultimate.vpcf",
+        "particles/units/heroes/hero_night_stalker/nightstalker_crippling_fear_aura.vpcf",
+        "particles/units/heroes/hero_night_stalker/nightstalker_crippling_fear_smoke.vpcf",
+        "particles/generic_gameplay/generic_silence.vpcf",
+        "particles/a_horo/horo_cleave.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+    PrecacheResource("model", "models/items/lycan/ultimate/sirius_curse/sirius_curse.vmdl", context)
+end
 
 function horo_forest_girl:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
@@ -474,18 +498,6 @@ function modifier_horo_forest_wisdom_aura:CheckState()
     }
 end
 
-
-
-
-
-
-
-
-
-
-
-     
-
 LinkLuaModifier("modifier_horo_ultimate", "abilities/heroes/horo", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_horo_ultimate_transform", "abilities/heroes/horo", LUA_MODIFIER_MOTION_NONE)
 
@@ -730,7 +742,3 @@ function modifier_horo_forest_heart_beast:OnAttackLanded( params )
         self:GetParent():EmitSound("Hero_Ursa.Attack")
     end
 end
-
-
-
-

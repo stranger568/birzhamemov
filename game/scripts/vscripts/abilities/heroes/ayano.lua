@@ -4,6 +4,22 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 Ayano_TakeACircularSaw = class({})
 
+function Ayano_TakeACircularSaw:Precache(context)
+    PrecacheResource("particle", "particles/yano_ambient_skill.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_sven/sven_warcry_buff.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf", context)
+    PrecacheResource("particle", "particles/ayano_critical_skill.vpcf", context)
+    PrecacheResource("particle", "particles/econ/items/dazzle/dazzle_darkclaw/dazzle_darkclaw_poison_touch.vpcf", context)
+    PrecacheResource("particle", "particles/econ/items/dazzle/dazzle_darkclaw/dazzle_darkclaw_poison_touch.vpcf", context)
+    PrecacheResource("particle", "particles/generic_gameplay/generic_lifesteal.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_axe/axe_battle_hunger.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_bounty_hunter/bounty_hunter_track_cast.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_bounty_hunter/bounty_hunter_track_shield.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_bounty_hunter/bounty_hunter_track_trail.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_bounty_hunter/bounty_hunter_track_haste.vpcf", context)
+    PrecacheResource("particle", "particles/ayano/pila_launch.vpcf", context)
+end
+
 function Ayano_TakeACircularSaw:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end
@@ -35,7 +51,7 @@ end
 
 function modifier_ayano_TakeACircularSaw:OnCreated()
     if not IsServer() then return end
-    if self:GetParent():HasModifier("modifier_bp_ayano") then
+    if self:GetParent():HasModifier("modifier_bp_ayano") or IsInToolsMode() then
         local particle = ParticleManager:CreateParticle("particles/yano_ambient_skill.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
         self:AddParticle(particle, false, false, 1, false, false)
     end
@@ -69,7 +85,7 @@ function modifier_ayano_TakeACircularSaw:OnAttackLanded( params )
 
         local particle_cast = "particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf"
 
-        if self:GetParent():HasModifier("modifier_bp_ayano") then
+        if self:GetParent():HasModifier("modifier_bp_ayano") or IsInToolsMode() then
             particle_cast = "particles/ayano_critical_skill.vpcf"
         end
 
@@ -260,27 +276,6 @@ function modifier_Ayano_Tranquilizer_1:OnDestroy()
     self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned_purge", {duration = duration * (1 - self:GetParent():GetStatusResistance()) })
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 LinkLuaModifier( "modifier_Ayano_WeakMind_buff", "abilities/heroes/ayano.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_Ayano_WeakMind_passive", "abilities/heroes/ayano.lua", LUA_MODIFIER_MOTION_NONE )
 
@@ -358,18 +353,6 @@ function modifier_Ayano_WeakMind_buff:GetEffectAttachType()
     return PATTACH_OVERHEAD_FOLLOW 
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
 LinkLuaModifier( "modifier_SpotTheTarget", "abilities/heroes/ayano.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_SpotTheTarget_aura", "abilities/heroes/ayano.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_SpotTheTarget_talent_crit", "abilities/heroes/ayano.lua", LUA_MODIFIER_MOTION_NONE )
@@ -440,6 +423,7 @@ function modifier_SpotTheTarget_aura:OnCreated()
 end
 
 function modifier_SpotTheTarget_aura:OnIntervalThink()
+    if not IsServer() then return end
     self:SetStackCount(self.parent:GetGold())
     AddFOWViewer(self.caster:GetTeamNumber(), self.parent:GetAbsOrigin(), 50, FrameTime(), false)
     self.parent:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_truesight", {duration = 0.1})
@@ -540,16 +524,20 @@ function modifier_SpotTheTarget_talent_crit:DeclareFunctions()
     return 
     {
         MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE,
-        MODIFIER_EVENT_ON_ATTACK_LANDED
+        MODIFIER_EVENT_ON_ATTACK_LANDED,
+        MODIFIER_EVENT_ON_ATTACK_START
     }
 end
 
-function modifier_SpotTheTarget_talent_crit:GetModifierPreAttack_CriticalStrike(params)
-    if params.target == self:GetCaster() and params.target:HasModifier("modifier_SpotTheTarget_aura") then
-        return self:GetAbility():GetSpecialValueFor("critical_damage") + self:GetParent():FindTalentValue("special_bonus_birzha_ayano_6")
-    else
+function modifier_SpotTheTarget_talent_crit:OnAttackStart(params)
+    if params.attacker ~= self:GetParent() then return end
+    if params.target ~= self:GetCaster() or not params.target:HasModifier("modifier_SpotTheTarget_aura") then
         self:Destroy()
     end
+end
+
+function modifier_SpotTheTarget_talent_crit:GetModifierPreAttack_CriticalStrike(params)
+    return self:GetAbility():GetSpecialValueFor("critical_damage") + self:GetParent():FindTalentValue("special_bonus_birzha_ayano_6")
 end
 
 function modifier_SpotTheTarget_talent_crit:OnAttackLanded(params)

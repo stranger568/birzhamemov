@@ -3,6 +3,23 @@ LinkLuaModifier( "modifier_gachi_binding", "abilities/heroes/gachi.lua", LUA_MOD
 
 Gachi_Binding = class({})
 
+function Gachi_Binding:Precache(context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_treant/treant_overgrowth_vines.vpcf",
+        "particles/units/heroes/hero_ember_spirit/ember_spirit_searing_chains_debuff.vpcf",
+        "particles/gachi_shield_scepter.vpcf",
+        "particles/units/heroes/hero_bounty_hunter/bounty_hunter_jinda_slow.vpcf",
+        "particles/units/heroes/hero_bounty_hunter/status_effect_bounty_hunter_jinda_slow.vpcf",
+        "particles/units/heroes/hero_alchemist/alchemist_chemical_rage.vpcf",
+        "particles/status_fx/status_effect_chemical_rage.vpcf",
+        "particles/units/heroes/hero_alchemist/alchemist_chemical_rage_hero_effect.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Gachi_Binding:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

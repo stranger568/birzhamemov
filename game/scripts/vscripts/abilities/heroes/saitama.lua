@@ -3,6 +3,22 @@ LinkLuaModifier("modifier_saitama_fast_attack", "abilities/heroes/saitama.lua", 
 
 saitama_fast_attack = class({})
 
+function saitama_fast_attack:Precache(context)
+    PrecacheResource("model", "models/heroes/anime/opm/saitama/saitama.vmdl", context)
+    local particle_list = 
+    {
+        "particles/saitama/auto_attack_effect.vpcf",
+        "particles/units/heroes/hero_marci/marci_rebound_bounce_impact.vpcf",
+        "particles/units/heroes/hero_earth_spirit/espirit_bouldersmash_target.vpcf",
+        "particles/saitama/avoid.vpcf",
+        "particles/saitama/ultimate_effect_start.vpcf",
+        "particles/econ/items/queen_of_pain/qop_arcana/qop_arcana_sonic_wave.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function saitama_fast_attack:OnSpellStart()
 	if not IsServer() then return end
 	local point = self:GetCursorPosition()

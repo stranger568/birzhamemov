@@ -1,195 +1,172 @@
 "neutral_items"
 {
-	"1"
+	"madstone_limits"
 	{
-		"drop_rates"
-		{
-			"99:00"
-			{
-				"0" "14"
-				"1" "14"
-				"2" "14"
-				"3" "14"
-				"4" "14"
-			}
-		}
-		
-		"items"
-		{
-			//"item_keen_optic"				  "0"
-			"item_trusty_shovel"			  "0"
-			"item_arcane_ring"				  "0"			
-			//"item_possessed_mask"			  "0"
-			"item_mysterious_hat"			  "0"
-			"item_unstable_wand"			  "0"
-			"item_pogo_stick"				  "0"							
-			"item_seeds_of_serenity"		  "0"
-			"item_lance_of_pursuit"			  "0"
-			"item_occult_bracelet"			  "0"
-			"item_duelist_gloves"			  "0"
-
-			//"item_ocean_heart"			  "0"
-			"item_broom_handle"				  "0"
-			//"item_chipped_vest"		      "0"
-
-			//"item_royal_jelly"			  "0"
-			"item_faded_broach"				  "0"
-			//"item_ironwood_tree"			  "0"
-			"item_spark_of_courage"		      "0"
-		}
+		"madstone_no_limit_time"			"70:00"	
 	}
-	"2"
+
+	"neutral_tiers"
 	{
-		"drop_rates"
+		"1"
 		{
-			"99:00"
-			{
-				"0" "10"
-				"1" "10"
-				"2" "10"
-				"3" "10"
-				"4" "10"
-			}
-		}
-
-		"items"
-		{
-			"item_ring_of_aquila"			  "0"
-			//"item_imp_claw"					  "0"
-			//"item_nether_shawl"				  "0"
-			"item_dragon_scale"				  "0"
-			"item_pupils_gift"				  "0"
-			"item_vambrace"			  "0"
-			//"item_misericorde"				  "0"
-			"item_grove_bow"				  "0"
-			"item_philosophers_stone"				  "0"
-			//"item_essence_ring"				  "0"
-			//"item_paintball"				"0"
-			"item_bullwhip"			  "0"
-			//"item_quicksilver_amulet"				  "0"
-			//"item_dagger_of_ristul"			"0"
-			"item_orb_of_destruction"		  "0"
-			"item_specialists_array"			"0"
-			"item_eye_of_the_vizier"				  "0"
-			"item_vampire_fangs"				  "0"
-			//"item_blighted_spirit"				  "0"
-			"item_gossamer_cape"				  "0"
-						
-
-		}
-	}
-	"3"
-	{
-		"drop_rates"
-		{
-			"99:00"
-			{
-				"0" "10"
-				"1" "10"
-				"2" "10"
-				"3" "10"
-				"4" "10"
-			}
-		}
-
-		"items"
-		{
-			"item_quickening_charm"			  "0"
-			"item_defiant_shell"			  "0"
-			//"item_black_powder_bag"		  "0"
-			//"item_spider_legs"			  "0"
-			//"item_icarus_wings"			  "0"
-			"item_paladin_sword"			  "0"
-			"item_vindicators_axe"			  "0"
-			"item_dandelion_amulet"			  "0"
-			//"item_orb_of_destruction"		  "0"
-			"item_titan_sliver"				  "0"
-			"item_enchanted_quiver"			  "0"
-			"item_elven_tunic"				  "0"
-			"item_cloak_of_flames"			  "0"
-			"item_ceremonial_robe"			  "0"
-			"item_psychic_headband"			  "0"
-			//"item_slime_vial"				  "0"
-			"item_ogre_seal_totem"			  "0"
-			//"item_quicksilver_amulet"		  "0"
-			//"item_essence_ring"			  "0"
-		}
-	}
-	"4"
-	{	
-		"drop_rates"
-		{
-			"99:00"
-			{
-				"0" "10"
-				"1" "10"
-				"2" "10"
-				"3" "10"
-				"4" "10"
-			}
-		}
-
-		"items"
-		{
-			"item_timeless_relic"			  "0"
-			"item_spell_prism"				  "0"
-			"item_ascetic_cap"				  "0"
-			//"item_heavy_blade"		      "0"
-			//"item_flicker"			      "0"
-			"item_ninja_gear"				  "0"
-			//"item_illusionsts_cape"		  "0"
-			//"item_fortitude_ring"			  "0"
-			//"item_the_leveller"			  "0"
-			//"item_minotaur_horn"			  "0"
-			"item_spy_gadget"				  "0"
-			"item_trickster_cloak"			  "0"
-			"item_stormcrafter"			      "0"
-			"item_penta_edged_sword"		  "0"
-			"item_havoc_hammer"				  "0"
+			"start_time"			"999:00"
+			"trinket_options"		"4"
+			"enhancement_options"	"4"
+			"craft_cost"			"5"
+			"xp_bonus"				"0"
 			
-			//"item_princes_knife"			  "0"
-			//"item_harpoon"			      "0"
-			//"item_barricade"			  	  "0"
-			
-			//"item_horizons_equilibrium"	  "0"
-			"item_mind_breaker"				  "0"
-			"item_martyrs_plate"			  "0"
-		}
-	}
-	"5"
-	{
-		"drop_rates"
-		{
-			"99:00"
+			"items"
 			{
-				"0" "10"
-				"1" "10"
-				"2" "10"
-				"3" "10"
-				"4" "10"
+				"item_sisters_shroud"			  	"1"
+				"item_occult_bracelet"				"1"
+				"item_kobold_cup"					"1"
+				"item_chipped_vest"					"1"
+				"item_polliwog_charm"			  	"1"
+				"item_spark_of_courage"				"1"
+				"item_rippers_lash"					"1"
+				"item_dormant_curio"				"1"
+			}
+
+			"enhancements"
+			{
+				"item_enhancement_mystical"			"1"
+				"item_enhancement_brawny"			"1"
+				"item_enhancement_alert"			"1"
+				"item_enhancement_tough"			"1"
+				"item_enhancement_quickened"		"1"
 			}
 		}
-
-		"items"
+		"2"
 		{
-			"item_force_boots"				  "0"
-			"item_desolator_2"				  "0"
-			"item_seer_stone"				  "0"
-			"item_mirror_shield"			  "0"
-			"item_apex"					  	  "0"
-			//"item_ballista"			      "0"
-			"item_demonicon"				  "0"
-			"item_fallen_sky"		  	      "0"
-			"item_force_field"				  "0"
-			"item_pirate_hat"				  "0"
-			"item_ex_machina"				  "0"
-			"item_giants_ring"				  "0"
-			//"item_vengeances_shadow"	      "0"
-			"item_book_of_shadows"			  "0"
-			//"item_manacles_of_power"		  "0"
-			//"item_bottomless_chalice"		  "0"
-			//"item_wand_of_sanctitude"		  "0"
-			
+			"start_time"			"999:00"
+			"trinket_options"		"4"
+			"enhancement_options"	"4"
+			"craft_cost"			"10"
+			"xp_bonus"				"0"
+
+			"items"
+			{
+				"item_essence_ring"					"1"
+				"item_mana_draught"					"1"
+				"item_poor_mans_shield"				"1"
+				"item_searing_signet"				"1"
+				"item_misericorde"					"1"
+				"item_pogo_stick"					"1"
+			}
+
+			"enhancements"
+			{
+				"item_enhancement_mystical"			"2"
+				"item_enhancement_brawny"			"2"
+				"item_enhancement_alert"			"2"
+				"item_enhancement_tough"			"2"
+				"item_enhancement_quickened"		"2"
+
+				"item_enhancement_keen_eyed"		"1"
+				"item_enhancement_vast"				"1"
+				"item_enhancement_greedy"			"1"
+				"item_enhancement_vampiric"			"1"
+			}
+		}
+		"3"
+		{
+			"start_time"			"999:00"
+			"trinket_options"		"4"
+			"enhancement_options"	"4"
+			"craft_cost"			"10"
+			"xp_bonus"				"0"
+
+			"items"
+			{
+				"item_serrated_shiv"				"1"
+				"item_gale_guard"					"1"
+				"item_gunpowder_gauntlets"			"1"
+				"item_whisper_of_the_dread"			"1"
+				"item_jidi_pollen_bag"				"1"
+				"item_psychic_headband"				"1"
+			}
+
+			"enhancements"
+			{
+				"item_enhancement_mystical"			"3"
+				"item_enhancement_brawny"			"3"
+				"item_enhancement_alert"			"3"
+				"item_enhancement_tough"			"3"
+				"item_enhancement_quickened"		"3"
+
+				"item_enhancement_keen_eyed"		"2"
+				"item_enhancement_vast"				"2"
+				"item_enhancement_greedy"			"2"
+				"item_enhancement_vampiric"			"2"
+			}
+		}
+		"4"
+		{	
+			"start_time"			"999:00"
+			"trinket_options"		"4"
+			"enhancement_options"	"4"
+			"craft_cost"			"10"
+			"xp_bonus"				"0"
+
+			"items"
+			{
+				"item_pyrrhic_cloak"				"1"
+				"item_crippling_crossbow"			"1"
+				"item_magnifying_monocle"			"1"
+				"item_dezun_bloodrite"				"1"
+				"item_giant_maul"					"1"
+				"item_outworld_staff"				"1"
+			}
+
+			"enhancements"
+			{
+				"item_enhancement_mystical"			"4"
+				"item_enhancement_brawny"			"4"
+				"item_enhancement_alert"			"4"
+				"item_enhancement_tough"			"4"
+				"item_enhancement_quickened"		"4"
+
+				"item_enhancement_vampiric"			"3"
+
+				"item_enhancement_timeless"			"1"
+				"item_enhancement_titanic"			"1"
+				"item_enhancement_crude"			"1"
+			}
+		}
+		"5"
+		{
+			"start_time"			"999:00"
+			"trinket_options"		"4"
+			"enhancement_options"	"4"
+			"craft_cost"			"10"
+			"recraft_cost"			"10"
+			"xp_bonus"				"0"
+
+			"items"
+			{
+				"item_desolator_2"					"1"
+				"item_fallen_sky"					"1"
+				"item_demonicon"					"1"
+				"item_minotaur_horn"				"1"
+				"item_spider_legs"					"1"
+				"item_helm_of_the_undying"			"1"
+				"item_unrelenting_eye"				"1"
+				"item_divine_regalia"				"1"
+			}
+
+			"enhancements"
+			{			
+				"item_enhancement_timeless"			"2"
+				"item_enhancement_titanic"			"2"
+				"item_enhancement_crude"			"2"
+
+				"item_enhancement_feverish"			"1"
+				"item_enhancement_fleetfooted"		"1"
+				"item_enhancement_audacious"		"1"
+				"item_enhancement_evolved"			"1"
+				"item_enhancement_boundless"		"1"
+				"item_enhancement_wise"				"1"
+			}
 		}
 	}
 }

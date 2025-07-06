@@ -7,6 +7,29 @@ LinkLuaModifier( "modifier_hisoka_cards_stack", "abilities/heroes/hisoka.lua", L
 
 hisoka_cards = class({})
 
+function hisoka_cards:Precache(context)
+    PrecacheResource("model", "models/update_heroes/hisoka/hisoka.vmdl", context)
+    local particle_list = 
+    {
+        "particles/hisoka/card_particle.vpcf",
+        "particles/hisoka/card_particle_overhead.vpcf",
+        "particles/hisoka/card_particle.vpcf",
+        "particles/hisoka/hisoka_shield.vpcf",
+        "particles/hisoka_active/hisoka_active_markermarker.vpcf",
+        "particles/hisoka_active/active_use.vpcf",
+        "particles/hisoka_active/active_land.vpcf",
+        "particles/hisoka/hisoka_bubble_stack.vpcf",
+        "particles/hisoka/hisoka_bubble_debuff.vpcf",
+        "particles/hisoka/hisoka_bubble_buff.vpcf",
+        "particles/units/heroes/hero_templar_assassin/templar_assassin_trap.vpcf",
+        "particles/units/heroes/hero_templar_assassin/templar_assassin_trap_explode.vpcf",
+        "particles/hisoka/hisoka_bubble_ultimate.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function hisoka_cards:GetCooldown(level) 
     return self.BaseClass.GetCooldown( self, level )
 end

@@ -257,7 +257,7 @@
                     {
                         "value"
                         {
-                              "value0"        "sounds/heroes/pucci/voice/pucci_attack_10.vsnd"
+                              "value0"        "sounds/heroes/pucci/voice/pucci_attack_09.vsnd"
                         }
                     }
                     "volume"            {   "value"     "3.000000"  }
@@ -284,7 +284,7 @@
                     {
                         "value"
                         {
-                              "value0"        "sounds/heroes/pucci/voice/pucci_attack_11.vsnd"
+                              "value0"        "sounds/heroes/pucci/voice/pucci_attack_09.vsnd"
                         }
                     }
                     "volume"            {   "value"     "3.000000"  }
@@ -365,7 +365,7 @@
                     {
                         "value"
                         {
-                              "value0"        "sounds/heroes/pucci/voice/pucci_attack_13.vsnd"
+                              "value0"        "sounds/heroes/pucci/voice/pucci_attack_09.vsnd"
                         }
                     }
                     "volume"            {   "value"     "3.000000"  }
@@ -392,7 +392,7 @@
                     {
                         "value"
                         {
-                              "value0"        "sounds/heroes/pucci/voice/pucci_attack_13.vsnd"
+                              "value0"        "sounds/heroes/pucci/voice/pucci_attack_09.vsnd"
                         }
                     }
                     "volume"            {   "value"     "3.000000"  }
@@ -959,7 +959,7 @@
                     {
                         "value"
                         {
-                              "value0"        "sounds/heroes/pucci/voice/pucci_kill_05.vsnd"
+                              "value0"        "sounds/heroes/pucci/voice/pucci_kill_04.vsnd"
                         }
                     }
                     "volume"            {   "value"     "3.000000"  }
@@ -986,7 +986,7 @@
                     {
                         "value"
                         {
-                              "value0"        "sounds/heroes/pucci/voice/pucci_kill_06.vsnd"
+                              "value0"        "sounds/heroes/pucci/voice/pucci_kill_04.vsnd"
                         }
                     }
                     "volume"            {   "value"     "3.000000"  }
@@ -1013,7 +1013,7 @@
                     {
                         "value"
                         {
-                              "value0"        "sounds/heroes/pucci/voice/pucci_kill_07.vsnd"
+                              "value0"        "sounds/heroes/pucci/voice/pucci_kill_04.vsnd"
                         }
                     }
                     "volume"            {   "value"     "3.000000"  }
@@ -1040,7 +1040,7 @@
                     {
                         "value"
                         {
-                              "value0"        "sounds/heroes/pucci/voice/pucci_kill_07.vsnd"
+                              "value0"        "sounds/heroes/pucci/voice/pucci_kill_04.vsnd"
                         }
                     }
                     "volume"            {   "value"     "3.000000"  }
@@ -1688,7 +1688,7 @@
                     {
                         "value"
                         {
-                              "value0"        "sounds/heroes/pucci/voice/pucci_move_10.vsnd"
+                              "value0"        "sounds/heroes/pucci/voice/pucci_move_09.vsnd"
                         }
                     }
                     "volume"            {   "value"     "3.000000"  }
@@ -1715,7 +1715,7 @@
                     {
                         "value"
                         {
-                              "value0"        "sounds/heroes/pucci/voice/pucci_move_11.vsnd"
+                              "value0"        "sounds/heroes/pucci/voice/pucci_move_09.vsnd"
                         }
                     }
                     "volume"            {   "value"     "3.000000"  }

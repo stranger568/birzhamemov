@@ -21,10 +21,14 @@ function nix_marci_e:OnSpellStart()
     self:GetCaster():EmitSound("nix_allin")
     self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_3)
     local units = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false)
+    local nix_marci_w = self:GetCaster():FindAbilityByName("nix_marci_w")
     for _, unit in pairs(units) do
         unit:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = stun_duration * (1 - unit:GetStatusResistance())})
         if has_upgrade then
             ApplyDamage({victim = unit, attacker = self:GetCaster(), damage = upgrade_damage, damage_type = DAMAGE_TYPE_PHYSICAL, ability = self})
+        end
+        if nix_marci_w and nix_marci_w:GetLevel() > 0 then
+            nix_marci_w:AddTargetMark(unit)
         end
     end
     local particle = ParticleManager:CreateParticle("particles/nix/nix_marci_e.vpcf", PATTACH_WORLDORIGIN, nil)

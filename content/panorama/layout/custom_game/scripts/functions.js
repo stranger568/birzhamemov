@@ -16,56 +16,6 @@ function GetCurrentSeasonDays()
 	return 0
 }
 
-function GetDotaHud()
-{
-	let hPanel = $.GetContextPanel();
-
-	while ( hPanel && hPanel.id !== 'Hud')
-	{
-        hPanel = hPanel.GetParent();
-	}
-
-	if (!hPanel)
-	{
-        throw new Error('Could not find Hud root from panel with id: ' + $.GetContextPanel().id);
-	}
-
-	return hPanel;
-}
-
-function FindDotaHudElement(sId)
-{
-	return GetDotaHud().FindChildTraverse(sId);
-}
-
-function GetCurrentStacks(hero_id, mod) 
-{
-    var hero = hero_id
- 
-    for (var i = 0; i < Entities.GetNumBuffs(hero); i++) 
-    {
-       var buffID = Entities.GetBuff(hero, i)
-        if (Buffs.GetName(hero, buffID ) == mod )
-        {
-            var stack = Buffs.GetStackCount(hero, buffID ) 
-            return stack
-        }
-    }
-    return 0
-}
- 
-function HasModifier(unit, modifier) 
- {
-     for (var i = 0; i < Entities.GetNumBuffs(unit); i++) 
-     {
-        if (Buffs.GetName(unit, Entities.GetBuff(unit, i)) == modifier)
-        {
-            return Entities.GetBuff(unit, i)
-        }
-    }
-    return false
-}
-
 function GetHeroExp(exp)
 {
     let level = exp % 1000 + " / 1000"
@@ -231,6 +181,16 @@ function ScpScreamerFalseBonus()
 function PortraitClicked()
 {
     Players.PlayerPortraitClicked( $.GetContextPanel().GetAttributeInt( "player_id", -1 ), false, false );
+}
+
+function GetHeroWinrate(hero_name)
+{
+    let player_winrate = CustomNetTables.GetTableValue("game_state", "heroes_winrate");
+    if (player_winrate)
+    {
+        return (player_winrate["heroes"][hero_name] || 0)
+    }
+    return 0
 }
 
 (function () {

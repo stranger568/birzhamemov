@@ -6,6 +6,23 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 Rem_StrikeJump = class({})
 
+function Rem_StrikeJump:Precache(context)
+    PrecacheResource("model", "models/update_heroes/rem/rem.vmdl", context)
+    PrecacheResource("model", "models/items/warlock/golem/hellsworn_golem/hellsworn_golem.vmdl", context)
+    local particle_list = 
+    {
+        "particles/econ/items/earthshaker/egteam_set/hero_earthshaker_egset/earthshaker_echoslam_start_egset.vpcf",
+        "particles/units/heroes/hero_rattletrap/rattletrap_hookshot.vpcf",
+        "particles/units/heroes/hero_visage/visage_familiar_base_attack.vpcf",
+        "particles/rem_frost_humaeshrac_split_earth.vpcf",
+        "particles/units/heroes/hero_tusk/tusk_ice_shards_projectile.vpcf",
+        "particles/units/heroes/hero_tusk/tusk_shards.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Rem_StrikeJump:GetAOERadius()
     return self:GetSpecialValueFor( "radius" )
 end

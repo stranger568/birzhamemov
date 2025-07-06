@@ -1,154 +1,129 @@
 "use strict";
 
-function _ScoreboardUpdater_SetTextSafe( panel, childName, textValue )
-{
-	if ( panel === null )
-		return;
-	var childPanel = panel.FindChildInLayoutFile( childName )
-	if ( childPanel === null )
-		return;
-	
-	childPanel.text = textValue;
-}
- 
-function HighlightByParty(player_id, party_icon) 
-{
-    if (party_icon)
-    {
-	    var party_map = CustomNetTables.GetTableValue("game_state", "party_map")
-	    if (party_map != undefined)
-	    {
-		    var party_id = party_map[player_id];
-			if (party_id != undefined && parseInt(party_id)>0 && parseInt(party_id) <= 10) 
-			{
-				party_icon.SetHasClass("NoParty",false)
-				party_icon.SetHasClass("Party_" + party_id, true);
-				party_icon.style.visibility = "visible"
-			} else {
-				party_icon.SetHasClass("NoParty", true);
-				party_icon.style.visibility = "collapse"
-			}
-		} else {
-			party_icon.SetHasClass("NoParty", true);
-			party_icon.style.visibility = "collapse"
-		}
-	}
-}
-
 function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContainer, playerId, localPlayerTeamId )
 {
-	var playerPanelName = "_dynamic_player_" + playerId;
-	var playerPanel = playersContainer.FindChild( playerPanelName );
+	let playerPanelName = "_dynamic_player_" + playerId;
+	let playerPanel = playersContainer.FindChild( playerPanelName );
 	if ( playerPanel === null )
 	{
 		playerPanel = $.CreatePanel( "Panel", playersContainer, playerPanelName );
 		playerPanel.SetAttributeInt( "player_id", playerId );
 		playerPanel.BLoadLayout( scoreboardConfig.playerXmlName, false, false );
-
-		var start_info = CustomNetTables.GetTableValue('birzhainfo', String(playerId));
+		let start_info = CustomNetTables.GetTableValue('birzhainfo', String(playerId));
 		if (start_info)
 		{
-			UpdateBorderPlayer('birzhainfo', String(playerId), start_info )
+			UpdateBorderPlayer("birzhainfo", String(playerId), start_info)
 		}
 	}
 
-	playerPanel.SetHasClass( "is_local_player", ( playerId == Game.GetLocalPlayerID() ) );
-	
-	var ultStateOrTime = PlayerUltimateStateOrTime_t.PLAYER_ULTIMATE_STATE_HIDDEN;
-	var goldValue = -1;
-	var isTeammate = false;
- 
-	var playerInfo = Game.GetPlayerInfo( playerId );
+    playerPanel.SetHasClass( "is_local_player", ( playerId == Game.GetLocalPlayerID() ) );
+
+	let playerInfo = Game.GetPlayerInfo( playerId );
 	if ( playerInfo )
 	{
-		isTeammate = ( playerInfo.player_team_id == localPlayerTeamId );
-		if ( isTeammate )
+        let PartyIcon_team = playerPanel.FindChildInLayoutFile("PartyIcon_team");
+		if (PartyIcon_team)
 		{
-			ultStateOrTime = Game.GetPlayerUltimateStateOrTime( playerId );
+			HighlightByParty(playerId, PartyIcon_team);
 		}
-		goldValue = playerInfo.player_gold;
-
-
-		if (playerPanel.FindChildInLayoutFile("PartyIcon_team"))
+        let playername = playerPanel.FindChildInLayoutFile( "tophud_player_name" );
+		if ( playername )
 		{
-			HighlightByParty(playerId, playerPanel.FindChildInLayoutFile("PartyIcon_team"));
+			playername.text = Players.GetPlayerName(playerId) || 'noname';
+		}
+        let heroNameAndDescription = playerPanel.FindChildInLayoutFile( "HeroNameAndDescription" );
+		if ( heroNameAndDescription )
+		{
+            heroNameAndDescription.SetDialogVariable( "hero_name", $.Localize( "#"+playerInfo.player_selected_hero ) );
+			heroNameAndDescription.SetDialogVariableInt( "hero_level",  playerInfo.player_level );
+		}
+        let playerAvatar = playerPanel.FindChildInLayoutFile( "AvatarImage" );
+		if ( playerAvatar )
+		{
+			playerAvatar.steamid = playerInfo.player_steamid;
 		}
 		
 		playerPanel.SetHasClass( "player_dead", ( playerInfo.player_respawn_seconds >= 0 ) );
-		playerPanel.SetHasClass( "local_player_teammate", isTeammate && ( playerId != Game.GetLocalPlayerID() ) );
-
 		_ScoreboardUpdater_SetTextSafe( playerPanel, "RespawnTimer", ( playerInfo.player_respawn_seconds + 1 ) );
 		_ScoreboardUpdater_SetTextSafe( playerPanel, "PlayerName", playerInfo.player_name );
 		_ScoreboardUpdater_SetTextSafe( playerPanel, "Level", playerInfo.player_level );
 		_ScoreboardUpdater_SetTextSafe( playerPanel, "Kills", playerInfo.player_kills );
 		_ScoreboardUpdater_SetTextSafe( playerPanel, "Deaths", playerInfo.player_deaths );
 		_ScoreboardUpdater_SetTextSafe( playerPanel, "Assists", playerInfo.player_assists );
+		_ScoreboardUpdater_SetTextSafe( playerPanel, "HeroName", $.Localize( "#"+playerInfo.player_selected_hero ) )
+		playerPanel.SetHasClass( "player_connection_abandoned", playerInfo.player_connection_state == DOTAConnectionState_t.DOTA_CONNECTION_STATE_ABANDONED );
+		playerPanel.SetHasClass( "player_connection_failed", playerInfo.player_connection_state == DOTAConnectionState_t.DOTA_CONNECTION_STATE_FAILED );
+		playerPanel.SetHasClass( "player_connection_disconnected", playerInfo.player_connection_state == DOTAConnectionState_t.DOTA_CONNECTION_STATE_DISCONNECTED );
+        AddHeroLevelRank(playerId, playerInfo.player_selected_hero, playerPanel)
 
-		var info = CustomNetTables.GetTableValue('birzhainfo', String(playerId));
-
+        let info = CustomNetTables.GetTableValue('birzhainfo', String(playerId));
 		if (info)
 		{
 			_ScoreboardUpdater_SetTextSafe( playerPanel, "Mmr", (info.mmr[GetCurrentSeasonNumber()] || 0) );
-			var mmr_label = GetMmrLabel(playerPanel);
+            _ScoreboardUpdater_SetTextSafe( playerPanel, "Rating", (info.mmr[GetCurrentSeasonNumber()] || 0) );
+			let mmr_label = GetMmrLabel(playerPanel);
 			if (mmr_label)
 			{
 				mmr_label.text =  'MMR: ' + (info.mmr[GetCurrentSeasonNumber()] || 0);
 			}
-			var bonus_mmr = CustomNetTables.GetTableValue('bonus_rating', String(playerId));
+			let bonus_mmr = CustomNetTables.GetTableValue('bonus_rating', String(playerId));
 			if (bonus_mmr)
 			{
-				if (bonus_mmr.mmr && bonus_mmr.mmr < 0) {
+				if (bonus_mmr.mmr && bonus_mmr.mmr < 0) 
+                {
 					_ScoreboardUpdater_SetTextSafe( playerPanel, "MmrPlus", "- " + (bonus_mmr.mmr*-1) );
-
 					let mmrpluspanel = playerPanel.FindChildInLayoutFile( "MmrPlus" )
-					if ( mmrpluspanel ) {
+					if ( mmrpluspanel ) 
+                    {
 						mmrpluspanel.style.color = "gradient( linear, 90% 80%, 30% 20%, from( #fc0000 ), to( #ff9898 ) )"
 					}
-				} else {
+				} 
+                else 
+                {
 					_ScoreboardUpdater_SetTextSafe( playerPanel, "MmrPlus", "+ " + bonus_mmr.mmr );
 				}
 			}
-
-            var bonus_dogecoin = CustomNetTables.GetTableValue('bonus_dogecoin', String(playerId));
+            let bonus_dogecoin = CustomNetTables.GetTableValue('bonus_dogecoin', String(playerId));
 			if (bonus_dogecoin)
 			{
 				_ScoreboardUpdater_SetTextSafe( playerPanel, "DogePlus", bonus_dogecoin.coin );
 			}
-
 			let rat_clib = " "
 			let calibrating_check = String(info.games_calibrating[GetCurrentSeasonNumber()])
-
 			if (calibrating_check == "undefined")
 			{
 				rat_clib = "<font color='gold'>" + "(" + 10 + ")" + "</font>"
-			} else if (calibrating_check == "0")
+			} 
+            else if (calibrating_check == "0")
 			{
 				rat_clib = " "
-			} else {
+			} 
+            else 
+            {
 				rat_clib = "<font color='gold'>" + "(" + calibrating_check + ")" + "</font>"
 			}
-
 			_ScoreboardUpdater_SetTextSafe( playerPanel, "PlayerMmr", (info.mmr[GetCurrentSeasonNumber()] || 2500) + rat_clib);
 		}
 
-		var game_start = CustomNetTables.GetTableValue('game_state', "pickstate");
-		if (game_start)
+		let playerColorBar = playerPanel.FindChildInLayoutFile( "PlayerColorBar" );
+		if ( playerColorBar !== null )
 		{
-			if (game_start.v == "ended")
+			if ( GameUI.CustomUIConfig().team_colors )
 			{
-				HidePreGamePanels(playerPanel);
+				let teamColor = GameUI.CustomUIConfig().team_colors[ playerInfo.player_team_id ];
+				if ( teamColor )
+				{
+					playerColorBar.style.backgroundColor = teamColor;
+				}
+			}
+			else
+			{
+				let playerColor = "#000000";
+				playerColorBar.style.backgroundColor = playerColor;
 			}
 		}
 
-		var playername = playerPanel.FindChildInLayoutFile( "tophud_player_name" );
-		if ( playername )
-		{
-			playername.text = Players.GetPlayerName(playerId) || 'noname';
-		}
-
-		AddHeroLevelRank(playerId, playerInfo.player_selected_hero, playerPanel)
-		
-		var playerPortrait = playerPanel.FindChildInLayoutFile( "HeroIcon" );
+        let playerPortrait = playerPanel.FindChildInLayoutFile( "HeroIcon" );
 		if ( playerPortrait )
 		{
 			if ( playerInfo.player_selected_hero !== "" )
@@ -156,7 +131,6 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 				let no_portrait = true
 				if (playerInfo.player_selected_hero == "npc_dota_hero_pyramide")
 				{
-
 					if (player_has_item(playerId, 181))
 					{
 						playerPortrait.SetImage( "file://{images}/custom_game/hight_hood/heroes/" + playerInfo.player_selected_hero + "_new.png" );
@@ -197,68 +171,21 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 				playerPortrait.SetImage( "file://{images}/custom_game/unassigned.png" );
 			}
 		}
-		
-		if ( playerInfo.player_selected_hero_id == -1 )
-		{
-			_ScoreboardUpdater_SetTextSafe( playerPanel, "HeroName", $.Localize( "#DOTA_Scoreboard_Picking_Hero" ) )
-		}
-		else
-		{
-			_ScoreboardUpdater_SetTextSafe( playerPanel, "HeroName", $.Localize( "#"+playerInfo.player_selected_hero ) )
-		}
-		
-		var heroNameAndDescription = playerPanel.FindChildInLayoutFile( "HeroNameAndDescription" );
-		if ( heroNameAndDescription )
-		{
-			if ( playerInfo.player_selected_hero_id == -1 )
-			{
-				heroNameAndDescription.SetDialogVariable( "hero_name", $.Localize( "#DOTA_Scoreboard_Picking_Hero" ) );
-			}
-			else
-			{
-				heroNameAndDescription.SetDialogVariable( "hero_name", $.Localize( "#"+playerInfo.player_selected_hero ) );
-			}
-			heroNameAndDescription.SetDialogVariableInt( "hero_level",  playerInfo.player_level );
-		}		
-
-		playerPanel.SetHasClass( "player_connection_abandoned", playerInfo.player_connection_state == DOTAConnectionState_t.DOTA_CONNECTION_STATE_ABANDONED );
-		playerPanel.SetHasClass( "player_connection_failed", playerInfo.player_connection_state == DOTAConnectionState_t.DOTA_CONNECTION_STATE_FAILED );
-		playerPanel.SetHasClass( "player_connection_disconnected", playerInfo.player_connection_state == DOTAConnectionState_t.DOTA_CONNECTION_STATE_DISCONNECTED );
-
-		var playerAvatar = playerPanel.FindChildInLayoutFile( "AvatarImage" );
-		if ( playerAvatar )
-		{
-			playerAvatar.steamid = playerInfo.player_steamid;
-		}		
-
-		var playerColorBar = playerPanel.FindChildInLayoutFile( "PlayerColorBar" );
-		if ( playerColorBar !== null )
-		{
-			if ( GameUI.CustomUIConfig().team_colors )
-			{
-				var teamColor = GameUI.CustomUIConfig().team_colors[ playerInfo.player_team_id ];
-				if ( teamColor )
-				{
-					playerColorBar.style.backgroundColor = teamColor;
-				}
-			}
-			else
-			{
-				var playerColor = "#000000";
-				playerColorBar.style.backgroundColor = playerColor;
-			}
-		}
 	}
 
 	var tip_cooldown_label = CustomNetTables.GetTableValue("tip_cooldown", Players.GetLocalPlayer());
 	if (tip_cooldown_label)
 	{
+        let TipButtonCustom = playerPanel.FindChildInLayoutFile("TipButtonCustom");
+        let TipText = playerPanel.FindChildInLayoutFile("TipText");
 		if (GameUI.IsAltDown() && (playerId != Game.GetLocalPlayerID()) ) 
         {
 			if (!playerPanel.BHasClass("player_connection_abandoned") && !playerPanel.BHasClass("player_connection_failed") && !playerPanel.BHasClass("player_connection_disconnected"))
 			{
 				playerPanel.SetHasClass( "alt_health_check", true );
-			} else {
+			} 
+            else 
+            {
 				playerPanel.SetHasClass( "alt_health_check", false );
 			}
 		} 
@@ -268,64 +195,45 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 		}  
 		if (tip_cooldown_label.cooldown > 0)
 		{
-			SetPSelectEvent(playerPanel.FindChildInLayoutFile("TipButtonCustom"), true, playerId)
-			if (playerPanel.FindChildInLayoutFile("TipButtonCustom"))
-			{
-				playerPanel.FindChildInLayoutFile("TipButtonCustom").style.saturation = "0"
-			}
-			var time = tip_cooldown_label.cooldown
-			var min = Math.trunc((time)/60) 
-			var sec_n =  (time) - 60*Math.trunc((time)/60) 
-			var hour = String( Math.trunc((min)/60) )
-			var min = String(min - 60*( Math.trunc(min/60) ))
-			var sec = String(sec_n)
+            if (TipButtonCustom)
+            {
+                SetPSelectEvent(TipButtonCustom, true, playerId)
+                TipButtonCustom.style.saturation = "0"
+            }
+			let time = tip_cooldown_label.cooldown
+			let min = Math.trunc((time)/60) 
+			let sec_n =  (time) - 60*Math.trunc((time)/60) 
+			min = String(min - 60*( Math.trunc(min/60) ))
+			let sec = String(sec_n)
 			if (sec_n < 10) 
 			{
 				sec = '0' + sec
 			} 
-			if (playerPanel.FindChildInLayoutFile("TipText"))
-			{
-				playerPanel.FindChildInLayoutFile("TipText").text = min + ':' + sec
-			}
+            if (TipText)
+            {
+                TipText.text = min + ':' + sec
+            }
 		} 
         else 
         {
-			SetPSelectEvent(playerPanel.FindChildInLayoutFile("TipButtonCustom"), false, playerId)
-			if (playerPanel.FindChildInLayoutFile("TipText"))
-			{
-				playerPanel.FindChildInLayoutFile("TipText").text = $.Localize("#tip_player")
-			}
-			if (playerPanel.FindChildInLayoutFile("TipButtonCustom"))
-			{
-				playerPanel.FindChildInLayoutFile("TipButtonCustom").style.saturation = "1"
-			}
-		}
-	}
-
-	var report_button_player = playerPanel.FindChildInLayoutFile( "ReportButtonPlayer" );
-
-	if (report_button_player) 
-	{
-		SetReportPlayerButton(report_button_player, playerId)
-
-		if (Game.GetMapInfo().map_display_name != "birzhamemov_solo")
-		{
-			report_button_player.style.opacity = "0"
-		}
-		if (playerInfo.player_team_id == localPlayerTeamId)
-		{
-			report_button_player.style.opacity = "0"
+            if (TipButtonCustom)
+            {
+                SetPSelectEvent(TipButtonCustom, false, playerId)
+                TipButtonCustom.style.saturation = "1"
+            }
+            if (TipText)
+            {
+                TipText.text = $.Localize("#tip_player")
+            }
 		}
 	}
 		
 	var playerItemsContainer = playerPanel.FindChildInLayoutFile( "PlayerItemsContainer" );
     if ( playerItemsContainer )
     {
-    	
         var item_table = CustomNetTables.GetTableValue('end_game_items', String(playerId));
         if ( item_table )
         {
-
             for ( var i = 0; i < 6; ++i )
             {
                 var itemPanelName = "_dynamic_item_" + i;
@@ -339,114 +247,45 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
             }
         }
     }
-
-	if ( isTeammate )
-	{
-		_ScoreboardUpdater_SetTextSafe( playerPanel, "TeammateGoldAmount", goldValue );
-	}
-
-	_ScoreboardUpdater_SetTextSafe( playerPanel, "PlayerGoldAmount", goldValue );
-
-	playerPanel.SetHasClass( "player_ultimate_ready", ( ultStateOrTime == PlayerUltimateStateOrTime_t.PLAYER_ULTIMATE_STATE_READY ) );
-	playerPanel.SetHasClass( "player_ultimate_no_mana", ( ultStateOrTime == PlayerUltimateStateOrTime_t.PLAYER_ULTIMATE_STATE_NO_MANA) );
-	playerPanel.SetHasClass( "player_ultimate_not_leveled", ( ultStateOrTime == PlayerUltimateStateOrTime_t.PLAYER_ULTIMATE_STATE_NOT_LEVELED) );
-	playerPanel.SetHasClass( "player_ultimate_hidden", ( ultStateOrTime == PlayerUltimateStateOrTime_t.PLAYER_ULTIMATE_STATE_HIDDEN) );
-	playerPanel.SetHasClass( "player_ultimate_cooldown", ( ultStateOrTime > 0 ) );
-	_ScoreboardUpdater_SetTextSafe( playerPanel, "PlayerUltimateCooldown", ultStateOrTime );
 }
 
-function SetReportPlayerButton(panel, id)
+function _ScoreboardUpdater_SetTextSafe( panel, childName, textValue )
 {
-	panel.SetPanelEvent("onactivate", function() 
-	{ 
-		SelectReportPlayer(panel, id)
-	});
-	panel.SetPanelEvent('onmouseover', function() 
-	{
-        $.DispatchEvent('DOTAShowTextTooltip', panel, $.Localize("#report_button_description")); 
-    });
-    panel.SetPanelEvent('onmouseout', function() 
+	if ( panel === null )
+		return;
+	var childPanel = panel.FindChildInLayoutFile( childName )
+	if ( childPanel === null )
+		return;
+	
+	childPanel.text = textValue;
+}
+ 
+function HighlightByParty(player_id, party_icon) 
+{
+    if (party_icon)
     {
-        $.DispatchEvent('DOTAHideTextTooltip', panel);
-    }); 
-}
-
-function SelectReportPlayer(panel, id)
-{
-	GameEvents.SendCustomGameEventToServer( "player_reported_select", {report_id : id} );
-}
-
-CustomNetTables.SubscribeNetTableListener( "reported_info", UpdateReportVisual );
-
-function UpdateReportVisual(table, key, data ) 
-{
-	if (table == "reported_info") 
-	{
-		if (key == Players.GetLocalPlayer()) 
-		{
-			for ( var i = 0; i < 15; ++ i )
-            {
-				var playerPanelName = "_dynamic_player_" + i;
-				if (playerPanelName) 
-				{
-					var playerPanel = $.GetContextPanel().FindChildTraverse(playerPanelName)
-					if (playerPanel) 
-					{
-						var ReportButtonPlayer = playerPanel.FindChildInLayoutFile( "ReportButtonPlayer" );
-						if (ReportButtonPlayer)
-						{
-							ReportButtonPlayer.SetHasClass("PlayerReported", false)
-						}
-					}
-				}
-			}
-			for (var i = 1; i <= Object.keys(data.reported_info).length; i++) 
+	    var party_map = CustomNetTables.GetTableValue("game_state", "party_map")
+	    if (party_map != undefined)
+	    {
+		    var party_id = party_map[player_id];
+			if (party_id != undefined && parseInt(party_id)>0 && parseInt(party_id) <= 10) 
 			{
-				var playerPanelName = "_dynamic_player_" + data.reported_info[i];
-				if (playerPanelName) 
-				{
-					var playerPanel = $.GetContextPanel().FindChildTraverse(playerPanelName)
-					if (playerPanel) 
-					{
-						var ReportButtonPlayer = playerPanel.FindChildInLayoutFile( "ReportButtonPlayer" );
-						if (ReportButtonPlayer)
-						{
-							ReportButtonPlayer.SetHasClass("PlayerReported", true)
-						}
-					}
-				}
+				party_icon.SetHasClass("NoParty",false)
+				party_icon.SetHasClass("Party_" + party_id, true);
+				party_icon.style.visibility = "visible"
+			} 
+            else 
+            {
+				party_icon.SetHasClass("NoParty", true);
+				party_icon.style.visibility = "collapse"
 			}
+		} 
+        else 
+        {
+			party_icon.SetHasClass("NoParty", true);
+			party_icon.style.visibility = "collapse"
 		}
 	}
-}
-
-function ReportPlayerFunction(report_id) {
-	var dotaHud = $.GetContextPanel().GetParent().GetParent().GetParent()
-	var report_panel = dotaHud.FindChildTraverse("ReportPanel")
-	report_panel.visible = true
-
-
-
-	var playerInfo = Game.GetPlayerInfo( report_id );
-
-	if (playerInfo) {
-		report_panel.FindChildTraverse("NickNameReportPlayer").text = playerInfo.player_name
-		report_panel.FindChildTraverse("AvatarReportPlayer").steamid = playerInfo.player_steamid
-	}
-
-	var player_table = CustomNetTables.GetTableValue("birzhainfo", Players.GetLocalPlayer())
-	if (player_table) {
-		report_panel.FindChildTraverse("ReportsCount").text = $.Localize("#Report_count") + player_table.reports_count
-	}
-
-	report_panel.FindChildTraverse("CancelWindow").SetPanelEvent("onactivate", function() { 
-			report_panel.visible = false
-	} );
-	report_panel.FindChildTraverse("ReportPlayerButton").SetPanelEvent("onactivate", function() { 
-			Game.EmitSound("Hero_Axe.Culling_Blade_Success")
-			GameEvents.SendCustomGameEventToServer("report_player", {id: report_id});
-			report_panel.visible = false
-	} );
 }
 
 CustomNetTables.SubscribeNetTableListener( "birzhainfo", UpdateBorderPlayer );
@@ -455,42 +294,60 @@ function UpdateBorderPlayer(table, key, data )
 {
 	if (table == "birzhainfo") 
 	{
-		//if (key == Players.GetLocalPlayer()) {
-			var playerPanelName = "_dynamic_player_" + key;
-			if (playerPanelName) {
-				var playerPanel = $.GetContextPanel().FindChildTraverse(playerPanelName)
-				if (playerPanel) {
-					var border_bp = playerPanel.FindChildInLayoutFile( "border_bp" );
-					var gold_particle = playerPanel.FindChildInLayoutFile( "gold_particle" );
-					if (border_bp) {
-						border_bp.DeleteAsync(0)
-					}
-					if (gold_particle) {
-						gold_particle.DeleteAsync(0)
-					}
-					if (data.border_id == 112) {
-						AddDonateStatus(playerPanel);
-					} else if (data.border_id == 115) {
-						AddBorderSnow(playerPanel);
-					} else if (data.border_id == 116) {
-						AddBorderBlackHole(playerPanel);
-					} else if (data.border_id == 117) {
-						AddBorderRubickGreen(playerPanel);
-					} else if (data.border_id == 127) {
-						AddBorderGachi(playerPanel);
-					} else if (data.border_id == 128) {
-						AddBorderRoflan(playerPanel);
-					} else if (data.border_id == 129) {
-						AddBorderElectric(playerPanel);
-					} else if (data.border_id == 164) {
-						AddBorderAnimationSnake(playerPanel)
-					} else if (data.border_id == 404) 
-                    {
-						AddBorderDiretide(playerPanel)
-					}
-				}
-			}
-		//}
+        var playerPanelName = "_dynamic_player_" + key;
+        if (playerPanelName) 
+        {
+            var playerPanel = $.GetContextPanel().FindChildTraverse(playerPanelName)
+            if (playerPanel) 
+            {
+                var border_bp = playerPanel.FindChildInLayoutFile( "border_bp" );
+                var gold_particle = playerPanel.FindChildInLayoutFile( "gold_particle" );
+                if (border_bp) 
+                {
+                    border_bp.DeleteAsync(0)
+                }
+                if (gold_particle) 
+                {
+                    gold_particle.DeleteAsync(0)
+                }
+                if (data.border_id == 112) 
+                {
+                    AddDonateStatus(playerPanel);
+                } 
+                else if (data.border_id == 115) 
+                {
+                    AddBorderSnow(playerPanel);
+                } 
+                else if (data.border_id == 116) 
+                {
+                    AddBorderBlackHole(playerPanel);
+                } 
+                else if (data.border_id == 117) 
+                {
+                    AddBorderRubickGreen(playerPanel);
+                } 
+                else if (data.border_id == 127) 
+                {
+                    AddBorderGachi(playerPanel);
+                } 
+                else if (data.border_id == 128) 
+                {
+                    AddBorderRoflan(playerPanel);
+                } 
+                else if (data.border_id == 129) 
+                {
+                    AddBorderElectric(playerPanel);
+                } 
+                else if (data.border_id == 164) 
+                {
+                    AddBorderAnimationSnake(playerPanel)
+                } 
+                else if (data.border_id == 404) 
+                {
+                    AddBorderDiretide(playerPanel)
+                }
+            }
+        }
 	}
 }
 
@@ -551,7 +408,6 @@ function _ScoreboardUpdater_UpdateTeamPanel( scoreboardConfig, containerPanel, t
 	{
 		teamsInfo.max_team_players = teamPlayers.length;
 	}
-
 
 	var game_start = CustomNetTables.GetTableValue('game_state', "pickstate");
 	if (game_start)
@@ -702,8 +558,6 @@ function stableCompareFunc( a, b )
 //=============================================================================
 function _ScoreboardUpdater_UpdateAllTeamsAndPlayers( scoreboardConfig, teamsContainer )
 {
-//	$.Msg( "_ScoreboardUpdater_UpdateAllTeamsAndPlayers: ", scoreboardConfig );
-	
 	var teamsList = [];
 	for ( var teamId of Game.GetAllTeamIDs() )
 	{
@@ -724,17 +578,10 @@ function _ScoreboardUpdater_UpdateAllTeamsAndPlayers( scoreboardConfig, teamsCon
 
 	if ( teamsList.length > 1 )
 	{
-//		$.Msg( "panelsByTeam: ", panelsByTeam );
-
-		// sort
 		if ( scoreboardConfig.shouldSort )
 		{
 			teamsList.sort( stableCompareFunc );
 		}
-
-//		$.Msg( "POST: ", teamsAndPanels );
-
-		// reorder the panels based on the sort
 		var prevPanel = panelsByTeam[ teamsList[0].team_id ];
 		for ( var i = 0; i < teamsList.length; ++i )
 		{
@@ -743,10 +590,7 @@ function _ScoreboardUpdater_UpdateAllTeamsAndPlayers( scoreboardConfig, teamsCon
 			_ScoreboardUpdater_ReorderTeam( scoreboardConfig, teamsContainer, teamPanel, teamId, i, prevPanel );
 			prevPanel = teamPanel;
 		}
-//		$.Msg( GameUI.CustomUIConfig().teamsPrevPlace );
 	}
-
-//	$.Msg( "END _ScoreboardUpdater_UpdateAllTeamsAndPlayers: ", scoreboardConfig );
 }
 
 
@@ -757,13 +601,11 @@ function ScoreboardUpdater_InitializeScoreboard( scoreboardConfig, scoreboardPan
 	GameUI.CustomUIConfig().teamsPrevPlace = [];
 	if ( typeof(scoreboardConfig.shouldSort) === 'undefined')
 	{
-		// default to true
 		scoreboardConfig.shouldSort = true;
 	}
 	_ScoreboardUpdater_UpdateAllTeamsAndPlayers( scoreboardConfig, scoreboardPanel );
 	return { "scoreboardConfig": scoreboardConfig, "scoreboardPanel":scoreboardPanel }
 }
-
 
 //=============================================================================
 //=============================================================================
@@ -974,15 +816,6 @@ function SetPSelectEvent(panel, cooldown, player_id_tip)
 	        GameEvents.SendCustomGameEventToServer("PlayerTip", {player_id_tip : player_id_tip});
 	        panel.SetPanelEvent("onactivate", function() {})
 	    })
-	}
-}
-
-function HidePreGamePanels(panel)
-{
-	var Hpanel = panel.FindChildInLayoutFile("PlayerBirzhaInfo");
-	if (Hpanel)
-	{
-		Hpanel.style.visibility = 'collapse';
 	}
 }
 

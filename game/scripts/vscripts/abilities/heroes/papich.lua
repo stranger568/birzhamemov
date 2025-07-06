@@ -6,6 +6,29 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 Papich_HellFire_Blast = class({})
 
+function Papich_HellFire_Blast:Precache(context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_skeletonking/skeletonking_hellfireblast_warmup.vpcf",
+        "particles/econ/items/wraith_king/wraith_king_arcana/wk_arc_wraithfireblast_cast.vpcf",
+        "particles/papich/skeletonking_hellfireblast.vpcf",
+        "particles/econ/items/wraith_king/wraith_king_arcana/wk_arc_wraithfireblast.vpcf",
+        "particles/papich/status_effect_wraithking_ghosts.vpcf",
+        "particles/papich/skeletonking_hellfireblast_explosion.vpcf",
+        "particles/papich/skeletonking_hellfireblast_debuff.vpcf",
+        "particles/econ/items/wraith_king/wraith_king_arcana/wk_arc_wraithfireblast_explosion.vpcf",
+        "particles/econ/items/wraith_king/wraith_king_arcana/wk_arc_wraithfireblast_debuff.vpcf",
+        "particles/papich/status_effect_wraithking_ghosts.vpcf",
+        "particles/units/heroes/hero_doom_bringer/doom_infernal_blade_debuff.vpcf",
+        "particles/birzhapass/papich_critical_effect.vpcf",
+        "particles/generic_gameplay/generic_lifesteal.vpcf",
+        "particles/papich_crit_overhead_buff.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Papich_HellFire_Blast:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end
@@ -226,12 +249,11 @@ function modifier_papich_reincarnation_wraith_form_buff:IsPurgable()
 end
 
 function modifier_papich_reincarnation_wraith_form_buff:DeclareFunctions()
-    local decFuncs = 
+    return
     {
         MODIFIER_PROPERTY_MIN_HEALTH,
         MODIFIER_EVENT_ON_TAKEDAMAGE
     }
-    return decFuncs
 end
 
 function modifier_papich_reincarnation_wraith_form_buff:OnTakeDamage(params)
@@ -239,19 +261,15 @@ function modifier_papich_reincarnation_wraith_form_buff:OnTakeDamage(params)
     if self:GetParent() ~= params.unit then return end
     if self:GetParent() == params.attacker then return end
     if self:GetParent():IsIllusion() then return end
-
     if self:GetParent():HasModifier("modifier_item_uebator_active") then
         return
     end
-    
     if self:GetParent():HasModifier("modifier_item_aeon_disk_buff") then
         return
     end
-
     if not self:GetParent():HasModifier("modifier_item_uebator_cooldown") and self:GetParent():HasModifier("modifier_item_uebator") then
         return
     end
-
     for i = 0, 5 do 
         local item = self:GetParent():GetItemInSlot(i)
         if item then
@@ -262,15 +280,10 @@ function modifier_papich_reincarnation_wraith_form_buff:OnTakeDamage(params)
             end
         end        
     end
-
-    local health_reincarnation = self:GetAbility():GetSpecialValueFor("health_reincarnation")
-    local caster_health = self:GetParent():GetMaxHealth() / 100 * health_reincarnation
     local duration = self:GetAbility():GetSpecialValueFor("duration")
-
     if params.damage > 0 and self:GetParent():GetHealth() <= 1 and self:GetAbility():IsFullyCastable() then
-        self:GetParent():SetHealth(caster_health)
-        self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_papich_reincarnation_wraith_form", {duration = duration})
-        self:GetAbility():UseResources(true,false,false,true)  
+        self:GetParent():SetHealth(1)
+        self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_papich_reincarnation_wraith_form", {duration = duration, killer = params.attacker:entindex()})
     end          
 end
 
@@ -281,70 +294,18 @@ function modifier_papich_reincarnation_wraith_form_buff:GetMinHealth()
 end
 
 modifier_papich_reincarnation_wraith_form = class({})
-
-function modifier_papich_reincarnation_wraith_form:OnCreated()
-    if not IsServer() then return end
-    self:GetParent():EmitSound("PapichReincarnate")
-    self.scepter_attacks = false
-    if self:GetCaster():HasScepter() then
-        self.scepter_attacks = true
-    end
-end
-
 function modifier_papich_reincarnation_wraith_form:IsPurgable() return false end
 
-function modifier_papich_reincarnation_wraith_form:DeclareFunctions()
-    local decFuncs = 
-    {
-        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
-        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,        
-        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
-        MODIFIER_PROPERTY_DISABLE_HEALING,
-    }
-    return decFuncs
-end
-
-function modifier_papich_reincarnation_wraith_form:GetAbsoluteNoDamageMagical()
-    return 1
-end
-
-function modifier_papich_reincarnation_wraith_form:GetAbsoluteNoDamagePhysical()
-    return 1
-end
-
-function modifier_papich_reincarnation_wraith_form:GetAbsoluteNoDamagePure()
-    return 1
-end
-
-function modifier_papich_reincarnation_wraith_form:GetDisableHealing()
-    return 1
-end
-
-function modifier_papich_reincarnation_wraith_form:CheckState()
-    local state = 
-    {
-        [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
-        [MODIFIER_STATE_DISARMED] = true,
-        [MODIFIER_STATE_FLYING_FOR_PATHING_PURPOSES_ONLY] = true
-    }
-
-    if self.scepter_attacks then            
-        state = 
-        {
-            [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
-            [MODIFIER_STATE_FLYING_FOR_PATHING_PURPOSES_ONLY] = true
-        }
-    end
-
-    return state
-end
-
-function modifier_papich_reincarnation_wraith_form:GetStatusEffectName()
-    return "particles/papich/status_effect_wraithking_ghosts.vpcf"
-end
-
-function modifier_papich_reincarnation_wraith_form:OnDestroy()
+function modifier_papich_reincarnation_wraith_form:OnCreated(data)
     if not IsServer() then return end
+    self.killer = EntIndexToHScript(data.killer)
+    if self.killer and not self.killer:IsHero() and self.killer:GetOwner() then
+        self.killer = self.killer:GetOwner()
+    end
+    self.heal_counter = 0
+	self.damage_counter = 0
+    self:GetParent():EmitSound("PapichReincarnate")
+    self.has_scepter = self:GetCaster():HasScepter()
     if self:GetParent():HasShard() then
         local Papich_HellFire_Blast = self:GetParent():FindAbilityByName("Papich_HellFire_Blast")
         if Papich_HellFire_Blast and Papich_HellFire_Blast:GetLevel() > 0 then
@@ -354,6 +315,93 @@ function modifier_papich_reincarnation_wraith_form:OnDestroy()
                 Papich_HellFire_Blast:OnSpellStart(enemy)
             end
         end
+    end
+end
+
+
+function modifier_papich_reincarnation_wraith_form:DeclareFunctions()
+    return
+    {
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,        
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
+        MODIFIER_PROPERTY_DISABLE_HEALING,
+        MODIFIER_EVENT_ON_HEAL_RECEIVED,
+        MODIFIER_EVENT_ON_TAKEDAMAGE,
+    }
+end
+
+function modifier_papich_reincarnation_wraith_form:GetAbsoluteNoDamageMagical(params)
+    self:DamageHero(params)
+    return 1
+end
+
+function modifier_papich_reincarnation_wraith_form:GetAbsoluteNoDamagePhysical(params)
+    self:DamageHero(params)
+    return 1
+end
+
+function modifier_papich_reincarnation_wraith_form:GetAbsoluteNoDamagePure(params)
+    self:DamageHero(params)
+    return 1
+end
+
+function modifier_papich_reincarnation_wraith_form:DamageHero(params)
+    if not IsServer() then return end
+    if params.attacker and self:GetRemainingTime() >= 0 then
+		self.damage_counter = self.damage_counter + params.damage
+    end
+end
+
+function modifier_papich_reincarnation_wraith_form:OnHealReceived(params)
+	if params.unit == self:GetParent() and self:GetRemainingTime() >= 0 then
+		self.heal_counter = self.heal_counter + params.gain
+	end
+end
+
+function modifier_papich_reincarnation_wraith_form:GetDisableHealing()
+    return 1
+end
+
+function modifier_papich_reincarnation_wraith_form:CheckState()
+    return
+    {
+        [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+        [MODIFIER_STATE_FLYING_FOR_PATHING_PURPOSES_ONLY] = true
+    }
+end
+
+function modifier_papich_reincarnation_wraith_form:GetStatusEffectName()
+    return "particles/papich/status_effect_wraithking_ghosts.vpcf"
+end
+
+function modifier_papich_reincarnation_wraith_form:OnTakeDamage(params)
+    if not IsServer() then return end
+    if self:GetParent() ~= params.attacker then return end
+    if self:GetParent() == params.unit then return end
+    if params.unit:IsBuilding() then return end
+    if params.unit:IsWard() then return end
+    if not self.has_scepter then return end
+    if params.inflictor == nil and not self:GetParent():IsIllusion() and bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then 
+        local heal = self:GetAbility():GetSpecialValueFor("scepter_lifesteal") / 100 * params.damage
+        self:GetParent():Heal(heal, self:GetAbility())
+        local effect_cast = ParticleManager:CreateParticle( "particles/generic_gameplay/generic_lifesteal.vpcf", PATTACH_ABSORIGIN_FOLLOW, params.attacker )
+        ParticleManager:ReleaseParticleIndex( effect_cast )
+    end
+end
+
+function modifier_papich_reincarnation_wraith_form:OnDestroy()
+    if not IsServer() then return end
+    self:GetAbility():UseResources(false, false, false, true)
+    print("Heal: ", self.heal_counter, "Damage: ", self.damage_counter)
+    if self.has_scepter then
+        if self.damage_counter < self.heal_counter and self.heal_counter > 0 then
+            self:GetParent():SetHealth(math.max(1, self.heal_counter - self.damage_counter))
+        else
+            self:GetParent():Kill(self:GetAbility(), self.killer)
+        end
+    else
+        self:GetParent():Kill(self:GetAbility(), self.killer)
     end
 end
 
@@ -527,7 +575,6 @@ function modifier_Papich_in_solo:GetModifierPreAttack_CriticalStrike( params )
     if params.target:IsWard() then return end
     if params.attacker:PassivesDisabled() then return end
     if not self:GetAbility():IsFullyCastable() then return end
-
     if self:GetCaster():HasModifier("modifier_Papich_in_solo_oneshot") and not self:GetParent():IsIllusion() and not params.target:IsBoss() then
         if self:GetParent():HasTalent("special_bonus_birzha_papich_7") then
             self:GetParent():RemoveGesture(ACT_DOTA_ATTACK_EVENT)
@@ -543,7 +590,6 @@ function modifier_Papich_in_solo:GetModifierPreAttack_CriticalStrike( params )
             return
         end
     end
-
     self:GetParent():RemoveGesture(ACT_DOTA_ATTACK_EVENT)
     self:GetParent():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK_EVENT, self:GetParent():GetAttackSpeed(true))
     self.attack_record = params.record
@@ -553,14 +599,11 @@ end
 
 function modifier_Papich_in_solo:GetModifierProcAttack_Feedback( params )
     if not IsServer() then return end
-
     local pass = false
-
     if self.attack_record and params.record == self.attack_record then
         pass = true
         self.attack_record = nil
     end
-
     if pass and self.one_shot == true then
         self:GetParent():EmitSound("papichcreet")
         if DonateShopIsItemActive(self:GetCaster():GetPlayerID(), 29) then
@@ -586,7 +629,6 @@ function modifier_Papich_in_solo:GetModifierProcAttack_Feedback( params )
         self.one_shot = nil
         self:GetParent():RemoveModifierByName("modifier_Papich_in_solo_oneshot")
     end
-
     if pass then
         if self:GetCaster():HasTalent("special_bonus_birzha_papich_5") then
             local heal = params.damage / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_papich_5")

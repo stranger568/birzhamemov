@@ -4,6 +4,25 @@ LinkLuaModifier( "modifier_tailer_burger_buff_counter", "abilities/heroes/tailer
 
 tailer_burger = class({})
 
+function tailer_burger:Precache(context)
+    local particle_list = 
+    {
+        "particles/tailer/burger_kick_concoction_projectile.vpcf",
+        "particles/tailer/burger_effect.vpcf",
+        "particles/econ/items/juggernaut/jugg_fall20_immortal/jugg_fall20_immortal_healing_ward.vpcf",
+        "particles/econ/items/pugna/pugna_ti10_immortal/pugna_ti10_immortal_life_drain_gold.vpcf",
+        "particles/econ/items/pugna/pugna_ti10_immortal/pugna_ti10_immortal_life_drain_gold_shard.vpcf",
+        "particles/tailer/damage_block.vpcf",
+        "particles/tailer/step_effect.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+
+    PrecacheResource("model", "models/heroes/tidehunter/tidehunter.vmdl", context)
+    PrecacheResource("model", "models/items/tidehunter/horror_from_the_deep_belt/horror_from_the_deep_belt.vmdl", context)
+end
+
 function tailer_burger:OnSpellStart()
 	if not IsServer() then return end
 

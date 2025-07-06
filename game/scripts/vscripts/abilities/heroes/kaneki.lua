@@ -5,6 +5,28 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 kaneki_ghoul = class({})
 
+function kaneki_ghoul:Precache(context)
+    PrecacheResource("model", "models/update_heroes/kaneki/kaneki.vmdl", context)
+    local particle_list = 
+    {
+        "particles/econ/items/ogre_magi/ogre_ti8_immortal_weapon/ogre_ti8_immortal_bloodlust_buff_ground.vpcf",
+        "particles/units/heroes/hero_bloodseeker/bloodseeker_bloodbath.vpcf",
+        "particles/units/heroes/hero_visage/visage_grave_chill_tgt.vpcf",
+        "particles/kaneki_cup2.vpcf",
+        "particles/kaneki/cup_buff.vpcf",
+        "particles/units/heroes/hero_bloodseeker/bloodseeker_rupture.vpcf",
+        "particles/econ/events/ti4/teleport_end_ground_flash_ti4.vpcf",
+        "particles/kaneki_helix.vpcf",
+        "particles/items2_fx/soul_ring_blood.vpcf",
+        "particles/kaneki_kagune.vpcf",
+        "particles/kaneki_kagune_rope.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+    PrecacheResource("model", "models/update_heroes/kaneki/kaneki_form.vmdl", context)
+end
+
 function kaneki_ghoul:GetCooldown(level)
 	if self:GetCaster():HasTalent("special_bonus_birzha_kaneki_7") then
 		return 0

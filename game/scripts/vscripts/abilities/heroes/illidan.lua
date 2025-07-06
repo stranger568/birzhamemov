@@ -9,6 +9,27 @@ LinkLuaModifier( "modifier_illidan_dive_damage", "abilities/heroes/illidan", LUA
 
 illidan_dive = class({})
 
+function illidan_dive:Precache(context)
+    PrecacheResource("model", "models/update_heroes/illidan/illidan_base.vmdl", context)
+    PrecacheResource("model", "models/update_heroes/illidan/illidan_form.vmdl", context)
+    local particle_list = 
+    {
+        "particles/illidan_scepter_thirst_owner.vpcf",
+        "particles/illidan_attack.vpcf",
+        "particles/illidan_scepter_thirst_owner.vpcf",
+        "particles/illidan_stack.vpcf",
+        "particles/illidan_explosion_ske.vpcf",
+        "particles/units/heroes/heroes_underlord/abyssal_underlord_firestorm_wave_burn.vpcf",
+        "particles/illidan/illidan_ozverenie_buff.vpcf",
+        "particles/illidan_metamorph_landing.vpcf",
+        "particles/illidan_solar_guardian_aoe.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+    PrecacheResource("model", "models/update_heroes/illidan/illidan_form.vmdl", context)
+end
+
 function illidan_dive:GetIntrinsicModifierName()
     return "modifier_illidan_dive_shard"
 end

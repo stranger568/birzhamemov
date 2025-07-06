@@ -15,8 +15,8 @@
 				<Label class="WinPredictTopLabel" text="#birzha_win_predict_1" />
 				<Label class="WinPredictTopCounterLabel" id="WinPredictTopCounterLabel" text="0" />
 			</Panel>
-			<Panel class="WinPredictButton" id="WinPredictButton">
-				<Label class="WinPredictButtonLabel" text="#birzha_win_predict_2" onactivate="WinCondition();" />
+			<Panel class="WinPredictButton" id="WinPredictButton" onactivate="WinCondition();">
+				<Label class="WinPredictButtonLabel" id="WinPredictButtonLabel" text="#birzha_win_predict_2" />
 			</Panel>
 		</Panel>
 	</Panel>

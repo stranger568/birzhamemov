@@ -3,6 +3,30 @@ LinkLuaModifier( "modifier_dio_kakyoin_debuff", "abilities/heroes/dio", LUA_MODI
 
 Dio_Kakyoin = class({})
 
+function Dio_Kakyoin:Precache(context)
+    PrecacheResource("model", "models/update_heroes/dio_base/dio_base.vmdl", context)
+    PrecacheResource("model", "models/dio_arcana/dio_arcana.vmdl", context)
+    PrecacheResource("particle", "particles/dio_arcana/kakyoin_attack_normal_punch.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_earth_spirit/espirit_bouldersmash_caster.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_earth_spirit/espirit_bouldersmash_target.vpcf", context)
+    PrecacheResource("particle", "particles/dio/dio_wry.vpcf", context)
+    PrecacheResource("particle", "particles/dio_arcana/wryy_effect.vpcf", context)
+    PrecacheResource("particle", "particles/dio_arcana/dio_wryy_effect_bonus.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_nyx_assassin/nyx_assassin_mana_burn_msg.vpcf", context)
+    PrecacheResource("particle", "particles/dio/dio_wry_debuff.vpcf", context)
+    PrecacheResource("particle", "particles/dio_arcana/dio/dio_wry_debuff.vpcf", context)
+    PrecacheResource("particle", "particles/dio/dio_jump.vpcf", context)
+    PrecacheResource("particle", "particles/dio_arcana/dio_jump_arcana_preimage.vpcf", context)
+    PrecacheResource("particle", "particles/generic_gameplay/generic_lifesteal.vpcf", context)
+    PrecacheResource("particle", "particles/dio_arcana/the_world_ambient.vpcf", context)
+    PrecacheResource("particle", "particles/dio_arcana/the_world_ambient_new.vpcf", context)
+    PrecacheResource("particle", "particles/dio_arcana/mudamudamuda.vpcf", context)
+    PrecacheResource("particle", "particles/dio/dio_sphere_ground.vpcf", context)
+    PrecacheResource("particle", "particles/dio_arcana/dio_sphere_ground.vpcf", context)
+    PrecacheResource("particle", "particles/status_fx/status_effect_faceless_chronosphere.vpcf", context)
+    PrecacheResource("particle", "particles/neutral_fx/ogre_bruiser_smash.vpcf", context)
+end
+
 function Dio_Kakyoin:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_dio_5")
 end

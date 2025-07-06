@@ -6,6 +6,21 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 Kirill_GiantArms = class({})
 
+function Kirill_GiantArms:Precache(context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_marci/marci_unleash_buff.vpcf",
+        "particles/econ/items/sven/sven_ti7_sword/sven_ti7_sword_spell_great_cleave.vpcf",
+        "particles/econ/items/sven/sven_ti7_sword/sven_ti7_sword_spell_great_cleave_gods_strength.vpcf",
+        "particles/econ/items/earthshaker/egteam_set/hero_earthshaker_egset/earthshaker_fissure_egset.vpcf",
+        "particles/units/heroes/hero_earthshaker/earthshaker_aftershock.vpcf",
+        "particles/tereshin/synthol.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Kirill_GiantArms:GetIntrinsicModifierName()
     return "modifier_kirill_GiantArms"
 end

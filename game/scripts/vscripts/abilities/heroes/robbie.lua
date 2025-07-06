@@ -5,6 +5,20 @@ LinkLuaModifier( "modifier_robbie_trap", "abilities/heroes/robbie", LUA_MODIFIER
 
 robbie_trap = class({})
 
+function robbie_trap:Precache(context)
+    PrecacheResource("model", "models/heroes/dragon_knight_persona/dk_persona_base.vmdl", context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf",
+        "particles/units/heroes/hero_meepo/meepo_earthbind.vpcf",
+        "particles/units/heroes/hero_riki/riki_backstab.vpcf",
+        "particles/generic_hero_status/status_invisibility_start.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function robbie_trap:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_robbie_1")
 end

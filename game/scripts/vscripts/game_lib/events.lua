@@ -1,24 +1,25 @@
--- ПЕРЕМЕННЫЕ ИГРОВОГО ВРЕМЕНИ
-_G.BIRZHA_FOUNTAIN_GAME_TIMER = 900
-_G.BIRZHA_TIMER_TO_END_GAME = 300
-_G.BIRZHA_GAME_ALL_TIMER = 0
-_G.BIRZHA_CONTRACT_TIME = 180
-_G.BIRZHA_SPAWN_PUMPKIN = false
-
-if IsInToolsMode() then
-    BIRZHA_FOUNTAIN_GAME_TIMER = 10
+function BirzhaGameMode:CreateFountainThinkers()
+    for team = 0, 13 do
+        local trigger = Entities:FindByName(nil, "base_team_"..team)
+        if trigger then
+            local find_fountain = nil
+            for _, fountain in pairs(Entities:FindAllByClassname("ent_dota_fountain")) do
+                if fountain and fountain:GetTeamNumber() == team then
+                    find_fountain = fountain
+                    break
+                end
+            end
+            if find_fountain then
+                local ability_fountain = find_fountain:FindAbilityByName("ability_fountain")
+                if ability_fountain then
+                    CreateModifierThinker(find_fountain, ability_fountain, "modifier_birzha_fountain_passive", {}, trigger:GetAbsOrigin(), team, false)
+                end
+            end
+        end
+    end
 end
 
-_G.MAPS_MAX_SCORES =
-{
-    ["birzhamemov_solo"] = 50,
-	["birzhamemov_duo"] = 60,
-	["birzhamemov_trio"] = 90,
-	["birzhamemov_5v5v5"] = 150,
-	["birzhamemov_5v5"] = 100,
-	["birzhamemov_zxc"] = 2,
-	["birzhamemov_samepick"] = 100,
-}
+-- Единый игровой таймер
 function BirzhaGameMode:GameInProgressThink()
     ---- Предметы и монеты
     BirzhaGameMode:ThinkGoldDrop()
@@ -27,40 +28,40 @@ function BirzhaGameMode:GameInProgressThink()
     ---- Игровое время
     BIRZHA_GAME_ALL_TIMER = BIRZHA_GAME_ALL_TIMER + 1
     GameTimerUpdater(BIRZHA_GAME_ALL_TIMER, "GameTimer")
-
+ 
     ---- Фонтан
     if BIRZHA_FOUNTAIN_GAME_TIMER > 0 then
         BIRZHA_FOUNTAIN_GAME_TIMER = BIRZHA_FOUNTAIN_GAME_TIMER - 1
-        GameTimerUpdater(BIRZHA_FOUNTAIN_GAME_TIMER, "fountain")
+        GameTimerUpdater(BIRZHA_FOUNTAIN_GAME_TIMER, "fountain", 900)
         if BIRZHA_FOUNTAIN_GAME_TIMER <= 0 then
             CustomGameEventManager:Send_ServerToAllClients("birzha_toast_manager_create", {text = "fountainoff", icon = "fountain"} )
         end
     end
 
     ---- Контракты
-    if BIRZHA_CONTRACT_TIME > 0 then
-        BIRZHA_CONTRACT_TIME = BIRZHA_CONTRACT_TIME - 1
-        GameTimerUpdater(BIRZHA_CONTRACT_TIME, "contarct_time")
-        if BIRZHA_CONTRACT_TIME <= 0 then
-            self:SpawnContracts()
-            BIRZHA_CONTRACT_TIME = 180
-        end
-    end
+    -- if BIRZHA_CONTRACT_TIME > 0 then
+    --     BIRZHA_CONTRACT_TIME = BIRZHA_CONTRACT_TIME - 1
+    --     GameTimerUpdater(BIRZHA_CONTRACT_TIME, "contarct_time")
+    --     if BIRZHA_CONTRACT_TIME <= 0 then
+    --         self:SpawnContracts()
+    --         BIRZHA_CONTRACT_TIME = 180
+    --     end
+    -- end
 
-    -- Тыква
-    --local pumpkin_time_spawn = 600
-    --if not BIRZHA_SPAWN_PUMPKIN and BIRZHA_GAME_ALL_TIMER >= pumpkin_time_spawn then
-    --    local random_pumpkin_spawn = Vector(0,0,0) + RandomVector( RandomFloat( 1500, 1800 ) )
-    --    local npc_pumpkin_candies_custom = CreateUnitByName( "npc_pumpkin_candies_custom", random_pumpkin_spawn, true, nil, nil, DOTA_TEAM_NEUTRALS )
-    --    FindClearSpaceForUnit(npc_pumpkin_candies_custom, random_pumpkin_spawn, true)
-    --    npc_pumpkin_candies_custom:AddNewModifier(npc_pumpkin_candies_custom, nil, "modifier_npc_pumpkin_candies_custom", {})
-    --    BIRZHA_SPAWN_PUMPKIN = true
-    --end
+    -- if BIRZHA_GAME_ALL_TIMER > 0 and BIRZHA_GAME_ALL_TIMER % 300 == 0 then
+    --     CustomGameEventManager:Send_ServerToAllClients("birzha_toast_manager_create", {text = "spawn_anton", icon = "creep"} )
+    --     BirzhaGameMode:SpawnAntosha()
+    -- end
+
+    -- if BIRZHA_GAME_ALL_TIMER > 0 and BIRZHA_GAME_ALL_TIMER % 180 == 0 then
+    --     CustomGameEventManager:Send_ServerToAllClients("birzha_toast_manager_create", {text = "spawn_kobold", icon = "kobold"} )
+    --     BirzhaGameMode:SpawnKobold()
+    -- end
 
     -- Окончание игры
     if BIRZHA_FOUNTAIN_GAME_TIMER <= 0 and BIRZHA_TIMER_TO_END_GAME > 0 then
         BIRZHA_TIMER_TO_END_GAME = BIRZHA_TIMER_TO_END_GAME - 1
-        GameTimerUpdater(BIRZHA_TIMER_TO_END_GAME, "endgametimer")
+        GameTimerUpdater(BIRZHA_TIMER_TO_END_GAME, "endgametimer", 300)
         if BIRZHA_TIMER_TO_END_GAME <= 0 and not GameRules:IsCheatMode() then
             local leaderbirzha = BirzhaGameMode:GetTeamLeader()
             BirzhaGameMode:EndGame( leaderbirzha )
@@ -69,71 +70,30 @@ function BirzhaGameMode:GameInProgressThink()
     end
 end
 
-function BirzhaGameMode:GetTeamLeader()
-    local team = {}
-
-    local teams_table = {2,3,6,7,8,9,10,11,12,13}
-
-    if GetMapName() == "birzhamemov_solo" then
-        teams_table = {2,3,6,7,8,9,10,11}
-    elseif GetMapName() == "birzhamemov_duo" then
-        teams_table = {2,3,6,7,8}
-    elseif GetMapName() == "birzhamemov_trio" then
-        teams_table = {2,3,6,7}
-    elseif GetMapName() == "birzhamemov_5v5v5" then
-        teams_table = {2,3,6}
-    elseif GetMapName() == "birzhamemov_5v5" then
-        teams_table = {2,3}
-    elseif GetMapName() == "birzhamemov_zxc" then
-        teams_table = {2,3}
-    end
-
-    for _, i in ipairs(teams_table) do
-        local table_team_score = CustomNetTables:GetTableValue("game_state", tostring(i))
-        if table_team_score then
-            table.insert(team, {id = i, kills = table_team_score.kills} )
-        end
-    end   
-
-    table.sort( team, function(x,y) return y.kills < x.kills end )
-
-    return team[1].id
-end
-
--- Установка времени для PUCCI
-function BirzhaGameMode:PucciSetTime(time)
-    BirzhaGameMode.PucciFastTime = time
-end
-
--- ИНИЦИАЛИЗАЦИЯ СТАДИЙ ИГРЫ
+-- Смена стадий игры
 function BirzhaGameMode:OnGameRulesStateChange(params)
 	local nNewState = GameRules:State_Get()
+
 	HeroDemo:OnGameRulesStateChange(params)
+
 	if nNewState == DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP then
 		birzha_hero_selection:Init()
 	end
+
+    if nNewState == DOTA_GAMERULES_STATE_HERO_SELECTION then
+        birzha_hero_selection:StartCheckingToStart()
+        BirzhaGameMode:CreateFountainThinkers()
+    end
+
 	if nNewState == DOTA_GAMERULES_STATE_PRE_GAME then
-		self.ContractTimer = 180
-		self.contract_gold = 
-        {
-			[2] = 1000,
-			[3] = 1000,
-			[6] = 1000,
-			[7] = 1000,
-			[8] = 1000,
-			[9] = 1000,
-			[10] = 1000,
-			[11] = 1000,
-			[12] = 1000,
-			[13] = 1000,
-		}
 		CustomNetTables:SetTableValue( "game_state", "scores_to_win", { kills = MAPS_MAX_SCORES[GetMapName()] } )
 	end
+
 	if nNewState == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
-		birzha_hero_selection:StartCheckingToStart()
-		CustomGameEventManager:Send_ServerToAllClients( "show_timer", {} )
-		DoEntFire( "center_experience_ring_particles", "Start", "0", 0, self, self  )
-		SpawnDonaters()
+        birzha_hero_selection:EndSelectionAndStartGameFromDota()
+		Timers:CreateTimer(1, function()
+            SpawnDonaters()
+        end)
 	end
 end
 
@@ -142,7 +102,7 @@ function BirzhaGameMode:OnTeamKillCredit( event )
 	if BIRZHA_FOUNTAIN_GAME_TIMER <= 0 then
 		BIRZHA_TIMER_TO_END_GAME = 300
 	end
-    if BirzhaGameMode.PucciFastTime ~= nil and BirzhaGameMode.PucciFastTime == true then return end
+    if BirzhaGameMode.PucciFastTime ~= nil and BirzhaGameMode.PucciFastTime then return end
 	BirzhaGameMode:AddScoreToTeam( event.teamnumber, 1 )
 end
 
@@ -164,83 +124,79 @@ function BirzhaGameMode:AddScoreToTeam( Team, AddScore )
 end
 
 -- Подбор предмета
-function BirzhaGameMode:OnItemPickUp( event )
-	VectorTarget:OnItemPickup(event)
-	local item = EntIndexToHScript( event.ItemEntityIndex )
-	local owner
-	if event.HeroEntityIndex then
-		owner = EntIndexToHScript(event.HeroEntityIndex)
-	elseif event.UnitEntityIndex then
-		owner = EntIndexToHScript(event.UnitEntityIndex)
-	end
-	if event.itemname == "item_bag_of_gold" then
-		PlayerResource:ModifyGold( owner:GetPlayerOwnerID(), 150, true, 0 )
-		SendOverheadEventMessage( owner, OVERHEAD_ALERT_GOLD, owner, 150, nil )
-		UTIL_Remove( item )
-	end
-	if event.itemname == "item_bag_of_gold_van" then
-		local gold = 0
-		for _,hero in pairs (HeroList:GetAllHeroes()) do
-			if hero:IsRealHero() and hero:FindAbilityByName("van_takeitboy") then
-				local abilka = hero:FindAbilityByName("van_takeitboy")
-				gold = abilka:GetSpecialValueFor("gold")
-				break
-			end
-		end
-		PlayerResource:ModifyGold( owner:GetPlayerOwnerID(), gold, true, 0 )
-		SendOverheadEventMessage( owner, OVERHEAD_ALERT_GOLD, owner, gold, nil )
-		UTIL_Remove( item )
-	end
-	if event.itemname == "item_bag_of_gold_bp_fake" then
-		UTIL_Remove( item )
-	end
-    --if event.itemname == "item_hallowen_birzha_candy" then
-    --    print("llll")
-    --    local modifier_hallowen_birzha_candy = owner:AddNewModifier(owner, nil, "modifier_hallowen_birzha_candy", {})
-    --    print(modifier_hallowen_birzha_candy)
-	--	UTIL_Remove( item )
-	--end
-	if event.itemname == "item_treasure_chest" then
-		BirzhaGameMode:SpecialItemAdd( event )
-		UTIL_Remove( item )
-	end
-	if event.itemname == "item_treasure_chest_winter" then
-		BirzhaGameMode:SpecialItemAdd( event )
-		UTIL_Remove( item )
-	end
-	if item.origin then
+function BirzhaGameMode:OnItemPickUp(event)
+    -- Передаем событие в VectorTarget
+    VectorTarget:OnItemPickup(event)
+    
+    -- Получаем предмет и владельца
+    local item = EntIndexToHScript(event.ItemEntityIndex)
+    local owner
+    
+    -- Определяем владельца (героя или юнита)
+    if event.HeroEntityIndex then
+        owner = EntIndexToHScript(event.HeroEntityIndex)
+    elseif event.UnitEntityIndex then
+        owner = EntIndexToHScript(event.UnitEntityIndex)
+    end
+    
+    -- Если владельца нет (на всякий случай), выходим
+    if not owner then return end
+    
+    local itemName = event.itemname
+    
+    -- Обработка мешков с золотом
+    if itemName == "item_bag_of_gold" then
+        self:GiveGoldAndRemoveItem(owner, 150, item)
+    elseif itemName == "item_bag_of_gold_event" then
+        self:GiveGoldAndRemoveItem(owner, 25, item)
+    -- Обработка особого мешка с золотом Van
+    elseif itemName == "item_bag_of_gold_van" then
+        local gold = item.g_gold
+        self:GiveGoldAndRemoveItem(owner, gold, item)
+    -- Обработка фейкового мешка
+    elseif itemName == "item_bag_of_gold_bp_fake" then
+        UTIL_Remove(item)
+    -- Обработка сундуков
+    elseif itemName == "item_treasure_chest" or itemName == "item_treasure_chest_winter" then
+        BirzhaGameMode:SpecialItemAdd(event)
+        UTIL_Remove(item)
+    -- Удаление предмета, если у него есть origin
+    elseif item.origin then
         item.origin.is_spawned = nil
-		UTIL_Remove(item)
+        UTIL_Remove(item)
     end
 end
 
--- Изменение убийств если ливнул парень
-function BirzhaGameMode:PlayerLeaveUpdateMaxScore()
-	local current_max_kills = CustomNetTables:GetTableValue("game_state", "scores_to_win").kills
-	local leader_max_kills = BirzhaGameMode:GetMaxKillLeader()
-	local maps_scores_change = 
-	{
-		["birzhamemov_solo"] = 2,
-		["birzhamemov_duo"] = 2,
-		["birzhamemov_trio"] = 2,
-		["birzhamemov_5v5v5"] = 4,
-		["birzhamemov_5v5"] = 4,
-		["birzhamemov_zxc"] = 0,
-		["birzhamemov_samepick"] = 4,
-	}
-	local new_kills = current_max_kills - maps_scores_change[GetMapName()]
-	if leader_max_kills >= new_kills then
-		new_kills = leader_max_kills + math.floor(( maps_scores_change[GetMapName()] / 2 ))
-	end
-	if new_kills > MAPS_MAX_SCORES[GetMapName()] then
-		new_kills = MAPS_MAX_SCORES[GetMapName()]
-	end
-	CustomNetTables:SetTableValue( "game_state", "scores_to_win", { kills = new_kills } )
+-- Вспомогательная функция для выдачи золота и удаления предмета
+function BirzhaGameMode:GiveGoldAndRemoveItem(owner, gold, item)
+    local playerID = owner:GetPlayerOwnerID()
+    PlayerResource:ModifyGold(playerID, gold, true, 0)
+    SendOverheadEventMessage(owner, OVERHEAD_ALERT_GOLD, owner, gold, nil)
+    UTIL_Remove(item)
+end
+
+-- Установка времени для PUCCI
+function BirzhaGameMode:PucciSetTime(time)
+    BirzhaGameMode.PucciFastTime = time
+end
+
+-- Получение лидера
+function BirzhaGameMode:GetTeamLeader()
+    local team = {}
+    local teams_table = table.deepcopy(_G.GET_TEAM_LIST[GetMapName()])
+    for _, i in ipairs(teams_table) do
+        local table_team_score = CustomNetTables:GetTableValue("game_state", tostring(i))
+        if table_team_score then
+            table.insert(team, {id = i, kills = table_team_score.kills} )
+        end
+    end
+    table.sort( team, function(x,y) return y.kills < x.kills end )
+    return team[1].id
 end
 
 function BirzhaGameMode:GetMaxKillLeader()
 	local team = {}
-    local teams_table = {2,3,6,7,8,9,10,11,12,13}
+    local teams_table = table.deepcopy(_G.GET_TEAM_LIST[GetMapName()])
     for _, i in ipairs(teams_table) do
         local table_team_score = CustomNetTables:GetTableValue("game_state", tostring(i))
         if table_team_score then
@@ -249,6 +205,309 @@ function BirzhaGameMode:GetMaxKillLeader()
     end 
     table.sort( team, function(x,y) return y.kills < x.kills end )
     return team[1].kills
+end
+
+function BirzhaGameMode:OnEntityKilled(event)
+    local killedUnit = EntIndexToHScript(event.entindex_killed)
+    if not killedUnit then return end
+    
+    local killedTeam = killedUnit:GetTeam()
+    local hero = event.entindex_attacker and EntIndexToHScript(event.entindex_attacker)
+    local mapName = GetMapName()
+
+    -- Очистка WorldPanels для не-героев
+    if not killedUnit:IsRealHero() then
+        self:CleanUpWorldPanels(killedUnit)
+    end
+
+    -- Установка времени респавна для героев
+    if killedUnit:IsRealHero() then
+        self:HandleHeroRespawn(killedTeam, killedUnit)
+    end
+
+    if not hero then return end
+
+    local heroTeam = hero:GetTeam()
+    local game_time = BIRZHA_GAME_ALL_TIMER / 60
+
+    -- Бонус за убийство вардов
+    if killedUnit:IsBaseNPC() and killedUnit:IsWard() then
+        self:HandleWardKillBonus(hero, killedUnit)
+    end
+
+    -- Обработка убийства героя вражеской команды
+    if killedUnit:IsRealHero() and heroTeam ~= killedTeam then
+        -- Специальные звуки для героев
+        self:PlayHeroSpecificSounds(hero, killedUnit)
+
+        -- Эффект за убийство для донатеров
+        self:CreateKillEffect(hero)
+
+        -- Бонус за убийство лидера
+        local bonusData = self:CalculateLeaderBonus(hero, killedUnit, game_time)
+        
+        -- Обработка бонуса лидера
+        if mapName ~= "birzhamemov_zxc" then
+            self:ApplyLeaderBonus(hero, killedUnit, bonusData, game_time)
+        end
+
+        -- Увеличение стаков для Overlord
+        self:IncrementOverlordStacks(hero, 5)
+
+        -- Обработка ассистов
+        self:ProcessAssists(hero, killedUnit)
+    end
+end
+
+-- Вспомогательные функции
+function BirzhaGameMode:CleanUpWorldPanels(unit)
+    local panels = WorldPanels.entToPanels[unit]
+    if not panels then return end
+    for _, panel in ipairs(panels) do
+        for _, pid in ipairs(panel.pids) do
+            PlayerTables:DeleteTableKey("worldpanels_" .. pid, panel.idString)
+        end
+    end
+end
+
+function BirzhaGameMode:HandleHeroRespawn(team, hero)
+    if hero:IsReincarnating() then return end
+    if hero:GetRespawnTime() <= 10 then return end
+    self:SetRespawnTime(team, hero)
+end
+
+function BirzhaGameMode:HandleWardKillBonus(hero, ward)
+    local mod = hero:FindModifierByName("modifier_item_birzha_ward")
+    if not mod then return end
+    local gold = ward:GetUnitName() == "npc_dota_observer_wards" and 50 or 25
+    hero:ModifyGold(gold, true, 0)
+end
+
+function BirzhaGameMode:PlayHeroSpecificSounds(killer, victim)
+    local heroSounds = {
+        npc_dota_hero_treant = {
+            death = {sound = "OverlordDeath", chance = 25},
+            kill = {func = killer.OverlordKillSound}
+        },
+        npc_dota_hero_sasake = {
+            death = {sound = "sasake_death", chance = 25},
+            kill = {sound = "sasake_kill", chance = 25}
+        },
+        npc_dota_hero_travoman = {
+            death = {sound = "travoman_death", chance = 25},
+            kill = {sound = "travoman_kill", chance = 25}
+        },
+        npc_dota_hero_old_god = {
+            death = {sound = "stariy_death", chance = 100}
+        }
+    }
+
+    local victimData = heroSounds[victim:GetUnitName()]
+    if victimData and victimData.death and RollPercentage(victimData.death.chance) then
+        victim:EmitSound(victimData.death.sound)
+    end
+
+    local killerData = heroSounds[killer:GetUnitName()]
+    if killerData then
+        if killerData.kill and killerData.kill.func then
+            killerData.kill.func(killer, victim)
+        elseif killerData.kill and killerData.kill.sound and RollPercentage(killerData.kill.chance) then
+            killer:EmitSound(killerData.kill.sound)
+        end
+    end
+end
+
+function BirzhaGameMode:CreateKillEffect(hero)
+    if DonateShopIsItemBought(hero:GetPlayerOwnerID(), 194) then
+        local particle = ParticleManager:CreateParticle("particles/econ/items/drow/drow_arcana/drow_v2_arcana_revenge_kill_effect_caster.vpcf",  PATTACH_ABSORIGIN_FOLLOW, hero)
+        ParticleManager:SetParticleControlEnt(particle, 1, hero, PATTACH_POINT_FOLLOW, nil, hero:GetAbsOrigin(), true)
+        ParticleManager:ReleaseParticleIndex(particle)
+    end
+end
+
+function BirzhaGameMode:CalculateLeaderBonus(hero, victim, gameTime)
+    local teams_table = table.deepcopy(_G.GET_TEAM_LIST[GetMapName()])
+    local teamData = {}
+    
+    -- Получаем данные команд
+    for _, teamID in ipairs(teams_table) do
+        local score = CustomNetTables:GetTableValue("game_state", tostring(teamID))
+        if score then
+            table.insert(teamData, {id = teamID, kills = score.kills})
+        end
+    end
+    
+    -- Сортируем по убийствам
+    table.sort(teamData, function(a, b) return a.kills > b.kills end)
+    
+    -- Находим статистику команд
+    local targetKills, attackerKills = 0, 0
+    for _, team in ipairs(teamData) do
+        if team.id == victim:GetTeamNumber() then
+            targetKills = team.kills
+        elseif team.id == hero:GetTeamNumber() then
+            attackerKills = team.kills
+        end
+    end
+    
+    -- Получаем нетворс
+    local networthAttacker = PlayerResource:GetNetWorth(hero:GetPlayerOwnerID()) or 0
+    local networthTarget = PlayerResource:GetNetWorth(victim:GetPlayerOwnerID()) or 0
+    
+    return {
+        isBonus = targetKills > attackerKills and networthTarget > networthAttacker,
+        targetKills = targetKills,
+        attackerKills = attackerKills,
+        networthAttacker = networthAttacker,
+        networthTarget = networthTarget
+    }
+end
+
+function BirzhaGameMode:ApplyLeaderBonus(hero, victim, bonusData, gameTime)
+    local bonusGold, bonusExp = 0, 0
+    if bonusData.isBonus and (gameTime >= 5 or IsInToolsMode()) then
+        local memberID = hero:GetPlayerOwnerID()
+        bonusGold = (250 + (250 * gameTime / 10)) + ((bonusData.targetKills - bonusData.attackerKills) * 50)
+        bonusExp = (500 * (gameTime / 5)) + ((bonusData.targetKills - bonusData.attackerKills) * 100)
+        PlayerResource:ModifyGold(memberID, bonusGold, true, 0)
+        if hero:IsHero() then
+            hero:AddExperience(bonusExp, 0, false, false)
+        end
+    elseif hero:IsHero() then
+        hero:AddExperience(100, 0, false, false)
+    end
+    -- Отправка уведомления о бонусе
+    if victim:GetTeam() == self.leadingTeam and not self.isGameTied and gameTime >= 5 and (bonusExp > 0 or bonusGold > 0) then
+        CustomGameEventManager:Send_ServerToAllClients("birzha_toast_manager_create", {
+            text = "__",
+            icon = "leader",
+            kill = 1,
+            hero_id = hero:GetUnitName(),
+            exp = math.floor(bonusExp),
+            gold = math.floor(bonusGold)
+        })
+    end
+end
+
+function BirzhaGameMode:IncrementOverlordStacks(hero, amount)
+    local modifier = hero:FindModifierByName("modifier_Overlord_passive")
+    if modifier then
+        modifier:SetStackCount(modifier:GetStackCount() + amount)
+    end
+end
+
+function BirzhaGameMode:ProcessAssists(killer, victim)
+    local allHeroes = HeroList:GetAllHeroes()
+    for _, attacker in ipairs(allHeroes) do
+        for i = 0, victim:GetNumAttackers() - 1 do
+            if attacker:GetPlayerOwnerID() == victim:GetAttacker(i) then
+                attacker:AddExperience(50, 0, false, false)
+                if attacker ~= killer then
+                    self:IncrementOverlordStacks(attacker, 2)
+                    self:ProcessWardModifierAssist(attacker, killer)
+                end
+            end
+        end
+    end
+end
+
+function BirzhaGameMode:ProcessWardModifierAssist(attacker, killer)
+    local mod = attacker:FindModifierByName("modifier_item_birzha_ward")
+    if not (mod and attacker:IsRealHero() and killer:GetTeamNumber() == attacker:GetTeamNumber()) then return end
+
+    local ability = mod:GetAbility()
+    ability.assists = (ability.assists or 0) + 1
+    
+    local goldRewards = 
+    {
+        [15] = {gold = 100, stack = 2, level = 2},
+        [30] = {gold = 125, stack = 3, level = 3}
+    }
+    
+    if ability.assists >= 30 then
+        attacker:ModifyGold(125, true, 0)
+        mod:SetStackCount(3)
+        ability.level = 3
+    elseif ability.assists >= 15 then
+        attacker:ModifyGold(100, true, 0)
+        mod:SetStackCount(2)
+        ability.level = 2
+    else
+        attacker:ModifyGold(75, true, 0)
+    end
+end
+
+
+function BirzhaGameMode:SetRespawnTime(killedTeam, killedUnit)
+    -- Обработка специального модификатора Jull
+    if killedUnit:HasModifier("modifier_jull_steal_time") then
+        self:HandleJullRespawnTime(killedTeam, killedUnit)
+        return
+    end
+
+    -- Базовое время респавна
+    local respawn_time_base = 5
+    local bonus_respawn_time = math.floor(math.min(BIRZHA_GAME_ALL_TIMER / 240, 8))
+    
+    -- Дополнительный бонус для лидирующей команды
+    if killedTeam == self.leadingTeam then
+        bonus_respawn_time = bonus_respawn_time + self:GetLeadingTeamBonusTime()
+    end
+
+    -- Установка финального времени респавна
+    killedUnit:SetTimeUntilRespawn(respawn_time_base + bonus_respawn_time)
+end
+
+-- Вспомогательные функции
+function BirzhaGameMode:HandleJullRespawnTime(killedTeam, killedUnit)
+    local respawn_time_base = 5
+    local bonus_respawn_time = math.floor(math.min(BIRZHA_GAME_ALL_TIMER / 240, 8))
+    
+    -- Бонус для лидирующей команды
+    if killedTeam == self.leadingTeam then
+        bonus_respawn_time = bonus_respawn_time + self:GetLeadingTeamBonusTime()
+    end
+
+    local respawn_time = respawn_time_base + bonus_respawn_time
+    
+    -- Учет стаков модификатора
+    local modifier = killedUnit:FindModifierByName("modifier_jull_steal_time_stack")
+    if modifier then
+        local stackcount = modifier:GetStackCount()
+        if stackcount > 0 then
+            respawn_time = math.max(1, respawn_time - stackcount)
+            modifier:SetStackCount(0)  -- Сбрасываем все стаки сразу
+        end
+    end
+
+    -- Гарантируем минимальное время респавна
+    killedUnit:SetTimeUntilRespawn(math.max(1, respawn_time))
+end
+
+function BirzhaGameMode:GetLeadingTeamBonusTime()
+    if BIRZHA_GAME_ALL_TIMER >= 600 then
+        return 8
+    elseif BIRZHA_GAME_ALL_TIMER >= 300 then
+        return 6
+    elseif BIRZHA_GAME_ALL_TIMER >= 120 then
+        return 4
+    end
+    return 0
+end
+
+-- Изменение убийств если ливнул парень
+function BirzhaGameMode:PlayerLeaveUpdateMaxScore()
+	local current_max_kills = CustomNetTables:GetTableValue("game_state", "scores_to_win").kills
+	local leader_max_kills = BirzhaGameMode:GetMaxKillLeader()
+	local maps_scores_change = _G.maps_scores_change
+	local new_kills = current_max_kills - maps_scores_change[GetMapName()]
+	if leader_max_kills >= new_kills then
+		new_kills = leader_max_kills + math.floor(( maps_scores_change[GetMapName()] / 2 ))
+	end
+	if new_kills > MAPS_MAX_SCORES[GetMapName()] then
+		new_kills = MAPS_MAX_SCORES[GetMapName()]
+	end
+	CustomNetTables:SetTableValue( "game_state", "scores_to_win", { kills = new_kills } )
 end
 
 -- Окончание игры
@@ -279,485 +538,211 @@ function BirzhaGameMode:EndGame( victoryTeam )
 	end
 end
 
--- Ивент убийства
+function BirzhaGameMode:OnNPCSpawned(event)
+    local hero = EntIndexToHScript(event.entindex)
+    if not hero then return end
 
-function BirzhaGameMode:OnEntityKilled( event )
-	local killedUnit = EntIndexToHScript( event.entindex_killed )
-	local killedTeam = killedUnit:GetTeam()
-    local hero = nil
-
-    -- Если существует убийца
-	if event.entindex_attacker then
-		hero = EntIndexToHScript( event.entindex_attacker )
-	end
-
-    -- Какая-то хуйня, не помню че она делает
-  	if not killedUnit.IsRealHero or not killedUnit:IsRealHero() then
-  		local panels = WorldPanels.entToPanels[killedUnit]
-		if panels then
-	  		for i=1,#panels do
-	    		local panel = panels[i]
-	    		for j=1,#panel.pids do
-	      			local pid = panel.pids[j]
-	      			PlayerTables:DeleteTableKey("worldpanels_" .. pid, panel.idString)
-	    		end
-	  		end
-		end
+    -- Обработка не-героев
+    if not hero:IsHero() then
+        self:HandleNonHeroSpawn(hero)
+        return
     end
 
-    -- Респавн время установить
-	if killedUnit:IsRealHero() then
-		if killedUnit:GetRespawnTime() > 10 then
-			if killedUnit:IsReincarnating() == true then
-				return nil
-			else
-				BirzhaGameMode:SetRespawnTime( killedTeam, killedUnit )
-			end
-		else
-			BirzhaGameMode:SetRespawnTime( killedTeam, killedUnit )
-		end
-	end
-
-	if hero ~= nil then
-		local heroTeam = hero:GetTeam()
-		local game_time = BIRZHA_GAME_ALL_TIMER / 60
-
-        -- Бонус за вард
-		if killedUnit:IsBaseNPC() and killedUnit:IsWard() then
-			local mod = hero:FindModifierByName("modifier_item_birzha_ward")
-			if mod then
-				if killedUnit:GetUnitName() == "npc_dota_observer_wards" then
-					hero:ModifyGold( 50, true, 0 )
-				elseif killedUnit:GetUnitName() == "npc_dota_sentry_wards" then
-					hero:ModifyGold( 25, true, 0 )
-				end 
-			end
-		end
-
-		if killedUnit:IsRealHero() and heroTeam ~= killedTeam then
-
-            --if GetMapName() ~= "birzhamemov_zxc" then
-            --    if RollPercentage(25) or IsInToolsMode() then
-            --        local item_hallowen_birzha_candy = CreateItem( "item_hallowen_birzha_candy", nil, nil )
-		    --        local drop = CreateItemOnPositionForLaunch( killedUnit:GetAbsOrigin(), item_hallowen_birzha_candy )
-		    --        item_hallowen_birzha_candy:LaunchLootInitialHeight( false, 0, 100, 0.25, killedUnit:GetAbsOrigin() + RandomVector(150) )
-            --    end
-            --end
-
-			-- Бесполезные ивенты со звуками
-            if killedUnit:GetUnitName() == "npc_dota_hero_treant" then
-                if RollPercentage(25) then
-                    killedUnit:EmitSound("OverlordDeath")
-                end
-            elseif hero:GetUnitName() == "npc_dota_hero_treant" then
-                hero:OverlordKillSound(hero, killedUnit)
-            end
-            if killedUnit:GetUnitName() == "npc_dota_hero_sasake" then
-                if RollPercentage(25) then
-                    killedUnit:EmitSound("sasake_death")
-                end
-            elseif hero:GetUnitName() == "npc_dota_hero_sasake" then
-                if RollPercentage(25) then
-                    hero:EmitSound("sasake_kill")
-                end
-            end
-            if killedUnit:GetUnitName() == "npc_dota_hero_travoman" then
-                if RollPercentage(25) then
-                    killedUnit:EmitSound("travoman_death")
-                end
-            elseif hero:GetUnitName() == "npc_dota_hero_travoman" then
-                if RollPercentage(25) then
-                    hero:EmitSound("travoman_kill")
-                end
-            end
-            if killedUnit:GetUnitName() == "npc_dota_hero_old_god" then
-                EmitGlobalSound("stariy_death")
-            end
-            -- Бесполезный эффект за убийство
-            if DonateShopIsItemBought(hero:GetPlayerOwnerID(), 194) then
-                local particle = ParticleManager:CreateParticle("particles/econ/items/drow/drow_arcana/drow_v2_arcana_revenge_kill_effect_caster.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
-                ParticleManager:SetParticleControlEnt(particle, 1, hero, PATTACH_POINT_FOLLOW, nil, hero:GetAbsOrigin(), true)
-                ParticleManager:ReleaseParticleIndex(particle)
-            end
-            -- Бонус скейл лидера
-			local bonus = false
-			local attacker_kills = 0
-			local target_kills = 0
-			local networth_attacker = 0
-			local networth_target = 0
-			local team = {}
-			local teams_table = {2,3,6,7,8,9,10,11,12,13}
-            for _, i in ipairs(teams_table) do
-                local table_team_score = CustomNetTables:GetTableValue("game_state", tostring(i))
-                if table_team_score then
-                    table.insert(team, {id = i, kills = table_team_score.kills} )
-                end
-            end  
-			table.sort( team, function(x,y) return y.kills < x.kills end )
-            for _, team_info in pairs(team) do
-                if team_info.id == killedUnit:GetTeamNumber() then
-                    target_kills = team_info.kills
-                end
-                if team_info.id == hero:GetTeamNumber() then
-                    attacker_kills = team_info.kills
-                end
-            end
-			if PlayerResource:GetNetWorth(hero:GetPlayerOwnerID()) ~= nil then
-			  	networth_attacker = PlayerResource:GetNetWorth(hero:GetPlayerOwnerID())
-			end
-			if PlayerResource:GetNetWorth(killedUnit:GetPlayerOwnerID()) ~= nil then
-			  	networth_target = PlayerResource:GetNetWorth(killedUnit:GetPlayerOwnerID())
-			end
-			if target_kills > attacker_kills and networth_target > networth_attacker then
-			    bonus = true
-			end
-            local bonus_visual_gold = 0
-            local bonus_visual_exp = 0
-
-            if GetMapName() ~= "birzhamemov_zxc" then
-                if bonus and (game_time >= 5 or IsInToolsMode()) then
-                    local memberID = hero:GetPlayerOwnerID()
-                    local gold = (250 + (250 * game_time / 10)) + ((target_kills - attacker_kills) * 50)
-                    local exp = (500 * (game_time / 5)) + ((target_kills - attacker_kills) * 100)
-                    bonus_visual_gold = gold
-                    bonus_visual_exp = exp
-                    PlayerResource:ModifyGold( memberID, gold, true, 0 )
-                    if hero:IsHero() then
-                        hero:AddExperience( exp, 0, false, false )
-                    end
-                else
-                    if hero:IsHero() then
-                        hero:AddExperience( 100, 0, false, false )
-                    end
-                end
-                if killedUnit:GetTeam() == self.leadingTeam and self.isGameTied == false and game_time >= 5 then
-                    if bonus_visual_exp > 0 or bonus_visual_gold > 0 then
-                        local name = hero:GetClassname()
-                        local victim = killedUnit:GetClassname()
-                        local kill_alert =
-                        {
-                            hero_id = hero:GetUnitName()
-                        }
-                        CustomGameEventManager:Send_ServerToAllClients("birzha_toast_manager_create", {text = "__", icon = "leader", kill = 1, hero_id = hero:GetUnitName(), exp = math.floor(bonus_visual_exp), gold = math.floor(bonus_visual_gold)} )
-                    end
-                end
-            end
-
-			--- Overlord Чушпан
-			local modifier_passive = hero:FindModifierByName("modifier_Overlord_passive")
-	        if modifier_passive then
-	            modifier_passive:SetStackCount(modifier_passive:GetStackCount()+5)
-	        end
-
-            -- Ассисты
-			local allHeroes = HeroList:GetAllHeroes()
-			for _, attacker in pairs( allHeroes ) do
-				for i = 0, killedUnit:GetNumAttackers() - 1 do
-					if attacker:GetPlayerOwnerID() == killedUnit:GetAttacker( i ) then
-						attacker:AddExperience( 50, 0, false, false )
-						if attacker ~= hero then
-                            -- Overlord Чушпан
-							local modifier_passive = attacker:FindModifierByName("modifier_Overlord_passive")
-				            if modifier_passive then
-				                modifier_passive:SetStackCount(modifier_passive:GetStackCount()+2)
-				            end
-							local mod = attacker:FindModifierByName("modifier_item_birzha_ward")
-							if mod and attacker:IsRealHero() then
-								if hero:GetTeamNumber() == attacker:GetTeamNumber() then
-									mod:GetAbility().assists = mod:GetAbility().assists + 1
-									if mod:GetAbility().assists >= 30 then
-										attacker:ModifyGold( 125, true, 0 )
-										mod:SetStackCount(3)
-										mod:GetAbility().level = 3
-									elseif mod:GetAbility().assists >= 15 then
-										attacker:ModifyGold( 100, true, 0 )
-										mod:SetStackCount(2)
-										mod:GetAbility().level = 2
-									elseif mod:GetAbility().assists < 15 then
-										attacker:ModifyGold( 75, true, 0 )
-									end
-								end
-							end
-						end
-					end
-				end
-			end
-		end
-    end
-end
-
-function BirzhaGameMode:SetRespawnTime( killedTeam, killedUnit )
-    -- Respawn Jull герой
-	if killedUnit:HasModifier("modifier_jull_steal_time") then
-		local respawn_time_base = 5
-		local bonus_respawn_time = math.floor(math.min(BIRZHA_GAME_ALL_TIMER / 240, 8))
-		if killedTeam == self.leadingTeam then
-			if BIRZHA_GAME_ALL_TIMER >= 600 then
-				bonus_respawn_time = bonus_respawn_time + 8
-			elseif BIRZHA_GAME_ALL_TIMER >= 300 then
-				bonus_respawn_time = bonus_respawn_time + 6
-			elseif BIRZHA_GAME_ALL_TIMER >= 120 then
-				bonus_respawn_time = bonus_respawn_time + 4
-			elseif BIRZHA_GAME_ALL_TIMER >= 0 then
-				bonus_respawn_time = bonus_respawn_time + 0
-			end
-		end
-		local respawn_time = respawn_time_base + bonus_respawn_time
-		local modifier = killedUnit:FindModifierByName("modifier_jull_steal_time_stack")
-		if modifier then
-			local stackcount = modifier:GetStackCount()
-			if stackcount > 0 then
-				for i = 1, stackcount do
-					if respawn_time > 1 then
-						respawn_time = respawn_time - 1
-						modifier:DecrementStackCount()
-					end
-				end
-			end
-		end
-		if respawn_time < 1 then
-			respawn_time = 1
-		end
-		killedUnit:SetTimeUntilRespawn( respawn_time )
-		return
-	end
-
-    -- Респавн для лидера и не для лидера
-	if killedTeam == self.leadingTeam then
-		local respawn_time_base = 5
-		local bonus_respawn_time = math.floor(math.min(BIRZHA_GAME_ALL_TIMER / 240, 8))
-		if BIRZHA_GAME_ALL_TIMER >= 600 then
-			bonus_respawn_time = bonus_respawn_time + 8
-		elseif BIRZHA_GAME_ALL_TIMER >= 300 then
-			bonus_respawn_time = bonus_respawn_time + 6
-		elseif BIRZHA_GAME_ALL_TIMER >= 120 then
-			bonus_respawn_time = bonus_respawn_time + 4
-		elseif BIRZHA_GAME_ALL_TIMER >= 0 then
-			bonus_respawn_time = bonus_respawn_time + 0
-		end
-		killedUnit:SetTimeUntilRespawn( respawn_time_base + bonus_respawn_time )
-	else
-		local respawn_time_base = 5
-		local bonus_respawn_time = math.floor(math.min(BIRZHA_GAME_ALL_TIMER / 240, 8))
-		killedUnit:SetTimeUntilRespawn( respawn_time_base + bonus_respawn_time )
-	end
-end
-
--- Спавн героя
-function BirzhaGameMode:OnNPCSpawned( event )
-	local hero = EntIndexToHScript(event.entindex)
-
-    if hero and not hero:IsHero() then
-        local twin_gate_portal_warp = hero:FindAbilityByName("twin_gate_portal_warp")
-        if twin_gate_portal_warp then
-            twin_gate_portal_warp:Destroy()
-        end
+    -- Обработка дисконнекта
+    if hero:HasModifier("modifier_birzha_disconnect") then
+        hero:AddNewModifier(hero, nil, "modifier_fountain_invulnerability", {})
     end
 
-	-- Дисконнект игрока
-	if hero and hero:HasModifier("modifier_birzha_disconnect") then
-		hero:AddNewModifier(hero, nil, "modifier_fountain_invulnerability", {})
-	end
+    -- Обработка чариота и его иллюзий
+    self:HandleChariotSpawn(hero)
 
-    --if hero and hero:IsHero() and string.find(hero:GetModelName(), "models/heroes/") then
-    --    ParticleManager:CreateParticle("particles/econ/events/diretide_2020/hero_pumpkin_head/hero_pumpkin_head_ambient_model.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
-    --end
-
-	-- Шпага для чариота
-	if hero:GetUnitName() == "npc_palnoref_chariot" then
-		if not hero.chariot_sword or ( hero.chariot_sword and hero.chariot_sword == nil )then
-			hero.chariot_sword = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/heroes/polnaref/chariot_sword.vmdl"})
-			hero.chariot_sword:FollowEntity(hero, true)
-		end
-	end
-	if hero:GetUnitName() == "npc_palnoref_chariot_illusion" then
-		local illusion_chariot_sword = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/heroes/polnaref/chariot_sword.vmdl"})
-		illusion_chariot_sword:FollowEntity(hero, true)
-		illusion_chariot_sword:SetRenderColor(0, 0, 0)
-	end
-	if hero:GetUnitName() == "npc_palnoref_chariot_illusion_2" then
-		local illusion_chariot_sword = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/heroes/polnaref/chariot_sword.vmdl"})
-		illusion_chariot_sword:FollowEntity(hero, true)
-		illusion_chariot_sword:SetRenderColor(0, 0, 0)
-	end
-
-	-- Иллюзии инвокера
-	if hero and hero:IsIllusion() and hero:GetUnitName() == "npc_dota_hero_oracle" then
-    	local original_aang = nil
-    	for _,hero in pairs (HeroList:GetAllHeroes()) do
-    		if hero:GetUnitName() == "npc_dota_hero_oracle" and not hero:IsIllusion() then
-    			original_aang = hero
-    		end
-    	end
-    	if original_aang ~= nil then
-    		local modifiers = original_aang:FindAllModifiers() 
-    		for _,modifier in pairs(modifiers) do 
-    			if modifier:GetName() == "modifier_aang_quas" then
-    				local modifier_2 = hero:AddNewModifier(hero, hero:FindAbilityByName( "aang_quas" ), "modifier_aang_quas", {})
-    				hero:FindAbilityByName( "aang_invoke" ):OnUpgrade()
-    				hero:FindAbilityByName( "aang_invoke" ):AddOrb( modifier_2, "particles/units/heroes/hero_invoker/invoker_quas_orb.vpcf" )
-    			elseif modifier:GetName() == "modifier_aang_exort" then
-    				local modifier_2 = hero:AddNewModifier(hero, hero:FindAbilityByName( "aang_exort" ), "modifier_aang_exort", {})
-    				hero:FindAbilityByName( "aang_invoke" ):OnUpgrade()
-    				hero:FindAbilityByName( "aang_invoke" ):AddOrb( modifier_2, "particles/units/heroes/hero_invoker/invoker_exort_orb.vpcf" )
-    			elseif modifier:GetName() == "modifier_aang_wex" then
-    				local modifier_2 = hero:AddNewModifier(hero, hero:FindAbilityByName( "aang_wex" ), "modifier_aang_wex", {})
-    				hero:FindAbilityByName( "aang_invoke" ):OnUpgrade()
-    				hero:FindAbilityByName( "aang_invoke" ):AddOrb( modifier_2, "particles/avatar/aang_earth_orb.vpcf" )
-    			end 
-    		end
-    	end
-    end
-
-    if hero and hero:IsHero() then
+    -- Добавление магической защиты
+    if hero:IsHero() then
         AddValveUselessMagicalResistance(hero)
+        hero:AddItemByName("item_tpscroll_custom")
+        Timers:CreateTimer(0.1, function()
+            local item_tpscroll = hero:FindItemInInventory("item_tpscroll")
+            if item_tpscroll then
+                UTIL_Remove(item_tpscroll)
+            end
+        end)
     end
 
-	-- Если спавнится настоящий герой
-	if hero:IsRealHero() then
-		local PlayerID = hero:GetPlayerOwnerID()
-		local PlayerSteamID = PlayerResource:GetSteamAccountID(PlayerID)
-		--Бесполезные звуки появления
-		if hero:GetUnitName() == "npc_dota_hero_treant" then
-			if hero.BirzhaFirstSpawned then
-				if RollPercentage(25) then
-	   				hero:EmitSound("OverlordRein")
-				end
-	   		else
-				hero:EmitSound("OverlordSpawn")
-			end
-	   	end
-	   	if hero:GetUnitName() == "npc_dota_hero_venom" then
-			if hero.BirzhaFirstSpawned == nil then
-	   			hero:EmitSound("venom_start")
-	   		end
-	   	end
-        if hero:GetUnitName() == "npc_dota_hero_ashab_tamaev" then
-	   		hero:EmitSound("ashab_spawn")
-	   	end
-	   	if hero:GetUnitName() == "npc_dota_hero_travoman" then
-			if RollPercentage(25) or hero.BirzhaFirstSpawned == nil then
-	   			hero:EmitSound("travoman_spawn")
-			end
-	   	end
-		if hero:GetUnitName() == "npc_dota_hero_sasake" then
-			if hero.BirzhaFirstSpawned then
-				if RollPercentage(20) then
-	   				hero:EmitSound("sasake_respawn")
-	   			end
-	   		end
-	   		Timers:CreateTimer(0.5, function()
-	   			hero:RemoveModifierByName("modifier_medusa_mana_shield")
-	   		end)
-	   	end
-		-- Задание пуччи на возрождение
-	    local ability_pucci = hero:FindAbilityByName("pucci_restart_world")
-        if ability_pucci and ability_pucci:GetLevel() > 0 then
-            if ability_pucci.current_quest[4] == false and ability_pucci.current_quest[1] == "pucci_quest_respawn" then
-                ability_pucci.current_quest[2] = ability_pucci.current_quest[2] + 1
-                local player = PlayerResource:GetPlayer(hero:GetPlayerOwnerID())
-                CustomGameEventManager:Send_ServerToPlayer(player, "pucci_quest_event_set_progress", {min = ability_pucci.current_quest[2], max = ability_pucci.current_quest[3]} )
-                if ability_pucci.current_quest[2] >= ability_pucci.current_quest[3] then
-                    ability_pucci.current_quest[4] = true
-                    ability_pucci.word_count = ability_pucci.word_count + 1
-                    ability_pucci.current_quest = ability_pucci.quests[GetMapName()]["pucci_quest_stunned"]
-                    ability_pucci:SetActivated(true)
-                    CustomGameEventManager:Send_ServerToPlayer(player, "pucci_quest_event_set_quest", {quest_name = ability_pucci.current_quest[1], min = ability_pucci.current_quest[2], max = ability_pucci.current_quest[3]} )
-                end
-            end
+    -- Обработка настоящих героев
+    if hero:IsRealHero() then
+        local PlayerID = hero:GetPlayerOwnerID()
+        
+        -- Воспроизведение звуков спавна
+        self:PlayHeroSpawnSounds(hero)
+        
+        -- Обработка квеста Пуччи
+        self:HandlePucciQuest(hero)
+        
+        -- Бессмертие после возрождения
+        self:ApplyRespawnInvulnerability(hero)
+        
+        -- Инициализация при первом спавне
+        if not hero.BirzhaFirstSpawned then
+            self:InitializeHeroFirstSpawn(hero, PlayerID)
         end
-		-- Бессмертие после возрождения
-		if BIRZHA_FOUNTAIN_GAME_TIMER <= 0 then
-			if not hero:IsReincarnating() then
-				if not hero:IsIllusion() then
-					hero:AddInvul(3)
-				end
-			end
-		end
-		-- То, что вызывается только на старте игры
-	   	if hero.BirzhaFirstSpawned == nil then
-			hero.BirzhaFirstSpawned = true
-	   		if hero:IsRealHero() then
-	   			if BirzhaData.PLAYERS_GLOBAL_INFORMATION[PlayerID] then
-					BirzhaData.PLAYERS_GLOBAL_INFORMATION[PlayerID].team = hero:GetTeamNumber()
-	   			end
-	   		end
-	   		if hero:GetUnitName() == "npc_dota_hero_wisp" then
-				local start_stun = hero:FindAbilityByName("game_start")
-				if start_stun then
-					start_stun:SetLevel(1)
-				end
-	   			return
-	   		end
-	   		if BirzhaData.PLAYERS_GLOBAL_INFORMATION[PlayerID] then
-				if BirzhaData.PLAYERS_GLOBAL_INFORMATION[PlayerID].has_report > 0 then
-					local ban_mod = hero:AddNewModifier(hero, nil, "modifier_birzha_loser", {})
-	   				ban_mod:SetStackCount(BirzhaData.PLAYERS_GLOBAL_INFORMATION[PlayerID].has_report)
-				end
-			end
-			if hero:IsHero() then
-				BirzhaGameMode:AbilitiesStart(hero)
-                --local ability_custom_pumpkin_push = hero:AddAbility("ability_custom_pumpkin_push")
-                --if ability_custom_pumpkin_push then
-                --    ability_custom_pumpkin_push:SetLevel(1)
-                --end
-			end
-            if hero and hero:IsRealHero() then
-                ParticleManager:CreateParticleForPlayer("particles/rain_fx/econ_weather_pestilence.vpcf", PATTACH_EYES_FOLLOW, hero, hero:GetPlayerOwner())
-            end
-            if IsInToolsMode() and PlayerResource:IsFakeClient(PlayerID) then
-                BirzhaData:RegisterPlayer(PlayerID)
-                BirzhaData.PLAYERS_GLOBAL_INFORMATION[PlayerID].selected_hero = hero
-            end
-		end	
-	end
+    end
 
-	if hero:IsHero() and hero.AddedCustomModels == nil then
-		hero.AddedCustomModels = true
-		hero.overlord_kill = nil
-		BirzhaGameMode:OnHeroInGame(hero)
-	end
+    -- Инициализация кастомных моделей
+    if hero:IsHero() and not hero.AddedCustomModels then
+        hero.AddedCustomModels = true
+        hero.overlord_kill = nil
+        BirzhaGameMode:OnHeroInGame(hero)
+    end
+end
+
+-- Вспомогательные функции
+
+function BirzhaGameMode:HandleNonHeroSpawn(unit)
+    local twin_gate_portal_warp = unit:FindAbilityByName("twin_gate_portal_warp")
+    if twin_gate_portal_warp then
+        twin_gate_portal_warp:Destroy()
+    end
+end
+
+function BirzhaGameMode:HandleChariotSpawn(hero)
+    local chariotTypes = {
+        ["npc_palnoref_chariot"] = function()
+            if not hero.chariot_sword then
+                hero.chariot_sword = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/heroes/polnaref/chariot_sword.vmdl"})
+                hero.chariot_sword:FollowEntity(hero, true)
+            end
+        end,
+        ["npc_palnoref_chariot_illusion"] = function()
+            local sword = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/heroes/polnaref/chariot_sword.vmdl"})
+            sword:FollowEntity(hero, true)
+            sword:SetRenderColor(0, 0, 0)
+        end,
+        ["npc_palnoref_chariot_illusion_2"] = function()
+            local sword = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/heroes/polnaref/chariot_sword.vmdl"})
+            sword:FollowEntity(hero, true)
+            sword:SetRenderColor(0, 0, 0)
+        end
+    }
+
+    local handler = chariotTypes[hero:GetUnitName()]
+    if handler then handler() end
+end
+
+function BirzhaGameMode:PlayHeroSpawnSounds(hero)
+    local soundData = {
+        ["npc_dota_hero_treant"] = {
+            firstSpawn = "OverlordSpawn",
+            respawn = {sound = "OverlordRein", chance = 25}
+        },
+        ["npc_dota_hero_venom"] = {
+            firstSpawn = "venom_start"
+        },
+        ["npc_dota_hero_ashab_tamaev"] = {
+            always = "ashab_spawn"
+        },
+        ["npc_dota_hero_travoman"] = {
+            firstSpawn = "travoman_spawn",
+            respawn = {sound = "travoman_spawn", chance = 25}
+        },
+        ["npc_dota_hero_sasake"] = {
+            respawn = {sound = "sasake_respawn", chance = 20}
+        }
+    }
+
+    local data = soundData[hero:GetUnitName()]
+    if not data then return end
+
+    if data.always then
+        hero:EmitSound(data.always)
+    elseif not hero.BirzhaFirstSpawned and data.firstSpawn then
+        hero:EmitSound(data.firstSpawn)
+    elseif hero.BirzhaFirstSpawned and data.respawn and RollPercentage(data.respawn.chance) then
+        hero:EmitSound(data.respawn.sound)
+    end
+
+    -- Специальная обработка для Sasake
+    if hero:GetUnitName() == "npc_dota_hero_sasake" then
+        Timers:CreateTimer(0.5, function()
+            hero:RemoveModifierByName("modifier_medusa_mana_shield")
+        end)
+    end
+end
+
+function BirzhaGameMode:HandlePucciQuest(hero)
+    local ability_pucci = hero:FindAbilityByName("pucci_restart_world")
+    if not (ability_pucci and ability_pucci:GetLevel() > 0) then return end
+
+    if ability_pucci.current_quest[4] == false and ability_pucci.current_quest[1] == "pucci_quest_respawn" then
+        ability_pucci.current_quest[2] = ability_pucci.current_quest[2] + 1
+        
+        local player = PlayerResource:GetPlayer(hero:GetPlayerOwnerID())
+        CustomGameEventManager:Send_ServerToPlayer(player, "pucci_quest_event_set_progress", {
+            min = ability_pucci.current_quest[2],
+            max = ability_pucci.current_quest[3]
+        })
+
+        if ability_pucci.current_quest[2] >= ability_pucci.current_quest[3] then
+            ability_pucci.current_quest[4] = true
+            ability_pucci.word_count = ability_pucci.word_count + 1
+            ability_pucci.current_quest = ability_pucci.quests[GetMapName()]["pucci_quest_stunned"]
+            ability_pucci:SetActivated(true)
+            
+            CustomGameEventManager:Send_ServerToPlayer(player, "pucci_quest_event_set_quest", {
+                quest_name = ability_pucci.current_quest[1],
+                min = ability_pucci.current_quest[2],
+                max = ability_pucci.current_quest[3]
+            })
+        end
+    end
+end
+
+function BirzhaGameMode:ApplyRespawnInvulnerability(hero)
+    if BIRZHA_FOUNTAIN_GAME_TIMER <= 0 and not hero:IsReincarnating() and not hero:IsIllusion() then
+        hero:AddInvul(3)
+    end
+end
+
+function BirzhaGameMode:InitializeHeroFirstSpawn(hero, PlayerID)
+    hero.BirzhaFirstSpawned = true
+    
+    if not hero:IsRealHero() then return end
+
+    local playerData = BirzhaData.PLAYERS_GLOBAL_INFORMATION[PlayerID]
+    if not playerData then return end
+
+    -- Обновление информации о команде
+    playerData.team = hero:GetTeamNumber()
+
+    -- Инициализация героя при первом выборе
+    if not playerData.selected_hero then
+        playerData.selected_hero = hero
+        hero:AddNewModifier(hero, nil, "modifier_birzha_start_movespeed", {duration = 10})
+        birzha_hero_selection:AddDonateFromStart(PlayerID)
+        donate_shop:AddedDonateStart(hero, PlayerID)
+    end
+
+    -- Обработка репортов
+    if playerData.has_report > 0 then
+        local modifier = hero:AddNewModifier(hero, nil, "modifier_birzha_loser", {})
+        if modifier then
+            modifier:SetStackCount(playerData.has_report)
+        end
+    end
+
+    -- Инициализация способностей
+    if hero:IsHero() then
+        BirzhaGameMode:AbilitiesStart(hero)
+    end
+
+    -- Регистрация ботов в режиме инструментов
+    if IsInToolsMode() and PlayerResource:IsFakeClient(PlayerID) then
+        BirzhaData:RegisterPlayer(PlayerID)
+        BirzhaData.PLAYERS_GLOBAL_INFORMATION[PlayerID].selected_hero = hero
+    end
 end
 
 function BirzhaGameMode:AbilitiesStart(hero)
-	local FastAbilities = 
-	{
-		"Ayano_Mischief",
-		"Ranger_Jump",
-		"edward_bil_prank",
-		"Rikardo_Fire",
-		"dio_vampire",
-		"Akame_Demon",
-		"face_esketit",
-		"goku_blink_one",
-		"Akame_jump",
-		"Miku_ritmic_song",
-		"Felix_water_block",
-		"gorshok_death_passive",
-		"overlord_select_target",
-		"haku_mask",
-		"haku_zerkalo",
-		"kakashi_invoke",
-		"aang_invoke",
-		"migi_death",
-		"overlord_spellbook_close",
-		"Overlord_passive",
-		"gorshok_evil_dance",
-		"pucci_passive_dio",
-		"pucci_passive_wave",
-		"pyramide_passive",
-		"sonic_steal_speed",
-		"sonic_passive",
-		"travoman_minefield_sign",
-		"travoman_focused_detonate",
-		"jull_light_future",
-		"jull_steal_time",
-        "kelthuzad_cold_undead",
-        "old_god_d",
-        "ashab_f",
-        "ashab_e",
-	}
-
+	local FastAbilities = _G.FastAbilities
 	for _, name in pairs(FastAbilities) do
 	   	local FastAbility = hero:FindAbilityByName(name)
 		if FastAbility then
@@ -966,7 +951,7 @@ function BirzhaGameMode:OnHeroInGame(hero)
 	end
 
 	if npcName == "npc_dota_hero_legion_commander" then
-		if DonateShopIsItemActive(playerID, 126) then
+		if DonateShopIsItemActive(playerID, 126) or IsInToolsMode() then
 			BirzhaGameMode:DeleteAllItemFromHero(hero, nil, nil)
 			hero:AddActivityModifier("dualwield")
 			hero:AddActivityModifier("arcana")

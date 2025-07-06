@@ -11,10 +11,11 @@ function old_god_w:OnSpellStart()
     end
     local illusion = BirzhaCreateIllusion( self:GetCaster(), self:GetCaster(), {duration=duration,outgoing_damage=illusion_damage,incoming_damage=illusion_damage_in}, illusion_count, 1, true, true )  
     local old_god_r = self:GetCaster():FindAbilityByName("old_god_r")
+    old_god_w.illusion_table = illusion
     for k, v in pairs(illusion) do
-        if old_god_r then
-            v:AddNewModifier(v, old_god_r, "modifier_old_god_r", {})
+        if old_god_r and old_god_r:GetLevel() > 0 and self:GetCaster():HasModifier("modifier_old_god_r") then
+            v:AddNewModifier(v, old_god_r, "modifier_old_god_r", {duration = duration})
         end
     end
-    self:GetCaster():EmitSound("stariy_vova") 
+    self:GetCaster():EmitSound("stariy_vova")
 end

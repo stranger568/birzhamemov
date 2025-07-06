@@ -2,6 +2,23 @@ LinkLuaModifier( "modifier_garold_pain_debuff", "abilities/heroes/garold.lua", L
 
 Garold_pain = class({})
 
+function Garold_pain:Precache(context)
+    local particle_list = 
+    {
+        "particles/garold/garold_pain.vpcf",
+        "particles/units/heroes/hero_queenofpain/queen_shadow_strike_debuff.vpcf",
+        "particles/generic_gameplay/generic_silence.vpcf",
+        "particles/garold/garold_stealpain.vpcf",
+        "particles/garold/garold_stealpain.vpcf",
+        "particles/garold_shard_effect.vpcf",
+        "particles/garold_shard_cloudamp_damage.vpcf",
+        "particles/units/heroes/heroes_underlord/abyssal_underlord_firestorm_wave.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Garold_pain:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

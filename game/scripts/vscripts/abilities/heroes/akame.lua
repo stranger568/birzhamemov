@@ -7,6 +7,16 @@ LinkLuaModifier("modifier_generic_knockback_lua", "modifiers/modifier_generic_kn
 
 Akame_slice = class({})
 
+function Akame_slice:Precache(context)
+    PrecacheResource("model", "models/update_heroes/akame/akame.vmdl", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_phantom_lancer/phantomlancer_edge_boost.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_juggernaut/juggernaut_omni_slash_tgt.vpcf", context)
+    PrecacheResource("particle", "particles/items_fx/abyssal_blink_end.vpcf", context)
+    PrecacheResource("particle", "particles/econ/items/juggernaut/jugg_arcana/juggernaut_arcana_v2_omni_slash_tgt.vpcf", context)
+    PrecacheResource("particle", "particles/econ/items/magnataur/shock_of_the_anvil/magnataur_shockanvil.vpcf", context)
+    PrecacheResource("particle", "particles/akame/skill_stacks.vpcf", context)
+end
+
 function Akame_slice:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

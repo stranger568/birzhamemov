@@ -1606,6 +1606,7 @@
         vsnd_files = 
         [
             "sounds/birzha/stariy_vova.vsnd",
+            "sounds/birzha/stariy_vova2.vsnd",
         ]
         volume = "10.000000"
         pitch_rand_min = "-0.050000"
@@ -1616,7 +1617,22 @@
         event_type = "1.000000"
         vsnd_duration = 11.006259
     }
-
+    stariy_laser = 
+    {
+        type = "dota_src1_3d"
+        vsnd_files = 
+        [
+            "sounds/birzha/stariy_laser.vsnd",
+        ]
+        volume = "10.000000"
+        pitch_rand_min = "-0.050000"
+        pitch_rand_max = "0.050000"
+        pitch = "1.000000"
+        soundlevel = "100.000000"
+        distance_max = "1600.000000"
+        event_type = "1.000000"
+        vsnd_duration = 11.006259
+    }
 
     nix_allin = 
     {

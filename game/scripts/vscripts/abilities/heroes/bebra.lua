@@ -10,6 +10,18 @@ function modifier_thomas_sound_cooldown:IsHidden() return true end
 
 thomas_ability_one = class({})
 
+function thomas_ability_one:Precache(context)
+    PrecacheResource("model", "models/tailer/shelby.vmdl", context)
+    PrecacheResource("particle", "particles/shelby/one.vpcf", context)
+    PrecacheResource("particle", "particles/shelby/telega_fly.vpcf", context)
+    PrecacheResource("particle", "particles/items4_fx/meteor_hammer_spell_ground_impact.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_sniper/sniper_assassinate.vpcf", context)
+    PrecacheResource("particle", "particles/generic_gameplay/generic_lifesteal.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_keeper_of_the_light/kotl_illuminate.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_keeper_of_the_light/keeper_of_the_light_illuminate_impact_small.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_keeper_of_the_light/keeper_of_the_light_illuminate_impact.vpcf", context)
+end
+
 function thomas_ability_one:GetAOERadius()
     return self:GetSpecialValueFor("radius")
 end

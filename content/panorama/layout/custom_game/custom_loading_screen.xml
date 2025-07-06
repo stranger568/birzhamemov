@@ -12,9 +12,6 @@
 		<Panel id="CustomBg">
 
         <Panel class="AdsList">
-            <Panel class="CashSteamADS" onactivate="ExternalBrowserGoToURL('https://pxl.leads.su/click/a26786e8dc3821cf9c991c825740fb81?erid=get_it_soon')">
-                <Panel class="CashSteamIcon" />
-            </Panel>
             <Panel class="TwitchADS" onactivate="ExternalBrowserGoToURL('https://www.twitch.tv/stranger568')">
                 <Label class="TwitchLabel" text="Стрим создателя кастомки - Игры с подписчиками / Разработка кастомки" />
                 <Panel class="TwitchIcon" />
@@ -156,10 +153,10 @@
 							<Label id="TipLabel" text="#LoadingDonateZaim"/>
 						</Panel>
 					</Panel> -->
-					<Panel id="DonateContainer_2" onactivate="ExternalBrowserGoToURL('https://bmemov.strangerdev.ru/updates/birzha_die_part_1/')">
+					<Panel id="DonateContainer_2" onactivate="ExternalBrowserGoToURL('https://bmemov.strangerdev.ru/updates/antonupdate')">
 						<Label class="NewWidgetLabel" text="#Updatename"/>
 						<Panel id="DonateInformation_2">
-							<Label id="TipLabel" text="#Updatedescription"/>
+							<Label id="TipLabel" html="true" text="#Updatedescription"/>
 						</Panel>
 					</Panel>
 				</Panel>

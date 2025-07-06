@@ -106,4 +106,7 @@
 	"npc_dota_hero_oracle"												"Аватар: Аанг"
 	"npc_dota_hero_overlord"												"Overlord"
     "npc_dota_hero_kelthuzad"												                            "Кел Тузад"
+    "npc_dota_hero_nix_streamer"        "Nix"
+    "npc_dota_hero_ashab_tamaev"		"Асхаб Тамаев"
+	"npc_dota_hero_old_god"				"Старый бог"
 }

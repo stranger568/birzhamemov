@@ -4,6 +4,7 @@
 		<include src="s2r://panorama/layout/custom_game/heroes/freddy_screamer/freddy_screamer.vcss_c" />
 	</styles>
 	<scripts>
+        <include src="s2r://panorama/layout/custom_game/scripts/util.vjs_c" />
         <include src="s2r://panorama/layout/custom_game/scripts/functions.vjs_c" />
 	</scripts>
 	<Panel class="FreddyScreamer" hittest="false">

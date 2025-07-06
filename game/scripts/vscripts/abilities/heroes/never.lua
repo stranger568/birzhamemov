@@ -8,6 +8,28 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 never_stupid = class({})
 
+function never_stupid:Precache(context)
+    PrecacheResource("model", "models/heroes/shadow_fiend/arcana_wings.vmdl", context)
+    PrecacheResource("model", "models/heroes/shadow_fiend/head_arcana.vmdl", context)
+    PrecacheResource("model", "models/heroes/shadow_fiend/shadow_fiend_arcana.vmdl", context)
+    PrecacheResource("model", "models/items/shadow_fiend/arms_deso/arms_deso.vmdl", context)
+    local particle_list = 
+    {
+        "particles/never_arcana/never_arcana_attack.vpcf",
+        "particles/econ/items/shadow_fiend/sf_fire_arcana/sf_fire_arcana_shadowraze.vpcf",
+        "particles/never_arcana/sf_fire_arcana_shadowraze.vpcf",
+        "particles/econ/items/spirit_breaker/spirit_breaker_iron_surge/spirit_breaker_charge_iron.vpcf",
+        "particles/never/spirit_breaker_charge_iron.vpcf",
+        "particles/generic_gameplay/generic_lifesteal.vpcf",
+        "particles/never/ultimate_effect_arcana.vpcf",
+        "particles/never/ultimate_effect.vpcf",
+        "particles/units/heroes/hero_nevermore/nevermore_shadowraze.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function never_stupid:GetIntrinsicModifierName() 
 	return "modifier_never_stupid_attack"
 end

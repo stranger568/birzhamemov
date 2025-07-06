@@ -3,6 +3,25 @@ LinkLuaModifier( "modifier_nolik_mostdel", "abilities/heroes/nolik.lua", LUA_MOD
 
 nolik_mostdel = class({})
 
+function nolik_mostdel:Precache(context)
+    PrecacheResource("model", "models/nolik/nolik.vmdl", context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_vengeful/vengeful_shard_buff.vpcf",
+        "particles/units/heroes/hero_keeper_of_the_light/keeper_chakra_magic.vpcf",
+        "particles/nolik/effect_radius.vpcf",
+        "particles/nolik/effect_radius.vpcf",
+        "particles/nolik_energy_attack.vpcf",
+        "particles/nolik/energy_kill.vpcf",
+        "particles/nolik/energy_kill.vpcf",
+        "particles/nolik/ultimate_effect.vpcf",
+        "particles/nolik/nolik_splash.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function nolik_mostdel:OnSpellStart()
 	if not IsServer() then return end
 	self:GetCaster():EmitSound("nolik_wow")
@@ -70,6 +89,7 @@ function modifier_nolik_tech:OnCreated()
 	if not IsServer() then return end
     self.excl = 
     {
+        ["item_bag_of_gold_event"] = true,
         ["item_bag_of_gold"] = true,
         ["item_treasure_chest"] = true,
         ["item_treasure_chest_winter"] = true,
@@ -645,38 +665,3 @@ end
 function modifier_nolik_helper_3:GetModifierTotalDamageOutgoing_Percentage()
 	return self:GetAbility():GetSpecialValueFor("damage_increase")
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

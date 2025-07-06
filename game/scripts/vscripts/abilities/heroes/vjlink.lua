@@ -2,6 +2,27 @@ LinkLuaModifier( "modifier_vjlink_sputum", "abilities/heroes/vjlink.lua", LUA_MO
 
 Vjlink_sputum = class({})
 
+function Vjlink_sputum:Precache(context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_bristleback/bristleback_viscous_nasal_goo.vpcf",
+        "particles/units/heroes/hero_bristleback/bristleback_viscous_nasal_goo.vpcf",
+        "particles/units/heroes/hero_bristleback/bristleback_viscous_nasal_goo_debuff.vpcf",
+        "particles/vjlink_blood_trail.vpcf",
+        "particles/units/heroes/hero_huskar/huskar_life_break.vpcf",
+        "particles/vjlink_ground_particleground.vpcf",
+        "particles/vjlink_leash.vpcf",
+        "particles/status_fx/status_effect_huskar_lifebreak.vpcf",
+        "particles/units/heroes/hero_huskar/huskar_life_break.vpcf",
+        "particles/vjlink/1.vpcf",
+        "particles/econ/items/lifestealer/lifestealer_immortal_backbone/lifestealer_immortal_backbone_rage.vpcf",
+        "particles/generic_gameplay/generic_lifesteal.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Vjlink_sputum:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

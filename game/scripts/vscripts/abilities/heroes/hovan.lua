@@ -5,6 +5,30 @@ LinkLuaModifier( "modifier_Hovan_Pyramide",  "abilities/heroes/hovan.lua", LUA_M
 
 Hovan_Pyramide = class({})
 
+function Hovan_Pyramide:Precache(context)
+    local particle_list = 
+    {
+        "particles/hovansky/hovan_pyramide.vpcf",
+        "particles/hovansky/hovan_beer.vpcf",
+        "particles/brew/hovan_beer_thinker.vpcf",
+        "particles/units/heroes/hero_brewmaster/brewmaster_cinder_brew_debuff.vpcf",
+        "particles/units/heroes/hero_brewmaster/brewmaster_drunken_haze_debuff.vpcf",
+        "particles/units/heroes/hero_brewmaster/brewmaster_drunken_brawler_crit.vpcf",
+        "particles/econ/items/lycan/ti9_immortal/lycan_ti9_immortal_howl_buff.vpcf",
+        "particles/econ/items/lycan/ti9_immortal/lycan_ti9_immortal_howl_buff.vpcf",
+        "particles/econ/items/phantom_assassin/pa_ti8_immortal_head/pa_ti8_immortal_dagger_debuff.vpcf",
+        "particles/econ/items/phantom_assassin/pa_ti8_immortal_head/pa_ti8_immortal_dagger_debuff.vpcf",
+        "particles/units/heroes/hero_gyrocopter/gyro_calldown_marker.vpcf",
+        "particles/marker_hovan_shard.vpcf",
+        "particles/units/heroes/hero_gyrocopter/gyro_calldown_first.vpcf",
+        "particles/units/heroes/hero_gyrocopter/gyro_calldown_second.vpcf",
+        "particles/gyro_calldown_tripple.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Hovan_Pyramide:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

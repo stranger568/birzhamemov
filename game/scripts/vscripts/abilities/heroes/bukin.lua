@@ -5,8 +5,14 @@ LinkLuaModifier( "modifier_Bukin_HatTrickLeatherBall_debuff", "abilities/heroes/
 Bukin_HatTrickLeatherBall = class({})
 
 function Bukin_HatTrickLeatherBall:Precache(context)
-    PrecacheResource("particle", "particles/bukin/bukin_ball.vpcf", context)
     PrecacheResource("particle", "particles/units/heroes/hero_clinkz/clinkz_burning_army.vpcf", context)
+    PrecacheResource("particle", "particles/bukin/bukin_ball.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_huskar/huskar_inner_fire_debuff.vpcf", context)
+    PrecacheResource("particle", "particles/econ/items/huskar/huskar_2021_immortal/huskar_2021_immortal_burning_spear_debuff.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_huskar/huskar_burning_spear_debuff.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_huskar/huskar_burning_spear.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_monkey_king/monkey_king_furarmy_ring.vpcf", context)
+    PrecacheResource("particle", "particles/status_fx/status_effect_phantom_lancer_illusion.vpcf", context)
 end
 
 function Bukin_HatTrickLeatherBall:GetCooldown(level)

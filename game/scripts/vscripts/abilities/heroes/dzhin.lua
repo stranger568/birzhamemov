@@ -5,6 +5,15 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 dzhin_quite_walk = class({})
 
+function dzhin_quite_walk:Precache(context)
+    PrecacheResource("particle", "particles/units/heroes/hero_invoker/invoker_ghost_walk.vpcf", context)
+    PrecacheResource("particle", "particles/dzin/blink.vpcf", context)
+    PrecacheResource("particle", "particles/econ/items/antimage/antimage_ti7/antimage_blink_ti7_end.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_lycan/lycan_summon_wolves_spawn.vpcf", context)
+    PrecacheResource("particle", "particles/dzin/blocking_buff.vpcf", context)
+    PrecacheResource("particle", "particles/dzin/ultimate_knife.vpcf", context)
+end
+
 function dzhin_quite_walk:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

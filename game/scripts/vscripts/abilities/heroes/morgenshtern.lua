@@ -5,6 +5,21 @@ LinkLuaModifier( "modifier_morgen_muted", "abilities/heroes/morgenshtern.lua", L
 
 morgenshtern_rift = class({})
 
+function morgenshtern_rift:Precache(context)
+    local particle_list = 
+    {
+        "particles/generic_gameplay/generic_muted.vpcf",
+        "particles/econ/items/puck/puck_fairy_wing/puck_waning_rift_fairy_wing.vpcf",
+        "particles/units/heroes/hero_snapfire/hero_snapfire_shells_projectile.vpcf",
+        "particles/units/heroes/hero_snapfire/hero_snapfire_shells_buff.vpcf",
+        "particles/units/heroes/hero_monkey_king/monkey_king_jump_armor_debuff.vpcf",
+        "particles/frost_morgen.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function morgenshtern_rift:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

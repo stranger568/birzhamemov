@@ -7,13 +7,51 @@ function old_god_r:Precache(context)
     PrecacheResource("particle", "particles/old_god/old_god_r.vpcf", context)
 end
 
+function old_god_r:OnInventoryContentsChanged()
+    if not IsServer() then return end
+    if self:GetCaster():HasScepter() then
+        if self:GetCaster():IsIllusion() then return end
+        local modifier_old_god_r = self:GetCaster():FindModifierByName("modifier_old_god_r")
+        if modifier_old_god_r and modifier_old_god_r:GetRemainingTime() > 0 then
+            modifier_old_god_r:Destroy()
+        end
+        if not self:GetCaster():HasModifier("modifier_old_god_r") then
+            self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_old_god_r", {})
+        end
+    else
+        local modifier_old_god_r = self:GetCaster():FindModifierByName("modifier_old_god_r")
+        if modifier_old_god_r and modifier_old_god_r:GetRemainingTime() <= 0 then
+            modifier_old_god_r:Destroy()
+        end
+    end
+end
+
+function old_god_r:GetBehavior()
+    if self:GetCaster():HasScepter() then
+        return DOTA_ABILITY_BEHAVIOR_PASSIVE
+    end
+    return DOTA_ABILITY_BEHAVIOR_NO_TARGET + DOTA_ABILITY_BEHAVIOR_IMMEDIATE
+end
+
+function old_god_r:OnHeroCalculateStatBonus()
+    self:OnInventoryContentsChanged()
+end
+
 function old_god_r:GetIntrinsicModifierName()
     if self:GetCaster():IsIllusion() then return end
-    return "modifier_old_god_r"
+    if self:GetCaster():HasScepter() then
+        return "modifier_old_god_r"
+    end
+end
+
+function old_god_r:OnSpellStart()
+    if not IsServer() then return end
+    self:GetCaster():EmitSound("stariy_laser")
+    local duration = self:GetSpecialValueFor("duration")
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_old_god_r", {duration=duration})
 end
 
 modifier_old_god_r = class({})
-function modifier_old_god_r:IsHidden() return true end
 function modifier_old_god_r:IsPurgable() return false end
 function modifier_old_god_r:IsPurgeException() return false end
 function modifier_old_god_r:RemoveOnDeath() return false end
@@ -133,6 +171,7 @@ function modifier_old_god_r:OnDestroy()
     if not IsServer() then return end
     if self.dummy and not self.dummy:IsNull() then
         self.dummy:RemoveModifierByName("modifier_old_god_r_thinker")
+        UTIL_Remove(self.dummy)
     end
     if self.nBeamFXIndex then
         ParticleManager:DestroyParticle(self.nBeamFXIndex, true)

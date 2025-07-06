@@ -6,6 +6,26 @@ LinkLuaModifier("modifier_pucci_time_acceleration", "abilities/heroes/pucci", LU
 
 pucci_time_acceleration = class({})
 
+function pucci_time_acceleration:Precache(context)
+    PrecacheResource("model", "models/update_heroes/pucci/pucci.vmdl", context)
+    local particle_list = 
+    {
+        "particles/pucci/time_exelec.vpcf",
+        "particles/pucci/erace_disk_loadout.vpcf",
+        "particles/generic_gameplay/generic_silenced.vpcf",
+        "particles/pucci/c_moon_shield.vpcf",
+        "particles/pucci/c_moon_knockback.vpcf",
+        "particles/econ/items/dazzle/dazzle_ti6_gold/dazzle_ti6_shallow_grave_gold.vpcf",
+        "particles/pucci/ultimate.vpcf",
+        "particles/pucci/capture_point_ring.vpcf",
+        "particles/pucci/capture_point_ring_capturing.vpcf",
+        "particles/pucci/capture_point_ring_clock.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function pucci_time_acceleration:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_pucci_3")
 end
@@ -620,6 +640,9 @@ function pucci_restart_world:OnUpgrade()
     if self:GetLevel() == 1 then
         self.current_quest = self.quests[GetMapName()]["pucci_quest_run"]
         CustomGameEventManager:Send_ServerToPlayer(Player, "pucci_quest_event_set_quest", {quest_name = self.current_quest[1], min = self.current_quest[2], max = self.current_quest[3]} )
+        if IsInToolsMode() then
+            CreateModifierThinker( self:GetCaster(), self, "modifier_pucci_restart_world_thinker", {}, GetGroundPosition(Vector(0,0,0)+RandomVector(RandomFloat( 1200, 1800 )), nil), self:GetCaster():GetTeamNumber(), false )
+        end
     end
     if self.word_count == 0 then
         self:SetActivated(false)
@@ -979,8 +1002,11 @@ function modifier_pucci_restart_world_thinker:StartCapturePoint()
     if self.nRecaptutingTime <= 0 then
         self.nCaptureProgress = self.nCaptureProgress + 0.02/Convars:GetFloat("host_timescale")
         self:SetRingColor()
-
-        if self.nCaptureProgress >= 120 then
+        local time = 120
+        if IsInToolsMode() then
+            time = 10
+        end
+        if self.nCaptureProgress >= time then
             self:StopPoint()
         end
     else
@@ -997,7 +1023,7 @@ end
 function modifier_pucci_restart_world_thinker:StartClock()
     local fCreateTimeParticle = function()
         self.pCaptureClockEffect = ParticleManager:CreateParticle("particles/pucci/capture_point_ring_clock.vpcf", PATTACH_ABSORIGIN, self:GetParent())
-        ParticleManager:SetParticleControl(self.pCaptureClockEffect, 9, Vector(300, 0, 0))
+        ParticleManager:SetParticleControl(self.pCaptureClockEffect, 9, Vector(280, 0, 0))
     end
     if not self.pCaptureClockEffect then
         fCreateTimeParticle()

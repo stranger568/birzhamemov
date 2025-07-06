@@ -5,6 +5,29 @@ LinkLuaModifier("modifier_jull_light_future_passive_charge", "abilities/heroes/j
 
 jull_crive_realy = class({})
 
+function jull_crive_realy:Precache(context)
+    PrecacheResource("model", "models/jull/jull.vmdl", context)
+    local particle_list = 
+    {
+        "particles/items4_fx/seer_stone.vpcf",
+        "particles/econ/items/abaddon/abaddon_alliance/abaddon_death_coil_alliance_explosion.vpcf",
+        "particles/jull/shield_chrono.vpcf",
+        "particles/generic_gameplay/generic_stunned.vpcf",
+        "particles/jull/shield_chrono.vpcf",
+        "particles/econ/events/fall_2021/blink_dagger_fall_2021_start.vpcf",
+        "particles/econ/events/fall_2021/blink_dagger_fall_2021_end.vpcf",
+        "particles/jull/blink_damage_radius.vpcf",
+        "particles/jull/future_shpereambient.vpcf",
+        "particles/creatures/boss_tinker/boss_tinker_laser_enemy.vpcf",
+        "particles/creatures/boss_tinker/boss_tinker_mega_laser.vpcf",
+        "particles/jull/ultimate_effect.vpcf",
+        "particles/jull/ultimate_effect_2_2021_earth_splitter.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function jull_crive_realy:GetVectorTargetRange()
     return 500
 end

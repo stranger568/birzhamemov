@@ -3,6 +3,24 @@ LinkLuaModifier( "modifier_yuno_rage", "abilities/heroes/yuno", LUA_MODIFIER_MOT
 
 Yuno_Rage = class({}) 
 
+function Yuno_Rage:Precache(context)
+    PrecacheResource("model", "models/update_heroes/yuno/yuno.vmdl", context)
+    local particle_list = 
+    {
+        "particles/items2_fx/mask_of_madness.vpcf",
+        "particles/generic_gameplay/generic_lifesteal.vpcf",
+        "particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf",
+        "particles/yuno_shapness_stack.vpcf",
+        "particles/units/heroes/hero_queenofpain/queen_blink_start.vpcf",
+        "particles/units/heroes/hero_queenofpain/queen_blink_end.vpcf",
+        "particles/generic_gameplay/generic_silenced.vpcf",
+        "particles/units/heroes/hero_weaver/weaver_timelapse.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Yuno_Rage:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

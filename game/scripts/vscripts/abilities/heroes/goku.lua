@@ -4,6 +4,47 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 goku_kamehame = class({})
 
+function goku_kamehame:Precache(context)
+    PrecacheResource("model", "models/update_heroes/goku/goku_base.vmdl", context)
+    PrecacheResource("model", "models/update_heroes/goku/goku_form_1.vmdl", context)
+    PrecacheResource("model", "models/update_heroes/goku/goku_form_2.vmdl", context)
+    PrecacheResource("model", "models/update_heroes/goku/goku_form_3.vmdl", context)
+    PrecacheResource("model", "models/update_heroes/goku/goku_form_4.vmdl", context)
+    local particle_list = 
+    {
+        "particles/custom_particles/goku/goku_kamehameha_cast.vpcf",
+        "particles/kamehameha.vpcf",
+        "particles/goku_attacks.vpcf",
+        "particles/red/goku_attacks.vpcf",
+        "particles/blue/goku_attacks.vpcf",
+        "particles/goku_attacks.vpcf",
+        "particles/red/goku_attacks.vpcf",
+        "particles/blue/goku_attacks.vpcf",
+        "particles/goku_dmg.vpcf",
+        "particles/red/goku_dmg.vpcf",
+        "particles/blue/goku_dmg.vpcf",
+        "particles/ki_blast.vpcf",
+        "particles/ki_blast_exp.vpcf",
+        "particles/goku_effect_blink_burst.vpcf",
+        "particles/items_fx/blink_dagger_start.vpcf",
+        "particles/items_fx/blink_dagger_end.vpcf",
+        "particles/kamehameha.vpcf",
+        "particles/econ/items/phantom_assassin/phantom_assassin_arcana_elder_smith/pa_arcana_phantom_strike_start.vpcf",
+        "particles/econ/items/phantom_assassin/phantom_assassin_arcana_elder_smith/pa_arcana_phantom_strike_end.vpcf",
+        "particles/donate_effect/dragon_ball_effect/dragon_ball_effect_1.vpcf",
+        "particles/donate_effect/dragon_ball_effect/dragon_ball_effect_2.vpcf",
+        "particles/donate_effect/dragon_ball_effect/dragon_ball_effect_3.vpcf",
+        "particles/goku_feet_yellow.vpcf",
+        "particles/goku_feet_yellow.vpcf",
+        "particles/goku_feet_yellow.vpcf",
+        "particles/goku_feet_red.vpcf",
+        "particles/goku_feet_blue.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function goku_kamehame:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

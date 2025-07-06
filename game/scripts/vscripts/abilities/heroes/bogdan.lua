@@ -5,6 +5,17 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 Bogdan_Cower = class({}) 
 
+function Bogdan_Cower:Precache(context)
+    PrecacheResource("particle", "particles/units/heroes/hero_terrorblade/terrorblade_metamorphosis_transform.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_terrorblade/terrorblade_metamorphosis.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_terrorblade/terrorblade_metamorphosis_ambient.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_warlock/warlock_base_attack.vpcf", context)
+    PrecacheResource("particle", "particles/bogdan/wrench.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_viper/viper_poison_attack.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_viper/viper_poison_debuff.vpcf", context)
+    PrecacheResource("model", "models/courier/smeevil_magic_carpet/smeevil_magic_carpet_flying.vmdl", context)
+end
+
 function Bogdan_Cower:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_bogdan_3")
 end

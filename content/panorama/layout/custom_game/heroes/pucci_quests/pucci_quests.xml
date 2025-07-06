@@ -4,6 +4,7 @@
 	</styles>
 
 	<scripts>
+        <include src="s2r://panorama/layout/custom_game/scripts/util.vjs_c" />
         <include src="s2r://panorama/layout/custom_game/scripts/functions.vjs_c" />
         <include src="file://{resources}/layout/custom_game/heroes/pucci_quests/pucci_quest.js" />
 	</scripts>

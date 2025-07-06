@@ -1,6 +1,5 @@
 LinkLuaModifier("modifier_nix_phantom_e_thinker", "abilities/heroes/nix_streamer/nix_phantom_e", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_nix_phantom_e", "abilities/heroes/nix_streamer/nix_phantom_e", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_nix_phantom_e_debuff", "abilities/heroes/nix_streamer/nix_phantom_e", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_generic_knockback_lua", "modifiers/modifier_generic_knockback_lua.lua", LUA_MODIFIER_MOTION_BOTH )
 
 nix_phantom_e = class({})
@@ -48,13 +47,12 @@ modifier_nix_phantom_e = class({})
 
 function modifier_nix_phantom_e:OnCreated()
     if not IsServer() then return end
-    ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), damage = self:GetAbility():GetSpecialValueFor("damage"), damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
-    self.upgrade_think = self:GetAbility():GetSpecialValueFor("upgrade_think")
+    self.bonus_damage = 0
     self.cooldown_scepter_decrease = self:GetAbility():GetSpecialValueFor("cooldown_scepter_decrease")
     if self:GetAuraOwner() and self:GetAuraOwner().is_upgrade then
-        self:OnIntervalThink()
-        self:StartIntervalThink(self.upgrade_think)
+        self.bonus_damage = self:GetCaster():GetIntellect(true) / 100 * self:GetAbility():GetSpecialValueFor("upgrade_damage_int")
     end
+    ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), damage = self:GetAbility():GetSpecialValueFor("damage") + self.bonus_damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
     if self:GetCaster():HasScepter() and self:GetParent():IsRealHero() then
         local cooldown = self:GetAbility():GetCooldownTimeRemaining()
         self:GetAbility():EndCooldown()
@@ -63,16 +61,11 @@ function modifier_nix_phantom_e:OnCreated()
             self:GetAbility():StartCooldown(cooldown)
         end
     end
-end
-
-function modifier_nix_phantom_e:OnIntervalThink()
-    if not IsServer() then return end
-    self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_nix_phantom_e_debuff", {duration = self.upgrade_think * (1-self:GetParent():GetStatusResistance())})
 end
 
 function modifier_nix_phantom_e:OnDestroy()
     if not IsServer() then return end
-    ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), damage = self:GetAbility():GetSpecialValueFor("damage"), damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
+    ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), damage = self:GetAbility():GetSpecialValueFor("damage") + self.bonus_damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
     if self:GetCaster():HasScepter() and self:GetParent():IsRealHero() then
         local cooldown = self:GetAbility():GetCooldownTimeRemaining()
         self:GetAbility():EndCooldown()
@@ -81,17 +74,4 @@ function modifier_nix_phantom_e:OnDestroy()
             self:GetAbility():StartCooldown(cooldown)
         end
     end
-end
-
-modifier_nix_phantom_e_debuff = class({})
-
-function modifier_nix_phantom_e_debuff:DeclareFunctions()
-    return
-    {
-        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
-    }
-end
-
-function modifier_nix_phantom_e_debuff:GetModifierMoveSpeedBonus_Percentage()
-    return self:GetAbility():GetSpecialValueFor("upgrade_slow")
 end

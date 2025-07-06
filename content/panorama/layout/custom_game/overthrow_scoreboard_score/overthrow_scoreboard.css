@@ -1,209 +1,180 @@
-.ScoreboardLeft{margin-left: 6px;margin-top: 0px;margin-right: -40px;flow-children: down;}
-
-.VictoryPanel{
-	align: right top;
-	flow-children: right;
+.NewTimersPanels
+{
+    vertical-align: bottom;
+    margin-left: 240px;
 }
 
-#AllVictoryPanel {
-	width: 255px;
-	flow-children: right-wrap;
-	transition-property: transform;
-    transition-duration: 0.5s;
+.TimersChildrens
+{
+    flow-children: down;
+    margin-top: 45px;
+    ui-scale: 92%;
 }
 
-.PanelInformation {
-	background-image: url("file://{images}/custom_game/right_info/panel.png");
+.BGFlare
+{
+    width: 110px;
+    height: 280px;
+    background-image: url("s2r://panorama/images/hud/reborn/right_flare_bg_psd.vtex");
     background-size: 100%;
-    width: 64px;
-    height: 64px;
+    vertical-align: bottom;
+    background-image: url("file://{images}/custom_game/right_flare_bg_psd.png");
+	background-size: 100%;
+}
+
+.NewTimerPanel
+{
+    margin: 5px;
     margin-left: 10px;
     margin-right: 10px;
-    margin-top: 10px;
     flow-children: down;
-    box-shadow: gray 0px 0px 2px 1px;
-    tooltip-position: bottom;
-    border-radius: 5px;
-    animation-name: shadow;
-    animation-duration: 2s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
 }
 
-@keyframes 'shadow'
+.NewTimerCircle
 {
-    0%
-    {
-        box-shadow: gray 0px 0px 5px 1px;
-    }
-    50%
-    {
-        box-shadow: gray 0px 0px 1px 1px;
-    }
-    100%
-    {
-        box-shadow: gray 0px 0px 5px 1px;
-    }
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    horizontal-align: center;
 }
 
-.PanelText {
-	font-size: 18px;
-	font-weight: bold;
-	color: white;
-	horizontal-align: center;
-	width: 64px;
-	text-align: center;
-	margin-top: 3px;
+.NewTimerBG
+{
+    width: 100%;
+    height: 100%;
+    align: center center;
+    border-radius: 50%;
+    background-color: gradient( linear, 0% 25%, 0% 100%, from( #181f27e7 ), to( #477077e7 ) );
+    box-shadow: 0px 4px 12px -1px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 0, 0, 0.8);
 }
 
-.PanelCenter {
-	flow-children: down;
-	align: center center;
+.NewTimerRadial
+{
+    border: 2px solid rgb(204, 220, 232);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border-brush: gradient( linear, 0% 0%, 100% 0%, from( #F8E8B9 ), color-stop( 0.5, #eba800), to( #C79123 ) );
+    transition-property: clip;
+    transition-duration: 0.2s;
 }
 
-#TimerGame {
+.NewTimerImage
+{
+    background-image: url("s2r://panorama/images/hud/timer/power_rune_png.vtex");
+    background-size: 100%;
+    width: 100%;
+    height: 100%;
+    align: center center;
+}
+
+.NewTimerLabel
+{
+    color: #ffffff;
+    font-size: 14px;
+    text-align: center;
+    horizontal-align: center;
+    margin-top: 3px;
+    text-shadow: 0px 0px 3px 2 rgba(0, 0, 0, 0.5);
+}
+
+.GameTime 
+{
 	background-image: url("s2r://panorama/images/hud/reborn/icon_sun_psd.vtex");
 	transform: scaleX(-1);
-	width: 25px;
-	height: 25px;
 	background-size: 100%;
-	horizontal-align: center;
+    width: 75%;
+    height: 75%;
 }
 
-#PointToWin
+.ScoreImage
 {
 	background-image: url("file://{images}/custom_game/right_info/win.png");
-	width: 25px;
-	height: 25px;
 	background-size: 100%;
-	horizontal-align: center;
+    width: 75%;
+    height: 75%;
 }
 
-
-#TimerReward
+.RewardImage
 {
 	background-image: url("file://{images}/custom_game/right_info/reward.png");
-	width: 25px;
-	height: 25px;
 	background-size: 100%;
-	horizontal-align: center;
+    width: 70%;
+    height: 70%;
 }
 
-
-#FountainTimerLogo
+.FountainTime
 {
-	background-image: url("file://{images}/custom_game/right_info/fountain.png");
-	width: 25px;
-	height: 25px;
+	background-image: url("s2r://panorama/images/hud/timer/power_rune_png.vtex");
+    background-size: 100%;
+    width: 100%;
+    height: 100%;
+    wash-color: rgb(8, 255, 8);
+}
+
+.EndGameTime
+{
+	background-image: url("s2r://panorama/images/events/crownfall/minesweeper/timericon_psd.vtex");
 	background-size: 100%;
-	horizontal-align: center;
+    wash-color: rgb(255, 187, 0);
+    width: 75%;
+    height: 75%;
 }
 
-
-#EndGameTimer
+#BirzhaScore .NewTimerBG
 {
-	background-image: url("file://{images}/custom_game/right_info/end.png");
-	width: 25px;
-	height: 25px;
+    background-color: gradient( linear, 0% 25%, 0% 100%, from( #181f27e7 ), to( #43437de7 ) );
+}
+
+#BirzhaRewardTime .NewTimerBG
+{
+    background-color: gradient( linear, 0% 25%, 0% 100%, from( #272218e7 ), to( #7d6243e7 ) );
+}
+
+#BirzhaGameTime .NewTimerBG
+{
+    background-color: gradient( linear, 0% 25%, 0% 100%, from( #181f27e7 ), to( #43437de7 ) );
+}
+
+#BirzhaFountainTime .NewTimerBG
+{
+    background-color: gradient( linear, 0% 25%, 0% 100%, from( #192718e7 ), to( #437d46e7 ) );
+}
+
+#BirzhaEnd .NewTimerBG
+{
+    background-color: gradient( linear, 0% 25%, 0% 100%, from( #272718e7 ), to( #7d6b43e7 ) );
+}
+
+#BirzhaEnd
+{
+    visibility: collapse;
+}
+
+.MinimapExtraLarge .NewTimersPanels
+{
+    vertical-align: bottom;
+    margin-left: 280px;
+}
+
+.MinimapExtraLarge .TimersChildrens
+{
+    ui-scale: 100%;
+}
+
+.MinimapExtraLarge .BGFlare
+{
+    width: 120px;
+    height: 310px;
+    background-image: url("s2r://panorama/images/hud/reborn/right_flare_bg_psd.vtex");
+    background-size: 100%;
+    vertical-align: bottom;
+    background-image: url("file://{images}/custom_game/right_flare_bg_psd.png");
 	background-size: 100%;
-	horizontal-align: center;
 }
 
-#TimerContract
+.HUDFlipped Label
 {
-	background-image: url("file://{images}/custom_game/right_info/contract.png");
-	width: 25px;
-	height: 25px;
-	background-size: 100%;
-	horizontal-align: center;
-}
-
-#CloseGameInfo {
-	horizontal-align: right;
-	margin-right: 10px;
-	margin-top: 5px;
-}
-
-.TextOpen {
-	font-size: 14px;
-	color: white;
-	text-align: center;
-	margin-top: 3px;
-	font-family: Radiance;
-	text-shadow: 0px 0px 5px 3 black;
-	visibility: collapse;
-}
-
-.TextOpen:hover {
-	color: white;
-}
-
-
-#ContractPanel 
-{
-	margin-right: 15px;
-	width: 230px;
-	margin-top: 10px;
-	flow-children: down;
-	transition-property: transform;
-    transition-duration: 0.5s;
-    z-index: -5;
-}
-
-.LabelText 
-{
-	font-size: 15px;
-	horizontal-align: center;
-	color: white;
-	margin-top: 2px;
-	text-transform: uppercase;
-	text-shadow: 0px 0px 4px 3 black;
-	border-bottom: 1px solid white;
-	width: 100%;
-	text-align: center;
-	padding-bottom: 5px;
-	border-brush: gradient( radial, 50% 50%, 0% 0%, 50% 100%, from( white ), to( #fff0 ) );
-}
-
-#HeroIcons 
-{
-	flow-children: down;
-	width: 100%;
-}
-
-.Hero 
-{
-	flow-children: right;
-	horizontal-align: center;
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-
-.HeroIcon 
-{
-	background-image: url("file://{images}/custom_game/hight_hood/heroes/npc_dota_hero_abaddon_png.png");
-	background-size: 100%;
-	border-radius: 100px;
-	width: 30px;
-	height: 30px;
-	vertical-align: center;
-	border: 1px solid black;
-}
-
-.HeroName {
-	font-size: 18px;
-	text-shadow: 0px 0px 4px 1 black;
-	color: white;
-	vertical-align: center;
-	width: 130px;
-	text-align: center;
-	margin-left: 5px;
-}
-
-.ContractSelector
-{
-    width: 200px;
-    height: 100px;
-    background-color: red;
-    align: center center;
+    transform: scaleX(-1);
 }

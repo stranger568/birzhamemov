@@ -65,3 +65,8 @@ LinkLuaModifier("modifier_gaben_int_fixed", "modifiers/modifier_gaben_int_fixed"
 LinkLuaModifier("modifier_hallowen_birzha_candy", "modifiers/modifier_hallowen_birzha_candy", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_npc_pumpkin_candies_custom", "modifiers/modifier_npc_pumpkin_candies_custom", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_order_cast", "modifiers/modifier_order_cast", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_birzha_fountain_passive", "abilities/units/fountain", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier("modifier_fountain_passive_invul", "abilities/units/fountain", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier("modifier_birzha_fountain_attacked", "abilities/units/fountain", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier("modifier_npc_dota_azazin_antosha", "modifiers/modifier_npc_dota_azazin_antosha", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_npc_dota_azazin_kobold", "modifiers/modifier_npc_dota_azazin_kobold", LUA_MODIFIER_MOTION_NONE)

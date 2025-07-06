@@ -6,6 +6,15 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 EdwardBil_Agression = class({}) 
 
+function EdwardBil_Agression:Precache(context)
+    PrecacheResource("particle", "particles/units/heroes/hero_invoker/invoker_ghost_walk.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_night_stalker/nightstalker_crippling_fear_smoke.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_tusk/tusk_walruspunch_start.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_tusk/tusk_walruspunch_hand.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_tusk/tusk_walruspunch_start.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_tusk/tusk_walruspunch_hand.vpcf", context)
+end
+
 function EdwardBil_Agression:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

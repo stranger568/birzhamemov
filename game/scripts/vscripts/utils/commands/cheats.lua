@@ -71,12 +71,12 @@ end
 function Commands:report(player, arg)
 	if not IsAdmin(player) then return end
 	local caster = player:GetAssignedHero()	
-	BirzhaEvents:AddPlayerFullDisconnectDebuff(caster, caster:GetPlayerID())
+	BMConnections:AddPlayerFullDisconnectDebuff(caster, caster:GetPlayerID())
 end
 
 function Commands:leave(player, arg)
     if not IsAdmin(player) then return end
-	BirzhaEvents:AutoWin()
+	BMConnections:AutoWin()
 end
 
 function Commands:visual(player, arg)
@@ -84,12 +84,30 @@ function Commands:visual(player, arg)
     CustomGameEventManager:Send_ServerToAllClients("birzha_toast_manager_create", {text = "ServerNoConnection", icon = "server_connect"} )
 end
 
-function Commands:banner(player, arg)
+function Commands:ban(player, arg)
     if not IsAdmin(player) then return end
-    CustomGameEventManager:Send_ServerToAllClients("birzha_toast_manager_create", {text = arg[1], icon = "server_connect"} )
+    EmitGlobalSound("sound_hit_5")
+    local origin = Vector(0,0,0)
+    local coinsToSpawn = 100
+    local coinsSpawned = 0
+    Timers:CreateTimer(0, function()
+        if coinsSpawned < coinsToSpawn then
+            BirzhaGameMode:SpawnGoldKobold(origin)
+            coinsSpawned = coinsSpawned + 1
+            if coinsSpawned >= 20 then
+                return 0.05
+            end
+            if coinsSpawned >= 4 then
+                return 0.2
+            end
+            return 0.4
+        else
+            return nil
+        end
+    end)
 end
 
 function Commands:save(player, arg)
     if not IsAdmin(player) then return end
-	BirzhaData.PostDataItemTest()
+    BMConnections:OnDisconnect({PlayerID = player:GetPlayerID()})
 end

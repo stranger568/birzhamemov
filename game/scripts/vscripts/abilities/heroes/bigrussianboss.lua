@@ -6,6 +6,21 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 BigRussianBoss_Vape = class({})
 
+function BigRussianBoss_Vape:Precache(context)
+    PrecacheResource("particle", "particles/boss/riki_smokebomb.vpcf", context)
+    PrecacheResource("particle", "particles/generic_gameplay/generic_silenced.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_alchemist/alchemist_unstable_concoction_projectile.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_alchemist/alchemist_unstable_concoction_explosion.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_alchemist/alchemist_unstable_concoction_timer.vpcf", context)
+    PrecacheResource("particle", "particles/boss/steb.vpcf", context)
+    PrecacheResource("particle", "particles/boss/test.vpcf", context)
+    PrecacheResource("particle", "particles/items_fx/black_king_bar_avatar.vpcf", context)
+    PrecacheResource("particle", "particles/status_fx/status_effect_avatar.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_legion_commander/legion_commander_duel_victory.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_alchemist/alchemist_berserk_potion_projectile.vpcf", context)
+    PrecacheResource("particle", "particles/brb_spice_effect.vpcf", context)
+end
+
 function BigRussianBoss_Vape:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

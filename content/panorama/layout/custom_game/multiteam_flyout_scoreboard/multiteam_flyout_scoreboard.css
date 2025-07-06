@@ -109,7 +109,7 @@
 
 #TeamScorePanel
 {
-    margin-left: 238px;
+    margin-left: 271px;
     width: 50px;
     height: 100%;
     background-color: BACKGROUND_COLOR;
@@ -117,6 +117,7 @@
 
 .Legend
 {
+    horizontal-align: right;
     flow-children: right;
 }
 
@@ -145,7 +146,7 @@
     border: 1px solid black;
 }
 
-#LevelContainer, #KillsContainer, #DeathsContainer, #AssistsContainer, #MmrContainer
+#LevelContainer, #KillsContainer, #DeathsContainer, #AssistsContainer, #MmrContainer, #RatingContainer
 {
     height: 100%;
 }
@@ -181,7 +182,7 @@
     color: #898b8c;
 }
 
-#Kills, #Deaths, #Assists
+#Kills, #Deaths, #Assists, #Rating
 {
     vertical-align: center;
     font-size: 18px;
@@ -213,20 +214,19 @@
 #HeroNameAndDescription
 {
     color: #898b8c;
-    font-size: 13px;
+    font-size: 12px;
     text-shadow: 2px 2px 2px black;
-    margin-top: -1px;
+    margin-top: 2px;
 }
 
  #MuteButton
  {
     z-index:2;
-    margin-right: 0px;
-    margin-top: 0px;
     horizontal-align: right;
-    vertical-align: top;
-    width: 16px;
-    height: 16px;
+    vertical-align: center;
+    margin-right: 5px;
+    width: 24px;
+    height: 24px;
     background-size: 100%;
     background-repeat: no-repeat;
     background-position: 50% 50%;
@@ -303,7 +303,7 @@
 {
     margin-left: 5px;
     width: 50px;
-    text-align: center;
+    height: 100%;
     text-align: center;
 }
 
@@ -312,6 +312,13 @@
     margin-left: 5px;
     width: 35px;
     text-align: center;
+}
+
+.ScoreCol_Rating
+{
+    margin-left: 5px;
+    width: 55px;
+    text-align: center; 
 }
 
 .is_local_player #ReportButtonPlayer
@@ -437,3 +444,14 @@
      margin-bottom: 0px;
 }
 
+.PlayerAvatarPanel
+{
+    width: 33px;
+    height: 100%;
+}
+
+.PlayerAvatarC
+{
+    width: 100%;
+    height: 100%;
+}

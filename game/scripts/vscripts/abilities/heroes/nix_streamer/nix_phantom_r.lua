@@ -4,9 +4,8 @@ LinkLuaModifier("modifier_nix_marci_r_upgrade", "abilities/heroes/nix_streamer/n
 nix_phantom_r = class({})
 
 function nix_phantom_r:GetManaCost(iLevel)
-    local base_cost = self:GetSpecialValueFor("base_manacost")
     local manacost_from_current_mana = self:GetSpecialValueFor("manacost_from_current_mana")
-    return base_cost + (self:GetCaster():GetMana() / 100 * manacost_from_current_mana)
+    return (self:GetCaster():GetMana() / 100 * manacost_from_current_mana)
 end
 
 function nix_phantom_r:Precache( context )

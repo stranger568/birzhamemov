@@ -1,34 +1,39 @@
 <root>
     <scripts>
         <include src="file://{resources}/layout/custom_game/scripts/util.js" />
-      	<include src="file://{resources}/layout/custom_game/scripts/playertables_base.js" />
+        <include src="file://{resources}/layout/custom_game/scripts/custom_ui_manifest.js" />
+        <include src="file://{resources}/layout/custom_game/scripts/chat_handler.js" />
       	<include src="file://{resources}/layout/custom_game/scripts/custom_ability_particles.js" />
       	<include src="file://{resources}/layout/custom_game/scripts/vector_targeting.js" />
         <include src="file://{resources}/layout/custom_game/scripts/nix_updater_panel.js" />
+        <include src="file://{resources}/layout/custom_game/scripts/selection.js" />
+        <include src="file://{resources}/layout/custom_game/scripts/selection_filter.js" />
     </scripts>
-    
 	<Panel>
-        <CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/heroes/overlord/barebones_worldpanels.xml" />
-        <CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/heroes/ring_hud/ring_hud.xml" /> 	
-        <CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/heroes/invoked_spells/invoked_spells.xml" /> 
-        <CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/heroes/pucci_quests/pucci_quests.xml" />
-        <CustomUIElement type="Hud"					layoutfile="file://{resources}/layout/custom_game/heroes/scpscreamer/scpscreamer.xml" />
-        <CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/heroes/saitama_punch/saitama_punch.xml" />
-        <CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/heroes/freddy_screamer/freddy_screamer.xml" />
-        <CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/heroes/nolik_energy/nolik_energy.xml" />
-        <CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/heroes/shelby_panel/shelby_panel.xml" />
-        <CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/bm_hero_selection/bm_hero_selection.xml" />
-        <CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/birzha_leaderboard/birzha_leaderboard.xml" />
-        <CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/game_store/game_store.xml" />
-        <CustomUIElement type="Hud"					layoutfile="file://{resources}/layout/custom_game/overthrow_scoreboard_score/overthrow_scoreboard_score.xml" />
-        <CustomUIElement type="HudTopBar"			layoutfile="file://{resources}/layout/custom_game/multiteam_top_scoreboard/multiteam_top_scoreboard.xml" />
-        <CustomUIElement type="GameSetup"			layoutfile="file://{resources}/layout/custom_game/team_select/team_select.xml" />
-		<CustomUIElement type="FlyoutScoreboard"	layoutfile="file://{resources}/layout/custom_game/multiteam_flyout_scoreboard/multiteam_flyout_scoreboard.xml" />
-        <CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/win_predict/win_predict.xml" />
-        <CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/toast_birzha_manager/toast_birzha_manager.xml" />
-        <CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/report_panel/report_panel.xml" />
-        <CustomUIElement type="Hud" 				layoutfile="file://{resources}/layout/custom_game/high_five/high_five.xml" />
-        <CustomUIElement type="Hud"					layoutfile="file://{resources}/layout/custom_game/dota_hud_chat_wheel/dota_hud_chat_wheel.xml" />
-        <CustomUIElement type="EndScreen" 			layoutfile="file://{resources}/layout/custom_game/multiteam_end_screen/multiteam_end_screen.xml" />	
-	</Panel> 
+        <CustomUIElement type="Hud" 				    layoutfile="file://{resources}/layout/custom_game/heroes/ring_hud/ring_hud.xml" />
+        <CustomUIElement type="Hud" 				    layoutfile="file://{resources}/layout/custom_game/heroes/invoked_spells/invoked_spells.xml" />
+        <CustomUIElement type="Hud" 				    layoutfile="file://{resources}/layout/custom_game/heroes/pucci_quests/pucci_quests.xml" />
+        <CustomUIElement type="Hud"					    layoutfile="file://{resources}/layout/custom_game/heroes/scpscreamer/scpscreamer.xml" />
+        <CustomUIElement type="Hud" 				    layoutfile="file://{resources}/layout/custom_game/heroes/saitama_punch/saitama_punch.xml" />
+        <CustomUIElement type="Hud" 				    layoutfile="file://{resources}/layout/custom_game/heroes/freddy_screamer/freddy_screamer.xml" />
+        <CustomUIElement type="Hud" 				    layoutfile="file://{resources}/layout/custom_game/heroes/nolik_energy/nolik_energy.xml" />
+        <CustomUIElement type="Hud" 				    layoutfile="file://{resources}/layout/custom_game/heroes/shelby_panel/shelby_panel.xml" />
+
+        <CustomUIElement type="Hud"					    layoutfile="file://{resources}/layout/custom_game/overthrow_scoreboard_score/overthrow_scoreboard_score.xml" />
+        <CustomUIElement type="Hud" 				    layoutfile="file://{resources}/layout/custom_game/birzha_leaderboard/birzha_leaderboard.xml" /> 
+        <CustomUIElement type="Hud" 				    layoutfile="file://{resources}/layout/custom_game/game_store/game_store.xml" />
+        <CustomUIElement type="HudTopBar"			    layoutfile="file://{resources}/layout/custom_game/multiteam_top_scoreboard/multiteam_top_scoreboard.xml" />
+		<CustomUIElement type="FlyoutScoreboard"	    layoutfile="file://{resources}/layout/custom_game/multiteam_flyout_scoreboard/multiteam_flyout_scoreboard.xml" />
+
+        <CustomUIElement type="Hud" 				    layoutfile="file://{resources}/layout/custom_game/toast_birzha_manager/toast_birzha_manager.xml" />
+        <CustomUIElement type="Hud" 				    layoutfile="file://{resources}/layout/custom_game/win_predict/win_predict.xml" />
+        <CustomUIElement type="Hud" 				    layoutfile="file://{resources}/layout/custom_game/high_five/high_five.xml" />
+        <CustomUIElement type="Hud"					    layoutfile="file://{resources}/layout/custom_game/dota_hud_chat_wheel/dota_hud_chat_wheel.xml" />
+        <CustomUIElement type="Hud"					    layoutfile="file://{resources}/layout/custom_game/neutral_system/neutral_system.xml" />
+        
+        <CustomUIElement type="GameSetup"			    layoutfile="file://{resources}/layout/custom_game/team_select/team_select.xml" />
+        <CustomUIElement type="EndScreen" 			    layoutfile="file://{resources}/layout/custom_game/multiteam_end_screen/multiteam_end_screen.xml" />
+        <CustomUIElement type="PregameStrategy" 	    layoutfile="file://{resources}/layout/custom_game/bm_hero_selection/bm_hero_selection.xml" />
+        <CustomUIElement type="PregameStrategy" 	    layoutfile="file://{resources}/layout/custom_game/game_store/game_store.xml" />
+	</Panel>
 </root>

@@ -6,6 +6,32 @@ LinkLuaModifier("modifier_polnaref_scepter_in_stand_buff_stand", "abilities/hero
 
 polnaref_stand_inside = class({})
 
+function polnaref_stand_inside:Precache(context)
+    PrecacheResource("model", "models/heroes/polnaref/polnaref.vmdl", context)
+    local particle_list = 
+    {
+        "particles/econ/events/fall_2021/blink_dagger_fall_2021_start.vpcf",
+        "particles/econ/events/fall_2021/blink_dagger_fall_2021_end.vpcf",
+        "particles/polnaref_inside.vpcf",
+        "particles/econ/items/earthshaker/earthshaker_arcana/earthshaker_arcana_spawn.vpcf",
+        "particles/status_fx/status_effect_spirit_bear.vpcf",
+        "particles/generic_gameplay/generic_disarm.vpcf",
+        "particles/generic_gameplay/generic_lifesteal.vpcf",
+        "particles/polnaref/polnaref_rage.vpcf",
+        "particles/status_fx/status_effect_beserkers_call.vpcf",
+        "particles/polnaref/attack_particle.vpcf",
+        "particles/polnaref_sword.vpcf",
+        "particles/polnaref_sword_fly.vpcf",
+        "particles/gameplay/location_hint_goal.vpcf",
+        "particles/polnaref/polnaref_rage.vpcf",
+        "particles/status_fx/status_effect_beserkers_call.vpcf",
+        "particles/polnaref/polnaref_windrun.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function polnaref_stand_inside:OnInventoryContentsChanged()
     if not IsServer() then return end
 

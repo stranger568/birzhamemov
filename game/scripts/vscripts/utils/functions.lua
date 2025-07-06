@@ -41,7 +41,6 @@ function CDOTA_BaseNPC:OverlordKillSound( hero, killedUnit )
         ["npc_dota_hero_stone_dwayne"] = "overlord_kill_skala",
         ["npc_dota_hero_nyx_assassin"] = "overlord_kill_stray",    
     }
-    print("ddd")
     if RollPercentage(50) then
         if list_kill_overlord[killedUnit:GetUnitName()] then
             self:EmitSound(list_kill_overlord[killedUnit:GetUnitName()])
@@ -201,22 +200,29 @@ function BroadcastMessage( sMessage, fDuration )
     FireGameEvent( "show_center_message", centerMessage )
 end
 
-function PickRandomShuffle( reference_list, bucket )
-    if ( #reference_list == 0 ) then
+function PickRandomShuffle(reference_list, bucket)
+    -- Проверка на пустой список
+    if not reference_list or #reference_list == 0 then
         return nil
     end
     
-    if ( #bucket == 0 ) then
-        -- ran out of options, refill the bucket from the reference
-        for k, v in pairs(reference_list) do
-            bucket[k] = v
+    -- Инициализация bucket, если он nil или пустой
+    if not bucket then
+        bucket = {}
+    end
+    
+    if #bucket == 0 then
+        -- Копируем элементы из reference_list в bucket
+        for _, v in ipairs(reference_list) do
+            table.insert(bucket, v)
         end
     end
 
-    -- pick a value from the bucket and remove it
-    local pick_index = RandomInt( 1, #bucket )
-    local result = bucket[ pick_index ]
-    table.remove( bucket, pick_index )
+    -- Выбираем случайный элемент из bucket
+    local pick_index = RandomInt(1, #bucket)
+    local result = bucket[pick_index]
+    table.remove(bucket, pick_index)
+    
     return result
 end
 
@@ -538,7 +544,7 @@ function CDOTA_BaseNPC:HasShard()
     return false
 end
 
-function GameTimerUpdater(time, event_name)
+function GameTimerUpdater(time, event_name, full_original_time)
     local t = time
     local minutes = math.floor(t / 60)
     local seconds = t - (minutes * 60)
@@ -547,30 +553,28 @@ function GameTimerUpdater(time, event_name)
     local s10 = math.floor(seconds / 10)
     local s01 = seconds - (s10 * 10)
     local broadcast_gametimer = 
-        {
-            timer_minute_10 = m10,
-            timer_minute_01 = m01,
-            timer_second_10 = s10,
-            timer_second_01 = s01,
-        }
+    {
+        timer_minute_10 = m10,
+        timer_minute_01 = m01,
+        timer_second_10 = s10,
+        timer_second_01 = s01,
+        original_time = time,
+        full_original_time = full_original_time,
+    }
     CustomGameEventManager:Send_ServerToAllClients( event_name, broadcast_gametimer )
 end
 
 function SpawnDonaters()
     for i = 1, 9 do
-        Timers:CreateTimer(0.25*i, function()
-            local donater = CreateUnitByName( "donater_top" ..i , Vector( 0, 0, 0 ), true, nil, nil, DOTA_TEAM_NEUTRALS )
-            donater:AddNewModifier( donater, nil, "modifier_birzha_donater", {} )
+        Timers:CreateTimer(i, function()
+            local donater = CreateUnitByName( "donater_top" ..i , Vector( 0, 0, 0 ) + RandomVector(800), true, nil, nil, DOTA_TEAM_NEUTRALS )
+            if donater then
+                donater:AddNewModifier( donater, nil, "modifier_birzha_donater", {} )
+            end
             if i == 7 then
                 donater:SetMaterialGroup("1")
                 ParticleManager:CreateParticle("particles/econ/courier/courier_golden_doomling/courier_golden_doomling_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, donater)
             end
         end)
     end
-    local creator_1 = CreateUnitByName( "sozdatel_StrangeR", Vector( 0, 0, 0 ), true, nil, nil, DOTA_TEAM_NEUTRALS )
-    local creator_2 = CreateUnitByName( "sozdatel_UblueWolf", Vector( 0, 0, 0 ), true, nil, nil, DOTA_TEAM_NEUTRALS )
-    local creator_3 = CreateUnitByName( "sozdatel_rolla", Vector( 0, 0, 0 ), true, nil, nil, DOTA_TEAM_NEUTRALS )
-	creator_1:AddNewModifier( creator_1, nil, "modifier_birzha_donater", {} )
-	creator_2:AddNewModifier( creator_2, nil, "modifier_birzha_donater", {} )
-	creator_3:AddNewModifier( creator_3, nil, "modifier_birzha_donater", {} )
 end

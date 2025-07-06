@@ -4,6 +4,29 @@ LinkLuaModifier( "modifier_stray_rat_poison_debuff", "abilities/heroes/stray", L
 
 stray_rat_poison = class({})
 
+function stray_rat_poison:Precache(context)
+    local particle_list = 
+    {
+        "particles/stray/stray_rat_poison.vpcf",
+        "particles/stray/stray_rat_poison_slow.vpcf",
+        "particles/units/heroes/hero_void_spirit/astral_step/void_spirit_astral_step.vpcf",
+        "particles/units/heroes/hero_faceless_void/faceless_void_time_walk.vpcf",
+        "particles/units/heroes/hero_void_spirit/astral_step/void_spirit_astral_step_impact.vpcf",
+        "particles/generic_gameplay/generic_stunned.vpcf",
+        "particles/stray/stray_thirt.vpcf",
+        "particles/generic_gameplay/generic_stunned.vpcf",
+        "particles/stray/stray_thirt.vpcf",
+        "particles/stray/rat_effect.vpcf",
+        "particles/units/heroes/hero_rattletrap/rattletrap_battery_assault.vpcf",
+        "particles/units/heroes/hero_rattletrap/rattletrap_battery_shrapnel.vpcf",
+        "particles/stray/stray_shveps_debuff.vpcf",
+        "particles/stray/stray_shveps_effect.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function stray_rat_poison:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_stray_3")
 end

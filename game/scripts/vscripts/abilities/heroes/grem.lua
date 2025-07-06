@@ -3,6 +3,22 @@ LinkLuaModifier( "modifier_grem_creepyappearance_buff_shard", "abilities/heroes/
 
 Grem_CreepyAppearance = class({})
 
+function Grem_CreepyAppearance:Precache(context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_abaddon/abaddon_aphotic_shield_explosion.vpcf",
+        "particles/generic_gameplay/generic_silenced.vpcf",
+        "particles/units/heroes/hero_centaur/centaur_shard_buff_strength.vpcf",
+        "particles/units/heroes/hero_visage/visage_familiar_transform.vpcf",
+        "particles/status_fx/status_effect_earth_spirit_petrify.vpcf",
+        "particles/units/heroes/hero_centaur/centaur_return.vpcf",
+        "particles/status_fx/status_effect_mjollnir_shield.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Grem_CreepyAppearance:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_grem_3")
 end

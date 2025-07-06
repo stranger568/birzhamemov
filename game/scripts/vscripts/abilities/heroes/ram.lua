@@ -5,6 +5,22 @@ LinkLuaModifier("modifier_generic_knockback_lua", "modifiers/modifier_generic_kn
 
 ram_fura = class({})
 
+function ram_fura:Precache(context)
+    PrecacheResource("model", "models/update_heroes/ram/ram.vmdl", context)
+    local particle_list = 
+    {
+        "particles/tornado/invoker_tornado_ti6.vpcf",
+        "particles/econ/items/invoker/invoker_ti6/invoker_deafening_blast_ti6.vpcf",
+        "particles/econ/items/invoker/invoker_ti6/invoker_deafening_blast_disarm_ti6_debuff.vpcf",
+        "particles/ram/medusa_mana_shield.vpcf",
+        "particles/ram/medusa_mana_shield_cast.vpcf",
+        "particles/ram_emp.vpcf" ,
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function ram_fura:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_ram_4")
 end
@@ -278,6 +294,8 @@ end
 LinkLuaModifier( "modifier_demonic_shield", "abilities/heroes/ram.lua", LUA_MODIFIER_MOTION_NONE )
 
 ram_DemonicShield = class({})
+
+function ram_DemonicShield:ResetToggleOnRespawn() return false end
 
 function ram_DemonicShield:OnToggle()
 	local caster = self:GetCaster()

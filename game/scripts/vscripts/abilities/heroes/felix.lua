@@ -4,6 +4,27 @@ LinkLuaModifier( "modifier_Felix_WaterStream_scepter", "abilities/heroes/felix.l
 
 Felix_WaterStream = class({})
 
+function Felix_WaterStream:Precache(context)
+    PrecacheResource("model", "models/update_heroes/felix/felix.vmdl", context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_morphling/morphling_adaptive_strike_agi_proj.vpcf",
+        "particles/units/heroes/hero_morphling/morphling_adaptive_strike_str_proj.vpcf",
+        "particles/felix_itstrap.vpcf",
+        "particles/status_fx/status_effect_gush.vpcf",
+        "particles/units/heroes/hero_tidehunter/tidehunter_anchor_hero.vpcf",
+        "particles/units/heroes/hero_tidehunter/tidehunter_gush_slow.vpcf",
+        "particles/act_2/siltbreaker_channel.vpcf",
+        "particles/act_2/ice_boss_channel.vpcf",
+        "particles/status_fx/status_effect_morphling_morph_target.vpcf",
+        "particles/units/heroes/hero_tidehunter/tidehunter_gush.vpcf",
+        "particles/felix_shield.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Felix_WaterStream:GetCastRange()
 	return self:GetSpecialValueFor( "radius" )
 end
@@ -268,25 +289,20 @@ end
 function Felix_ItsATrap:OnSpellStart()
 	if not IsServer() then return end
 	local duration = self:GetSpecialValueFor("stun_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_felix_3")
-
 	if self:GetCaster():HasShard() then
     	duration = self:GetSpecialValueFor("stun_duration_scepter") + self:GetCaster():FindTalentValue("special_bonus_birzha_felix_3")
 	end
-
 	self:GetCaster():EmitSound("FelixTwo")
-
 	if self:GetCaster():HasShard() then
         local targets = FindUnitsInRadius( self:GetCaster():GetTeamNumber(), self:GetCursorPosition(), nil, self:GetSpecialValueFor( "radius" ), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE, 0, false )
         for _,enemy in pairs(targets) do
-        	enemy:AddNewModifier(self:GetCaster(), self, "modifier_Felix_ItsATrap", {duration = duration * (1 - enemy:GetStatusResistance())})
 			enemy:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned_purge", {duration = duration * (1 - enemy:GetStatusResistance())})
+        	enemy:AddNewModifier(self:GetCaster(), self, "modifier_Felix_ItsATrap", {duration = duration * (1 - enemy:GetStatusResistance())})
         end
     else
-		if self:GetCursorTarget():TriggerSpellAbsorb( self ) then
-	        return
-	    end
-		self:GetCursorTarget():AddNewModifier(self:GetCaster(), self, "modifier_Felix_ItsATrap", {duration = duration * (1 - self:GetCursorTarget():GetStatusResistance())})
+		if self:GetCursorTarget():TriggerSpellAbsorb( self ) then return end
 		self:GetCursorTarget():AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned_purge", {duration = duration * (1 - self:GetCursorTarget():GetStatusResistance())})
+		self:GetCursorTarget():AddNewModifier(self:GetCaster(), self, "modifier_Felix_ItsATrap", {duration = duration * (1 - self:GetCursorTarget():GetStatusResistance())})
 	end
 end
 

@@ -3,6 +3,30 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 mina_explosive_wave = class({})
 
+function mina_explosive_wave:Precache(context)
+    PrecacheResource("model", "models/dimon/dimon_model.vmdl", context)
+    local particle_list = 
+    {
+        "particles/heroes/hero_mina/explosionwave_start.vpcf",
+        "particles/heroes/hero_mina/explosionwave.vpcf",
+        "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_calldown_launch.vpcf",
+        "particles/units/heroes/hero_techies/techies_blast_off_trail.vpcf",
+        "particles/units/heroes/hero_techies/techies_blast_off.vpcf",
+        "particles/generic_gameplay/generic_silence.vpcf",
+        "particles/heroes/hero_mina/radiation_field.vpcf",
+        "particles/units/heroes/hero_gob_squad/clearance_sale_bomb.vpcf",
+        "particles/units/heroes/hero_gob_squad/clearance_sale_explosion.vpcf",
+        "particles/units/heroes/hero_gob_squad/clearance_sale_bomb_physical.vpcf",
+        "particles/units/heroes/hero_gob_squad/clearance_sale_explosion_physical.vpcf",
+        "particles/units/heroes/hero_gob_squad/clearance_sale_bomb_pure.vpcf",
+        "particles/units/heroes/hero_gob_squad/clearance_sale_explosion_pure.vpcf",
+        "particles/units/heroes/hero_gob_squad/whoops_explosion.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function mina_explosive_wave:GetAOERadius()
 	return self:GetSpecialValueFor("aoe_radius")
 end
@@ -694,10 +718,3 @@ function modifier_mina_suicide:OnDestroy()
 
     self:GetParent():SetHealth(math.max( self:GetParent():GetHealth() / 100 * self:GetAbility():GetSpecialValueFor("damage_from_health"), 1))
 end
-
-
-
-
-
-
-

@@ -3,6 +3,21 @@ LinkLuaModifier( "modifier_scp682_bite_debuff", "abilities/heroes/scp682.lua", L
 
 scp682_bite = class({}) 
 
+function scp682_bite:Precache(context)
+    PrecacheResource("model", "models/update_heroes/scp192/scp192.vmdl", context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_centaur/centaur_double_edge.vpcf",
+        "particles/items_fx/black_king_bar_avatar.vpcf",
+        "particles/status_fx/status_effect_avatar.vpcf",
+        "particles/units/heroes/hero_bloodseeker/bloodseeker_bloodbath.vpcf",
+        "particles/scp_plot_thinker.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function scp682_bite:GetCooldown(level)
     if self:GetCaster():HasModifier("modifier_scp682_ultimate") then
         return self.BaseClass.GetCooldown( self, level ) / 2

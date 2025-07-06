@@ -3,6 +3,24 @@ LinkLuaModifier( "modifier_Durov_AttackOnPoliceman_debuff", "abilities/heroes/du
 
 Durov_AttackOnPoliceman = class({})
 
+function Durov_AttackOnPoliceman:Precache(context)
+    PrecacheResource("particle", "particles/units/heroes/hero_ember_spirit/ember_spirit_sleight_of_fist_cast.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_ember_spirit/ember_spirit_sleight_of_fist_targetted_marker.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_ember_spirit/ember_spirit_sleight_of_fist_caster.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_ember_spirit/ember_spirit_sleightoffist_tgt.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_ember_spirit/ember_spirit_sleightoffist_trail.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_ember_spirit/ember_spirit_sleightoffist_trail.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_juggernaut/juggernaut_omni_slash_trail.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_juggernaut/juggernaut_omni_slash_tgt.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_juggernaut/juggernaut_omni_slash_trail.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_juggernaut/juggernaut_omni_slash.vpcf", context)
+    PrecacheResource("particle", "particles/status_fx/status_effect_omnislash.vpcf", context)
+    PrecacheResource("particle", "particles/econ/items/juggernaut/armor_of_the_favorite/juggernaut_armor_of_the_favorite_crit.vpcf", context)
+    PrecacheResource("particle", "particles/econ/courier/courier_flopjaw_gold/flopjaw_death_gold.vpcf", context)
+    PrecacheResource("particle", "particles/econ/courier/courier_flopjaw_gold/courier_flopjaw_ambient_gold.vpcf", context)
+    PrecacheResource("particle", "particles/durov/durov_vpn.vpcf", context)
+end
+
 function Durov_AttackOnPoliceman:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

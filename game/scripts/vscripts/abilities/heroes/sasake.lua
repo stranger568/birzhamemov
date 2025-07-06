@@ -3,6 +3,22 @@ LinkLuaModifier("modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modif
 
 sasake_one_ability = class({})
 
+function sasake_one_ability:Precache(context)
+    PrecacheResource("model", "models/heroes/juggernaut/juggernaut_arcana.vmdl", context)
+    local particle_list = 
+    {    
+        "particles/sasake_gem_aura.vpcf",
+        "particles/econ/taunts/void_spirit/void_spirit_taunt_dust_impact.vpcf",
+        "particles/items_fx/black_king_bar_avatar.vpcf",
+        "particles/status_fx/status_effect_avatar.vpcf",
+        "particles/econ/courier/courier_greevil_red/courier_greevil_red_ambient_1.vpcf",
+        "particles/sasake_agi_effect.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function sasake_one_ability:OnSpellStart()
     if not IsServer() then return end
     local duration = self:GetSpecialValueFor("duration")

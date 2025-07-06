@@ -5,6 +5,22 @@ LinkLuaModifier( "modifier_gorshok_death_anarhia_zombie_death", "abilities/heroe
 
 gorshok_death_anarhia = class({}) 
 
+function gorshok_death_anarhia:Precache(context)
+    PrecacheResource("model", "models/creeps/neutral_creeps/n_creep_gargoyle/n_creep_gargoyle.vmdl", context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_undying/undying_soul_rip_damage.vpcf",
+        "particles/units/heroes/hero_undying/undying_soul_rip_damage.vpcf",
+        "particles/units/heroes/hero_brewmaster/brewmaster_cinder_brew_debuff.vpcf",
+        "particles/status_fx/status_effect_brewmaster_cinder_brew.vpcf",
+        "particles/units/heroes/hero_clinkz/clinkz_death_pact_buff.vpcf",
+        "particles/units/heroes/hero_doom_bringer/doom_bringer_scorched_earth_buff.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function gorshok_death_anarhia:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

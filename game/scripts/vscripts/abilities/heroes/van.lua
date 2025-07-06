@@ -4,6 +4,31 @@ LinkLuaModifier( "modifier_van_latexglove_rooted", "abilities/heroes/van.lua", L
 
 van_threehundredbucks = class({})
 
+function van_threehundredbucks:Precache(context)
+    PrecacheResource("model", "models/items/queenofpain/queenofpain_arcana/queenofpain_arcana.vmdl", context)
+    local particle_list = 
+    {
+        "particles/van/van_bind_overhead.vpcf",
+        "particles/van/van_bind_overhead_2.vpcf",
+        "particles/econ/items/queen_of_pain/qop_arcana/qop_arcana_blink_start.vpcf",
+        "particles/econ/items/queen_of_pain/qop_arcana/qop_arcana_blink_end.vpcf",
+        "particles/van/attack_van.vpcf",
+        "particles/van/van_bind.vpcf",
+        "particles/units/heroes/hero_dark_seer/dark_seer_attack_normal_punch.vpcf",
+        "particles/van/vanboommain.vpcf",
+        "particles/van/staff_status_effect.vpcf",
+        "particles/kanade_buff.vpcf",
+        "particles/econ/items/queen_of_pain/qop_arcana/qop_arcana_loadout.vpcf",
+        "particles/units/heroes/hero_doom_bringer/doom_infernal_blade_debuff.vpcf",
+        "particles/van/van_ultimate.vpcf",
+        "particles/van/van_ultimate_overhead.vpcf",
+        "particles/units/heroes/hero_shadow_demon/shadow_demon_demonic_purge_finale.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function van_threehundredbucks:CastFilterResultTarget( hTarget )
     if hTarget:IsMagicImmune() and (not self:GetCaster():HasShard()) then
         return UF_FAIL_MAGIC_IMMUNE_ENEMY
@@ -362,6 +387,7 @@ function modifier_van_takeitboy_debuff:OnCreated( kv )
     self:GetCaster():EmitSound("Item.PickUpGemWorld")
     if self:GetParent():IsHero() then
         local newItem = CreateItem( "item_bag_of_gold_van", nil, nil )
+        newItem.g_gold = self:GetAbility():GetSpecialValueFor("gold")
         local drop = CreateItemOnPositionForLaunch( self:GetCaster():GetAbsOrigin(), newItem )
         newItem:LaunchLootInitialHeight( false, 0, 500, 0.75, self:GetCaster():GetAbsOrigin() + RandomVector( 100 ) )
         Timers:CreateTimer(10, function() 

@@ -64,28 +64,33 @@ function modifier_ashab_q:OnIntervalThink()
         if unit ~= self.target then
             if not self.targets_table[unit:entindex()] then
                 self.targets_table[unit:entindex()] = true
-                ApplyDamage({ victim = unit, attacker = self:GetCaster(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL, damage_flags = DOTA_DAMAGE_FLAG_NONE, ability = self:GetAbility() })
-                local direction = (unit:GetAbsOrigin() - self:GetParent():GetAbsOrigin())
-                direction.z = 0
-                direction = direction:Normalized()
-                unit:AddNewModifier(
-                    self:GetCaster(),
-                    self,
-                    "modifier_generic_knockback_lua",
-                    {
-                        direction_x = direction.x,
-                        direction_y = direction.y,
-                        distance = 200,
-                        height = 50,	
-                        duration = 0.5,
-                    }
-                )
-                local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_spirit_breaker/spirit_breaker_greater_bash.vpcf", PATTACH_POINT_FOLLOW, unit )
-                ParticleManager:SetParticleControlEnt( particle, 0, unit, PATTACH_POINT_FOLLOW, "attach_hitloc", Vector(0,0,0), true )
-                ParticleManager:ReleaseParticleIndex( particle )
+                self:BashTarget(unit)
             end
         end
     end
+end
+
+function modifier_ashab_q:BashTarget(unit)
+    ApplyDamage({ victim = unit, attacker = self:GetCaster(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL, damage_flags = DOTA_DAMAGE_FLAG_NONE, ability = self:GetAbility() })
+    local direction = (unit:GetAbsOrigin() - self:GetParent():GetAbsOrigin())
+    direction.z = 0
+    direction = direction:Normalized()
+    unit:AddNewModifier(
+        self:GetCaster(),
+        self,
+        "modifier_generic_knockback_lua",
+        {
+            direction_x = direction.x,
+            direction_y = direction.y,
+            distance = 200,
+            height = 50,	
+            duration = 0.5,
+            IsStun = true,
+        }
+    )
+    local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_spirit_breaker/spirit_breaker_greater_bash.vpcf", PATTACH_POINT_FOLLOW, unit )
+    ParticleManager:SetParticleControlEnt( particle, 0, unit, PATTACH_POINT_FOLLOW, "attach_hitloc", Vector(0,0,0), true )
+    ParticleManager:ReleaseParticleIndex( particle )
 end
 
 function modifier_ashab_q:CheckState()
@@ -115,6 +120,9 @@ end
 function modifier_ashab_q:OnAttack(params)
     if not IsServer() then return end
     if params.attacker == self:GetParent() and params.target == self.target then
+        if self:GetCaster():HasTalent("special_bonus_unique_ashab_5") then
+            self:BashTarget(params.target)
+        end
         self:Destroy()
     end
 end

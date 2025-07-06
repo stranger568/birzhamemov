@@ -6,87 +6,150 @@
 
 .WinPredict
 {
-	width: 300px;
-	height: 120px;
-
-    background-color: gradient(linear, 0% 0%, 0% 100%, from(#4010567e), to(rgba(0, 0, 0, 0.582)));
-	border: 1px solid #ffffff;
-	border-brush: gradient(linear, 0% 0%, 0% 100%, from(#ae00ff), to(#40035d));
-
-	vertical-align: bottom;
-	margin-bottom: 300px;
-	flow-children: down;
-	transform: translateX(-200%);
-	transition-property: transform, position, opacity;
-	transition-duration: 2s;
-	opacity: 0;
+    width: 340px;
+    height: 140px;
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#2a0d3aee), to(#0d0618ee));
+    border: 1px solid #ffffff12;
+    border-top: 1px solid #c875ff;
+    border-brush: gradient(radial, 50% 0%, 0% 0%, 100% 100%, from(#ae00ff66), to(#40035d00));
+    box-shadow: fill 0px 0px 5px 0px #5a00ff33;
+    
+    vertical-align: bottom;
+    margin-bottom: 290px;
+    flow-children: down;
+    
+    transform: translateX(-400px) rotateY(-15deg);
+    transition-property: transform, opacity;
+    transition-duration: 0.6s;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 0;
 }
 
 .WinPredictTop
 {
-	margin-top: 5px;
-	flow-children: down;
-	horizontal-align: center;
+    width: 100%;
+    margin-top: 8px;
+    flow-children: down;
+    horizontal-align: center;
 }
 
 .WinPredictTopLabel
 {
-	horizontal-align: center;
-	margin-top: 5px;
-	color: white;
-	font-family: Radiance;
+    horizontal-align: center;
+    color: gradient( linear, 0% 0%, 0% 100%, from( #e8d1ff ), to( #b388ff ) );
+    font-family: titleFont;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0px 0px 8px #a545ff66;
+    font-weight: semi-bold;
 }
 
 .WinPredictTopCounterLabel
 {
-	horizontal-align: center;
-	font-size: 28px;
-	font-weight: semi-bold;
-	color: white;
+    horizontal-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: gradient( linear, 0% 0%, 0% 100%, from( #ffffff ), to( #d6b5ff ) );
+    text-shadow: 0px 0px 12px #b388ffaa;
+    margin-top: 4px;
+    font-family: monospaceNumbers;
 }
 
 .PariImage
 {
-	background-image: url("file://{images}/custom_game/pari.png");
+    background-image: url("file://{images}/custom_game/pari.png");
     background-size: 100%;
-    width: 130px;
-    height: 40px;
+    width: 140px;
+    height: 44px;
     horizontal-align: center;
+    margin-top: 4px;
+    wash-color: #d4a6ff;
+    brightness: 1.2;
     visibility: collapse;
 }
 
 .WinPredictButton
 {
-    background-color: gradient(linear, 0% 0%, 0% 100%, from(rgba(175, 125, 255, 0.205)), to(rgba(173, 122, 255, 0.404)));
-    box-shadow: 0px 0px 1px black;
-	horizontal-align: center;
-	width: 220px;
-	height: 32px;
-	margin-top: 5px;
-	transition-property: brightness;
-	transition-duration: 0.2s;
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#6a3d9a), to(#3d1b6e));
+    border: 1px solid #ffffff15;
+    border-top: 1px solid #c291ff;
+    border-brush: gradient(linear, 0% 0%, 0% 100%, from(#ae00ff40), to(#40035d00));
+    box-shadow: 0px 2px 4px #00000066;
+    
+    horizontal-align: center;
+    width: 240px;
+    height: 36px;
+    margin-top: 8px;
+    
+    transition-property: brightness, transform;
+    transition-duration: 0.15s;
 }
 
 .WinPredictButtonLabel
 {
-	color: gradient( linear, 0% 0%, 0% 100%, from( #ffffff ), to( #c2f283 ) );
-	text-shadow: 0px 0px 4px 2.0 #00000088;
-	align: center center;
-	font-size: 18px;
+    color: gradient( linear, 0% 0%, 0% 100%, from( #ffffff ), to( #e4c7ff ) );
+    text-shadow: 0px 0px 6px #000000aa;
+    align: center center;
+    font-size: 18px;
+    font-weight: semi-bold;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: defaultFont;
 }
 
 .WinPredictButton:hover
 {
-	brightness: 1.4;
+    brightness: 1.3;
+    transform: translateY(-1px);
+    box-shadow: 0px 3px 8px #00000088;
 }
 
 .WinPredictButton:active
 {
-	brightness: 0.8;
+    brightness: 0.9;
+    transform: translateY(1px);
+    box-shadow: 0px 1px 2px #00000044;
+}
+
+.IsClick
+{
+    background-color: gradient(linear, 0% 0%, 0% 100%, from(#6a3d9a00), to(#3e1b6e00));
+    border: 1px solid #ffffff00;
+    border-top: 1px solid #c391ff00;
+    border-brush: gradient(linear, 0% 0%, 0% 100%, from(#ae00ff00), to(#41035d00));
+    box-shadow: 0px 2px 4px #00000000;
+}
+
+.WinPredictButton.IsClick:hover
+{
+    brightness: 1;
+    transform: translateY(0px);
+    box-shadow: 0px 3px 8px #00000000;
+}
+.WinPredictButton.IsClick:active
+{
+    brightness: 1;
+    transform: translateY(0px);
+    box-shadow: 0px 1px 2px #00000000;
 }
 
 .open
 {
-	transform: translateX(0px);
-	opacity: 1;
+    transform: translateX(0px) rotateY(0deg);
+    opacity: 1;
+}
+
+@keyframes 'PulseAttention'
+{
+    0% { brightness: 1; transform: scale3d(1, 1, 1); }
+    50% { brightness: 1.6; transform: scale3d(1.03, 1.03, 1.03); }
+    100% { brightness: 1; transform: scale3d(1, 1, 1); }
+}
+
+.WinPredict.Pulse
+{
+    animation-name: PulseAttention;
+    animation-duration: 0.8s;
+    animation-timing-function: ease-in-out;
 }

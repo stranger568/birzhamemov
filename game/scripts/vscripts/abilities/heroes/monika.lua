@@ -6,6 +6,24 @@ LinkLuaModifier( "modifier_monika_omniper_save", "abilities/heroes/monika.lua", 
 
 monika_omniper = class({})
 
+function monika_omniper:Precache(context)
+    PrecacheResource("model", "models/update_heroes/monika/monika.vmdl", context)
+    local particle_list = 
+    {
+        "particles/monika/monika_blink.vpcf",
+        "particles/econ/items/faceless_void/faceless_void_jewel_of_aeons/fv_time_walk_jewel.vpcf",
+        "particles/monika/monika_blink_flame.vpcf",
+        "particles/units/heroes/hero_morphling/morphling_morph_agi.vpcf",
+        "particles/units/heroes/hero_morphling/morphling_morph_str.vpcf",
+        "particles/units/heroes/hero_queenofpain/queen_blink_shard_end.vpcf",
+        "particles/monika/monika_ultimate_target.vpcf",
+        "particles/econ/items/invoker/invoker_ti6/invoker_deafening_blast_disarm_ti6_debuff.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function monika_omniper:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_monika_1")
 end
@@ -25,7 +43,6 @@ function monika_omniper:GetCastRange(location, target)
     	return self:GetSpecialValueFor("range") + self:GetCaster():FindTalentValue("special_bonus_birzha_monika_2")
     end
 end
-
 
 function monika_omniper:OnSpellStart()
 	if not IsServer() then return end

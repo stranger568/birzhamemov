@@ -5,6 +5,16 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 JesusAVGN_Spider = class({})
 
+function JesusAVGN_Spider:Precache(context)
+    local particle_list = 
+    {
+        
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function JesusAVGN_Spider:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

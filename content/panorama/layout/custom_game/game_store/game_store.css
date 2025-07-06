@@ -4719,38 +4719,80 @@ visibility: visible;
 .NotifList
 {
     width: 100%;
+    height: 100%;
     overflow: squish scroll;
     flow-children: down;
+    padding: 8px;
+    horizontal-align: center;
+    vertical-align: bottom;
+    margin-bottom: 120px;
 }
 
 .NotificationBody
 {
-    margin: 10px;
-    background-color: rgba(0, 0, 0, 0.7);
+    margin: 6px 0px;
+    padding: 12px 16px;
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #1e1f2acc ), to( #0e0f16ee ) );
     flow-children: down;
     width: 100%;
-    border: 1px solid white;
-    border-brush: gradient(radial, 0% 0%, 20% 10%, 100% 100%, from(rgb(153, 151, 254)), to(rgba(153, 151, 254, 0.02)));
+    border: 1px solid #ffffff08;
+    border-radius: 3px;
+    box-shadow: 0px 0px 12px #00000066;
+    
+    /* Анимация появления */
+    opacity: 1;
+    transition-property: opacity, transform;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}
+
+.NotificationBody.Show
+{
+    opacity: 1.0;
+    transform: translateX(0px);
+}
+
+.NotificationBody:hover
+{
+    brightness: 1.4;
+    border: 1px solid #ffffff15;
 }
 
 .NotificationName
 {
-    margin-top: 5px;
-    color: white;
-    margin-left: 10px;
-    font-weight: semi-bold;
+    color: gradient( linear, 0% 0%, 0% 100%, from( #d7d3ff ), to( #9b97ff ) );
+    margin-left: 0px;
+    font-weight: bold;
     text-transform: uppercase;
-    font-size: 24px;
+    font-size: 18px;
+    text-shadow: 0px 0px 6px #6d6aff66;
+    letter-spacing: 1px;
+    font-family: Reaver;
 }
 
 .NotificationDesc
 {
-    margin-top: 5px;
-    color: white;
-    margin-left: 10px;
-    font-weight: semi-bold;
-    font-size: 18px;
-    margin-bottom: 5px;
+    color: #c8c5e5;
+    margin-top: 4px;
+    margin-left: 0px;
+    font-weight: medium;
+    font-size: 16px;
+    text-shadow: 0px 0px 4px #00000088;
+    font-family: defaultFont;
+}
+
+/* Анимация исчезновения */
+@keyframes 'FadeOut'
+{
+    0% { opacity: 1.0; transform: translateX(0px); }
+    100% { opacity: 0.0; transform: translateX(-20px); }
+}
+
+.NotificationBody.FadeOut
+{
+    animation-name: FadeOut;
+    animation-duration: 0.3s;
+    animation-timing-function: ease-in;
 }
 
 .UpdateOnlyBuy
@@ -4867,6 +4909,11 @@ visibility: visible;
     background-size: 100%;
 }
 
+.ChatWheelIcon:hover
+{
+    pre-transform-scale2d: 1.1;
+}
+
 .ChatWheelIconSpray
 {
     width: 25px;
@@ -4928,6 +4975,7 @@ visibility: visible;
     horizontal-align: right;
     margin-right: 330px;
     margin-bottom: 20px;
+    opacity: 0;
 }
 
 .DonateShopCurrencyMainCandy

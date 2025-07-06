@@ -24,6 +24,33 @@ LinkLuaModifier( "modifier_ns_tricks_armor_debuff", "abilities/heroes/ns.lua", L
 
 Ns_Tricks = class({})
 
+function Ns_Tricks:Precache(context)
+    PrecacheResource("model", "models/ns/ns_model.vmdl", context)
+    local particle_list = 
+    {
+        "particles/ns/ns_tricks.vpcf",
+        "particles/items_fx/blink_dagger_start.vpcf",
+        "particles/items_fx/blink_dagger_end.vpcf",
+        "particles/neutral_fx/wolf_intimidate_howl_cast_dmg_debuff.vpcf",
+        "particles/items2_fx/mask_of_madness.vpcf",
+        "particles/generic_gameplay/rune_haste.vpcf",
+        "particles/items_fx/black_king_bar_avatar.vpcf",
+        "particles/status_fx/status_effect_avatar.vpcf",
+        "particles/generic_gameplay/generic_silence.vpcf",
+        "particles/generic_gameplay/generic_stunned.vpcf",
+        "particles/generic_gameplay/generic_muted.vpcf",
+        "particles/generic_gameplay/generic_break.vpcf",
+        "particles/units/heroes/hero_brewmaster/brewmaster_thunder_clap_debuff.vpcf",
+        "particles/units/heroes/hero_sniper/sniper_headshot_slow.vpcf",
+        "particles/units/heroes/hero_monkey_king/monkey_king_jump_armor_debuff.vpcf",
+        "particles/econ/items/wisp/wisp_tether_ti7.vpcf",
+        "particles/rubick_willowisp_base_attack.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Ns_Tricks:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_ns_3")
 end

@@ -436,10 +436,9 @@ function BirzhaData:RegisterPlayerSiteInfo(data, player_id)
     }
     if IsInToolsMode() then
         player_info.server_data.birzha_coin = 999999
+        player_info.server_data.bp_days = 0
     end
-    if player_info.server_data.bp_days > 0 then
-        CustomNetTables:SetTableValue("tip_cooldown", tostring(player_id), {cooldown = 0})
-    end
+    CustomNetTables:SetTableValue("tip_cooldown", tostring(player_id), {cooldown = 0})
     CustomNetTables:SetTableValue("game_state", "party_map", BirzhaData.PARTY_NUMBER_LIST)
     CustomNetTables:SetTableValue("reported_info", tostring(player_id), {reported_info = player_info.players_repoted})
     CustomNetTables:SetTableValue('birzhainfo', tostring(player_id), player_info.server_data)
@@ -468,6 +467,12 @@ function BirzhaData:RegisterSeasonInfo()
     RequestData('https://' .. BirzhaData.url .. '/bmemov/get_current_season.php', function(data) setup_gamedata(data) end) 
     RequestData('https://' .. BirzhaData.url .. '/bmemov/get_top_last_season.php', function(data) setup_last_season(data) end)
     RequestData('https://' .. BirzhaData.url .. '/bmemov/static_info/birzha_notification.json', function(data) updateNotif(data) end) 
+end
+
+function BirzhaData:GetHeroesWinrate()
+    RequestData('https://' .. BirzhaData.url .. '/bmemov/get_heroes_stats.php', function(data)
+        CustomNetTables:SetTableValue('game_state', 'heroes_winrate', data)
+    end)
 end
 
 function BirzhaData.SetDonateHeroes(data)
@@ -501,7 +506,6 @@ function BirzhaData:CheckConnection()
 end
 
 -- Отправка данных
-
 function BirzhaData.PostData()
     if not BirzhaData.SERVER_CONNECTION then return end
     local post_data = {players = {}}
@@ -516,8 +520,8 @@ function BirzhaData.PostData()
             win_predict = BirzhaData.GetPlayerWinPredict(id),
             games_calibrating = -1,
             token_spended = tostring(player_info.token_used),
-            pet_default = tonumber(player_info.server_data.pet_default),
-            default_border = tonumber(player_info.server_data.default_border),
+            pet_default = tonumber(player_info.server_data.pet_id),
+            default_border = tonumber(player_info.server_data.border_id),
             effect_id = tonumber(player_info.server_data.effect_id),
             tip_id = tonumber(player_info.server_data.tip_id),
             five_id = tonumber(player_info.server_data.five_id),

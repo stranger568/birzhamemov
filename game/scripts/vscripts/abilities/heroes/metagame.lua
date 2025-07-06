@@ -4,6 +4,28 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 metagame_shield = class({})
 
+function metagame_shield:Precache(context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_omniknight/omniknight_repel_cast.vpcf",
+        "particles/econ/items/omniknight/omni_2021_immortal/omni_2021_immortal.vpcf",
+        "particles/econ/items/dark_willow/dark_willow_ti8_immortal_head/dw_crimson_ti8_immortal_cursed_crown_cast.vpcf",
+        "particles/units/heroes/hero_dark_willow/dark_willow_leyconduit_start.vpcf",
+        "particles/meta_game_willow_fast_caststart.vpcf",
+        "particles/econ/items/dark_willow/dark_willow_ti8_immortal_head/dw_crimson_ti8_immortal_cursed_crownmarker.vpcf",
+        "particles/metagame_tree.vpcf",
+        "particles/units/heroes/hero_marci/marci_unleash_cast.vpcf",
+        "particles/units/heroes/hero_marci/marci_unleash_pulse.vpcf",
+        "particles/units/heroes/hero_marci/marci_unleash_buff.vpcf",
+        "particles/units/heroes/hero_marci/marci_unleash_stack.vpcf",
+        "particles/units/heroes/hero_marci/marci_unleash_attack.vpcf",
+        "particles/generic_gameplay/generic_silenced.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function metagame_shield:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_metagame_5")
 end

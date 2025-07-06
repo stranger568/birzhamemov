@@ -6,6 +6,25 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 Gitelman_Kaif = class({})
 
+function Gitelman_Kaif:Precache(context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_riki/riki_smokebomb.vpcf",
+        "particles/gitelman/gitelman_chain.vpcf",
+        "particles/gitelman/gitelman_chain_pair.vpcf",
+        "particles/gitelman/gitelman_chain_pair_tree.vpcf",
+        "particles/gitelman/gitelman_chain_single.vpcf",
+        "particles/econ/items/elder_titan/elder_titan_ti7/elder_titan_echo_stomp_ti7_magical.vpcf",
+        "particles/units/heroes/hero_magnataur/magnataur_reverse_polarity_pull.vpcf",
+        "particles/units/heroes/hero_troll_warlord/troll_warlord_battletrance_cast.vpcf",
+        "particles/units/heroes/hero_troll_warlord/troll_warlord_battletrance_buff.vpcf",
+        "particles/items_fx/battlefury_cleave.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Gitelman_Kaif:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

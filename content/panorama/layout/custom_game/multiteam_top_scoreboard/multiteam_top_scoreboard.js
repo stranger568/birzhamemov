@@ -12,24 +12,6 @@ function UpdateScoreboard()
 (function()
 {
 	var shouldSort = true;
-
-	if ( GameUI.CustomUIConfig().multiteam_top_scoreboard )
-	{
-		var cfg = GameUI.CustomUIConfig().multiteam_top_scoreboard;
-		if ( cfg.LeftInjectXMLFile )
-		{
-			$( "#LeftInjectXMLFile" ).BLoadLayout( cfg.LeftInjectXMLFile, false, false );
-		}
-		if ( cfg.RightInjectXMLFile )
-		{
-			$( "#RightInjectXMLFile" ).BLoadLayout( cfg.RightInjectXMLFile, false, false );
-		}
-
-		if ( typeof(cfg.shouldSort) !== 'undefined')
-		{
-			shouldSort = cfg.shouldSort;
-		}
-	}
 	
 	if ( ScoreboardUpdater_InitializeScoreboard === null ) { $.Msg( "WARNING: This file requires shared_scoreboard_updater.js to be included." ); }
 

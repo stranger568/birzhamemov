@@ -7,11 +7,35 @@ ashab_w = class({})
 function ashab_w:Precache(context)
     PrecacheResource("particle", "particles/units/heroes/hero_gyrocopter/gyro_death_explosion.vpcf", context)
     PrecacheResource("particle", "particles/econ/items/techies/techies_arcana/techies_suicide_arcana.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_lone_druid/lone_druid_bear_blink_start.vpcf", context)
     PrecacheResource("particle", "particles/ashab/car_radius.vpcf", context)
+    PrecacheResource("model", "models/ashab/car.vmdl", context)
+    PrecacheResource("model", "models/ashab/ashab.vmdl", context)
+end
+
+function ashab_w:GetBehavior()
+    if self:GetCaster():HasShard() then
+        return DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR_AOE
+    end
+    return DOTA_ABILITY_BEHAVIOR_NO_TARGET
+end
+
+function ashab_w:GetAOERadius()
+    return self:GetSpecialValueFor("radius")
 end
 
 function ashab_w:OnSpellStart()
     if not IsServer() then return end
+    if self:GetCaster():HasShard() then
+        local point = self:GetCursorPosition()
+        local particle_start = ParticleManager:CreateParticle("particles/units/heroes/hero_lone_druid/lone_druid_bear_blink_start.vpcf", PATTACH_WORLDORIGIN, nil)
+        ParticleManager:SetParticleControl(particle_start, 0, self:GetCaster():GetAbsOrigin())
+        ParticleManager:ReleaseParticleIndex(particle_start)
+        FindClearSpaceForUnit(self:GetCaster(), point, true)
+        local particle_start = ParticleManager:CreateParticle("particles/units/heroes/hero_lone_druid/lone_druid_bear_blink_start.vpcf", PATTACH_WORLDORIGIN, nil)
+        ParticleManager:SetParticleControl(particle_start, 0, point)
+        ParticleManager:ReleaseParticleIndex(particle_start)
+    end
     local duration_to_explosion = self:GetSpecialValueFor("duration_to_explosion")
     EmitSoundOnLocationWithCaster(self:GetCaster():GetAbsOrigin(), "ashab_car", self:GetCaster())
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_ashab_w", {duration = duration_to_explosion})

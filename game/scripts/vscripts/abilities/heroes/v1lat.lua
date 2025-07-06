@@ -4,6 +4,24 @@ LinkLuaModifier( "modifier_V1lat_Crab", "abilities/heroes/v1lat", LUA_MODIFIER_M
 
 V1lat_Crab = class({})
 
+function V1lat_Crab:Precache(context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_lion/lion_spell_voodoo.vpcf",
+        "particles/units/heroes/hero_ancient_apparition/ancient_apparition_ice_blast_initial.vpcf",
+        "particles/v1lat/v1lat_aiaiai.vpcf",
+        "particles/units/heroes/hero_ancient_apparition/ancient_apparition_ice_blast_debuff.vpcf",
+        "particles/status_fx/status_effect_frost.vpcf",
+        "particles/units/heroes/hero_obsidian_destroyer/obsidian_destroyer_prison.vpcf",
+        "particles/units/heroes/hero_obsidian_destroyer/obsidian_destroyer_prison_end.vpcf",
+        "particles/units/heroes/hero_queenofpain/queen_sonic_wave.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+    PrecacheResource("model", "models/items/courier/hermit_crab/hermit_crab_aegis.vmdl", context)
+end
+
 function V1lat_Crab:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

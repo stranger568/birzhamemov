@@ -4,6 +4,26 @@ LinkLuaModifier( "modifier_rat_courier_infection_unit", "abilities/heroes/rat", 
 
 rat_courier_infection = class({})
 
+function rat_courier_infection:Precache(context)
+    PrecacheResource("model", "models/dead_rat/dead_rat.vmdl", context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_lone_druid/lone_druid_battle_cry_buff.vpcf",
+        "particles/rat/courier_infection_proj.vpcf",
+        "particles/units/heroes/hero_weaver/weaver_swarm_debuff.vpcf",
+        "particles/units/heroes/hero_weaver/weaver_swarm_infected_debuff.vpcf",
+        "particles/items3_fx/iron_talon_active.vpcf",
+        "particles/rat/poison_explodeecon/items/sand_king/sandking_ti7_arms/sandking_ti7_caustic_finale_explode.vpcf",
+        "particles/rat/explosion_poison_2.vpcf",
+        "particles/econ/items/venomancer/veno_2021_immortal_arms/veno_2021_immortal_poison_debuff.vpcf",
+        "particles/rat/poison_smoke.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+    PrecacheResource("model", "models/heroes/nerubian_assassin/mound.vmdl", context)
+end
+
 function rat_courier_infection:GetCooldown(iLevel)
     if self:GetCaster():HasShard() then
         return self.BaseClass.GetCooldown( self, iLevel ) - self:GetSpecialValueFor("shard_cooldown")

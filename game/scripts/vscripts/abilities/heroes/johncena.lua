@@ -5,6 +5,29 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 johncena_Wrestling = class({})
 
+function johncena_Wrestling:Precache(context)
+    PrecacheResource("model", "models/items/tiny/burning_stone_giant/burning_stone_giant_01.vmdl", context)
+    PrecacheResource("model", "models/items/tiny/burning_stone_giant/burning_stone_giant_02.vmdl", context)
+    PrecacheResource("model", "models/items/tiny/burning_stone_giant/burning_stone_giant_03.vmdl", context)
+    PrecacheResource("model", "models/items/tiny/burning_stone_giant/burning_stone_giant_04.vmdl", context)
+    PrecacheResource("model", "models/items/tiny/tiny_prestige/tiny_prestige_lvl_02.vmdl", context)
+    PrecacheResource("model", "models/items/tiny/tiny_prestige/tiny_prestige_lvl_03.vmdl", context)
+    PrecacheResource("model", "models/items/tiny/tiny_prestige/tiny_prestige_lvl_04.vmdl", context)
+    PrecacheResource("model", "models/items/tiny/tiny_prestige/tiny_prestige_lvl_01.vmdl", context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_tiny/tiny_transform.vpcf",
+        "particles/econ/items/primal_beast/primal_beast_2022_prestige/primal_beast_2022_prestige_onslaught_charge_active.vpcf",
+        "particles/units/heroes/hero_spirit_breaker/spirit_breaker_greater_bash.vpcf",
+        "particles/test_particle/generic_attack_crit_blur.vpcf",
+        "particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf",
+        "particles/test_particle/ogre_melee_smash.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function johncena_Wrestling:GetIntrinsicModifierName()
     return "modifier_johncena_Wrestling"
 end

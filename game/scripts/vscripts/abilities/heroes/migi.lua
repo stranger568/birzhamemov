@@ -6,6 +6,20 @@ LinkLuaModifier( "modifier_migi_inside_caster", "abilities/heroes/migi.lua", LUA
 
 migi_inside = class({})
 
+function migi_inside:Precache(context)
+    PrecacheResource("model", "models/update_heroes/migi/migi.vmdl", context)
+    local particle_list = 
+    {
+        "particles/migi_shield.vpcf",
+        "particles/migi_infected.vpcf",
+        "particles/migi_pull.vpcf",
+        "particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function migi_inside:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

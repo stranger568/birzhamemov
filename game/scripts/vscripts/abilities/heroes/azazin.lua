@@ -1,5 +1,16 @@
 azazin_teama = class({})
 
+function azazin_teama:Precache(context)
+    PrecacheResource("model", "models/npc/npc_dingus/dingus.vmdl", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_siren/naga_siren_riptide_foam.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_spectre/spectre_dispersion.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_axe/axe_beserkers_call_owner.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_axe/axe_beserkers_call.vpcf", context)
+    PrecacheResource("particle", "particles/status_fx/status_effect_beserkers_call.vpcf", context)
+    PrecacheResource("particle", "particles/blue_fury/juggernaut_blade_fury.vpcf", context)
+    PrecacheResource("particle", "particles/econ/items/juggernaut/jugg_arcana/juggernaut_arcana_omni_slash_tgt.vpcf", context)
+end
+
 function azazin_teama:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

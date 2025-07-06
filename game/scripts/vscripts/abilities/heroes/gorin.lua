@@ -4,6 +4,21 @@ LinkLuaModifier( "modifier_gorin_choose_axe_ranged", "abilities/heroes/gorin", L
 
 gorin_choose_axe = class({})
 
+function gorin_choose_axe:Precache(context)
+    PrecacheResource("model", "models/troll_warlord_gorin_stool.vmdl", context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_troll_warlord/troll_warlord_berserk_buff.vpcf",
+        "particles/gorin/resor_debuff.vpcf",
+        "particles/units/heroes/hero_riki/riki_tricks_cast.vpcf",
+        "particles/gorin/gorin_rabits.vpcf",
+        "particles/units/heroes/hero_riki/riki_tricks_end.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function gorin_choose_axe:GetIntrinsicModifierName()
     return "modifier_gorin_choose_axe_ranged"
 end
@@ -15,6 +30,8 @@ function gorin_choose_axe:GetAbilityTextureName()
         return "Gorin/ChooseTheAxe"
     end
 end
+
+function gorin_choose_axe:ResetToggleOnRespawn() return false end
 
 function gorin_choose_axe:OnToggle()
     if not IsServer() then return end
@@ -31,8 +48,6 @@ function gorin_choose_axe:OnToggle()
     end
     self:GetCaster():EmitSound("Hero_TrollWarlord.BerserkersRage.Toggle")
 end
-
-
 
 modifier_gorin_choose_axe = class({})
 

@@ -5,6 +5,29 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 SilverName_TopDeck = class({})
 
+function SilverName_TopDeck:Precache(context)
+    PrecacheResource("model", "models/creeps/ogre_1/large_ogre.vmdl", context)
+    PrecacheResource("model", "models/creeps/ogre_1/boss_ogre.vmdl", context)
+    local particle_list = 
+    {
+        "particles/neutral_fx/ogre_bruiser_smash.vpcf",
+        "particles/units/heroes/hero_dark_willow/dark_willow_base_attack.vpcf",
+        "particles/silvername/pukich.vpcf",
+        "particles/econ/items/drow/drow_arcana/drow_arcana_silenced_v2.vpcf",
+        "particles/units/heroes/hero_warlock/warlock_rain_of_chaos_start.vpcf",
+        "particles/units/heroes/hero_night_stalker/nightstalker_ulti.vpcf",
+        "particles/units/heroes/hero_night_stalker/nightstalker_change.vpcf",
+        "particles/units/heroes/hero_night_stalker/nightstalker_night_buff.vpcf",
+        "particles/units/heroes/hero_night_stalker/nightstalker_change.vpcf",
+        "particles/units/heroes/hero_dark_willow/dark_willow_base_attack.vpcf",
+        "particles/units/heroes/hero_night_stalker/nightstalker_shard_hunter.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+    PrecacheResource("model", "models/items/beastmaster/hawk/legacy_of_the_nords_legacy_of_the_nords_owl/legacy_of_the_nords_legacy_of_the_nords_owl.vmdl", context)
+end
+
 function SilverName_TopDeck:GetIntrinsicModifierName()
     return "modifier_silver_TopDeck"
 end

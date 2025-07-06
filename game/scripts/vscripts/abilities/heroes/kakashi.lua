@@ -1,10 +1,48 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_kakashi_quas_passive", "abilities/heroes/kakashi", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_kakashi_quas", "abilities/heroes/kakashi", LUA_MODIFIER_MOTION_NONE )
 
 kakashi_quas = class({})
 
-LinkLuaModifier( "modifier_kakashi_quas", "abilities/heroes/kakashi", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_kakashi_quas_passive", "abilities/heroes/kakashi", LUA_MODIFIER_MOTION_NONE )
+function kakashi_quas:Precache(context)
+    PrecacheResource("model", "models/update_heroes/kakashi/kakashi.vmdl", context)
+    local particle_list = 
+    {
+        "particles/econ/items/invoker/invoker_ti6/invoker_ti6_quas_orb.vpcf",
+        "particles/kakashi/earth_exort_orb.vpcf",
+        "particles/econ/items/invoker/invoker_ti6/invoker_ti6_wex_orb.vpcf",
+        "particles/units/heroes/hero_invoker/invoker_invoke.vpcf",
+        "particles/kakashi/kakashi_feet_quas.vpcf",
+        "particles/kakashi/kakashi_feet_wex.vpcf",
+        "particles/kakashi/kakashi_feet_exort.vpcf",
+        "particles/econ/items/storm_spirit/storm_spirit_orchid_hat/stormspirit_orchid_ball_lightning.vpcf",
+        "particles/kakashi/astral_step.vpcf",
+        "particles/units/heroes/hero_faceless_void/faceless_void_time_walk.vpcf",
+        "particles/kakashi/cold_snap.vpcf",
+        "particles/units/heroes/hero_invoker/invoker_cold_snap_status.vpcf",
+        "particles/kakashi/clone_run.vpcf",
+        "particles/units/heroes/hero_void_spirit/aether_remnant/void_spirit_aether_remnant_flash.vpcf",
+        "particles/kakashi/shadow_clone_watch.vpcf",
+        "particles/econ/items/monkey_king/arcana/water/monkey_king_spring_cast_arcana_water.vpcf",
+        "particles/kakashi/clone_pull_life_drain.vpcf",
+        "particles/status_fx/status_effect_void_spirit_aether_remnant.vpcf",
+        "particles/kakashi/tornado_tornado_ti6.vpcf",
+        "particles/kakashi_graze_wave.vpcf",
+        "particles/kakashi_shield.vpcf",
+        "particles/kakashi/susano_buff.vpcf",
+        "particles/kakashi_shield.vpcf",
+        "particles/kakashi/susano_buff.vpcf",
+        "particles/kakashi_timerstack.vpcf",
+        "particles/units/heroes/hero_zuus/zuus_lightning_bolt.vpcf",
+        "particles/units/heroes/hero_invoker/invoker_chaos_meteor_fly.vpcf",
+        "particles/units/heroes/hero_zuus/zuus_shard.vpcf",
+        "particles/kakashi_sharingan.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
 
 function kakashi_quas:GetIntrinsicModifierName() 
     return "modifier_kakashi_quas_passive"

@@ -1,10 +1,23 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_birzha_bashed", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
-
 LinkLuaModifier( "modifier_pump_charm", "abilities/heroes/pump.lua", LUA_MODIFIER_MOTION_NONE )
 
 pump_charm = class({})
+
+function pump_charm:Precache(context)
+    PrecacheResource("model", "models/pump/pump.vmdl", context)
+    local particle_list = 
+    {
+        "particles/pump/charm_effect.vpcf",
+        "particles/pump_new_sugar.vpcf",
+        "particles/pump/shield_pump.vpcf",
+        "particles/pump/sphere_ultimate.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
 
 function pump_charm:GetCastRange(vLocation, hTarget)
     return self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_pump_1")

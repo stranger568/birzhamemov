@@ -1,5 +1,6 @@
 if donate_shop == nil then
 	donate_shop = class({})
+    donate_shop.first_tip_in_game = {}
 end
 
 require("game_lib/donate_info")
@@ -17,11 +18,6 @@ function donate_shop:donate_change_item_active(data)
             table.insert(player_donate_table.player_items_active, item_id)
         end
         CustomNetTables:SetTableValue('birzhashop', tostring(id), {birzha_coin = player_donate_table.birzha_coin, player_items = player_donate_table.player_items, player_items_active = player_donate_table.player_items_active})
-    end
-    local player_info = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id]
-    local hero = player_info.selected_hero
-    if hero and hero:GetUnitName() ~= "npc_dota_hero_wisp" then
-        birzha_hero_selection:GiveHeroPlayer(id, player_info.picked_hero)
     end
 end
 
@@ -145,6 +141,7 @@ function donate_shop:ChangePetPremium(data)
     end
     CustomNetTables:SetTableValue('birzhainfo', tostring(id), player_info.server_data)
 end
+
 -- Смена рамки
 function donate_shop:change_border_effect(data)
     if data.PlayerID == nil then return end
@@ -158,6 +155,7 @@ function donate_shop:change_border_effect(data)
     end
     CustomNetTables:SetTableValue('birzhainfo', tostring(id), player_info.server_data)
 end
+
 -- Смена типа
 function donate_shop:change_tip_effect(data)
     if data.PlayerID == nil then return end
@@ -421,13 +419,21 @@ function donate_shop:SelectChatWheel(keys)
 	end
 end
 
-function donate_shop:PlayerTip(keys)
+function donate_shop:PlayerTip(data)
+    local player_id = data.PlayerID
     local cooldown = 60
     if IsInToolsMode() then
         cooldown = 1
     end
-    local id_caster = keys.PlayerID
-    local id_target = keys.player_id_tip
+    if BirzhaData.PLAYERS_GLOBAL_INFORMATION[player_id] and BirzhaData.PLAYERS_GLOBAL_INFORMATION[player_id].server_data.bp_days <= 0 and donate_shop.first_tip_in_game[player_id] then
+        DisplayError(player_id, "#tip_one_in_game_without_bp")
+        return
+    end
+    if not donate_shop.first_tip_in_game[player_id] then
+        donate_shop.first_tip_in_game[player_id] = true
+    end
+    local id_caster = data.PlayerID
+    local id_target = data.player_id_tip
     CustomGameEventManager:Send_ServerToAllClients( 'TipPlayerNotification', {player_id_1 = id_caster, player_id_2 = id_target, type = RandomInt(1, 16)})
     CustomNetTables:SetTableValue("tip_cooldown", tostring(id_caster), {cooldown = cooldown})
     Timers:CreateTimer(1, function()
@@ -519,7 +525,7 @@ function donate_shop:shop_birzha_open_chest_get_reward(data)
     local chest_cost_alt = BIRZHA_CHEST_INFO[chest_id].chest_cost_alt
     local player = PlayerResource:GetPlayer(id)
     if BirzhaData.PLAYERS_GLOBAL_INFORMATION[id] == nil then return end
-    if BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.candies_count >= chest_cost_alt then
+    if chest_cost_alt ~= nil and chest_cost_alt ~= 0 and BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.candies_count >= chest_cost_alt then
         BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.candies_count = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.candies_count - chest_cost_alt
     elseif BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.birzha_coin >= chest_cost then
         BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.birzha_coin = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.birzha_coin - chest_cost
@@ -536,7 +542,7 @@ function donate_shop:shop_birzha_open_chest_get_reward(data)
             {
                 {
                     steamid = PlayerResource:GetSteamAccountID(id),
-                    player_bitcoin = 1000,
+                    player_bitcoin = (chest_cost * -1) + 100,
                 }
             },
         }
@@ -551,7 +557,7 @@ function donate_shop:shop_birzha_open_chest_get_reward(data)
             {
                 {
                     steamid = PlayerResource:GetSteamAccountID(id),
-                    player_bitcoin = 0,
+                    player_bitcoin = chest_cost * -1,
                     item_id = drop_id.item_id,
                 }
             },

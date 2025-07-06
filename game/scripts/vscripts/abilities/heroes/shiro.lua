@@ -4,6 +4,23 @@ LinkLuaModifier( "modifier_shiro_namelessworm_debuff", "abilities/heroes/shiro.l
 
 Shiro_NamelessWorm = class({})
 
+function Shiro_NamelessWorm:Precache(context)
+    PrecacheResource("model", "models/update_heroes/shiro/shiro.vmdl", context)
+    local particle_list = 
+    {
+        "particles/shiro/shiro_namelessworm.vpcf",
+        "particles/econ/items/riki/riki_immortal_ti6/riki_immortal_ti6_blinkstrike.vpcf",
+        "particles/econ/items/abaddon/abaddon_alliance/abaddon_aphotic_shield_alliance.vpcf",
+        "particles/shiro_shield_purge.vpcf",
+        "particles/econ/items/abaddon/abaddon_alliance/abaddon_aphotic_shield_alliance_explosion.vpcf",
+        "particles/units/heroes/hero_lone_druid/lone_druid_battle_cry_buff.vpcf",
+        "particles/units/heroes/hero_nevermore/nevermore_shadowraze_debuff.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
+
 function Shiro_NamelessWorm:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

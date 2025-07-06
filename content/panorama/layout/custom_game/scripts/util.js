@@ -1,43 +1,199 @@
-GameUI.CustomUIConfig().multiteam_top_scoreboard =
+function GetDotaHud()
 {
-    reorder_team_scores: true,
-    LeftInjectXMLFile: "file://{resources}/layout/custom_game/overthrow_scoreboard_score/overthrow_scoreboard_left.xml",
-};
+	let hPanel = $.GetContextPanel();
 
-GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_TOP_TIMEOFDAY, false );
-GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_TOP_HEROES, false );
-GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_FLYOUT_SCOREBOARD, false );
-GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_PREGAME_STRATEGYUI, false );
-GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_ENDGAME, false );
-GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_HERO_SELECTION_TEAMS, false );
+	while ( hPanel && hPanel.id !== 'Hud')
+	{
+        hPanel = hPanel.GetParent();
+	}
 
-GameUI.CustomUIConfig().team_colors = {}
-GameUI.CustomUIConfig().team_colors[DOTATeam_t.DOTA_TEAM_GOODGUYS] = "#3dd296;"; // { 61, 210, 150 }	--		Teal
-GameUI.CustomUIConfig().team_colors[DOTATeam_t.DOTA_TEAM_BADGUYS ] = "#F3C909;"; // { 243, 201, 9 }		--		Yellow
-GameUI.CustomUIConfig().team_colors[DOTATeam_t.DOTA_TEAM_CUSTOM_1] = "#c54da8;"; // { 197, 77, 168 }	--		Pink
-GameUI.CustomUIConfig().team_colors[DOTATeam_t.DOTA_TEAM_CUSTOM_2] = "#FF6C00;"; // { 255, 108, 0 }		--		Orange
-GameUI.CustomUIConfig().team_colors[DOTATeam_t.DOTA_TEAM_CUSTOM_3] = "#3455FF;"; // { 52, 85, 255 }		--		Blue
-GameUI.CustomUIConfig().team_colors[DOTATeam_t.DOTA_TEAM_CUSTOM_4] = "#65d413;"; // { 101, 212, 19 }	--		Green
-GameUI.CustomUIConfig().team_colors[DOTATeam_t.DOTA_TEAM_CUSTOM_5] = "#815336;"; // { 129, 83, 54 }		--		Brown
-GameUI.CustomUIConfig().team_colors[DOTATeam_t.DOTA_TEAM_CUSTOM_6] = "#1bc0d8;"; // { 27, 192, 216 }	--		Cyan
-GameUI.CustomUIConfig().team_colors[DOTATeam_t.DOTA_TEAM_CUSTOM_7] = "#c7e40d;"; // { 199, 228, 13 }	--		Olive
-GameUI.CustomUIConfig().team_colors[DOTATeam_t.DOTA_TEAM_CUSTOM_8] = "#8c2af4;"; // { 140, 42, 244 }	--		Purple
+	if (!hPanel)
+	{
+        throw new Error('Could not find Hud root from panel with id: ' + $.GetContextPanel().id);
+	}
 
-var dotaHud = $.GetContextPanel().GetParent().GetParent().GetParent()
-dotaHud.FindChildTraverse("MorphProgress").style.visibility = "collapse";
-dotaHud.FindChildTraverse("GlyphScanContainer").style.visibility = "collapse";
-dotaHud.FindChildTraverse("NetGraph").style.visibility = "collapse";
-dotaHud.FindChildTraverse("HUDSkinTopBarBG").style.visibility = "collapse";
+	return hPanel;
+}
 
-GameEvents.Subscribe("CreateIngameErrorMessage", function(data) 
+function FindDotaHudElement(sId)
 {
-    GameEvents.SendEventClientSide("dota_hud_error_message", 
+	return GetDotaHud().FindChildTraverse(sId);
+}
+
+function HasModifier(unit, modifier) 
+{
+    for (var i = 0; i < Entities.GetNumBuffs(unit); i++) 
     {
-        "splitscreenplayer": 0,
-        "reason": data.reason || 80,
-        "message": data.message
-    })
-})
+        if (Buffs.GetName(unit, Entities.GetBuff(unit, i)) == modifier)
+        {
+            return true
+        }
+    }
+    return false
+}
+
+function FindModifier(unit, modifier) 
+{
+    for (var i = 0; i < Entities.GetNumBuffs(unit); i++) 
+    {
+        if (Buffs.GetName(unit, Entities.GetBuff(unit, i)) == modifier)
+        {
+            return Entities.GetBuff(unit, i);
+        }
+    }
+    return "none"
+}
+
+function HowStacks(mod) 
+{
+	var hero = Players.GetPlayerHeroEntityIndex( Players.GetLocalPlayer() )
+	for (var i = 0; i < Entities.GetNumBuffs(hero); i++) 
+    {
+		var buffID = Entities.GetBuff(hero, i)
+		if (Buffs.GetName(hero, buffID ) == mod ){
+			var stack = Buffs.GetStackCount(hero, buffID ) 
+			if (stack == 0) {
+				stack = 1
+			}
+			return stack
+		}
+	}
+	return 0
+}
+
+function GetCurrentStacks(hero_id, mod) 
+{
+    var hero = hero_id
+ 
+    for (var i = 0; i < Entities.GetNumBuffs(hero); i++) 
+    {
+       var buffID = Entities.GetBuff(hero, i)
+        if (Buffs.GetName(hero, buffID ) == mod )
+        {
+            var stack = Buffs.GetStackCount(hero, buffID ) 
+            return stack
+        }
+    }
+    return 0
+}
+
+function IsSpectator() 
+{
+    const localPlayer = Players.GetLocalPlayer()
+    if (Players.IsSpectator(localPlayer))
+    {
+        return true
+    }
+    const localTeam = Players.GetTeam(localPlayer)
+    return localTeam !== 2 && localTeam !== 3 && localTeam !== 6 && localTeam !== 7 && localTeam !== 8 && localTeam !== 9 && localTeam !== 10 && localTeam !== 11 && localTeam !== 12 && localTeam !== 13
+}
+
+function ConvertTimeMinutes(time)
+{
+    var min = Math.trunc((time)/60) 
+    var sec_n =  (time) - 60*Math.trunc((time)/60) 
+    var min = String(min - 60*( Math.trunc(min/60) ))
+    var sec = String(sec_n)
+    if (sec_n < 10) 
+    {
+        sec = '0' + sec
+    }
+    if (min < 10)
+    {
+        min = '0' + min
+    } 
+    return min + ':' + sec
+}
+
+function ShowAbilityDescription(panel, ability)
+{
+    panel.SetPanelEvent('onmouseover', function() {
+        $.DispatchEvent('DOTAShowAbilityTooltip', panel, ability); });
+    panel.SetPanelEvent('onmouseout', function() {
+        $.DispatchEvent('DOTAHideAbilityTooltip', panel);
+    });       
+}
+
+function ShowAbilityDescriptionForHero(panel, ability, hero)
+{
+    panel.SetPanelEvent('onmouseover', function() {
+        $.DispatchEvent('DOTAShowAbilityTooltipForEntityIndex', panel, ability, hero); });
+        
+    panel.SetPanelEvent('onmouseout', function() {
+        $.DispatchEvent('DOTAHideAbilityTooltip', panel);
+    });        
+}
+
+function ShowAbilityDescriptionLevel(panel, ability, level)
+{
+    panel.SetPanelEvent('onmouseover', function() {
+        $.DispatchEvent('DOTAShowAbilityTooltipForLevel', panel, ability, level); });
+    panel.SetPanelEvent('onmouseout', function() {
+        $.DispatchEvent('DOTAHideAbilityTooltip', panel);
+    });       
+}
+
+function ShowTextForPanel(panel, text)
+{
+    panel.SetPanelEvent('onmouseover', function() {
+        $.DispatchEvent('DOTAShowTextTooltip', panel, $.Localize(text)); });
+    panel.SetPanelEvent('onmouseout', function() {
+        $.DispatchEvent('DOTAHideTextTooltip', panel);
+    });       
+}
+
+GameEvents.Subscribe( 'set_unit_target', SetTarget );
+function SetTarget( data )
+{
+    GameUI.SelectUnit( data.unit, false )
+}
+
+GameEvents.Subscribe( 'set_camera_target', SetCamera );
+function SetCamera( data )
+{
+	GameUI.SetCameraTargetPosition(Entities.GetAbsOrigin( data.id ), 0.1);
+}
+
+function Vector_normalize(vec)
+{
+	const val = 1 / Math.sqrt(Math.pow(vec[0], 2) + Math.pow(vec[1], 2) + Math.pow(vec[2], 2));
+	return [vec[0] * val, vec[1] * val, vec[2] * val];
+}
+
+function Vector_mult(vec, mult)
+{
+	return [vec[0] * mult, vec[1] * mult, vec[2] * mult];
+}
+
+function Vector_add(vec1, vec2)
+{
+	return [vec1[0] + vec2[0], vec1[1] + vec2[1], vec1[2] + vec2[2]];
+}
+
+function Vector_sub(vec1, vec2)
+{
+	return [vec1[0] - vec2[0], vec1[1] - vec2[1], vec1[2] - vec2[2]];
+}
+
+function Vector_negate(vec)
+{
+	return [-vec[0], -vec[1], -vec[2]];
+}
+
+function Vector_flatten(vec)
+{
+	return [vec[0], vec[1], 0];
+}
+
+function Vector_raiseZ(vec, inc)
+{
+	return [vec[0], vec[1], vec[2] + inc];
+}
+
+function Vector_distance (vec1, vec2) 
+{
+	return Math.sqrt(((vec2[0] - vec1[0]) ** 2) + ((vec2[1] - vec1[1]) ** 2));
+}
 
 function FindModifierByName(EntityIndex, BuffName)
 {
@@ -52,6 +208,16 @@ function FindModifierByName(EntityIndex, BuffName)
     return "none"
 }
 
+GameEvents.Subscribe("CreateIngameErrorMessage", function(data) 
+{
+    GameEvents.SendEventClientSide("dota_hud_error_message", 
+    {
+        "splitscreenplayer": 0,
+        "reason": data.reason || 80,
+        "message": data.message
+    })
+})
+
 GameEvents.Subscribe("panorama_cooldown_error", function(data) 
 {
     GameEvents.SendEventClientSide("dota_hud_error_message", 
@@ -62,187 +228,9 @@ GameEvents.Subscribe("panorama_cooldown_error", function(data)
     })
 })
 
-GameEvents.Subscribe( 'set_camera_target', SetCamera );
-GameEvents.Subscribe( 'chat_birzha_sound', ChatSound );
-GameEvents.Subscribe( 'random_hero_chat', RandomHeroChat );
-GameEvents.Subscribe( 'double_rating_chat', DoubleRatingChat );
-GameEvents.Subscribe( 'win_predict_chat', win_predict_chat );
-GameEvents.Subscribe( 'chat_bm_smile', ChatSmile );
-GameEvents.Subscribe( 'set_player_icon', set_player_icon);
-
-function SetCamera( data )
+function GetPlayerColor(player_id)
 {
-	GameUI.SetCameraTargetPosition(Entities.GetAbsOrigin( data.id ), 0.1);
-} 
-
-function set_player_icon(data)
-{	
-	Entities.SetMinimapIcon( data.entity, data.icon );
-}
-
-function ChatSound( data )
-{
-	let dotaHud = $.GetContextPanel().GetParent().GetParent().GetParent()
-	let Hudchat = dotaHud.FindChildTraverse("HudChat")
-	let LinesPanel = Hudchat.FindChildTraverse("ChatLinesPanel")
-
-	let hero_icon = "file://{images}/custom_game/hight_hood/heroes/" + data.hero_name + ".png"
-	let player_name = Players.GetPlayerName( data.player_id )
-	let sound_name = data.sound_name
-	let color = "white;"
-
-	if (Game.IsPlayerMuted( data.player_id ) || Game.IsPlayerMutedVoice( data.player_id ) || Game.IsPlayerMutedText( data.player_id )) {
-        return
-    }
-
-	var playerInfo = Game.GetPlayerInfo( data.player_id );
-	if ( playerInfo )
-	{
-		if ( GameUI.CustomUIConfig().team_colors )
-		{
-			var teamColor = GameUI.CustomUIConfig().team_colors[ playerInfo.player_team_id ];
-			if ( teamColor )
-			{
-				color = teamColor;
-			}
-		}
-	}
-
-	Game.EmitSound(data.sound_name_global)
-
-	let player_color_style = "font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:" + color
-	let ChatPanelSound = $.CreatePanel("Panel", LinesPanel, "", { style:"margin-left:37px;flow-children: right;width:100%;" });
-	let HeroIcon = $.CreatePanel("Image", ChatPanelSound, "", { src:`${hero_icon}`, style:"width:40px;height:23px;margin-right:4px;border:1px solid black;" }); 
-	let LabelPlayer = $.CreatePanel("Label", ChatPanelSound, "", { text:`${player_name}` + ":", style:`${player_color_style}` });
-	let SoundIcon = $.CreatePanel("Image", ChatPanelSound, "", { class:"ChatWheelIcon", src:"file://{images}/hud/reborn/icon_scoreboard_mute_sound.psd" }); 
-	let LabelSound = $.CreatePanel("Label", ChatPanelSound, "", { text:`${sound_name}`, style:"font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:white;" });
-
-	$.Schedule( 7, function(){
-		if (ChatPanelSound) {
-	    	ChatPanelSound.AddClass('ChatLine');  
-		}
-	})
-}     
-
-function RandomHeroChat( data )
-{
-	let dotaHud = $.GetContextPanel().GetParent().GetParent().GetParent()
-	let Hudchat = dotaHud.FindChildTraverse("HudChat")
-	let LinesPanel = Hudchat.FindChildTraverse("ChatLinesPanel")
-
-	let player_name = Players.GetPlayerName( data.id )
-	let hero_name = $.Localize("#birzha_random_hero") + $.Localize("#"+data.hero) 
-	let color = "white;"
-
-	var playerInfo = Game.GetPlayerInfo( data.id );
-	if ( playerInfo )
-	{
-		if ( GameUI.CustomUIConfig().team_colors )
-		{
-			var teamColor = GameUI.CustomUIConfig().team_colors[ playerInfo.player_team_id ];
-			if ( teamColor )
-			{
-				color = teamColor;
-			}
-		}
-	}
-
-	let player_color_style = "font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:" + color
-	let ChatPanelSound = $.CreatePanel("Panel", LinesPanel, "", { style:"margin-left:37px;flow-children: right;width:100%;" });
-	let LabelPlayer = $.CreatePanel("Label", ChatPanelSound, "", { text:`${player_name}` + ":", style:`${player_color_style}` });
-	let LabelSound = $.CreatePanel("Label", ChatPanelSound, "", { text:`${hero_name}`, style:"font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:white;" });
-
-	$.Schedule( 7, function(){
-		if (ChatPanelSound) {
-	    	ChatPanelSound.AddClass('ChatLine');  
-		}
-	})
-}  
-
-
-function DoubleRatingChat( data )
-{
-	let dotaHud = $.GetContextPanel().GetParent().GetParent().GetParent()
-	let Hudchat = dotaHud.FindChildTraverse("HudChat")
-	let LinesPanel = Hudchat.FindChildTraverse("ChatLinesPanel")
-
-	let player_name = Players.GetPlayerName( data.id )
-	let hero_name = $.Localize("#birzha_double_rating")
-	let color = "white;"
-
-	var playerInfo = Game.GetPlayerInfo( data.id );
-	if ( playerInfo )
-	{
-		if ( GameUI.CustomUIConfig().team_colors )
-		{
-			var teamColor = GameUI.CustomUIConfig().team_colors[ playerInfo.player_team_id ];
-			if ( teamColor )
-			{
-				color = teamColor;
-			}
-		}
-	}
-
-	let player_color_style = "font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:" + color
-	let ChatPanelSound = $.CreatePanel("Panel", LinesPanel, "", { style:"margin-left:37px;flow-children: right;width:100%;" });
-	let LabelPlayer = $.CreatePanel("Label", ChatPanelSound, "", { text:`${player_name}` + ":", style:`${player_color_style}` });
-	let LabelSound = $.CreatePanel("Label", ChatPanelSound, "", { text:`${hero_name}`, style:"font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:white;" });
-
-	$.Schedule( 7, function(){
-		if (ChatPanelSound) {
-	    	ChatPanelSound.AddClass('ChatLine');  
-		}
-	})
-}  
-
-function win_predict_chat( data )
-{
-	let dotaHud = $.GetContextPanel().GetParent().GetParent().GetParent()
-	let Hudchat = dotaHud.FindChildTraverse("HudChat")
-	let LinesPanel = Hudchat.FindChildTraverse("ChatLinesPanel")
-
-	let player_name = Players.GetPlayerName( data.id )
-	let hero_name = $.Localize("#birzha_win_predict") + " " + data.count
-	let color = "white;"
-
-	var playerInfo = Game.GetPlayerInfo( data.id );
-	if ( playerInfo )
-	{
-		if ( GameUI.CustomUIConfig().team_colors )
-		{
-			var teamColor = GameUI.CustomUIConfig().team_colors[ playerInfo.player_team_id ];
-			if ( teamColor )
-			{
-				color = teamColor;
-			}
-		}
-	}
-
-	let player_color_style = "font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:" + color
-	let ChatPanelSound = $.CreatePanel("Panel", LinesPanel, "", { style:"margin-left:37px;flow-children: right;width:100%;" });
-	let LabelPlayer = $.CreatePanel("Label", ChatPanelSound, "", { text:`${player_name}` + ":", style:`${player_color_style}` });
-	let LabelSound = $.CreatePanel("Label", ChatPanelSound, "", { text:`${hero_name}`, style:"font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:white;" });
-
-	$.Schedule( 7, function(){
-		if (ChatPanelSound) {
-	    	ChatPanelSound.AddClass('ChatLine');  
-		}
-	})
-} 
-
-function ChatSmile( data )
-{
-    let dotaHud = $.GetContextPanel().GetParent().GetParent().GetParent()
-    let Hudchat = dotaHud.FindChildTraverse("HudChat")
-    let LinesPanel = Hudchat.FindChildTraverse("ChatLinesPanel")
-
-    let hero_icon = "file://{images}/custom_game/hight_hood/heroes/" + data.hero_name + ".png"
-    let smile_icon = "file://{images}/custom_game/smiles/" + data.smile_icon + ".png"
-    let player_name = Players.GetPlayerName( data.player_id )
-    let sound_name = data.sound_name
-    let color = "white;"
-
-    var playerInfo = Game.GetPlayerInfo( data.player_id );
+    var playerInfo = Game.GetPlayerInfo( player_id );
     if ( playerInfo )
     {
         if ( GameUI.CustomUIConfig().team_colors )
@@ -250,20 +238,18 @@ function ChatSmile( data )
             var teamColor = GameUI.CustomUIConfig().team_colors[ playerInfo.player_team_id ];
             if ( teamColor )
             {
-                color = teamColor;
+                return teamColor;
             }
         }
     }
+    return "white"
+}
 
-    let player_color_style = "font-size:18px;font-weight:bold;text-shadow: 1px 1.5px 0px 2 black;color:" + color
-    let ChatPanelSound = $.CreatePanel("Panel", LinesPanel, "", { style:"margin-left:37px;flow-children: right;width:100%;" });
-    let HeroIcon = $.CreatePanel("Image", ChatPanelSound, "", { src:`${hero_icon}`, style:"width:40px;height:23px;margin-right:4px;border:1px solid black;" }); 
-    let LabelPlayer = $.CreatePanel("Label", ChatPanelSound, "", { text:`${player_name}` + ":", style:`${player_color_style}` });
-    let LabelSound = $.CreatePanel("Image", ChatPanelSound, "", { class:"SmileIcon", style:"width:35px;height:35px;", src:`${smile_icon}` }); 
-
-    $.Schedule( 7, function(){
-        if (ChatPanelSound) {
-            ChatPanelSound.AddClass('ChatLine');  
-        }
-    })
+function IsPlayerFullMuted(player_id)
+{
+    if (Game.IsPlayerMuted( player_id ) || Game.IsPlayerMutedVoice( player_id ) || Game.IsPlayerMutedText( player_id )) 
+    {
+        return true
+    }
+    return false
 }

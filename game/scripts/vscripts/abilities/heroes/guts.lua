@@ -3,6 +3,25 @@ LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dot
 
 Guts_Hand = class({})
 
+function Guts_Hand:Precache(context)
+    PrecacheResource("model", "models/update_heroes/guts/guts.vmdl", context)
+    PrecacheResource("model", "models/update_heroes/guts/guts_form.vmdl", context)
+    local particle_list =
+    {
+        "particles/units/heroes/hero_sven/sven_spell_storm_bolt.vpcf",
+        "particles/units/heroes/hero_phantom_assassin/phantom_assassin_stifling_dagger.vpcf",
+        "particles/units/heroes/hero_phantom_assassin/phantom_assassin_stifling_dagger_debuff.vpcf",
+        "particles/guts_helix.vpcf",
+        "particles/units/heroes/hero_centaur/centaur_double_edge.vpcf",
+        "particles/units/heroes/hero_mars/mars_shield_bash_crit.vpcf",
+        "particles/guts/skeleton_king_weapon_blur_critical.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+    PrecacheResource("model", "models/update_heroes/guts/guts_form.vmdl", context)
+end
+
 function Guts_Hand:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end

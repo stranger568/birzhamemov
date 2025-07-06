@@ -1,23 +1,26 @@
 LinkLuaModifier( "modifier_birzha_stunned", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_movespeed_cap", "modifiers/modifier_limit.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_birzha_stunned_purge", "modifiers/modifier_birzha_dota_modifiers.lua", LUA_MODIFIER_MOTION_NONE )
-
-
-
-
-
-
-
-
-
-
-
-
-
 LinkLuaModifier("modifier_Scp_FastKill", "abilities/heroes/scp", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_scp_ultimate_vision", "abilities/heroes/scp", LUA_MODIFIER_MOTION_NONE)
 
-Scp_FastKill = class({}) 
+Scp_FastKill = class({})
+
+function Scp_FastKill:Precache(context)
+    PrecacheResource("model", "models/update_heroes/scp173/scp173.vmdl", context)
+    local particle_list = 
+    {
+        "particles/units/heroes/hero_riki/riki_backstab.vpcf",
+        "particles/generic_gameplay/generic_sleep.vpcf",
+        "particles/items_fx/abyssal_blink_start.vpcf",
+        "particles/items_fx/abyssal_blink_end.vpcf",
+        "particles/status_fx/status_effect_medusa_stone_gaze.vpcf",
+        "particles/items_fx/abyssal_blink_start.vpcf",
+    }
+    for _, particle_name in pairs(particle_list) do
+        PrecacheResource("particle", particle_name, context)
+    end
+end
 
 function Scp_FastKill:GetIntrinsicModifierName()
     return "modifier_Scp_FastKill"

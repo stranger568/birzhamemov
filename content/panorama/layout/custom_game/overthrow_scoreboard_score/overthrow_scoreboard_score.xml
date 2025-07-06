@@ -4,49 +4,53 @@
 		<include src="s2r://panorama/layout/custom_game/overthrow_scoreboard_score/overthrow_scoreboard.vcss_c" />
 	</styles>
 	<scripts>
+        <include src="s2r://panorama/layout/custom_game/scripts/util.vjs_c" />
         <include src="s2r://panorama/layout/custom_game/scripts/functions.vjs_c" />
 		<include src="s2r://panorama/layout/custom_game/overthrow_scoreboard_score/overthrow_scoreboard.vjs_c" />
 	</scripts>
-    <Panel class="VictoryPanel">
-        <Panel id="ContractPanel" >
-            <Label text="#contracttargets" class="LabelText" />
-            <Panel id="HeroIcons" />
-        </Panel>
-        <Panel id="AllVictoryPanel">
-            <Panel id="BirzhaScore" class="PanelInformation">
-                <Panel class="PanelCenter">
-                    <Panel id="PointToWin"	/>
-                    <Label class="PanelText" id="VictoryPoints" text="0" />
+    <Panel style="width:100%;height:100%;" hittest="false">
+        <Panel class="NewTimersPanels" id="NewTimersPanels">
+            <Panel class="BGFlare" />
+            <Panel class="TimersChildrens">
+                <Panel id="BirzhaScore" class="NewTimerPanel">
+                    <Panel class="NewTimerCircle">
+                        <Panel class="NewTimerBG" />
+                        <Panel class="NewTimerRadial" id="NewTimerRadial" />
+                        <Panel class="NewTimerImage ScoreImage" />
+                    </Panel>
+                    <Label class="NewTimerLabel" id="VictoryPoints" text="00" />
                 </Panel>
-            </Panel>
-            <Panel id="BirzhaRewardTime" class="PanelInformation">
-                <Panel class="PanelCenter">
-                    <Panel id="TimerReward"	/>
-                    <Label class="PanelText" id="Timer" text="00:00" />
+                <Panel id="BirzhaRewardTime" class="NewTimerPanel">
+                    <Panel class="NewTimerCircle">
+                        <Panel class="NewTimerBG" />
+                        <Panel class="NewTimerRadial" id="NewTimerRadial" />
+                        <Panel class="NewTimerImage RewardImage" />
+                    </Panel>
+                    <Label class="NewTimerLabel" id="Timer" text="00:00" />
                 </Panel>
-            </Panel>
-            <Panel id="BirzhaContractTime" class="PanelInformation">
-                <Panel class="PanelCenter">
-                    <Panel id="TimerContract"	/>
-                    <Label class="PanelText" id="ContractTimer" text="00:00" />
+                <Panel id="BirzhaGameTime" class="NewTimerPanel">
+                    <Panel class="NewTimerCircle">
+                        <Panel class="NewTimerBG" />
+                        <Panel class="NewTimerRadial" id="NewTimerRadial" />
+                        <Panel class="NewTimerImage GameTime" id="GameTime" />
+                    </Panel>
+                    <Label class="NewTimerLabel" id="GameTimer" text="00:00" />
                 </Panel>
-            </Panel>
-            <Panel id="BirzhaGameTime" class="PanelInformation">
-                <Panel class="PanelCenter">
-                    <Panel id="TimerGame"	/>
-                    <Label class="PanelText" id="GameTimer" text="00:00" />
+                <Panel id="BirzhaFountainTime" class="NewTimerPanel">
+                    <Panel class="NewTimerCircle">
+                        <Panel class="NewTimerBG" />
+                        <Panel class="NewTimerRadial" id="NewTimerRadial" />
+                        <Panel class="NewTimerImage FountainTime" />
+                    </Panel>
+                    <Label class="NewTimerLabel" id="FountainTimer" text="00:00" />
                 </Panel>
-            </Panel>
-            <Panel id="BirzhaFountainTime" class="PanelInformation">
-                <Panel class="PanelCenter">
-                    <Panel id="FountainTimerLogo"	/>
-                    <Label class="PanelText" id="FountainTimer" text="00:00" />
-                </Panel>
-            </Panel>
-            <Panel id="BirzhaEnd" class="PanelInformation">
-                <Panel class="PanelCenter">
-                    <Panel id="EndGameTimer"/>
-                    <Label class="PanelText" id="EndTimer" text="00:00" />
+                <Panel id="BirzhaEnd" class="NewTimerPanel">
+                    <Panel class="NewTimerCircle">
+                        <Panel class="NewTimerBG" />
+                        <Panel class="NewTimerRadial" id="NewTimerRadial" />
+                        <Panel class="NewTimerImage EndGameTime" />
+                    </Panel>
+                    <Label class="NewTimerLabel" id="EndTimer" text="00:00" />
                 </Panel>
             </Panel>
         </Panel>

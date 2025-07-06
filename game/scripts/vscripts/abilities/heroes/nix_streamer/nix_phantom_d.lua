@@ -45,6 +45,7 @@ function modifier_nix_phantom_d_thinker:OnCreated(params)
     self.length = self:GetAbility():GetSpecialValueFor("distance")
     self.speed = self:GetAbility():GetSpecialValueFor("speed")
     self.damage = self:GetAbility():GetSpecialValueFor("damage")
+    self.damage_percent = self:GetAbility():GetSpecialValueFor("damage_percent")
     self.has_upgrade = params.has_upgrade
     if self.has_upgrade then
         self.length = self.length * 2
@@ -70,12 +71,15 @@ function modifier_nix_phantom_d_thinker:OnIntervalThink()
         ParticleManager:SetParticleControlTransformForward( self.particle, 0, self:GetParent():GetAbsOrigin(), self.direction_end )
         ParticleManager:SetParticleControlTransformForward( self.particle, 3, self:GetParent():GetAbsOrigin(), self.direction_end )
     end
+    AddFOWViewer(self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), 100, FrameTime(), true)
     self:CheckBee()
     if self:UpdateDamage() then
+        AddFOWViewer(self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), 100, 1, true)
         self:Destroy()
         return
     end
     if self.length <= 0 then
+        AddFOWViewer(self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), 100, 1, true)
         self:Destroy()
     end
 end
@@ -98,13 +102,22 @@ function modifier_nix_phantom_d_thinker:UpdateDamage()
     if not IsServer() then return end
     local units = FindUnitsInRadius(self:GetParent():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, 300, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 0, 0, false)
     if #units <= 0 then return false end
+    local nix_marci_w = self:GetCaster():FindAbilityByName("nix_marci_w")
     local target_main = units[1]
     if self.has_upgrade then
         for _, unit in pairs(units) do
-            ApplyDamage({ victim = unit, attacker = self:GetCaster(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL, damage_flags = DOTA_DAMAGE_FLAG_NONE, ability = self:GetAbility() })
+            local damage = self.damage + (unit:GetMaxHealth() / 100 * self.damage_percent)
+            ApplyDamage({ victim = unit, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, damage_flags = DOTA_DAMAGE_FLAG_NONE, ability = self:GetAbility() })
+            if nix_marci_w and nix_marci_w:GetLevel() > 0 then
+                nix_marci_w:AddTargetMark(unit)
+            end
         end
     else
-        ApplyDamage({ victim = target_main, attacker = self:GetCaster(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL, damage_flags = DOTA_DAMAGE_FLAG_NONE, ability = self:GetAbility() })
+        local damage = self.damage + (target_main:GetMaxHealth() / 100 * self.damage_percent)
+        ApplyDamage({ victim = target_main, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, damage_flags = DOTA_DAMAGE_FLAG_NONE, ability = self:GetAbility() })
+        if nix_marci_w and nix_marci_w:GetLevel() > 0 then
+            nix_marci_w:AddTargetMark(target_main)
+        end
     end
     return true
 end

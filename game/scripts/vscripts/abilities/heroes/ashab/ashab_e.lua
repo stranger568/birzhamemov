@@ -22,10 +22,14 @@ function modifier_ashab_e:DeclareFunctions()
     {
         MODIFIER_EVENT_ON_ATTACK_LANDED,
         MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
+        MODIFIER_PROPERTY_ATTACKSPEED_PERCENTAGE,
     }
 end
 function modifier_ashab_e:GetModifierPreAttack_BonusDamage()
     return self:GetCaster():GetMaxHealth() / 100 * self:GetAbility():GetSpecialValueFor("max_health_to_damage")
+end
+function modifier_ashab_e:GetModifierAttackSpeedPercentage()
+    return self:GetAbility():GetSpecialValueFor("attack_speed_slow_self")
 end
 
 function modifier_ashab_e:OnAttackLanded(params)

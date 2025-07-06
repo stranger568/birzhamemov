@@ -5,6 +5,8 @@ old_god_d = class({})
 function old_god_d:Precache(context)
     PrecacheResource("particle", "particles/stariy_boh/wisp_taunt.vpcf", context)
     PrecacheResource("particle", "particles/units/heroes/hero_wisp/wisp_guardian_explosion.vpcf", context)
+    PrecacheResource("particle", "particles/old_god/wisp_ambient.vpcf", context)
+    PrecacheResource("model", "models/old_god/old_god.vmdl", context)
 end
 
 function old_god_d:OnSpellStart()
