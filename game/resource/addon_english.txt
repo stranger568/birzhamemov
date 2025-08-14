@@ -3864,7 +3864,7 @@
 "DOTA_Tooltip_ability_bullet_sha" 						"Shaa"
 "DOTA_Tooltip_ability_bullet_sha_Description" 			"Kicks the target with a shout of <font 00D4FF='#ff0000'>Shaa</font> and stuns it, if there were enemies in the target's radius, then they also receive damage and stun"
 "DOTA_Tooltip_ability_bullet_sha_damage" 				"DAMAGE:"
-"DOTA_Tooltip_ability_bullet_sha_knockback_distance" 	"KNockback DISTANCE:"
+"DOTA_Tooltip_ability_bullet_sha_knockback_distance" 	"KNOCKBACK DISTANCE:"
 "DOTA_Tooltip_ability_bullet_sha_stun_duration" 			"STUN DURATION:"
 "DOTA_Tooltip_ability_bullet_sha_radius" 				"RADIUS:"
 
@@ -3884,14 +3884,14 @@
 "DOTA_Tooltip_modifier_Bullet_Stats" 						"Healthy lifestyle"
 "DOTA_Tooltip_modifier_Bullet_Stats_Description" 			"Kama bullet increases your attributes by %dMODIFIER_PROPERTY_STATS_STRENGTH_BONUS %"
 
-"DOTA_Tooltip_Ability_Bullet_BulletInTheHead" 								"Bullet to the Head"
+"DOTA_Tooltip_Ability_Bullet_BulletInTheHead" 								"A bullet into the forehead"
 "DOTA_Tooltip_Ability_Bullet_BulletInTheHead_Description" 					"The Kama Bullet aims at an enemy unit and fires a devastating shot that deals damage from a great distance"
 "DOTA_Tooltip_Ability_Bullet_BulletInTheHead_damage" 						"DAMAGE:"
 "DOTA_Tooltip_Ability_Bullet_BulletInTheHead_strength_damage"				"%BONUS DAMAGE FROM STRENGTH:"
 "DOTA_Tooltip_Ability_Bullet_BulletInTheHead_cast_range" 					"CAST RANGE:"
-"DOTA_Tooltip_Ability_Bullet_BulletInTheHead_scepter_description" 			"Removes the delay before using m and stuns the enemy for %scepter_stun_duration% sec."
+"DOTA_Tooltip_Ability_Bullet_BulletInTheHead_scepter_description" 			"Removes the delay before using an ability and stuns the enemy for %scepter_stun_duration% sec."
 
-"DOTA_Tooltip_modifier_Bullet_BulletInTheHead_cross" 						"Bullet to the head"
+"DOTA_Tooltip_modifier_Bullet_BulletInTheHead_cross" 						"A bullet into the forehead"
 "DOTA_Tooltip_modifier_Bullet_BulletInTheHead_cross_Description" 			"Kama Bullet fired a bullet at you"
 "DOTA_Tooltip_ability_Bullet_BulletInTheHead_shard_description" 			"Becomes an AOE with %scepter_radius%"
 
@@ -3901,13 +3901,13 @@
 "DOTA_Tooltip_modifier_bullet_taa_debuff" 						"Taa"
 "DOTA_Tooltip_modifier_bullet_taa_debuff_Description" 			"Armor reduced by %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%"
 
-"DOTA_Tooltip_modifier_Bullet_BulletInTheHead_bonus_damage" 				"Bullet to the head"
+"DOTA_Tooltip_modifier_Bullet_BulletInTheHead_bonus_damage" 				"A bullet into the forehead"
 "DOTA_Tooltip_modifier_Bullet_BulletInTheHead_bonus_damage_Description" 		"Incoming damage increased by %dMODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE%%%"
 
-"DOTA_Tooltip_modifier_Bullet_BulletInTheHead_slow" 						"Bullet to the head"
+"DOTA_Tooltip_modifier_Bullet_BulletInTheHead_slow" 						"A bullet into the forehead"
 "DOTA_Tooltip_modifier_Bullet_BulletInTheHead_slow_Description" 			"Slowed down by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%"
 
-"DOTA_Tooltip_Ability_special_bonus_birzha_bullet_1"				       "A bullet to the forehead slows down by {s:value}% for {s:value2} seconds."
+"DOTA_Tooltip_Ability_special_bonus_birzha_bullet_1"				       "A bullet into the forehead slows down by {s:value}% for {s:value2} seconds."
 "DOTA_Tooltip_Ability_special_bonus_birzha_bullet_2" 				"Improving Taa and Shaa"
 "DOTA_Tooltip_Ability_special_bonus_birzha_bullet_2_description" 				"Taa reduces the target's armor by {s:value} and Shaa increases attack speed by {s:value2}. Duration {s:value3} seconds."
 "DOTA_Tooltip_Ability_special_bonus_birzha_bullet_3" 				"+{s:value} damage to Taa and Shaa"
@@ -3916,7 +3916,7 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_bullet_6" 				"+{s:value} increases in healthy lifestyle attributes"
 "DOTA_Tooltip_Ability_special_bonus_birzha_bullet_7" 				"Bullet to the forehead upgrade"
 "DOTA_Tooltip_Ability_special_bonus_birzha_bullet_7_description" 				"Pierces magic immunity and increases incoming damage to the target by {s:value}%. Duration {s :value2} seconds."
-"DOTA_Tooltip_Ability_special_bonus_birzha_bullet_8" 				"A bullet to the forehead kills the enemy with {s:value}% health"
+"DOTA_Tooltip_Ability_special_bonus_birzha_bullet_8" 				"A bullet into the forehead kills the enemy with {s:value}% health"
 
 //================================================================ ===================================================== ===============
 // Ax | Abdulov | Abdulov
