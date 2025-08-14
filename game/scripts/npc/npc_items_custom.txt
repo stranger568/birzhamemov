@@ -4369,7 +4369,7 @@
 		"ItemResult"					"item_power_orb"
 		"ItemRequirements"
 		{
-			"01"						"item_ultimate_orb;item_ultimate_orb;item_ultimate_orb;item_ultimate_orb;item_ultimate_orb"
+			"01"						"item_ultimate_orb;item_ultimate_orb;item_ultimate_orb;item_ultimate_orb"
 		}
 	}
 	
@@ -4385,7 +4385,7 @@
 
 		"AbilityValues"
 		{
-			"bonus_attributes"				"65"
+			"bonus_attributes"				"60"
 			"unselect_attribute_pct"		"6"
 			"select_attribute_pct"			"10"
 		}
