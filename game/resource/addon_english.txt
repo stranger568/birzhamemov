@@ -5975,7 +5975,7 @@
 "DOTA_Tooltip_modifier_speed_friendly_Description" 		"Moves %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% faster"
 
 "DOTA_Tooltip_ability_Never_ultimate" 					"EGO"
-"DOTA_Tooltip_ability_Never_ultimate_Description" 		"Never has greater HP, which increases his physical damage. When activated, increases the physical damage of allied heroes for %duration% sec."
+"DOTA_Tooltip_ability_Never_ultimate_Description" 		"Never has a high hsv, which increases its physical damage. When activated, increases physical damage of allied heroes for %duration% sec."
 "DOTA_Tooltip_ability_Never_ultimate_bonus_damage" 		"EXTRA DAMAGE:"
 "DOTA_Tooltip_ability_Never_ultimate_bonus_damage_team" 	"EXTRA DAMAGE ON TEAM:"
 "DOTA_Tooltip_ability_Never_ultimate_lore" 				"Why was I added to the custom roster?"
