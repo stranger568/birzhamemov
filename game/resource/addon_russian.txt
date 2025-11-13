@@ -11,7 +11,7 @@
 "addon_game_name"	"Биржа Мемов"
 "DOTA_GameMode_15"	"Биржа Мемов"
 "DOTA_Tooltip_ability_item_bag_of_gold"	"Биткоин"
-"DOTA_Tooltip_ability_item_bag_of_gold_Description"	"Дает 150 золота"
+"DOTA_Tooltip_ability_item_bag_of_gold_Description"	"Дает 300 золота"
 "DOTA_Tooltip_ability_item_treasure_chest"	            "Сундук с наградой"
 "DOTA_Tooltip_ability_item_treasure_chest_Description"	"Дает 3 случайных предмета на выбор. Разряд предмета зависит от вашего положения в таблице лидерства"
 "DOTA_Tooltip_ability_item_treasure_chest_winter"	            "Сундук с наградой"
@@ -1410,7 +1410,7 @@
 "DOTA_Tooltip_modifier_item_boots_of_invisibility_active_Description"						"Невидим и имеет иммунитет к магии"
 
 "DOTA_Tooltip_ability_item_imba_phase_boots_2"			"Ботинки ABIBAS"
-"DOTA_Tooltip_ability_item_imba_phase_boots_2_Description"					"<h1>Активное: ABIBAS</h1> Увеличивает скорость передвижения на %movespeed_bonus%%% и скорость атаки на %attack_speed_bonus% <br><br> Длительность %duration% сек."
+"DOTA_Tooltip_ability_item_imba_phase_boots_2_Description"					"<h1>Активное: ABIBAS</h1> Увеличивает скорость передвижения на %movespeed_bonus_melee%%% для героев ближнего боя и на %movespeed_bonus_range%%% для героев дальнего боя, а также скорость атаки на %attack_speed_bonus% <br><br> Длительность %duration% сек."
 "DOTA_Tooltip_ability_item_imba_phase_boots_2_bonus_damage"					"+$damage"
 "DOTA_Tooltip_ability_item_imba_phase_boots_2_bonus_armor"					"+$armor"
 "DOTA_Tooltip_ability_item_imba_phase_boots_2_bonus_str"					"+$str"
@@ -1539,14 +1539,14 @@
 "DOTA_Tooltip_ability_item_tar2_hp"	"+$health"
 
 "DOTA_Tooltip_ability_item_butter2"	"Гейская бабочка"
-"DOTA_Tooltip_ability_item_butter2_Description"	"<h1>Активное: Оседлай радугу</h1> Дает герою возможность проходить сквозь препятствия, а также его нельзя выбрать целью. Действие эффекта прервётся, если нанести удар <br><br>Длительность %duration% сек."
+"DOTA_Tooltip_ability_item_butter2_Description"	"<h1>Активное: Оседлай радугу</h1> Дает герою возможность проходить сквозь препятствия, увеличивает скорость передвижения на %movespeed_bonus%%%, а также его нельзя выбрать целью. Действие эффекта прервётся, если нанести удар <br><br>Длительность %duration% сек."
 "DOTA_Tooltip_ability_item_butter2_agi"	"+$agi"
 "DOTA_Tooltip_ability_item_butter2_dmg"	"+$damage"
 "DOTA_Tooltip_ability_item_butter2_attack"	"+$attack"
 "DOTA_Tooltip_ability_item_butter2_ev"	"%+$evasion"
 
 "DOTA_Tooltip_modifier_item_butter2_active"								"Гейская бабочка"
-"DOTA_Tooltip_modifier_item_butter2_active_Description"					"Проходит сквозь препятствия и не может быть выбран целью"
+"DOTA_Tooltip_modifier_item_butter2_active_Description"					"Проходит сквозь препятствия и не может быть выбран целью. Скорость передвижения увеличена на %MODIFIER_MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%"
 
 "DOTA_Tooltip_ability_item_recipe_frostmorn"	"Рецепт: Frostmourne"
 "DOTA_Tooltip_ability_item_frostmorn"	"Frostmourne"
@@ -1842,7 +1842,6 @@
 "DOTA_Tooltip_ability_item_demon_paper_bonus_strength"				"+$str"
 "DOTA_Tooltip_ability_item_demon_paper_bonus_damage"				"+$damage"
 "DOTA_Tooltip_ability_item_demon_paper_bonus_lifesteal"				"%+$lifesteal"
-"DOTA_Tooltip_ability_item_demon_paper_status_resistance"			"%+$status_resist"
 "DOTA_Tooltip_ability_item_demon_paper_lore"						"Данный предмет создан благодаря <font color='#fffc00'>HEX</font>"
 
 "DOTA_Tooltip_modifier_item_demon_paper_active"										"Проклятье Крови"
@@ -1930,7 +1929,7 @@
 
 
 "DOTA_Tooltip_ability_item_brain_burner" "Выжигатель мозгов"
-"DOTA_Tooltip_ability_item_brain_burner_Description" "<h1>Активное: Outburst</h1>Выжигает %mana_burn_active%%% маны всем противникам в радиусе %radius% и наносит %active_damage% магического урона за единицу сожжённой маны\n<h1>Пассивное: Soul Break</h1> Каждая атака сжигает %mana_burn%%% от максимальной маны врага и наносит чистый урон за единицу сожжённой маны<br><br>Иллюзии героев сжигают по %mana_burn_illusion%%% от максимальной маны врага" 
+"DOTA_Tooltip_ability_item_brain_burner_Description" "<h1>Активное: Outburst</h1>Выжигает %mana_burn_active%%% маны всем противникам в радиусе %radius% и наносит %active_damage% магического урона за единицу сожжённой маны\n<h1>Пассивное: Soul Break</h1> Каждая атака сжигает %mana_burn%%% от максимальной маны врага и наносит физический урон за единицу сожжённой маны<br><br>Иллюзии героев сжигают по %mana_burn_illusion%%% от максимальной маны врага" 
 "DOTA_Tooltip_ability_item_brain_burner_bonus_attack_speed" "+$attack"
 "DOTA_Tooltip_ability_item_brain_burner_bonus_agility" "+$agi"
 "DOTA_Tooltip_ability_item_brain_burner_bonus_intellect" "+$int"
@@ -2375,11 +2374,11 @@
 "DOTA_Tooltip_modifier_brb_spice_buff_Description"								"Скорость передвижения увеличена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT%, регенерация здоровья на %dMODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT% и скорость атаки на %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%"
 
 "DOTA_Tooltip_ability_special_bonus_birzha_brb_1"								"+{s:value} к урону за Тест на гея"
-"DOTA_Tooltip_ability_special_bonus_birzha_brb_5"								"-{s:value} сек. активации Пранк от пимпа"
+"DOTA_Tooltip_ability_special_bonus_birzha_brb_5"								"+{s:value} к радиусу Пранк от пимпа"
 "DOTA_Tooltip_ability_special_bonus_birzha_brb_2"								"+{s:value} к скорости снаряда Пранк от Пимпа"
 "DOTA_Tooltip_ability_special_bonus_birzha_brb_3"								"-{s:value} сек. перезарядки Тест на гея"
 "DOTA_Tooltip_ability_special_bonus_birzha_brb_4"								"+{s:value} к скорости атаки от Стеб"
-"DOTA_Tooltip_ability_special_bonus_birzha_brb_6"								"+{s:value} к радиусу Пранк от Пимпа"
+"DOTA_Tooltip_ability_special_bonus_birzha_brb_6"								"-{s:value} сек. активации Пранк от Пимпа"
 "DOTA_Tooltip_ability_special_bonus_birzha_brb_7"								"+{s:value} сек. к оглушению Пранк от Пимпа"
 "DOTA_Tooltip_ability_special_bonus_birzha_brb_8"								"Стеб накладывает безмолвие"
 "DOTA_Tooltip_ability_special_bonus_birzha_brb_8_description"					"Каждая {s:value} атака накладывает безмолвие на {s:value2} сек."
@@ -2828,7 +2827,7 @@
 "DOTA_Tooltip_ability_Ayano_TakeACircularSaw_base_attack_time"	"БАЗОВАЯ СКОРОСТЬ АТАКИ:"
 "DOTA_Tooltip_ability_Ayano_TakeACircularSaw_damage_reduced"	"%УМЕНЬШЕНИЕ ИСХОДЯЩЕГО УРОНА:"
 "DOTA_Tooltip_ability_Ayano_TakeACircularSaw_lore"	"Dim4ik посвящает этого героя Sion Atlasia"
-"DOTA_Tooltip_ability_Ayano_TakeACircularSaw_shard_description"			"Не уменьшает исходящий урон"
+"DOTA_Tooltip_ability_Ayano_TakeACircularSaw_shard_description"			"Уменьшение исходящего урона снижается в 2 раза"
 
 "DOTA_Tooltip_ability_Ayano_Tranquilizer"							"Транквилизатор"
 "DOTA_Tooltip_ability_Ayano_Tranquilizer_Description"				"Аяно бросает в противника шприц с транквилизатором из медицинского кабинета. Транквилизатор постепенно замедляет и после оглушает врага"
@@ -2981,7 +2980,7 @@
 "DOTA_Tooltip_ability_Naval_President_bonus_attack_speed"	"ДОП. СКОРОСТЬ АТАКИ:"
 "DOTA_Tooltip_ability_Naval_President_hp_regen"				"ДОП. РЕГЕНЕРАЦИЯ ЗДОРОВЬЯ:"
 "DOTA_Tooltip_ability_Naval_President_bonus_damage"			"ДОП. УРОН:"
-"DOTA_Tooltip_ability_Naval_President_scepter_description"	"Дарует иммунитет к магии"
+"DOTA_Tooltip_ability_Naval_President_scepter_description"	"Дарует иммунитет к магии на половину от времени способности"
 
 "DOTA_Tooltip_modifier_naval_president"								"Стал президентом"
 "DOTA_Tooltip_modifier_naval_president_Description"					"Скорость атаки, урон и регенерация здоровья увеличены"
@@ -3689,8 +3688,7 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_face_5" 				        "+{s:value} сек. длительности Хейт"
 "DOTA_Tooltip_Ability_special_bonus_birzha_face_6" 				        "{s:value}% силы в урон Школьников Фан база"
 "DOTA_Tooltip_Ability_special_bonus_birzha_face_7" 				        "-{s:value} сек. перезарядки Новый трек"
-"DOTA_Tooltip_Ability_special_bonus_birzha_face_8" 				        "Улучшение Фан база"
-"DOTA_Tooltip_Ability_special_bonus_birzha_face_8_description" 			"Нельзя сломать и применяет способность Хейт"
+"DOTA_Tooltip_Ability_special_bonus_birzha_face_8" 				        "Фан База применяет способность Хейт"
 
 //=================================================================================================================
 // Скала
@@ -3736,8 +3734,8 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_dwayne_4"								"-{s:value} сек. применения Бросить камень"
 "DOTA_Tooltip_Ability_special_bonus_birzha_dwayne_5"								"+{s:value} к урону Испытание камнем"
 "DOTA_Tooltip_Ability_special_bonus_birzha_dwayne_6"								"-{s:value} сек. перезарядки Каменная кара"
-"DOTA_Tooltip_Ability_special_bonus_birzha_dwayne_7"								"Бросить камень совершает атаку"
-"DOTA_Tooltip_Ability_special_bonus_birzha_dwayne_8"								"+{s:value} валунов Испытание камнем"
+"DOTA_Tooltip_Ability_special_bonus_birzha_dwayne_7"								"Испытание Камнем совершает атаку"
+"DOTA_Tooltip_Ability_special_bonus_birzha_dwayne_8"								"+{s:value} валунов Испытание Камнем"
 
 "DOTA_Tooltip_modifier_dwayne_fight_of_death"										"Испытание камнем"
 
@@ -4211,7 +4209,7 @@
 "DOTA_Tooltip_ability_special_bonus_birzha_ruby_5"				                "Rose Strike становится активной"
 "DOTA_Tooltip_ability_special_bonus_birzha_ruby_5_description"	                "При активации Rose Strike вращается в течение {s:value} сек. и наносит урон врагам поблизости. Перезарядка {s:value2} сек."
 "DOTA_Tooltip_ability_special_bonus_birzha_ruby_6"				                "+{s:value}% шанса при атаке Rose Strike"
-"DOTA_Tooltip_ability_special_bonus_birzha_ruby_7"				                "Ranged mode наносит урон от атак"
+"DOTA_Tooltip_ability_special_bonus_birzha_ruby_7"				                "Ranged mode наносит {s:value}% урона от атак"
 "DOTA_Tooltip_ability_special_bonus_unique_ruby_8"				                "2 заряда Ranged Mode"
 
 //=================================================================================================================
@@ -4998,7 +4996,7 @@
 "npc_dota_papaz_4" 								"PAPAZ"
 
 "DOTA_Tooltip_ability_SilverName_TopDeck"								"Топ дек"
-"DOTA_Tooltip_ability_SilverName_TopDeck_Description"					"<h1>Активная в обычной форме</h1>SilverName со всей силы ударяет оружием по земле перед собой, нанося %crit%%% критического урона противникам. Длительность атаки зависит от скорости атаки SilverName\n<h1>Пассивная в форме совы</h1>Каждая атака имеет %chance%%% шанс нанести %crit%%% критического урона"
+"DOTA_Tooltip_ability_SilverName_TopDeck_Description"					"<h1>Активная в обычной форме</h1>SilverName со всей силы ударяет оружием по земле перед собой, нанося %crit%%% критического урона противникам. Длительность атаки зависит от скорости атаки SilverName\n<h1>Пассивная в форме совы</h1>Каждая атака имеет %chance%%% шанс нанести %owl_crit%%% критического урона"
 
 "DOTA_Tooltip_ability_SilverName_Screamer"								"CКРИМЕР"
 "DOTA_Tooltip_ability_SilverName_Screamer_Description"					"<h1>Активная в обычной форме</h1>SilverName пугает всех противников вокруг себя в радиусе %radius%, отчего они начинают убегать от него\n<h1>Активная в форме совы</h1>Выпускает пугающий снаряд, который пугает всех противников в выбранной точке в радиусе %radius%, отчего они начинают убегать от нее"
@@ -5926,7 +5924,7 @@
 "DOTA_Tooltip_Ability_rin_satana_explosion_lore"			"Данный герой создан благодаря <font color='#fffc00'>Xelisum</font>"
 
 "DOTA_Tooltip_ability_blue_incision_shard_description"			"Даёт %bonus_shard_damage% к урону от атаки на %bonus_shard_duration% сек. за каждое попадание способностью"
-"DOTA_Tooltip_ability_rin_satana_explosion_scepter_description"	"Увеличивает длительность на %scepter_duration% сек. и уменьшает перезарядку на %scepter_cooldown% сек."
+"DOTA_Tooltip_ability_rin_satana_explosion_scepter_description"	"Увеличивает длительность на %scepter_duration% сек. и позволяет передвигаться, атаковать и использовать способности, но ограничивает скорость предвижения до %scepter_limit%"
 
 "DOTA_Tooltip_modifier_rin_satana_explosion" 				"Взрыв Сатаны"
 "DOTA_Tooltip_modifier_rin_satana_explosion_description" 	""
@@ -5934,15 +5932,15 @@
 "DOTA_Tooltip_modifier_blue_incision" 						"Разрез синего пламени"
 "DOTA_Tooltip_modifier_blue_incision_description" 			"Урон увеличен на %dMODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE%"
 
-"Dota_Tooltip_Ability_special_bonus_birzha_rin_1" 						"+{s:value} урона Разрез синего пламени"
-"Dota_Tooltip_Ability_special_bonus_birzha_rin_2" 						"+{s:value} сек. оглушения Разрез синего пламени"
-"Dota_Tooltip_Ability_special_bonus_birzha_rin_3" 						"-{s:value} сек. перезарядки Разрез синего пламени"
+"Dota_Tooltip_Ability_special_bonus_birzha_rin_1" 						"+{s:value} урона Разрез Синего Пламени"
+"Dota_Tooltip_Ability_special_bonus_birzha_rin_2" 						"+{s:value} сек. оглушения Разрез Синего Пламени"
+"Dota_Tooltip_Ability_special_bonus_birzha_rin_3" 						"-{s:value} сек. перезарядки Разрез Синего Пламени"
 "Dota_Tooltip_Ability_special_bonus_birzha_rin_4" 						"-{s:value} сек. перезарядки Черныш"
 "Dota_Tooltip_Ability_special_bonus_birzha_rin_5" 						"+{s:value}% урона от атаки Рина для Черныш"
-"Dota_Tooltip_Ability_special_bonus_birzha_rin_6" 						"Аура Сатаны +{s:value} урона аура сына сатаны"
+"Dota_Tooltip_Ability_special_bonus_birzha_rin_6" 						"Аура Сына Сатаны даёт +{s:value} к урону от атаки"
 "Dota_Tooltip_Ability_special_bonus_birzha_rin_7" 						"Взрыв Сатаны оглушает на {s:value} сек."
-"Dota_Tooltip_Ability_special_bonus_birzha_rin_8" 						"Разрез синего пламени урон от атак"
-"Dota_Tooltip_Ability_special_bonus_birzha_rin_8_description" 			"Не работает на Взрыв Сатаны"
+"Dota_Tooltip_Ability_special_bonus_birzha_rin_8" 						"Разрез Синего Пламени наносит урон от атак"
+"Dota_Tooltip_Ability_special_bonus_birzha_rin_8_description" 			"Взрыв Сатаны наносит {s:value}% урона"
 
 
 //=================================================================================================================
@@ -6920,7 +6918,7 @@
 "Dota_Tooltip_Ability_special_bonus_birzha_bogdan_4" 			"+{s:value} скорости атаки Сесть на ковер"
 "Dota_Tooltip_Ability_special_bonus_birzha_bogdan_5" 			"+{s:value} урон Спид"
 "Dota_Tooltip_Ability_special_bonus_birzha_bogdan_6" 			"+{s:value} дальности атаки Сесть на ковер"
-"Dota_Tooltip_Ability_special_bonus_birzha_bogdan_7" 			"-{s:value} перезарядки Работа"
+"Dota_Tooltip_Ability_special_bonus_birzha_bogdan_7" 			"Сесть На Ковер даёт беспрепятственный обзор"
 "Dota_Tooltip_Ability_special_bonus_birzha_bogdan_8" 			"{s:value}x множитель эффекта Работа"
 
 //=================================================================================================================
@@ -7086,7 +7084,7 @@
 "DOTA_Tooltip_ability_thomas_ability_one_lore"								"Данный герой создан благодаря <font color='#fffc00'>ForeverBlin4ik</font>"
 
 "DOTA_Tooltip_ability_thomas_ability_two_one"								"Цыганская помощь: Ли"
-"DOTA_Tooltip_ability_thomas_ability_two_one_Description"					"Призывает на помощь цыган. Количество цыган зависит от суммы убийств и помощи деленной на %math_cel%. Минимальное количество цыган 1, максимальное %max_count%.<br>Скорость атаки цыган зависит от скорости атаки Шелби деленной на %attack_speed_mult%<br>Урон цыган зависит от %damage%%% урона Шелби\n<h1>Цыган: Выбивание долгов</h1>Каждая атака Цыгана навешивает долг на противника, который равен %gold_steal% золота. Шелби забирает золото противника себе до момента пока долг не будет полностью выплачен"
+"DOTA_Tooltip_ability_thomas_ability_two_one_Description"					"Призывает на помощь цыган. Количество цыган зависит от суммы убийств и помощи деленной на %math_cel%. Минимальное количество цыган 1, максимальное %max_count%.<br>Скорость атаки цыган зависит от скорости атаки Шелби деленной на %attack_speed_mult%<br>Урон цыган равен %damage%%% от урона Шелби\n<h1>Цыган: Выбивание долгов</h1>Каждая атака Цыгана навешивает долг на противника, который равен %gold_steal% золота. Шелби забирает золото противника себе до момента пока долг не будет полностью выплачен"
 "DOTA_Tooltip_ability_thomas_ability_two_one_abilitygoldcost"				"СТОИМОСТЬ ЗОЛОТА:"
 "DOTA_Tooltip_ability_thomas_ability_two_one_lore"							"Данный герой создан благодаря <font color='#fffc00'>ForeverBlin4ik</font>"
 
@@ -8436,7 +8434,7 @@
 "DOTA_Tooltip_Ability_puchkov_small_debils_duration" 				"ДЛИТЕЛЬНОСТЬ:"
 "DOTA_Tooltip_Ability_puchkov_small_debils_bonus_damage" 			"%ДОП. УРОН ПО ЦЕЛИ:"
 "DOTA_Tooltip_Ability_puchkov_small_debils_lore"					"Данный герой создан благодаря <font color='#fffc00'>CAPDELKA</font>"
-"DOTA_Tooltip_ability_puchkov_small_debils_scepter_description"		"Цель способности не может атаковать, использовать способности и предметы"
+"DOTA_Tooltip_ability_puchkov_small_debils_scepter_description"		"Цель способности не может атаковать, использовать способности и предметы на половину от её времени"
 
 "DOTA_Tooltip_modifier_puchkov_small_debils" 						"Малолетние дебил"
 "DOTA_Tooltip_modifier_puchkov_small_debils_Description" 			"Замедлен на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%. Входящий урон увеличен на %dMODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE%%%"
@@ -9771,6 +9769,7 @@
 "DOTA_Tooltip_Ability_ashab_w_radius"                                                       "РАДИУС:"
 "DOTA_Tooltip_Ability_ashab_w_duration_to_explosion"                                        "ВРЕМЯ ДО ВЗРЫВА:"
 "DOTA_Tooltip_Ability_ashab_w_damage"                                                       "УРОН:"
+"DOTA_Tooltip_Ability_ashab_w_incoming_damage" 												"%УМЕНЬШЕНИЕ ВХОДЯЩЕГО УРОНА:"
 "DOTA_Tooltip_Ability_ashab_w_stun_duration"                                                "ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
 "DOTA_Tooltip_Ability_ashab_w_shard_description"                                            "Способность становится направленной. Герой мнгновенно оказывается в выбранной точке и использует эту способность. Дальность применения 1200"
 

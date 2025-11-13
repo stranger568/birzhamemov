@@ -268,7 +268,7 @@ function Kurumi_Absorption:OnSpellStart()
 
     target:AddNewModifier(self:GetCaster(), self, "modifier_Kurumi_Absorption_debuff", {duration = self:GetSpecialValueFor("kill_duration")})
 
-    ApplyDamage({victim = target, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self})
+    ApplyDamage({victim = target, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self})
 
     self:GetCaster():EmitSound("kurskill")
 
@@ -545,6 +545,14 @@ end
 
 function modifier_kurumi_scepter_buff:GetModifierMoveSpeed_Absolute(keys)
     return self.movespeed
+end
+
+function modifier_kurumi_scepter_buff:CheckState()
+        local state = 
+        { 
+            [MODIFIER_STATE_NO_UNIT_COLLISION] = true, 
+        }
+    return state
 end
 
 function modifier_kurumi_scepter_buff:GetStatusEffectName() return "particles/status_fx/status_effect_purple_poison.vpcf" end

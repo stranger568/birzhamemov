@@ -296,6 +296,7 @@ end
 
 
 LinkLuaModifier( "modifier_naval_president", "abilities/heroes/navalny.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_naval_president_aghanim", "abilities/heroes/navalny.lua", LUA_MODIFIER_MOTION_NONE )
 
 Naval_President = class({})
 
@@ -311,7 +312,10 @@ function Naval_President:OnSpellStart()
     if not IsServer() then return end
     local caster = self:GetCaster()
     local duration = self:GetSpecialValueFor( "duration" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_navalny_7")
-    caster:AddNewModifier( caster, self, "modifier_naval_president", { duration = duration } )
+    caster:AddNewModifier( caster, self, "modifier_naval_president", { duration = duration})
+    if caster:HasScepter() then
+        caster:AddNewModifier( caster, self, "modifier_naval_president_aghanim", { duration = (duration / 2)})
+    end
     caster:EmitSound("navalprez")
 end
 
@@ -323,12 +327,6 @@ function modifier_naval_president:OnCreated()
     self.bonus_attack_speed = self:GetAbility():GetSpecialValueFor( "bonus_attack_speed" )
     self.bonus_damage = self:GetAbility():GetSpecialValueFor( "bonus_damage" )
     if not IsServer() then return end
-    self.scepter = false
-    if self:GetCaster():HasScepter() then
-        self.scepter = true
-        local particle = ParticleManager:CreateParticle( "particles/econ/items/omniknight/omni_ti8_head/omniknight_repel_buff_ti8.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
-        self:AddParticle(particle, false, false, -1, false, false )
-    end
     local particle = ParticleManager:CreateParticle( "particles/econ/items/bloodseeker/bloodseeker_eztzhok_weapon/bloodseeker_bloodrage_eztzhok.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent() )
     self:AddParticle(particle, false, false, -1, false, false )
 end
@@ -352,13 +350,6 @@ function modifier_naval_president:DeclareFunctions()
     return funcs
 end
 
-function modifier_naval_president:CheckState()
-    if not self.scepter then return end
-    return {
-        [MODIFIER_STATE_MAGIC_IMMUNE] = true,
-    }
-end
-
 function modifier_naval_president:GetModifierModelScale()
     return 75
 end
@@ -373,4 +364,22 @@ end
 
 function modifier_naval_president:GetModifierPreAttack_BonusDamage()
     return self.bonus_damage
+end
+
+modifier_naval_president_aghanim = class({})
+
+function modifier_naval_president_aghanim:IsPurgable() return false end
+function modifier_naval_president_aghanim:IsHidden() return true end
+
+function modifier_naval_president_aghanim:OnCreated()
+    if not IsServer() then return end
+        local particle = ParticleManager:CreateParticle( "particles/econ/items/omniknight/omni_ti8_head/omniknight_repel_buff_ti8.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
+        self:AddParticle(particle, false, false, -1, false, false )
+    return
+end
+
+function modifier_naval_president_aghanim:CheckState()
+    return {
+        [MODIFIER_STATE_MAGIC_IMMUNE] = true,
+    }
 end

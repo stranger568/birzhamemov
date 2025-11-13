@@ -65,9 +65,15 @@ function ruby_ranged_mode:OnProjectileHit(target, vLocation)
     if target == nil then return end
     if target:IsInvulnerable() then return end
 
-    local damage = self:GetSpecialValueFor( "damage" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_ruby_1")
+	local damage = self:GetSpecialValueFor("damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_ruby_1")
+    if self:GetCaster():HasTalent("special_bonus_birzha_ruby_7") then
+        local damage_perc = self:GetCaster():GetAverageTrueAttackDamage(nil) / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_ruby_7")
+    	self.end_damage = damage + damage_perc
+    else 
+        self.end_damage = damage
+    end
 
-    ApplyDamage({ victim = target, attacker = self:GetCaster(), ability = self, damage = damage, damage_type = DAMAGE_TYPE_PHYSICAL })
+    ApplyDamage({ victim = target, attacker = self:GetCaster(), ability = self, damage = self.end_damage, damage_type = DAMAGE_TYPE_PHYSICAL })
 
     if self:GetCaster():HasTalent("special_bonus_birzha_ruby_7") then
         self:GetCaster():PerformAttack(target, true, true, true, false, false, false, true)

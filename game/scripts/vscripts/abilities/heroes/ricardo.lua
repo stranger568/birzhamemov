@@ -285,6 +285,16 @@ function Ricardo_Golosovanie:GetIntrinsicModifierName()
     return "modifier_Ricardo_Golosovanie_bonus_amplify"
 end
 
+function Ricardo_Golosovanie:OnAbilityPhaseStart()
+    self:GetCaster():StartGesture( ACT_DOTA_CAST_ABILITY_4 )
+    self:GetCaster():EmitSound("ricardoultimate")
+   return
+end
+
+function Ricardo_Golosovanie:OnAbilityPhaseInterrupted()
+    return self:GetCaster():StopSound("ricardoultimate")
+end
+
 function Ricardo_Golosovanie:GetCooldown(level)
     return self.BaseClass.GetCooldown( self, level )
 end
@@ -301,7 +311,6 @@ function Ricardo_Golosovanie:OnSpellStart()
     if not IsServer() then return end
     local duration = self:GetSpecialValueFor("duration")
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_Ricardo_Golosovanie", {duration = duration})
-    self:GetCaster():EmitSound("ricardoultimate")
 end
 
 modifier_Ricardo_Golosovanie = class({})

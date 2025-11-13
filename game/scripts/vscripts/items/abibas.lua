@@ -88,7 +88,8 @@ function modifier_item_imba_phase_boots_2_active:GetTexture()
 end
 
 function modifier_item_imba_phase_boots_2_active:OnCreated()
-    self.movespeed_bonus = self:GetAbility():GetSpecialValueFor("movespeed_bonus")
+    self.movespeed_bonus_range = self:GetAbility():GetSpecialValueFor("movespeed_bonus_range")
+    self.movespeed_bonus_melee = self:GetAbility():GetSpecialValueFor("movespeed_bonus_melee")
     self.attack_speed_bonus = self:GetAbility():GetSpecialValueFor("attack_speed_bonus")
 end
 
@@ -102,7 +103,11 @@ function modifier_item_imba_phase_boots_2_active:DeclareFunctions()
 end
 
 function modifier_item_imba_phase_boots_2_active:GetModifierMoveSpeedBonus_Percentage()
-    return self.movespeed_bonus
+    if not self:GetParent():IsRangedAttacker() then
+        return self.movespeed_bonus_melee
+    else
+        return self.movespeed_bonus_range
+    end
 end
 
 function modifier_item_imba_phase_boots_2_active:GetModifierAttackSpeedBonus_Constant()
@@ -114,6 +119,5 @@ function modifier_item_imba_phase_boots_2_active:CheckState()
     {
         [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
     }
-
     return state
 end

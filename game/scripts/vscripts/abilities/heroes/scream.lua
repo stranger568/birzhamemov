@@ -507,7 +507,7 @@ function Scream_night_two:OnChannelFinish(bInterrupted)
 
 	if not self:GetCaster():HasModifier("modifier_Scream_night") then return end
 
-	local stun_duration = self:GetSpecialValueFor("stun_duration")
+	local stun_duration = self:GetSpecialValueFor("stun_duration") * (1 - self.target:GetStatusResistance())
 
 	self:GetCaster():EmitSound("ScreamUltimate")
 	

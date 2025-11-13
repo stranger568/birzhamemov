@@ -429,7 +429,10 @@ function BirzhaGameMode:birzha_neutral_item_choose(params)
                 passive_item:SetLevel(spawnedItem_info[2][2])
             end
         else
-            hero:AddItemByName(spawnedItem_info[1])
+           local item = hero:AddItemByName(spawnedItem_info[1])
+           	if item then 
+		        item:SetPurchaseTime(0)
+	        end
         end
         hero.CURRENT_ITEMS_NEUTRAL_LIST = nil
         hero.Chest_Counter = hero.Chest_Counter - 1

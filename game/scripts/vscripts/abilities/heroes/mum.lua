@@ -822,7 +822,7 @@ function mum_arrows_of_death:OnProjectileHit_ExtraData(target, location, ExtraDa
             return true
         end
         table.insert(self[ExtraData.index],target)
-        local stun_duration = self:GetSpecialValueFor( "arrow_stun" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_mum_1")
+        local stun_duration = self:GetSpecialValueFor( "arrow_stun" )
         target:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned_purge", {duration = stun_duration * (1 - target:GetStatusResistance()) })
         target:EmitSound("Hero_Mirana.ArrowImpact")
         ApplyDamage({ victim = target, attacker = self:GetCaster(), ability = self, damage = self:GetSpecialValueFor("damage"), damage_type = DAMAGE_TYPE_MAGICAL })

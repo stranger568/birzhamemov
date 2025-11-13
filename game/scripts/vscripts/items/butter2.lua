@@ -59,6 +59,7 @@ function modifier_item_butter2_active:IsPurgable() return false end
 function modifier_item_butter2_active:OnCreated()
 	if not IsServer() then return end
     local caster = self:GetCaster()
+    self.movespeed_bonus = self:GetAbility():GetSpecialValueFor("movespeed_bonus")
 
     if not self:GetCaster():IsHero() then
         caster = caster:GetOwner()
@@ -97,8 +98,13 @@ function modifier_item_butter2_active:GetEffectAttachType() return PATTACH_ABSOR
 function modifier_item_butter2_active:DeclareFunctions()
     local funcs = {
         MODIFIER_EVENT_ON_ATTACK,
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
     }
     return funcs
+end
+
+function modifier_item_butter2_active:GetModifierMoveSpeedBonus_Percentage()
+    return self.movespeed_bonus
 end
 
 function modifier_item_butter2_active:OnAttack( params )

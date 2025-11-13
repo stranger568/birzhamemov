@@ -205,8 +205,10 @@
 		"ItemStackable"					"1"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
 		"ItemPermanent"					"0"
+		"ItemStockMax"					"4"
+		"ItemStockInitial"				"2"
 		"ItemInitialCharges"			"1"
-		"ItemStockTime"					"0.3"
+		"ItemStockTime"					"180"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES"
 		"ItemSupport"					"1"
 		"IsTempestDoubleClonable"		"0"
@@ -214,11 +216,11 @@
 
 		"AbilityValues"
 		{
-			"lifetime"				"480"
+			"lifetime"				"240"
 			"vision_range"			"0"
 			"true_sight_range"		"1000"
 			"health"				"200"
-			"duration_minutes_tooltip"				"8"
+			"duration_minutes_tooltip"				"4"
 			"activation_delay"		"0"
 		}
 	}
@@ -242,8 +244,8 @@
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
 		"ItemPermanent"					"0"
 		"ItemInitialCharges"			"1"
-		"ItemStockMax"					"4"
-		"ItemStockInitial"				"2"
+		"ItemStockMax"					"2"
+		"ItemStockInitial"				"1"
 		"ItemStockTime"					"75.0"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES"
 		"ItemSupport"					"1"
@@ -533,7 +535,7 @@
 	{
 		"ID"							"600"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_DIRECTIONAL | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES | DOTA_ABILITY_BEHAVIOR_OVERSHOOT"
-		"AbilityCastRange"				"0"
+		"AbilityCastRange"				"1200"
 		"AbilityCastPoint"				"0.0"
 		"AbilityCooldown"				"15.0"
 		"AbilityManaCost"				"0"
@@ -563,7 +565,7 @@
 	{
 		"ID"							"603"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_DIRECTIONAL | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES | DOTA_ABILITY_BEHAVIOR_OVERSHOOT"
-		"AbilityCastRange"				"0"
+		"AbilityCastRange"				"1200"
 		"AbilityCastPoint"				"0.0"
 		"AbilityCooldown"				"15.0"
 		"AbilityManaCost"				"0"
@@ -591,7 +593,7 @@
 	{
 		"ID"							"604"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_DIRECTIONAL | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES | DOTA_ABILITY_BEHAVIOR_OVERSHOOT"
-		"AbilityCastRange"				"0"
+		"AbilityCastRange"				"1200"
 		"AbilityCastPoint"				"0.0"
 		"AbilityCooldown"				"15.0"
 		"AbilityManaCost"				"0"
@@ -994,7 +996,7 @@
 
 		"AbilityValues"
 		{
-			"bonus_stats"			 "13"
+			"bonus_stats"			 "18"
 			"bonus_attack_speed"	  "40"
 			"bonus_movement_speed"	  "45"
 		}
@@ -1034,7 +1036,8 @@
 		"AbilityValues"
 		{
 			"bonus_movement_speed"	"55"
-			"movespeed_bonus"		"30"
+			"movespeed_bonus_melee"	"25"
+			"movespeed_bonus_range"	"15"
 			"attack_speed_bonus"	"45"
 			"duration"				"4"
 			"bonus_damage"			"20"
@@ -1100,7 +1103,7 @@
 		"Model"							"models/props_gameplay/red_box.vmdl"
 		"AbilityTextureName"			"Items/blinkboots"
 		"FightRecapLevel"				"1"
-		"AbilityCastRange"				"0"
+		"AbilityCastRange"				"1200"
 		"AbilityCastPoint"				"0.0"
 		"AbilityCooldown"				"10"
 		"AbilityManaCost"				"0"
@@ -1778,7 +1781,8 @@
 			"dmg"		  		"50"
 			"ev"				"50"
 			"attack"			"60"
-			"duration"			"3"
+			"duration"			"2"
+			"movespeed_bonus"	"25"
 		}
   	}
 	
@@ -2844,7 +2848,7 @@
 		"AbilityBehavior" 			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"ScriptFile" 				"items/demon_paper"
 		"AbilityTextureName"		"items/demon_paper"
-		"AbilityCooldown" 			"35"
+		"AbilityCooldown" 			"50"
 		"AbilityManaCost" 			"0"
 		"ItemShopTags" 				"regen;movespeed;magic"
 		"ItemQuality" 				"rare"
@@ -2853,7 +2857,6 @@
 		{
 			"bonus_strength" 		 "25"
 			"bonus_damage" 			 "38"
-			"status_resistance"		 "20"
 			"bonus_lifesteal" 		 "30"
 			"bonus_lifesteal_active" "175"
 			"duration" 				 "6"
@@ -3018,7 +3021,7 @@
 			"bonus_attack_speed"	"65"
 			"bonus_agility"			"25"
 			"bonus_intellect"		"15"
-			"mana_burn"				"5"
+			"mana_burn"				"3"
 			"mana_burn_illusion"	"1"
 			"radius"				"750"
 			"mana_burn_active"		"50"
@@ -3034,7 +3037,7 @@
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
 		"AbilityTextureName"			"items/gamble_gold_ring"
 		"ItemCost"						"2500"
-		"AbilityCooldown"				"30"
+		"AbilityCooldown"				"20"
 		"AbilityManaCost"				"77"
 		"ItemQuality"					"component"
 		"ItemIsNeutralActiveDrop"		"0"
@@ -3084,7 +3087,7 @@
 		"BaseClass"						"item_datadriven"
 		"Model"							"models/props_gameplay/recipe.vmdl"
 		"AbilityTextureName"			"item_recipe"
-		"ItemCost"						"4000"
+		"ItemCost"						"2000"
 		"ItemRecipe"					"1"
 		"ItemResult"					"item_gamble_gold_ring_2"
 		"ItemRequirements"
@@ -3101,7 +3104,7 @@
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
 		"AbilityTextureName"			"items/gamble_gold_ring_2"
 		"ItemCost"						"6200"
-		"AbilityCooldown"				"30"
+		"AbilityCooldown"				"20"
 		"AbilityManaCost"				"77"
 		"ItemQuality"					"component"
 		"ItemIsNeutralActiveDrop"		"0"
@@ -3761,7 +3764,7 @@
 			"stack_duration"		"5.0"
 
 			"bonus_strength"		"16"
-			"effect_resistance"		"20"
+			"effect_resistance"		"15"
 			"health_regen_increase"	"22"
 			"bonus_attack_speed"	"15"
 			"bonus_agility"			"16"
@@ -3797,7 +3800,7 @@
 			"stack_duration"		"5.0"
 
 			"bonus_strength"		"20"
-			"effect_resistance"		"20"
+			"effect_resistance"		"15"
 			"health_regen_increase"	"22"
 			"bonus_attack_speed"	"20"
 			"bonus_agility"			"20"
@@ -4088,13 +4091,14 @@
 			"lifesteal_active"	"15"
 			"magic_lifesteal_active"			"20"
 			"armor_active"		"-8"
-			"damage_per_second_active"				"100"
+			"damage_per_second_active"				"150"
 			"bonus_attack_speed_active"				"80"
 			"damage_per_charge"			"1"
-			"lifesteal_per_charge"			"1"
-			"spell_lifesteal_per_charge"			"1.5"
+			"lifesteal_per_charge"			"0.5"
+			"spell_lifesteal_per_charge"			"0.5"
 		}
 	}
+
 
 	"item_recipe_mana_heart"
   	{
@@ -4653,7 +4657,7 @@
 		"ScriptFile"					"items/weapon_shakal"
 		"AbilityTextureName"			"items/weapon_shakal"
 		"AbilityBehavior"			   "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityCooldown"			   "22"
+		"AbilityCooldown"			   "34"
 		"ItemCost"					  "2400"
 		"ItemShopTags"				  "hard_to_tag"
 		"ItemQuality"				   "common"
@@ -4711,7 +4715,7 @@
 		"AbilityCastRange"				"0"
 		"AbilityCooldown"				"20.0"
 		"AbilitySharedCooldown"			"teleport"
-		"AbilityChannelTime"			"2.0"
+		"AbilityChannelTime"			"2.5"
 		"AbilityCastPoint"				"0.0"
 		"AbilityManaCost"				"0"
         "ItemSellable"				    "0"
@@ -4727,7 +4731,28 @@
             "minimum_distance"		    "70"
             "maximum_distance"		    "800"
             "vision_radius"			    "200"
-            "tooltip_channel_time"		"2"
+            "tooltip_channel_time"		"2.5"
+		}
+	}
+
+		"item_recipe_abyssal_blade"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"1275"	
+		"ItemShopTags"					""
+
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_abyssal_blade"
+		"ItemRequirements"
+		{
+			"01"						"item_basher;item_mem_sange"
 		}
 	}
 }

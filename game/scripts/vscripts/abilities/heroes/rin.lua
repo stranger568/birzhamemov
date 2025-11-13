@@ -188,6 +188,14 @@ function modifier_satan_son_aura:OnCreated()
     self:GetParent():EmitSound("Hero_EmberSpirit.FlameGuard.Loop")
 end
 
+function modifier_satan_son_aura:DeclareFunctions()
+    return {MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE }
+end
+
+function modifier_satan_son_aura:GetModifierPreAttack_BonusDamage()
+    return self:GetCaster():FindTalentValue('special_bonus_birzha_rin_6')
+end
+
 function modifier_satan_son_aura:OnDestroy()
     if not IsServer() then return end
     self:GetParent():StopSound("Hero_EmberSpirit.FlameGuard.Loop")
@@ -206,7 +214,7 @@ end
 
 function modifier_satan_son_debuff:OnIntervalThink()
     if not IsServer() then return end
-    local damage = self:GetAbility():GetSpecialValueFor('damage') + self:GetCaster():FindTalentValue("special_bonus_birzha_rin_6")
+    local damage = self:GetAbility():GetSpecialValueFor('damage')
     ApplyDamage({ victim = self:GetParent(), attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
 end
 
@@ -388,10 +396,15 @@ LinkLuaModifier( "modifier_rin_satana_explosion", "abilities/heroes/rin.lua", LU
 rin_satana_explosion = class({})
 
 function rin_satana_explosion:GetCooldown(level)
-    if self:GetCaster():HasScepter() then
-        return self.BaseClass.GetCooldown( self, level ) + self:GetSpecialValueFor("scepter_cooldown")
-    end
     return self.BaseClass.GetCooldown( self, level )
+end
+
+function rin_satana_explosion:OnAbilityPhaseStart()
+    return self:GetCaster():StartGesture(ACT_DOTA_OVERRIDE_ABILITY_6)
+end
+
+function rin_satana_explosion:OnAbilityPhaseInterrupted()
+    return self:GetCaster():RemoveGesture(ACT_DOTA_OVERRIDE_ABILITY_6)
 end
 
 function rin_satana_explosion:OnSpellStart()
@@ -419,7 +432,10 @@ function modifier_rin_satana_explosion:OnCreated( kv )
     ParticleManager:SetParticleControl(particle_caster_ground_fx2, 0, self:GetCaster():GetAbsOrigin())
     ParticleManager:ReleaseParticleIndex(particle_caster_ground_fx2)
     self:StartIntervalThink( self.interval )
-    self:GetCaster():StartGesture(ACT_DOTA_OVERRIDE_ABILITY_6)
+--    self:GetCaster():StartGesture(ACT_DOTA_OVERRIDE_ABILITY_6)
+    if self:GetCaster():HasScepter() then
+        self:GetCaster():RemoveGesture(ACT_DOTA_OVERRIDE_ABILITY_6)
+    end
 end
 
 function modifier_rin_satana_explosion:OnDestroy()
@@ -432,12 +448,17 @@ function modifier_rin_satana_explosion:DeclareFunctions()
     return 
     {
         MODIFIER_EVENT_ON_ORDER,
+        MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE
     }
 end
 
+function modifier_rin_satana_explosion:GetModifierMoveSpeed_Absolute()
+    return self:GetAbility():GetSpecialValueFor("scepter_limit")
+end
+
 function modifier_rin_satana_explosion:CheckState()
-    return 
-    {
+    if self:GetCaster():HasScepter() then return end
+    return {
         [MODIFIER_STATE_ROOTED] = true
     }
 end
@@ -458,14 +479,20 @@ function modifier_rin_satana_explosion:OnOrder(keys)
             [DOTA_UNIT_ORDER_STOP]              = true
         }
         
-        if cancel_commands[keys.order_type] and self:GetElapsedTime() >= 0.4 then
+        if self:GetCaster():HasScepter() then
+            local cansel_commands = 0
+        elseif cancel_commands[keys.order_type] and self:GetElapsedTime() >= 0.4 then
             self:Destroy()
         end
+
     end
 end
 
 function modifier_rin_satana_explosion:OnIntervalThink()
     if not IsServer() then return end
+    if self:GetCaster():IsStunned() or self:GetCaster():IsSilenced() then
+        self:Destroy()
+    end
 
     local ability = self:GetCaster():FindAbilityByName( "blue_incision" )
 
@@ -536,11 +563,19 @@ function rin_satana_explosion:OnProjectileHit( target, vLocation )
         if self:GetCaster():HasTalent("special_bonus_birzha_rin_7") then
             target:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_rin_7") * (1 - target:GetStatusResistance())})
         end
-        ApplyDamage({victim = target, attacker = self:GetCaster(), ability = self, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
+    if self:GetCaster():HasTalent("special_bonus_birzha_rin_8") then
+        local damage_perc = self:GetCaster():GetAverageTrueAttackDamage(nil) / 100 * self:GetCaster():FindTalentValue("special_bonus_birzha_rin_8")
+    	self.end_damage = damage + damage_perc
+    else 
+        self.end_damage = damage
+    end
+        ApplyDamage({victim = target, attacker = self:GetCaster(), ability = self, damage = self.end_damage, damage_type = DAMAGE_TYPE_MAGICAL})
+        if self:GetCaster():HasTalent("special_bonus_birzha_rin_8") then
+            self:GetCaster():PerformAttack(target, true, true, true, true, false, false, true)
+        end
         target:EmitSound("Hero_Juggernaut.OmniSlash.Damage")
         target:EmitSound("Hero_Jakiro.LiquidFire")
     end
-
     return false
 end
 

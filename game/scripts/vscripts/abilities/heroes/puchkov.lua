@@ -324,7 +324,7 @@ function puchkov_small_debils:OnSpellStart()
     ParticleManager:SetParticleControlEnt(particle, 2, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack2", self:GetCaster():GetAbsOrigin(), true)
     target:AddNewModifier(self:GetCaster(), self, "modifier_puchkov_small_debils", {duration = duration * (1-target:GetStatusResistance())})
     if self:GetCaster():HasScepter() then
-        target:AddNewModifier(self:GetCaster(), self, "modifier_puchkov_small_debils_hex", {duration = duration * (1-target:GetStatusResistance())})
+        target:AddNewModifier(self:GetCaster(), self, "modifier_puchkov_small_debils_hex", {duration = (duration / 2) * (1-target:GetStatusResistance())})
     end
 end
 

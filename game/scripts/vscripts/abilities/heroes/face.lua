@@ -354,7 +354,6 @@ end
 function modifier_face_tombstone:OnAttackLanded(keys)
     if not IsServer() then return end
     if keys.target == self:GetParent() then
-        if self:GetCaster():HasTalent("special_bonus_birzha_face_8") then return end
         self.health = self.health - 1
         if self.health <= 0 then
             if not keys.attacker:IsHero() then

@@ -94,7 +94,7 @@ function modifier_item_brain_burner:OnAttackLanded(params)
 		manaBurn = target:GetMaxMana() * mana_burn_illusion
 	end
 
-    local damageTable = {attacker = self:GetParent(), victim = target, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility()}
+    local damageTable = {attacker = self:GetParent(), victim = target, damage_type = DAMAGE_TYPE_PHYSICAL, ability = self:GetAbility()}
 
 	if (target:GetMana() >= manaBurn) then
 		damageTable.damage = manaBurn

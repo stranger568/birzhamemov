@@ -165,10 +165,16 @@ function monika_concept:GetIntrinsicModifierName()
 	return "modifier_monica_concept"
 end
 
+function monika_concept:GetCooldown(level)
+	return self.BaseClass.GetCooldown( self, level )  / ( self:GetCaster():GetCooldownReduction())
+end
+
 modifier_monica_concept = class({})
 
 function modifier_monica_concept:IsPurgable() return false end
 function modifier_monica_concept:IsHidden() return true end
+
+
 
 function modifier_monica_concept:DeclareFunctions()
 	return {MODIFIER_EVENT_ON_ATTACK, MODIFIER_EVENT_ON_ATTACK_LANDED}
@@ -200,6 +206,7 @@ function modifier_monica_concept:OnAttack(params)
 	if RollPseudoRandomPercentage(chance, 5, self:GetParent()) then
 		self.proc = true
 		self.record = params.record
+		self:GetAbility():UseResources(false, false, false, true)
 	end
 end
 

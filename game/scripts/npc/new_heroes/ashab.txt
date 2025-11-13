@@ -55,6 +55,7 @@
                 "value"                         "0.8"
                 "special_bonus_unique_ashab_1"  "+0.4"
             }
+            "incoming_damage"                   "-40 -50 -60 -70"
         }
 	}
 

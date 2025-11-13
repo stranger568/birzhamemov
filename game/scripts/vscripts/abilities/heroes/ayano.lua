@@ -100,10 +100,11 @@ function modifier_ayano_TakeACircularSaw:OnAttackLanded( params )
 end
 
 function modifier_ayano_TakeACircularSaw:GetModifierDamageOutgoing_Percentage()
-    if self:GetCaster():HasShard() then
-        return 0
+    if not self:GetCaster():HasShard() then
+        return self:GetAbility():GetSpecialValueFor("damage_reduced")
+    else
+        return self:GetAbility():GetSpecialValueFor("damage_reduced") / 2
     end
-    return self:GetAbility():GetSpecialValueFor("damage_reduced")
 end
 
 function modifier_ayano_TakeACircularSaw:GetModifierBaseAttackTimeConstant()

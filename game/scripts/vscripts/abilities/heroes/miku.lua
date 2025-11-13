@@ -667,12 +667,6 @@ end
 function Miku_BattleSong:OnInventoryContentsChanged()
 	if self:GetCaster():HasShard() then
 		self:SetHidden(false)		
-		if not self:IsTrained() then
-			local level = self:GetCaster():FindAbilityByName("Miku_DanceSong"):GetLevel()
-			if level > 0 then
-				self:SetLevel(level)
-			end
-		end
 	else
 		self:SetHidden(true)
 	end

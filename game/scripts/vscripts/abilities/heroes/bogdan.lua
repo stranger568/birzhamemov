@@ -97,15 +97,14 @@ function modifier_bogdan_cower:GetModifierProjectileName()
     return "particles/units/heroes/hero_warlock/warlock_base_attack.vpcf"
 end
 
---function modifier_bogdan_cower:CheckState()
---    if not self:GetCaster():HasTalent("special_bonus_birzha_bogdan_2") then return end
---    local state = 
---    {
---        [MODIFIER_STATE_FLYING_FOR_PATHING_PURPOSES_ONLY] = true,
---        [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
---    }
---    return state
---end
+function modifier_bogdan_cower:CheckState()
+    if not self:GetCaster():HasTalent("special_bonus_birzha_bogdan_7") then return end
+    local state = 
+    {
+        [MODIFIER_STATE_FORCED_FLYING_VISION ] = true
+    }
+    return state
+end
 
 Bogdan_key = class({})
 
@@ -275,7 +274,7 @@ LinkLuaModifier("modifier_Bogdan_Ultimate", "abilities/heroes/bogdan", LUA_MODIF
 Bogdan_Ultimate = class({}) 
 
 function Bogdan_Ultimate:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_bogdan_7")
+    return self.BaseClass.GetCooldown( self, level )
 end
 
 function Bogdan_Ultimate:GetManaCost(level)

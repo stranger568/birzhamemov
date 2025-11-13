@@ -68,12 +68,17 @@ end
 function modifier_ashab_w:DeclareFunctions()
     return
     {
-        MODIFIER_PROPERTY_MODEL_CHANGE
+        MODIFIER_PROPERTY_MODEL_CHANGE,
+        MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE,
     }
 end
 
 function modifier_ashab_w:GetModifierModelChange()
     return "models/ashab/car.vmdl"
+end
+
+function modifier_ashab_w:GetModifierIncomingDamage_Percentage()
+    return self:GetAbility():GetSpecialValueFor("incoming_damage")
 end
 
 function modifier_ashab_w:OnDestroy()
@@ -101,7 +106,6 @@ function modifier_ashab_w:CheckState()
     return
     {
         [MODIFIER_STATE_STUNNED] = true,
-        [MODIFIER_STATE_INVULNERABLE] = true,
     }
 end
 

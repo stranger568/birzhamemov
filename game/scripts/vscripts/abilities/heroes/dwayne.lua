@@ -92,11 +92,6 @@ end
 function dwayne_throw_stone:ThrowStone(target, count)
     if not IsServer() then return end
 
-    local damage_from_attack = false
-    if self:GetCaster():HasTalent("special_bonus_birzha_dwayne_7") then
-        damage_from_attack = true
-    end
-
     local info = 
     {
         EffectName = "particles/dwayne/attack_proj.vpcf",
@@ -105,7 +100,7 @@ function dwayne_throw_stone:ThrowStone(target, count)
         Source = self:GetCaster(),
         Target = target,
         iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1,
-        ExtraData = {damage_from_attack = damage_from_attack, count = i},
+        ExtraData = {count = i},
     }
 
     for i=1, count do
@@ -131,10 +126,6 @@ function dwayne_throw_stone:OnProjectileHit_ExtraData( target, location, ExtraDa
         local chance = self:GetSpecialValueFor( "chance" )
 
         if not target:IsMagicImmune() then
-
-            if ExtraData.damage_from_attack == 1 then
-                self:GetCaster():PerformAttack(target, true, true, true, false, false, false, true)
-            end
 
             ApplyDamage( { victim = target, attacker = self:GetCaster(), damage = stun_damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self } )
 
@@ -729,6 +720,9 @@ function dwayne_fight_of_death:OnProjectileHit( target, location )
     for _,enemy in pairs(enemies) do
         damageTable.victim = enemy
         ApplyDamage(damageTable)
+        if self:GetCaster():HasTalent("special_bonus_birzha_dwayne_7") then
+            self:GetCaster():PerformAttack(enemy, true, true, true, true, false, false, true)
+        end
         if self:GetCaster():HasScepter() then
             enemy:AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", {duration = self:GetSpecialValueFor("stun_duration_scepter") * (1-enemy:GetStatusResistance()) })
         end
@@ -821,6 +815,7 @@ end
 function modifier_dwayne_fight_of_death:DeclareFunctions()
     local funcs = 
     {
+        MODIFIER_EVENT_ON_ORDER,
         MODIFIER_PROPERTY_MOVESPEED_LIMIT,
         MODIFIER_PROPERTY_TURN_RATE_PERCENTAGE,
         MODIFIER_PROPERTY_OVERRIDE_ANIMATION,

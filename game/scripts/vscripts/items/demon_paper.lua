@@ -32,7 +32,6 @@ function modifier_item_demon_paper:DeclareFunctions()
 	{
 		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
 		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
-		MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING,
 		MODIFIER_EVENT_ON_TAKEDAMAGE,
 	}
 end
@@ -43,10 +42,6 @@ end
 
 function modifier_item_demon_paper:GetModifierPreAttack_BonusDamage()
 	return self:GetAbility():GetSpecialValueFor("bonus_damage")
-end
-
-function modifier_item_demon_paper:GetModifierStatusResistanceStacking()
-	return self:GetAbility():GetSpecialValueFor("status_resistance")
 end
 
 function modifier_item_demon_paper:OnTakeDamage(params)

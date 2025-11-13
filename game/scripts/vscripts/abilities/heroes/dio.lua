@@ -94,7 +94,7 @@ function Dio_Kakyoin:OnProjectileHit_ExtraData( hTarget, vLocation, extraData )
 		victim = hTarget,
 		attacker = self:GetCaster(),
 		damage = extraData.damage,
-		damage_type = DAMAGE_TYPE_MAGICAL,
+		damage_type = DAMAGE_TYPE_PHYSICAL,
 		ability = self,
 	}
 

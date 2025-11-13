@@ -53,7 +53,7 @@ function Valakas_sorry:OnSpellStart()
 
     self:GetCaster():EmitSound("gladsorry")
 
-    target:AddNewModifier( self:GetCaster(), self, "modifier_glad_sorry_target", { duration = duration } )
+    target:AddNewModifier( self:GetCaster(), self, "modifier_glad_sorry_target", {duration = duration * (1 - target:GetStatusResistance())})
 
     if self:GetCaster():HasModifier("modifier_bp_valakas_reward") then
     	local particle = ParticleManager:CreateParticle( "particles/birzhapass/valakas_arcana_sorry_owner.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )

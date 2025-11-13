@@ -11,7 +11,7 @@
 "addon_game_name" 	                            "BIRZHA MEMOV"
 "DOTA_GameMode_15" 	                            "BIRZHA MEMOV"
 "DOTA_Tooltip_ability_item_bag_of_gold" 	"Bitcoin"
-"DOTA_Tooltip_ability_item_bag_of_gold_Description" 	"Gives 150 gold"
+"DOTA_Tooltip_ability_item_bag_of_gold_Description" 	"Gives 300 gold"
 "DOTA_Tooltip_ability_item_treasure_chest"	            "Сундук с наградой"
 "DOTA_Tooltip_ability_item_treasure_chest_Description"	"Дает 3 случайных предмета на выбор. Разряд предмета зависит от вашего положения в таблице лидерства"
 "DOTA_Tooltip_ability_item_treasure_chest_winter"	            "Сундук с наградой"
@@ -2820,7 +2820,7 @@
 "DOTA_Tooltip_ability_Ayano_TakeACircularSaw_base_attack_time" 	"BASE ATTACK SPEED:"
 "DOTA_Tooltip_ability_Ayano_TakeACircularSaw_damage_reduced" 	"% REDUCED OUTGOING DAMAGE:"
 "DOTA_Tooltip_ability_Ayano_TakeACircularSaw_lore" 	"Dim4ik dedicates this hero to Sion Atlasia"
-"DOTA_Tooltip_ability_Ayano_TakeACircularSaw_shard_description" 			"Does not reduce outgoing damage"
+"DOTA_Tooltip_ability_Ayano_TakeACircularSaw_shard_description" 			"Reduction of outgoing damage is reduced by 2 times"
 
 "DOTA_Tooltip_ability_Ayano_Tranquilizer" 							"Tranquilizer"
 "DOTA_Tooltip_ability_Ayano_Tranquilizer_Description" 				"Ayano throws a syringe with a tranquilizer from the medical office at the enemy. The tranquilizer gradually slows down and then stuns the enemy."
@@ -2973,7 +2973,7 @@
 "DOTA_Tooltip_ability_Naval_President_bonus_attack_speed" 	"BONUS ATTACK SPEED:"
 "DOTA_Tooltip_ability_Naval_President_hp_regen" 				"ADDITIONAL HEALTH REGENERATION:"
 "DOTA_Tooltip_ability_Naval_President_bonus_damage" 			"EXTRA DAMAGE:"
-"DOTA_Tooltip_ability_Naval_President_scepter_description" 	"Grants immunity to magic"
+"DOTA_Tooltip_ability_Naval_President_scepter_description" 	"Grants immunity to magic for half the time of the ability"
 
 "DOTA_Tooltip_modifier_naval_president" 								"Became president"
 "DOTA_Tooltip_modifier_naval_president_Description" 					"Attack speed, damage and health regeneration increased"
@@ -3681,8 +3681,8 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_face_5" 				"+{s:value} sec duration of Heit"
 "DOTA_Tooltip_Ability_special_bonus_birzha_face_6" 				"{s:value }% strength in damage Schoolchildren Fan base"
 "DOTA_Tooltip_Ability_special_bonus_birzha_face_7" 				"-{s:value} sec cooldown New track"
-"DOTA_Tooltip_Ability_special_bonus_birzha_face_8" 				"Improving Fan Base"
-"DOTA_Tooltip_Ability_special_bonus_birzha_face_8_description" 			"Cannot be broken and uses Heit's ability"
+"DOTA_Tooltip_Ability_special_bonus_birzha_face_8" 				"Fan Base uses the Heit's ability"
+
 
 //================================================================ ===================================================== ===============
 // Rock
@@ -3728,7 +3728,7 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_dwayne_4" 								"-{s:value} cast sec Throw Stone"
 "DOTA_Tooltip_Ability_special_bonus_birzha_dwayne_5" 								"+{s:value} to Trial of Stone damage"
 "DOTA_Tooltip_Ability_special_bonus_birzha_dwayne_6" 								"-{s:value} sec cooldown for Stone Smite"
-"DOTA_Tooltip_Ability_special_bonus_birzha_dwayne_7" 								"Throw a stone makes an attack"
+"DOTA_Tooltip_Ability_special_bonus_birzha_dwayne_7" 								"Test by Stone makes an attack"
 "DOTA_Tooltip_Ability_special_bonus_birzha_dwayne_8" 								"+{s:val ue} boulders Test by Stone"
 
 "DOTA_Tooltip_modifier_dwayne_fight_of_death" 										"Test by Stone"
@@ -4203,7 +4203,7 @@
 "DOTA_Tooltip_ability_special_bonus_birzha_ruby_5" 				"Rose Strike becomes active"
 "DOTA_Tooltip_ability_special_bonus_birzha_ruby_5_description"	     "When activated, Rose Strike spins for {s:value} seconds and damages nearby enemies. Has a {s:value2} second cooldown."
 "DOTA_Tooltip_ability_special_bonus_birzha_ruby_6" 				"+{s:value}% chance when attacking Rose Strike"
-"DOTA_Tooltip_ability_special_bonus_birzha_ruby_7" 				"Ranged mode deals attack damage"
+"DOTA_Tooltip_ability_special_bonus_birzha_ruby_7" 				"Ranged mode deals {s:value}% attack damage"
 "DOTA_Tooltip_ability_special_bonus_unique_ruby_8" 				"2 charges Ranged Mode"
 
 //================================================================ ===================================================== ===============
@@ -4990,7 +4990,7 @@
 "npc_dota_papaz_4" 								"PAPAZ"
 
 "DOTA_Tooltip_ability_SilverName_TopDeck" 								"Top deck"
-"DOTA_Tooltip_ability_SilverName_TopDeck_Description" 					"<h1>Active in normal form</h1>SilverName slams her weapon into the ground in front of her with all her might, dealing %crit%%% critical damage to enemies. The duration of the attack depends on SilverName's attack speed\n<h1>Passive in the form of an owl</h1>Each attack has a %chance%%% chance of dealing %crit%%% critical damage"
+"DOTA_Tooltip_ability_SilverName_TopDeck_Description" 					"<h1>Active in normal form</h1>SilverName slams her weapon into the ground in front of her with all her might, dealing %crit%%% critical damage to enemies. The duration of the attack depends on SilverName's attack speed\n<h1>Passive in the form of an owl</h1>Each attack has a %chance%%% chance of dealing %owl_crit%%% critical damage"
 
 "DOTA_Tooltip_ability_SilverName_Screamer" 								"SCREEMER"
 "DOTA_Tooltip_ability_SilverName_Screamer_Description" 					"<h1>Active in Normal Form</h1>SilverName scares all enemies around him within a %radius%, causing them to start running away from him\n<h1>Active in Owl Form</h1>Fires a Scare Projectile , which scares all enemies at a selected point within a %radius%, causing them to start running away from it"
@@ -5870,7 +5870,7 @@
 "npc_dota_hero_phantom_lancer" 		"Rin Okumura"
 "npc_dota_blackkish" 				"Blackie"
 
-"DOTA_Tooltip_Ability_blue_incision" 				"Blue Flame Incision"
+"DOTA_Tooltip_Ability_blue_incision" 				"Blue Flame Slash"
 "DOTA_Tooltip_Ability_blue_incision_Description" 	"Rin fires blue flames from her sword at a target location, causing no damage and stunning for %stun_duration% seconds."
 "DOTA_Tooltip_Ability_blue_incision_damage" 		"DAMAGE:"
 "DOTA_Tooltip_Ability_blue_incision_lore" 			"This hero was created thanks to <font color='#fffc00'>Xelisum</font>"
@@ -5918,23 +5918,23 @@
 "DOTA_Tooltip_Ability_rin_satana_explosion_lore" 			"This hero was created by the blessing of <font color='#fffc00'>Xelisum</font>"
 
 "DOTA_Tooltip_ability_blue_incision_shard_description" 			"Gains %bonus_shard_damage% attack damage for %bonus_shard_duration% seconds per ability hit"
-"DOTA_Tooltip_ability_rin_satana_explosion_scepter_description" 	"Increases duration by %scepter_duration% seconds and reduces cooldown by %scepter_cooldown% seconds."
+"DOTA_Tooltip_ability_rin_satana_explosion_scepter_description" 	"Increases the duration by %scepter_duration% sec. and it allows you to move, attack and use abilities, but limits the speed of movement to %scepter_limit%"
 
 "DOTA_Tooltip_modifier_rin_satana_explosion" 				"Satan Explosion"
 "DOTA_Tooltip_modifier_rin_satana_explosion_description" 	""
 
-"DOTA_Tooltip_modifier_blue_incision" 						"Blue Flame Incision"
+"DOTA_Tooltip_modifier_blue_incision" 						"Blue Flame Slash"
 "DOTA_Tooltip_modifier_blue_incision_description" 			"Damage increased by %dMODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE%"
 
 "Dota_Tooltip_Ability_special_bonus_birzha_rin_1" 						"+{s:valu e} damage Blue Flame Slash"
 "Dota_Tooltip_Ability_special_bonus_birzha_rin_2" 						"+{s:value} sec Blue Flame Slash stun"
 "Dota_Tooltip_Ability_special_bonus_birzha_rin_3" 						"-{s:value} cooldown seconds for Blue Flame Slash"
-"Dota_Tooltip_Ability_special_bonus_birzha_rin_4" 						"-{s:value} sec cooldown of Chernysh"
-"Dota_Tooltip_Ability_special_bonus_birzha_rin_5" 						"+{s:value}% Rin's attack damage for Chernysh"
-"Dota_Tooltip_Ability_special_bonus_birzha_rin_6" 						"Aura of Satan s +{s:value} damage aura of the son of Satan"
-"Dota_Tooltip_Ability_special_bonus_birzha_rin_7" 						"Satan's Blast stuns for {s:value} seconds."
+"Dota_Tooltip_Ability_special_bonus_birzha_rin_4" 						"-{s:value} sec cooldown of Blackish"
+"Dota_Tooltip_Ability_special_bonus_birzha_rin_5" 						"+{s:value}% Rin's attack damage for Blackish"
+"Dota_Tooltip_Ability_special_bonus_birzha_rin_6" 						"Aura of the Son of Satan gives +{s:value} to attack damage"
+"Dota_Tooltip_Ability_special_bonus_birzha_rin_7" 						"Satan Explosion stuns for {s:value} seconds."
 "Dota_Tooltip_Ability_special_bonus_birzha_rin_8" 						"Blue Flame Slash Attack Damage"
-"Dota_Tooltip_Ability_special_bonus_birzha_rin_8_description" 			"Does not work on Satan's Blast"
+"Dota_Tooltip_Ability_special_bonus_birzha_rin_8_description" 			"Satan Explosion does {s:value}% damage"
 
 
 //================================================================ ===================================================== ===============
@@ -6912,7 +6912,7 @@
 "Dota_Tooltip_Ability_special_bonus_birzha_bogdan_4" 			"+{s:value} attack speed Sit on the carpet"
 "Dota_Tooltip_Ability_special_bonus_birzha_bogdan_5" 			"+{s:value} HIV damage"
 "Dota_Tooltip_Ability_special_bonus_birzha_bogdan_6" 			"+{s:value} attack range Sit on the carpet"
-"Dota_Tooltip_Ability_special_bonus_birzha_bogdan_7" 			"-{s:value} cooldown Job"
+"Dota_Tooltip_Ability_special_bonus_birzha_bogdan_7" 			"Sit on the Carpet gives an flying vision"
 "Dota_Tooltip_Ability_special_bonus_birzha_bogdan_8" 			"{s:value}x effect multiplier Work"
 
 //================================================================ ===================================================== ===============

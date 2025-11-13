@@ -152,6 +152,9 @@ function gypsy_debosh:OnSpellStart()
 end
 
 function gypsy_debosh:OnProjectileHit(target,_)
+	if target:TriggerSpellAbsorb(self) then return end
+	if target:IsMagicImmune() then return end 
+
 	if target ~= nil and target:IsAlive() then
 
 		local stun_duration = self:GetSpecialValueFor( "stun_duration" )

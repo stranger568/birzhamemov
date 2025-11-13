@@ -7,9 +7,8 @@
 
 	"npc_dota_hero_wisp"
 	{
-		"model"				    "models/items/io/io_ti7/io_ti7.vmdl"
-		"Ability1" 			    "game_start"
-        "BotImplemented"		""
+		"model"				"models/items/io/io_ti7/io_ti7.vmdl"
+		"Ability1" 			"game_start"
 	}
 
 	//=================================================================================================================
@@ -47,7 +46,6 @@
 		"Ability15"		"special_bonus_birzha_bukin_7"
 		"Ability16"		"special_bonus_unique_bukin_2"
 		"Ability17"		"special_bonus_birzha_bukin_6"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -84,7 +82,6 @@
 		"Ability15"		"special_bonus_birzha_brb_6"
 		"Ability16"		"special_bonus_birzha_brb_7"
 		"Ability17"		"special_bonus_birzha_brb_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -123,7 +120,6 @@
 		"Ability15"		"special_bonus_birzha_scp683_6"
 		"Ability16"		"special_bonus_birzha_scp683_7"
 		"Ability17"		"special_bonus_birzha_scp683_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -158,7 +154,6 @@
 		"Ability15"		"special_bonus_birzha_versuta_3"
 		"Ability16"		"special_bonus_birzha_versuta_7"
 		"Ability17"		"special_bonus_birzha_versuta_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -195,7 +190,6 @@
 		"Ability15"		"special_bonus_birzha_tereshin_6"
 		"Ability16"		"special_bonus_birzha_tereshin_7"
 		"Ability17"		"special_bonus_birzha_tereshin_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -219,14 +213,13 @@
 	    "Ability6"						"saitama_punch"
 	
 		"Ability10"						"special_bonus_birzha_saitama_1"
-		"Ability11"						"special_bonus_birzha_saitama_2"
-		"Ability12"						"special_bonus_birzha_saitama_3"
+		"Ability11"						"special_bonus_birzha_saitama_3"
+		"Ability12"						"special_bonus_birzha_saitama_2"
 		"Ability13"						"special_bonus_birzha_saitama_4"	
 		"Ability14"						"special_bonus_birzha_saitama_5"
 		"Ability15"						"special_bonus_birzha_saitama_6"		
 		"Ability16"						"special_bonus_birzha_saitama_7"
 		"Ability17"						"special_bonus_birzha_saitama_8"
-        "BotImplemented"		""
 				
 		"Ability25"						""
 	
@@ -290,7 +283,6 @@
 		"Ability15"				"special_bonus_birzha_papich_5"
 		"Ability16"				"special_bonus_birzha_papich_7"
 		"Ability17"				"special_bonus_birzha_papich_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -324,8 +316,7 @@
 		"Ability14"		"special_bonus_unique_vjlink_5"
 		"Ability15"		"special_bonus_birzha_vjlink_6"
 		"Ability16"		"special_bonus_birzha_vjlink_7"
-		"Ability17"		"special_bonus_birzha_vjlink_8"	
-        "BotImplemented"		""	
+		"Ability17"		"special_bonus_birzha_vjlink_8"		
 	}
 
 	//=================================================================================================================
@@ -344,6 +335,8 @@
 		"Ability6"			"edward_gopnik"
 		"Ability25"		""
 		
+		"AttackDamageMin"				"35"
+		"AttackDamageMax"				"46"
 		"AttributeBaseStrength"		"20"
 		"AttributeStrengthGain"		"3"
 		"AttributeBaseIntelligence"		"23"
@@ -364,7 +357,6 @@
 		"Ability15"		"special_bonus_birzha_edwardbill_6"
 		"Ability16"		"special_bonus_birzha_edwardbill_7"
 		"Ability17"		"special_bonus_birzha_edwardbill_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -401,7 +393,6 @@
 		"Ability15"		"special_bonus_birzha_ayano_6"
 		"Ability16"		"special_bonus_birzha_ayano_7"
 		"Ability17"		"special_bonus_birzha_ayano_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -462,7 +453,6 @@
 		"particle_folder"		"particles/units/heroes/hero_wisp"
 		"GameSoundsFile"		"soundevents/game_sounds_heroes/game_sounds_wisp.vsndevts"
 		"VoiceFile"		"soundevents/voscripts/game_sounds_vo_wisp.vsndevts"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -497,7 +487,6 @@
 		"Ability15"		"special_bonus_birzha_navalny_5"
 		"Ability16"		"special_bonus_birzha_navalny_7"
 		"Ability17"		"special_bonus_birzha_navalny_1"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -533,7 +522,6 @@
 		"Ability15"		"special_bonus_birzha_mum_5"
 		"Ability16"		"special_bonus_birzha_mum_1"
 		"Ability17"		"special_bonus_birzha_mum_2"
-        "BotImplemented"		""
 	}
 	//=================================================================================================================
 	// Веном
@@ -591,7 +579,6 @@
 		"particle_folder"				"particles/units/heroes/hero_life_stealer"
 		"GameSoundsFile"				"soundevents/game_sounds_heroes/game_sounds_life_stealer.vsndevts"
 		"VoiceFile"						"soundevents/voscripts/game_sounds_vo_life_stealer.vsndevts"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -630,7 +617,6 @@
 		"Ability15"		"special_bonus_birzha_azazin_5"
 		"Ability16"		"special_bonus_birzha_azazin_3"
 		"Ability17"		"special_bonus_birzha_azazin_7"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -688,7 +674,6 @@
 		"particle_folder"				"particles/units/heroes/hero_undying"
 		"GameSoundsFile"				"soundevents/game_sounds_heroes/game_sounds_undying.vsndevts"
 		"VoiceFile"						"soundevents/voscripts/game_sounds_vo_undying.vsndevts"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -728,7 +713,6 @@
 		"Ability15"		"special_bonus_birzha_kaneki_3"
 		"Ability16"		"special_bonus_unique_birzha_kaneki_8"
 		"Ability17"		"special_bonus_birzha_kaneki_7"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -785,7 +769,6 @@
 		"particle_folder"				"particles/units/heroes/hero_shadowshaman"
 		"GameSoundsFile"				"soundevents/game_sounds_heroes/game_sounds_shadowshaman.vsndevts"
 		"VoiceFile"						"soundevents/voscripts/game_sounds_vo_shadowshaman.vsndevts"
-        "BotImplemented"		""
 	}
 
 	"npc_dota_hero_pyramide"
@@ -839,7 +822,6 @@
 		"particle_folder"		"particles/units/heroes/hero_sven"
 		"GameSoundsFile"		"soundevents/game_sounds_heroes/game_sounds_sven.vsndevts"
 		"VoiceFile"				"soundevents/voscripts/game_sounds_vo_sven.vsndevts"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -876,7 +858,6 @@
 		"Ability15"		"special_bonus_birzha_klichko_6"
 		"Ability16"		"special_bonus_birzha_klichko_7"
 		"Ability17"		"special_bonus_birzha_klichko_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -913,7 +894,6 @@
 		"Ability15"		"special_bonus_birzha_vernon_6"
 		"Ability16"		"special_bonus_birzha_vernon_7"
 		"Ability17"		"special_bonus_birzha_vernon_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -948,7 +928,6 @@
 		"Ability15"		"special_bonus_birzha_face_4"
 		"Ability16"		"special_bonus_birzha_face_1"
 		"Ability17" 	        "special_bonus_birzha_face_7"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1017,7 +996,6 @@
 		"particle_folder"		"particles/units/heroes/hero_tiny"
 		"GameSoundsFile"		"soundevents/game_sounds_heroes/game_sounds_tiny.vsndevts"
 		"VoiceFile"				"soundevents/voscripts/game_sounds_vo_tiny.vsndevts"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1052,7 +1030,6 @@
 		"Ability15"		"special_bonus_birzha_kudes_6"
 		"Ability16"		"special_bonus_birzha_kudes_7"
 		"Ability17"		"special_bonus_birzha_kudes_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1089,7 +1066,6 @@
 		"Ability15"		"special_bonus_birzha_hovan_8"
 		"Ability16"		"special_bonus_birzha_hovan_7"
 		"Ability17"		"special_bonus_birzha_hovan_6"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1124,7 +1100,6 @@
 		"Ability15"		"special_bonus_birzha_bullet_6"
 		"Ability16"		"special_bonus_birzha_bullet_8"
 		"Ability17"		"special_bonus_birzha_bullet_4"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1161,7 +1136,6 @@
 		"Ability15"			"special_bonus_birzha_abdul_6"
 		"Ability16"			"special_bonus_birzha_abdul_7"
 		"Ability17"			"special_bonus_birzha_abdul_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1182,6 +1156,8 @@
 		"Ability6"					"overlord_shut"
 		"Ability25"		""
 
+		"AttackDamageMin"				"39"
+		"AttackDamageMax"				"46"
 		"AttributeBaseStrength"			"26"
 		"AttributeStrengthGain"			"3.4"
 		"AttributeBaseIntelligence"		"20"
@@ -1208,7 +1184,6 @@
 		"Ability15"		"special_bonus_birzha_overlord_5"
 		"Ability16"		"special_bonus_birzha_overlord_7"
 		"Ability17"		"special_bonus_birzha_overlord_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1249,7 +1224,6 @@
 		"Ability15"		"special_bonus_birzha_gorshok_6"
 		"Ability16"		"special_bonus_birzha_gorshok_7"
 		"Ability17"		"special_bonus_birzha_gorshok_5"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1289,7 +1263,6 @@
 		"Ability15"		"special_bonus_birzha_ruby_6"
 		"Ability16"		"special_bonus_birzha_ruby_7"
 		"Ability17"		"special_bonus_birzha_ruby_5"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1339,7 +1312,6 @@
 		"Ability15"		"special_bonus_birzha_goku_6"
 		"Ability16"		"special_bonus_birzha_goku_5"
 		"Ability17"		"special_bonus_birzha_goku_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1374,7 +1346,6 @@
 		"Ability15"		"special_bonus_birzha_poroshenko_6"
 		"Ability16"		"special_bonus_birzha_poroshenko_7"
 		"Ability17"		"special_bonus_birzha_poroshenko_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1409,7 +1380,6 @@
 		"Ability15"		"special_bonus_birzha_pistoletov_3"
 		"Ability16"		"special_bonus_birzha_pistoletov_7"
 		"Ability17"		"special_bonus_birzha_pistoletov_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1444,7 +1414,6 @@
 		"Ability12"		"special_bonus_birzha_garold_3"
 		"Ability11"		"special_bonus_birzha_garold_2"
 		"Ability10"		"special_bonus_birzha_garold_1"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1482,7 +1451,6 @@
 		"Ability15"		"special_bonus_birzha_johncena_6"
 		"Ability16"		"special_bonus_birzha_johncena_7"
 		"Ability17"		"special_bonus_birzha_johncena_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1518,7 +1486,6 @@
 		"Ability15"		"special_bonus_birzha_valakas_6"
 		"Ability16"		"special_bonus_birzha_valakas_7"
 		"Ability17"		"special_bonus_birzha_valakas_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1559,7 +1526,6 @@
 		"Ability15"		"special_bonus_birzha_guts_5"
 		"Ability16"		"special_bonus_birzha_guts_6"
 		"Ability17"		"special_bonus_birzha_guts_7"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1598,7 +1564,6 @@
 		"Ability15"		"special_bonus_birzha_grem_3"
 		"Ability16"		"special_bonus_birzha_grem_6"
 		"Ability17"		"special_bonus_birzha_grem_7"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1635,7 +1600,6 @@
 		"Ability15"		"special_bonus_birzha_red21_6"
 		"Ability16"		"special_bonus_birzha_red21_7"
 		"Ability17"		"special_bonus_birzha_red21_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1670,7 +1634,6 @@
 		"Ability15"		"special_bonus_birzha_durov_6"
 		"Ability16"		"special_bonus_unique_durov_7"
 		"Ability17"		"special_bonus_birzha_durov_8"
-        "BotImplemented"		""
 	}	
 	
 
@@ -1707,7 +1670,6 @@
 		"Ability15"		"special_bonus_birzha_kadet_6"
 		"Ability16"		"special_bonus_birzha_kadet_7"
 		"Ability17"		"special_bonus_birzha_kadet_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1748,7 +1710,6 @@
 		"Ability15"				"special_bonus_birzha_akame_6"
 		"Ability16"				"special_bonus_unique_akame_2"
 		"Ability17"				"special_bonus_unique_akame_1"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1770,11 +1731,11 @@
 		"Ability25"		""
 
 		"AttributeBaseStrength"		"19"
-		"AttributeStrengthGain"		"2.900000"
+		"AttributeStrengthGain"		"2.100000"
 		"AttributeBaseIntelligence"		"17"
 		"AttributeIntelligenceGain"		"1.50000"
 		"AttributeBaseAgility"		"27"
-		"AttributeAgilityGain"		"3.800000"
+		"AttributeAgilityGain"		"3.200000"
 		"AttackDamageMin"		"37"
 		"AttackDamageMax"		"45"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
@@ -1790,7 +1751,6 @@
 		"Ability15"		"special_bonus_birzha_shiro_6"
 		"Ability16"		"special_bonus_birzha_shiro_7"
 		"Ability17"		"special_bonus_birzha_shiro_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1829,7 +1789,6 @@
 		"Ability15"		"special_bonus_birzha_silver_4"
 		"Ability17"		"special_bonus_birzha_silver_6"
 		"Ability16"		"special_bonus_birzha_silver_7"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1870,7 +1829,6 @@
 		"Ability15"		"special_bonus_birzha_scp_6"
 		"Ability16"		"special_bonus_birzha_scp_7"
 		"Ability17"		"special_bonus_birzha_scp_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1906,7 +1864,6 @@
 		"Ability15"		"special_bonus_birzha_gitelman_6"
 		"Ability16"		"special_bonus_birzha_gitelman_7"
 		"Ability17"		"special_bonus_birzha_gitelman_5"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -1942,7 +1899,6 @@
 		"Ability15"		"special_bonus_birzha_pocik_4"
 		"Ability16"		"special_bonus_birzha_pocik_7"
 		"Ability17"		"special_bonus_birzha_pocik_5"
-        "BotImplemented"		""
 	}
 	//=================================================================================================================
 	// Хисока
@@ -1987,7 +1943,6 @@
 		"Ability15"		"special_bonus_birzha_hisoka_6"
 		"Ability16"		"special_bonus_birzha_hisoka_7"
 		"Ability17"		"special_bonus_birzha_hisoka_8"
-        "BotImplemented"		""
 	}
 	//=================================================================================================================
 	// AntiMage | Illidan | Illidan
@@ -2024,7 +1979,6 @@
 		"Ability15"						"special_bonus_birzha_illidan_5"
 		"Ability16"						"special_bonus_unique_illidan_8"
 		"Ability17"						"special_bonus_birzha_illidan_7"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -2063,7 +2017,6 @@
 		"Ability15"		"special_bonus_birzha_scream_6"
 		"Ability16"		"special_bonus_birzha_scream_7"
 		"Ability17"		"special_bonus_birzha_scream_1"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -2125,7 +2078,6 @@
 		"particle_folder"				"particles/units/heroes/hero_antimage"
 		"GameSoundsFile"				"soundevents/game_sounds_heroes/game_sounds_antimage.vsndevts"
 		"VoiceFile"						"soundevents/voscripts/game_sounds_vo_antimage.vsndevts"
-        "BotImplemented"		""
 	}
 
 
@@ -2159,7 +2111,7 @@
 		"Facets"        ""
         "role_hero"		"Pick_Carry"
 		
-		"Ability10"		"special_bonus_agility_6"
+		"Ability10"		"special_bonus_agility_12"
 		"Ability11"		"special_bonus_birzha_kurumi_1"
 	    "Ability12"		"special_bonus_birzha_kurumi_3"
 		"Ability13"		"special_bonus_talent_kurumi_damage_illusions"
@@ -2167,7 +2119,6 @@
 		"Ability15"		"special_bonus_birzha_kurumi_4"
 		"Ability16"		"special_bonus_birzha_kurumi_8"
 		"Ability17"		"special_bonus_birzha_kurumi_5"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -2236,7 +2187,6 @@
 
 		"MovementSpeed"			"310"
 		"MovementTurnRate"		"0.500000"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -2277,7 +2227,6 @@
 		"Ability15"		"special_bonus_birzha_monika_6"
 		"Ability16"		"special_bonus_birzha_monika_7"
 		"Ability17"		"special_bonus_birzha_monika_8"
-        "BotImplemented"		""
 
 	}
 
@@ -2329,7 +2278,6 @@
 		"VoiceFile"						"soundevents/voscripts/game_sounds_vo_furion.vsndevts"
 		"particle_folder"				"particles/units/heroes/hero_furion"
 		"GameSoundsFile"				"soundevents/game_sounds_heroes/game_sounds_furion.vsndevts"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -2387,7 +2335,6 @@
 		"particle_folder"				"particles/units/heroes/hero_primal_beast"
 		"GameSoundsFile"				"soundevents/game_sounds_heroes/game_sounds_primal_beast.vsndevts"
 		"VoiceFile"						"soundevents/voscripts/game_sounds_vo_primal_beast.vsndevts"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -2423,11 +2370,10 @@
 		"Ability11"						"special_bonus_birzha_rin_2"
 		"Ability12"						"special_bonus_birzha_rin_3"
 		"Ability13"						"special_bonus_birzha_rin_4"
-		"Ability14"						"special_bonus_birzha_rin_5"
+		"Ability14"						"special_bonus_birzha_rin_7"
 		"Ability15"						"special_bonus_birzha_rin_6"
-		"Ability16"						"special_bonus_birzha_rin_7"
+		"Ability16"						"special_bonus_birzha_rin_5"
 		"Ability17"						"special_bonus_birzha_rin_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -2473,8 +2419,6 @@
 			"model" 	"models/heroes/shadow_fiend/shadow_fiend_arcana.vmdl"
 			"model" 	"models/items/shadow_fiend/arms_deso/arms_deso.vmdl"
 		}
-
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -2549,7 +2493,6 @@
 		"particle_folder"		"particles/units/heroes/hero_juggernaut"
 		"GameSoundsFile"		"soundevents/game_sounds_heroes/game_sounds_juggernaut.vsndevts"
 		"VoiceFile"		"soundevents/voscripts/game_sounds_vo_juggernaut.vsndevts"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -2589,7 +2532,6 @@
 		"Ability15"		"special_bonus_birzha_sobolev_6"
 		"Ability16"		"special_bonus_birzha_sobolev_7"
 		"Ability17"		"special_bonus_birzha_sobolev_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -2637,7 +2579,6 @@
 		"Ability15"		"special_bonus_birzha_polnaref_6"
 		"Ability16"		"special_bonus_birzha_polnaref_7"
 		"Ability17"		"special_bonus_birzha_polnaref_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -2706,7 +2647,6 @@
 		"Ability15"		"special_bonus_birzha_van_6"
 		"Ability16"		"special_bonus_birzha_van_7"
 		"Ability17"		"special_bonus_birzha_van_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -2746,7 +2686,6 @@
 		"Ability15"						"special_bonus_birzha_yuno_6"
 		"Ability16"						"special_bonus_birzha_yuno_7"
 		"Ability17"						"special_bonus_birzha_yuno_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -2818,7 +2757,6 @@
 		"Ability16"		"special_bonus_birzha_haku_6"
 		"Ability17"		"special_bonus_birzha_haku_7"
 		"Ability18"		"special_bonus_birzha_haku_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -2829,6 +2767,7 @@
 		"Model"                         "models/update_heroes/horo/horo.vmdl"
 		"DisableWearables"				"1"
 		"ModelScale"					"0.85"
+
 		"Ability1"						"horo_forest_girl"
 		"Ability2"						"horo_forest_apple"
 		"Ability3"						"horo_forest_wisdom"
@@ -2836,6 +2775,7 @@
 		"Ability5"						"horo_forest_heart_beast"
 		"Ability6"						"horo_ultimate"
 		"Ability25"						""
+
 		"AttributeBaseStrength"			"25"
 		"AttributeStrengthGain"			"2.2"
 		"AttributeBaseIntelligence"		"18"
@@ -2845,18 +2785,19 @@
 		"AttackCapabilities"			"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttributePrimary"				"DOTA_ATTRIBUTE_AGILITY"
 		"AttackRange"					"150"
+
 		"difficulty"					"Pick_hard"
 		"Facets"        ""
         "role_hero"						"Pick_Support"
+
 		"Ability10"		"special_bonus_birzha_horo_1"
-		"Ability11"		"special_bonus_birzha_horo_2"
-		"Ability12"		"special_bonus_birzha_horo_3"
+		"Ability11"		"special_bonus_birzha_horo_3"
+		"Ability12"		"special_bonus_birzha_horo_2"
 		"Ability13"		"special_bonus_birzha_horo_4"
 		"Ability14"		"special_bonus_birzha_horo_5"
 		"Ability15"		"special_bonus_birzha_horo_6"
 		"Ability16"		"special_bonus_birzha_horo_7"
 		"Ability17"		"special_bonus_birzha_horo_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -2891,7 +2832,6 @@
 		"Ability15"		"special_bonus_birzha_golovach_6"
 		"Ability16"		"special_bonus_birzha_golovach_7"
 		"Ability17"		"special_bonus_birzha_golovach_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -2925,7 +2865,6 @@
 		"Ability15"		"special_bonus_birzha_evrei_8"
 		"Ability16"		"special_bonus_birzha_evrei_6"
 		"Ability17"		"special_bonus_birzha_evrei_7"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -3026,7 +2965,6 @@
 		"VoiceFile"				"soundevents/voscripts/game_sounds_vo_weaver.vsndevts"
 		"MovementSpeed"			"300"
 		"MovementTurnRate"		"0.500000"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -3070,7 +3008,6 @@
 		"Ability15"						"special_bonus_birzha_rem_6"
 		"Ability16"						"special_bonus_birzha_rem_7"
 		"Ability17"						"special_bonus_birzha_rem_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -3125,8 +3062,6 @@
 			"model"	 	"models/items/windrunner/sylvan_cascade/sylvan_cascade.vmdl"
 			"model" 	"models/items/windrunner/orchid_flowersong_head/orchid_flowersong_head.vmdl"
 		}
-
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -3164,7 +3099,6 @@
 		"Ability15"		"special_bonus_birzha_bogdan_5"
 		"Ability16"		"special_bonus_birzha_bogdan_7"
 		"Ability17"		"special_bonus_birzha_bogdan_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -3202,7 +3136,6 @@
 		"Ability15"		"special_bonus_birzha_ranger_6"
 		"Ability16"		"special_bonus_birzha_ranger_7"
 		"Ability17"		"special_bonus_birzha_ranger_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -3262,7 +3195,6 @@
 		"particle_folder"				"particles/units/heroes/hero_razor"
 		"GameSoundsFile"				"soundevents/game_sounds_heroes/game_sounds_marci.vsndevts"
 		"VoiceFile"						"soundevents/voscripts/game_sounds_vo_razor.vsndevts"
-        "BotImplemented"		""
 	}
 
 
@@ -3300,7 +3232,6 @@
 		"Ability15"		"special_bonus_birzha_gachi_6"
 		"Ability16"		"special_bonus_birzha_gachi_7"
 		"Ability17"		"special_bonus_birzha_gachi_4"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -3351,7 +3282,6 @@
 		"Ability15"		"special_bonus_birzha_stray_6"
 		"Ability16"		"special_bonus_birzha_stray_7"
 		"Ability17"		"special_bonus_birzha_stray_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -3386,7 +3316,6 @@
 		"Ability15"		"special_bonus_birzha_gorin_6"
 		"Ability16"		"special_bonus_birzha_gorin_7"
 		"Ability17"		"special_bonus_birzha_gorin_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -3447,7 +3376,6 @@
 		"particle_folder"				"particles/units/heroes/hero_disruptor"
 		"GameSoundsFile"				"soundevents/game_sounds_heroes/game_sounds_disruptor.vsndevts"
 		"VoiceFile"						"soundevents/voscripts/game_sounds_vo_disruptor.vsndevts"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -3483,8 +3411,7 @@
 		"Ability14"		"special_bonus_birzha_zema_6"
 		"Ability15"		"special_bonus_birzha_zema_5"
 		"Ability16"		"special_bonus_birzha_zema_7"
-		"Ability17"		"special_bonus_birzha_zema_8"
-        "BotImplemented"		""			
+		"Ability17"		"special_bonus_birzha_zema_8"			
 	}
 
 	//=================================================================================================================
@@ -3535,7 +3462,6 @@
 		"Ability15"		"special_bonus_birzha_ricardo_6"
 		"Ability16"		"special_bonus_birzha_ricardo_7"
 		"Ability17"		"special_bonus_birzha_ricardo_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -3582,7 +3508,6 @@
 		"Ability20"		"special_bonus_birzha_felix_6"
 		"Ability21"		"special_bonus_birzha_felix_7"
 		"Ability22"		"special_bonus_birzha_felix_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -3623,7 +3548,6 @@
 		"Ability15"		"special_bonus_birzha_megumin_6"
 		"Ability17"		"special_bonus_unique_megumin_1"
 		"Ability16"		"special_bonus_birzha_megumin_8"
-        "BotImplemented"		""
 	}
 
 
@@ -3673,7 +3597,6 @@
 		"Ability16"						"special_bonus_birzha_gypsy_3"
 		"Ability17"						"special_bonus_birzha_gypsy_7"
 		"Ability18"						"special_bonus_birzha_gypsy_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -3732,7 +3655,6 @@
 		"particle_folder"		"particles/units/heroes/hero_jakiro"
 		"GameSoundsFile"		"soundevents/game_sounds_heroes/game_sounds_jakiro.vsndevts"
 		"VoiceFile"				"soundevents/voscripts/game_sounds_vo_jakiro.vsndevts"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -3771,7 +3693,6 @@
 		"Ability15"		"special_bonus_birzha_dio_6"
 		"Ability16"		"special_bonus_birzha_dio_7"
 		"Ability17"		"special_bonus_birzha_dio_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -3815,7 +3736,6 @@
 		"Ability15"		"special_bonus_birzha_miku_6"
 		"Ability16"		"special_bonus_birzha_miku_7"
 		"Ability17"		"special_bonus_birzha_miku_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -3874,7 +3794,6 @@
 		"particle_folder"				"particles/units/heroes/hero_viper"
 		"GameSoundsFile"				"soundevents/game_sounds_heroes/game_sounds_viper.vsndevts"
 		"VoiceFile"						"soundevents/voscripts/game_sounds_vo_viper.vsndevts"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -3935,7 +3854,6 @@
 		"particle_folder"				"particles/units/heroes/hero_techies"
 		"GameSoundsFile"				"soundevents/game_sounds_heroes/game_sounds_techies.vsndevts"
 		"VoiceFile"						"soundevents/voscripts/game_sounds_vo_techies.vsndevts"
-        "BotImplemented"		""
 	}	
 
 	//=================================================================================================================
@@ -3976,7 +3894,6 @@
 		"Ability15"		"special_bonus_birzha_thomas_6"	
 		"Ability16"		"special_bonus_birzha_thomas_7"
 		"Ability17"		"special_bonus_birzha_thomas_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -4037,7 +3954,6 @@
 
 		"MovementSpeed"			"320"
 		"MovementTurnRate"		"0.500000"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -4072,7 +3988,6 @@
 		"Ability15"		"special_bonus_birzha_slidan_3"
 		"Ability16"		"special_bonus_birzha_slidan_7"
 		"Ability17"		"special_bonus_birzha_slidan_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -4110,7 +4025,6 @@
 		"Ability15"		"special_bonus_birzha_morgenshtern_6"
 		"Ability16"		"special_bonus_birzha_morgenshtern_7"
 		"Ability17"		"special_bonus_birzha_morgenshtern_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -4159,7 +4073,6 @@
 		"Ability22"		"special_bonus_birzha_druzhko_5"
 		"Ability23"		"special_bonus_birzha_druzhko_6"
 		"Ability24"		"special_bonus_birzha_druzhko_3"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -4195,7 +4108,6 @@
 		"Ability15"		"special_bonus_birzha_puchkov_6"
 		"Ability16"		"special_bonus_birzha_puchkov_7"
 		"Ability17"		"special_bonus_birzha_puchkov_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -4234,7 +4146,6 @@
 		"Ability15"		"special_bonus_birzha_yakubovich_6"
 		"Ability16"		"special_bonus_birzha_yakubovich_7"
 		"Ability17"		"special_bonus_birzha_yakubovich_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -4271,7 +4182,6 @@
 		"Ability15"						"special_bonus_birzha_v1lat_1"
 		"Ability16"						"special_bonus_birzha_v1lat_7"
 		"Ability17"						"special_bonus_birzha_v1lat_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -4306,7 +4216,6 @@
 		"Ability15"		"special_bonus_birzha_homunculus_6"
 		"Ability16"		"special_bonus_birzha_homunculus_8"
 		"Ability17"		"special_bonus_birzha_homunculus_5"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -4350,7 +4259,6 @@
 		"Ability17"		"special_bonus_birzha_ns_6"
 		"Ability18"		"special_bonus_birzha_ns_7"
 		"Ability19"		"special_bonus_birzha_ns_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -4391,7 +4299,6 @@
 		"Ability14"		"special_bonus_birzha_mina_7"
 		"Ability16"		"special_bonus_birzha_mina_5"
 		"Ability17"		"special_bonus_birzha_mina_6"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -4426,7 +4333,6 @@
 		"Ability15"		"special_bonus_birzha_ponasenkov_3"
 		"Ability16"		"special_bonus_birzha_ponasenkov_2"
 		"Ability17"		"special_bonus_birzha_ponasenkov_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -4462,7 +4368,6 @@
 		"Ability15"		"special_bonus_birzha_doljan_6"
 		"Ability16"		"special_bonus_unique_doljan_1"
 		"Ability17"		"special_bonus_birzha_doljan_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -4503,7 +4408,6 @@
 		"Ability15"		"special_bonus_birzha_ram_7"
 		"Ability16"		"special_bonus_unique_birzha_ram_2"
 		"Ability17"		"special_bonus_birzha_ram_5"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -4561,7 +4465,6 @@
 		"Ability22"		"special_bonus_birzha_kakashi_6"
 		"Ability23"		"special_bonus_birzha_kakashi_7"
 		"Ability24"		"special_bonus_birzha_kakashi_8"
-        "BotImplemented"		""
 	}
 
 	//=================================================================================================================
@@ -4625,7 +4528,6 @@
 		"Ability22"		"special_bonus_unique_avatar_2"
 		"Ability23"		"special_bonus_birzha_avatar_7"
 		"Ability24"		"special_bonus_birzha_avatar_8"
-        "BotImplemented"		""
 	}
 	
 	//=================================================================================================================
@@ -4707,7 +4609,6 @@
 		"particle_folder"		"particles/units/heroes/hero_wisp"
 		"GameSoundsFile"		"soundevents/game_sounds_heroes/game_sounds_wisp.vsndevts"
 		"VoiceFile"		        "soundevents/voscripts/game_sounds_vo_wisp.vsndevts"
-        "BotImplemented"		""
 	}
     "npc_dota_hero_kelthuzad"
     {
@@ -4762,7 +4663,6 @@
         "particle_folder"		        "particles/units/heroes/hero_lich"
 		"GameSoundsFile"		        "soundevents/game_sounds_heroes/game_sounds_lich.vsndevts"
 		"VoiceFile"		                "soundevents/voscripts/game_sounds_vo_lich.vsndevts"
-        "BotImplemented"		""
     }
     "npc_dota_hero_sans"
     {
@@ -4791,7 +4691,6 @@
 		"AttributeIntelligenceGain"		"0"
 
         "ProjectileModel"				"particles/base_attacks/ranged_tower_bad.vpcf"
-        "BotImplemented"		""
     }
     "npc_dota_hero_kirito"
     {
@@ -4818,7 +4717,6 @@
 		"AttributeAgilityGain"			"0"
 		"AttributeBaseIntelligence"		"0"
 		"AttributeIntelligenceGain"		"0"
-        "BotImplemented"		""
     }
     "npc_dota_hero_nix_streamer"
     {
@@ -4874,8 +4772,6 @@
 
         "Ability16"                     "ad_special_bonus_gold_lvl25_l"
         "Ability17"                     "ad_special_bonus_gold_lvl25_r"
-
-        "BotImplemented"		""
     }
 
     "npc_dota_hero_ashab_tamaev"
@@ -4918,8 +4814,6 @@
 
         "Ability16"                     "special_bonus_unique_ashab_7"
         "Ability17"                     "special_bonus_unique_ashab_8"
-
-        "BotImplemented"		""
 
         "AttackSpeedActivityModifiers"
 		{
@@ -4994,8 +4888,6 @@
 
         "Ability16"                     "special_bonus_unique_old_god_7"
         "Ability17"                     "special_bonus_unique_old_god_8"
-
-        "BotImplemented"		""
     }
 
 	// "npc_dota_hero_ancient_apparition"

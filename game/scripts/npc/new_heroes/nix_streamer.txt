@@ -45,7 +45,7 @@
 		"AbilityValues"
 		{
             "duration"                      "5"
-            "stun_duration"                 "0.5 0.65 0.8 0.95"
+            "stun_duration"                 "0.2 0.3 0.4 0.5"
             "critical_damage"               "120 130 140 150"
             "mark_duration"                 "3"
             "upgrade_duration"              "2"
@@ -220,7 +220,7 @@
             "radius"                        "200"
             "distance"                      "1000"
             "damage_percent"                "2 3 4"
-            "damage"                        "180 290 400"
+            "damage"                        "100 200 300"
 		}
 	}
     "nix_phantom_r"

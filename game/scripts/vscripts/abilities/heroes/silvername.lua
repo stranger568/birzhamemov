@@ -117,7 +117,7 @@ function modifier_silver_TopDeck:GetModifierPreAttack_CriticalStrike(params)
     local chance = self:GetAbility():GetSpecialValueFor("chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_silver_1")
 
     if RollPercentage(chance) then
-        return self:GetAbility():GetSpecialValueFor("crit") + self:GetCaster():FindTalentValue("special_bonus_birzha_silver_4")
+        return self:GetAbility():GetSpecialValueFor("owl_crit") + self:GetCaster():FindTalentValue("special_bonus_birzha_silver_4")
     end
 end
 

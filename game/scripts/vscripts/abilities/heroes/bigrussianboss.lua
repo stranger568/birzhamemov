@@ -129,7 +129,7 @@ function BigRussianBoss_prank:GetCastRange(location, target)
 end
 
 function BigRussianBoss_prank:GetAOERadius()
-    return self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_6")
+    return self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_5")
 end
 
 function BigRussianBoss_prank:GetAbilityTextureName()
@@ -174,7 +174,7 @@ function BigRussianBoss_prank:OnSpellStart()
     local caster = self:GetCaster()
     if caster:HasModifier("modifier_bigrussianboss_prank") then
         local target = self:GetCursorTarget()
-        local max_brew = self:GetSpecialValueFor( "brew_time" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_5")
+        local max_brew = self:GetSpecialValueFor( "brew_time" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_6")
         local brew_time
 
         local modifier = caster:FindModifierByName( "modifier_bigrussianboss_prank" )
@@ -210,7 +210,7 @@ function BigRussianBoss_prank:OnSpellStart()
         return
     end
     if caster:GetUnitName() == "npc_dota_hero_alchemist" then
-        caster:AddNewModifier( caster, self, "modifier_bigrussianboss_prank", { duration = 5.5 + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_5") } )
+        caster:AddNewModifier( caster, self, "modifier_bigrussianboss_prank", { duration = 5.5 + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_6") } )
         self:EndCooldown()
     end
 end
@@ -221,12 +221,12 @@ function BigRussianBoss_prank:OnProjectileHit_ExtraData( target, location, Extra
     local brew_time = ExtraData.brew_time
     self.reflected_brew_time = brew_time
     self.reflected_brew_time = nil
-    local max_brew = self:GetSpecialValueFor( "brew_time" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_5")
+    local max_brew = self:GetSpecialValueFor( "brew_time" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_6")
     local min_stun = self:GetSpecialValueFor( "min_stun" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_7")
     local max_stun = self:GetSpecialValueFor( "max_stun" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_7")
     local min_damage = self:GetSpecialValueFor( "min_damage" )
     local max_damage = self:GetSpecialValueFor( "max_damage" )
-    local radius = self:GetSpecialValueFor( "radius" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_6")
+    local radius = self:GetSpecialValueFor( "radius" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_brb_5")
 
     local stun = (brew_time/max_brew)*(max_stun-min_stun) + min_stun
     local damage = (brew_time/max_brew)*(max_damage-min_damage) + min_damage
