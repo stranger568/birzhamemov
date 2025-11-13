@@ -311,7 +311,6 @@ end
 function modifier_freddy_toreador:DeclareFunctions()
     local funcs = 
     {
-        MODIFIER_EVENT_ON_ORDER,
         MODIFIER_PROPERTY_MOVESPEED_LIMIT,
         MODIFIER_PROPERTY_INVISIBILITY_LEVEL,
 		MODIFIER_EVENT_ON_ATTACK,

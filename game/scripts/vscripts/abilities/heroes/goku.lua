@@ -283,7 +283,6 @@ end
 function modifier_goku_merni_attacks:DeclareFunctions()
     local funcs = 
     {
-        MODIFIER_EVENT_ON_ORDER,
         MODIFIER_PROPERTY_MOVESPEED_LIMIT,
     }
     return funcs

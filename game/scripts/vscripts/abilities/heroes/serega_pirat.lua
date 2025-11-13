@@ -161,7 +161,6 @@ end
 
 function modifier_serega_pirat_bike_cast:DeclareFunctions()
 	local funcs = {
-		MODIFIER_EVENT_ON_ORDER,
 		MODIFIER_PROPERTY_MOVESPEED_LIMIT,
 		MODIFIER_PROPERTY_MODEL_CHANGE,
 	}
@@ -347,7 +346,6 @@ end
 
 function modifier_serega_pirat_bike_charge:DeclareFunctions()
 	local funcs = {
-		MODIFIER_EVENT_ON_ORDER,
 		MODIFIER_PROPERTY_DISABLE_TURNING,
 		MODIFIER_PROPERTY_OVERRIDE_ANIMATION,
 		MODIFIER_PROPERTY_TRANSLATE_ACTIVITY_MODIFIERS,

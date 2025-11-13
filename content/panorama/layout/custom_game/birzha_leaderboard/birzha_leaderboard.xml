@@ -30,28 +30,19 @@
 			</Panel>
 			<Panel class="Leaderboardblock" hittest="false">
 				<Panel id="DonatorInfoContainer" hittest="false">
-					<Panel class="ButtonsMaps">
+					<Panel class = "InfoLeaderboardblock">
+						<Label text = "#birzhapass_leaderboards_description" class = "InfoLeaderboardblockPlayer"/>
+					</Panel>
+                    <Panel class="ButtonsMaps">
 						<Panel id="solo" class="ButtonMap ButtonMapSelect" onactivate="ToggleMap('solo', 'birzhamemov_solo');">
 							<Label class="ButtonMapLabel" text="Solo" />
 						</Panel>
 						<Panel id="duo" class="ButtonMap" onactivate="ToggleMap('duo', 'birzhamemov_duo');">
 							<Label class="ButtonMapLabel" text="Duo" />
 						</Panel>
-						<!--<Panel id="trio" class="ButtonMap" onactivate="ToggleMap('trio', 'birzhamemov_trio');">
-							<Label class="ButtonMapLabel" text="Trio" />
-						</Panel>
-						<Panel id="5v5v5" class="ButtonMap" onactivate="ToggleMap('5v5v5', 'birzhamemov_5v5v5');">
-							<Label class="ButtonMapLabel" text="5v5v5" />
-						</Panel>
-						<Panel id="5v5" class="ButtonMap" onactivate="ToggleMap('5v5', 'birzhamemov_5v5');">
-							<Label class="ButtonMapLabel" text="5v5" />
-						</Panel>-->
 						<Panel id="zxc" class="ButtonMap" onactivate="ToggleMap('zxc', 'birzhamemov_zxc');">
 							<Label class="ButtonMapLabel" text="ZXC" />
 						</Panel>
-					</Panel>
-					<Panel class = "InfoLeaderboardblock">
-						<Label text = "#birzhapass_leaderboards_description" class = "InfoLeaderboardblockPlayer"/>
 					</Panel>
 					<Panel id="PlayersList" />
 				</Panel>

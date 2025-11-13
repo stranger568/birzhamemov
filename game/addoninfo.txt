@@ -4,7 +4,6 @@
 	[
 		"birzhamemov_solo",
 		"birzhamemov_duo",
-		"birzhamemov_5v5v5",
 		"birzhamemov_zxc",
 	]
 	IsPlayable = 1
@@ -23,10 +22,6 @@
 			map = "birzhamemov_duo"
 		},
 		{
-			MaxPlayers = 15
-			map = "birzhamemov_5v5v5"
-		},
-		{
 			MaxPlayers = 2
 			map = "birzhamemov_zxc"
 		},
@@ -43,7 +38,7 @@
 	}
 	HeroGuidesSupported = true
 	ForceDefaultGuide = true
-	MinimalPrecache = true
+	MinimalPrecache = false
 	MinPlayers = 1
 	MaxPlayers = 10
 	TeamCount = -1

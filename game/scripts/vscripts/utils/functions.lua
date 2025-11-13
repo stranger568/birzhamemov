@@ -578,3 +578,14 @@ function SpawnDonaters()
         end)
     end
 end
+
+function CDOTA_BaseNPC:MoveToPositionAggressive(point)
+    local order = 
+    {
+        UnitIndex = self:entindex(),
+        OrderType = DOTA_UNIT_ORDER_ATTACK_MOVE,
+        Position = point,
+        Queue = false
+    }
+    ExecuteOrderFromTable(order)
+end

@@ -15,8 +15,9 @@ function modifier_birzha_fountain_passive:GetAuraEntityReject(target)
     return target:HasModifier("modifier_birzha_fountain_attacked")
 end
 
-function modifier_birzha_fountain_passive:OnCreated()
+function modifier_birzha_fountain_passive:OnCreated(params)
     if not IsServer() then return end
+    self.fountain = EntIndexToHScript(params.fountain)
 	self:StartIntervalThink(0.5)
 end
 
@@ -34,12 +35,12 @@ function modifier_birzha_fountain_passive:OnIntervalThink()
                 target:EmitSound("Ability.LagunaBlade")
             end
             local particle = ParticleManager:CreateParticle( "particles/units/heroes/hero_lina/lina_spell_laguna_blade.vpcf", PATTACH_CUSTOMORIGIN, nil )
-            ParticleManager:SetParticleControlEnt( particle, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetParent():GetOrigin() + Vector( 0, 0, 96 ), true )
+            ParticleManager:SetParticleControlEnt( particle, 0, self.fountain, PATTACH_POINT_FOLLOW, "attach_attack1", self.fountain:GetOrigin() + Vector( 0, 0, 96 ), true )
             ParticleManager:SetParticleControlEnt( particle, 1, target, PATTACH_POINT_FOLLOW, "attach_hitloc", target:GetOrigin(), true )
             ParticleManager:ReleaseParticleIndex( particle )
-            ApplyDamage({attacker = self:GetParent(), victim = target, ability = self:GetAbility(), damage = target:GetMaxHealth() * 0.25, damage_type = DAMAGE_TYPE_PURE})
+            ApplyDamage({attacker = self.fountain, victim = target, ability = self:GetAbility(), damage = target:GetMaxHealth() * 0.25, damage_type = DAMAGE_TYPE_PURE})
             if not target:IsRealHero() then
-                target:Kill(self:GetAbility(), self:GetParent())
+                target:Kill(self:GetAbility(), self.fountain)
             end
         end
 	end

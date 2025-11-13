@@ -1,394 +1,18 @@
-.Leaderboard {
-	width: 100%;
-	height: 100%;
-}
-
-#LeaderboardWindow {
-	width: 1300px;
-	height: 800px;
-	background-color: rgba(0, 0, 0, 1);
-	background-image: url("s2r://panorama/images/dpc/supclub_purchase_bg_psd.vtex");
-	background-size: 100% 100%;
-	margin-bottom: 50px;
-	border-top: 2px solid #190217;
-	border-left: 2px solid #190217;
-	border-bottom: 2px solid #190217;
-	border-right: 2px solid #190217;
-	box-shadow: 0px 0px 12px 0px #000000a5;
-	align: center center;
-	flow-children: down;
-	visibility: collapse;
-	transition-property: opacity;
-	transition-duration: 0.25s;
-}
-
-#LeaderboardWindow.sethidden {
-    opacity: 0;
-}
-
-#LeaderboardWindow.setvisible {
-    opacity: 1;
-}
-
-#LeaderBoardIcon {
-	background-image: url("file://{images}/custom_game/trophy_leader_png.png");
-}
-
-.LeaderBoardIcon {
-	vertical-align: center;
-	width: 82px;
-	height: 100px;
-	margin-left: 10px;
-	background-size: 100%;
-}
-
-.Leaderboardblock {
-	height: 560px;
-	flow-children: right;
-	horizontal-align: center;
-}
-
-.MainInformationLeader {
-	width: 100%;
-	flow-children: down;
-	align: left center;
-}
-
-.MainInformation2Leader {
-	margin-top: 5px;
-	width: 550px;
-	flow-children: down;
-	horizontal-align: center;
-}
-
-.MainInformationButtonLeader {
-	background-color: gradient(linear, 0% 0%, 0% 100%, from(#4d09cadd), to(#9109ca));
-	border-top: 1px solid #6F819B22;
-	border-left: 1px solid #6F819B22;
-	border-right: 1px solid #6F819B11;
-	border-bottom: 1px solid #3F414B33;
-	width: 300px;
-	height: 45px;
-	margin-top: 15px;
-	align: center center;
-	transition-property: brightness;
-	transition-duration: 0.15s;
-	transition-timing-function: ease-in-out;
-}
-
-.MainInformationButtonLeader Label {
-	font-size: 18px;
-	color: white;
-	text-transform: uppercase;
-	font-weight: bold;
-	horizontal-align: center;
-	text-shadow: 0px 0px 5px 2 black;
-	align: center center;
-}
-
-.MainInformationButtonLeader:hover {
-	brightness: 1.2;
-}
-
-.MainInformationButtonLeader:active {
-	brightness: 0.8;
-}
-
-#DeveloperInfoContainer {
-	margin-top: 40px;
-	width: 550px;
-	height: 490px;
-	margin-left: 25px;
-	margin-right: 25px;
-	flow-children: down;
-}
-
-#DonatorInfoContainer {
-	width: 550px;
-	height: 580px;
-	margin-left: 25px;
-	margin-right: 25px;
-}
-
-#DeveloperInfoContainer {
-	overflow: squish scroll;
-}
-
-.InfoLeaderboardblock {
-	width: 100%;
-	height: 40px;
-	background-color: rgba(0, 0, 0, 0.6);
-	border: 1px solid #38424b;
-	margin-top: 40px;
-}
-
-.InfoLeaderboardblockPlayer {
-	font-size: 18px;
-	color: white;
-	align: center center;
-	text-transform: uppercase;
-	font-weight: semi-bold;
-}
-
-.InfoLeaderboardblockCreators {
-	width: 100%;
-	height: 40px;
-	background-color: rgba(0, 0, 0, 0.3);
-	border: 1px solid #38424b;
-}
-
-.PlayerInfoTableCreators {
-	flow-children: right;
-	align: left center;
-	width: 300px;
-	margin-left: 10px;
-}
-
-.TopMmrClass {
-	width: 100%;
-	height: 45px;
-	border: 1px solid #38424b;
-	align: left top;
-}
-
-.TopMmrClassExclusive {
-	width: 100%;
-	height: 45px;
-	border: 1px solid white;
-	align: left top;
-	border-brush: gradient(linear, 30% 100%, 90% 0%, from(#cc8727), color-stop(0.08, #e7a850), color-stop(0.38, #f5d7ad), color-stop(0.68, #c0780b), color-stop(0.8, #754705), to(#643f0b));
-}
-
-.ExclusiveDonaterBackground {
-	width: 100%;
-	height: 100%;
-	background-color: gradient(linear, 0% 0%, 0% 100%, from(#d8d2a811), to(#d8d2a800));
-	background-image: url("s2r://panorama/images/dpc/supclub_gold_bg_psd.vtex");
-}
-
-VerticalScrollBar, HTMLVerticalScrollBar {
-	width: 3px;
-}
-
-.PlayerInfoTable {
-	flow-children: right;
-	align: left center;
-	width: 300px;
-	margin-left: 45px;
-}
-
-.LabelTopMmrlow {
-	font-size: 20px;
-	color: white;
-	vertical-align: center;
-	text-align: center;
-	margin-left: 5px;
-	width: 30px;
-	text-transform: uppercase;
-	font-weight: semi-bold;
-}
-
-.AvatarTopMmr {
-	height: 32px;
-	width: 32px;
-	background-size: contain;
-}
-
-.TopMmrNick Label {
-	font-size: 18px;
-	color: #ffffff;
-	vertical-align: center;
-	margin-left: 5px;
-	margin-top: 5px;
-	height: 18px;
-}
-
-.TopMmrNick {
-	width: 100%;
-}
-
-.MmrInfoTable {
-	flow-children: right;
-	margin-left: 450px;
-	margin-top: 5px;
-}
-
-.MmrLeaderboard {
-	vertical-align: center;
-	margin-right: 5px;
-	margin-top: 3px;
-	width: 28px;
-	height: 24px;
-	background-image: url("file://{images}/custom_game/birzhapass/leaderboard_png.png");
-	background-size: 100%;
-}
-
-.TopMmrReatingCount {
-	font-size: 20px;
-	color: white;
-	margin-top: 5px;
-	text-transform: uppercase;
-	font-weight: semi-bold;
-}
-
-.MainTextInformationLeader {
-	text-align: center;
-	font-size: 13px;
-	color: white;
-	align: center center;
-	font-weight: semi-bold;
-	text-transform: uppercase;
-}
-
-.MainTextInformationLeaderSeason {
-	text-align: center;
-	font-size: 13px;
-	color: white;
-	align: center center;
-	font-weight: semi-bold;
-	text-transform: uppercase;
-}
-
-.MainTextInformation {
-	width: 80%;
-	font-size: 18px;
-	color: #daebff;
-	align: center center;
-	text-align: center;
-}
-
-.MainTextInformation2 {
-	text-align: center;
-	font-size: 12px;
-	color: white;
-	align: center top;
-	text-transform: uppercase;
-	margin-bottom: 10px;
-}
-
-.Leaderboardlogo {
-	align: center center;
-	margin-top: 20px;
-	width: 100%;
-}
-
-#PlayersList {
-	width: 100%;
-	flow-children: down;
-	margin-top: 80px;
-}
-
-.ButtonsMaps {
-	width: 100%;
-	height: 40px;
-	flow-children: right;
-}
-
-.ButtonsMapsBplus 
+#BirzhaPlusButton 
 {
-	width: 100%;
-	horizontal-align: center;
-	height: 30px;
-	flow-children: right;
-}
-
-#LeaderBoardButton {
-	margin-left: 160px;
-	flow-children: down;
-	visibility: visible;
-	vertical-align: center;
-}
-
-#LeaderBoardButton:hover .LeaderBoardButtonIcon {
-	brightness: 1.4;
-}
-
-.LeaderBoardButtonIcon {
-	background-image: url("s2r://panorama/images/custom_game/icon_trophy_battle_cup_summer_png.vtex");
-	background-size: 100%;
-	width: 27px;
-	height: 27px;
-	brightness: 1;
-	horizontal-align: center;
-	transition-property: brightness;
-	transition-duration: 0.25s;
-}
-
-.LeaderBoardButtonLabel {
-	color: white;
-	horizontal-align: center;
-	font-size: 12px;
-	text-shadow: 0px 0px 1px 2 black;
-	text-transform: uppercase;
-	margin-top: 2px;
-	text-align: center;
-}
-
-.ButtonMap {
-	width: fill-parent-flow( 1 );
-	margin-left: 5px;
-	margin-right: 5px;
-	height: 30px;
-	vertical-align: bottom;
-	background-color: gradient(linear, 0% 0%, 100% 100%, from(#401b80), color-stop(0.5, #763fdb), to(#401b80));
-	border: 1px solid #aaabe733;
-	transition-property: height, brightness;
-	transition-duration: 0.2s;
-    margin-bottom: 5px;
-	brightness: 0.6;
-}
-
-.ButtonMap:hover {
-	brightness: 1.05;
-}
-
-.ButtonMap_2 
-{
-	width: 62px;
-	margin-left: 2px;
-	margin-right: 2px;
-	height: 25px;
-	vertical-align: center;
-	background-color: gradient(linear, 0% 0%, 100% 100%, from(#401b80), color-stop(0.5, #763fdb), to(#401b80));
-	border: 1px solid #aaabe733;
-	transition-property: height, brightness;
-	transition-duration: 0.2s;
-	brightness: 0.6;
-}
-
-.ButtonMap_2:hover {
-	brightness: 1.05;
-}
-
-.ButtonMapSelect {
-	brightness: 1.1;
-}
-
-.ButtonMapLabel {
-	color: white;
-	font-weight: bold;
-	align: center center;
-	text-transform: uppercase;
-	font-size: 18px;
-}
-
-.BirzhaPass {
-	width: 100%;
-	height: 100%;
-}
-
-#BirzhaPlusButton {
 	margin-left: 220px;
 	flow-children: down;
 	visibility: visible;
 	vertical-align: center;
 }
 
-#BirzhaPlusButton:hover .BirzhaPlusButtonIcon {
+#BirzhaPlusButton:hover .BirzhaPlusButtonIcon 
+{
 	brightness: 1.4;
 }
 
-.BirzhaPlusButtonIcon {
+.BirzhaPlusButtonIcon 
+{
 	background-image: url("file://{images}/custom_game/birzhapass/passbuttonoff_png.png");
 	background-size: 100%;
 	width: 27px;
@@ -399,105 +23,99 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	transition-duration: 0.25s;
 }
 
-.BirzhaPlusButtonLabel {
+.BirzhaPlusButtonLabel 
+{
 	color: white;
 	horizontal-align: center;
 	font-size: 12px;
-	text-shadow: 0px 0px 1px 2 black;
+	text-shadow: 0px 0px 10px 3 black;
 	text-transform: uppercase;
 	margin-top: 2px;
 	text-align: center;
+    font-family: Reaver;
+    font-weight: semi-bold;
 }
 
 #BirzhaPassWindow 
 {
 	width: 1300px;
-	height: 850px;
-	background-image: url("file://{images}/custom_game/plus/background.png");
-	background-size: 100%;
+	height: 800px;
 	align: center center;
 	visibility: collapse;
-	margin-bottom: 50px;
 	pre-transform-scale2d: 1;
 	transition-property: opacity;
 	transition-duration: 0.25s;
-	border-top-color: #555555;
-	border-left-color: #494949;
-	border-bottom-color: #333333;
-	border-right-color: #404040;
-	border-style: solid;
-	border-width: 1px;
+    border-radius: 16px;
+    background-color: gradient( radial, 50% 20%, 0% 0%, 90% 100%, from(#2A1C08EE), color-stop(0.45, #120C04EE), to(#050200FF) );
+	border: 1px solid #ffffff44;
+	border-brush: gradient(linear, 0% 0%, 0% 100%, from(#FFD26F), to(#7A531F));
+	box-shadow: 0px 0px 40px #000000;
+    margin-bottom: 90px;
+    border: 1px solid #4a3b7acc;
+    transition-property: opacity, pre-transform-scale2d, box-shadow;
+	transition-duration: 0.25s;
+	pre-transform-scale2d: 0.97;
 }
 
-#BirzhaPassWindow.sethidden {
+#BirzhaPassWindow.sethidden 
+{
     opacity: 0;
+    box-shadow: hollow 0px 0px 30px #00000000;
 }
 
-#BirzhaPassWindow.setvisible {
+#BirzhaPassWindow.setvisible 
+{
 	opacity: 1;
+    pre-transform-scale2d: 1;
+	transition-property: pre-transform-scale2d;
+	transition-duration: 0.25s;
 }
 
 .CloseBattlepass 
 {
-	width: 35px;
-	height: 35px;
-	margin-right: 15px;
-	margin-top: 15px;
+	width: 25px;
+	height: 25px;
+	margin-right: 17px;
+    margin-top: 17px;
 	horizontal-align: right;
-	background-image: url("s2r://panorama/images/control_icons/x_close_grey_psd.vtex");
-	background-size: 100% 100%;
+	background-image: url("file://{images}/custom_game/close.png");
+	background-size: 100%;
 	background-repeat: no-repeat;
 	transition-property: pre-transform-scale2d, brightness;
 	transition-duration: 0.2s;
 	brightness: 2;
 }
 
-.CloseBattlepass:hover {
+.CloseBattlepass:hover 
+{
 	brightness: 6;
 	pre-transform-scale2d: 1.05;
 }
 
-.CloseBattlepass:Active {
+.CloseBattlepass:Active 
+{
 	pre-transform-scale2d: 0.9;
 }
 
-.CloseLeaderboard {
-	width: 35px;
-	height: 35px;
-	margin-right: 20px;
-	horizontal-align: right;
-	background-image: url("s2r://panorama/images/control_icons/x_close_grey_psd.vtex");
-	background-size: 100% 100%;
-	background-repeat: no-repeat;
-	transition-property: pre-transform-scale2d, brightness;
-	transition-duration: 0.2s;
-	brightness: 2;
-}
-
-.CloseLeaderboard:hover {
-	brightness: 6;
-	pre-transform-scale2d: 1.05;
-}
-
-.CloseLeaderboard:Active {
-	pre-transform-scale2d: 0.9;
-}
-
-.BirzhaPassLogo {
+.BirzhaPassLogo 
+{
 	width: 100%;
 	margin-bottom: 10px;
 }
 
-.BirzhaPlusHeader {
+.BirzhaPlusHeader 
+{
 	horizontal-align: center;
 	margin-top: 10px;
 	flow-children: right;
 }
 
-.BirzhaPassLogoText {
+/* Логотип / название пасса */
+.BirzhaPassLogoText 
+{
 	font-size: 42px;
-	color: gradient(linear, 0% 0%, 0% 100%, from(gold), to(#f5cb84));
-	text-shadow: 1px 1px 1px 1.0 #a17a3c;
+	color: gradient(linear, 0% 0%, 0% 100%, from(#FFEAA5), to(#F5CB84));
+	text-shadow: 1px 1px 4px 1.0 #a17a3c;
 	text-align: center;
 	font-weight: bold;
 	align: center center;
@@ -506,45 +124,362 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	font-family: Reaver;
 }
 
-.LeaderBoardLogoText {
-	font-size: 42px;
-	color: white;
-	text-shadow: 1px 1px 1px 4.0 black;
-	text-align: center;
-	font-weight: bold;
-	align: center center;
-	letter-spacing: 2px;
-	text-transform: uppercase;
-	font-family: Reaver;
-}
-
-#PassIcon {
+/* Иконка пасса */
+#PassIcon 
+{
 	horizontal-align: right;
 	background-image: url("s2r://panorama/images/custom_game/birzhapass/passbuttonoff_png.vtex");
 }
 
-.PassIcon {
+.PassIcon 
+{
 	vertical-align: center;
 	width: 80px;
 	height: 80px;
 	background-size: 80% 80%;
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
-	wash-color: white;
 }
 
-#TableInfoPlayer {
+#BirzhaPassWindowDeactive 
+{
+	width: 1300px;
+	height: 850px;
+	flow-children: down;
+}
+
+/* Общий контейнер панели */
+.PassWindowStart
+{
+    margin-top: -80px;
+	horizontal-align: center;
+	vertical-align: center;
+	flow-children: right;
+	padding: 24px;
+}
+
+/* Сцена / модель, если используешь */
+#PlusLogoScene {
+	width: 600px;
+	height: 600px;
+	transform: rotateY(180deg);
+	margin-left: 10px;
+}
+
+/* Заголовок над кнопками (если используешь) */
+.HeaderBirzhaPlusBuy {
+	font-size: 24px;
+	color: #FFF5D1;
+	text-shadow: 1px 1px 2px 1.0 #000000ff;
+	text-align: center;
+	font-weight: bold;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	font-family: Reaver;
+	horizontal-align: center;
+	margin-top: 50px;
+	border-bottom: 1px solid #e6c27a33;
+	border-brush: gradient( radial, 50% 50%, 0% 0%, 90% 55%, from(#FFD56B), to(#FFF0));
+}
+
+.HeaderBirzhaPlusBuyDescription {
+	font-size: 15px;
+	color: #FBECC4;
+	text-shadow: 1px 1px 1px 1.0 #000000ff;
+	text-align: center;
+	font-weight: semi-bold;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	horizontal-align: center;
+	margin-top: 20px;
+	max-width: 900px;
+}
+
+/* ГЛАВНАЯ ЗОЛОТАЯ КНОПКА ПОДПИСКИ */
+.ButtonBuySubscribe 
+{
+	width: 500px;
+	height: 100px;
+	horizontal-align: center;
+
+	/* стал чуть темнее и контрастнее в центре */
+	background-color: gradient( linear, 0% 0%, 0% 100%,
+		from(#5A4318FF),
+		color-stop(0.35, #8F6A25FF),
+		color-stop(0.7, #CFA24AFF),
+		to(#2A1B08FF)
+	);
+
+	box-shadow: 0px 4px 18px #000000d0, fill 0px 0px 26px #F5CB8466;
+	border-radius: 16px;
+	border: 1px solid #ffffff33;
+	border-brush: gradient(linear,0% 0%,0% 100%,from(#FFF3B4),to(#B17D2B));
+	margin-top: 20px;
+	margin-bottom: 20px;
+	transition-property: brightness, pre-transform-scale2d, box-shadow;
+	transition-duration: 0.2s;
+}
+
+.ButtonBuySubscribe:hover 
+{
+	brightness: 1.25;
+	pre-transform-scale2d: 1.03;
+	box-shadow: 0px 7px 22px #000000ee, fill 0px 0px 30px #FFD982AA;
+}
+
+.ButtonBuySubscribe:active 
+{
+	brightness: 0.9;
+	pre-transform-scale2d: 0.97;
+	box-shadow: 0px 2px 10px #000000aa;
+}
+
+/* Текст в главной кнопке */
+.ButtonBuySubscribeHead 
+{
+	font-size: 28px;
+	font-weight: bold;
+	color: #ffffff;
+	text-transform: uppercase;
+	horizontal-align: center;
+	margin-top: 10px;
+	text-shadow: 0px 0px 8px 4 #000000aa;
+	letter-spacing: 1px;
+}
+
+.ButtonBuySubscribeHeadDescirption 
+{
+	font-size: 15px;
+	font-weight: semi-bold;
+	color: #FFF5CF;
+	horizontal-align: center;
+	text-shadow: 0px 0px 4px #000000dd;
+}
+
+/* МАЛАЯ КНОПКА "УЖЕ КУПИЛ" */
+.ButtonBuySubscribeCheck 
+{
+	width: 500px;
+	height: 60px;
+	horizontal-align: center;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from(#2C200C), to(#0A0703) );
+	box-shadow: 0px 0px 10px #000000dd;
+	border-radius: 12px;
+	border: 1px solid #e6c27a44;
+	border-brush: gradient(linear,0% 0%,0% 100%,from(#EBC472),to(#7F5B23));
+	margin-top: 4px;
+	transition-property: brightness, pre-transform-scale2d, box-shadow;
+	transition-duration: 0.15s;
+}
+
+.ButtonBuySubscribeCheck:hover 
+{
+	brightness: 1.15;
+	pre-transform-scale2d: 1.02;
+	box-shadow: 0px 3px 12px #000000ee, fill 0px 0px 12px #F5CB8466;
+}
+
+.ButtonBuySubscribeCheck:active 
+{
+	brightness: 0.85;
+	pre-transform-scale2d: 0.98;
+	box-shadow: 0px 1px 6px #000000aa;
+}
+
+/* Текст в малой кнопке */
+.ButtonBuySubscribeCheckMini 
+{
+	font-size: 28px;
+	font-weight: semi-bold;
+	color: #FDE7B2;
+	horizontal-align: center;
+	vertical-align: center;
+	text-transform: uppercase;
+	text-shadow: 0px 0px 4px #000000dd;
+}
+
+/* Пульсация главной кнопки */
+@keyframes 'BigSubButtonPulse' 
+{
+	0%   { brightness: 1;   pre-transform-scale2d: 1;    box-shadow: 0px 4px 14px #000000cc; }
+	50%  { brightness: 1.35; pre-transform-scale2d: 1.04; box-shadow: 0px 7px 26px #000000ee, fill 0px 0px 30px #FFD982AA; }
+	100% { brightness: 1;   pre-transform-scale2d: 1;    box-shadow: 0px 4px 14px #000000cc; }
+}
+
+.ButtonBuySubscribe.Pulse 
+{
+	animation-name: BigSubButtonPulse;
+	animation-duration: 1.6s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+}
+
+/* БЛОК ИНФОРМАЦИИ О ПОДПИСКЕ */
+.BirzhaPlusInformationBody 
+{
+    border-radius: 20px;
+	horizontal-align: center;
+	width: 600px;
+	height: 530px;
+	border: 1px solid #e6c27a55;
+	border-brush: gradient(linear, 0% 0%, 0% 100%, from(#FFD26F), to(#7A531F));
+	background-color: gradient( radial, 50% 10%, 0% 0%, 100% 100%, from(#3A270FEE), to(#0A0502FF) );
+	box-shadow: 0px 6px 25px #000000dd;
+}
+
+/* "Сцена" / картинка */
+.BirzhaPlusInformationBodyImage
+{
 	width: 100%;
 	height: 100%;
 }
 
-#PlayerInfo {
+/* Нижняя тёмная полоска с описанием */
+.BirzhaPlusInformationBodyInfo 
+{
+	width: 100%;
+	height: 157px;
+	vertical-align: bottom;
+	background-color: rgba(4, 3, 1, 0.93);
+	flow-children: down;
+	border-top: 1px solid #e6c27a33;
+}
+
+/* Название блока */
+.BirzhaPlusInformationBodyInfoName 
+{
+	horizontal-align: center;
+	color: #FFE8B3;
+	font-weight: semi-bold;
+	letter-spacing: 1px;
+	font-size: 24px;
+	font-family: 'Radiance';
+	text-transform: uppercase;
+	margin-top: 18px;
+	text-shadow: 0px 0px 6px #000000ff;
+}
+
+/* Описание */
+.BirzhaPlusInformationBodyInfoDescr 
+{
+	color: #F5DEB0CC;
+	text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.8);
+	font-size: 16px;
+	font-family: 'Radiance';
+	horizontal-align: center;
+	margin-top: 20px;
+	text-align: center;
+	height: 40px;
+	max-width: 520px;
+}
+
+/* Навигация по фичам */
+.BirzhaPlusInformationBodyInfoNavigation 
+{
+	flow-children: right;
+	horizontal-align: center;
+	margin-top: 7px;
+    ui-scale: 150%;
+}
+
+.NavigationWidgets 
+{
+	flow-children: right;
+}
+
+/* Стрелки */
+.NavigationArrowLeft 
+{
+	background-image: url("file://{images}/custom_game/arrow_left.png");
+	background-size: 100%;
+	width: 6px;
+	height: 8px;
+	vertical-align: center;
+	margin-right: 5px;
+	wash-color: #C9A562;
+	transition-property: wash-color;
+	transition-duration: 0.1s;
+}
+
+.NavigationArrowRight 
+{
+	background-image: url("file://{images}/custom_game/arrow_right.png");
+	background-size: 100%;
+	width: 6px;
+	height: 8px;
+	vertical-align: center;
+	margin-left: 5px;
+	wash-color: #C9A562;
+	transition-property: wash-color;
+	transition-duration: 0.1s;
+}
+
+.NavigationArrowLeft:hover,
+.NavigationArrowRight:hover 
+{
+	wash-color: #FFE39D;
+}
+
+/* Точки-индикаторы */
+.NavigationWidget 
+{
+	width: 6px;
+	height: 6px;
+	border-radius: 6px;
+	background-color: #7A6844;
+	margin: 5px;
+	vertical-align: center;
+}
+
+.NavigationWidget_Active 
+{
+	background-color: gradient(linear, 0% 0%, 0% 100%, from(#FFE39D), to(#C8963E));
+}
+
+/* Блок цены */
+.BPCostMain
+{
+    flow-children: right;
+	horizontal-align: center;
+	vertical-align: bottom;
+	margin-bottom: 10px;
+	padding: 4px 14px;
+	border-radius: 999px;
+}
+
+.BPCostImage
+{
+	width: 40px;
+	height: 40px;
+	background-image: url("file://{images}/custom_game/shop/gold_icon.png");
+	background-size: 100%;
+}
+
+.BPCostLabel
+{
+    font-size: 28px;
+	font-family: 'Radiance';
+	font-weight: semi-bold;
+	color: gradient(linear, 0% 0%, 0% 100%, from(#FFEFB1), color-stop(0.8, #FFD351), to(#FFFFFF));
+	text-shadow: 0px 0px 6px 4 #000000;
+	vertical-align: center;
+}
+
+#TableInfoPlayer 
+{
+	width: 100%;
+	height: 100%;
+}
+
+#PlayerInfo 
+{
 	horizontal-align: center;
 	flow-children: right;
-	border: 2px solid rgba(0, 0, 0, 0.8);
-	background-color: #0009;
+	border: 2px solid rgba(0, 0, 0, 0.95);
+	background-color: gradient( radial, 50% 10%, 0% 0%, 100% 100%, from(#26180AEE), to(#050302FF) );
 	width: 100%;
 	height: 100%;
+	box-shadow: 0px 10px 35px #000000dd;
 }
 
 .PlayerMainInfo {
@@ -559,8 +494,9 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	flow-children: down;
 	margin-left: 20px;
 	margin-right: 20px;
-	background-color: rgba(0, 0, 0, 0.5);
-	border-bottom: 1px solid gray;
+	background-color: rgba(7, 5, 2, 0.88);
+	border-bottom: 1px solid #e6c27a55;
+	border-top: 1px solid #000000cc;
 }
 
 #PlayerStats {
@@ -568,19 +504,31 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	flow-children: down;
 	margin-left: 20px;
 	margin-right: 20px;
-	background-color: rgba(0, 0, 0, 0.5);
-	border-bottom: 1px solid gray;
+	background-color: rgba(7, 5, 2, 0.88);
+	border-bottom: 1px solid #e6c27a55;
+	border-top: 1px solid #000000cc;
 }
 
 .WhatIsPanel {
 	height: 25px;
 	width: 240px;
-	background-color: rgba(0, 0, 0, 0.6);
+	background-color: gradient(linear, 0% 0%, 100% 0%,
+		from(rgba(17, 11, 4, 0.98)),
+		to(rgba(56, 38, 16, 0.98))
+	);
+	border-radius: 4px;
+	border: 1px solid #e6c27a55;
+	border-brush: gradient(linear, 0% 0%, 100% 0%, from(#FFD26F), to(#7A531F));
+	box-shadow: 0px 2px 8px #000000dd;
 }
 
 .WhatIsPanel Label {
 	align: center center;
-	color: white;
+	color: #FFE8B3;
+	font-weight: semi-bold;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	text-shadow: 0px 0px 4px #000000ee;
 }
 
 .textinfo {
@@ -630,9 +578,16 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	height: 34px;
 	margin-bottom: 10px;
 	flow-children: right;
-    background-color: gradient(linear, 0% 0%, 100% 0%, from(rgba(203, 163, 255, 0.034)), to(rgba(33, 27, 45, 0.13)));
-    border: 1px solid white;
-    border-brush: gradient(linear, 0% 0%, 100% 0%, from(rgba(92, 82, 200, 0.5)), to(rgba(33, 27, 45, 0.13)));
+	background-color: gradient(linear, 0% 0%, 100% 0%,
+		from(rgba(76, 55, 24, 0.45)),
+		to(rgba(19, 13, 6, 0.95))
+	);
+	border: 1px solid #e6c27a44;
+	border-brush: gradient(linear, 0% 0%, 100% 0%,
+		from(rgba(255, 213, 107, 0.85)),
+		to(rgba(113, 77, 32, 0.7))
+	);
+	box-shadow: 0px 2px 6px #000000aa;
 }
 
 .HeroIconPanel 
@@ -645,58 +600,63 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 {
 	width: 55px;
 	height: 30px;
-    align: center center;
+	align: center center;
+    opacity-mask: url("s2r://panorama/images/masks/hero_model_preview_mask_loadout_psd.vtex");
 }
 
 .HeroName {
 	vertical-align: center;
-	color: white;
+	color: #FFF5D0;
 	width: 18%;
 	text-align: center;
 	text-overflow: ellipsis;
-	font-size: 12px;
-	text-transform: uppercase;
 	font-size: 14px;
+	text-transform: uppercase;
 	letter-spacing: 1px;
+	text-shadow: 0px 0px 3px #000000dd;
 }
 
 .HeroGames 
 {
 	vertical-align: center;
-	color: white;
+	color: #FFF5D0;
 	width: 18%;
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 16px;
+	text-shadow: 0px 0px 3px #000000dd;
 }
 
 .HeroWinrate {
 	vertical-align: center;
-	color: white;
+	color: #FFF5D0;
 	width: 18%;
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 16px;
+	text-shadow: 0px 0px 3px #000000dd;
 }
 
 .HeroKD {
 	width: 18%;
 	vertical-align: center;
-	color: white;
+	color: #FFF5D0;
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 16px;
+	text-shadow: 0px 0px 3px #000000dd;
 }
 
 .HeroRank {
 	width: 28%;
 	height: 100%;
 	vertical-align: center;
-	color: white;
+	color: #FFF5D0;
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 14px;
 	letter-spacing: 1px;
+	text-shadow: 0px 0px 3px #000000dd;
 }
 
 .rank_progress_panel {
@@ -708,27 +668,34 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	z-index: -1;
 }
 
-.rank_progress_panel_front {
-	width: 50%;
-	height: 100%;
-	background-color: gradient(linear, 0% 0%, 100% 0%, from(#ae9249), to(#e0c59a));
-}
-
 .rank_progress_panel_back {
 	width: 100%;
 	height: 100%;
-	background-color: gray;
+	background-color: rgba(10, 8, 4, 0.9);
+}
+
+.rank_progress_panel_front {
+	width: 50%;
+	height: 100%;
+	background-color: gradient(linear, 0% 0%, 100% 0%,
+		from(#AE9249),
+		color-stop(0.5, #F1CC77),
+		to(#FFF2C1)
+	);
+	box-shadow: 0px 0px 6px rgba(255, 224, 158, 0.9);
 }
 
 .rank_progress_label {
 	font-size: 14px;
 	font-weight: bold;
-    width: 100%;
-    margin-top: 10px;
-    text-align: center;
+	width: 100%;
+	margin-top: 10px;
+	text-align: center;
 	align: center center;
-	color: white;
-	text-shadow: 0px 0px 1px 3 black;
+	color: #FFE9B8;
+	text-shadow:
+		0px 0px 2px #000000ee,
+		0px 0px 6px rgba(255, 214, 140, 0.8);
 }
 
 .BuySubscribe {
@@ -750,79 +717,77 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 .Info_HeroName 
 {
 	vertical-align: center;
-	color: rgba(255, 255, 255, 0.253);
+	color: rgba(255, 236, 193, 0.35);
 	width: 18%;
 	text-align: center;
 	text-transform: uppercase;
-	font-size: 10px;
-    font-weight: semi-bold;
+	font-size: 11px;
+	font-weight: semi-bold;
 	letter-spacing: 1px;
-    transition-property: color;
-    transition-duration: 0.2s;
+	transition-property: color;
+	transition-duration: 0.2s;
 }
 
 .Info_HeroGames 
 {
 	vertical-align: center;
-	color: rgba(255, 255, 255, 0.253);
+	color: rgba(255, 236, 193, 0.35);
 	width: 18%;
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 14px;
-    font-weight: semi-bold;
+	font-weight: semi-bold;
 	letter-spacing: 1px;
-    transition-property: color;
-    transition-duration: 0.2s;
+	transition-property: color;
+	transition-duration: 0.2s;
 }
 
 .Info_HeroWinrate 
 {
 	vertical-align: center;
-	color: rgba(255, 255, 255, 0.253);
+	color: rgba(255, 236, 193, 0.35);
 	width: 18%;
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 14px;
-    font-weight: semi-bold;
+	font-weight: semi-bold;
 	letter-spacing: 1px;
-    transition-property: color;
-    transition-duration: 0.2s;
+	transition-property: color;
+	transition-duration: 0.2s;
 }
 
 .Info_HeroKD 
 {
 	vertical-align: center;
-	color: rgba(255, 255, 255, 0.253);
+	color: rgba(255, 236, 193, 0.35);
 	width: 18%;
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 14px;
-    font-weight: semi-bold;
+	font-weight: semi-bold;
 	letter-spacing: 1px;
-    transition-property: color;
-    transition-duration: 0.2s;
+	transition-property: color;
+	transition-duration: 0.2s;
 }
 
 .Info_HeroRank 
 {
 	vertical-align: center;
-	color: rgba(255, 255, 255, 0.253);
+	color: rgba(255, 236, 193, 0.35);
 	width: 28%;
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 10px;
-    font-weight: semi-bold;
+	font-weight: semi-bold;
 	letter-spacing: 1px;
-    transition-property: color;
-    transition-duration: 0.2s;
+	transition-property: color;
+	transition-duration: 0.2s;
 }
 
 .Info_HeroGames:hover, .Info_HeroWinrate:hover, .Info_HeroKD:hover 
 {
-	color: white;
+	color: #FFE8B3;
 }
-
-
 
 #PlayerCircleWinrate {
 	width: 200px;
@@ -883,42 +848,50 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 .MenuButtonsPanel {
 	width: 200px;
 	height: 100%;
-	background-color: gradient(linear, 0% 0%, 0% 100%, from(#401056), to(black));
-	box-shadow: 0px 0px 8px black;
-	border: 1px solid #ffffff;
-	border-brush: gradient(linear, 0% 0%, 0% 100%, from(#ae00ff), to(#40035d));
+	background-color: gradient(linear, 0% 0%, 0% 100%,
+		from(#463015),
+		to(#1A1106)
+	);
+	box-shadow: 0px 0px 10px #000000dd;
+	border: 1px solid #e6c27a66;
+	border-brush: gradient(linear, 0% 0%, 0% 100%, from(#FFD26F), to(#7A531F));
 	margin-left: 20px;
 	margin-right: 20px;
+	transition-property: brightness, box-shadow;
+	transition-duration: 0.15s;
 }
 
 .MenuButtonsPanel:hover {
-	brightness: 1.3;
+	brightness: 1.2;
+	box-shadow: 0px 0px 16px #000000ee;
 }
 
 .MenuButtonsPanel:active {
-	brightness: 0.5;
+	brightness: 0.8;
 }
 
 .MenuButtonsText {
-	color: white;
+	color: #FFEED0;
 	align: center center;
 	font-size: 16px;
 	letter-spacing: 1px;
 	font-weight: semi-bold;
-	text-shadow: 1px 1px 1px 2 black;
+	text-shadow: 0px 0px 4px #000000ff;
 	margin-top: 1px;
 	font-family: Reaver;
 	text-transform: uppercase;
 }
 
 .PanelInfo {
-	color: white;
+	color: #FFE8B3;
 	font-size: 28px;
 	horizontal-align: center;
 	z-index: 10;
 	font-weight: bold;
 	margin-top: 10px;
-	text-shadow: 0px 0px 4px 1 purple;
+	text-shadow:
+		0px 0px 3px #000000ff,
+		0px 0px 10px rgba(255, 220, 150, 0.7);
 }
 
 .InfoRow {
@@ -936,13 +909,14 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 }
 
 .RatingSeasonName {
-	color: white;
+	color: #FFE8B3;
 	font-size: 28px;
 	horizontal-align: center;
 	z-index: 10;
 	font-weight: bold;
-	margin-top: 10px;
-	text-shadow: 0px 0px 4px 1 purple;
+	text-shadow:
+		0px 0px 3px #000000ff,
+		0px 0px 10px rgba(255, 220, 150, 0.7);
 	margin-top: 250px;
 }
 
@@ -960,8 +934,11 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	height: 40px;
 	flow-children: right;
 	margin: 5px;
-    margin-left: 10px;
-    background-color: gradient(linear, 0% 0%, 85% 0%, from(rgba(0, 0, 0, 0.485)), to(rgba(0, 0, 0, 0)));
+	margin-left: 0px;
+	background-color: gradient(linear, 0% 0%, 85% 0%,
+		from(rgba(0, 0, 0, 0.8)),
+		to(rgba(32, 23, 12, 0.4))
+	);
 }
 
 .MmrBlockPanelSeason 
@@ -971,33 +948,34 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	horizontal-align: center;
 	background-image: url("file://{images}/custom_game/plus/season_logo.png");
 	background-size: 100%;
+    margin-left: 5px;
 }
 
 .MmrBlockPanel 
 {
-    vertical-align: center;
-    margin-left: 10px;
+	vertical-align: center;
+	margin-left: 10px;
 }
 
 .label_block_rating 
 {
 	font-size: 24px;
 	text-align: center;
-    vertical-align: center;
-	color: white;
+	vertical-align: center;
+	color: #FFEED0;
 	font-weight: semi-bold;
-	text-shadow: 0px 0px 1px 3 black;
+	text-shadow: 0px 0px 4px #000000ee;
 }
 
 .label_block_rating_count {
 	font-size: 24px;
 	text-align: center;
 	align: center center;
-	color: white;
+	color: #FFEED0;
 	font-weight: bold;
 	text-shadow: 0px 0px 5px 8 black;
 	border-radius: 30px;
-    width: 100%;
+	width: 100%;
 	background-blur: gaussian(1);
 }
 
@@ -1019,343 +997,91 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	visibility: collapse;
 }
 
-#BirzhaPassWindowActive {
+#BirzhaPassWindowActive 
+{
 	width: 1300px;
 	height: 850px;
 	flow-children: down;
-}
-
-#BirzhaPassWindowDeactive {
-	width: 1300px;
-	height: 850px;
-	flow-children: down;
-	background-image: url("file://{images}/custom_game/plus/background.png");
-	background-size: 100%;
-}
-
-#PlusLogoScene {
-	width: 600px;
-	height: 600px;
-	transform: rotateY(180deg);
-	margin-left: 10px;
-}
-
-.HeaderBirzhaPlusBuy {
-	font-size: 24px;
-	color: white;
-	text-shadow: 1px 1px 1px 1.0 black;
-	text-align: center;
-	font-weight: bold;
-	letter-spacing: 2px;
-	text-transform: uppercase;
-	font-family: Reaver;
-	horizontal-align: center;
-	margin-top: 50px;
-	border-bottom: 1px solid #fff;
-	border-brush: gradient(radial, 50% 50%, 0% 0%, 90% 55%, from(gold), to(#fff0));
-}
-
-.HeaderBirzhaPlusBuyDescription {
-	font-size: 15px;
-	color: white;
-	text-shadow: 1px 1px 1px 1.0 black;
-	text-align: center;
-	font-weight: bold;
-	letter-spacing: 2px;
-	text-transform: uppercase;
-	horizontal-align: center;
-	margin-top: 20px;
-}
-
-.ButtonBuySubscribe {
-	width: 500px;
-	height: 100px;
-	horizontal-align: center;
-	background-color: gradient(linear, 0% 0%, 0% 100%, from(#401056), to(black));
-	box-shadow: 0px 0px 8px black;
-	border: 1px solid #ffffff;
-	border-brush: gradient(linear, 0% 0%, 0% 100%, from(#ae00ff), to(#40035d));
-	margin-top: 60px;
-	margin-bottom: 20px;
-}
-
-.ButtonBuySubscribe:hover {
-	brightness: 1.3;
-}
-
-.ButtonBuySubscribe:active {
-	brightness: 0.5;
-}
-
-.ButtonBuySubscribeHead {
-	font-size: 28px;
-	font-weight: bold;
-	color: white;
-    text-transform: uppercase;
-	horizontal-align: center;
-	margin-top: 10px;
-}
-
-.ButtonBuySubscribeHeadDescirption {
-	font-size: 15px;
-	font-weight: bold;
-	color: white;
-	horizontal-align: center;
-}
-
-.ButtonBuySubscribeCheck 
-{
-	width: 150px;
-	height: 40px;
-	horizontal-align: center;
-	background-color: gradient(linear, 0% 0%, 0% 100%, from(#401056), to(black));
-	box-shadow: 0px 0px 8px black;
-	border: 1px solid #ffffff;
-	border-brush: gradient(linear, 0% 0%, 0% 100%, from(#ae00ff), to(#40035d));
-	margin-top: 20px;
-}
-
-.ButtonBuySubscribeCheck:hover 
-{
-	brightness: 1.3;
-}
-
-.ButtonBuySubscribeCheck:active 
-{
-	brightness: 0.5;
-}
-
-
-.ButtonBuySubscribeCheckMini
-{
-    font-size: 15px;
-	font-weight: bold;
-	color: white;
-	horizontal-align: center;
-    vertical-align: center;
-}
-
-
-
-
-
-
-
-
-
-
-.BirzhaPlusInformationBody 
-{
-    margin-top: 50px;
-	width: 600px;
-	height: 530px;
-    vertical-align: center;
-    margin-left: 40px;
-    margin-right: 40px;
-    border: 1px solid #ffffff;
-	border-brush: gradient(linear, 0% 0%, 0% 100%, from(#ae00ff), to(#40035d));
-}
-
-
-.BirzhaPlusInformationBodyInfo 
-{
-	width: 100%;
-	height: 157px;
-	vertical-align: bottom;
-	background-color: rgba(0, 0, 0, 0.85);
-	flow-children: down;
-}
-
-.BirzhaPlusInformationBodyInfoName 
-{
-	horizontal-align: center;
-	color: white;
-	font-weight: semi-bold;
-	letter-spacing: 1px;
-	font-size: 24px;
-	font-family: 'Radiance';
-	text-transform: uppercase;
-	margin-top: 18px;
-}
-
-.BirzhaPlusInformationBodyInfoDescr 
-{
-	color: rgba(255, 255, 255, 0.7);
-	text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
-	font-size: 16px;
-	font-family: 'Radiance';
-	horizontal-align: center;
-	margin-top: 26px;
-    text-align: center;
-    height: 40px;
-}
-
-.BirzhaPlusInformationBodyInfoNavigation 
-{
-	flow-children: right;
-	horizontal-align: center;
-	margin-top: 7px;
-}
-
-.NavigationWidgets 
-{
-	flow-children: right;
-}
-
-.BirzhaPlusInformationBodyImage
-{
-    width: 100%;
-    height: 100%;
-}
-
-.NavigationArrowLeft 
-{
-	background-image: url("file://{images}/custom_game/arrow_left.png");
-	background-size: 100%;
-	width: 6px;
-	height: 8px;
-	vertical-align: center;
-	margin-right: 5px;
-	wash-color: gray;
-	transition-property: wash-color;
-	transition-duration: 0.1s;
-}
-
-.NavigationArrowRight 
-{
-	background-image: url("file://{images}/custom_game/arrow_right.png");
-	background-size: 100%;
-	width: 6px;
-	height: 8px;
-	vertical-align: center;
-	margin-left: 5px;
-	wash-color: gray;
-	transition-property: wash-color;
-	transition-duration: 0.1s;
-}
-
-.NavigationArrowLeft:hover 
-{
-	wash-color: white;
-}
-
-.NavigationArrowRight:hover 
-{
-	wash-color: white;
-}
-
-.NavigationWidget 
-{
-	width: 6px;
-	height: 6px;
-    border-radius: 6px;
-	background-color: gray;
-	margin: 5px;
-	vertical-align: center;
-}
-
-.NavigationWidget_Active 
-{
-	background-color: rgb(255, 0, 255);
-}
-
-.BPCostMain
-{
-    vertical-align: bottom;
-    horizontal-align: center;
-    margin-bottom: 15px;
-    flow-children: right;
-}
-
-.BPCostImage
-{
-    width: 40px;
-    height: 40px;
-    background-image: url("file://{images}/custom_game/shop/gold_icon.png");
-    background-size: 100%;
-}
-
-.BPCostLabel
-{
-	font-size: 28px;
-	font-family: 'Radiance';
-    text-shadow: 0px 0px 10px 1 rgba(255, 200, 60, 0.2);
-	color: gradient(linear, 0% 0%, 0% 100%,
-			from(#FFDB5C),
-			color-stop(0.8, #FFC01E),
-			to(#FFFFFF));
-    vertical-align: center;
-    font-weight: semi-bold;
-    margin-left: 10px;
 }
 
 .ProfileAndRatingSeasons
 {
-    width: 394px;
-    height: 700px;
-    margin-left: 25px;
-    flow-children: down;
+	width: 394px;
+	height: 700px;
+	margin-left: 25px;
+	flow-children: down;
 }
 
 .Profile
 {
-    width: 394px;
-    height: 110px;
-    background-color: gradient(linear, 0% 0%, 85% 0%, from(rgba(73, 59, 102, 1)), to(rgba(51, 37, 78, 0.295)));
+	width: 394px;
+	height: 110px;
+	background-color: gradient(linear, 0% 0%, 85% 0%,
+		from(rgba(64, 46, 20, 1)),
+		to(rgba(31, 21, 9, 0.8))
+	);
+	box-shadow: 0px 4px 16px #000000dd;
 }
 
 .NickNameAndAvatar
 {
-    flow-children: right;
-    margin-top: 15px;
-    width: 100%;
-    height: 80px;
-    margin-left: 15px;
-    background-color: gradient(linear, 0% 0%, 85% 0%, from(rgba(0, 0, 0, 0.685)), to(rgba(0, 0, 0, 0)));
+	flow-children: right;
+	margin-top: 15px;
+	width: 100%;
+	height: 80px;
+	margin-left: 15px;
+	background-color: gradient(linear, 0% 0%, 85% 0%,
+		from(rgba(0, 0, 0, 0.9)),
+		to(rgba(0, 0, 0, 0.2))
+	);
 }
 
 .AvatarProfile
 {
-    width: 64px;
-    height: 64px;
-    margin-top: 5px;
-    border: 2px solid white;
-    margin-left: 5px;
-	border-brush: gradient(radial, 0% 0%, 2% 10%, 100% 100%, from(rgba(127, 10, 150, 0.658)), to(#ffd87600));
+	width: 64px;
+	height: 64px;
+	margin-top: 5px;
+	border: 2px solid #e6c27a99;
+	margin-left: 5px;
+	border-brush: gradient(radial, 0% 0%, 2% 10%, 100% 100%,
+		from(rgba(255, 220, 150, 0.95)),
+		to(#ffd87600)
+	);
 }
 
 .PlayerNameAndRating
 {
-    flow-children: down;
-    vertical-align: center;
-    margin-bottom: 5px;
-    margin-left: 15px;
+	flow-children: down;
+	vertical-align: center;
+	margin-bottom: 5px;
+	margin-left: 15px;
 }
 
 .PlayerRatingProfile
 {
-    color: #A5B3FF;
+	color: #FFE5AA;
 	font-size: 16px;
 	font-family: 'Radiance';
+	text-shadow: 0px 0px 4px #000000ee;
 }
 
 .BirzhaPlusSubscribeInfoLine
 {
-    margin-top: 75px;
-    width: 100%;
-    height: 30px;
-    margin-left: 7px;
+	margin-top: 75px;
+	width: 100%;
+	height: 30px;
+	margin-left: 7px;
 }
 
 .BirzhaPlusSubscribeInfoLineBG
 {
-    width: 100%;
-    height: 20px;
-    vertical-align: center;
-    margin-left: 5px;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    background-color: gradient(linear, 0% 0%, 85% 0%, from(rgba(129, 99, 63, 0.7917)), to(rgba(185, 151, 109, 0)));
+	width: 100%;
+	height: 20px;
+	vertical-align: center;
+	margin-left: 5px;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	background-color: gradient(linear, 0% 0%, 85% 0%, from(rgba(129, 99, 63, 0.7917)), to(rgba(185, 151, 109, 0)));
 }
 
 .BirzhaPlusSubscribeInfoLineIcon 
@@ -1364,262 +1090,363 @@ VerticalScrollBar, HTMLVerticalScrollBar {
 	background-size: 100%;
 	width: 27px;
 	height: 27px;
-    vertical-align: center;
+	vertical-align: center;
 }
 
 .BirzhaPlusSubscribeInfoLineLabel
 {
-    text-shadow: 0px 0px 10px 1 rgb(0, 0, 0);
+	text-shadow: 0px 0px 10px 1 rgb(0, 0, 0);
 	color: gradient(linear, 0% 0%, 0% 100%,
 			from(#FFDB5C),
 			color-stop(0.4, #FFC01E),
 			to(#FFFFFF));
 	font-weight: semi-bold;
 	font-size: 12px;
-    vertical-align: center;
-    margin-left: 30px;
+	vertical-align: center;
+	margin-left: 30px;
 	font-family: 'Radiance';
 	text-transform: uppercase;
 }
 
 .RatingHistoryList
 {
-    margin-top: 20px;
-    width: 100%;
-    height: 700px;
-    flow-children: down;
+	margin-top: 20px;
+	width: 100%;
+	height: 700px;
+	flow-children: down;
 }
 
 .RatingHistoryListHeader
 {
-    width: 100%;
-    height: 30px;
-    background-color: rgba(5, 3, 13, 0.5);
+	width: 100%;
+	height: 30px;
+	background-color: rgba(12, 8, 3, 0.95);
 }
 
 .RatingHistoryListLabel
 {
-    vertical-align: center;
-    margin-left: 15px;
-    font-weight: semi-bold;
+	vertical-align: center;
+	margin-left: 15px;
+	font-weight: semi-bold;
 	font-size: 14px;
-    color: #8E8E8E;
-    font-family: 'Radiance';
+	color: #D1B57A;
+	font-family: 'Radiance';
 	text-transform: uppercase;
+	text-shadow: 0px 0px 4px #000000ee;
 }
 
 .HistoryRatingListMain
 {
-    width: 100%;
-    height: 100%;
-    flow-children: down;
-    background-color: gradient(linear, 0% 0%, 85% 0%, from(rgba(26, 22, 34, 1)), to(rgba(33, 27, 45, 0.59)));
+	width: 100%;
+	height: 100%;
+	flow-children: down;
+	background-color: gradient(linear, 0% 0%, 85% 0%,
+		from(#1B1409),
+		to(rgba(27, 19, 9, 0.7))
+	);
 }
 
 .HistoryRatingListMainInfo
 {
-    width: 100%;
-    height: 100%;
-    flow-children: down;
-    overflow: squish scroll;
+	width: 100%;
+	height: 100%;
+	flow-children: down;
+	overflow: squish scroll;
 }
 
 .TopHeroesAndHeroesList
 {
-    width: 498px;
-    height: 700px;
-    flow-children: down;
-    margin-left: 15px;
+	width: 498px;
+	height: 700px;
+	flow-children: down;
+	margin-left: 15px;
 }
 
 .TopHeroesList
 {
-    width: 100%;
-    flow-children: down;
+	width: 100%;
+	flow-children: down;
 }
 
 .TopHeroesListHeader
 {
-    width: 100%;
-    height: 30px;
-    background-color: rgba(5, 3, 13, 0.5);
+	width: 100%;
+	height: 30px;
+	background-color: rgba(12, 8, 3, 0.95);
 }
 
 .TopHeroesListHeaderLabel
 {
-    vertical-align: center;
-    margin-left: 15px;
-    font-weight: semi-bold;
+	vertical-align: center;
+	margin-left: 15px;
+	font-weight: semi-bold;
 	font-size: 14px;
-    color: #8E8E8E;
-    font-family: 'Radiance';
+	color: #D1B57A;
+	font-family: 'Radiance';
 	text-transform: uppercase;
+	text-shadow: 0px 0px 4px #000000ee;
 }
 
 .BestHeroes
 {
-    margin-top: 2px;
-    horizontal-align: center;
-    flow-children: right;
+	margin-top: 2px;
+	horizontal-align: center;
+	flow-children: right;
 }
 
 .BestHero
 {
-    width: 162px;
-    height: 162px;
-    margin-right: 2px;
-    margin-left: 2px;
-    border: 1.5px solid white;
-    border-brush: gradient(radial, 0% 0%, 20% 10%, 100% 100%, from(rgba(154, 105, 235, 1)), to(rgba(154, 105, 235, 0)));
+	width: 162px;
+	height: 162px;
+	margin-right: 2px;
+	margin-left: 2px;
+	border: 1.5px solid #e6c27a77;
+	border-brush: gradient(radial, 0% 0%, 20% 10%, 100% 100%,
+		from(rgba(240, 199, 113, 1)),
+		to(rgba(240, 199, 113, 0))
+	);
+	box-shadow: 0px 4px 10px #000000dd;
 }
 
 .TopHeroesListAll
 {
-    margin-top: 10px;
-    width: 100%;
-    height: 100%;
-    flow-children: down;
+	margin-top: 10px;
+	width: 100%;
+	height: 100%;
+	flow-children: down;
 }
 
 .GamesCountBestHero
 {
-    width: 100%;
-    height: 25px;
-    background-color: rgba(0, 0, 0, 0.95);
-    text-align: center;
-    margin-bottom: 30px;
-    vertical-align: bottom;
+	width: 100%;
+	height: 25px;
+	background-color: rgba(0, 0, 0, 0.94);
+	text-align: center;
+	margin-bottom: 30px;
+	vertical-align: bottom;
+	color: #FFEED0;
+	text-shadow: 0px 0px 4px #000000dd;
 }
+
 .WinCountBestHero
 {
-    width: 100%;
-    height: 25px;
-    background-color: rgba(0, 0, 0, 0.95);
-    text-align: center;
-    vertical-align: bottom;
+	width: 100%;
+	height: 25px;
+	background-color: rgba(0, 0, 0, 0.94);
+	text-align: center;
+	vertical-align: bottom;
+	color: #FFEED0;
+	text-shadow: 0px 0px 4px #000000dd;
 }
+
 .BestHeroImage
 {
-    width: 100%;
-    height: 100%;
-    blur: gaussian( 1.2 );
+	width: 100%;
+	height: 100%;
+	blur: gaussian( 1.2 );
 }
+
 .PlayerHeroLevelLabel
 {
-    align: center center;
-    color: white;
-    text-shadow: 0px 0px 5px 4 black;
-    width: 100%;
-    text-align: center;
-    font-weight: semi-bold;
+	align: center center;
+	color: #FFEED0;
+	text-shadow: 0px 0px 5px 4 #000000ff;
+	width: 100%;
+	text-align: center;
+	font-weight: semi-bold;
 	font-size: 18px;
-    font-family: 'Radiance';
+	font-family: 'Radiance';
 	text-transform: uppercase;
 }
+
 .TopHeroesListAllMain
 {
-    width: 100%;
-    height: 100%;
-    flow-children: down;
-    background-color: gradient(linear, 0% 0%, 100% 0%, from(rgba(26, 22, 34, 1)), to(rgba(33, 27, 45, 0.59)));
+	width: 100%;
+	height: 100%;
+	flow-children: down;
+	background-color: gradient(linear, 0% 0%, 100% 0%,
+		from(#1B1409),
+		to(rgba(27, 19, 9, 0.7))
+	);
 }
 
 .PlayerStatsAll
 {
-    width: 320px;
-    height: 700px;
-    margin-left: 15px;
-    flow-children: down;
+	width: 320px;
+	height: 700px;
+	margin-left: 15px;
+	flow-children: down;
 }
 
 .PlayerStatsAllBlocks
 {
-    width: 100%;
-    height: 100%;
-    flow-children: down;
+	width: 100%;
+	height: 100%;
+	flow-children: down;
 }
 
 .PlayerStatsAllBlock
 {
-    width: 100%;
-    height: 70px;
-    margin-bottom: 10px;
-    background-color: rgba(0, 0, 0, 0.5);
-    border: 1px solid white;
-    border-brush: gradient(radial, 0% 0%, 20% 10%, 100% 100%, from(rgba(154, 105, 235, 1)), to(rgba(154, 105, 235, 0)));
-    flow-children: right;
+	width: 100%;
+	height: 70px;
+	margin-bottom: 10px;
+	background-color: rgba(7, 5, 2, 0.9);
+	border: 1px solid #e6c27a55;
+	border-brush: gradient(radial, 0% 0%, 20% 10%, 100% 100%,
+		from(rgba(240, 199, 113, 1)),
+		to(rgba(240, 199, 113, 0))
+	);
+	flow-children: right;
+	box-shadow: 0px 3px 10px #000000dd;
 }
 
 .ImageStats
 {
-    width: 48px;
-    height: 48px;
-    margin-left: 20%;
-    vertical-align: center;
+	width: 48px;
+	height: 48px;
+    margin-left: 15px;
+	vertical-align: center;
 }
 
 .StatsInfo
 {
-    margin-left: 10px;
-    vertical-align: center;
-    flow-children: down;
+	margin-left: 10px;
+	vertical-align: center;
+	flow-children: down;
 }
 
 .StatsInfoLabelMain
 {
-    font-weight: semi-bold;
+	font-weight: semi-bold;
 	font-size: 14px;
-    font-family: 'Radiance';
+	font-family: 'Radiance';
 	text-transform: uppercase;
+	color: #FFE5AA;
+	text-shadow: 0px 0px 3px #000000ff;
 }
 
 .StatsInfoLabelCount
 {
-    font-weight: semi-bold;
+	font-weight: semi-bold;
 	font-size: 24px;
-    font-family: 'Radiance';
+	font-family: 'Radiance';
 	text-transform: uppercase;
-    text-shadow: 0px 0px 10px 1 rgba(177, 60, 255, 0.2);
+	text-shadow: 0px 0px 10px 1 rgba(255, 215, 130, 0.25);
 	color: gradient(linear, 0% 0%, 0% 100%,
-			from(#800ace),
-			color-stop(0.8, #a51eff),
-			to(#a700a7));
+			from(#FFDB5C),
+			color-stop(0.8, #FFC01E),
+			to(#FFFFFF));
 }
 
 .StatsInfoLabelMainIcon_1
 {
-    background-image: url("file://{images}/custom_game/birzhapass/player_mvp_crown_lg.png");
+	background-image: url("file://{images}/custom_game/birzhapass/player_mvp_crown_lg.png");
 	background-size: 100%; 
 }
 .StatsInfoLabelMainIcon_2
 {
-    background-image: url("file://{images}/custom_game/birzhapass/token.png");
+	background-image: url("file://{images}/custom_game/birzhapass/token.png");
 	background-size: 100%; 
 }
 .StatsInfoLabelMainIcon_3
 {
-    background-image: url("file://{images}/custom_game/smiles/BirzhaMertva.png");
+	background-image: url("file://{images}/custom_game/smiles/BirzhaMertva.png");
 	background-size: 100%; 
-    height: 38px;
+	height: 38px;
 }
 .StatsInfoLabelMainIcon_4
 {
-    background-image: url("file://{images}/custom_game/smiles/Oreh.png");
+	background-image: url("file://{images}/custom_game/smiles/Oreh.png");
 	background-size: 100%; 
 }
 .StatsInfoLabelMainIcon_5
 {
-    background-image: url("file://{images}/custom_game/smiles/CatSad.png");
+	background-image: url("file://{images}/custom_game/smiles/CatSad.png");
 	background-size: 100%; 
 }
 .StatsInfoLabelMainIcon_6
 {
-    background-image: url("file://{images}/custom_game/birzhapass/drow_arcana_target.png");
+	background-image: url("file://{images}/custom_game/birzhapass/drow_arcana_target.png");
 	background-size: 100%; 
 }
 .StatsInfoLabelMainIcon_7
 {
-    background-image: url("file://{images}/custom_game/birzhapass/skull_stroke.png");
+	background-image: url("file://{images}/custom_game/birzhapass/skull_stroke.png");
 	background-size: 100%; 
-    height: 32px;
+	height: 32px;
+}
+
+.ButtonMap {
+	width: fill-parent-flow( 1 );
+	margin-left: 5px;
+	margin-right: 5px;
+	height: 30px;
+	vertical-align: bottom;
+	background-color: gradient(linear, 0% 0%, 100% 100%,
+		from(#5A4318),
+		color-stop(0.5, #CFA24A),
+		to(#3B290D)
+	);
+	border: 1px solid #e6c27a66;
+	border-brush: gradient(linear, 0% 0%, 100% 0%, from(#FFF3B4), to(#B17D2B));
+	transition-property: height, brightness;
+	transition-duration: 0.2s;
+	margin-bottom: 5px;
+	brightness: 0.7;
+	box-shadow: 0px 2px 8px #000000aa;
+}
+
+.ButtonMap:hover {
+	brightness: 1.1;
+}
+
+.ButtonMap_2 
+{
+	width: 62px;
+	margin-left: 2px;
+	margin-right: 2px;
+	height: 25px;
+	vertical-align: center;
+	background-color: gradient(linear, 0% 0%, 100% 100%,
+		from(#5A4318),
+		color-stop(0.5, #CFA24A),
+		to(#3B290D)
+	);
+	border: 1px solid #e6c27a66;
+	border-brush: gradient(linear, 0% 0%, 100% 0%, from(#FFF3B4), to(#B17D2B));
+	transition-property: height, brightness;
+	transition-duration: 0.2s;
+	brightness: 0.75;
+	box-shadow: 0px 2px 8px #000000aa;
+}
+
+.ButtonMap_2:hover {
+	brightness: 1.1;
+}
+
+.ButtonMapSelect {
+	brightness: 1.2;
+}
+
+.ButtonMapLabel {
+	color: #FFEED0;
+	font-weight: bold;
+	align: center center;
+	text-transform: uppercase;
+	font-size: 18px;
+	text-shadow: 0px 0px 4px #000000ff;
+}
+
+.ButtonsMaps {
+	width: 100%;
+	height: 40px;
+	flow-children: right;
+}
+
+.ButtonsMapsBplus 
+{
+	width: 100%;
+	horizontal-align: center;
+	height: 30px;
+	flow-children: right;
 }

@@ -182,6 +182,7 @@ function BirzhaGameMode:InitGameMode()
     GameRules:GetGameModeEntity():SetGiveFreeTPOnDeath(false)
     GameRules:GetGameModeEntity():SetTPScrollSlotItemOverride("item_tpscroll_custom")
     GameRules:SetPostGameLayout( DOTA_POST_GAME_LAYOUT_DOUBLE_COLUMN )
+    GameRules:GetGameModeEntity():SetForcedHUDSkin( "reborn" )
 	GameRules:SetPostGameColumns({ DOTA_POST_GAME_COLUMN_LEVEL, DOTA_POST_GAME_COLUMN_KILLS, DOTA_POST_GAME_COLUMN_DEATHS, DOTA_POST_GAME_COLUMN_ASSISTS, DOTA_POST_GAME_COLUMN_DAMAGE,DOTA_POST_GAME_COLUMN_HEALING})
     SendToServerConsole("dota_max_physical_items_purchase_limit 9999")
 

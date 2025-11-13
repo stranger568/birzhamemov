@@ -182,7 +182,7 @@
 					</Panel>
 					<Panel class="CloseBattlepass" onactivate="GameUI.CustomUIConfig().OpenBirzhaPlus();"/>
 				</Panel>
-				<Panel style="flow-children:right;">
+				<Panel class="PassWindowStart">
                     <Panel class="BirzhaPlusInformationBody">
 						<Panel class="BirzhaPlusInformationBodyImage" id="BirzhaPlusInformationBodyImage" />
                         <Panel class="BirzhaPlusInformationBodyInfo">
@@ -209,12 +209,6 @@
                                 <Label class="BPCostLabel" id="BPCostSmall" />
                             </Panel>
 						</Panel>
-						<!--<Panel id="buyplus_2" class="ButtonBuySubscribe">
-							<Label class="ButtonBuySubscribeHead" text="#ButtonBuySubscribeHead2" />
-							<Panel class="BPCostMain">
-                                <Label class="BPCostLabel" id="BPCostBig" />
-                            </Panel>
-						</Panel>-->
                         <Panel id="buyplus_3" class="ButtonBuySubscribeCheck">
                             <Label class="ButtonBuySubscribeCheckMini" text="Уже купил" />
                         </Panel>

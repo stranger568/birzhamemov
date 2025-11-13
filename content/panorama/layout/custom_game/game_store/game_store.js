@@ -807,7 +807,7 @@ function BuyItemFunction(panel, table)
 //////////// ФУНКЦИЯ УСТАНОВКИ БАЛАНСА ПРИ ПЕРВОМ ОТКРЫТИИ /////////
 function SetMainCurrency() 
 {
-	if ((typeof player_table.birzha_coin !== 'undefined')) 
+	if ((player_table && typeof player_table.birzha_coin !== 'undefined')) 
     {
 		$("#Currency").text = String(player_table.birzha_coin)
 	}

@@ -1,54 +1,56 @@
-"use strict";
-
 var dotaHud = FindDotaHudElement("HUDElements");
 
-class HighFive {
-    constructor() {
-        this.RemoveOnRestart();
-        this.playerId = Players.GetLocalPlayer();
-        this.button = this.CreateButton();
-        this.background = this.button.FindChildTraverse("CooldownBackground");
-        this.label = this.button.FindChildTraverse("CooldownLabel");
-        this.HighFiveKeyButtonLabel = this.button.FindChildTraverse("HighFiveKeyButtonLabel")
-        this.heroIndex = Game.GetPlayerInfo(this.playerId).player_selected_hero_entity_index;
-        this.keybind_button = null;
-        this.Tick();
-        SetBuffs()
+function HighFiveInit()
+{
+    let high_five_custom = FindDotaHudElement("high_five_custom")
+    if (high_five_custom)
+    {
+        high_five_custom.DeleteAsync(0);
     }
-    RemoveOnRestart() {
-        dotaHud.FindChildrenWithClassTraverse("__HF_Remove__").forEach(panel => panel.DeleteAsync(0));
-    }
-    CreateButton() {
-        var container = dotaHud.FindChildrenWithClassTraverse("TertiaryAbilityContainer")[0];
-        if (!container)
-            return;
-        var high_five = $.CreatePanel("Button", $.GetContextPanel(), "HighFive", { class: "__HF_Remove__" });
+ 
+    let TertiaryAbilityContainer = dotaHud.FindChildrenWithClassTraverse("TertiaryAbilityContainer")[0];
+    if (TertiaryAbilityContainer)
+    {
+        var high_five = $.CreatePanel("Button", $.GetContextPanel(), "high_five_custom");
         high_five.BLoadLayoutSnippet("HighFiveSnippet");
-        high_five.SetPanelEvent("onactivate", () => this.HighFive());
-        high_five.SetPanelEvent("onmouseover", () => {
+        high_five.SetPanelEvent("onactivate", () => HighFive());
+        high_five.SetPanelEvent("onmouseover", () => 
+        {
             var entindex = Players.GetLocalPlayerPortraitUnit();
-            $.DispatchEvent("DOTAShowAbilityTooltipForEntityIndex", this.button, "seasonal_ti10_high_five", entindex);
+            $.DispatchEvent("DOTAShowAbilityTooltipForEntityIndex", high_five, "plus_high_five", entindex);
         });
         high_five.SetPanelEvent("onmouseout", () => $.DispatchEvent("DOTAHideAbilityTooltip", high_five));
-        high_five.SetParent(container);
-        return high_five;
+        high_five.SetParent(TertiaryAbilityContainer);
     }
-    HighFive() 
+
+    SetCustomBind()
+    SetBuffs()
+    Tick()
+}
+
+function HighFive()
+{
+    var selected_index = Players.GetLocalPlayerPortraitUnit();
+    let heroIndex = Game.GetPlayerInfo(Game.GetLocalPlayerID()).player_selected_hero_entity_index
+    if (heroIndex != selected_index)
     {
-        var selected_index = Players.GetLocalPlayerPortraitUnit();
-        if (this.heroIndex != selected_index)
-            return;
-        GameEvents.SendCustomGameEventToServer( "StartHighFive", {} );
-    } 
-    HighFiveBind() 
+        return;
+    }
+    GameEvents.SendCustomGameEventToServer( "StartHighFive", {} );
+}
+
+function Tick(fast) 
+{
+    let high_five_custom = FindDotaHudElement("high_five_custom")
+    var selected_index = Players.GetLocalPlayerPortraitUnit();
+    let heroIndex = Game.GetPlayerInfo(Game.GetLocalPlayerID()).player_selected_hero_entity_index
+    if (high_five_custom)
     {
-        GameEvents.SendCustomGameEventToServer( "StartHighFive", {} );
-    } 
-    Tick() {
-        var selected_index = Players.GetLocalPlayerPortraitUnit();
-        this.button.SetHasClass("Hidden", !Entities.IsRealHero(selected_index));
-        this.heroIndex = Game.GetPlayerInfo(this.playerId).player_selected_hero_entity_index;
-        $.Schedule(0.03, () => this.Tick());
+        high_five_custom.SetHasClass("Hidden", !Entities.IsRealHero(selected_index));
+    }
+    if (!fast)
+    {
+        $.Schedule(0.03, () => Tick());
     }
 }
 
@@ -56,11 +58,21 @@ function SetBuffs()
 {
     var buffs = FindDotaHudElement("buffs");
     if (buffs)
+    {
         buffs.style.marginBottom = "196px";
+    }
     var debuffs = FindDotaHudElement("debuffs");
     if (debuffs)
+    {
         debuffs.style.marginBottom = "196px";
+    }
 }
 
+function SetCustomBind()
+{
+    let GameTime = Game.GetGameTime()
+    Game.CreateCustomKeyBind("ALT+CAPSLOCK", "HighFive" + GameTime)
+    Game.AddCommand("HighFive" + GameTime, HighFive, "", 0)
+}
 
-var highfive = new HighFive();
+HighFiveInit()

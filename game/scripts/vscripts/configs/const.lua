@@ -106,3 +106,14 @@ _G.MOTION_MODIFIERS_CUSTOM =
     "modifier_kaneki_pull_debuff",
     "modifier_venom_tentacle",
 }
+_G.ORDERS_MODIFIERS_BIRZHA =
+{
+    "modifier_dwayne_fight_of_death",
+    "modifier_freddy_toreador",
+    "modifier_goku_merni_attacks",
+    "modifier_kakashi_graze_wave_passive",
+    "modifier_serega_pirat_bike_cast",
+    "modifier_serega_pirat_bike_charge",
+    "modifier_v1lat_eminem",
+    "modifier_python_active_no_target",
+}

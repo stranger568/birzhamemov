@@ -12,7 +12,7 @@ function BirzhaGameMode:CreateFountainThinkers()
             if find_fountain then
                 local ability_fountain = find_fountain:FindAbilityByName("ability_fountain")
                 if ability_fountain then
-                    CreateModifierThinker(find_fountain, ability_fountain, "modifier_birzha_fountain_passive", {}, trigger:GetAbsOrigin(), team, false)
+                    CreateModifierThinker(find_fountain, ability_fountain, "modifier_birzha_fountain_passive", {fountain = find_fountain:entindex()}, trigger:GetAbsOrigin(), team, false)
                 end
             end
         end

@@ -324,7 +324,6 @@ function modifier_python_active_no_target:DeclareFunctions()
     {
         MODIFIER_PROPERTY_TRANSLATE_ACTIVITY_MODIFIERS,
         MODIFIER_PROPERTY_OVERRIDE_ANIMATION,
-        MODIFIER_EVENT_ON_ORDER
     }
 end
 

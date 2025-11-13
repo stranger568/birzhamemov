@@ -679,7 +679,6 @@ end
 function modifier_v1lat_eminem:DeclareFunctions()
     local funcs = 
     {
-        MODIFIER_EVENT_ON_ORDER,
         MODIFIER_PROPERTY_DISABLE_TURNING,
         MODIFIER_PROPERTY_MOVESPEED_LIMIT,
     }

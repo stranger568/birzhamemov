@@ -172,6 +172,104 @@ local particles =
     "particles/econ/items/wraith_king/wraith_king_arcana/wk_arc_ambient.vpcf",
     "particles/econ/items/wraith_king/wraith_king_ti6_bracer/wraith_king_ti6_ambient.vpcf",
     "particles/econ/items/pudge/pudge_arcana/pudge_arcana_red_back_ambient.vpcf",
+    "particles/birzhapass/abibas_boots_new.vpcf",
+    "particles/abibas/phase_abibas_effect.vpcf",
+    "particles/birzhapass/angel_boots_effect.vpcf",
+    "particles/units/heroes/hero_omniknight/omniknight_purification.vpcf",
+    "particles/damned_active.vpcf",
+    "particles/econ/events/fall_2022/shivas/shivas_guard_fall2022_active.vpcf",
+    "particles/aotd_debuff.vpcf",
+    "particles/units/heroes/hero_bounty_hunter/bounty_hunter_windwalk.vpcf",
+    "particles/birzhapass/baldezh_donate.vpcf",
+    "particles/items_fx/black_king_bar_avatar.vpcf",
+    "particles/birzhapass/baldezh2_donate.vpcf",
+    "particles/cosmo/1.vpcf",
+    "particles/birzhapass/baldezh3_donate.vpcf",
+    "particles/baldezhvape/bkb1.1.vpcf",
+    "particles/econ/items/legion/legion_overwhelming_odds_ti7/legion_commander_odds_ti7.vpcf",
+    "particles/banner_crusader_shield_from_felix_shield.vpcf",
+    "particles/econ/events/ti9/blink_dagger_ti9_lvl2_end.vpcf",
+    "particles/econ/events/ti9/blink_dagger_ti9_start.vpcf",
+    "particles/blink/blink_dagger_start.vpcf",
+    "particles/blink/blink_dagger_end.vpcf",
+    "particles/boss/riki_smokebomb.vpcf",
+    "particles/vape/vape.vpcf",
+    "particles/econ/events/ti9/cyclone_ti9.vpcf",
+    "particles/econ/items/bristleback/bristle_spikey_spray/bristle_spikey_quill_spray.vpcf",
+    "particles/a_item_burner/item_burner.vpcf",
+    "particles/generic_gameplay/generic_manaburn.vpcf",
+    "particles/birzhapass/butter2_donate.vpcf",
+    "particles/status_fx/status_effect_dark_willow_shadow_realm.vpcf",
+    "particles/donate_buttefly_2.vpcf",
+    "particles/generic_gameplay/rune_doubledamage_owner.vpcf",
+    "particles/items_fx/aura_assault.vpcf",
+    "particles/cuirass3/item_cuirass3_effect.vpcf",
+    "particles/items_fx/blademail.vpcf",
+    "particles/status_fx/status_effect_blademail.vpcf",
+    "particles/generic_gameplay/generic_lifesteal.vpcf",
+    "particles/items2_fx/satanic_buff.vpcf",
+    "particles/econ/items/warlock/warlock_staff_glory/warlock_upheaval_hellborn_debuff.vpcf",
+    "particles/generic_gameplay/rune_haste.vpcf",
+    "particles/items_fx/ethereal_blade.vpcf",
+    "particles/status_fx/status_effect_ghost.vpcf",
+    "particles/econ/items/magnataur/shock_of_the_anvil/magnataur_shockanvil.vpcf",
+    "particles/items_fx/battlefury_cleave.vpcf",
+    "particles/econ/items/windrunner/windranger_arcana/windranger_arcana_item_force_staff_v2.vpcf",
+    "particles/econ/items/windrunner/windranger_arcana/windranger_arcana_windrun_v2.vpcf",
+    "particles/econ/items/windrunner/windranger_arcana/windranger_arcana_item_force_staff.vpcf",
+    "particles/ghoul_mask_lifesteal.vpcf",
+    "particles/ghoul_mask_effect_bp.vpcf",
+    "particles/items3_fx/octarine_core_lifesteal.vpcf",
+    "particles/units/heroes/hero_bloodseeker/bloodseeker_bloodrage.vpcf",
+    "particles/ban_hammer_aoe.vpcf",
+    "particles/ban_hammer_cast_spell.vpcf",
+    "particles/ban_hammer_phylactery.vpcf",
+    "particles/ban_hammer_phylactery_damage.vpcf",
+    "particles/ban_hammer_debuff.vpcf",
+    "particles/items2_fx/orchid.vpcf",
+    "particles/items2_fx/orchid_pop.vpcf",
+    "particles/status_fx/status_effect_frost.vpcf",
+    "particles/units/heroes/hero_ancient_apparition/ancient_apparition_chilling_touch_buff.vpcf",
+    "particles/econ/items/lion/lion_demon_drain/lion_spell_mana_drain_demon.vpcf",
+    "particles/items_fx/phylactery_target.vpcf",
+    "particles/items_fx/phylactery.vpcf",
+    "particles/econ/events/ti6/radiance_owner_ti6.vpcf",
+    "particles/radiance_2.vpcf",
+    "particles/items2_fx/refresher.vpcf",
+    "particles/roscommidas/roscom_midas.vpcf",
+    "particles/items2_fx/sange_maim.vpcf",
+    "particles/items2_fx/heavens_halberd.vpcf",
+    "particles/item/swords/yasha_buff.vpcf",
+    "particles/item/swords/yasha_proc.vpcf",
+    "particles/item/swords/azura_debuff.vpcf",
+    "particles/item/swords/azura_proc.vpcf",
+    "particles/items2_fx/manta_phase.vpcf",
+    "particles/items2_fx/teleport_start.vpcf",
+    "particles/items2_fx/teleport_end.vpcf",
+    "particles/items_fx/glyph.vpcf",
+    "particles/econ/events/ti10/teleport/teleport_start_ti10_lvl1_rewardline.vpcf",
+    "particles/econ/events/ti5/teleport_end_lvl2_ti5.vpcf",
+    "particles/items2_fx/smoke_of_deceit.vpcf",
+    "particles/items_fx/desolator_projectile.vpcf",
+    "particles/mystic_eal_blade.vpcf",
+    "particles/units/heroes/hero_nyx_assassin/nyx_assassin_spiked_carapace.vpcf",
+    "particles/nimbus_effect_bp.vpcf",
+    "particles/generic_gameplay/generic_stunned.vpcf",
+    "particles/nuts_effect.vpcf",
+    "particles/items3_fx/fish_bones_active.vpcf",
+    "particles/scp500_effect.vpcf",
+    "particles/econ/items/mega_spinner.vpcf",
+    "particles/custom/items/hammer_of_titans_cleave.vpcf",
+    "particles/stone_mask/stone_mask_lifesteal.vpcf",
+    "particles/econ/items/pugna/pugna_ti10_immortal/pugna_ti10_immortal_life_give.vpcf",
+    "particles/econ/items/pugna/pugna_ti10_immortal/pugna_ti10_immortal_life_drain.vpcf",
+    "particles/econ/events/ti7/maelstorm_ti7.vpcf",
+    "particles/generic_gameplay/rune_regen_owner.vpcf",
+    "particles/units/heroes/hero_life_stealer/life_stealer_infest_emerge_bloody.vpcf",
+    "particles/item_uebator_donate.vpcf",
+    "particles/item_uebator.vpcf",
+    "particles/shakal_proj_particle.vpcf",
+    "particles/generic_gameplay/generic_break.vpcf",
 }
 
 local sounds = 
@@ -184,7 +282,6 @@ local sounds =
     "soundevents/game_sounds_ui_imported.vsndevts",
     "soundevents/game_sounds_creeps.vsndevts",
     "soundevents/game_sounds.vsndevts",
-
     "soundevents/birzha/game_sounds_birzha.vsndevts",
     "soundevents/birzha/game_sounds_birzha_2.vsndevts",
     "soundevents/birzha/game_sounds_birzha_3.vsndevts",
@@ -371,12 +468,15 @@ return function(context)
     for _, obj in pairs(particles) do
         PrecacheResource("particle", obj, context)
     end
+
     for _, obj in pairs(sounds) do
         PrecacheResource("soundfile", obj, context)
     end
+
     for _, obj in pairs(models) do
         PrecacheResource("model", obj, context)
     end
+
     PrecacheResource( "particle_folder", "particles/birzhapass/", context)
     PrecacheResource( "particle_folder", "particles/never_arcana/", context)
     PrecacheResource( "particle_folder", "particles/econ/items/legion/legion_radiant_conqueror/", context)
@@ -390,13 +490,13 @@ return function(context)
     local heroes = LoadKeyValues("scripts/npc/dota_heroes.txt")
     for k,v in pairs(heroes) do
         PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_" .. k:gsub('npc_dota_hero_','') ..".vsndevts", context )  
-        --PrecacheResource( "soundfile", "soundevents/voscripts/game_sounds_vo_" .. k:gsub('npc_dota_hero_','') ..".vsndevts", context ) 
     end
 
     local units_list = LoadKeyValues("scripts/npc/npc_units.txt")
     for unit_name, _ in pairs(units_list) do
         PrecacheUnitByNameSync(unit_name, context, -1)
     end
+
     local units_list_custom = LoadKeyValues("scripts/npc/npc_units_custom.txt")
     for unit_name, _ in pairs(units_list_custom) do
         PrecacheUnitByNameSync(unit_name, context, -1)

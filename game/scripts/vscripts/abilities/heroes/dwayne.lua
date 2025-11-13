@@ -821,7 +821,6 @@ end
 function modifier_dwayne_fight_of_death:DeclareFunctions()
     local funcs = 
     {
-        MODIFIER_EVENT_ON_ORDER,
         MODIFIER_PROPERTY_MOVESPEED_LIMIT,
         MODIFIER_PROPERTY_TURN_RATE_PERCENTAGE,
         MODIFIER_PROPERTY_OVERRIDE_ANIMATION,

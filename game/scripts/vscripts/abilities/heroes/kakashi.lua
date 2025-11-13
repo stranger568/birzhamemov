@@ -1541,7 +1541,6 @@ function modifier_kakashi_graze_wave_passive:IsPurgable() return false end
 function modifier_kakashi_graze_wave_passive:DeclareFunctions()
     local funcs = 
     {
-        MODIFIER_EVENT_ON_ORDER,
         MODIFIER_PROPERTY_IGNORE_CAST_ANGLE,
         MODIFIER_PROPERTY_DISABLE_TURNING
     }

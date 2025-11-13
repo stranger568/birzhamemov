@@ -1,8 +1,6 @@
 function BirzhaGameMode:DamageFilter(filterTable)
     -- Проверка наличия атакующего
-    if not filterTable["entindex_attacker_const"] then
-        return true
-    end
+    if not filterTable["entindex_attacker_const"] then return true end
 
     -- Получение сущностей
     local attacker = EntIndexToHScript(filterTable["entindex_attacker_const"])
@@ -159,6 +157,14 @@ function BirzhaGameMode:ExecuteOrderFilter(filterTable)
 
     -- Проверка модификаторов, блокирующих определенные действия
     if unit then
+        -- orders filter mods
+        for _, order_modifier in pairs(_G.ORDERS_MODIFIERS_BIRZHA) do
+            local order_modifier_handle = unit:FindModifierByName(order_modifier)
+            if order_modifier_handle and order_modifier_handle.OnOrder then
+                order_modifier_handle:OnOrder({unit = unit, new_pos = Vector(filterTable.position_x, filterTable.position_y, filterTable.position_z), target = target, order_type = orderType})
+            end
+        end
+
         -- Модификатор fut_mum_eat_caster - блокирует телепортацию
         if unit:HasModifier("modifier_fut_mum_eat_caster") and 
            orderType == DOTA_UNIT_ORDER_CAST_POSITION then
@@ -179,7 +185,8 @@ function BirzhaGameMode:ExecuteOrderFilter(filterTable)
 
         -- Модификатор serega_pirat_bike_cast - блокирует несколько типов действий
         if unit:HasModifier("modifier_serega_pirat_bike_cast") then
-            local LOCKED_ORDERS = {
+            local LOCKED_ORDERS = 
+            {
                 [DOTA_UNIT_ORDER_DROP_ITEM] = true,
                 [DOTA_UNIT_ORDER_PICKUP_ITEM] = true,
                 [DOTA_UNIT_ORDER_CAST_POSITION] = true,
