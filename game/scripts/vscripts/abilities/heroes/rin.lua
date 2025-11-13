@@ -400,11 +400,11 @@ function rin_satana_explosion:GetCooldown(level)
 end
 
 function rin_satana_explosion:OnAbilityPhaseStart()
-    return self:GetCaster():StartGesture(ACT_DOTA_OVERRIDE_ABILITY_6)
+    return self:GetCaster():StartGesture(ACT_DOTA_OVERRIDE_ABILITY_4)
 end
 
 function rin_satana_explosion:OnAbilityPhaseInterrupted()
-    return self:GetCaster():RemoveGesture(ACT_DOTA_OVERRIDE_ABILITY_6)
+    return self:GetCaster():RemoveGesture(ACT_DOTA_OVERRIDE_ABILITY_4)
 end
 
 function rin_satana_explosion:OnSpellStart()
@@ -432,16 +432,16 @@ function modifier_rin_satana_explosion:OnCreated( kv )
     ParticleManager:SetParticleControl(particle_caster_ground_fx2, 0, self:GetCaster():GetAbsOrigin())
     ParticleManager:ReleaseParticleIndex(particle_caster_ground_fx2)
     self:StartIntervalThink( self.interval )
---    self:GetCaster():StartGesture(ACT_DOTA_OVERRIDE_ABILITY_6)
+--    self:GetCaster():StartGesture(ACT_DOTA_OVERRIDE_ABILITY_4)
     if self:GetCaster():HasScepter() then
-        self:GetCaster():RemoveGesture(ACT_DOTA_OVERRIDE_ABILITY_6)
+        self:GetCaster():FadeGesture(ACT_DOTA_OVERRIDE_ABILITY_4)
     end
 end
 
 function modifier_rin_satana_explosion:OnDestroy()
     if not IsServer() then return end
     self:GetCaster():StopSound("rinultimate")
-    self:GetCaster():RemoveGesture(ACT_DOTA_OVERRIDE_ABILITY_6)
+    self:GetCaster():FadeGesture(ACT_DOTA_OVERRIDE_ABILITY_4)
 end
 
 function modifier_rin_satana_explosion:DeclareFunctions()

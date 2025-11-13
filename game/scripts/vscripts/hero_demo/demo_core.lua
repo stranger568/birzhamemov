@@ -227,7 +227,7 @@ function HeroDemo:OnMaxLevelUpHero( eventSourceIndex, data )
 	if ( hHero ~= nil and hHero:IsNull() == false ) then
 		if hHero.AddExperience then
 			hHero:AddExperience( 59900, false, false )
-			for i = 0, DOTA_MAX_ABILITIES - 1 do
+			for i = 0, hHero:GetAbilityCount() - 1 do
 				local hAbility = hHero:GetAbilityByIndex( i )
 				if hAbility and not hAbility:IsAttributeBonus() then
 					while hAbility:GetLevel() < hAbility:GetMaxLevel() and hAbility:CanAbilityBeUpgraded () == ABILITY_CAN_BE_UPGRADED and not hAbility:IsHidden()  do

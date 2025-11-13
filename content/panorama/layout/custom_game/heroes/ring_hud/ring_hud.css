@@ -60,12 +60,13 @@
     visibility: collapse;
 }
 
-#ButtonRingHud_b {
+#ButtonRingHud_b 
+{
     width: 47px;
     height: 47px;
     background-image: url("s2r://panorama/images/custom_game/gamble_png.vtex");
     background-size: contain;
-    margin-bottom: 33px;
+    margin-bottom: 0px;
     vertical-align: bottom;
     z-index: 2;
     overflow: noclip;

@@ -399,8 +399,8 @@
 "Sovetsforyou" 												"Our Discord channel"
 "Sovetsforyou_discord" 										"Do you want to know how to play a certain character? Chat or find a teammate for joint games? Then all this is in our Discord channel"
 "Contributepanel" 											"Developer Support"
-"Updatename"												"Новое обновление - Еще живем 08.06.25"
-"Updatedescription"											"Добавлен Кобольд и Антон<br>Нажмите чтобы прочитать"
+"Updatename"												"Новое обновление - Еще живем 13.11.25"
+"Updatedescription"											"Обновление баланса"
 
 "ContributepanelZaim" "Free custom game support"
 "LoadingDonateZaim" "Just click on this panel, open the site and close. This way you can support the project for the release of new updates"
@@ -816,7 +816,7 @@
 "sounds_293" 		"They shot at me"
 "sounds_294"		"Smokee"
 
-"shop_notification" "New sounds have been added to the store"
+"shop_notification" "Появился сбор на обновления"
 "new_item_info" "New"
 
 "info_button_wheel_check" 	"Button to call the chat wheel"

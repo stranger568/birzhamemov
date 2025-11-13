@@ -594,7 +594,7 @@ end
 function Kurumi_shard:OnProjectileHit(target, vLocation)
     if not IsServer() then return end
     if not target then return end
-    for i = 0, 23 do
+    for i = 0, target:GetAbilityCount()-1 do
         local current_ability = target:GetAbilityByIndex(i)
         if current_ability and not current_ability:IsAttributeBonus() and current_ability:IsCooldownReady() then
             current_ability:StartCooldown( 2 )

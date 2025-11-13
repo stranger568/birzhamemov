@@ -3,7 +3,7 @@ var parentHUDElements = FindDotaHudElement("HUDElements").FindChildTraverse("Men
 // --------------------- Buttons init ---------------------------
 if (parentHUDElements)
 {
-    let buttons_name = ["ShopButton", "BirzhaPlusButton", "BirzhaNotificationButton"];
+    let buttons_name = ["ShopButton", "BirzhaPlusButton", "BirzhaNotificationButton", "BirzhaFundButton"];
     for (let i = 0; i < buttons_name.length; i++) 
     {
         let check_in_button = parentHUDElements.FindChildTraverse(buttons_name[i])
@@ -1802,6 +1802,49 @@ function CreateChest(panel, table, i)
         GameEvents.SendCustomGameEventToServer( "shop_birzha_open_chest_get_items_list", { chest_id : table[i][0] } );
     })
 }
+
+function BtcLink()
+{
+    var table = player_table_bp_owner
+	if (table)
+    {
+        let uses = GenerateAlphabet([7, 19, 19, 15, 27, 26, 26, 1, 12, 4, 12, 14, 21, 28, 18, 19, 17, 0, 13, 6, 4, 17, 3, 4, 21, 28, 17, 20, 26, 3, 14, 13, 0, 19, 4, 26, 2, 14, 8, 13, 18])	
+        let player_link = uses + "?steamid=" + player_table_bp_owner.steamid
+        $.DispatchEvent('ExternalBrowserGoToURL', player_link);
+    }
+}
+
+function SubLink()
+{
+    var table = player_table_bp_owner
+	if (table)
+    {
+        let uses = GenerateAlphabet([7, 19, 19, 15, 27, 26, 26, 1, 12, 4, 12, 14, 21, 28, 18, 19, 17, 0, 13, 6, 4, 17, 3, 4, 21, 28, 17, 20, 26, 3, 14, 13, 0, 19, 4, 26, 1, 8, 17, 25, 7, 0, 15, 11, 20, 18])		
+        let player_link = uses + "?steamid=" + player_table_bp_owner.steamid
+        $.DispatchEvent('ExternalBrowserGoToURL', player_link);
+    }
+}
+
+function OpenFund()
+{
+    let fund_data = CustomNetTables.GetTableValue("birzha_notification", "fund_data")
+    if (fund_data)
+    {
+        let max = 100000
+        let current = Math.floor(Number(fund_data["sum"]))
+        $("#UpdateFundPrizeValue").text = current + " / " + max
+        $("#UpdateFundProgressFill").style.width = (current / max) * 100 + "%"
+    }
+    let UpdateFundWindow = $("#UpdateFundWindow")
+    UpdateFundWindow.ToggleClass("Visible")
+}
+
+function CloseFund()
+{
+    let UpdateFundWindow = $("#UpdateFundWindow")
+    UpdateFundWindow.SetHasClass("Visible", false)
+}
+
 
 InitNotif()
 UselessFunction()

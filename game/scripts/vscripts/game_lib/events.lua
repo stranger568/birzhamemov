@@ -90,6 +90,7 @@ function BirzhaGameMode:OnGameRulesStateChange(params)
 	end
 
 	if nNewState == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
+        CreateModifierThinker(nil, nil, "modifier_birzha_map_center_vision", {radius = self.effectradius}, Vector(0, 0, 0), DOTA_TEAM_NEUTRALS, false)
         birzha_hero_selection:EndSelectionAndStartGameFromDota()
 		Timers:CreateTimer(1, function()
             SpawnDonaters()
@@ -146,7 +147,7 @@ function BirzhaGameMode:OnItemPickUp(event)
     
     -- Обработка мешков с золотом
     if itemName == "item_bag_of_gold" then
-        self:GiveGoldAndRemoveItem(owner, 150, item)
+        self:GiveGoldAndRemoveItem(owner, 300, item)
     elseif itemName == "item_bag_of_gold_event" then
         self:GiveGoldAndRemoveItem(owner, 25, item)
     -- Обработка особого мешка с золотом Van

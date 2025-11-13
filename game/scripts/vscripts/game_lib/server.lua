@@ -460,8 +460,14 @@ function BirzhaData:RegisterSeasonInfo()
         CustomNetTables:SetTableValue('game_state', 'birzha_top_last_season', data)          
     end
     local updateNotif = function(data)
-        CustomNetTables:SetTableValue('birzha_notification', 'birzha_notification', data)          
+        --CustomNetTables:SetTableValue('birzha_notification', 'birzha_notification', data)          
     end
+    local SetFund = function(data)
+        if data then
+            CustomNetTables:SetTableValue('birzha_notification', 'fund_data', data)
+        end      
+    end
+    RequestData('https://' .. BirzhaData.url .. '/bmemov/get_fund.php', function(data) SetFund(data) end)
     RequestData('https://' .. BirzhaData.url .. '/bmemov/get_top_15.php', function(data) BirzhaData.SetTopMmr(data) end)
     RequestData('https://' .. BirzhaData.url .. '/bmemov/get_donate_heroes.php', function(data) BirzhaData.SetDonateHeroes(data) end)
     RequestData('https://' .. BirzhaData.url .. '/bmemov/get_current_season.php', function(data) setup_gamedata(data) end) 

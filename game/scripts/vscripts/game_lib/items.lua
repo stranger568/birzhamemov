@@ -83,6 +83,17 @@ function BirzhaGameMode:SpawnItem()
         newItem.is_cooldown_take = nil
     end)
 
+    Timers:CreateTimer(1, function()
+        if drop and not drop:IsNull() then
+            for _, team in pairs(_G.GET_TEAM_LIST[GetMapName()]) do
+                local location_drop = drop:GetAbsOrigin()
+                AddFOWViewer(team, location_drop, 300, 1.1, false)
+                GameRules:ExecuteTeamPing(team, location_drop.x, location_drop.y, nil, 0)
+            end
+            return 1
+        end
+    end)
+
 	Timers:CreateTimer(0.25, function()
 		CustomGameEventManager:Send_ServerToAllClients("birzha_toast_manager_create", {text = "ItemHasSpawned", icon = "item2"} )
 		EmitGlobalSound( "chest_dropped" )
@@ -363,17 +374,63 @@ function BirzhaGameMode:SpecialItemAdd(event, duplicate, new_owner)
     end
     owner.current_tier = currentTier
 
-    -- Создаем список из 3 случайных предметов выбранного тира
+    -- Создаем список: 2 обычных предмета и 1 нейтральный
+
     local ItemsList = {}
-    for i = 1, 3 do
-        local item = PickRandomShuffle(ITEM_TIERS[currentTier], self["tier"..currentTier.."ItemBucket"])
-        if item then
-            if type(item) == "table" then
-                table.insert(ItemsList, {item[1], BONUS_TIERS[currentTier][RandomInt(1, #BONUS_TIERS[currentTier])]})
+
+    -- Разделяем предметы выбранного тира на нейтральные и обычные
+    local neutralItems = {}
+    local normalItems = {}
+
+    for _, item in ipairs(ITEM_TIERS[currentTier]) do
+        if type(item) == "table" and item[2] == "neutral" then
+            table.insert(neutralItems, item)
+        else
+            table.insert(normalItems, item)
+        end
+    end
+
+    -- Инициализируем отдельные "ведра" для нейтральных и обычных предметов
+    if self["tier"..currentTier.."NeutralBucket"] == nil then
+        self["tier"..currentTier.."NeutralBucket"] = {}
+    end
+    if self["tier"..currentTier.."NormalBucket"] == nil then
+        self["tier"..currentTier.."NormalBucket"] = {}
+    end
+
+    -- 1) ОДИН НЕЙТРАЛЬНЫЙ ПРЕДМЕТ
+    local neutralItem = nil
+    if #neutralItems > 0 then
+        neutralItem = PickRandomShuffle(neutralItems, self["tier"..currentTier.."NeutralBucket"])
+    end
+
+    -- 2) ДВА ОБЫЧНЫХ ПРЕДМЕТА
+    for i = 1, 2 do
+        local normalItem = nil
+        if #normalItems > 0 then
+            normalItem = PickRandomShuffle(normalItems, self["tier"..currentTier.."NormalBucket"])
+        end
+
+        if normalItem then
+            if type(normalItem) == "table" then
+                -- На будущее, если добавишь не-нейтральные табличные предметы
+                table.insert(ItemsList, {
+                    normalItem[1],
+                    BONUS_TIERS[currentTier][RandomInt(1, #BONUS_TIERS[currentTier])]
+                })
             else
-                table.insert(ItemsList, {item})
+                -- Обычный предмет без бонуса (как было раньше)
+                table.insert(ItemsList, { normalItem })
             end
         end
+    end
+
+    if neutralItem then
+        -- Нейтральные предметы всегда идут с бонусом
+        table.insert(ItemsList, {
+            neutralItem[1],
+            BONUS_TIERS[currentTier][RandomInt(1, #BONUS_TIERS[currentTier])]
+        })
     end
 
     BirzhaGameMode:GivePlayerItemsList(owner, ItemsList, currentTier)

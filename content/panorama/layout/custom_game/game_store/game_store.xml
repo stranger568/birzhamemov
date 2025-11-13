@@ -35,6 +35,10 @@
 			<Panel class="BirzhaNotificationButtonIcon" />
 			<Label class="BirzhaNotificationButtonLabel" text="#notification_button" />
 		</Panel>
+        <Panel id="BirzhaFundButton" onactivate="OpenFund();">
+			<Panel class="BirzhaFundButtonIcon" />
+			<Label class="BirzhaFundButtonLabel" html="true" text="Сбор<br>на обновление" />
+		</Panel>
         <Panel class="NewItemsInfo" id="NewItemsInfo">
             <Label class="NewItemsInfoLabel" text="#shop_notification" />
         </Panel>
@@ -44,6 +48,44 @@
                 <Panel class="CloseNotif" onactivate="OpenNotification();"/>
             </Panel>
             <Panel class="NotifList" id="NotifList" />
+        </Panel>
+
+        <Panel id="UpdateFundWindow" class="UpdateFundWindow">
+            <Panel class="CloseFund" onactivate="CloseFund();" />
+            <Panel class="UpdateFundHeader">
+                <Label class="UpdateFundTitle" text="Сбор на обновление" />
+                <Label class="UpdateFundSubtitle" text="Поддержи выход новых обновлений" />
+            </Panel>
+            <Panel class="UpdateFundBody">
+                <Panel class="UpdateFundPrizePanel">
+                    <Label class="UpdateFundPrizeCaption" text="ТЕКУЩИЙ сбор" />
+                    <Label class="UpdateFundPrizeValue" id="UpdateFundPrizeValue" text="0 / 100000" />
+                    <Panel class="UpdateFundProgressBar">
+                        <Panel class="UpdateFundProgressBarBack" />
+                        <Panel class="UpdateFundProgressBarFront" id="UpdateFundProgressFill" />
+                        <Panel class="UpdateFundMarker UpdateFundMarker_Mid">
+                            <Panel class="UpdateFundMarkerLine" />
+                            <Panel class="UpdateFundMarkerPoint" />
+                            <Label class="UpdateFundMarkerReward" id="UpdateFundMidReward" html="true" text="Новые герои и предметы" />
+                        </Panel>
+                        <Panel class="UpdateFundMarker UpdateFundMarker_End">
+                            <Panel class="UpdateFundMarkerLine" />
+                            <Panel class="UpdateFundMarkerPoint" />
+                            <Label class="UpdateFundMarkerReward" id="UpdateFundEndReward" text="Глобальное обновление" />
+                        </Panel>
+                    </Panel>
+                </Panel>
+                <Label class="UpdateFundDescription" text="Все собранные средства пойдут на развитие режима, поддержку сервера, новые фичи, эффекты и уникальные награды" />
+                <Panel class="UpdateFundButtons">
+                    <Panel id="UpdateFundBuySub" onactivate="SubLink();" class="UpdateFundButton UpdateFundButton_Primary">
+                        <Label class="UpdateFundButtonLabel" text="Купить подписку" />
+                    </Panel>
+
+                    <Panel id="UpdateFundBuyBTC" onactivate="BtcLink();" class="UpdateFundButton UpdateFundButton_Secondary">
+                        <Label class="UpdateFundButtonLabel" text="Купить биткоины" />
+                    </Panel>
+                </Panel>
+            </Panel>
         </Panel>
 
 		<Panel id="BirzhaPassWindow" hittest="false">
@@ -513,5 +555,5 @@
 				<Label id="donate_loading_label" text="#donate_shop_loading" />
 			</Panel>
 		</Button>
-	</Panel>
+	</Panel> 
 </root>

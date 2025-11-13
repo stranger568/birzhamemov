@@ -4726,6 +4726,9 @@
 		"ItemPermanent"					"1"
 		"ItemPurchasable"				"1"
 		"ShouldNotSuggestMainGame"		"1"
+        "AllowedInBackpack"				"1"
+        "SpeciallyAllowedInNeutralSlot"		"1"
+        
 		"AbilityValues"
 		{
             "minimum_distance"		    "70"

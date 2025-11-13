@@ -159,6 +159,15 @@ function BirzhaGameMode:ExecuteOrderFilter(filterTable)
 
     -- Проверка модификаторов, блокирующих определенные действия
     if unit then
+
+        -- mods onorder
+        for _, order_modifier in pairs(_G.ORDERS_MODIFIERS_BIRZHA) do
+            local order_modifier_handle = unit:FindModifierByName(order_modifier)
+            if order_modifier_handle and order_modifier_handle.OnOrder then
+                order_modifier_handle:OnOrder({unit = unit, new_pos = Vector(filterTable.position_x, filterTable.position_y, filterTable.position_z), target = target, order_type = orderType})
+            end
+        end
+
         -- Модификатор fut_mum_eat_caster - блокирует телепортацию
         if unit:HasModifier("modifier_fut_mum_eat_caster") and 
            orderType == DOTA_UNIT_ORDER_CAST_POSITION then

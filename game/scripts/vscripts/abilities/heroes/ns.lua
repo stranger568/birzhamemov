@@ -219,8 +219,8 @@ function modifier_ns_tricks_abilities_fast_cooldown:OnCreated()
 end
 function modifier_ns_tricks_abilities_fast_cooldown:OnIntervalThink()
     if not IsServer() then return end
-    for i = 1, 30 do
-        local hAbility = self:GetParent():GetAbilityByIndex(i - 1)
+    for i = 0, self:GetParent():GetAbilityCount()-1 do
+        local hAbility = self:GetParent():GetAbilityByIndex(i)
         if hAbility and hAbility.GetCooldownTimeRemaining then
             local flRemaining = hAbility:GetCooldownTimeRemaining()
             if 0.1 < flRemaining then
@@ -455,7 +455,7 @@ modifier_ns_tricks_ability_cooldown = class({})
 function modifier_ns_tricks_ability_cooldown:IsDebuff() return true end
 function modifier_ns_tricks_ability_cooldown:OnCreated()
     if not IsServer() then return end
-    for i=0,8 do
+    for i=0, self:GetParent():GetAbilityCount()-1 do
         local ability = self:GetParent():GetAbilityByIndex(i)
         if ability and ability:GetLevel() > 0 and ability:GetCooldown(ability:GetLevel()) > 0 then
             ability:UseResources(false, false, false, true)

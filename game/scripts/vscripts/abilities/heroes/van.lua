@@ -226,7 +226,7 @@ function van_leatherstuff:KnockBack()
 
         unit:AddNewModifier( self:GetCaster(), self, "modifier_knockback", knockbackProperties )
 
-        for i = 0, 23 do
+        for i = 0, unit:GetAbilityCount() - 1 do
             local current_ability = unit:GetAbilityByIndex(i)
             if current_ability and not current_ability:IsPassive() and not current_ability:IsAttributeBonus() and not current_ability:IsCooldownReady() then
                 current_ability:StartCooldown( current_ability:GetCooldownTimeRemaining() + self:GetSpecialValueFor("cooldown_increased") )

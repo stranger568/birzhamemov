@@ -641,19 +641,6 @@
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 .ItemNameInfoLabel {
     text-align: center;
     font-size: 22px;
@@ -669,11 +656,6 @@
     width: 100%;
     flow-children: right;
 }
-
-
-
-
-
 
 .BuyItemPanelInfo {
     width: 150px;
@@ -781,15 +763,6 @@
     font-size: 14px;
     margin-top: 5px;
 }
-
-
-
-
-
-
-
-
-
 
 #Paypal {
     width: 180px;
@@ -944,27 +917,6 @@
     background-image: url("file://{images}/custom_game/shop/buttons/chest.png");
     background-size: 100%;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #ChatWheelIconCenter
 {
@@ -4645,6 +4597,47 @@ visibility: visible;
     text-align: center;
 }
 
+
+
+
+#BirzhaFundButton
+{
+    transform: translateY(0px);
+    margin-left: 350px;
+    flow-children: down;
+    vertical-align: center;
+}
+
+#BirzhaFundButton:hover .BirzhaFundButtonIcon
+{
+    brightness: 1.4;
+}
+
+.BirzhaFundButtonIcon {
+    background-image: url("s2r://panorama/images/events/monster_hunter/pixel_portraits/poogie_01_png.vtex");
+	background-size: 100%;
+    width: 27px;
+    height:27px;
+    brightness: 1;
+    opacity: 1;
+    horizontal-align: center;
+    transition-property: brightness;
+    transition-duration: 0.25s;
+} 
+.BirzhaFundButtonLabel {
+    color: white;
+    horizontal-align: center;
+    font-size: 12px;
+    text-shadow: 0px 0px 10px 3 black;
+    text-transform: uppercase;
+    margin-top: 2px;
+    text-align: center;
+    font-family: Reaver;
+    font-weight: semi-bold;
+}
+
+
+
 #NotificationWindow 
 {
     width: 800px;
@@ -5018,4 +5011,392 @@ visibility: visible;
     margin-left: -20px;
     horizontal-align: left;
     background-image: url("file://{images}/custom_game/shop/gold_candy.png");
+}
+
+/* Корневое окно сбора */
+.UpdateFundWindow
+{
+    width: 900px;
+    height: 580px;
+    flow-children: down;
+    horizontal-align: center;
+    vertical-align: center;
+
+    background-color: gradient( radial, 50% 0%, 0% 0%, 100% 100%,
+        from(#3A2710EE),
+        color-stop(0.6, #140C05EE),
+        to(#050200FF) );
+
+    border-radius: 18px;
+    border: 1px solid #e6c27a55;
+    border-brush: gradient(linear, 0% 0%, 0% 100%, from(#FFD26F), to(#7A531F));
+    padding: 24px 32px 28px 32px;
+    opacity: 0;
+    box-shadow: hollow 0px 0px 30px #00000000;
+      transition-property: opacity, pre-transform-scale2d, box-shadow;
+	transition-duration: 0.25s;
+	pre-transform-scale2d: 0.97;
+}
+
+.UpdateFundWindow.Visible
+{
+    opacity: 1;
+    pre-transform-scale2d: 1;
+    box-shadow: 0px 0px 40px #000000ee;
+}
+
+/* Шапка */
+.UpdateFundHeader
+{
+    width: 100%;
+    flow-children: down;
+    horizontal-align: center;
+    margin-bottom: 16px;
+}
+
+.UpdateFundTitle
+{
+    horizontal-align: center;
+    font-family: Reaver;
+    font-size: 32px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: bold;
+
+    color: gradient(linear, 0% 0%, 0% 100%,
+        from(#FFF5C8),
+        color-stop(0.5, #FFDB5C),
+        to(#FFFFFF));
+
+    text-shadow:
+        0px 0px 3px #000000ff,
+        0px 0px 14px rgba(255, 220, 150, 0.85);
+}
+
+.UpdateFundSubtitle
+{
+    horizontal-align: center;
+    margin-top: 6px;
+    font-family: 'Radiance';
+    font-size: 16px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+
+    color: #F7E6C0CC;
+    text-shadow: 0px 0px 3px #000000dd;
+}
+
+/* Тело окна */
+.UpdateFundBody
+{
+    width: 100%;
+    height: fill-parent-flow( 1 );
+    flow-children: down;
+}
+
+/* Блок призового фонда */
+.UpdateFundPrizePanel
+{
+    width: 100%;
+    flow-children: down;
+    margin-top: 8px;
+    margin-bottom: 20px;
+    padding: 18px 20px;
+
+    background-color: gradient(linear, 0% 0%, 100% 0%,
+        from(#281809EE),
+        to(#151006EE));
+
+    border-radius: 10px;
+    border: 1px solid #e6c27a55;
+    border-brush: gradient(linear, 0% 0%, 100% 0%, from(#F3D38D), to(#8B6225));
+    box-shadow: 0px 6px 22px #000000dd;
+}
+
+.UpdateFundPrizeCaption
+{
+    horizontal-align: center;
+    font-family: 'Radiance';
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #E1C68F;
+    text-shadow: 0px 0px 3px #000000dd;
+}
+
+.UpdateFundPrizeValue
+{
+    horizontal-align: center;
+    margin-top: 6px;
+    margin-bottom: 10px;
+    font-family: 'Radiance';
+    font-size: 32px;
+    font-weight: bold;
+    text-transform: uppercase;
+
+    color: gradient(linear, 0% 0%, 0% 100%,
+        from(#FFF7CF),
+        color-stop(0.6, #FFD45B),
+        to(#FFFFFF));
+
+    text-shadow:
+        0px 0px 3px #000000ff,
+        0px 0px 12px rgba(255, 223, 155, 0.9);
+}
+
+/* Прогресс бар */
+.UpdateFundProgressBar
+{
+    width: 100%;
+    height: 80px;            /* стало выше, чтобы поместить засечки и текст */
+    margin-top: 10px;
+    flow-children: none;
+    vertical-align: center;
+    z-index: 5;
+}
+
+
+.UpdateFundProgressBarBack
+{
+    width: 100%;
+    height: 14px;
+    vertical-align: center;
+    border-radius: 8px;
+
+    background-color: gradient(linear, 0% 0%, 100% 0%,
+        from(#2a1c0b),
+        to(#0c0803));
+    box-shadow: 0px 0px 10px #000000dd;
+}
+
+.UpdateFundProgressBarFront
+{
+    width: 40%; /* пример, меняй кодом */
+    height: 14px;
+    vertical-align: center;
+    border-radius: 8px;
+
+    background-color: gradient(linear, 0% 0%, 100% 0%,
+        from(#AE9249),
+        color-stop(0.4, #F1CC77),
+        color-stop(0.9, #FFF2C1),
+        to(#FFFFFF));
+
+    box-shadow:
+        0px 0px 6px rgba(255, 219, 120, 0.9),
+        0px 0px 14px rgba(255, 215, 110, 0.6);
+
+    /* анимация "дыхания" подсветки */
+    animation-name: UpdateFundGlow;
+    animation-duration: 1.6s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+
+/* Panorama-ключевые кадры */
+@keyframes 'UpdateFundGlow'
+{
+    0%
+    {
+        box-shadow:
+            0px 0px 4px rgba(255, 219, 120, 0.7),
+            0px 0px 10px rgba(255, 215, 110, 0.4);
+    }
+
+    50%
+    {
+        box-shadow:
+            0px 0px 6px rgba(255, 230, 150, 1.0),
+            0px 0px 12px rgba(255, 225, 140, 0.9);
+    }
+
+    100%
+    {
+        box-shadow:
+            0px 0px 4px rgba(255, 219, 120, 0.7),
+            0px 0px 10px rgba(255, 215, 110, 0.4);
+    }
+}
+
+
+/* Маркеры целей */
+.UpdateFundMarker
+{
+    height: 80px;
+    flow-children: down;
+    z-index: 20;         /* поверх полоски */
+}
+
+.UpdateFundMarker_Mid
+{
+    horizontal-align: center;
+}
+
+.UpdateFundMarker_End
+{
+    horizontal-align: right;
+}
+
+.UpdateFundMarkerLine
+{
+    width: 2px;
+    height: 20px;
+    horizontal-align: center;
+    vertical-align: top;
+    margin-top: 30px;
+
+    background-color: gradient(linear, 0% 0%, 0% 100%,
+        from(#FFE9B3),
+        to(#8A6425));
+    box-shadow: 0px 0px 6px rgba(255, 223, 155, 0.1);
+}
+
+.UpdateFundMarkerPoint
+{
+    width: 5px;
+    height: 5px;
+    border-radius: 12px;
+    horizontal-align: center;
+    margin-top: 6px;
+
+    background-color: gradient(linear, 0% 0%, 0% 100%,
+        from(#FFF9D3),
+        to(#D9A545));
+    box-shadow:
+        0px 0px 4px #000000dd,
+        0px 0px 10px rgba(255, 226, 164, 0.95);
+}
+
+.UpdateFundMarkerReward
+{
+    horizontal-align: center;
+    vertical-align: bottom;
+    margin-bottom: 2px;
+
+    max-width: 180px;
+    text-align: center;
+    font-family: 'Radiance';
+    font-size: 13px;
+
+    color: #FCE9BF;
+    text-shadow:
+        0px 0px 2px #000000dd,
+        0px 0px 6px rgba(255, 220, 150, 0.8);
+}
+
+/* Описание снизу */
+.UpdateFundDescription
+{
+    margin-top: 18px;
+    horizontal-align: center;
+
+    font-family: 'Radiance';
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: center;
+
+    color: #F3E1B9CC;
+    text-shadow: 0px 0px 2px #000000dd;
+}
+
+/* Кнопки внизу */
+.UpdateFundButtons
+{
+    height: 200px;
+    margin-top: 0px;
+    flow-children: right;
+    horizontal-align: center;
+}
+
+.UpdateFundButton
+{
+    width: 260px;
+    height: 60px;
+    margin-left: 8px;
+    margin-right: 8px;
+    horizontal-align: center;
+    vertical-align: center;
+
+    border-radius: 12px;
+    border: 1px solid #ffffff33;
+    transition-property: brightness, pre-transform-scale2d, box-shadow;
+    transition-duration: 0.15s;
+
+    box-shadow: 0px 4px 16px #000000cc;
+}
+
+/* Золотая основная */
+.UpdateFundButton_Primary
+{
+    background-color: gradient( linear, 0% 0%, 0% 100%,
+        from(#7A5B21FF),
+        color-stop(0.4, #CFA24AFF),
+        color-stop(0.8, #F5CB84FF),
+        to(#3B290DFF) );
+    border-brush: gradient(linear,0% 0%,0% 100%,from(#FFF3B4),to(#B17D2B));
+}
+
+/* Более тёмная вторичная */
+.UpdateFundButton_Secondary
+{
+    background-color: gradient( linear, 0% 0%, 0% 100%,
+        from(#2D2110FF),
+        color-stop(0.4, #5B4524FF),
+        to(#130D06FF) );
+    border-brush: gradient(linear,0% 0%,0% 100%,from(#D0B37A),to(#60441B));
+}
+
+.UpdateFundButton:hover
+{
+    brightness: 1.15;
+    pre-transform-scale2d: 1.02;
+    box-shadow: 0px 6px 20px #000000ee;
+}
+
+.UpdateFundButton:active
+{
+    brightness: 0.9;
+    pre-transform-scale2d: 0.97;
+    box-shadow: 0px 2px 8px #000000aa;
+}
+
+.UpdateFundButtonLabel
+{
+    horizontal-align: center;
+    vertical-align: center;
+    font-family: Reaver;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0px 0px 8px 4 black;
+}
+
+.CloseFund 
+{
+	width: 25px;
+	height: 25px;
+	margin-right: 0px;
+    margin-top: 0px;
+    z-index: 10;
+	horizontal-align: right;
+	background-image: url("file://{images}/custom_game/close.png");
+	background-size: 100%;
+	background-repeat: no-repeat;
+	transition-property: pre-transform-scale2d, brightness;
+	transition-duration: 0.2s;
+	brightness: 2;
+    ignore-parent-flow: true;
+}
+
+.CloseFund:hover 
+{
+	brightness: 6;
+	pre-transform-scale2d: 1.05;
+}
+
+.CloseFund:Active 
+{
+	pre-transform-scale2d: 0.9;
 }

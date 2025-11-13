@@ -190,6 +190,7 @@ function modifier_monica_concept:OnAttack(params)
 	if self:GetParent() ~= params.attacker then return end
 	if params.target:IsWard() then return end
 	if self:GetParent():PassivesDisabled() then return end
+    if not self:GetAbility():IsFullyCastable() then return end
 
 	local chance = self:GetAbility():GetSpecialValueFor("chance") + self:GetCaster():FindTalentValue("special_bonus_birzha_monika_3")
 

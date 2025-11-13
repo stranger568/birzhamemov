@@ -792,7 +792,7 @@ function kelthuzad_death_knight:OnProjectileHit_ExtraData(caster_target, point, 
                 knight:HeroLevelUp( false )
                 knight:SetAbilityPoints(0)
             end
-            for i = 0, 24 do
+            for i = 0, target:GetAbilityCount() - 1 do
                 local ability = target:GetAbilityByIndex(i)
                 if ability then
                     local knight_ability = knight:FindAbilityByName(ability:GetAbilityName())

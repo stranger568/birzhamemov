@@ -153,7 +153,7 @@
 							<Label id="TipLabel" text="#LoadingDonateZaim"/>
 						</Panel>
 					</Panel> -->
-					<Panel id="DonateContainer_2" onactivate="ExternalBrowserGoToURL('https://bmemov.strangerdev.ru/updates/antonupdate')">
+					<Panel id="DonateContainer_2" onactivate="ExternalBrowserGoToURL('https://bmemov.strangerdev.ru/updates/update_balance_1')">
 						<Label class="NewWidgetLabel" text="#Updatename"/>
 						<Panel id="DonateInformation_2">
 							<Label id="TipLabel" html="true" text="#Updatedescription"/>
