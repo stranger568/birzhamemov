@@ -8047,7 +8047,7 @@
 "DOTA_Tooltip_ability_travoman_suicide_radius"												"РАДИУС ВЗРЫВА:"
 "DOTA_Tooltip_ability_travoman_suicide_damage"												"УРОН:"
 "DOTA_Tooltip_ability_travoman_suicide_silence_duration"									"ДЛИТЕЛЬНОСТЬ БЕЗМОЛВИЯ:"
-"DOTA_Tooltip_ability_travoman_suicide_hp_cost"												"%УРОН СЕБЕ:"
+"DOTA_Tooltip_ability_travoman_suicide_hp_cost"												"УРОН СЕБЕ:100%"
 "DOTA_Tooltip_ability_travoman_suicide_duration"											"ДЛИТЕЛЬНОСТЬ ПОЛЕТА:"
 "DOTA_Tooltip_ability_travoman_suicide_damage_per_charge"									"ДОП. УРОН ЗА ЗАРЯД:"
 "DOTA_Tooltip_ability_travoman_suicide_lore"												"Данный герой создан благодаря <font color='#fffc00'>What's your problem?</font>"
@@ -8090,16 +8090,20 @@
 "DOTA_Tooltip_modifier_travoman_focused_detonate_debuff_Description"						"Получает +%dMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% регенерации маны<br>Убийства увеличили интеллект на %dMODIFIER_PROPERTY_STATS_INTELLECT_BONUS%<br>Предмет Бонд с кнопкой перезаряжается 10 сек."
 
 "DOTA_Tooltip_ability_travoman_sausage"														"Сосиска травомана"
-"DOTA_Tooltip_ability_travoman_sausage_Description"											"При использовании Разрушитель трона создает линию из 10 случайных мин. С каждым срабатыванием, количество случайных мин увеличивается на 1"
+"DOTA_Tooltip_ability_travoman_sausage_Description"											"При использовании Разрушитель трона создает линию из 10 случайных мин. С каждым срабатыванием, количество случайных мин увеличивается на 1<br><font color='#fffc00'>Способность можно отключить при применении автокаста на способность разрушитель трона</font></br>"
 
-"DOTA_Tooltip_ability_special_bonus_birzha_travoman_1"										"-{s:value} сек. перезарядки Гнев небес"
-"DOTA_Tooltip_ability_special_bonus_birzha_travoman_4"										"Гнев с небес не наносит урон Травоману"
-"DOTA_Tooltip_ability_special_bonus_unique_travoman_3"										"+2 заряда Разрушитель трона"
-"DOTA_Tooltip_ability_special_bonus_birzha_travoman_8"										"-{s:value} сек. задержки Разрушитель трона"
-"DOTA_Tooltip_ability_special_bonus_birzha_travoman_5"										"Гнев с небес оглушает на {s:value} сек."
-"DOTA_Tooltip_ability_special_bonus_birzha_travoman_6"										"Звук из преисподней запрещает использовать предметы"
-"DOTA_Tooltip_ability_special_bonus_birzha_travoman_2"										"Дублирование мин у таблички"
-"DOTA_Tooltip_ability_special_bonus_birzha_travoman_7"										"-{s:value} сек. перезарядки Улучшение комьюнити"
+"DOTA_Tooltip_ability_special_bonus_birzha_suicide_ignore_self_damage"						"Гнев с небес не наносит урон Травоману"
+"DOTA_Tooltip_ability_special_bonus_birzha_suicide_ignore_self_damage_description"			"Можно отключить режим нажав кнопку автокаста на способность"
+"DOTA_Tooltip_ability_special_bonus_unique_extra_mines_land_mine"							"+2 заряда Разрушитель трона"
+"DOTA_Tooltip_ability_special_bonus_birzha_range_cast_suicide"								"+{s:value} к дальности применения Гнев небес"
+"DOTA_Tooltip_ability_special_bonus_birzha_suicide_stun"									"Гнев с небес оглушает на {s:value} сек."
+"DOTA_Tooltip_ability_special_bonus_birzha_trap_muted_item"									"Звук из преисподней запрещает использовать предметы"
+"DOTA_Tooltip_ability_special_bonus_birzha_nameplate_duplication_mines"						"Дублирование мин у таблички"
+"DOTA_Tooltip_ability_special_bonus_birzha_delay_before_explosion_land_mine"				"-{s:value} сек. задержки Разрушитель трона"
+"DOTA_Tooltip_ability_special_bonus_birzha_travoman_suicide_pure_damage"					"Чистый урон Гнев небес"
+"DOTA_Tooltip_ability_special_bonus_birzha_travoman_move_mines"								"+{s:value} к передвижению устройств"
+"DOTA_Tooltip_ability_special_bonus_birzha_travoman_land_mine_no_sounds"					"Разрушитель трона больше не издаёт звуков"
+"DOTA_Tooltip_ability_special_bonus_birzha_suicide_bonus_damage"							"+{s:value} к урону Гнев небес"
 
 //=================================================================================================================
 // Gyrocopter | Паровозик Томас | Train Thomas
