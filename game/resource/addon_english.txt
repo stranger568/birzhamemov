@@ -8041,7 +8041,7 @@
 "DOTA_Tooltip_ability_travoman_suicide_radius" 												"EXPLOSION RADIUS:"
 "DOTA_Tooltip_ability_travoman_suicide_damage" 												"DAMAGE:"
 "DOTA_Tooltip_ability_travoman_suicide_silence_duration" 									"SILENCE DURATION:"
-"DOTA_Tooltip_ability_travoman_suicide_hp_cost" 												"%DAMAGE TO SELF:"
+"DOTA_Tooltip_ability_travoman_suicide_hp_cost" 												"DAMAGE TO SELF:100%"
 "DOTA_Tooltip_ability_travoman_suicide_duration" 											"FLIGHT DURATION:"
 "DOTA_Tooltip_ability_travoman_suicide_damage_per_charge" 									"ADDITIONAL DAMAGE PER CHARGE D:"
 "DOTA_Tooltip_ability_travoman_suicide_lore" 												"This hero was created thanks to <font color='#fffc00'>What's your problem?</font>"
@@ -8084,16 +8084,20 @@
 "DOTA_Tooltip_modifier_travoman_focused_detonate_debuff_Description" 						"Gains +%dMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% mana regen<br>Kills increase intelligence by %dMODIFIER_PROPERTY_STATS_INTELLECT_BONUS%<br>Bond item with button recharges for 10 sec."
 
 "DOTA_Tooltip_ability_travoman_sausage" 														"Travoman's Sausage"
-"DOTA_Tooltip_ability_travoman_sausage_Description" 											"When used, Throne Destroyer creates a line of 10 random mines. With each trigger , the number of random mines increases by 1"
+"DOTA_Tooltip_ability_travoman_sausage_Description"											"When used, Throne Destroyer creates a line of 10 random mines. With each activation, the number of random mines increases by 1<br><font color='#fffc00'>The ability can be disabled by using autocast on the Throne Destroyer ability</font></br>"
 
-"DOTA_Tooltip_ability_special_bonus_birzha_travoman_1" 										"-{s:value} sec cooldown for Holy Wrath"
-"DOTA_Tooltip_ability_special_bonus_birzha_travoman_4" 										"Wrath from Heaven does not deal damage to Anu Herbs"
-"DOTA_Tooltip_ability_special_bonus_unique_travoman_3" 										"+2 charges of Throne Destroyer"
-"DOTA_Tooltip_ability_special_bonus_birzha_travoman_8" 										"-{s:value} sec delay Throne Destroyer"
-"DOTA_Tooltip_ability_special_bonus_birzha_travoman_5" 										"Wrath from the Heavens stuns for {s:value} seconds."
-"DOTA_Tooltip_ability_special_bonus_birzha_travoman_6" 										"Sound from the underworld prevents the use of items"
-"DOTA_Tooltip_ability_special_bonus_birzha_travoman_2" 										"Duplicated mines at the sign"
-"DOTA_Tooltip_ability_special_bonus_birzha_travoman_7" 										"-{s:value} sec cooldown Community improvement"
+"DOTA_Tooltip_ability_special_bonus_birzha_suicide_ignore_self_damage"						"Heaven's Wrath the Skies does not damage Travoman"
+"DOTA_Tooltip_ability_special_bonus_birzha_suicide_ignore_self_damage_description"			"Can be disabled by pressing the autocast button on the ability"
+"DOTA_Tooltip_ability_special_bonus_unique_extra_mines_land_mine"							"+2 charges to Throne Destroyer"
+"DOTA_Tooltip_ability_special_bonus_birzha_range_cast_suicide"								"+{s:value} to Heaven's Wrath the Skies cast range"
+"DOTA_Tooltip_ability_special_bonus_birzha_suicide_stun"									"Heaven's Wrath the Skies stuns for {s:value} sec."
+"DOTA_Tooltip_ability_special_bonus_birzha_trap_muted_item"									"Sound from the Underworld disables item usage"
+"DOTA_Tooltip_ability_special_bonus_birzha_nameplate_duplication_mines"						"Duplicates mines at the sign"
+"DOTA_Tooltip_ability_special_bonus_birzha_delay_before_explosion_land_mine"				"-{s:value} sec. to Throne Destroyer activation delay"
+"DOTA_Tooltip_ability_special_bonus_birzha_travoman_suicide_pure_damage"					"Heaven's Wrath the Skies deals Pure damage"
+"DOTA_Tooltip_ability_special_bonus_birzha_travoman_move_mines"								"+{s:value} movement speed to devices"
+"DOTA_Tooltip_ability_special_bonus_birzha_travoman_land_mine_no_sounds"					"Throne Destroyer no longer makes sounds"
+"DOTA_Tooltip_ability_special_bonus_birzha_suicide_bonus_damage"							"+{s:value} damage to Heaven's Wrath the Skies"
 
 //================================================================ ===================================================== ===============
 // Gyrocopter | Thomas the Tank Engine | Train Thomas
