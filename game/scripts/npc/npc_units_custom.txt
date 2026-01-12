@@ -4501,21 +4501,18 @@
 		"VisionDaytimeRange"		"1000"		// Range of vision during day light.
 		"VisionNighttimeRange"		"1000"		// Range of vision at night time.
 	}
-
-
-
 	"travoman_land_mine"
 	{
 		// General
 		//----------------------------------------------------------------
 		"Model"						"models/heroes/techies/fx_techiesfx_mine.vmdl"	// Model.
-		"BaseClass"					"npc_dota_techies_mines"
+		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"0"			// Name of sound set.
 		"Level"						"1"
 		"ModelScale"				"1.0"
 		"SelectionGroup"			"Techies_LandMines"
 		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"			// Hull type used for navigation/locomotion.
- 		"wearable"				"8644"
+ 		"wearable"					"8644"
 
 		// Abilities
 		//----------------------------------------------------------------
@@ -4552,8 +4549,8 @@
 
 		// Movement
 		//----------------------------------------------------------------
-		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"  // has to be move ground because something about neutral camps
-		"MovementSpeed"				"0"		// Speed.
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"  
+		"MovementSpeed"				"0"			// Speed.
 		"MovementTurnRate"			"0.4"		// Turning rate.
 
 		// Status
@@ -4579,7 +4576,7 @@
 		// General
 		//----------------------------------------------------------------
 		"Model"						"models/items/techies/bigshot/fx_bigshot_stasis.vmdl"	// Model.
-		"BaseClass"					"npc_dota_techies_mines"
+		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"0"			// Name of sound set.
 		"Level"						"1"
 		"ModelScale"				"1.0"
@@ -4623,7 +4620,7 @@
 		// Movement
 		//----------------------------------------------------------------
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND" // has to be move ground because something about neutral camps
-		"MovementSpeed"				"0"		// Speed.
+		"MovementSpeed"				"0"	// Speed.
 		"MovementTurnRate"			"0"		// Turning rate.
 
 		// Status
@@ -4649,7 +4646,7 @@
 		// General
 		//----------------------------------------------------------------
 		"Model"						"models/items/techies/bigshot/bigshot_remotebomb.vmdl"	// Model.
-		"BaseClass"					"npc_dota_techies_mines"
+		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"0"			// Name of sound set.
 		"Level"						"1"
 		"ModelScale"				"1.2"
