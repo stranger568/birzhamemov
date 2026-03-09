@@ -400,7 +400,7 @@ function BirzhaData:RegisterPlayer(player_id)
         BirzhaData.PARTY_NUMBER_LIST[player_id] = BirzhaData.PARTY_LIST[sPartyID]
     end
 
-    RequestData('https://' ..BirzhaData.url .. '/bmemov/get_player_info.php?steamid=' .. PlayerResource:GetSteamAccountID(player_id), function(data) BirzhaData:RegisterPlayerSiteInfo(data, player_id) end)
+    RequestData('https://' ..BirzhaData.url .. '/bmemov/get_player_info?steamid=' .. PlayerResource:GetSteamAccountID(player_id), function(data) BirzhaData:RegisterPlayerSiteInfo(data, player_id) end)
 end
 
 function BirzhaData:RegisterPlayerSiteInfo(data, player_id)
@@ -419,7 +419,7 @@ function BirzhaData:RegisterPlayerSiteInfo(data, player_id)
         heroes_matches = data.heroes_matches or {},
         pet_id = tonumber(data.pet_default) or 0,
         border_id = tonumber(data.default_border) or 0,
-        effect_id = tonumber(data.default_effect) or 0,
+        effect_id = tonumber(data.effect_id) or 0,
         tip_id = tonumber(data.default_tip) or 0,
         five_id = tonumber(data.default_five) or 0,
         vip = tonumber(data.vip) or 0,
@@ -435,8 +435,8 @@ function BirzhaData:RegisterPlayerSiteInfo(data, player_id)
         connected = true,
     }
     if IsInToolsMode() then
-        player_info.server_data.birzha_coin = 999999
-        player_info.server_data.bp_days = 0
+        --player_info.server_data.birzha_coin = 999999
+        --player_info.server_data.bp_days = 0
     end
     CustomNetTables:SetTableValue("tip_cooldown", tostring(player_id), {cooldown = 0})
     CustomNetTables:SetTableValue("game_state", "party_map", BirzhaData.PARTY_NUMBER_LIST)
@@ -459,24 +459,20 @@ function BirzhaData:RegisterSeasonInfo()
     local setup_last_season = function(data)
         CustomNetTables:SetTableValue('game_state', 'birzha_top_last_season', data)          
     end
-    local updateNotif = function(data)
-        --CustomNetTables:SetTableValue('birzha_notification', 'birzha_notification', data)          
-    end
     local SetFund = function(data)
         if data then
             CustomNetTables:SetTableValue('birzha_notification', 'fund_data', data)
         end      
     end
-    RequestData('https://' .. BirzhaData.url .. '/bmemov/get_fund.php', function(data) SetFund(data) end)
-    RequestData('https://' .. BirzhaData.url .. '/bmemov/get_top_15.php', function(data) BirzhaData.SetTopMmr(data) end)
-    RequestData('https://' .. BirzhaData.url .. '/bmemov/get_donate_heroes.php', function(data) BirzhaData.SetDonateHeroes(data) end)
-    RequestData('https://' .. BirzhaData.url .. '/bmemov/get_current_season.php', function(data) setup_gamedata(data) end) 
-    RequestData('https://' .. BirzhaData.url .. '/bmemov/get_top_last_season.php', function(data) setup_last_season(data) end)
-    RequestData('https://' .. BirzhaData.url .. '/bmemov/static_info/birzha_notification.json', function(data) updateNotif(data) end) 
+    RequestData('https://' .. BirzhaData.url .. '/bmemov/get_fund', function(data) SetFund(data) end)
+    RequestData('https://' .. BirzhaData.url .. '/bmemov/get_top_15', function(data) BirzhaData.SetTopMmr(data) end)
+    RequestData('https://' .. BirzhaData.url .. '/bmemov/get_donate_heroes', function(data) BirzhaData.SetDonateHeroes(data) end)
+    RequestData('https://' .. BirzhaData.url .. '/bmemov/get_current_season', function(data) setup_gamedata(data) end) 
+    RequestData('https://' .. BirzhaData.url .. '/bmemov/get_top_last_season', function(data) setup_last_season(data) end)
 end
 
 function BirzhaData:GetHeroesWinrate()
-    RequestData('https://' .. BirzhaData.url .. '/bmemov/get_heroes_stats.php', function(data)
+    RequestData('https://' .. BirzhaData.url .. '/bmemov/get_heroes_stats', function(data)
         CustomNetTables:SetTableValue('game_state', 'heroes_winrate', data)
     end)
 end
@@ -544,21 +540,7 @@ function BirzhaData.PostData()
         }
         table.insert(post_data.players, player_table)
     end
-    SendData('https://' ..BirzhaData.url .. '/bmemov/bm_post_player_data.php', post_data, nil)
-end
-
-function BirzhaData.PostDataItemTest()
-    if not BirzhaData.SERVER_CONNECTION then return end
-    local post_data = {players = {}}
-    for id, player_info in pairs(BirzhaData.PLAYERS_GLOBAL_INFORMATION) do
-        local player_table = 
-        {
-            steamid = player_info.steamid,
-            player_items_active = player_info.server_data.player_items_active,
-        }
-        table.insert(post_data.players, player_table)
-    end
-    SendData('https://' ..BirzhaData.url .. '/bmemov/bm_post_player_data_test.php', post_data, nil)
+    SendData('https://' ..BirzhaData.url .. '/bmemov/bm_post_player_data', post_data, nil)
 end
 
 function BirzhaData.PostHeroesInfo()
@@ -592,7 +574,7 @@ function BirzhaData.PostHeroesInfo()
             table.insert(post_heroes_data.heroes, hero_table)
         end
     end
-    SendData('https://' ..BirzhaData.url .. '/bmemov/post_hero_data.php', post_heroes_data, nil)
+    SendData('https://' ..BirzhaData.url .. '/bmemov/post_hero_data', post_heroes_data, nil)
 end
 
 function BirzhaData.PostHeroPlayerHeroInfo()
@@ -627,7 +609,7 @@ function BirzhaData.PostHeroPlayerHeroInfo()
             table.insert(post_player_info.heroes, hero_table)
         end
     end
-    SendData('https://' ..BirzhaData.url .. '/bmemov/post_player_info.php', post_player_info, nil)
+    SendData('https://' ..BirzhaData.url .. '/bmemov/post_player_info', post_player_info, nil)
 end
 
 function BirzhaData:SendDataPlayerReports()
@@ -646,7 +628,7 @@ function BirzhaData:SendDataPlayerReports()
             table.insert(post_data.players, player_table)
         end
     end
-    SendData('https://' ..BirzhaData.url .. '/bmemov/player_reports_upload.php', post_data, nil)
+    SendData('https://' ..BirzhaData.url .. '/bmemov/player_reports_upload', post_data, nil)
     return post_data
 end
 
@@ -1143,7 +1125,7 @@ function BirzhaData:birzha_update_check_birzha_plus(params)
                 end
             end
         end
-        RequestData('https://' ..BirzhaData.url .. '/bmemov/get_player_info.php?steamid=' .. PlayerResource:GetSteamAccountID(params.PlayerID), function(data) birzha_plus_updated(data, player_id) end)
+        RequestData('https://' ..BirzhaData.url .. '/bmemov/get_player_info?steamid=' .. PlayerResource:GetSteamAccountID(params.PlayerID), function(data) birzha_plus_updated(data, player_id) end)
     end
 end
 

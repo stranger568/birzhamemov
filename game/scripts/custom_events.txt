@@ -15,4 +15,3 @@
 		"timer_reminder"			"short"
 	}
 }
-

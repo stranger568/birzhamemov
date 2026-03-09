@@ -109,5 +109,7 @@ end
 
 function Commands:save(player, arg)
     if not IsAdmin(player) then return end
-    BMConnections:OnDisconnect({PlayerID = player:GetPlayerID()})
+    BirzhaData.PostData()
+    BirzhaData.PostHeroesInfo()
+    BirzhaData.PostHeroPlayerHeroInfo()
 end

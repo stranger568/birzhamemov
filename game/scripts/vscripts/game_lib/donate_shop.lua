@@ -54,7 +54,7 @@ function donate_shop:BuyItem(data)
 		},
 	}
 
-	SendData('https://' ..BirzhaData.url .. '/bmemov/bm_post_buy_item.php', post_data, nil)
+	SendData('https://' ..BirzhaData.url .. '/bmemov/bm_post_buy_item', post_data, nil)
 end
 
 function donate_shop:AddPetFromStart(id)
@@ -546,7 +546,7 @@ function donate_shop:shop_birzha_open_chest_get_reward(data)
                 }
             },
         }
-        SendData('https://' ..BirzhaData.url .. '/bmemov/player_add_bitcoin.php', post_data, nil)
+        SendData('https://' ..BirzhaData.url .. '/bmemov/player_add_bitcoin', post_data, nil)
     else
         table.insert(BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.player_items, drop_id.item_id)
         CustomGameEventManager:Send_ServerToPlayer(player, "shop_set_currency", {bitcoin = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.birzha_coin, candies_count = BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data.candies_count} )
@@ -562,7 +562,7 @@ function donate_shop:shop_birzha_open_chest_get_reward(data)
                 }
             },
         }
-        SendData('https://' ..BirzhaData.url .. '/bmemov/bm_post_buy_item.php', post_data, nil)
+        SendData('https://' ..BirzhaData.url .. '/bmemov/bm_post_buy_item', post_data, nil)
     end
     CustomNetTables:SetTableValue('birzhainfo', tostring(id), BirzhaData.PLAYERS_GLOBAL_INFORMATION[id].server_data)
     CustomGameEventManager:Send_ServerToPlayer(player, 'shop_birzha_open_chest_active', {drop_id = drop_id.item_id, items = items_in_chest} ) 
