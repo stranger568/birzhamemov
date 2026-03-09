@@ -599,6 +599,8 @@ end
 
 function modifier_Papich_in_solo:GetModifierProcAttack_Feedback( params )
     if not IsServer() then return end
+    if params.target:IsWard() then return end
+    if params.attacker:PassivesDisabled() then return end
     local pass = false
     if self.attack_record and params.record == self.attack_record then
         pass = true
