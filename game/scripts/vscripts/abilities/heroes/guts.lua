@@ -27,14 +27,14 @@ function Guts_Hand:GetCooldown(level)
 end
 
 function Guts_Hand:GetCastRange(location, target)
-	if self:GetCaster():HasShard() then
+	if self:GetCaster():HasScepter() then
 		return self:GetSpecialValueFor("shard_cast_range")	 + self:GetCaster():FindTalentValue("special_bonus_birzha_guts_2")
 	end
     return self.BaseClass.GetCastRange(self, location, target) + self:GetCaster():FindTalentValue("special_bonus_birzha_guts_2")
 end
 
 function Guts_Hand:GetBehavior()
-	if self:GetCaster():HasShard() then
+	if self:GetCaster():HasScepter() then
 		return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET + DOTA_ABILITY_BEHAVIOR_AOE + DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING + DOTA_ABILITY_BEHAVIOR_AUTOCAST	
 	end
 	return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET + DOTA_ABILITY_BEHAVIOR_AOE + DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING
@@ -89,7 +89,7 @@ function Guts_Hand:OnProjectileHit_ExtraData(target, location, ExtraData)
 	if target == nil then return end
 
 	if not target:IsMagicImmune() and not target:TriggerSpellAbsorb(self) then
-		if self:GetCaster():HasShard() and not self:GetAutoCastState() then
+		if self:GetCaster():HasScepter() and not self:GetAutoCastState() then
 			local point = SplineVectors( self:GetCaster():GetOrigin(), target:GetOrigin(), 1 )
 			point.z = 0
 			self:GetCaster():SetOrigin( point )
@@ -151,7 +151,7 @@ function guts_cannon:OnSpellStart()
 
 	ProjectileManager:CreateTrackingProjectile(info)
 
-	if self:GetCaster():HasScepter() then
+	if self:GetCaster():HasShard() then
 		local enemies = FindUnitsInRadius(caster:GetTeamNumber(), caster:GetAbsOrigin(), nil, self:GetCastRange(self:GetCaster():GetAbsOrigin(),self:GetCaster()), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_UNITS_EVERYWHERE, false )
 		local secondary_knives_thrown = 0
 		for _, enemy in pairs(enemies) do

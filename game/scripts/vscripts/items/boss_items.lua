@@ -91,7 +91,7 @@ function modifier_item_bristback_ship:OnAttackLanded( params )
         local heroes = FindUnitsInRadius(self:GetCaster():GetTeamNumber(),self:GetParent():GetAbsOrigin(), nil, self:GetAbility():GetSpecialValueFor("radius_ship"), DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE,FIND_ANY_ORDER, false)
         for _,hero in pairs(heroes) do
             hero:EmitSound("Hero_Bristleback.QuillSpray.Target")
-            ApplyDamage({victim = hero, attacker = self:GetCaster(), damage = self:GetAbility():GetSpecialValueFor("damage_ship"), ability = self:GetAbility(), damage_type = DAMAGE_TYPE_MAGICAL})
+            ApplyDamage({victim = hero, attacker = self:GetCaster(), damage = self:GetAbility():GetSpecialValueFor("damage_ship"), ability = self:GetAbility(), damage_type = DAMAGE_TYPE_MAGICAL, damage_flags = DOTA_DAMAGE_FLAG_REFLECTION})
         end
     end
 end

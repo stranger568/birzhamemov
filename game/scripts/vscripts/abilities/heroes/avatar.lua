@@ -2099,8 +2099,8 @@ end
 function aang_avatar:Explode( lines )
     local particle_line = "particles/avatar/aang_avatar_boom.vpcf"
     local line_length = 1000
-    local width_start = 125
-    local width_end = 350
+    local width_start = self:GetSpecialValueFor("width_start")
+    local width_end = self:GetSpecialValueFor("width_end")
     local line_speed = 700
     local initial_angle_deg = self:GetCaster():GetAnglesAsVector().y
     local delta_angle = 360/lines
@@ -2139,8 +2139,8 @@ function aang_avatar:Implode( lines, modifier )
     modifier.identifier = modifierAT
     local particle_line = "particles/avatar/aang_avatar_boom.vpcf"
     local line_length = 100
-    local width_start = 125
-    local width_end = 350
+    local width_start = self:GetSpecialValueFor("width_start")
+    local width_end = self:GetSpecialValueFor("width_end")
     local line_speed = 700
     local initial_angle_deg = self:GetCaster():GetAnglesAsVector().y
     local delta_angle = 360/lines

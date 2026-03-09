@@ -103,11 +103,21 @@ function modifier_rune_haste_birzha:IsPurgable()
 end
 
 function modifier_rune_haste_birzha:DeclareFunctions()
-	return {MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,MODIFIER_PROPERTY_MOVESPEED_BASE_OVERRIDE }
+	return {
+			MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+			MODIFIER_PROPERTY_MOVESPEED_BASE_OVERRIDE,
+			MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE_MIN,
+	}
 end
 
 function modifier_rune_haste_birzha:GetModifierMoveSpeedOverride()
-	return 550
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("movespeed_active")
+end
+
+function modifier_rune_haste_birzha:GetModifierMoveSpeed_AbsoluteMin()
+	if not self:GetAbility() then return end
+	return self:GetAbility():GetSpecialValueFor("min_movespeed")
 end
 
 function modifier_rune_haste_birzha:GetModifierAttackSpeedBonus_Constant()

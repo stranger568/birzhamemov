@@ -78,6 +78,7 @@ end
 
 function modifier_item_birzha_blink_boots:OnTakeDamage( params )
     if not IsServer() then return end
+    if params.damage <= 0 then return end
     if self:GetAbility() then
         if params.unit == self:GetParent() and params.attacker ~= self:GetParent() then
             self:GetAbility():StartCooldown(1)

@@ -576,9 +576,6 @@ function modifier_sonic_gottagofast:DeclareFunctions()
 end
 
 function modifier_sonic_gottagofast:GetModifierMoveSpeedBonus_Constant()
-    if self:GetCaster():HasTalent("special_bonus_birzha_sonic_4") then
-        return self:GetAbility():GetSpecialValueFor("bonus_movespeed") * self:GetCaster():FindTalentValue("special_bonus_birzha_sonic_4")
-    end
     return self:GetAbility():GetSpecialValueFor("bonus_movespeed")
 end
 
@@ -696,7 +693,8 @@ function modifier_sonic_steal_speed:DeclareFunctions()
     {
         MODIFIER_EVENT_ON_TAKEDAMAGE,
         MODIFIER_EVENT_ON_HERO_KILLED,
-        MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT,
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, 
     }
 
     return decFuncs
@@ -730,6 +728,9 @@ end
 
 function modifier_sonic_steal_speed:GetModifierMoveSpeedBonus_Constant()
     return self:GetStackCount() * self.movespeed
+end
+function modifier_sonic_steal_speed:GetModifierMoveSpeedBonus_Percentage()
+    return self:GetStackCount() * self:GetCaster():FindTalentValue("special_bonus_birzha_sonic_4")
 end
 
 function modifier_sonic_steal_speed:OnHeroKilled( params )
@@ -1044,11 +1045,11 @@ function modifier_sonic_fast_sound:DeclareFunctions()
 end
 
 function modifier_sonic_fast_sound:GetModifierMoveSpeed_Max( params )
-    return self:GetAbility():GetSpecialValueFor("movespeed_limit") + (self:GetCaster():FindTalentValue("special_bonus_birzha_sonic_7") * self:GetCaster():GetModifierStackCount("modifier_sonic_steal_speed", self:GetCaster()))
+    return self:GetAbility():GetSpecialValueFor("movespeed_limit") + (self:GetCaster():FindTalentValue("special_bonus_birzha_sonic_7") * self:GetCaster():GetAgility())
 end
 
 function modifier_sonic_fast_sound:GetModifierMoveSpeed_Limit( params )
-    return self:GetAbility():GetSpecialValueFor("movespeed_limit") + (self:GetCaster():FindTalentValue("special_bonus_birzha_sonic_7") * self:GetCaster():GetModifierStackCount("modifier_sonic_steal_speed", self:GetCaster()))
+    return self:GetAbility():GetSpecialValueFor("movespeed_limit") + (self:GetCaster():FindTalentValue("special_bonus_birzha_sonic_7") * self:GetCaster():GetAgility())
 end
 
 function modifier_sonic_fast_sound:GetModifierIgnoreMovespeedLimit( params )

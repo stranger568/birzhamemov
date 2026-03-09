@@ -83,12 +83,17 @@ function BirzhaGameMode:SpawnItem()
         newItem.is_cooldown_take = nil
     end)
 
+    local ping_counter = 0
+
     Timers:CreateTimer(1, function()
         if drop and not drop:IsNull() then
+            ping_counter = ping_counter + 1
             for _, team in pairs(_G.GET_TEAM_LIST[GetMapName()]) do
                 local location_drop = drop:GetAbsOrigin()
                 AddFOWViewer(team, location_drop, 300, 1.1, false)
-                GameRules:ExecuteTeamPing(team, location_drop.x, location_drop.y, nil, 0)
+                if ping_counter <= 5 then
+                    GameRules:ExecuteTeamPing(team, location_drop.x, location_drop.y, nil, 0)
+                end
             end
             return 1
         end
@@ -149,13 +154,13 @@ function BirzhaGameMode:SpecialItemAdd(event, duplicate, new_owner)
     local ITEM_TIERS = 
     {
         [1] = { -- Базовые предметы (ранняя игра)
-            {"item_sisters_shroud", "neutral"},
             {"item_occult_bracelet", "neutral"},
             {"item_kobold_cup", "neutral"},
             {"item_chipped_vest", "neutral"},
             {"item_polliwog_charm", "neutral"},
+            {"item_dormant_curio", "neutral"},
+            {"item_duelist_gloves", "neutral"},
             {"item_spark_of_courage", "neutral"},
-            {"item_rippers_lash", "neutral"},
 
             "item_staff_of_wizardry",
             "item_ogre_axe",
@@ -175,7 +180,7 @@ function BirzhaGameMode:SpecialItemAdd(event, duplicate, new_owner)
 			{"item_mana_draught", "neutral"},
 			{"item_poor_mans_shield", "neutral"},
 			{"item_searing_signet", "neutral"},
-			{"item_misericorde", "neutral"},
+			{"item_defiant_shell", "neutral"},
 			{"item_pogo_stick", "neutral"},
 
             "item_echo_sabre",
@@ -200,7 +205,7 @@ function BirzhaGameMode:SpecialItemAdd(event, duplicate, new_owner)
         },
         [3] = { -- Сильные предметы (поздний мидгейм)
             {"item_serrated_shiv", "neutral"},
-			{"item_gale_guard", "neutral"},
+			{"item_unrelenting_eye", "neutral"},
 			{"item_gunpowder_gauntlets", "neutral"},
 			{"item_whisper_of_the_dread", "neutral"},
 			{"item_jidi_pollen_bag", "neutral"},
@@ -222,12 +227,12 @@ function BirzhaGameMode:SpecialItemAdd(event, duplicate, new_owner)
             "item_revenants_brooch",
         },
         [4] = { -- Очень сильные предметы (лейтгейм)
-            {"item_pyrrhic_cloak", "neutral"},
-			{"item_crippling_crossbow", "neutral"},
-			{"item_magnifying_monocle", "neutral"},
-			{"item_dezun_bloodrite", "neutral"},
+            {"item_crippling_crossbow", "neutral"},
 			{"item_giant_maul", "neutral"},
-			{"item_outworld_staff", "neutral"},
+			{"item_rattlecage", "neutral"},
+			{"item_idol_of_screeauk", "neutral"},
+			{"item_flayers_bota", "neutral"},
+			{"item_metamorphic_mandible", "neutral"},
 
             "item_wind_waker",
             "item_medkit",
@@ -246,8 +251,8 @@ function BirzhaGameMode:SpecialItemAdd(event, duplicate, new_owner)
 			{"item_demonicon", "neutral"},
 			{"item_minotaur_horn", "neutral"},
 			{"item_spider_legs", "neutral"},
-			{"item_helm_of_the_undying", "neutral"},
-			{"item_unrelenting_eye", "neutral"},
+			{"item_riftshadow_prism", "neutral"},
+			{"item_dezun_bloodrite", "neutral"},
 			{"item_divine_regalia", "neutral"},
 
             "item_magic_daedalus",
@@ -255,7 +260,6 @@ function BirzhaGameMode:SpecialItemAdd(event, duplicate, new_owner)
             "item_butter2",
             "item_refresher_custom",
             "item_sheepstick",
-            "item_butterfly",
             "item_abyssal_blade",
             "item_bloodstone",
             "item_satanic",
@@ -281,7 +285,6 @@ function BirzhaGameMode:SpecialItemAdd(event, duplicate, new_owner)
 			{"item_enhancement_quickened", 2},
 			{"item_enhancement_keen_eyed", 1},
 			{"item_enhancement_vast", 1},
-			{"item_enhancement_greedy", 1},
 			{"item_enhancement_vampiric", 1},
         },
         [3] = { -- Сильные предметы (поздний мидгейм)
@@ -292,7 +295,6 @@ function BirzhaGameMode:SpecialItemAdd(event, duplicate, new_owner)
 			{"item_enhancement_quickened", 3},
 			{"item_enhancement_keen_eyed", 2},
 			{"item_enhancement_vast", 2},
-			{"item_enhancement_greedy", 2},
 			{"item_enhancement_vampiric", 2},
         },
         [4] = { -- Очень сильные предметы (лейтгейм)
@@ -307,9 +309,9 @@ function BirzhaGameMode:SpecialItemAdd(event, duplicate, new_owner)
 			{"item_enhancement_crude", 1},
         },
         [5] = { -- Легендарные предметы (ультра лейтгейм/финальная стадия)
-            {"item_enhancement_timeless", 1},
-            {"item_enhancement_titanic", 1},
-            {"item_enhancement_crude", 1},
+            {"item_enhancement_timeless", 2},
+            {"item_enhancement_titanic", 2},
+            {"item_enhancement_crude", 2},
             {"item_enhancement_feverish", 1},
             {"item_enhancement_fleetfooted", 1},
             {"item_enhancement_audacious", 1},

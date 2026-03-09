@@ -232,7 +232,7 @@ function modifier_red_GetMoreMass:DeclareFunctions()
         MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
         MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
         MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
-        MODIFIER_PROPERTY_HEALTH_BONUS,
+        MODIFIER_PROPERTY_STATS_STRENGTH_BONUS ,
     }
 
     return decFuncs
@@ -253,9 +253,9 @@ function modifier_red_GetMoreMass:GetModifierPhysicalArmorBonus()
     return self:GetAbility():GetSpecialValueFor('armor') + self:GetCaster():FindTalentValue("special_bonus_birzha_red21_5")
 end
 
-function modifier_red_GetMoreMass:GetModifierHealthBonus()
+function modifier_red_GetMoreMass:GetModifierBonusStats_Strength()
     if self:GetParent():PassivesDisabled() then return end
-    return self:GetAbility():GetSpecialValueFor('health')
+    return self:GetAbility():GetSpecialValueFor('strenght')
 end
 
 LinkLuaModifier( "modifier_red_HUSTLE", "abilities/heroes/red21.lua", LUA_MODIFIER_MOTION_NONE )

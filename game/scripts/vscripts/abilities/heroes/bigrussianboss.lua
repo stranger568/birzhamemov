@@ -399,10 +399,12 @@ function modifier_steb_passive:OnAttackLanded( params )
     params.attacker:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_steb_buff", { duration = duration } )
     params.target:AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_steb_debuff", { duration = duration * (1 - params.target:GetStatusResistance()) } )
     if self:GetCaster():HasTalent("special_bonus_birzha_brb_8") then
+        if not params.target:IsMagicImmune() then
         self:IncrementStackCount()
         if self:GetStackCount() >= self:GetCaster():FindTalentValue("special_bonus_birzha_brb_8") then
-            params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_silence", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_brb_8", "value2") * (1 - params.target:GetStatusResistance())})
-            self:SetStackCount(0)
+                params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_silence", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_brb_8", "value2") * (1 - params.target:GetStatusResistance())})
+                self:SetStackCount(0)
+            end
         end
     end
 end

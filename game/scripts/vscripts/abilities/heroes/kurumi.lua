@@ -428,7 +428,6 @@ end
 function modifier_kurumi_zafkiel:OnTakeDamage(params)
     if not IsServer() then return end
     local unit = params.unit
-    print(params.damage)
     if unit == self:GetParent() then
         self.damage_taken = self.damage_taken + params.damage
     end
@@ -436,7 +435,7 @@ end
 
 function modifier_kurumi_zafkiel:OnDestroy()
     if not IsServer() then return end
-    print(self.damage_taken)
+
     self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", { duration = 0.1 })
 
     if self:GetParent():GetHealth() - self.damage_taken <= 0 then 

@@ -14,6 +14,8 @@ function item_baldezh:OnSpellStart()
     self:GetCaster():Purge( false, true, false, true, false)
 	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_item_baldezh_active", {duration = duration})
     self:GetCaster():RemoveModifierByName("modifier_item_ethereal_blade_ethereal_custom")
+    self:GetCaster():RemoveModifierByName("modifier_item_ethereal_blade_ethereal")
+    self:GetCaster():RemoveModifierByName("modifier_ghost_state")
 end
 
 item_superbaldezh = class({})
@@ -29,6 +31,8 @@ function item_superbaldezh:OnSpellStart()
     self:GetCaster():Purge( false, true, false, true, false)
 	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_item_baldezh_active", {duration = duration})
     self:GetCaster():RemoveModifierByName("modifier_item_ethereal_blade_ethereal_custom")
+    self:GetCaster():RemoveModifierByName("modifier_item_ethereal_blade_ethereal")
+    self:GetCaster():RemoveModifierByName("modifier_ghost_state")
 end
 
 item_cosmobaldezh = class({})
@@ -44,6 +48,8 @@ function item_cosmobaldezh:OnSpellStart()
     self:GetCaster():Purge( false, true, false, true, false)
 	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_item_baldezh_active", {duration = duration})
     self:GetCaster():RemoveModifierByName("modifier_item_ethereal_blade_ethereal_custom")
+    self:GetCaster():RemoveModifierByName("modifier_item_ethereal_blade_ethereal")
+    self:GetCaster():RemoveModifierByName("modifier_ghost_state")
 end
 
 modifier_item_baldezh = class({})
@@ -80,6 +86,7 @@ end
 
 function modifier_item_baldezh_active:OnCreated()
 	if not IsServer() then return end
+    self:StartIntervalThink(FrameTime())
 
     local caster = self:GetCaster()
 
@@ -115,6 +122,13 @@ function modifier_item_baldezh_active:OnCreated()
 	local particle = ParticleManager:CreateParticle(self.effect, PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
     ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
     self:AddParticle(particle, false, false, -1, false, false)
+end
+
+function modifier_item_baldezh_active:OnIntervalThink()
+    if not IsServer() then return end
+    if self:GetParent():FindModifierByName("modifier_ghost_state") then
+        self:GetCaster():RemoveModifierByName("modifier_ghost_state")
+    end
 end
 
 function modifier_item_baldezh_active:GetTexture()

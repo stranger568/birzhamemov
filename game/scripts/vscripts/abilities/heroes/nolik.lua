@@ -36,6 +36,7 @@ function modifier_nolik_mostdel:IsPurgable() return false end
 function modifier_nolik_mostdel:OnCreated()
 	self.damage = self:GetAbility():GetSpecialValueFor("damage_reduced") + self:GetCaster():FindTalentValue("special_bonus_birzha_nolik_1")
 	self.bonus_mana = self:GetAbility():GetSpecialValueFor("bonus_mana")
+	self.spell_amp = self:GetAbility():GetSpecialValueFor("spell_amp")
 	self.energy_lose = self:GetAbility():GetSpecialValueFor("energy_lose")
 end
 
@@ -44,6 +45,7 @@ function modifier_nolik_mostdel:DeclareFunctions()
 	{
 		MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE,
 		MODIFIER_PROPERTY_MANA_BONUS,
+		MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE,
 	}
 	return funcs
 end
@@ -54,6 +56,10 @@ end
 
 function modifier_nolik_mostdel:GetModifierManaBonus()
 	return self.bonus_mana
+end
+
+function modifier_nolik_mostdel:GetModifierSpellAmplify_Percentage()
+	return self.spell_amp 
 end
 
 function modifier_nolik_mostdel:GetEffectName()
@@ -353,11 +359,13 @@ function nolik_energizer:OnSpellStart()
     local modifier_nolik_energy = self:GetCaster():FindModifierByName("modifier_nolik_energy")
     if modifier_nolik_energy then
     	local damage = (modifier_nolik_energy:GetStackCount() * energy_cost)
+		if self:GetCaster():HasTalent("special_bonus_birzha_nolik_6") then
+			damage = (modifier_nolik_energy:GetStackCount() * (energy_cost * self:GetCaster():FindTalentValue("special_bonus_birzha_nolik_6")))
+		end
+		print(damage)
     	ApplyDamage({victim = target, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self})
     	modifier_nolik_energy:EnergyRemove(modifier_nolik_energy:GetStackCount() * energy_cost)
-    	if self:GetCaster():HasTalent("special_bonus_birzha_nolik_6") then
-	    	self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_nolik_energizer", { starting_unit_entindex = target:entindex(), damage = damage })
-	    end
+	    self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_nolik_energizer", { starting_unit_entindex = target:entindex(), damage = damage })
     end
 
     if self:GetCaster():HasModifier("modifier_nolik_mostdel") then
@@ -375,10 +383,10 @@ function modifier_nolik_energizer:GetAttributes()	return MODIFIER_ATTRIBUTE_MULT
 
 function modifier_nolik_energizer:OnCreated(keys)
 	if not IsServer() or not self:GetAbility() then return end
-	self.radius				= 400
+	self.radius				= self:GetAbility():GetSpecialValueFor("radius")
 	self.jump_delay			= 0.25
 	self.jump_count			= 5
-	self.damage = keys.damage * 0.75
+	self.damage = keys.damage * (1 - self:GetAbility():GetSpecialValueFor("jump_damage") / 100)
 	self.starting_unit_entindex	= keys.starting_unit_entindex
 	self.units_affected			= {}
 	if self.starting_unit_entindex and EntIndexToHScript(self.starting_unit_entindex) then
@@ -400,7 +408,7 @@ function modifier_nolik_energizer:OnIntervalThink()
 	if (self.unit_counter >= self.jump_count and self.jump_count > 0) or not self.zapped then
 		for _, enemy in pairs(FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self.current_unit:GetAbsOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE + DOTA_UNIT_TARGET_FLAG_NO_INVIS, FIND_CLOSEST, false)) do
 			if not self.units_affected[enemy] and enemy ~= self.current_unit and enemy ~= self.previous_unit then
-				
+
 				local direction = (self.current_unit:GetOrigin()-enemy:GetOrigin()):Normalized()
 				local effect_cast = ParticleManager:CreateParticle( "particles/nolik/energy_kill.vpcf", PATTACH_ABSORIGIN, self.current_unit )
 				ParticleManager:SetParticleControlEnt(  effect_cast, 0, self.current_unit, PATTACH_POINT_FOLLOW, "attach_hitloc", Vector(0,0,0), true )
@@ -426,7 +434,7 @@ function modifier_nolik_energizer:OnIntervalThink()
 				
 				self.zapped								= true
 				ApplyDamage({victim = enemy, attacker = self:GetCaster(), damage = self.damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self:GetAbility()})
-				self.damage = self.damage * 0.75
+				self.damage = self.damage * (1 - self:GetAbility():GetSpecialValueFor("jump_damage") / 100)
 			end
 		end
 		

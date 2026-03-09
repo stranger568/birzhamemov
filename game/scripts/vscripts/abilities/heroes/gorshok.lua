@@ -677,9 +677,14 @@ function modifier_gorshok_broodmother_spin_web:DeclareFunctions()
     local decFuncs = {
         MODIFIER_PROPERTY_INVISIBILITY_LEVEL,
         MODIFIER_EVENT_ON_ATTACK_LANDED,
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
         MODIFIER_EVENT_ON_ABILITY_EXECUTED,
     }
     return decFuncs
+end
+
+function modifier_gorshok_broodmother_spin_web:GetModifierMoveSpeedBonus_Percentage()
+    return self:GetAbility():GetSpecialValueFor("movespeed")  
 end
 
 function modifier_gorshok_broodmother_spin_web:OnAttackLanded( keys )

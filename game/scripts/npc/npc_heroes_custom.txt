@@ -920,14 +920,14 @@
 		"Facets"        ""
         "role_hero"		"Pick_Tank"
 
-		"Ability10"		"special_bonus_birzha_face_8"
+		"Ability10"		"special_bonus_birzha_face_7"
 		"Ability11"		"special_bonus_birzha_face_2"
-		"Ability13"		"special_bonus_birzha_face_6"
-		"Ability12"		"special_bonus_birzha_face_3"
-		"Ability14"		"special_bonus_birzha_face_5"
-		"Ability15"		"special_bonus_birzha_face_4"
-		"Ability16"		"special_bonus_birzha_face_1"
-		"Ability17" 	        "special_bonus_birzha_face_7"
+		"Ability13"		"special_bonus_birzha_face_4"
+		"Ability12"		"special_bonus_birzha_face_5"
+		"Ability14"		"special_bonus_birzha_face_1"
+		"Ability15"		"special_bonus_birzha_face_3"
+		"Ability16"		"special_bonus_birzha_face_8"
+		"Ability17" 	"special_bonus_birzha_face_6"
 	}
 
 	//=================================================================================================================
@@ -1682,7 +1682,7 @@
         "Model"                         "models/update_heroes/akame/akame.vmdl"
 		"IsAnime" "1"
 
-		"MovementSpeed"				"300"
+		"MovementSpeed"				"325"
 		"Ability1"					"Akame_slice"
 		"Ability2"					"Akame_Obraz"
 		"Ability3"					"akame_attack_series"
@@ -1800,9 +1800,9 @@
 		"Model"							"models/update_heroes/scp173/scp173.vmdl"
 		"ModelScale"					"1.2"
 
-		"Ability1"			"Scp_FastKill"
+		"Ability1"			"Scp_Feces"
 		"Ability2"			"Scp173_Screamer"
-		"Ability3"			"Scp_DamageAura"
+		"Ability3"			"Scp_FastKill"
 		"Ability4"			"scp173_statue_aghanim"
 		"Ability5"			"scp173_statue_aghanim_teleport"
 		"Ability6"			"Scp_fast_movement"
@@ -2177,7 +2177,7 @@
 		"AttributePrimary"			"DOTA_ATTRIBUTE_AGILITY"
 
 		"AttributeBaseStrength"		"20"
-		"AttributeStrengthGain"		"2.500000"
+		"AttributeStrengthGain"		"2.100000"
 
 		"AttributeBaseAgility"		"28"
 		"AttributeAgilityGain"		"3.300000"
@@ -2476,7 +2476,7 @@
 		"AttributeStrengthGain"		"1.7000"
 		"AttributeBaseIntelligence"		"16"
 		"AttributeIntelligenceGain"		"1.600000"
-		"AttributeBaseAgility"		"34"
+		"AttributeBaseAgility"		"29"
 		"AttributeAgilityGain"		"3.000000"
 
 		"StatusHealthRegen"		"0.5"
@@ -3080,12 +3080,13 @@
 		"Ability6"				"Bogdan_Ultimate"
 		"Ability25"		""
 
-		"AttributeBaseStrength"		"25"
-		"AttributeStrengthGain"		"2.000000"
-		"AttributeBaseIntelligence"		"20"
+		"AttributeBaseStrength"		"21"
+		"AttributeStrengthGain"		"1.600000"
+		"AttributeBaseIntelligence"		"16"
 		"AttributeIntelligenceGain"		"1.500000"
-		"AttributeBaseAgility"		"33"
-		"AttributeAgilityGain"		"3.200000"
+		"AttributeBaseAgility"		"27"
+		"AttributeAgilityGain"		"2.100000"
+		"ArmorPhysical"					"-1"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_AGILITY"
 		"difficulty"	"Pick_medium"
 		"Facets"        ""
@@ -4252,10 +4253,10 @@
         "role_hero"						"Pick_Carry"
 
 		"Ability12"		"special_bonus_birzha_ns_1"
-		"Ability13"		"special_bonus_birzha_ns_2"
-		"Ability14"		"special_bonus_birzha_ns_3"
+		"Ability13"		"special_bonus_birzha_ns_5"
+		"Ability14"		"special_bonus_birzha_ns_2"
 		"Ability15"		"special_bonus_birzha_ns_4"
-		"Ability16"		"special_bonus_birzha_ns_5"
+		"Ability16"		"special_bonus_birzha_ns_3"
 		"Ability17"		"special_bonus_birzha_ns_6"
 		"Ability18"		"special_bonus_birzha_ns_7"
 		"Ability19"		"special_bonus_birzha_ns_8"

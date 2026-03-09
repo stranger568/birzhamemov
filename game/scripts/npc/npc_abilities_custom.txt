@@ -476,7 +476,7 @@
 				"LinkedSpecialBonus"	"special_bonus_birzha_bukin_4"
 			}
 			"movespeed"						"2 4 6 8"
-			"lifesteal"						"1.5 2 2.5 3"
+			"lifesteal"						"3 4 5 6"
 			"model_size_per_stack"			"0.05"
 			"hurt_health_ceiling"			"0.87"
 			"hurt_health_floor"				"0.03"
@@ -611,7 +611,11 @@
 
 		"AbilityValues"
 		{
-			"radius"				"500"
+			"radius"
+			{
+				"value"				"500"
+				"affected_by_aoe_increase"	"1"
+			}				
 			"duration"				"5 6 7 8"
 			"linger_duration"		"0.5"
 			"move_slow"				"-25"
@@ -660,7 +664,11 @@
 			{
 				"value"					"200 300 400 500"
 			}
-			"radius"					"175"
+			"radius"
+			{
+				"value"				"175"
+				"affected_by_aoe_increase"	"1"
+			}		
 		}
 	}
 
@@ -708,7 +716,7 @@
 			"duration"				"8"
 			"reward_damage"		
 			{
-				"value"					"25 50 75"
+				"value"					"15 30 45"
 				"LinkedSpecialBonus"	"special_bonus_birzha_brb_1"
 			}
 			"damage_reduction"		"-50"
@@ -755,7 +763,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"20"			
+			"value"						"10"			
 		}
 	}
 	"special_bonus_birzha_brb_2"
@@ -832,7 +840,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"3"		
+			"value"						"5"		
 			"value2"					"1"			
 		}
 	}
@@ -919,7 +927,11 @@
 			"max_stack"					"5"
 			"damage"					"0.8 1.2 1.6 2"
 			"scepter_duration"			"5"
-			"scepter_radius"			"400"
+			"scepter_radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -1291,7 +1303,11 @@
 				"value"					"40 60 80 100"
 				"LinkedSpecialBonus"	"special_bonus_birzha_tereshin_2"
 			}
-			"radius"			 "500"
+			"radius"
+			{
+				"value"				"500"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"critical_talent"		"200"
 			"talent_cooldown"		"15"
 		}
@@ -1331,7 +1347,11 @@
 				"LinkedSpecialBonus"	"special_bonus_birzha_tereshin_1"
 			}
 			"duration_scepter_fissure"		"5"
-			"radius_scepter_fissure"		"225"
+			"radius_scepter_fissure"
+			{
+				"value"				"225"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration_scepter_stun"			"0.1"
 			"talent_armor"					"-5"
 		}
@@ -1483,7 +1503,7 @@
 			}
 			"base_damage"		
 			{
-				"value"						"30 50 70 90"
+				"value"						"30 40 50 60"
 				"LinkedSpecialBonus"		"special_bonus_birzha_saitama_1"
 			}
 			"damage_from_attack"			"50 60 70 80"
@@ -1507,7 +1527,11 @@
 		{
 			"damage"					"125 225 325 425"
 			"stun_duration"				"0.75 1 1.25 1.5"
-			"radius"					"150"
+			"radius"
+			{
+				"value"				"150"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"limeter_radius"			"5"
 		}
 	}
@@ -1603,7 +1627,11 @@
 				"LinkedSpecialBonus"		"special_bonus_birzha_saitama_8"
 			}
 			"knockback_duration"		"0.5"
-			"range"						"1000"
+			"range"
+			{
+				"value"				"1000"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"limeter_range"				"25"
 		}
 	}
@@ -1768,10 +1796,11 @@
 			"move_speed_pct"			"3 4.5 6 7.5"
 			"attack_speed"				"7 14 21 28"
 			"armor"						"1.25 2 2.75 3.5"
-			"radius"		
+			"radius"
 			{
-				"value"					"900"
-			}
+				"value"				"900"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"talent_cooldown"			"25"
 			"talent_duration"			"5"
 		}
@@ -2241,6 +2270,7 @@
 			"radius"		
 			{
 				"value"					"500 600 700"
+				"affected_by_aoe_increase"	"1"
 				"LinkedSpecialBonus"	"special_bonus_birzha_edwardbill_5"
 			}
 		}
@@ -2392,7 +2422,11 @@
 				"value"					"125 175 225 275"
 				"LinkedSpecialBonus"	"special_bonus_birzha_ayano_1"
 			}
-			"radius_scepter"			"200"
+			"radius_scepter"
+			{
+				"value"				"200"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -2474,7 +2508,11 @@
 		"AbilityValues"
 		{
 			"speed"						"1400"
-			"radius"					"200"
+			"radius"
+			{
+				"value"				"200"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -2816,6 +2854,7 @@
 			"radius"		
 			{
 				"value"						"500"
+				"affected_by_aoe_increase"	"1"
 				"special_bonus_shard"		"200"
 			}
 			"duration"					"10"
@@ -3044,7 +3083,7 @@
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
 		"MaxLevel"						"1"
 		"IsGrantedByScepter"			"1"
-		"HasScepterUpgrade"			 "1"
+		"HasScepterUpgrade"			 	"1"
 	}
 
 	"mum_fart"
@@ -3064,7 +3103,11 @@
 
 		"AbilityValues"
 		{
-			"radius"			 		"500"
+			"radius"
+			{
+				"value"				"500"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"movespeed"					"-30"
 			"damage"			 		"40 70 100 130"
 			"duration"		   		"5"
@@ -3191,7 +3234,7 @@
 	}
 
 	//=================================================================================================================
-	// Жирная Мамка
+	// Venom Веном
 	//=================================================================================================================
 
 	"venom_hunger"
@@ -3241,7 +3284,11 @@
 		{
 			"active_buff_duration"		"3"
 			"active_buff_multiple"		"2"
-			"aura_radius"				"300"
+			"aura_radius"
+			{
+				"value"				"300"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"aura_damage"				"30 40 50 60" 
 			"aura_damage_interval"		
 			{
@@ -3273,7 +3320,11 @@
 		"AbilityValues"
 		{
 			"damage_to_active"			"200 250 300 350"
-			"radius"					"600" 
+			"radius"
+			{
+				"value"					"600"
+				"affected_by_aoe_increase"	"1"
+			}	 
 			"steal_str_kill"			"1" 
 			"duration"					"10" 
 			"max_stacks"				"5"  
@@ -3501,7 +3552,11 @@
 				"value"					"2 4 6 8"
 				"LinkedSpecialBonus"	"special_bonus_birzha_azazin_7"
 			}
-			"radius"					"400"			
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}				
 		}
 	}
 
@@ -3524,6 +3579,7 @@
 			"radius"		
 			{
 				"value"					"400"
+				"affected_by_aoe_increase"	"1"
 				"LinkedSpecialBonus"	"special_bonus_birzha_azazin_4"
 			}
 			"bonus_armor"		
@@ -3561,14 +3617,22 @@
 		"AbilityValues"
 		{
 			"spinner_damage_tick"		"0.2"
-			"spinner_radius"			"300"
+			"spinner_radius"
+			{
+				"value"				"300"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration"		
 			{
 				"value"					"15"
 				"LinkedSpecialBonus"	"special_bonus_birzha_azazin_8"
 			}
 			"damage"					"100 140 180"
-			"scepter_radius"			"500"
+			"scepter_radius"
+			{
+				"value"				"500"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -3707,7 +3771,11 @@
 
 		"AbilityValues"
 		{
-			"radius"					"800"
+			"radius"
+			{
+				"value"					"800"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"damage"					"0.6 1.2 1.8 2.4"
 			"attack_destroy"		
 			{
@@ -3774,7 +3842,11 @@
 			"movespeed_slow"		"-25"
 			"range"					"100"
 			"strength_multiplier"	"1.25 1.5 1.75"
-			"radius"				"300"
+			"radius"
+			{
+				"value"				"300"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -3934,7 +4006,11 @@
 				"value"					"-5 -10 -15 -20"
 			}
 			"spell_resist"			  "25"
-			"radius" 			"1000"
+			"radius"
+			{
+				"value"				"1000"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -4004,7 +4080,11 @@
 			"bonus_attack_speed" 	"4 6 8"
 			"bonus_armor" 			"0.25 0.45 0.65"
 			"duration" 				"15"
-			"radius" 				"500"
+			"radius"
+			{
+				"value"				"500"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"damage" 				"50 75 100"
 			"chance"		
 			{
@@ -4129,6 +4209,7 @@
 			}
 			"energy_lose"				"20 30 40 50"
 			"bonus_mana"				"400 450 500 550"
+			"spell_amp"					"5 10 15 20"
 		}
 	}
 
@@ -4163,6 +4244,7 @@
 			"radius"		
 			{
 				"value"					"350"
+				"affected_by_aoe_increase"	"1"
 				"LinkedSpecialBonus"	"special_bonus_birzha_nolik_3"
 			}
 			"movement_speed_slow"	"-20 -30 -40 -50"
@@ -4194,6 +4276,12 @@
 			"damage_energy"				"1"
 			"energy_cost"				"55"
 			"energy_min"				"10"
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
+			"jump_damage"				"25"
 		}
 	}
 
@@ -4238,7 +4326,11 @@
 			"attack_speed_bonus"		"25"
 			"movespeed_bonus"			"25"
 			"bonus_attack_range"		"250"
-			"cleave_radius"				"150"
+			"cleave_radius"
+			{
+				"value"				"150"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"damage_increase"			"50"
 			"duration"		
 			{
@@ -4312,7 +4404,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"0"			
+			"value"					"1.5"			
 		}
 	}
 	"special_bonus_birzha_nolik_7"
@@ -4400,7 +4492,11 @@
 				"LinkedSpecialBonus"	"special_bonus_birzha_pyramide_3"
 			}
 			"movespeed"					"-40"
-			"radius"					"800"
+			"radius"
+			{
+				"value"				"800"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -4421,6 +4517,7 @@
 			"radius"		
 			{
 				"value"					"500"
+				"affected_by_aoe_increase"	"1"
 				"LinkedSpecialBonus"	"special_bonus_birzha_pyramide_4"
 			}
 		}
@@ -4657,7 +4754,11 @@
 		
 		"AbilityValues"
 		{
-			"radius"				"325 350 375 400"
+			"radius"
+			{
+				"value"				"325 350 375 400"
+				"affected_by_aoe_increase"	"1"
+			}					
 			"bonus_speed"			"-50"
 			"duration"				"1.75 2 2.25 2.5"
 		}		
@@ -4854,6 +4955,7 @@
 			"radius"		
 			{
 				"value"					"100"
+				"affected_by_aoe_increase"	"1"
 			}
 		}
 	}
@@ -4994,7 +5096,7 @@
 				"value"					"50 75 100 125"
 				"LinkedSpecialBonus"	"special_bonus_birzha_face_2"
 			}
- 			"duration"		  "5"
+ 			"duration"		  "4"
 			"stun_duration"	 "0.5"
 			"str_multi"	 	"0.25 0.3 0.35 0.4"
 			"bonus_speed"		"300"
@@ -5026,6 +5128,7 @@
 			"radius"		
 			{
 				"value"					"400"
+				"affected_by_aoe_increase"	"1"
 			}
 			"lifesteal"			"100"
 		}
@@ -5050,7 +5153,11 @@
 		{
 			"tombstone_health"		"4 5 6 7"
 			"duration"				"15"
-			"radius"				"1200"
+			"radius"
+			{
+				"value"				"1200"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"damage"		
 			{
 				"value"					"36"
@@ -5108,10 +5215,14 @@
 				"value"					"30 40 50"
 				"LinkedSpecialBonus"	"special_bonus_birzha_face_4"
 			}
-			"radius"		  	"700"
+			"radius"
+			{
+				"value"				"700"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration"		
 			{
-				"value"					"10"
+				"value"					"6 7 8"
 			}
 			"str_multi"		 "0.04 0.06 0.08"
 			"scepter_radius"	"1200"
@@ -5127,7 +5238,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"-4"			
+			"value"					"-5"			
 		}
 	}
 
@@ -5139,7 +5250,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"80"			
+			"value"					"60"			
 		}
 	}
 	"special_bonus_birzha_face_3"
@@ -5150,7 +5261,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"50"			
+			"value"					"100"			
 		}
 	}
 	"special_bonus_birzha_face_4"
@@ -5161,7 +5272,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"10"			
+			"value"					"20"			
 		}
 	}
 	"special_bonus_birzha_face_5"
@@ -5183,7 +5294,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"80"			
+			"value"					"55"			
 		}
 	}
 	"special_bonus_birzha_face_7"
@@ -5266,7 +5377,11 @@
 			"avalanche_damage"		"75 150 225 300"
 			"stun_duration"			"0.2"
 			"duration"				"1.4"
-			"radius"				"400"
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"shard_duration"		"0.6"
 		}	
 	}
@@ -5314,7 +5429,11 @@
 			}
 			"projectile_speed"				"1300"
 			"projectile_width"				"130"
-			"impact_radius"					"300"
+			"impact_radius"
+			{
+				"value"				"300"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"damage_per_impact"		
 			{
 				"value"						"160 260 360"
@@ -5448,7 +5567,7 @@
 		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"	
-		"AbilityCastRange"				"900"
+		"AbilityCastRange"				"%hook_distance"
 		"AbilityCastPoint"				"0.3"
 		"AbilityCooldown"				"12"
 		"AbilityManaCost"				"100"
@@ -5457,7 +5576,11 @@
 		"AbilityValues"
 		{
 			"hook_speed"			"1200"
-			"hook_distance"			"900"
+			"hook_distance"
+			{
+				"value"				"900"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"hook_damage"		   "225 300 375 450"
 
 			"shard_distance"		"100"
@@ -5489,6 +5612,7 @@
 			"radius"		
 			{
 				"value"						"300"
+				"affected_by_aoe_increase"	"1"
 				"LinkedSpecialBonus"		"special_bonus_birzha_kudes_4"
 			}
 			"duration"				"3"
@@ -5729,7 +5853,11 @@
 		"AbilityValues"
 		{
 			"damage"					"600 800 1000"
-			"radius"					"600"
+			"radius"
+			{
+				"value"				"600"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration"					"2"
 			"slow_first"				"-60"
 			"slow_second"				"-90"
@@ -5855,7 +5983,11 @@
 				"value"						"180 260 340 420"
 				"LinkedSpecialBonus"		"special_bonus_birzha_bullet_3"
 			}
-			"aoe_radius"				"250"
+			"aoe_radius"
+			{
+				"value"				"250"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"knockback_height"			"300"
 		}
 	}
@@ -5883,7 +6015,11 @@
 			{
 				"value"						"1"
 			}
-			"aoe_radius"				"250"
+			"aoe_radius"
+			{
+				"value"				"250"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"knockback_distance"		"600"
 		}
 	}
@@ -5903,8 +6039,12 @@
 
 		"AbilityValues"
 		{
-			"stat"							"5 10 15 20"
-			"radius"						"600"
+			"stat"							"6 9 12 15"
+			"radius"
+			{
+				"value"				"600"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 	
@@ -5918,7 +6058,7 @@
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
 		"AbilityTextureName"			"Bullet/BulletInTheHead"
 		"HasScepterUpgrade"				"1"
@@ -5930,11 +6070,15 @@
 
 		"AbilityValues"
 		{
-			"damage"					"300 475 650"
+			"damage"					"275 400 525"
 			"range"						"2000 2500 3000"
-			"scepter_radius"			"300"
+			"scepter_radius"
+			{
+				"value"				"300"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"scepter_cooldown"			"10"
-			"scepter_stun_duration"		"2"
+			"scepter_stun_duration"		"1.25"
             "strength_damage"			"50 75 100"
 		}
 	}
@@ -5947,8 +6091,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"-50"
-			"value2"					"1.5"
+			"value"						"-5"
 		}
 	}
 
@@ -5995,7 +6138,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"10"			
+			"value"						"15"			
 		}
 	}
 	"special_bonus_birzha_bullet_6"
@@ -6006,7 +6149,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"+20"			
+			"value"						"20"			
 		}
 	}
 	"special_bonus_birzha_bullet_7"
@@ -6017,8 +6160,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"25"
-			"value2"					"10"			
+			"value"						"0"			
 		}
 	}
 	"special_bonus_birzha_bullet_8"
@@ -6043,7 +6185,7 @@
 		"ScriptFile"					"abilities/heroes/abdul.lua"
 		"AbilityBehavior"			   "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityTextureName"			"Abdulov/DefenceFromMushrooms"
-		"AbilityCooldown"			   "13"
+		"AbilityCooldown"			   "21 19 17 15"
 		"AbilityManaCost"			   "60 75 90 105"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
@@ -6058,7 +6200,7 @@
 			}
 			"duration"		
 			{
-				"value"						"3 3.5 4 4.5"
+				"value"						"2 2.5 3 3.5"
 				"LinkedSpecialBonus"		"special_bonus_birzha_abdul_2"
 			}
 		}
@@ -6083,8 +6225,8 @@
 
 		"AbilityValues"
 		{
-			"bonus_damage"				"40 80 120 160"
-			"armor"						"-5 -7 -9 -11"
+			"bonus_damage"				"30 50 70 90"
+			"armor"						"-3 -5 -7 -9"
 			"duration"					"3.5"
 			"shard_range"				"400"
 		}
@@ -6103,14 +6245,18 @@
 		"AbilityTextureName"			"Abdulov/TripToHell"
 		"AbilityCastPoint"				"0.6"
 		"AbilityCastRange"				"750"
-		"AoERadius" 					"400"
+		"AoERadius" 					"%radius"
 		"AbilityCooldown"				"28 27 26 25"
 		"AbilityManaCost"				"110 130 150 170"
 		"HasScepterUpgrade"				"1"
 
 		"AbilityValues"
 		{
-			"radius"						"400"
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration"						"5"
 			"damage_interval"				"1"
 			"damage"		
@@ -6140,7 +6286,7 @@
 		{
 			"kill_threshold"		
 			{
-				"value"						"15"
+				"value"						"12"
 				"LinkedSpecialBonus"		"special_bonus_birzha_abdul_6"
 			}
 			"damage"						"14 17 20"
@@ -6284,7 +6430,11 @@
 		"AbilityValues"
 		{
 			"min_damage"					"40 60 80 100"
-			"radius"						"300 350 400 450"
+			"radius"
+			{
+				"value"				"300 350 400 450"
+				"affected_by_aoe_increase"	"1"
+			}							
 			"duration"						"4"
 			"max_damage"					"125 175 225 275"
 			"interval"						"0.5"
@@ -6327,7 +6477,7 @@
 		"AbilityValues"
 		{	
 			"duration"				"4"
-			"shard_cooldown"		"-5"
+			"shard_cooldown"		"5"
 			"movespeed"				"550"
 		}
 	}
@@ -6477,7 +6627,7 @@
 		"ScriptFile"					"abilities/heroes/gorshok.lua"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityTextureName"			"gorshok/death_anarhia"
-		"AbilityCooldown"				"30"
+		"AbilityCooldown"				"25"
 		"AbilityManaCost"				"80 90 100 110"
 
 		"AbilityValues"
@@ -6490,7 +6640,7 @@
 			"zombie_health"			"200 250 300 350"
 			"zombie_damage"			"30 45 60 75"
 			"zombie_multiplier"		"1.5"
-			"duration"				"35"
+			"duration"				"30"
 		}
 	}
 
@@ -6501,11 +6651,15 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityTextureName"			"gorshok/rome"
 		"AbilityCooldown"				"16"
-		"AbilityManaCost"				"90"
+		"AbilityManaCost"				"90 100 110 120"
 
 		"AbilityValues"
 		{
-			"radius"					"1300"
+			"radius"
+			{
+				"value"				"1300"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"movespeed_slow"			"-10 -15 -20 -25"
 			"armor"						"-4 -5 -6 -7"
 			"duration"					"8"
@@ -6519,6 +6673,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityTextureName"			"gorshok/evil_dance"
 		"AbilityCooldown"				"20"
+		"AbilityManaCost"				"65"
 		"RequiredLevel"					"1"
 		"MaxLevel"						"1"
 
@@ -6530,7 +6685,7 @@
 				"LinkedSpecialBonus"		"special_bonus_birzha_gorshok_4"
 			}
 			"duration"					"5"
-			"bonus_armor"				"3"
+			"bonus_armor"				"8"
 			"bonus_magical_resist"		"50"
 		}
 	}
@@ -6570,8 +6725,8 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityType"					"ABILITY_TYPE_ULTIMATE"
 		"AbilityTextureName"			"gorshok/wodoo"
-		"AbilityCooldown"				"50"
-		"AbilityManaCost"				"50 100 150"
+		"AbilityCooldown"				"65 60 55"
+		"AbilityManaCost"				"125 200 275"
 		"HasShardUpgrade"				"1"
 
 		"AbilityValues"
@@ -6580,12 +6735,12 @@
 			"duration"					"10"
 			"damage_for_hunt"		
 			{
-				"value"						"600 800 1000"
+				"value"						"900 800 700"
 				"LinkedSpecialBonus"		"special_bonus_birzha_gorshok_3"
 			}
 			"hunt_health"				"300 700 1200"
-			"hunt_damage"				"170 160 250"
-			"max_count"					"3 4 5"
+			"hunt_damage"				"145 190 235"
+			"max_count"					"2 3 4"
 			"max_count_shard"			"1"
 		}
 	}
@@ -6611,6 +6766,7 @@
 		{
 			"radius"					"950"
 			"count"						"5"
+			"movespeed"					"15"
 		}
 	}
 
@@ -6792,7 +6948,11 @@
 		
 		"AbilityValues"
 		{
-			"radius"					"1000"
+			"radius"
+			{
+				"value"				"1000"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration"					"6"
 			"stone_duration"			"3"
 			"face_duration"				"2"
@@ -6821,7 +6981,11 @@
 
 		"AbilityValues"
 		{
-			"radius"					"300"
+			"radius"
+			{
+				"value"				"300"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"trigger_chance"		
 			{
 				"value"						"25"
@@ -6940,6 +7104,7 @@
 			"radius"		
 			{
 				"value"						"300"
+				"affected_by_aoe_increase"	"1"
 				"LinkedSpecialBonus"		"special_bonus_birzha_goku_6"
 				"LinkedSpecialBonusField"	"value2"
 			}
@@ -6948,7 +7113,8 @@
 				"value"						"175 225 275 325"
 				"LinkedSpecialBonus"		"special_bonus_birzha_goku_1"
 			}
-			"shard_cast_point"			"1"
+			"cast_point"				"1.5"
+			"shard_cast_point"			"-0.5"
 		}
 	}
 
@@ -7001,7 +7167,11 @@
 				"LinkedSpecialBonus"		"special_bonus_birzha_goku_2"
 			}
 			"damage"			 			"175 250 325 400"
-			"radius"			 			"300"
+			"radius"
+			{
+				"value"				"300"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -7231,6 +7401,7 @@
 			"radius"		
 			{
 				"value"						"300"
+				"affected_by_aoe_increase"	"1"
 				"LinkedSpecialBonus"		"special_bonus_birzha_poroshenko_5"
 			}
 		}
@@ -7282,12 +7453,16 @@
 		"AbilityCastPoint"				"0.6"
 		"AbilityCooldown"				"100"
 		"AbilityManaCost"				"175 225 275"
-		"AOERadius"						"450"
+		"AOERadius"						"%radius"
 		"HasScepterUpgrade"				"1"
 
 		"AbilityValues"
 		{
-			"radius"					"450"
+			"radius"
+			{
+				"value"				"450"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"snipers_duration"			"20"
 			"stun_duration_scepter"		"1.5"
 			"snipers_count"				"2 4 6"
@@ -7314,7 +7489,11 @@
 		"AbilityValues"
 		{
 			"damage_reduce"					"-25"
-			"radius"						"600"
+			"radius"
+			{
+				"value"				"600"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"attack_destroy"				"3"
 			"duration"						"10"
 		}
@@ -7436,6 +7615,7 @@
 			"radius"		
 			{
 				"value"						"250"
+				"affected_by_aoe_increase"	"1"
 				"LinkedSpecialBonus"		"special_bonus_birzha_pistoletov_5"
 			}
 			"AbilityCharges"				"2"
@@ -7538,7 +7718,11 @@
 		"AbilityValues"
 		{
 			"damage"				"100 200 300"
-			"radius"				"600"
+			"radius"
+			{
+				"value"				"600"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"pct_damage"			"25"
 			"duration"				"15"
 			"hit_destroy"		   "7"
@@ -7650,7 +7834,11 @@
 		{
 			"duration"			"8"
 			"damage"			"125"
-			"radius"			"450"
+			"radius"
+			{
+				"value"				"450"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -7701,6 +7889,7 @@
 			"radius"		
 			{
 				"value"						"400"
+				"affected_by_aoe_increase"	"1"
 				"LinkedSpecialBonus"		"special_bonus_birzha_garold_7"
 			}
 
@@ -7961,7 +8150,11 @@
 			"duration"			 		"5"
 			"slow_pct"			 		"-80"
 			"stun_duration"	   		"2"
-			"radius_scepter"	   		"200"
+			"radius_scepter"
+			{
+				"value"				"200"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -8146,7 +8339,11 @@
 		"AbilityValues"
 		{
 			"damage"			   	"150 200 250"
-			"radius"				"600"
+			"radius"
+			{
+				"value"				"600"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration"				"5"
 		}
 	}
@@ -8263,7 +8460,7 @@
 		"AbilityManaCost"				"105 120 135 150"
 		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
 		"AOERadius"						"%radius"
-		"HasShardUpgrade"				"1"
+		"HasScepterUpgrade"				"1"
 
 		"AbilityValues"
 		{
@@ -8273,10 +8470,13 @@
 				"value"						"1 1.2 1.4 1.6"
 				"LinkedSpecialBonus"		"special_bonus_birzha_guts_7"
 			}
-			"radius"				"300"
+			"radius"
+			{
+				"value"				"300"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"vision_radius"			"225"
 			"bolt_speed"			"1000"
-
 			"shard_cast_range"		"800"
 		}
 	}
@@ -8298,7 +8498,7 @@
 		"AbilityCastPoint"				"0.3"
 		"AbilityCooldown"				"9 8 7 6"
 		"AbilityManaCost"				"30 25 20 15"
-		"HasScepterUpgrade"				"1"
+		"HasShardUpgrade"				"1"
 
 		"AbilityValues"
 		{
@@ -8340,7 +8540,7 @@
 
 			"chance"			 	"15"
 			"damage_per_burn"	   "0.25"
-			"mana_per_hit"		 	"200 300 400 500"
+			"mana_per_hit"		 	"160 190 220 250"
 		}
 	}
 
@@ -8352,19 +8552,19 @@
 		"AbilityTextureName"			"Guts/DarkArmor"
 		"AbilityType"		  			"ABILITY_TYPE_ULTIMATE"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
-		"AbilityCooldown"	   		"60"
+		"AbilityCooldown"	   		"50"
 	   
 		"AbilityValues"	
 		{
 			"bonus_damage"			  	"120 160 200"
-			"bonus_magic"	   		 	"50 60 70"
+			"bonus_magic"	   		 	"60 70 80"
 			"bonus_armor"		
 			{
 				"value"						"18 26 34"
 			}
 			"duration"		
 			{
-				"value"						"9"
+				"value"						"12"
 				"LinkedSpecialBonus"		"special_bonus_birzha_guts_6"
 			}
 		}
@@ -8487,7 +8687,11 @@
 				"value"						"50 100 150 200"
 			}
 			"speed"			 	"-15 -20 -25 -30"
-			"radius"			 	"300"
+			"radius"
+			{
+				"value"				"300"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"str_scepter"			"25"
 		}
 	}	
@@ -8506,7 +8710,7 @@
 			{
 				"value"						"2 2 3 3"
 			}
-			"regen"			 	"2 4 6 8"
+			"regen"			 	"2 3 4 5"
 			"stack_max"		
 			{
 				"value"						"5 6 7 8"
@@ -8550,7 +8754,7 @@
 		"ScriptFile"					"abilities/heroes/grem.lua"
 		"AbilityBehavior"		   	"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityType"			   	"ABILITY_TYPE_ULTIMATE"
-		"AbilityCooldown"		   	"50 45 40"
+		"AbilityCooldown"		   	"70 60 50"
 		"AbilityManaCost"		   	"75 150 225"
 		"AbilityTextureName"			"Grem/DoNothing"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
@@ -8561,7 +8765,8 @@
 		{
 		   	"bonus_damage"			   "135 160 185"
 			"damage_reduction"		   "-50"
-			"duration"			   	 "9"
+			"slow"					   "-30 -25 -20"
+			"duration"			   	   "9"
 		}
 	}
 
@@ -8596,7 +8801,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"-12"	
+			"value"						"-8"	
 		}
 	}
 	"special_bonus_birzha_grem_4"
@@ -8700,7 +8905,7 @@
 		"ScriptFile"				"abilities/heroes/red21.lua"
 		"AbilityTextureName"		"Red21/MakeAFeeder"
 		"AbilityBehavior"		   "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityCooldown"		   "15"
+		"AbilityCooldown"		   "19 18 17 16"
 		"AbilityManaCost"		   "100"
 		"SpellDispellableType"		"SPELL_DISPELLABLE_YES"
 		
@@ -8708,7 +8913,7 @@
 		{
 			"bonus_movement_speed"		
 			{
-				"value"						"10 20 30 40"
+				"value"						"10 15 20 25"
 				"LinkedSpecialBonus"		"special_bonus_birzha_red21_6"
 			}
 			"duration"		
@@ -8737,7 +8942,7 @@
 				"value"						"5 10 15 20"
 				"LinkedSpecialBonus"		"special_bonus_birzha_red21_5"
 			}
-			"health"			 		"500 1000 1500 2000"
+			"strenght"			 		"15 25 35 45"
 		}
 	}
 	
@@ -8756,10 +8961,10 @@
 		{
 			"attack_speed"			 	"100 150 200"
 			"duration"			 		"15"
-			"critical_damage"		   "350 450 550"
+			"critical_damage"		   "210 280 350"
 			"chance"		
 			{
-				"value"						"20 30 40"
+				"value"						"25 30 35"
 				"LinkedSpecialBonus"		"special_bonus_birzha_red21_7"
 			}
 		}
@@ -8840,7 +9045,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"40"			
+			"value"						"25"			
 		}
 	}
 	"special_bonus_birzha_red21_8"
@@ -8851,7 +9056,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"-20"	
+			"value"						"-15"	
 		}
 	}
 
@@ -8877,6 +9082,7 @@
 			"radius"		
 			{
 				"value"						"250 350 450 550"
+				"affected_by_aoe_increase"	"1"
 				"LinkedSpecialBonus"		"special_bonus_birzha_durov_2"
 			}
 			"bonus_damage"		
@@ -9094,7 +9300,7 @@
 		"ScriptFile"					"abilities/heroes/kadet.lua"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityCooldown"				"16 14 12 10"
-		"AbilityCastRange"				"600"
+		"AbilityCastRange"				"%radius_shard"
 		"AbilityManaCost"				"90 100 110 120"
 		"AbilityTextureName"			"Kadet/FuckFaggots"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
@@ -9106,7 +9312,11 @@
 
 		"AbilityValues"
 		{
-			"radius_shard"				"600"
+			"radius_shard"
+			{
+				"value"				"600"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"damage"					"100 175 250 325"
 			"duration"		
 			{
@@ -9380,9 +9590,9 @@
 		"AbilityCastRange"				"200"
 		"LevelsBetweenUpgrades"			"3"
 		"AbilityTextureName"			"Akame/attack"  
-		"AbilityManaCost"				"120"
+		"AbilityManaCost"				"90 105 120 135"
 		"AbilityCooldown" 				"22 20 18 16"
-		"AbilityCastPoint"			  "0.3"
+		"AbilityCastPoint"			  "0.2"
 		"AbilityCastAnimation"		  "ACT_DOTA_ATTACK"
 
 		"AbilityValues"
@@ -9404,6 +9614,7 @@
 		"AbilityTextureName"			"Akame/Jump"
 		"MaxLevel"						"1"
 		"AbilityCastAnimation"		  "ACT_DOTA_CAST_ABILITY_5"
+		"HasShardUpgrade"				"1"
 
 		"AbilityValues"
 		{
@@ -9416,10 +9627,10 @@
 			}
 			"AbilityCooldown"
 			{
-				"value"										"5"
+				"value"										"4"
 				"special_bonus_unique_akame_3"			  "=0"
 			}
-			"AbilityChargeRestoreTime"		"5"
+			"AbilityChargeRestoreTime"		"4"
 		}
 	}
 
@@ -9446,7 +9657,7 @@
 
 			"range"						"600"
 			"akame_attack"				"100"
-			"agility_attack"			"1 1.5 2"
+			"agility_attack"			"1 2 3"
 
 			"heal_ruin"					"-50"
 		}
@@ -9797,7 +10008,11 @@
 				"value"									"120 150 180 210"
 				"LinkedSpecialBonus"					"special_bonus_birzha_silver_4"			
 			}
-			"radius"				"300"
+			"radius"
+			{
+				"value"				"300"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 	
@@ -9824,7 +10039,11 @@
 				"LinkedSpecialBonus"					"special_bonus_birzha_silver_5"
 			}
 			"damage"			 	"150 250 350 450"
-			"radius"				"400"
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"cast_range_fly"		"900"
 		}
 	}
@@ -9849,7 +10068,11 @@
 
 		"AbilityValues"
 		{
-			"radius"					"250"
+			"radius"
+			{
+				"value"				"250"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration"					"10"
 			"stun_duration"				"1 1.3 1.6 1.9"
 			"health"					"500 1000 1500 2000"
@@ -10031,9 +10254,11 @@
 	{
 		"BaseClass"						"ability_lua"
 		"ScriptFile"					"abilities/heroes/scp.lua"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"	
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"						
 		"AbilityType"					"ABILITY_TYPE_ULTIMATE"
 		"AbilityTextureName"			"scp/passive"
+		"AbilityCooldown"				"17 13 7"
+		"AbilityManaCost"				"50 100 150"
 		"HasShardUpgrade"				"1"
 
 		
@@ -10042,7 +10267,9 @@
 			"movespeed"					"130 200 270"
 			"movespeed_limit"			"800"
 			"radius"					"400 350 300"
-			"shard_radius"				"-75"
+			"min_radius"				"150"
+			"max_radius"				"400"
+			"shard_duration"			"1.5"
 		}
 	}
 
@@ -10069,34 +10296,61 @@
 		}
 	}
 
-	"Scp_DamageAura"
+	"Scp_Feces"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"abilities/heroes/scp.lua"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_AURA"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitTargetFlags" 		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES" 
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
-		"AbilityTextureName"			"scp/DamageAura"
-		"AbilityCastRange"				"600"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
+ 		"ScriptFile"					"abilities/heroes/scp.lua"
+ 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_AOE"
+ 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY | DOTA_UNIT_TARGET_BASIC"
+ 		"AbilityUnitTargetFlags" 		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES" 
+ 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+ 		"AbilityTextureName"			"scp/Feces"
+		"AbilityManaCost"				"90 110 130 150"
+		"AbilityCooldown"				"20 18 16 14"
+ 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 
 		"AbilityValues"
 		{
-			"aura_radius"
+			"radius"	
 			{
-				"value"									"600"
-				"LinkedSpecialBonus"					"special_bonus_birzha_scp_2"
+				"value"						"300 375 450 525"
+				"affected_by_aoe_increase"	"1"
 			}
-			"aura_damage"
-			{
-				"value"									"-0.5 -0.7 -0.9 -1.2" 
-				"LinkedSpecialBonus"					"special_bonus_birzha_scp_7"
-			}
-			"aura_damage_interval"		"0.2" 
+			"duration"						"3 4 5 6"
+			"damage"						"85 115 145 175"
+			"slow"							"-15 -20 -25 -30"
+			"hp_regen"						"5 8 11 14"
 		}
 	}
+
+ //	"Scp_DamageAura"
+ //	{
+ //		"BaseClass"						"ability_lua"
+ //		"ScriptFile"					"abilities/heroes/scp.lua"
+ //		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_AURA"
+ //		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+ //		"AbilityUnitTargetFlags" 		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES" 
+ //		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+ //		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+ //		"AbilityTextureName"			"scp/DamageAura"
+ //		"AbilityCastRange"				"600"
+ //		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
+ //
+ //		"AbilityValues"
+ //		{
+ //			"aura_radius"
+ //			{
+ //				"value"									"600"
+ //				"LinkedSpecialBonus"					"special_bonus_birzha_scp_2"
+ //			}
+ //			"aura_damage"
+ //			{
+ //				"value"									"-0.5 -0.7 -0.9 -1.2" 
+ //				"LinkedSpecialBonus"					"special_bonus_birzha_scp_7"
+ //			}
+ //			"aura_damage_interval"		"0.2" 
+ //		}
+ //	}
 
 	"Scp_FastKill"
 	{
@@ -10115,6 +10369,8 @@
 				"value"									"20 30 40 50"
 				"LinkedSpecialBonus"					"special_bonus_birzha_scp_5"
 			}
+			"duration"					"2"
+			"vision_perc"				"-50 -60 -70 -80"
 		}
 	}
 
@@ -10138,7 +10394,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"100"		
+			"value"						"150"		
 		}
 	}	
 	"special_bonus_birzha_scp_3"
@@ -10149,8 +10405,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"-50"
-			"value2"					"1"	
+			"value"						"1"
 		}
 	}
 	"special_bonus_birzha_scp_4"
@@ -10161,9 +10416,7 @@
 
 		"AbilityValues"
 		{
-			"value"							"200"	
-			"value2"						"600"	
-			"value3"						"15"	
+			"value"						"0"		
 		}
 	}
 	"special_bonus_birzha_scp_5"
@@ -10174,7 +10427,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"25"	
+			"value"						"15"	
 		}
 	}
 	"special_bonus_birzha_scp_6"
@@ -10196,7 +10449,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"-2"			
+			"value"						"4"			
 		}
 	}
 	"special_bonus_birzha_scp_8"
@@ -10232,7 +10485,11 @@
 		
 		"AbilityValues"
 		{
-			"radius"				"400"
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration"				"6"
 			"hp_regen"				"6 12 18 24"
 			"shard_radius"			"200"
@@ -10288,7 +10545,11 @@
 
 		"AbilityValues"
 		{
-			"radius"					"400"
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"damage"					"225 300 375 450"
 			"stun_duration"				"1 1.4 1.8 2.2"
 		}
@@ -10516,7 +10777,11 @@
 			{
 				"value"									"5 10 15"
 			}
-			"radius"				"600"
+			"radius"
+			{
+				"value"				"600"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration"				"10"
 			"shard_stun_duration"		"1"
 		}
@@ -10741,7 +11006,11 @@
 			}
 			"stun_duration"					"0.5 0.6 0.7 0.8"
 			"root_duration"					"0.5"
-			"root_radius"					"400"
+			"root_radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -10776,7 +11045,11 @@
 				"value"									"150 250 350"
 				"LinkedSpecialBonus"					"special_bonus_birzha_hisoka_1"
 			}
-			"radius"					"300"
+			"radius"
+			{
+				"value"				"300"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration_bubble"			"3 4 5"
 			"damage_bubble"				"20 30 40 50"
 			"attack_rate"				"1 0.85 0.7"
@@ -10802,7 +11075,11 @@
 
 		"AbilityValues"
 		{
-			"radius"				"400"
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -10814,7 +11091,11 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE | DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"AbilityValues"
 		{
-			"radius"					"400"
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -10836,7 +11117,11 @@
 
 		"AbilityValues"
 		{
-			"radius"					"400"
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -11058,7 +11343,11 @@
 			"fly_duration"			"1"
 			"cast_duration"			"1"
 			"duration"				"10"
-			"radius"				"400"
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"stun_duration"			"1.5 1.75 2"
 			"attack_speed"			"140 200 260"
 			"damage"				"300"
@@ -11180,7 +11469,11 @@
 
 		"AbilityValues"
 		{
-			"radius"					"550"
+			"radius"
+			{
+				"value"				"550"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration_leave"			"2"
 			"duration_scream"					
 			{
@@ -11502,7 +11795,7 @@
 			}
 			"damage"					"60 100 140 180"
 			"splash"					"100"
-			"chance"					"5"
+			"chance"					"10"
 			"shard_cooldown"			"2"
 		}
 	}
@@ -11515,12 +11808,12 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"AbilityType"					"ABILITY_TYPE_ULTIMATE"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
-		"AbilityCooldown"				"60"
+		"AbilityCooldown"				"70"
 		"HasScepterUpgrade"				"1"
 
 		"AbilityValues"
 		{
-			"duration"						"20"
+			"duration"						"16"
 			"base_attacktime"				"0.9 0.7 0.5"
 			"bonus_attack_range"					
 			{
@@ -11562,7 +11855,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"-5"			
+			"value"					"-20"			
 		}
 	}
 	"special_bonus_birzha_serega_pirat_4"
@@ -11595,7 +11888,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"-20"			
+			"value"					"-5"			
 		}
 	}
 	"special_bonus_birzha_serega_pirat_7"
@@ -11651,8 +11944,16 @@
 			}
 			"illusion_2_damage_in_pct"		"305 275 255 235"
 			"dmg_tooltip"					"" //no longer necessary
-			"target_aoe"					"325"
-			"search_radius"					"900"
+			"target_aoe"
+			{
+				"value"				"325"
+				"affected_by_aoe_increase"	"1"
+			}	
+			"search_radius"
+			{
+				"value"				"900"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"delay"							"0.5"
 			"illusion_duration"				"7"
 			"illusion_extended_duration"	"2"
@@ -11975,8 +12276,12 @@
 				"LinkedSpecialBonus"					"special_bonus_birzha_girl_5"
 			}
 			"duration"					"3"
-			"radius"					"400"
-			"damage"					"210 300 390 480"
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
+			"damage"					"150 225 300 375"
 			"radius_shard"				"600"
 			"cooldown_shard"			"-4"	
 		}	
@@ -12038,7 +12343,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"200"			
+			"value"						"150"			
 		}
 	}
 	"special_bonus_birzha_girl_4"
@@ -12204,7 +12509,11 @@
 		"AbilityValues"
 		{
 			"damage" 				"300 400 500"
-			"radius" 				"400"
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration"				"5"
 		}
 	}
@@ -12358,7 +12667,11 @@
 				"value"									"30 50 70 90"
 			}
 			"stun_duration"				"1.5 1.75 2 2.25"
-			"radius"					"500"
+			"radius"
+			{
+				"value"				"500"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"bonus_movespeed"			"10 15 20 25"
 
 			"shard_count"				"5"
@@ -12378,7 +12691,11 @@
 		"AbilityValues"
 		{
 			"bonus_damage"				"20 30 40 50"
-			"radius"					"200"
+			"radius"
+			{
+				"value"				"200"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration"					"1 1.25 1.5 1.75"
 			"slow"						"-50"
 		}
@@ -12406,7 +12723,11 @@
 			"impulse_damage"				"100 150 200"
 			"attack_cooldown"				"1.75"
 			"attack_per_impulse"			"3"
-			"radius"						"600"
+			"radius"
+			{
+				"value"				"600"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -12543,7 +12864,7 @@
 		"AbilityValues"
 		{
 			"shard_chance"				"50"
-		   	"damage_from_movespeed" 	"55 70 85 100"
+		   	"damage_from_movespeed" 	"50 60 70 80"
 			"range"		   			"600"
  			"stun_duration"					
 			{
@@ -12570,8 +12891,12 @@
 
 		"AbilityValues"
 		{
-			"damage_from_movespeed"		"50 70 85 100"
-			"radius"					"350"
+			"damage_from_movespeed"		"50 60 70 80"
+			"radius"
+			{
+				"value"				"350"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -12662,7 +12987,7 @@
 				"value"					"3"
 				"RequiresScepter"		"1"
 			}	
-			"cooldown_scepter"			"60"
+			"cooldown_scepter"			"75"
 			"manacost_scepter"			"200"
 			"scepter_duration"			"10"
 		}
@@ -12676,7 +13001,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"-6"			
+			"value"					"-5"			
 		}
 	}
 	"special_bonus_birzha_sonic_2"
@@ -12687,7 +13012,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"-7"			
+			"value"					"-5"			
 		}
 	}
 	"special_bonus_birzha_sonic_3"
@@ -12709,7 +13034,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"1.4"			
+			"value"					"0.5"			
 		}
 	}
 	"special_bonus_birzha_sonic_5"
@@ -12720,7 +13045,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"0.5"			
+			"value"					"0.3"			
 		}
 	}
 	"special_bonus_birzha_sonic_6"
@@ -12742,7 +13067,7 @@
 
 		"AbilityValues"
 		{
-			"value"					"10"			
+			"value"					"2"			
 		}
 	}
 	"special_bonus_birzha_sonic_8"
@@ -12809,7 +13134,11 @@
 
 		"AbilityValues"
 		{
-			"radius" 		"400"
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration" 		"4 5 6 7"
 			"interval" 		"1"
 			"damage"					
@@ -13019,7 +13348,11 @@
 
 		"AbilityValues"
 		{
-			"radius"				"250"
+			"radius"
+			{
+				"value"				"250"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"damage"				"300"
 		}
 	}
@@ -13097,7 +13430,11 @@
 				"LinkedSpecialBonus"					"special_bonus_birzha_never_1"
 			}
 			"duration"					"5"
-			"radius"					"600"
+			"radius"
+			{
+				"value"				"600"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"scepter_speed"				"800"
 		}
 	}
@@ -13228,7 +13565,11 @@
 			{
 				"value"									"8"
 			}
-			"radius"						"900"
+			"radius"
+			{
+				"value"				"900"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"effect_resistance"				"16 22 28 34"
 		}
 	}
@@ -13279,7 +13620,7 @@
 		"ScriptFile"					"abilities/heroes/sasake"
 		"AbilityTextureName"			"sasake/four"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityCooldown"				"35 32.5 30"
+		"AbilityCooldown"				"45 40 35"
 		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
@@ -13294,20 +13635,20 @@
 			"stun_duration"					"0.75"
 			"crit_one"					
 			{
-				"value"									"150 185 220"
+				"value"									"140 170 200"
 				"LinkedSpecialBonus"					"special_bonus_birzha_sasake_7"
 			}
 			"crit_two"					
 			{
-				"value"									"175 210 245"
+				"value"									"150 180 210"
 				"LinkedSpecialBonus"					"special_bonus_birzha_sasake_7"
 			}
 			"crit_three"					
 			{
-				"value"									"200 235 270"
+				"value"									"160 190 220"
 				"LinkedSpecialBonus"					"special_bonus_birzha_sasake_7"
 			}
-			"scepter_cooldown"							"1.5"
+			"scepter_cooldown"							"1"
 		}
 	}
 
@@ -13449,7 +13790,7 @@
 		"AbilitySound"					"Hero_Puck.Phase_Shift"
 		"AbilityTextureName"			"Sobolev/Prank"
 		"AbilityChannelTime"			"1 2 3 4"
-		"AbilityCooldown"				"6"
+		"AbilityCooldown"				"8"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
 		"HasScepterUpgrade"				"1"
@@ -13493,7 +13834,7 @@
 		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES" 
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
-		"AbilityCooldown"				"60"	
+		"AbilityCooldown"				"75 65 55"	
 		"AbilityManaCost"				"100 150 200"	
 		
 		"AbilityValues"
@@ -13507,7 +13848,7 @@
 			}
 			"duration"					
 			{
-				"value"									"20"
+				"value"									"15"
 				"LinkedSpecialBonus"					"special_bonus_birzha_sobolev_6"
 			}
 		}
@@ -13589,7 +13930,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"30"			
+			"value"						"15"			
 		}
 	}
 	"special_bonus_birzha_sobolev_8"
@@ -13681,7 +14022,7 @@
 		"AbilityValues"
 		{
 			"duration"					"0.9 1.2 1.5 1.8"
-			"attack_speed"				"0.5"
+			"attack_speed"				"0.8"
 		}
 	}
 
@@ -13693,7 +14034,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
 		"AbilityTextureName"			"polnaref/requeim"
-		"AbilityCooldown"				"40"
+		"AbilityCooldown"				"65 60 55"
 		"AbilityManaCost"				"200"
 
 		"AbilityValues"
@@ -13721,9 +14062,13 @@
 		"AbilityValues"
 		{
 			"range"						"900"
-			"radius"					"300"
+			"radius"
+			{
+				"value"				"300"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"attack_count"				"1 2 3 4"
-			"base_damage"				"40 80 120 160"
+			"base_damage"				"30 50 70 90"
 		}
 	}
 
@@ -13804,7 +14149,11 @@
 		{
 			"duration"					"3 4 5"
 			"movespeed"					"650"
-			"radius"					"300"
+			"radius"
+			{
+				"value"				"300"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"illusion_duration"			"20"
 		}
 	}
@@ -13950,7 +14299,11 @@
 		{
 			"chance"					"20 15 10 5"
 			"damage_resist"				"-5 -10 -15 -20"
-			"radius"					"400"
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 
 			"stun_duration"				"1"
 			"cooldown_increased"		"3 4 5 6"
@@ -14043,7 +14396,11 @@
 			"duration"					"1.5 2 2.5"
 			"damage"					"300 450 600"
 			"side_damage"				"300 450 600"
-			"damage_radius"				"400"
+			"damage_radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"slow_movement_speed_pct"	"-60"
 			"slow_attack_speed_pct"		"-60 -80 -100"
 			"slow_damage"				"-20 -25 -30"
@@ -14382,7 +14739,11 @@
 			"move_speed"			"2000"
 			"min_jump_distance"		"100"
 			"max_jump_distance"		"800"
-			"landing_radius"		"275"
+			"landing_radius"
+			{
+				"value"				"275"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"impact_damage"			"120 180 250 330"
 			"min_lob_travel_time"	"0.1"
 			"max_lob_travel_time"	"0.2"
@@ -14439,7 +14800,11 @@
 				"value"									"40 50 60"
 				"LinkedSpecialBonus"					"special_bonus_birzha_haku_8"
 			}
-			"radius"					"600"
+			"radius"
+			{
+				"value"				"600"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"attack_cooldown"
 			{
 				"value"					"0.5"
@@ -14523,7 +14888,11 @@
 				"value"									"1.5 1.75 2 2.5"
 				"LinkedSpecialBonus"					"special_bonus_birzha_haku_3"
 			}
-			"radius"					"550"
+			"radius"
+			{
+				"value"				"550"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"intellect_damage"			"100"
 		}
 	}
@@ -14533,7 +14902,7 @@
 		"BaseClass"						"ability_lua"
 		"ScriptFile"					"abilities/heroes/haku.lua"
 		"AbilityBehavior"			   "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_AURA | DOTA_ABILITY_BEHAVIOR_HIDDEN"
-		"AbilityCastRange"				"900"
+		"AbilityCastRange"				"%radius"
 		"AbilityTextureName"			"haku/aura"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		"LinkedAbility"					"haku_frost_attack"
@@ -14543,7 +14912,11 @@
 		{
 			"lifesteal"					"15 20 25 30"
 			"armor"						"3 6 9 12"
-			"radius"					"900"
+			"radius"
+			{
+				"value"				"900"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -14582,7 +14955,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"0"			
+			"value"						"30"			
 		}
 	}
 	"special_bonus_birzha_haku_2"
@@ -14593,7 +14966,8 @@
 
 		"AbilityValues"
 		{
-			"value"						"0.8"			
+			"value1"						"0.8"
+			"value2"						"15"			
 		}
 	}
 	"special_bonus_birzha_haku_3"
@@ -14604,7 +14978,8 @@
 
 		"AbilityValues"
 		{
-			"value"						"1"			
+			"value1"						"1"
+			"value2"						"120"			
 		}
 	}
 	"special_bonus_birzha_haku_4"
@@ -14615,7 +14990,8 @@
 
 		"AbilityValues"
 		{
-			"value"						"2"			
+			"value1"						"2"
+			"value2"						"-0.1"			
 		}
 	}
 	"special_bonus_birzha_haku_5"
@@ -14648,7 +15024,8 @@
 
 		"AbilityValues"
 		{
-			"value"						"-10"			
+			"value1"					"-10"		
+			"value2"					"1.3"	
 		}
 	}
 	"special_bonus_birzha_haku_8"
@@ -14659,7 +15036,8 @@
 
 		"AbilityValues"
 		{
-			"value"						"60"			
+			"value1"						"30"
+			"value2"						"5"			
 		}
 	}
 
@@ -14713,7 +15091,11 @@
 		"AbilityValues"
 		{
 			"damage"			"90 180 270 360"
-			"radius"			"240"
+			"radius"
+			{
+				"value"				"240"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"distance"			"425"
 			"stun_duration"		"1.6 1.8 2 2.2"
 			"fly_duration"		"0.35"
@@ -14734,10 +15116,18 @@
 		"AbilityValues"
 		{	
 			"bonus_attribute"				"10 15 20 25"
-			"radius"						"900"
+			"radius"
+			{
+				"value"				"900"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"bonus_evasion"					"15 20 25 30"
 			"scepter_damage"				"15"
-			"scepter_radius"				"900"
+			"scepter_radius"
+			{
+				"value"				"900"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"scepter_duration"				"10"
 			"scepter_cooldown"				"25"
 			"scepter_manacost"				"150"
@@ -14784,7 +15174,11 @@
 		
 		"AbilityValues"
 		{
-			"radius"					"450"
+			"radius"
+			{
+				"value"				"450"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"reduce_movement_speed"		"-50"
 			"reduce_attack_speed"		"-35 -45 -55"
 			"radius_silence"			"250"
@@ -14925,7 +15319,11 @@
 		{
 			"damage"				"40 70 100 130"
 			"duration"				"4"
-			"vision_radius"			"325 425 525 625"
+			"vision_radius"
+			{
+				"value"				"325 425 525 625"
+				"affected_by_aoe_increase"	"1"
+			}				
 			"vision_duration"		"3.5"
 			"agi_bonus"		
 			{
@@ -14981,7 +15379,11 @@
 				"value"					"1 1.5 2 2.5"
 				"LinkedSpecialBonus"	"special_bonus_birzha_golovach_1"
 			}
-			"radius"				"300"
+			"radius"
+			{
+				"value"				"300"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -15124,6 +15526,7 @@
 			"radius"		
 			{
 				"value"						"400"
+				"affected_by_aoe_increase"	"1"
 			}
 			"absorb_amount"		
 			{
@@ -15178,7 +15581,11 @@
 			"bonus_strength"   		"7 14 21 28"
 			"scepter_damage"		"200"
 			"scepter_stun"			"0.2"
-			"scepter_radius"		"600"
+			"scepter_radius"
+			{
+				"value"				"600"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"scepter_count"			"8"
 			"scepter_cooldown"		"12"
 		}
@@ -15323,14 +15730,18 @@
 		"BaseClass"						"ability_lua"
 		"ScriptFile"					"abilities/heroes/robbie.lua"	
 		"AbilityTextureName"			"Robi/Agility"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
+		"AbilityManaCost"				"80 100 120 140"
+		"AbilityCooldown"				"22 20 18 16"
 
 		"AbilityValues"
 		{
-			"bonus_speed"				"60 80 100 120"
-			"hp_regen"		
+			"duration"					"5 6 7 8"
+			"damage_absorb"				"175 250 325 400"
+			"bonus_agi"
 			{
-				"value"						"4 6 8 10"
+				"value"						"15 20 25 30"
 				"LinkedSpecialBonus"		"special_bonus_birzha_robbie_2"
 			}
 		}
@@ -15351,6 +15762,8 @@
 	 
 		"AbilityValues"
 		{
+			"bonus_speed"				"60 80 100 120"
+			"hp_regen"					"4 8 12 16"
 			"damage_multiplier"		
 			{
 				"value"						"0.6 0.9 1.2 1.5"
@@ -15419,7 +15832,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"5"			
+			"value"						"10"			
 		}
 	}
 	"special_bonus_birzha_robbie_3"
@@ -15516,7 +15929,11 @@
 		{
 			"stun_duration"			"0.5 0.6 0.7 0.8"
 			"damage"				"120 170 220 270"
-			"radius"				"350"
+			"radius"
+			{
+				"value"				"350"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -15606,7 +16023,11 @@
 		{
 			"stun_duration"			"1"
 			"damage"				"120 180 240 300"
-			"radius"				"150 175 200 225"
+			"radius"
+			{
+				"value"				"150 175 200 225"
+				"affected_by_aoe_increase"	"1"
+			}					
 		}
 	}
 
@@ -16062,7 +16483,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityTextureName"			"Bogdan/Cower"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
-		"AbilityCooldown"				"20"
+		"AbilityCooldown"				"26 25 24 23"
 		"AbilityManaCost"				"70 80 90 100"
 
 		"AbilityValues"
@@ -16072,7 +16493,7 @@
 				"value"						"100 150 200 250"
 				"LinkedSpecialBonus"		"special_bonus_birzha_bogdan_6"
 			}
-			"duration"				"10"
+			"duration"				"8"
 			"attack_speed"		
 			{
 				"value"						"60 75 90 105"
@@ -16093,7 +16514,7 @@
 		"SpellDispellableType"			"SPELL_DISPELLABLE_YES_STRONG"
 		"AbilityTextureName"			"Bogdan/Key"
 		"AbilityCastRange"				"800"
-		"AbilityCooldown"				"15"
+		"AbilityCooldown"				"22 20 18 16"
 		"AbilityCastPoint"				"0.3"
 		"AbilityManaCost"				"50 65 85 95"
 
@@ -16322,7 +16743,11 @@
 			"stack_damage"		"30 40 50 60"
 			"strength_minus"	"0.5 0.75 1 1.25"
 			"max_stack_count"	"10"
-			"radius"			"150 200 250 300"
+			"radius"
+			{
+				"value"			"150 200 250 300"
+				"affected_by_aoe_increase"	"1"
+			}				
 			"duration"			"20"
 			"scepter_bonus_damage"	"30"
 		}
@@ -16343,7 +16768,11 @@
 
 		"AbilityValues"
 		{
-			"cloud_radius"		"300"
+			"cloud_radius"
+			{
+				"value"				"300"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"damage"			"100 150 200"
 			"duration"			"5"
 		}
@@ -16459,7 +16888,11 @@
 		
 		"AbilityValues"
 		{
-			"radius"					"700"
+			"radius"
+			{
+				"value"				"700"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration"					"3"
 			"interval"					"0.5"
 			"damage"					"75 100 125 150"
@@ -16487,7 +16920,11 @@
 
 		"AbilityValues"
 		{
-			"radius"						"300"
+			"radius"
+			{
+				"value"				"300"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"damage"						"120 165 210 255"
 			"base_damage"					"125 150 175 200"
 			"movespeed_slow"				"-15 -25 -35 -45"
@@ -16512,7 +16949,11 @@
 
 		"AbilityValues"
 		{
-			"radius"						"1000"
+			"radius"
+			{
+				"value"				"1000"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"max_attacks"					"1 2 3 4"
 			"base_dmg"						"20 30 40 50"
 		}
@@ -16668,7 +17109,11 @@
 
 		"AbilityValues"
 		{
-			"radius"					"400"
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"damage"					"75 125 175 225"
 			"attack_speed_cooldown"		"85"
 			"cooldown_reduce"			"1"
@@ -16688,7 +17133,7 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_3"
 		"AbilityCooldown"				"50"
-		"AbilityGoldCost"				"100 150 200 250"	
+		"AbilityGoldCost"				"100 120 140 160"	
 		"AbilityCastRange"				"3000"
 		"LinkedAbility"					"thomas_ability_two_two"
 		"AoERadius"						"600"
@@ -16702,7 +17147,7 @@
 			"damage"					"10 15 20 25"
 			"gold_steal"				"13"
 			"duration_swap"				"15"
-			"abilitygoldcost"			"100 150 200 250"	
+			"abilitygoldcost"			"100 120 140 160"	
 		}
 	}
 
@@ -16714,7 +17159,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_HIDDEN"		
 		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_3"
 		"AbilityCooldown"				"50"
-		"AbilityGoldCost"				"100 150 200 250"	
+		"AbilityGoldCost"				"100 120 140 160"	
 		"AbilityCastRange"				"3000"
 		"LinkedAbility"					"thomas_ability_two_one"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
@@ -16724,11 +17169,15 @@
 
 		"AbilityValues"
 		{
-			"radius"					"600"
+			"radius"
+			{
+				"value"				"600"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"damage"					"4 6 8 10"
 			"stun_duration"				"1.2"
 			"duration_debuff"			"15"
-			"abilitygoldcost"			"100 150 200 250"	
+			"abilitygoldcost"			"100 120 140 160"	
 			"interval"					"0.9"	
 		}
 	}
@@ -16756,7 +17205,11 @@
 			"damage"					"180 270 360 450"
 			"slow"						"-5 -10 -15 -20"
 			"duration"					"1.5"
-			"radius"					"400"
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -16775,8 +17228,12 @@
 		{
 			"duration"				"6"
 			"stack_for_active"		"3"
-			"attack_radius"			"600"
-			"damage"				"30 40 50"
+			"attack_radius"
+			{
+				"value"				"600"
+				"affected_by_aoe_increase"	"1"
+			}	
+			"damage"				"45 60 75"
 			"lifesteal"				"50"
 			"attackspeed_stack"		"25 35 45"
 			"damage_stack"			"25 35 45"
@@ -16919,7 +17376,11 @@
 		"AbilityValues"
 		{
 			"duration"			 	"1.5 2 2.5 3"
-			"radius"				"400"
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"damage"				"50 70 90 110"
 		}
 	}
@@ -17208,7 +17669,11 @@
 		"AbilityValues"
 		{
 			"damage"					"150"
-			"radius"					"500"
+			"radius"
+			{
+				"value"				"500"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"magic_resistance"			"-35"
 			"duration"					"5"
 			"health_regeneration"		"5"
@@ -17326,9 +17791,9 @@
 			"bonus_move_speed"			"20 30 40 50"
 			"bonus_armor"				"4 6 8 10"
 			"bonus_range"				"350"
-			"base_attack_time"			"1.5 1.4 1.3 1.2"
+			"base_attack_time"			"1.4"
 			"stun_chance"				"7"
-			"stun_duration"				"1.7"
+			"stun_duration"				"1.3 1.5 1.7 1.9"
 		}
 	}
 	
@@ -17367,7 +17832,7 @@
 		"AbilityValues"
 		{
 			"duration"					"16"
-			"damage_per_stack"			"10 15 20 25"
+			"damage_per_stack"			"5 10 15 20"
 		}
 	}
 
@@ -17390,7 +17855,11 @@
 
 		"AbilityValues"
 		{
-			"radius"		"600"
+			"radius"
+			{
+				"value"				"600"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"attack_interval"		"0.2"
 			"channel_duration"		"4 5 6"
 		}
@@ -17404,7 +17873,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"5"	
+			"value"						"35"	
 		}
 	}
 
@@ -17427,7 +17896,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"50"	
+			"value"						"35"	
 		}
 	}
 	"special_bonus_birzha_gorin_4"
@@ -17507,8 +17976,16 @@
 		
 		"AbilityValues"
 		{
-			"min_radius"				"100"
-			"max_radius"				"500"
+			"min_radius"
+			{
+				"value"				"100"
+				"affected_by_aoe_increase"	"1"
+			}	
+			"max_radius"
+			{
+				"value"				"500"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"min_duration"				"0.5"
 			"max_duration"				"2.5"
 			"min_damage"				"50 60 70 80"
@@ -17553,18 +18030,23 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
 		"AbilityTextureName"			"jull/in_time"
-		"AbilityCooldown"				"6 4.5 3 1.5"
+		"AbilityCooldown"				"6.5 5.0 3.5 2"
 		"AbilityManaCost"				"300"
 
 		"AbilityValues"
 		{
 			"manacost"				"5"
 			"blink_range"			"350 400 450 500"
-			"radius"				"350"
+			"radius"
+			{
+				"value"				"350"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"slow"					"-4 -5 -6 -7"
 			"magic_resistance"		"-2 -3 -4 -5"
 			"manacost_percentage"	"10"
 			"duration"				"3"
+			"max_stack"				"6"
 		}
 	}
 
@@ -17582,14 +18064,18 @@
 
 		"AbilityValues"
 		{
-			"radius"				"600"
+			"radius"
+			{
+				"value"				"600"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"width"					"150"
 			"base_damage"			"40"
 			"damage_intellect"		"4 4.25 4.5 4.75 5 5.25 5.5 5.75 6 6.25 6.5 6.75 7 7.25 7.5 7.75 8 8.25 8.5 8.75 9 9.25 9.5 9.75 10"
 			"duration"				"3"
 			"manacost_percentage"	"4"
 			"charge_duration"		"1"
-			"intellect_damage"		"75"
+			"intellect_damage"		"55"
 		}
 	}
 
@@ -17631,9 +18117,13 @@
 
 		"AbilityValues"
 		{
-			"base_damage"					"20 30 40"
+			"base_damage"					"15 20 25"
 
-			"radius"						"250"
+			"radius"
+			{
+				"value"				"250"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"damage_wave"					"250 450 650"
 			"wave_damage_multiple"			"2"
 
@@ -17804,7 +18294,11 @@
 			"duration"					"3"
 			"damage"					"60 120 180 240"
 			"resist_debuff"				"-50"
-			"radius"					"500"
+			"radius"
+			{
+				"value"				"500"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -17830,7 +18324,11 @@
 		"AbilityValues"
 		{
 			"pull_speed"			"40 40 40"
-			"radius"				"450"
+			"radius"
+			{
+				"value"				"450"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"damage"				"200 250 300"
 			"duration"				"6"
 			"scepter_duration"		"4"
@@ -17942,7 +18440,7 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES" 
 		"AbilityTextureName"			"felix/WaterStream"
-		"AbilityCastRange"				"700"
+		"AbilityCastRange"				"%radius"
 		"AbilityCooldown"				"12 11 10 9"
 		"AbilityManaCost"				"100 125 150 175"
 		"HasScepterUpgrade"				"1"
@@ -17951,7 +18449,11 @@
 		{
 			"heal"					"125 225 325 425"
 			"damage"				"120 165 210 255"
-			"radius"				"700"
+			"radius"
+			{
+				"value"				"700"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"intellect_perc"		"50%"
 			"scepter_cooldown"		"5"
 		}
@@ -17976,8 +18478,12 @@
 		"AbilityValues"
 		{
 			"stun_duration"				"2 2.4 2.8 3.2"
-			"resist_minus"				"-10 -15 -20 -25"
-			"radius"					"200"
+			"resist_minus"				"8 12 16 20"
+			"radius"
+			{
+				"value"				"200"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"scepter_cd"				"22 20 18 16"
 			"stun_duration_scepter"		"1.8 1.95 2.1 2.25"
 		}
@@ -18036,7 +18542,12 @@
 		{
 			"resistance"			    "100"
 			"duration"				    "5 6.5 8"
-			"radius"				    "400"
+			"movespeed"					"15 20 25"
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -18056,7 +18567,11 @@
 
 		"AbilityValues"
 		{
-			"radius"				"1100"
+			"radius"
+			{
+				"value"				"1100"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration"				"7"
 			"base_dmg"				"100"
 			"perc_dmg"				"3.5"
@@ -18071,7 +18586,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"-10"	
+			"value"						"10"	
 		}
 	}
 
@@ -18174,7 +18689,11 @@
 		{
 			"base_damage"			  	"100 140 180 220"
 			"damage_unit"				"30 60 90 120"
-			"radius"					"800"
+			"radius"
+			{
+				"value"				"800"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -18193,7 +18712,11 @@
 		{
 			"duration"			  	"0.6 0.7 0.8 0.9"
 			"damage"					"40 80 120 160"
-			"radius"					"450"
+			"radius"
+			{
+				"value"				"450"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -18220,7 +18743,11 @@
 			"duration"					"6" 
 			"bonus_damage"				"20 30 40 50"
 			"movespeed_slow"		   "-6 -7 -8 -9"
-			"radius"		   			"500"
+			"radius"
+			{
+				"value"				"500"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -18242,7 +18769,11 @@
 			"damage"					"15"
 			"multiplier"             	"1.5"
 			"interval"		   		"0.5"
-			"radius"			 		"300"
+			"radius"
+			{
+				"value"				"300"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -18254,7 +18785,7 @@
 		"AbilityBehavior"		   	"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityType"					"ABILITY_TYPE_ULTIMATE"
 		"AbilityCastPoint"				"1"
-		"AbilityCastRange"				"600"
+		"AbilityCastRange"				"%radius"
 		"AbilityCooldown"		   	"70"
 		"AbilityManaCost"		   	"300"
 		"AbilityCastAnimation"			"ACT_DOTA_TAUNT"
@@ -18268,7 +18799,11 @@
 			"duration"			   	"9"
 			"damage"			   		"40 55 70"
 			"magic_damage"	  		"10 15 20"
-			"radius"	  				"600"
+			"radius"
+			{
+				"value"				"600"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -18384,14 +18919,22 @@
 		"AnimationPlaybackRate"		 "1"
 		"AnimationIgnoresModelScale"	"1"
 		"AbilityManaCost"		   	"180 220 260 300"
-		"AbilityCooldown"		   	"22"
+		"AbilityCooldown"		   	"21 20 19 18"
 
 		"AbilityValues"
 		{
 			"damage"					"175 200 225 250"
 			"int_multi"		 		"75"
-			"radius"					"175"
-			"target_radius"	 		"425"
+			"radius"
+			{
+				"value"				"175"
+				"affected_by_aoe_increase"	"1"
+			}	
+			"target_radius"
+			{
+				"value"				"425"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"blasts"					"9 12 15 18"
 		}
 	}
@@ -18455,7 +18998,11 @@
 		"AbilityValues"
 		{
 			"mana_regen_passive"		"2.25 3.5 4.75 6"
-			"radius"					"900"
+			"radius"
+			{
+				"value"				"900"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"mana_regen_active"	 	"20 25 30 35"
 			"duration"					"1.5"
 			"spell_damage"		  	"3 6 9 12"
@@ -18475,15 +19022,23 @@
 		"AbilityManaCost"				"300 400 500"
 		"HasScepterUpgrade"				"1"
 		"AbilityCastAnimation"		  "ACT_DOTA_CAST_ABILITY_6"
-		"AbilityCooldown"			   "100"
+		"AbilityCooldown"			   "85"
 		"AbilityChannelTime"			"8"
 		"HasShardUpgrade"				"1"
 		 
 		"AbilityValues"
 		{
-			"effect_radius"			 "800"
-			"delay"					 "0.25"
-			"radius"					"300"
+			"effect_radius"
+			{
+				"value"				"1000"
+				"affected_by_aoe_increase"	"1"
+			}	
+			"delay"					 "0.25 0.2 0.15"
+			"radius"
+			{
+				"value"				"300"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"blast_damage"			  "225 290 355"
 			"interval"				  "0.1"
 			"block_cooldown"			"0.001"
@@ -18827,7 +19382,11 @@
 			"damage"					"30 50 70 90"
 			"bonus_damage"				"30 40 50 60"
 			"duration"					"3"
-			"radius"					"325 350 375 400"
+			"radius"
+			{
+				"value"				"325 350 375 400"
+				"affected_by_aoe_increase"	"1"
+			}						
 			"int_multiplier"			"35"
 		}
 	}
@@ -18874,7 +19433,11 @@
 			"spell_resist"				"10 20 30 40"
 			"effect_resist"				"10 20 30 40"
 			"duration"					"1 2 3 4"
-			"radius"					"600"
+			"radius"
+			{
+				"value"					"600"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -18895,7 +19458,11 @@
 
 		"AbilityValues"
 		{
-			"radius"			"500"
+			"radius"
+			{
+				"value"				"500"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration"			"5"
 			"damage"			"125 175 225"
 		}
@@ -19040,7 +19607,11 @@
 		{
 			"float_multiplier"		"150 200 250 300"
 			"damage"		 		"125 200 275 350"
-			"radius"		 		"600"
+			"radius"
+			{
+				"value"				"600"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -19095,7 +19666,11 @@
 		{
 			"damage"				"800"
 			"stun_duration"			"1"
-			"radius"				"200"
+			"radius"
+			{
+				"value"				"200"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -19235,8 +19810,12 @@
 
 		"AbilityValues"
 		{
-			"duration"			 		"3 4.5 5"
-			"radius"			 		"450"	  
+			"duration"			 		"3 3.5 4"
+			"radius"
+			{
+				"value"				"450"
+				"affected_by_aoe_increase"	"1"
+			}		  
 		}
 	}
 	
@@ -19286,7 +19865,11 @@
 		{
 			"damage"					"120 160 200 240"
 			"int_mult"					"2"
-			"radius"					"550"
+			"radius"
+			{
+				"value"				"550"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"silence_duration"			"0.5"
 		}
 	}
@@ -19308,7 +19891,11 @@
 
 		"AbilityValues"
 		{
-			"radius"				"300"
+			"radius"				
+			{
+				"value"				"300"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration"				"3.75 4.5 5.25 6"
 			"attackspeed"			"50 60 70 80"
 			"int_scale"				"1 2 3 4"
@@ -19338,10 +19925,12 @@
 			"perc_mana"					"13"
 			"attack_count"				"3"
 			"buff_duration"				"1"
+			"incom_dmg"					"-20"
 
 			"debuff_duration"			"5"
 			"debuff_damage"				"-20"
 			"debuff_movespeed"			"-20"
+			"damage"					"0.15"
 			"duration"					"3"
 
 		}
@@ -19353,13 +19942,17 @@
 		"ScriptFile"					"abilities/heroes/miku.lua"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"			"Miku/HealSound"
-		"AbilityCooldown"				"8 7 6 5"
+		"AbilityCooldown"				"9 8 7 6"
 		
 		"AbilityValues"
 		{
 			"heal"						"75 150 225 300"
 			"heal_percent"				"4 6 8 10"
-			"radius"					"475 500 525 550"
+			"radius"
+			{
+				"value"				"475 500 525 550"
+				"affected_by_aoe_increase"	"1"
+			}						
 		}
 	}
 
@@ -19380,7 +19973,11 @@
 
 		"AbilityValues"
 		{
-			"radius"					"800"
+			"radius"
+			{
+				"value"				"800"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration"					"5 6 7"
 			"mana_spend"				"5 7 9"
 			"bonus_damage"				"10 20 30"
@@ -19418,11 +20015,15 @@
 		
 		"AbilityValues"
 		{
-			"radius"					"900"
+			"radius"
+			{
+				"value"				"900"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration"					"8"
 			"bonus_movespeed"			"30"
 			"bonus_attackspeed"			"75"
-			"cooldown_purge"			"4"
+			"cooldown_purge"			"3"
 			"heal"						"5"
 		}
 	}
@@ -19502,7 +20103,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"-3"			
+			"value"						"-2"			
 		}
 	}
 	"special_bonus_birzha_miku_8"
@@ -19568,7 +20169,11 @@
 			"damage"					"130 170 200 230"
 			"duration"					"10"
 			"heart_debuff_duration"		"8"
-			"radius"					"200"
+			"radius"
+			{
+				"value"				"200"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"damage_multiple"			"1.5"
 			"AbilityCharges"
 			{
@@ -19611,7 +20216,11 @@
 		{
 			"damage"					"100 125 150 175"
 			"bonus_damage"				"5"
-			"radius"					"300 400 500 600"
+			"radius"
+			{
+				"value"					"300 400 500 600"
+				"affected_by_aoe_increase"	"1"
+			}						
 			"duration"					"2.5 3 3.5 4"
 		}
 	}
@@ -19792,7 +20401,11 @@
 
 		"AbilityValues"
 		{
-			"radius"					"400"
+			"radius"
+			{
+				"value"					"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"proximity_threshold"		"1"
 			"damage"					"200 300 400 500"
 			"activation_delay"			"1"
@@ -19821,8 +20434,16 @@
 
 		"AbilityValues"
 		{		
-			"activation_radius"			"400"
-			"stun_radius"				"600"
+			"activation_radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
+			"stun_radius"
+			{
+				"value"				"600"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"stun_duration"				"1.5 2 2.5 3"
 			"activation_time"			"2.0"
 			"duration"					"600.0"
@@ -19850,7 +20471,11 @@
 
 		"AbilityValues"
 		{
-			"radius"					"400"
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"damage"					"250 350 450 550"
 			"silence_duration"			"2 3 4 5"
 			"hp_cost"					"50"
@@ -19881,7 +20506,11 @@
 		"AbilityValues"
 		{
 			"damage"					"150 300 450"
-			"radius"					"425"
+			"radius"
+			{
+				"value"				"425"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration"					"600.0"
 			"damage_scepter"			"300 450 600"
 			"cast_range_scepter_bonus"	"300"
@@ -19944,7 +20573,11 @@
 
 		"AbilityValues"
 		{
-			"aura_radius"				"125"
+			"aura_radius"
+			{
+				"value"				"125"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"lifetime"					"70"
 		}
 	}
@@ -20065,7 +20698,11 @@
 
 		"AbilityValues"
 		{
-			"radius"					"500"
+			"radius"
+			{
+				"value"				"500"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration"					"5"
 			"damage"					"55 85 115 145"
 		}
@@ -20080,8 +20717,8 @@
 		
 		"AbilityValues"
 		{
-			"bonus_speed"				"100 200 300 400"
-			"cooldown_reduce_pct"		"5 10 15 20"
+			"bonus_speed"				"80 160 240 320"
+			"cooldown_reduce_pct"		"0 5 10 15"
 		}
 	}
 
@@ -20099,8 +20736,13 @@
 		"AbilityValues"
 		{
 			"damage"					"40 60 80 100"
-			"radius"					"250"
+			"radius"
+			{
+				"value"				"250"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"mana_per_sec"				"30 40 50 60"
+			"mana_perc_per_sec"			"2"
 		}
 	}
 
@@ -20127,8 +20769,13 @@
 			"duration"					"10"
 			"radius"					"175"
 			"stun_duration"				"3"
+			"shard_duration"			"1"
 			"speed"						"1000"
-			"radius_boom"				"400"
+			"radius_boom"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"scepter_multiple"			"2"
 		}
 	}
@@ -20208,7 +20855,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"20"			
+			"value"						"15"			
 		}
 	}
 	"special_bonus_birzha_thomas_8"
@@ -20285,7 +20932,11 @@
 		{
 			"return_damage"				"100 120 140 160"
 			"movespeed_range"			"0.5 1 1.5 2"
-			"radius"					"150 250 350 450"
+			"radius"
+			{
+				"value"				"150 250 350 450"
+				"affected_by_aoe_increase"	"1"
+			}						
 			"stun_duration"				"1.5 2 2.5 3"
 			"duration"					"1"
 		}	
@@ -20321,7 +20972,11 @@
 
 		"AbilityValues"
 		{
-			"radius"				"500 600 700"
+			"radius"
+			{
+				"value"					"500 600 700"
+				"affected_by_aoe_increase"	"1"
+			}					
 			"stun_duration"				"1 1.5 2"
 		}	
 	}
@@ -20494,7 +21149,11 @@
 		{
 			"duration"				"1.5"
 			"damage"				"150 225 300 375"
-			"radius"				"300"
+			"radius"
+			{
+				"value"				"300"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -20505,14 +21164,14 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
 		"AbilityType"					"ABILITY_TYPE_ULTIMATE"
 		"AbilityTextureName"			"Slidan/ReallyClassic"
-		"AbilityChannelTime"			"2.25 1.5 0.75"
+		"AbilityChannelTime"			"3 2.25 1.5"
 		"AbilityCooldown"			   "0"
 		"AbilityManaCost"			   "200 300 400"
 		"AbilityCooldown"				"5"
 
 		"AbilityValues"
 		{
-			"channel"			"2 1 0.5"
+			"channel"			"3 2.25 1.5"
 		}
 	}
 	"special_bonus_birzha_slidan_1"
@@ -20624,7 +21283,11 @@
 
 		"AbilityValues"
 		{
-			"radius"					"300 350 400 450"
+			"radius"
+			{
+				"value"					"300 350 400 450"
+				"affected_by_aoe_increase"	"1"
+			}						
 			"silence_duration"			"1.5 2 2.5 3"
 			"damage"					"130 180 230 280"
 			"blink_range"				"300 375 450 525"
@@ -20696,8 +21359,16 @@
 			"forward_move_speed"	"600 700 800"
 			"turn_rate_boosted"		"165"
 			"turn_rate"				"120"
-			"radius"				"200"
-			"hit_radius"			"150"
+			"radius"
+			{
+				"value"				"200"
+				"affected_by_aoe_increase"	"1"
+			}	
+			"hit_radius"
+			{
+				"value"				"150"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"bounce_duration"		"0.4"
 			"stun_duration"			"1 1.25 1.5"
 			"knockback_radius"		"150"
@@ -20877,7 +21548,11 @@
 		{
 			"damage"					"150 300 450 600"
 			"damage_per_kill"			"25"
-			"radius"					"325"
+			"radius"
+			{
+				"value"				"325"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -21082,8 +21757,16 @@
 		"AbilityValues"
 		{
 			"damage"					"200 250 300 350"
-			"radius"					"550"
-			"radius_boom"				"200"
+			"radius"
+			{
+				"value"				"550"
+				"affected_by_aoe_increase"	"1"
+			}	
+			"radius_boom"
+			{
+				"value"				"200"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"delay"						"0.5"
 			"duration"					"2 2.5 3 3.5"		
 		}
@@ -21109,7 +21792,11 @@
 		"AbilityValues"
 		{
 			"duration"				"3 4 5"
-			"radius"				"600"
+			"radius"
+			{
+				"value"				"600"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"stun_duration"			"2"
 			"damage"				"200 300 400"
 		}
@@ -21137,7 +21824,11 @@
 
 		"AbilityValues"
 		{
-			"radius"				"300"
+			"radius"
+			{
+				"value"				"300"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"range"					"600"
 		}
 	}
@@ -21255,7 +21946,11 @@
 
 		"AbilityValues"
 		{
-			"aoe_radius"				"400 450 500 550"
+			"aoe_radius"
+			{
+				"value"				"400 450 500 550"
+				"affected_by_aoe_increase"	"1"
+			}					
 			"radius_barier"				"100"
 			"duration"					"3.5 4 4.5 5"
 			"damage"					"250 350 450 550"
@@ -21292,7 +21987,11 @@
 		"AbilityValues"
 		{
 			"speed"					"900"
-			"radius"				"200"
+			"radius"
+			{
+				"value"				"200"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"damage"				"60 120 180 240"
 			"slow"					"30 40 50 60"
 			"damage_interval"		"0.5"
@@ -21335,7 +22034,11 @@
 		"AbilityValues"
 		{
 			"speed"					"900"
-			"radius"				"200"
+			"radius"
+			{
+				"value"				"200"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"damage"				"240"
 			"slow"					"60"
 			"damage_interval"		"0.5"
@@ -21492,7 +22195,7 @@
 		"AbilityUnitTargetFlags"	"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
 		"AbilityTextureName"	 	"V1lat/Crab"
 		"AbilityCastRange"			"500"
-		"AbilityCooldown"			"24 23 22 21"
+		"AbilityCooldown"			"24 22 20 18"
 		"AbilityManaCost"			"150 200 250 300"
 
 		"AbilityValues"
@@ -21514,11 +22217,15 @@
 		"AbilityTextureName"			"V1lat/AiAiAi"
 		"AbilityCooldown"				"25 24 23 22"
 		"AbilityManaCost"				"175"
-		"AoERadius"						"500"
+		"AoERadius"						"%radius"
 
 		"AbilityValues"
 		{
-			"radius"				"500"
+			"radius"
+			{
+				"value"				"500"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"frostbite_duration"	"3 4 5 6"
 			"dot_damage"			"40 50 60 70"
 			"think_interval"		"1.0"
@@ -21558,7 +22265,12 @@
 			"damage"				"150 200 250 300"
 			"bonus_int"				"2 4 6 8"
 			"duration_stack"		"60"
-			"radius"				"600"
+			"radius"
+			{
+				"value"				"600"
+				"affected_by_aoe_increase"	"1"
+			}	
+			"int_damage"			"30 40 50 60"
 		}
 	}
 
@@ -21575,7 +22287,7 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 		"HasScepterUpgrade"				"1"
 		"AbilityCastPoint"				"0.452 0.452 0.452"
-		"AbilityCooldown"				"70"
+		"AbilityCooldown"				"60"
 		"AbilityManaCost"				"200 250 300"
 		"AbilityChannelTime"			"5"
 		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_4"
@@ -21585,10 +22297,14 @@
 		{
 			"starting_aoe"		"100"
 			"distance"			"900"
-			"final_aoe"			"450"
+			"final_aoe"
+			{
+				"value"				"450"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"speed"				"1100"
 			"damage"			"100"
-			"int_mul"			"80 120 160"
+			"int_mul"			"60 80 100"
 		}
 	}
 
@@ -21776,7 +22492,11 @@
 			"per_damage"			 		"10 30 50"
 			"magical_resistance"			"-50 -75 -100"
 			"movement_speed"			 	"-50 -75 -100"
-			"radius"						"650"
+			"radius"
+			{
+				"value"				"650"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -21887,7 +22607,7 @@
 		"AbilityUnitDamageType"	 "DAMAGE_TYPE_PURE"
 		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_NO"
 		"SpellDispellableType"		"SPELL_DISPELLABLE_NO"
-		"AbilityCooldown"		   "10"
+		"AbilityCooldown"		   "15 14 13 12"
 		"AbilityManaCost"		   "100"
 		"AbilityCastRange" 			"650"	
 
@@ -21909,7 +22629,7 @@
 		"AbilityUnitTargetType"	 "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_NO"
 		"SpellDispellableType"		"SPELL_DISPELLABLE_NO"
-		"AbilityCooldown"		   "16"
+		"AbilityCooldown"		   "26 24 22 20"
 		"AbilityManaCost"		   "125 145 165 185"
 		"AbilityCastRange"			"800"
 		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_1"
@@ -21948,7 +22668,11 @@
 			}   
 			"attack_count_shard"				"4"
 			"silence_shard_duration"			"1.5"
-			"scepter_radius"					"600"									
+			"scepter_radius"
+			{
+				"value"				"600"
+				"affected_by_aoe_increase"	"1"
+			}										
 		}
 	}
 
@@ -21958,13 +22682,14 @@
 		"ScriptFile"				"abilities/heroes/ns.lua"
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"	 	"Ns/TricksMaster"
-		"AbilityCooldown"		 	"6 4.5 3"
 		"SpellDispellableType"		"SPELL_DISPELLABLE_NO"
+		"IsBreakable"					"1"
 		"AbilityType"				"ABILITY_TYPE_ULTIMATE"
 	  
 		"AbilityValues"
 		{
-			"bonus_intellect"			 	"1"
+			"int_kill"			 	"3 4 5"
+			"spell_amp"				"1"
 		}
 	}
 
@@ -22059,7 +22784,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"-7"	
+			"value"						"-8"	
 		}
 	}
 	"special_bonus_birzha_ns_4"
@@ -22103,7 +22828,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"2"			
+			"value"						"1.5"			
 		}
 	}
 	"special_bonus_birzha_ns_8"
@@ -22156,7 +22881,11 @@
 		"AbilityValues"
 		{
 			"damage_from_health"		"50"
-			"radius"					"800"
+			"radius"
+			{
+				"value"				"800"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -22180,14 +22909,22 @@
 
 		"AbilityValues"
 		{
-			"aoe_radius"			"225"
+			"aoe_radius"
+			{
+				"value"				"225"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"cast_delay"			"0.6"
-			"stun_duration"			"1.6 1.9 2.2 2.5"
+			"stun_duration"			"1.2 1.4 1.6 1.8"
 			"damage"				"80 140 200 260"
 			"secondary_delay"		"0.1"
 			"array_count"			"1"
 			"array_rings_count"		"6"
-			"rings_radius"			"150"
+			"rings_radius"
+			{
+				"value"				"150"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"rings_delay"			"0.3"
 			"rings_distance"		"0.25"
 		}
@@ -22213,7 +22950,11 @@
 		"AbilityValues"
 		{
 			"damage"					"225 325 425 525"
-			"radius"					"400"
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration"					"2 2.5 3 3.5"
 		}			
 	}
@@ -22236,6 +22977,7 @@
 		"AbilityValues"
 		{
 			"damage_health_pct"			"5"
+			"cooldown"					"2"
 		}
 	}
 
@@ -22253,7 +22995,7 @@
 		"AbilityCastAnimation"			"ACT_DOTA_ATTACK"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"			"mina/NuclearStrike"
-		"AbilityCastRange"				"500"
+		"AbilityCastRange"				"%radius"
 		"AbilityCastPoint"				"0.2"
 		"AbilityCooldown"				"70"
 		"AbilityManaCost"				"250 225 200"
@@ -22262,10 +23004,14 @@
 		"AbilityValues"
 		{
 			"damage"				"200 300 400"
-			"radius"				"500"
+			"radius"
+			{
+				"value"				"500"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration"				"15"
 			"slow"					"-25"
-			"interval"				"0.5"
+			"interval"				"0.65"
 
 			"stun_duration"			"0.6"
 			"slow_duration"			"2"
@@ -22435,7 +23181,11 @@
 		{
 			"duration"					"1.5 1.75 2 2.25"
 			"bonus_damage"				"0.25 0.5 0.75 1"
-			"shard_radius"				"200"
+			"shard_radius"
+			{
+				"value"				"200"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -22447,7 +23197,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"	
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 		"AbilityCooldown"				"8 7 6 5"
-		"AbilityCastRange"				"500"
+		"AbilityCastRange"				"%radius"
 		"AbilityUnitTargetTeam"		 "DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"		 "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
@@ -22456,7 +23206,11 @@
 		"AbilityValues"
 		{
 			"damage"			"40 80 120 160"
-			"radius"			"500"
+			"radius"
+			{
+				"value"				"500"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -22477,7 +23231,11 @@
 		"AbilityValues"
 		{
 			"mana_cost_per_second"		"15 30 45"
-			"radius"					"500"
+			"radius"
+			{
+				"value"				"500"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"damage"					"90 140 190"
 		}
 	}
@@ -22659,7 +23417,11 @@
 			"decay_damage"					"100 175 250 325"
 			"str_steal"						"4"
 			"decay_duration"				"45"
-			"radius"						"325"		
+			"radius"
+			{
+				"value"				"325"
+				"affected_by_aoe_increase"	"1"
+			}			
 		}
 	}
 
@@ -22701,7 +23463,11 @@
 
 		"AbilityValues"
 		{
-			"radius"				"1200 1400 1600"
+			"radius"
+			{
+				"value"				"1200 1400 1600"
+				"affected_by_aoe_increase"	"1"
+			}					
 			"intellect"				"4 5 6"
 			"mana_burn"				"30 40 50"
 			"damage_burn"			"200 400 600"
@@ -22890,7 +23656,11 @@
 		{
 			"speed"					 "600"
 			"delay"					 "2.9"
-			"radius"					"675"
+			"radius"
+			{
+				"value"				"675"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"pull_speed"				"300"
 			"mana_burn"				 "80"
 			"mana_add"				  "0.5"
@@ -23218,7 +23988,11 @@
 		{
 			"duration"				"1 1.1 1.2 1.3 1.4 1.5 1.75"
 			"damage"				"210"
-			"radius"				"500"
+			"radius"
+			{
+				"value"				"500"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"clone_speed"			"600 800 1000 1200 1400 1600 1800"
 			"range"					"300 350 400 450 500 550 600"
 			"duration_clone"		"6"
@@ -23247,7 +24021,11 @@
 		{
 			"damage"					"52 58 64 70 76 82 88"
 			"duration"					"5"
-			"radius"					"200"
+			"radius"
+			{
+				"value"				"200"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"range"						"400 550 700 850 1000 1150 1300"
 			"movespeed_slow"			"-22 -25 -28 -31 -34 -37 -40"
 			"magic_resistance_minus"	"-0 -0.5 -1 -1.5 -2 -2.5 -3"
@@ -23311,7 +24089,11 @@
 
 		"AbilityValues"
 		{
-			"radius"					"200"
+			"radius"
+			{
+				"value"				"200"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"shield_duration_ally"		"5"
 			"shield_duration_enemy"		"3"
 			"health_restore"			"200"
@@ -23376,7 +24158,11 @@
 			"damage"					"0 0 0 0 250 300 350"
 			"range"						"400 450 500 550 600 650 700"
 			"delay"						"1.7"
-			"radius"					"250"
+			"radius"
+			{
+				"value"				"250"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -23626,7 +24412,11 @@
 		{
 			"path_delay"				"0.5"
 			"duration"					"0.3 0.5 0.7 0.9 1.1 1.3 1.5"
-			"path_radius"				"150"
+			"path_radius"
+			{
+				"value"				"150"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"damage"					"0 40 80 120 160 200 240"
 			"range"						"500 600 700 800 900 1000 1100"
 		}
@@ -23650,10 +24440,18 @@
 
 		"AbilityValues"
 		{
-			"radius"					"400 420 440 460 480 500 520"
+			"radius"
+			{
+				"value"				"400 420 440 460 480 500 520"
+				"affected_by_aoe_increase"	"1"
+			}						
 			"duration"					"0.1 0.2 0.3 0.4 0.6 0.7 0.8"
 			"damage"					"0 40 80 120 160 200 240"
-			"radius_tree"				"275"
+			"radius_tree"
+			{
+				"value"				"275"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"range"		   			"300 400 500 600 700 800 900"
 		}
 	}
@@ -23675,10 +24473,18 @@
 
 		"AbilityValues"
 		{
-			"radius"			"600"
+			"radius"
+			{
+				"value"				"600"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"duration"			"0.5 0.5 0.5 0.6 0.75 0.75 0.75"
 			"damage"			"150 170 190 210 230 250 270"
-			"radius_hit"		"250"
+			"radius_hit"
+			{
+				"value"				"250"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"AbilityCharges"
 			{
 				"value"										 "1"
@@ -23703,7 +24509,11 @@
 		
 		"AbilityValues"
 		{
-			"radius"				"400"
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"damage"				"90 150 210 270 330 390 450"
 			"stun_duration"			"0 0.2 0.4 0.6 0.8 1 1.2"
 			"cast_point"			"0.6 0.5 0.4 0.3 0.2 0.1 0.01"
@@ -23727,7 +24537,11 @@
 		"AbilityValues"
 		{
 			"damage"						"75 125 175 225 275 325 375"
-			"radius"						"275"
+			"radius"
+			{
+				"value"				"275"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"cast_range"					"700 750 800 850 900 950 1000"
 			"range_min"						"300"
 			"bonus_damage"					"25"
@@ -23760,7 +24574,11 @@
 			"damage"					"100 160 220 280 340 400 460"
 			"distance_fire"				"200 300 400 500 600 700 800"
 			"distance_knockback"		"100 170 240 310 380 450 520"
-			"radius"					"250"
+			"radius"
+			{
+				"value"				"250"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"range"						"200 300 400 500 600 700 800"
 		}
 	}
@@ -23782,7 +24600,11 @@
 		"AbilityValues"
 		{
 			"range"						"1000"
-			"radius_two"				"200"
+			"radius_two"
+			{
+				"value"				"200"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"damage"					"0 0 0 200 300 400 500"
 			"damage_multiple"			"150"
 		}
@@ -23807,7 +24629,11 @@
 		{
 			"damage"						"0 0 220 330 440 550 550"
 			"stun_duration"					"0.2 0.35 0.5 0.65 0.8 0.95 1.1"
-			"radius"						"300"
+			"radius"
+			{
+				"value"				"300"
+				"affected_by_aoe_increase"	"1"
+			}	
 			"shard_cooldown"				"5"
 		}
 	}
@@ -23836,6 +24662,16 @@
 			"bonus_vision"					"200"
 			"scepter_soul"					"1"
             "scepter_cooldown"              "0.2"
+			"width_start"
+			{
+				"value"						"125"
+				"affected_by_aoe_increase"	"1"
+			}
+			"width_end"
+			{
+				"value"						"350"
+				"affected_by_aoe_increase"	"1"
+			}
 		}
 	}
 
@@ -24068,7 +24904,11 @@
 			"damage_perc"							"150 300 450"	
 			"duration"								"12"
 			"damage_duration"						"6"	
-			"radius"								"800"	
+			"radius"
+			{
+				"value"						"800"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -24133,7 +24973,11 @@
 
 		"AbilityValues"
 		{
-			"radius"				"800 1600 2400 3200 4000"			
+			"radius"
+			{
+				"value"						"800 1600 2400 3200 4000"
+				"affected_by_aoe_increase"	"1"
+			}							
 		}
 	}
 
@@ -24192,7 +25036,11 @@
 		{
 			"base_damage"			"75 150 225 300 375"
 			"perc_damage"			"75"
-			"radius"				"450"
+			"radius"
+			{
+				"value"						"450"
+				"affected_by_aoe_increase"	"1"
+			}
 			"delay"					"0.5"
 		}
 	}
@@ -24214,7 +25062,11 @@
 
 		"AbilityValues"
 		{
-			"radius"								"100 150 200 250 300"
+			"radius"
+			{
+				"value"						"100 150 200 250 300"
+				"affected_by_aoe_increase"	"1"
+			}								
 			"radius_perc"							"100"
 			"duration"								"0.75 1.25 1.75 2.25 2.75"	
 			"duration_perc"							"1"
@@ -24257,7 +25109,7 @@
 		"AbilityBehavior" 							"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_HIDDEN"
 		"AbilityTextureName"						"overlord_anime/spell_9"
 		"AbilityCooldown"							"25"
-		"AbilityCastRange"							"600"
+		"AbilityCastRange"							"%radius"
 		"AbilityManaCost"							"200"
 		"AbilityUnitTargetTeam"						"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"						"DOTA_UNIT_TARGET_HERO"
@@ -24270,7 +25122,11 @@
 
 		"AbilityValues"
 		{
-			"radius"				"600"
+			"radius"
+			{
+				"value"						"600"
+				"affected_by_aoe_increase"	"1"
+			}
 			"fear_duration"			"1 1.5 2 2.5 3"
 			"intellect_gain"		"15 30 45 60 75"
 			"duration"				"10 20 30 40 50"		
@@ -24318,7 +25174,11 @@
 		{
 			"base_damage"							"60 70 80 90 100"
 			"interval"								"0.5"
-			"radius"								"200 260 320 380 460"
+			"radius"
+			{
+				"value"						"200 260 320 380 460"
+				"affected_by_aoe_increase"	"1"
+			}								
 			"manacost"								"25 45 65 85 105"
 			"damage_increase"						"5 10 15 20 25"	
 		}
@@ -24349,7 +25209,11 @@
 			"manacost"								"20"	
 
 			"range"									"900"
-			"radius"								"200"	
+			"radius"
+			{
+				"value"						"200"
+				"affected_by_aoe_increase"	"1"
+			}	
 		}
 	}
 
@@ -24402,7 +25266,11 @@
 		"AbilityValues"
 		{
 			"delay"					"3"
-			"radius"				"900"
+			"radius"
+			{
+				"value"						"900"
+				"affected_by_aoe_increase"	"1"
+			}
 			"duration"				"10 20 30 40 50"
 			"damage"				"250 300 350 400 450"
 			"duration_debuff"		"3"
@@ -24434,7 +25302,11 @@
 		"AbilityValues"
 		{
 			"delay"					"3"
-			"radius"				"150 300 450 600 750"
+			"radius"
+			{
+				"value"						"150 300 450 600 750"
+				"affected_by_aoe_increase"	"1"
+			}				
 			"stun_duration"			"0.25 0.5 0.75 1 1.25"
 			"damage"				"1 2 3 4 5"		
 			"perc_radius"			"50"	
@@ -24550,7 +25422,11 @@
 
 		"AbilityValues"
 		{
-			"radius"								"300"
+			"radius"
+			{
+				"value"						"300"
+				"affected_by_aoe_increase"	"1"
+			}
 			"proj_speed"							"800"
 			"percent_damage"						"1 2.5 4 5.5"
 			"duration"							  "6"
@@ -24560,7 +25436,11 @@
 			"armor_bonus"						   "4"
 
 			// Cold
-			"cold_radius"						   "300"
+			"cold_radius"
+			{
+				"value"						"300"
+				"affected_by_aoe_increase"	"1"
+			}
 			"cold_damage"						   "100 150 200 250"
 			"root_duration"						 "1.5 2 2.5 3"
 			"delay"								 "0.25"
@@ -24583,7 +25463,7 @@
 			"zombie_cooldown_active"				"5 4 3 2"
 			"zombie_count"						  "1 2 3 4"
 			"attack_count_die"					  "1"
-			"damage_hero"						   "100"
+			"damage_hero"						   "75"
 		}
 	}
 
@@ -24633,7 +25513,7 @@
 
 		"AbilityValues"
 		{	
-			"duration"				  "25"
+			"duration"				  "10 12 14"
 			"outgoing_damage"		   "50 100 150"
 			"incoming_damage"		   "200"
 		}	
@@ -24671,7 +25551,11 @@
 		{	
 			"duration"							  "10"
 			"stun_duration"						 "2.5"
-			"radius"								"750"
+			"radius"
+			{
+				"value"						"750"
+				"affected_by_aoe_increase"	"1"
+			}
 			"AbilityCharges"						"2"
 			"AbilityChargeRestoreTime"			  "10"
 		}	

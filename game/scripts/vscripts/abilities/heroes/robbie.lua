@@ -13,6 +13,7 @@ function robbie_trap:Precache(context)
         "particles/units/heroes/hero_meepo/meepo_earthbind.vpcf",
         "particles/units/heroes/hero_riki/riki_backstab.vpcf",
         "particles/generic_hero_status/status_invisibility_start.vpcf",
+        "particles/gachi_shield_scepter.vpcf",
     }
     for _, particle_name in pairs(particle_list) do
         PrecacheResource("particle", particle_name, context)
@@ -110,34 +111,97 @@ LinkLuaModifier("modifier_roby_agility", "abilities/heroes/robbie.lua", LUA_MODI
 
 roby_agility = class({})
 
-function roby_agility:GetIntrinsicModifierName()
-    return "modifier_roby_agility"
+function roby_agility:GetCooldown(level)
+    return self.BaseClass.GetCooldown( self, level )
+end
+
+function roby_agility:GetManaCost(level)
+    return self.BaseClass.GetManaCost(self, level)
+end
+
+function roby_agility:OnSpellStart()
+    if not IsServer() then return end
+    local caster = self:GetCaster()
+    local duration = self:GetSpecialValueFor("duration")
+    caster:AddNewModifier(caster, self, "modifier_roby_agility", {duration = duration})
+    caster:EmitSound("robbie_laugh")
 end
 
 modifier_roby_agility = class({})
 
-function modifier_roby_agility:IsHidden()
-    return true
+function modifier_roby_agility:IsPurgable() return true end
+
+function modifier_roby_agility:OnCreated(keys)
+    self.start_shield = self:GetAbility():GetSpecialValueFor( "damage_absorb" )
+    if not IsServer() then return end
+
+    self.bonus_agi = self:GetAbility():GetSpecialValueFor( "bonus_agi" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_robbie_2")
+    self.agility = self:GetParent():GetAgility() * self.bonus_agi / 100
+    self.damage_absorb = self:GetAbility():GetSpecialValueFor( "damage_absorb" )
+	self:SetStackCount(self.damage_absorb)
+	self.particle = ParticleManager:CreateParticle("particles/gachi_shield_scepter.vpcf", PATTACH_CUSTOMORIGIN, self:GetParent())
+	ParticleManager:SetParticleControl(self.particle, 1, Vector(100,1,1))
+	ParticleManager:SetParticleControlEnt(self.particle, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
+	self:AddParticle(self.particle, false, false, -1, false, false)
+
+    self.damage_talent_enemy = 0
+    self.original_full_absorb = self:GetAbility():GetSpecialValueFor( "damage_absorb" )
 end
 
-function modifier_roby_agility:OnCreated()
+function modifier_roby_agility:OnRefresh(keys)
+    self.start_shield = self:GetAbility():GetSpecialValueFor( "damage_absorb" )
     if not IsServer() then return end
-    self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_movespeed_cap", {})
+	self.damage_absorb = self:GetAbility():GetSpecialValueFor( "damage_absorb" )
+	self:SetStackCount(self.damage_absorb)
 end
 
 function modifier_roby_agility:DeclareFunctions()
-    local declfuncs = {MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT,MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT}
-    return declfuncs
+    local funcs = 
+    {
+        MODIFIER_PROPERTY_TOTAL_CONSTANT_BLOCK,
+        MODIFIER_PROPERTY_INCOMING_DAMAGE_CONSTANT,
+        MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
+    }
+    return funcs
 end
 
-function modifier_roby_agility:GetModifierMoveSpeedBonus_Constant()
-    if self:GetParent():PassivesDisabled() then return end
-    return self:GetAbility():GetSpecialValueFor("bonus_speed")
+function modifier_roby_agility:GetModifierBonusStats_Agility()
+    return self.agility
 end
 
-function modifier_roby_agility:GetModifierConstantHealthRegen()
-    if self:GetParent():PassivesDisabled() then return end
-    return self:GetAbility():GetSpecialValueFor("hp_regen") + self:GetCaster():FindTalentValue("special_bonus_birzha_robbie_2")
+function modifier_roby_agility:GetModifierTotal_ConstantBlock(kv)
+    if IsServer() then
+        local target                    = self:GetParent()
+        local original_shield_amount    = self.damage_absorb
+
+        if kv.damage > 0 and bit.band(kv.damage_flags, DOTA_DAMAGE_FLAG_HPLOSS) ~= DOTA_DAMAGE_FLAG_HPLOSS then
+            if kv.damage < self.damage_absorb then
+                SendOverheadEventMessage(nil, OVERHEAD_ALERT_BLOCK, target, kv.damage, nil)
+                self.damage_absorb = self.damage_absorb - kv.damage
+                self.damage_talent_enemy = self.damage_talent_enemy + kv.damage
+                self:SetStackCount(self.damage_absorb)
+                return kv.damage
+            else
+                SendOverheadEventMessage(nil, OVERHEAD_ALERT_BLOCK, target, original_shield_amount, nil)
+                self.damage_talent_enemy = self.original_full_absorb
+                if not self:IsNull() then
+                    self:SetStackCount(0)
+                    ParticleManager:DestroyParticle(self.particle, true)
+                end
+                return original_shield_amount
+            end
+        end
+    end
+end
+
+function modifier_roby_agility:GetModifierIncomingDamageConstant(params)
+    if self:GetStackCount() == 0 then return end
+    if (not IsServer()) then
+        if params.report_max then
+            return self.start_shield
+        end
+        return self:GetStackCount()
+    end
 end
 
 LinkLuaModifier("modifier_robbie_timeinvis", "abilities/heroes/robbie.lua", LUA_MODIFIER_MOTION_NONE)
@@ -159,9 +223,14 @@ function modifier_robbie_timeinvis:IsHidden()
     return true
 end
 
+function modifier_robbie_timeinvis:IsPurgable()
+    return false
+end
+
 function modifier_robbie_timeinvis:OnCreated()
     if not IsServer() then return end
     self:StartIntervalThink(FrameTime())
+    self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_movespeed_cap", {})
 end
 
 function modifier_robbie_timeinvis:OnIntervalThink()
@@ -176,8 +245,23 @@ function modifier_robbie_timeinvis:OnIntervalThink()
 end
 
 function modifier_robbie_timeinvis:DeclareFunctions()
-    local declfuncs = {MODIFIER_PROPERTY_PROCATTACK_BONUS_DAMAGE_PHYSICAL}
+    local declfuncs = 
+    {
+        MODIFIER_PROPERTY_PROCATTACK_BONUS_DAMAGE_PHYSICAL, 
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT, 
+        MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
+    }
     return declfuncs
+end
+
+function modifier_robbie_timeinvis:GetModifierMoveSpeedBonus_Constant()
+    if self:GetParent():PassivesDisabled() then return end
+    return self:GetAbility():GetSpecialValueFor("bonus_speed")
+end
+
+function modifier_robbie_timeinvis:GetModifierConstantHealthRegen()
+    if self:GetParent():PassivesDisabled() then return end
+    return self:GetAbility():GetSpecialValueFor("hp_regen")
 end
 
 function modifier_robbie_timeinvis:GetModifierProcAttack_BonusDamage_Physical(params)
@@ -215,6 +299,10 @@ modifier_robbie_timeinvis_invis = class({})
 
 function modifier_robbie_timeinvis_invis:IsHidden()
     return true
+end
+
+function modifier_robbie_timeinvis_invis:IsPurgable()
+    return false
 end
 
 function modifier_robbie_timeinvis_invis:OnCreated()

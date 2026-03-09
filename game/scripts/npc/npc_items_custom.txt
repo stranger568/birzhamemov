@@ -1,3 +1,5 @@
+#base "../npc/neutral_items.txt"
+
 "DOTAAbilities"
 {
 	//=================================================================================================================
@@ -236,7 +238,7 @@
 		"AbilityCastRange"				"500"
 		"AbilityCastPoint"				"0.0"
 		"AbilityCooldown"				"1.0"
-		"ItemCost"						"0"
+		"ItemCost"						"80"
 		"ItemShopTags"					"consumable"
 		"ItemQuality"					"consumable"
 		"ItemAliases"					"observer ward"
@@ -469,7 +471,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"FightRecapLevel"				"2"
 		"AbilityCooldown"				"35.0"
-		"AbilityCastRange"				"1200"
+		"AbilityCastRange"				"%aura_radius"
 		"AbilityManaCost"				"100"
 		"ItemCost"						"1875"
 		"ItemShopTags"					"agi;int;str;armor;boost_health"
@@ -482,10 +484,18 @@
 		"AbilityValues"
 		{
 			"bonus_armor"			"4"
-			"aura_radius"			"1200"
+			"aura_radius"
+			{
+				"value"				"1200"
+				"affected_by_aoe_increase"	"1"
+			}
 			"aura_health_regen"		"2.5"
 			"heal_amount"			"275"
-			"heal_radius"			"1200"
+			"heal_radius"
+			{
+				"value"				"1200"
+				"affected_by_aoe_increase"	"1"
+			}
 		}
 	}
 
@@ -553,7 +563,11 @@
 			"blink_damage_cooldown"		"2.5"
 			"blink_range_clamp"		"960"
 			"bonus_strength"		"25"
-			"radius"		"800"
+			"radius"
+			{
+				"value"				"800"
+				"affected_by_aoe_increase"	"1"
+			}
 			"movement_slow"		"50"
 			"attack_slow"		"50"
 			"duration"		"6"
@@ -595,7 +609,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_DIRECTIONAL | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES | DOTA_ABILITY_BEHAVIOR_OVERSHOOT"
 		"AbilityCastRange"				"1200"
 		"AbilityCastPoint"				"0.0"
-		"AbilityCooldown"				"15.0"
+		"AbilityCooldown"				"9.0"
 		"AbilityManaCost"				"0"
 		"AbilitySharedCooldown"			"blink"
 		"ItemCost"						"6800"
@@ -915,7 +929,11 @@
 			"intellect_reg"	 		"100"
 			"bonus_mana"		  		"150"
 			"bonus_intellect"		  	"19"
-			"radius"		  			"400"
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}
 			"str"		 				"6"
 			"agi"		  				"6"
 			"bonus_mana_percentage"		"6"
@@ -957,9 +975,8 @@
 		"AbilitySharedCooldown" 		"baldezh"
 		"AbilityTextureName"			"Items/boots_of_invisibility"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
-		"AbilityCooldown"				"20"
-                "AbilityManaCost"                               "50"
+		"AbilityCooldown"				"26"
+        "AbilityManaCost"                               "125"
 
 		"AbilityValues"
 		{
@@ -1184,6 +1201,8 @@
 		"BaseClass"						"item_lua"
 		"ScriptFile"					"items/angel"
 		"AbilityBehavior" 				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityTextureName"			"items/angel_boots"
 		"AbilityCooldown" 				"40"
 		"AbilityManaCost" 				"0"
@@ -1203,7 +1222,11 @@
 			"bonus_armor_aura" 			"5"
 			"restore_health" 			"350"
 			"restore_mana" 				"200"
-			"radius" 					"900"
+			"radius"
+			{
+				"value"				"900"
+				"affected_by_aoe_increase"	"1"
+			}
 			"duration" 					"30"
 			"bonus_health" 				"250"
 
@@ -1437,7 +1460,7 @@
 		
 		"AbilityValues"
 		{
-			"bonus_attack_speed"	"185"
+			"bonus_attack_speed"	"150"
 			"bonus_damage"			"30"
 			"damage"				"100"
 			"chance"				"80"
@@ -1632,7 +1655,7 @@
 		"AbilityTextureName"			"items/baldezh"
 		"AbilitySharedCooldown" 		"baldezh"
 		"AbilityCastPoint"			  "0"
-		"AbilityCooldown"				"18"
+		"AbilityCooldown"				"32"
 		"AbilityManaCost"				"0"
 		"ItemCost"						"1375"
 		"ItemShopTags"					"str;damage;hard_to_tag"
@@ -1660,21 +1683,21 @@
 		"AbilityTextureName"			"items/baldezh2"
 		"AbilitySharedCooldown" 		"baldezh"
 		"AbilityCastPoint"			  "0"
-		"AbilityCooldown"				"26"
+		"AbilityCooldown"				"24"
 		"AbilityManaCost"				"0"
 		"ItemCost"						"1375"
 		"ItemShopTags"					"str;damage;hard_to_tag"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"bkb;black king bar"
 		"ItemSellable"					"1"
-		"AbilityManaCost"				"50"
+		"AbilityManaCost"				"100"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
 		
 		"AbilityValues"
 		{
 			"bonus_strength"				"18"
 			"bonus_damage"					"27"
-			"duration"						"6"
+			"duration"						"5.5"
 		}
 	}
 
@@ -1689,21 +1712,21 @@
 		"AbilitySharedCooldown" 		"baldezh"
 		"FightRecapLevel"				"2"
 		"AbilityCastPoint"			  "0"
-		"AbilityCooldown"				"22"
+		"AbilityCooldown"				"28"
 		"AbilityManaCost"				"0"
 		"ItemCost"						"1375"
 		"ItemShopTags"					"str;damage;hard_to_tag"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"bkb;black king bar"
 		"ItemSellable"					"1"
-		"AbilityManaCost"				"50"
+		"AbilityManaCost"				"75"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
 		
 		"AbilityValues"
 		{
 			"bonus_strength"				"12"
 			"bonus_damage"					"18"
-			"duration"						"4.5"
+			"duration"						"4.25"
 		}
 	}
 	
@@ -1757,8 +1780,7 @@
 		"AbilityValues"
 		{
 			"str"								"70"
-			"hp"								"500"
-			"health_regen_percent_per_second"	"2.8"
+			"health_regen_percent_per_second"	"1.6"
 		}
 	}
 	
@@ -1777,10 +1799,10 @@
 
 		"AbilityValues"
 		{
-			"agi"			 	"70"
+			"agi"			 	"55"
 			"dmg"		  		"50"
 			"ev"				"50"
-			"attack"			"60"
+			"attack"			"25"
 			"duration"			"2"
 			"movespeed_bonus"	"25"
 		}
@@ -2049,7 +2071,7 @@
 	{					
 		"Model"							"models/props_gameplay/recipe.vmdl"
 		"BaseClass"					 "item_datadriven"
-		"ItemCost"						"2000"	
+		"ItemCost"						"900"	
 		"ItemShopTags"					"int"
 		"ItemKillable" 					"0" 
 		"ItemRecipe"					"1"
@@ -2081,7 +2103,7 @@
 			"hp_loss" 				"10"
 			"duration_satanic" 		"6"
 			"lifesteal_passive" 	"30"
-			"cooldown_grave" 		"60"
+			"cooldown_grave" 		"70"
 		}
 	}
 
@@ -2111,7 +2133,7 @@
 		"AbilityBehavior"		   "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"AbilityCooldown"			"25"
 		"AbilityManaCost"			"50"
-		"AbilityCastRange"			"1200"
+		"AbilityCastRange"			"%radius"
 		"ItemCost"					"5250"
 		"AbilitySharedCooldown" 	"blademail"
 		
@@ -2128,7 +2150,11 @@
 			"return_damage"						"80"
 			"return_damage_passive"				"20"
 			"return_damage_passive_percentage" 	"20"	
-			"radius"						"1200"
+			"radius"
+			{
+				"value"				"1200"
+				"affected_by_aoe_increase"	"1"
+			}
 		}
 	}
 
@@ -2196,7 +2222,7 @@
 		"AbilityCooldown"			"45"
 		"AbilityManaCost"			"150"
 		"ItemCost"					"5250"
-		"AbilityCastRange"			"1200"
+		"AbilityCastRange"			"%radius"
 		"AbilitySharedCooldown" 	"cuirass3"
 
 		"AbilityValues"
@@ -2204,7 +2230,11 @@
 			"health_regen"					"8.5"
 			"magical_resistance"			"30"
 
-			"radius"						"1200"
+			"radius"
+			{
+				"value"				"1200"
+				"affected_by_aoe_increase"	"1"
+			}
 			"magical_resistance_aura"		"15"
 			"health_regen_aura"				"5"
 			"enemy_amplify_aura"			"-25"
@@ -2219,7 +2249,7 @@
 		"BaseClass"						"item_datadriven"
 		"Model"							"models/props_gameplay/recipe.vmdl"
 		"AbilityTextureName"			"item_recipe"
-		"ItemCost"						"0"
+		"ItemCost"						"1000"
 
 		"ItemRecipe"					"1"
 		"ItemResult"					"item_ship_magic_armor"
@@ -2236,7 +2266,7 @@
 		"FightRecapLevel"				"2"
 		"AbilityCooldown"				"60.0"
 		"AbilityManaCost"				"100"
-		"AbilityCastRange"				"1200"
+		"AbilityCastRange"				"%radius"
 		"ItemCost"						"3425"
 		"ItemShopTags"					"regen_health;boost_magic_resist"
 		"ItemQuality"					"rare"
@@ -2254,10 +2284,18 @@
 			"tooltip_resist"			"30"
 			"aura_health_regen"		"2.5"
 			"magic_resistance_aura"		"12"
-			"aura_radius"			"1200"
+			"aura_radius"
+			{
+				"value"				"1200"
+				"affected_by_aoe_increase"	"1"
+			}
 			"barrier_block"			"400"
 			"barrier_duration"		"12.0"
-			"barrier_radius"		"1200"
+			"barrier_radius"
+			{
+				"value"				"1200"
+				"affected_by_aoe_increase"	"1"
+			}
 			"bonus_all_stats"		"0"
 			"barrier_block_creep"	"400"
 		}
@@ -2279,9 +2317,13 @@
 		{
 			"health_regen"					"8.5"
 			"magical_resistance"			"30"
-			"bonus_armor"		  			"20"
+			"bonus_armor"		  			"10"
 
-			"radius"						"1200"
+			"radius"
+			{
+				"value"				"1200"
+				"affected_by_aoe_increase"	"1"
+			}
 			"magical_resistance_aura"		"15"
 			"health_regen_aura"				"5"
 			"enemy_amplify_aura"			"-25"
@@ -2289,9 +2331,13 @@
 			"magical_resist_active"			"600"
 			"duration"						"12"
 
-			"radius_ship"					"625"
+			"radius_ship"
+			{
+				"value"				"625"
+				"affected_by_aoe_increase"	"1"
+			}
 			"damage_ship"					"250"
-			"chance_ship"					"10"
+			"chance_ship"					"25"
 		}
 	}
 
@@ -2403,7 +2449,7 @@
 		"ItemCost"						"3000"
 		"ItemKillable" 					"1" 
 		"ItemDroppable" 				"1"
-		"ItemSellable"				  "1"
+		"ItemSellable"					"1"
 		"ItemPurchasable"		 		"1"
 		"ItemQuality"					"rare"
 		"AbilityTextureName"			"items/Nimbus_2"
@@ -2778,7 +2824,11 @@
 			"bonus_damage" 		    "10"
 			"armor" 			    "4"
 			"mana_regen" 		    "1.5"
-			"radius" 			    "1200"
+			"radius"
+			{
+				"value"				"1200"
+				"affected_by_aoe_increase"	"1"
+			}
 			"bonus_armor" 		    "2"
 			"duration"			    "15"
 
@@ -2808,7 +2858,7 @@
 		"ScriptFile" 				"items/drum_of_speedrun"
 		"AbilityTextureName"		"items/DrumOfHaste"
 		"ItemDisassembleRule"		"DOTA_ITEM_DISASSEMBLE_NEVER"
-		"AbilityCooldown" "60"
+		"AbilityCooldown" "50"
 		"AbilityManaCost" "0"
 		"ItemCost" "1000"
 		"ItemShopTags" "stats;damage;armor"	
@@ -2819,12 +2869,20 @@
 			"bonus_agility" 		"8"
 			"bonus_str" 			"17"
 			"bonus_int" 			"11"
-			"movespeed" 			"20"
 			"bonus_damage"			"4"
-			"radius" 				"1200"
-			"duration" 				"20"
+			"movespeed" 			"20"
 			"bonus_health_regen" 	"1.5"
+
 			"attack_speed_active" 	"45"
+			"movespeed_active"		"550"
+			"min_movespeed"			"290"
+
+			"radius"
+			{
+				"value"				"1200"
+				"affected_by_aoe_increase"	"1"
+			}
+			"duration" 				"15"
 		}
 	}
 
@@ -2833,12 +2891,12 @@
 		"BaseClass"						"item_datadriven"
 		"AbilityTextureName" 			"recipe"
 		"Model"							"models/props_gameplay/recipe.vmdl"
-		"ItemCost"						"2500"
+		"ItemCost"						"300"
 		"ItemRecipe"					"1"
 		"ItemResult"					"item_demon_paper"
 		"ItemRequirements"
 		{
-			"01"						"item_satanic"
+			"01"						"item_oblivion_staff;item_reaver"
 		}
 	}
 	
@@ -2848,18 +2906,20 @@
 		"AbilityBehavior" 			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"ScriptFile" 				"items/demon_paper"
 		"AbilityTextureName"		"items/demon_paper"
-		"AbilityCooldown" 			"50"
-		"AbilityManaCost" 			"0"
+		"AbilityCooldown" 			"18"
+		"AbilityManaCost" 			"90"
 		"ItemShopTags" 				"regen;movespeed;magic"
 		"ItemQuality" 				"rare"
 
 		"AbilityValues"
 		{
-			"bonus_strength" 		 "25"
-			"bonus_damage" 			 "38"
-			"bonus_lifesteal" 		 "30"
-			"bonus_lifesteal_active" "175"
-			"duration" 				 "6"
+			"bonus_strength" 		 "30"
+			"bonus_attack" 			 "50"
+			"bonus_int"				 "15"
+			"bonus_mana"			 "3"
+
+			"stacks"				 "5"
+			"duration" 				 "8"
 		}
 	}
 
@@ -2897,7 +2957,11 @@
 			"bonus_armor_active" 	"12"
 			"bonus_attack_speed" 	"50"
 			"bonus_movespeed" 		"15"
-			"radius"				"1200"
+			"radius"
+			{
+				"value"				"1200"
+				"affected_by_aoe_increase"	"1"
+			}
 		}
 	}
 	
@@ -2937,7 +3001,11 @@
 			"crit"						"160"
 			"damage"					"200"
 			"duration"					"0.8"
-			"radius"					"650"
+			"radius"
+			{
+				"value"				"650"
+				"affected_by_aoe_increase"	"1"
+			}
 			"enemy_slow"				"-100"
 			"maximum_chance_tooltip"	"100"
 			"attribute_mult"			"0.5"	
@@ -2964,7 +3032,7 @@
 		"AbilityTextureName"			"items/radiance_2_on"
 		"ScriptFile"					"items/item_radiance_2.lua"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL"
-		"AbilityCastRange"				"700"
+		"AbilityCastRange"				"%radius"
 		"AbilityCooldown"				"0"
 		"ItemCost"						"7200"
 		"ItemShopTags"					"damage"
@@ -2977,7 +3045,11 @@
 		{
 			"bonus_damage"				"60"
 			"evasion"					"15"
-			"aura_radius"				"700"
+			"aura_radius"
+			{
+				"value"				"700"
+				"affected_by_aoe_increase"	"1"
+			}
 			"base_damage"				"80"
 			"base_damage_illsuion"		"45"
 			"think_interval"			"1"
@@ -2985,7 +3057,11 @@
 			"bonus_agility"				"4"
 			"bonus_strength"			"4"
 			"bonus_intellect"			"4"
-			"radius"					"700"
+			"radius"
+			{
+				"value"				"700"
+				"affected_by_aoe_increase"	"1"
+			}
 		}
 	}
 	
@@ -3023,7 +3099,11 @@
 			"bonus_intellect"		"15"
 			"mana_burn"				"3"
 			"mana_burn_illusion"	"1"
-			"radius"				"750"
+			"radius"
+			{
+				"value"				"750"
+				"affected_by_aoe_increase"	"1"
+			}
 			"mana_burn_active"		"50"
 			"active_damage"			"0.75"
 		}
@@ -3038,7 +3118,7 @@
 		"AbilityTextureName"			"items/gamble_gold_ring"
 		"ItemCost"						"2500"
 		"AbilityCooldown"				"20"
-		"AbilityManaCost"				"77"
+		"AbilityGoldCost"				"177"
 		"ItemQuality"					"component"
 		"ItemIsNeutralActiveDrop"		"0"
 		"ItemKillable"					"0"
@@ -3079,7 +3159,7 @@
 			"all_stats"				"20"
 			"resist"				"15"
 			"incoming"				"10"
-			"cast_for_max"			"30"
+			"cast_for_max"			"20"
 		}
 	}
 	"item_recipe_gamble_gold_ring_2"
@@ -3103,9 +3183,9 @@
 		"Model"							"models/props_gameplay/red_box.vmdl" 
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
 		"AbilityTextureName"			"items/gamble_gold_ring_2"
-		"ItemCost"						"6200"
+		"ItemCost"						"4500"
 		"AbilityCooldown"				"20"
-		"AbilityManaCost"				"77"
+		"AbilityGoldCost"				"177"
 		"ItemQuality"					"component"
 		"ItemIsNeutralActiveDrop"		"0"
 		"ItemKillable"					"0"
@@ -3146,7 +3226,7 @@
 			"all_stats"				"40"
 			"resist"				"30"
 			"incoming"				"20"
-			"cast_for_max"			"30"
+			"cast_for_max"			"20"
 		}
 	}
 
@@ -3225,13 +3305,17 @@
 
 		"AbilityValues"
 		{
-			"bonus_damage"			"160"
+			"bonus_damage"			"130"
 			"bonus_hp_regen"		"7.5"
 			"bonus_mana_regen"		"3"
 			"damage"				"225"
 			"cleave"				"70"
 			"chance"				"30"
-			"radius"				"650"
+			"radius"
+			{
+				"value"				"650"
+				"affected_by_aoe_increase"	"1"
+			}
 		}
 	}
 
@@ -3275,8 +3359,16 @@
 			"movespeed_debuff"		"-30"
 			"miss_debuff"		"20"
 			"hp_regen_debuff"		"-40"
-			"radius"		"900"
-			"radius_passive"		"1200"
+			"radius"
+			{
+				"value"				"900"
+				"affected_by_aoe_increase"	"1"
+			}
+			"radius_passive"
+			{
+				"value"				"1200"
+				"affected_by_aoe_increase"	"1"
+			}
 			"attack_speed_passive"	"50"
 			"damage_passive"		"10"
 			"movespeed_passive"		"10"
@@ -3376,7 +3468,11 @@
 			"charge_cooldown"		"5"
 			"regen_per_charge"		"50"
 			"max_charges"			"10"
-			"radius"				"1200"
+			"radius"
+			{
+				"value"				"1200"
+				"affected_by_aoe_increase"	"1"
+			}
 			"health"				"250"
 		}
 	}
@@ -3421,7 +3517,11 @@
 			"charge_cooldown"		"2.5"
 			"regen_per_charge"		"80"
 			"max_charges"			"15"
-			"radius"				"1200"
+			"radius"
+			{
+				"value"				"1200"
+				"affected_by_aoe_increase"	"1"
+			}
 			"bonus_hp"				"450"
 			"bonus_hp_regen"		"10"
 			"bonus_mana_regen"		"4"
@@ -4198,14 +4298,18 @@
 		"Model"							"models/props_gameplay/red_box.vmdl" 
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
 		"AbilityTextureName"			"items/bristback"
-		"ItemCost"						"2800"
+		"ItemCost"						"1800"
 		"AbilityCastRange"				"600"
 		"AbilityValues"
 		{
-			"radius_ship"				"625"
-			"bonus_armor"			"20"
+			"radius_ship"
+			{
+				"value"				"625"
+				"affected_by_aoe_increase"	"1"
+			}
+			"bonus_armor"			    "10"
 			"damage_ship"				"250"
-			"chance_ship"				"10"
+			"chance_ship"				"25"
 		}
 	}
 	
@@ -4309,6 +4413,7 @@
 		"Model"									"models/props_gameplay/refresher_shard.vmdl"
 		"Effect"								"particles/generic_gameplay/dropped_refresher_shard.vpcf"	
 		"AbilityCooldown"						"120"
+		"AbilitySharedCooldown"					"item_refresher_custom"
 		"ItemCost"								"1000"
 		"ItemShopTags"							""
 		"ItemQuality"							"consumable"
@@ -4389,7 +4494,7 @@
 
 		"AbilityValues"
 		{
-			"bonus_attributes"				"65"
+			"bonus_attributes"				"55"
 			"unselect_attribute_pct"		"6"
 			"select_attribute_pct"			"10"
 		}
@@ -4552,7 +4657,7 @@
 		"ScriptFile"					"items/item_ban_hammer"
 		"AbilityTextureName"			"items/ban_hammer"
 		"AbilityBehavior"			   "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
-		"AbilityCooldown"			   "16"
+		"AbilityCooldown"			   "20"
 		"ItemCost"					  "2400"
 		"ItemShopTags"				  "hard_to_tag"
 		"ItemQuality"				   "common"
@@ -4569,7 +4674,11 @@
 			"bonus_all_stats"		   "16"  
 			"health_regen"				"6.5"  
 			
-			"radius"					"300"
+			"radius"
+			{
+				"value"				"400"
+				"affected_by_aoe_increase"	"1"
+			}
 			"stun_duration"				"1.5"
 			"damage_duration"			"6"
 			"damage_per_hit"			"250"
@@ -4578,7 +4687,7 @@
 			"land_time"			 	"0.75"
 
 			"slow"					  "-50"
-			"bonus_spell_damage"		"150"
+			"bonus_spell_damage"		"200"
 			"slow_duration"			 "1.5"
 			"min_damage_to_activate"	"100"
 		}
@@ -4678,7 +4787,7 @@
 			"damage_percent"					"5"
 			"bonus_damage_length"			   "200"
 			"bonus_damage_distance"			 "30"
-			"damage_lifesteal"				  "75"
+			"damage_lifesteal"				  "50"
 
 			"passive_damage"					"200"
 			"passive_damage_percent"			"2.5"
@@ -4686,12 +4795,16 @@
 			"passive_bonus_damage_distance"	 "20"
 			"passive_damage_lifesteal"		  "25"
 
-			"chance"							"25"
+			"chance"							"18"
 			"chance_cooldown"				   "3"
-			"chance_radius"					 "600"
+			"chance_radius"
+			{
+				"value"				"600"
+				"affected_by_aoe_increase"	"1"
+			}
 
 			"debuff_duration"				   "3"
-			"slow"							  "-50"
+			"slow"							  "-30"
 
 			"proj_speed"						"1800"
 		}
@@ -4713,7 +4826,7 @@
 		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
 		"Model"							"models/props_gameplay/tpscroll01.vmdl"
 		"AbilityCastRange"				"0"
-		"AbilityCooldown"				"20.0"
+		"AbilityCooldown"				"35.0"
 		"AbilitySharedCooldown"			"teleport"
 		"AbilityChannelTime"			"2.5"
 		"AbilityCastPoint"				"0.0"
@@ -4740,22 +4853,68 @@
 
 		"item_recipe_abyssal_blade"
 	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"1275"	
 		"ItemShopTags"					""
-
-		
-		// Recipe
-		//-------------------------------------------------------------------------------------------------------------
 		"ItemRecipe"					"1"
 		"ItemResult"					"item_abyssal_blade"
 		"ItemRequirements"
 		{
 			"01"						"item_basher;item_mem_sange"
+		}
+	}
+
+		"item_recipe_eternal_shroud"
+	{
+		"ItemCost"						"1600"	
+		"ItemShopTags"					""
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_eternal_shroud"
+		"ItemRequirements"
+		{
+			"01"						"item_cloak;item_ogre_axe;item_vitality_booster"
+		}
+	}
+	
+		"item_smoke_of_deceit"
+	{
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+		"Model"							"models/props_gameplay/smoke.vmdl"
+		"Effect"						"particles/generic_gameplay/dropped_smoke.vpcf"		
+		"FightRecapLevel"				"1"																																																																								 
+		"AbilityCooldown"				"1.0"
+		"AbilityCastRange"				"800"
+		"ItemCost"						"200"
+		"ItemShopTags"					"consumable;teamfight"
+		"ItemQuality"					"rare"
+		"ItemStackable"					"1"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+		"ItemPermanent"					"0"
+		"ItemInitialCharges"			"1"
+		"ItemDisplayCharges"			"1"
+		"ItemStockInitial"				"1"
+		"ItemStockMax"					"2"
+		"ItemStockTime"					"240.0"			  
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
+		"ItemSupport"					"1"
+		"ItemAlertable"					"1"
+		"IsTempestDoubleClonable"		"0"
+		"SuggestPregame"				"1"
+		"ShouldNotSuggestMainGame"		"1"
+		"SpeciallyBannedFromNeutralSlot"		"1"
+		"ItemCanBeUsedWithoutInventory" "1"
+
+		"AbilityValues"
+		{
+			"application_radius"	
+			{
+				"value"			"1000"
+				"affected_by_aoe_increase"	"1"
+			}
+			"visibility_radius"		"800"
+			"bonus_movement_speed"		"15"
+			"duration"				"15.0"
+			"second_cast_cooldown"	"2.0"
+			"secondary_application_radius"		"300"
 		}
 	}
 }

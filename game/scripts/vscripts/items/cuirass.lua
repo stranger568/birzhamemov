@@ -82,6 +82,7 @@ end
 function modifier_item_cuirass_2:OnAttackLanded(params)
 	if not IsServer() then return end
 	if not self:GetAbility() then return end
+	if params.attacker:IsMagicImmune() then return end
 	if params.attacker ~= self:GetParent() and params.target == self:GetParent() then
 		if bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) == DOTA_DAMAGE_FLAG_REFLECTION then return end
 		if self:GetParent():FindAllModifiersByName("modifier_item_cuirass_2")[1] ~= self then return end
@@ -603,12 +604,10 @@ end
 function modifier_item_birzha_blade_mail:OnAttackLanded(params)
 	if not IsServer() then return end
 	if not self:GetAbility() then return end
+	if params.attacker:IsMagicImmune() then return end
 	if params.attacker ~= self:GetParent() and params.target == self:GetParent() then
 		if bit.band(params.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) == DOTA_DAMAGE_FLAG_REFLECTION then return end
 		if self:GetParent():FindAllModifiersByName("modifier_item_birzha_blade_mail")[1] ~= self then return end
-		if self:GetAbility():GetName() == "item_birzha_blade_mail" then
-			if params.attacker:IsMagicImmune() then return end
-		end
 		local damage_return = self:GetAbility():GetSpecialValueFor("return_damage_passive_percentage") * params.original_damage / 100 + self:GetAbility():GetSpecialValueFor("return_damage_passive")
 		ApplyDamage({victim = params.attacker, attacker = self:GetParent(), damage = damage_return, damage_type = params.damage_type,  damage_flags = DOTA_DAMAGE_FLAG_BYPASSES_BLOCK + DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION + DOTA_DAMAGE_FLAG_REFLECTION, ability = self:GetAbility()})
 	end
@@ -651,15 +650,13 @@ end
 
 function modifier_item_birzha_blade_mail_active:OnTakeDamage(keys)
 	if not IsServer() then return end
+	if keys.attacker:IsMagicImmune() then return end
 	local attacker = keys.attacker
 	local target = keys.unit
 	local original_damage = keys.original_damage
 	local damage_type = keys.damage_type
 	local damage_flags = keys.damage_flags
 	if keys.unit == self:GetParent() and not keys.attacker:IsBuilding() and keys.attacker:GetTeamNumber() ~= self:GetParent():GetTeamNumber() and bit.band(keys.damage_flags, DOTA_DAMAGE_FLAG_HPLOSS) ~= DOTA_DAMAGE_FLAG_HPLOSS and bit.band(keys.damage_flags, DOTA_DAMAGE_FLAG_REFLECTION) ~= DOTA_DAMAGE_FLAG_REFLECTION then	
-		if self:GetAbility():GetName() == "item_birzha_blade_mail" then
-			if keys.attacker:IsMagicImmune() then return end
-		end
 		EmitSoundOnClient("DOTA_Item.BladeMail.Damage", keys.attacker:GetPlayerOwner())
 		ApplyDamage({ victim = keys.attacker, damage = keys.original_damage / 100 * self:GetAbility():GetSpecialValueFor("return_damage"), damage_type = keys.damage_type, damage_flags = DOTA_DAMAGE_FLAG_REFLECTION + DOTA_DAMAGE_FLAG_NO_SPELL_LIFESTEAL + DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION, attacker = self:GetParent(), ability = self:GetAbility() })
 	end

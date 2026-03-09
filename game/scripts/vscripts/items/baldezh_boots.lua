@@ -13,7 +13,9 @@ function item_boots_of_invisibility:OnSpellStart()
     self:GetCaster():EmitSound("bkbitem")
     self:GetCaster():Purge( false, true, false, true, false)
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_item_boots_of_invisibility_active", {duration = duration})
+    self:GetCaster():RemoveModifierByName("modifier_item_ethereal_blade_ethereal_custom")
     self:GetCaster():RemoveModifierByName("modifier_item_ethereal_blade_ethereal")
+    self:GetCaster():RemoveModifierByName("modifier_ghost_state")
     local particle_smoke_fx = ParticleManager:CreateParticle("particles/units/heroes/hero_bounty_hunter/bounty_hunter_windwalk.vpcf", PATTACH_WORLDORIGIN, nil)
     ParticleManager:SetParticleControl(particle_smoke_fx, 0, self:GetCaster():GetAbsOrigin())
     ParticleManager:ReleaseParticleIndex(particle_smoke_fx)
@@ -41,6 +43,7 @@ function modifier_item_boots_of_invisibility_active:OnCreated()
     self:AddParticle(particle, false, false, -1, false, false)
     self.record = nil
     self.attack_proc = false
+    self:StartIntervalThink(FrameTime())
 end
 
 function modifier_item_boots_of_invisibility_active:GetTexture()
@@ -98,6 +101,13 @@ function modifier_item_boots_of_invisibility_active:OnAttackLanded(params)
     if self.record ~= params.record then return end
     if self:IsNull() then return end
     self:Destroy()
+end
+
+function modifier_item_boots_of_invisibility_active:OnIntervalThink()
+    if not IsServer() then return end
+    if self:GetParent():FindModifierByName("modifier_ghost_state") then
+        self:GetCaster():RemoveModifierByName("modifier_ghost_state")
+    end
 end
 
 modifier_item_boots_of_invisibility = class({})

@@ -602,53 +602,117 @@ function modifier_ns_fullcounter_debuff:GetBonusNightVision( params )
 end
 
 LinkLuaModifier("modifier_ns_TricksMaster", "abilities/heroes/ns", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_ns_TricksMaster_stack", "abilities/heroes/ns", LUA_MODIFIER_MOTION_NONE)
 
 Ns_TricksMaster = class({}) 
 
-function Ns_TricksMaster:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+function Ns_TricksMaster:Spawn()
+    if not IsServer() then return end
+    if not self:GetCaster():HasModifier("modifier_ns_TricksMaster_stack") then
+        self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_ns_TricksMaster_stack", {})
+    end
 end
 
 function Ns_TricksMaster:GetIntrinsicModifierName()
     return "modifier_ns_TricksMaster"
 end
 
+modifier_ns_TricksMaster_stack = class({})
+
+function modifier_ns_TricksMaster_stack:IsHidden() return true end
+function modifier_ns_TricksMaster_stack:IsPurgable() return false end
+function modifier_ns_TricksMaster_stack:RemoveOnDeath() return false end
+
+function modifier_ns_TricksMaster_stack:DeclareFunctions()
+    local decFuncs =
+    {
+        MODIFIER_EVENT_ON_HERO_KILLED,
+    }
+    return decFuncs
+end
+
+function modifier_ns_TricksMaster_stack:OnHeroKilled( params )
+    if not IsServer() then return end
+    local parent = self:GetParent()
+    local target = params.target
+    if parent == params.attacker and target:GetTeamNumber() ~= parent:GetTeamNumber() then
+        if self:GetParent():IsIllusion() then return end
+        self:IncrementStackCount()
+    end
+end
+
 modifier_ns_TricksMaster = class({})
 
-function modifier_ns_TricksMaster:IsPurchasable()
-    return false
-end
+function modifier_ns_TricksMaster:IsHidden() return self:GetStackCount() == 0 end
+function modifier_ns_TricksMaster:IsPurgable() return false end
 
 function modifier_ns_TricksMaster:OnCreated()
     if not IsServer() then return end
-    self:StartIntervalThink(FrameTime())
+    if not self:GetParent():IsIllusion() then
+        self:StartIntervalThink(0.1)
+    end
 end
 
 function modifier_ns_TricksMaster:OnIntervalThink()
-    if not IsServer() then return end
-    if self:GetParent():IsIllusion() then return end
-    if self:GetAbility():IsFullyCastable() then
-        self:GetAbility():UseResources(false, false, false, true)
-        local bonus_intellect = self:GetAbility():GetSpecialValueFor("bonus_intellect")
-        self:SetStackCount(self:GetStackCount() + bonus_intellect)
-        self:GetParent():CalculateStatBonus(false)
+    if self:GetCaster():HasModifier("modifier_ns_TricksMaster_stack") then
+        self:SetStackCount(self:GetCaster():FindModifierByName("modifier_ns_TricksMaster_stack"):GetStackCount())
     end
+    self:GetCaster():CalculateStatBonus(true)
 end
 
 function modifier_ns_TricksMaster:DeclareFunctions()
     local funcs = 
     {
         MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
+        MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE,
     }
     return funcs
 end
 
 function modifier_ns_TricksMaster:GetModifierBonusStats_Intellect( params )
-    if self:GetCaster():HasTalent("special_bonus_birzha_ns_7") then
-        return self:GetStackCount() * self:GetCaster():FindTalentValue("special_bonus_birzha_ns_7") 
-    end
-    return self:GetStackCount()
+    if self:GetParent():PassivesDisabled() then return end
+    return self:GetAbility():GetSpecialValueFor("int_kill") * self:GetStackCount()
 end
+
+function modifier_ns_TricksMaster:GetModifierSpellAmplify_Percentage( params )
+    if self:GetParent():PassivesDisabled() then return end
+    return (self:GetAbility():GetSpecialValueFor("spell_amp") + self:GetCaster():FindTalentValue("special_bonus_birzha_ns_7")) * self:GetStackCount()
+end
+
+-- function modifier_ns_TricksMaster:IsPurchasable()
+--     return false
+-- end
+-- 
+-- function modifier_ns_TricksMaster:OnCreated()
+--     if not IsServer() then return end
+--     self:StartIntervalThink(FrameTime())
+-- end
+-- 
+-- function modifier_ns_TricksMaster:OnIntervalThink()
+--     if not IsServer() then return end
+--     if self:GetParent():IsIllusion() then return end
+--     if self:GetAbility():IsFullyCastable() then
+--         self:GetAbility():UseResources(false, false, false, true)
+--         local bonus_intellect = self:GetAbility():GetSpecialValueFor("bonus_intellect")
+--         self:SetStackCount(self:GetStackCount() + bonus_intellect)
+--         self:GetParent():CalculateStatBonus(false)
+--     end
+-- end
+-- 
+-- function modifier_ns_TricksMaster:DeclareFunctions()
+--     local funcs = 
+--     {
+--         MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
+--     }
+--     return funcs
+-- end
+-- 
+-- function modifier_ns_TricksMaster:GetModifierBonusStats_Intellect( params )
+--     if self:GetCaster():HasTalent("special_bonus_birzha_ns_7") then
+--         return self:GetStackCount() * self:GetCaster():FindTalentValue("special_bonus_birzha_ns_7") 
+--     end
+--     return self:GetStackCount()
+-- end
 
 LinkLuaModifier( "modifier_ns_old_beer_orb", "abilities/heroes/ns", LUA_MODIFIER_MOTION_NONE )
 

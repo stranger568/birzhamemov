@@ -26,7 +26,7 @@ function modifier_item_butter2:DeclareFunctions()
         MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
         MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
         MODIFIER_PROPERTY_EVASION_CONSTANT,
-        MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+        MODIFIER_PROPERTY_ATTACKSPEED_PERCENTAGE,
     }
 
     return funcs
@@ -47,14 +47,14 @@ function modifier_item_butter2:GetModifierEvasion_Constant()
     return self:GetAbility():GetSpecialValueFor('ev')
 end
 
-function modifier_item_butter2:GetModifierAttackSpeedBonus_Constant()
+function modifier_item_butter2:GetModifierAttackSpeedPercentage()
     if not self:GetAbility() then return end
     return self:GetAbility():GetSpecialValueFor('attack')
 end
 
 modifier_item_butter2_active = class({})
 
-function modifier_item_butter2_active:IsPurgable() return false end
+function modifier_item_butter2_active:IsPurgable() return true end
 
 function modifier_item_butter2_active:OnCreated()
 	if not IsServer() then return end
