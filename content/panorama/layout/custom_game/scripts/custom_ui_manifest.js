@@ -51,5 +51,5 @@ if (PreGame)
 let RootInnateDisplay = FindDotaHudElement("ContentsContainer")
 if (RootInnateDisplay)
 {
-    RootInnateDisplay.GetParent().visible = false
+    RootInnateDisplay.GetParent().visible = true
 }
