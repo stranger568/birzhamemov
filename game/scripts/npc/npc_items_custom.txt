@@ -1781,6 +1781,7 @@
 		{
 			"str"								"70"
 			"health_regen_percent_per_second"	"1.6"
+			"missing_health_regen"				"1.5"
 		}
 	}
 	
