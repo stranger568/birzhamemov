@@ -895,20 +895,33 @@ function modifier_Dio_Za_Warudo:GetStatusEffectName()
 end
 
 function modifier_Dio_Za_Warudo:DeclareFunctions()
-	local funcs = 
+	return
     {
-		MODIFIER_EVENT_ON_TAKEDAMAGE,
+		MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
+        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
 	}
-	return funcs
 end
 
-function modifier_Dio_Za_Warudo:OnTakeDamage(keys)
-    local unit = keys.unit
-    local parent = self:GetParent()
-    if unit == parent then
-        local damage = keys.damage
-        self.damagetaken = self.damagetaken + damage
-    end
+function modifier_Dio_Za_Warudo:GetAbsoluteNoDamagePhysical(params)
+    if params.original_damage <= 0 then return end
+    if params.attacker == self:GetParent() then return end
+    self.damagetaken = self.damagetaken + params.damage
+    return 1
+end
+
+function modifier_Dio_Za_Warudo:GetAbsoluteNoDamageMagical(params)
+    if params.original_damage <= 0 then return end
+    if params.attacker == self:GetParent() then return end
+    self.damage_taken = self.damagetaken + params.damage
+    return 1
+end
+
+function modifier_Dio_Za_Warudo:GetAbsoluteNoDamagePure(params)
+    if params.original_damage <= 0 then return end
+    if params.attacker == self:GetParent() then return end
+    self.damagetaken = self.damagetaken + params.damage
+    return 1
 end
 
 function modifier_Dio_Za_Warudo:OnDestroy()
