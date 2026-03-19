@@ -64,9 +64,9 @@ function Ns_Tricks:GetCastRange(location, target)
 end
 
 function Ns_Tricks:CastFilterResultTarget( hTarget )
-    if hTarget:IsMagicImmune() and (not self:GetCaster():HasTalent("special_bonus_birzha_ns_1")) then
-        return UF_FAIL_MAGIC_IMMUNE_ENEMY
-    end
+   --if hTarget:IsMagicImmune() and (not self:GetCaster():HasTalent("special_bonus_birzha_ns_1")) then
+   --    return UF_FAIL_MAGIC_IMMUNE_ENEMY
+   --end
     if not IsServer() then return UF_SUCCESS end
     local nResult = UnitFilter( hTarget, self:GetAbilityTargetTeam(), self:GetAbilityTargetType(), self:GetAbilityTargetFlags(), self:GetCaster():GetTeamNumber())
     if nResult ~= UF_SUCCESS then
@@ -128,9 +128,9 @@ function Ns_Tricks:OnProjectileHit( target, vLocation )
 
         if target:IsBoss() then return end
 
-        if not self:GetCaster():HasTalent("special_bonus_birzha_ns_1") then
-            if target:IsMagicImmune() then return end
-        end
+       -- if not self:GetCaster():HasTalent("special_bonus_birzha_ns_1") then
+       --     if target:IsMagicImmune() then return end
+       -- end
 
         if target:GetTeamNumber() ~= self:GetCaster():GetTeamNumber() then
             local damage = RandomInt(damage_min, damage_max)
@@ -508,7 +508,7 @@ LinkLuaModifier( "modifier_ns_fullcounter_debuff", "abilities/heroes/ns.lua", LU
 Ns_FullCounter = class({})
 
 function Ns_FullCounter:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_ns_1")
 end
 
 function Ns_FullCounter:GetManaCost(level)
@@ -540,7 +540,17 @@ function Ns_FullCounter:OnProjectileHit( target, vLocation )
         if target:IsMagicImmune() then return end
         local duration = self:GetSpecialValueFor("duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_ns_6")
         self:GetCaster():EmitSound("kontra")
-        target:AddNewModifier( self:GetCaster(), self, "modifier_ns_fullcounter_debuff", { duration = duration * (1 - target:GetStatusResistance()) } ) 
+        target:AddNewModifier( self:GetCaster(), self, "modifier_ns_fullcounter_debuff", { duration = duration * (1 - target:GetStatusResistance()) } )
+        local damage = self:GetCaster():GetIntellect(false) / 100 * self:GetSpecialValueFor("int_damage")
+        local damage_t = { 
+            victim = target,
+            attacker = self:GetCaster(),
+            damage = damage,
+            damage_type = self:GetAbilityDamageType(),
+            damage_flags = DOTA_DAMAGE_FLAG_NONE,
+            ability = self 
+        }
+        ApplyDamage(damage_t)
     end
     return true
 end
