@@ -1,0 +1,353 @@
+"DOTAAbilities"
+{
+		"never_innate"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/never/never_innate"
+		"AbilityTextureName"			"Never/stupid"
+		"AbilityBehavior"      			"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
+		"DependentOnAbility"			"never_requiem"
+		"Innate"						"1"
+		"HasScepterUpgrade"				"1"
+		"IsBreakable"           		"1"
+		"MaxLevel"						"4"
+		"FightRecapLevel"				"1"
+		"AbilityValues"
+		{
+			"soul_damage_pure"
+			{
+				"value"					"1 1.5 2 2.5"
+				"special_bonus_unique_never_5"	"+1"
+			}
+			"soul_max"					"20 22 24 26"
+			"soul_release"				"0.70"
+			"soul_release_tooltip"		"30"
+			"soul_hero_bonus"			"5"
+			"soul_bonus"				"1"
+			"scepter_bonus"				"1"
+			"current_souls_tooltip"
+			{	
+				"dynamic_value"			"true"
+			}
+		}
+	}
+
+		"never_shadowraze_a"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/never/never_shadowraze"
+		"AbilityTextureName"			"Never/never_shadowraze1"
+		"LinkedAbility"					"never_shadowraze_b"
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+		"AbilityCastAnimation"			"ACT_DOTA_RAZE_1"
+		"HasShardUpgrade"				"1"
+		"FightRecapLevel"				"1"
+		"MaxLevel"						"4"
+		"AbilityCastRange"				"200"
+		"AbilityCastPoint"				"0.55"
+		"AbilityCooldown"				"9"
+		"AbilityManaCost"				"80"
+		"AbilityValues"
+		{
+			"shadowraze_damage"
+			{
+				"value"					"90 150 210 270"
+				"special_bonus_unique_never_4"	"+120"
+			}
+			"stack_bonus_damage"
+			{
+				"value"					"35 45 55 65"
+				"special_bonus_unique_never_1"	"+30"
+			}
+			"shadowraze_slow"			"5 6 7 8"
+			"duration"					"7"
+			"shadowraze_range"			"250"
+			"shadowraze_radius"
+			{
+				"value"					"250"
+				"affected_by_aoe_increase"	"1"
+			}
+
+			"shadowraze_cooldown_shard"	"5"
+			"shard_duration"			"3"
+		}
+	}
+
+		"never_shadowraze_b"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/never/never_shadowraze"
+		"AbilityTextureName"			"Never/never_shadowraze2"
+		"LinkedAbility"					"never_shadowraze_c"
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+		"AbilityCastAnimation"			"ACT_DOTA_RAZE_2"
+		"HasShardUpgrade"				"1"
+		"FightRecapLevel"				"1"
+		"MaxLevel"						"4"		
+		"AbilityCastRange"				"450"
+		"AbilityCastPoint"				"0.55"
+		"AbilityCooldown"				"9"
+		"AbilityManaCost"				"80"
+		"AbilityValues"
+		{
+			"shadowraze_damage"
+			{
+				"value"					"90 150 210 270"
+				"special_bonus_unique_never_4"	"+120"
+			}
+			"stack_bonus_damage"
+			{
+				"value"					"35 45 55 65"
+				"special_bonus_unique_never_1"	"+30"
+			}
+			"shadowraze_slow"			"5 6 7 8"
+			"duration"					"7"
+			"shadowraze_range"			"450"
+			"shadowraze_radius"
+			{
+				"value"					"250"
+				"affected_by_aoe_increase"	"1"
+			}
+
+			"shadowraze_cooldown_shard"	"5"
+			"shard_duration"			"3"
+		}
+	}
+
+		"never_shadowraze_c"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/never/never_shadowraze"
+		"AbilityTextureName"			"Never/never_shadowraze3"
+		"LinkedAbility"					"never_shadowraze_a"
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+		"AbilityCastAnimation"			"ACT_DOTA_RAZE_3"
+		"HasShardUpgrade"				"1"
+		"FightRecapLevel"				"1"
+		"MaxLevel"						"4"		
+		"AbilityCastRange"				"700"
+		"AbilityCastPoint"				"0.55"
+		"AbilityCooldown"				"9"
+		"AbilityManaCost"				"80"
+		"AbilityValues"
+		{
+			"shadowraze_damage"
+			{
+				"value"					"90 150 210 270"
+				"special_bonus_unique_never_4"	"+120"
+			}
+			"stack_bonus_damage"
+			{
+				"value"					"35 45 55 65"
+				"special_bonus_unique_never_1"	"+30"
+			}
+			"shadowraze_slow"			"5 6 7 8"
+			"duration"					"7"
+			"shadowraze_range"			"700"
+			"shadowraze_radius"
+			{
+				"value"					"250"
+				"affected_by_aoe_increase"	"1"
+			}
+
+			"shadowraze_cooldown_shard"	"5"
+			"shard_duration"			"3"
+		}
+	}
+
+		"never_speed"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/never/never_speed"
+		"AbilityTextureName"			"Never/speed"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_AURA | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_HEROES_AND_CREEPS"
+		"AbilityCooldown"				"21 19 17 15"
+		"AbilityManaCost"				"60 70 80 90"
+
+		"AbilityValues"
+		{
+			"movespeed_ally"			"12 18 24 30"
+			"movespeed_mult"			"1.4 1.6 1.8 2"
+			"attackspeed"
+			{
+				"value"					"45 65 85 105"
+				"special_bonus_unique_never_2"	"+40"
+			}
+			"soul_loss"					"5"
+			"duration"					"8"
+			"radius"
+			{
+				"value"					"650"
+				"affected_by_aoe_increase"	"1"
+			}
+
+			"casttime"
+			{
+				"value"					"0"
+				"special_bonus_unique_never_7"	"+30"
+			}
+		}
+	}
+
+		"never_spit"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/never/never_spit"
+		"AbilityTextureName"			"Never/spit"
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
+		"IsBreakable"					"1"
+
+		"AbilityValues"
+		{
+			"damage"					
+			{
+				"value"					"45 95 145 195"
+				"special_bonus_unique_never_3"	"+60"
+			}
+			"attacks"					"5"
+			"duration"					"0.5 0.7 0.9 1.1"
+			"slow"						"100"
+		}
+	}
+
+		"never_requiem"
+	{
+
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/never/never_requiem"
+		"AbilityTextureName"			"Never/ultimate"
+		"MaxLevel"						"3"
+		"AbilityType"					"ABILITY_TYPE_ULTIMATE"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_NORMAL_WHEN_STOLEN"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
+		"FightRecapLevel"				"2"
+		"HasScepterUpgrade"			    "1"
+		"AbilitySound"					"Hero_Nevermore.RequiemOfSouls"
+		"AbilityCastPoint"				"1.67 1.67 1.67"
+		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_6"
+		"AbilityManaCost"				"150 175 200"
+		"AbilityModifierSupportValue"	"0.5"
+
+		"AbilityValues"
+		{
+			"AbilityCooldown"				
+			{
+				"value"					"100 85 70"
+				"special_bonus_unique_never_6" "-20"
+			}
+			"requiem_damage"			"80 120 160"
+			"requiem_radius"	
+			{
+				"value"					"1000"		
+				"affected_by_aoe_increase"	"1"
+			}
+			"requiem_reduction_ms"		"-20 -25 -30"
+			"requiem_reduction_mres"	"-10 -15 -20"
+			"requiem_slow_duration"		"0.6"
+			"requiem_slow_duration_max"	"2.15"	
+			"requiem_soul_conversion"	"1"
+			"requiem_line_width_start"	
+			{
+				"value"					"125"
+				"affected_by_aoe_increase"	"1"
+			}
+			"requiem_line_width_end"	
+			{
+				"value"					"300"
+				"affected_by_aoe_increase"	"1"
+			}
+			"requiem_line_speed"		"700 700 700"
+			"soul_death_release"		"0.5"
+			"requiem_heal_pct_scepter"	
+			{
+				"special_bonus_scepter"			"100"
+			}	
+			"requiem_damage_pct_scepter"	
+			{
+				"special_bonus_scepter"			"60"
+				"CalculateSpellDamageTooltip"	"0"
+			}
+		}
+	}
+
+        "special_bonus_unique_never_1"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_never_2"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_never_3"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_never_4"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_never_5"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_never_6"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_never_7"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_never_8"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+}
