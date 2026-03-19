@@ -6341,11 +6341,10 @@
 "npc_dota_hero_phantom_assassin" 	"Yuno Gasai"
 
 "DOTA_Tooltip_ability_Yuno_Rage" 								"Bloodthirst"
-"DOTA_Tooltip_ability_Yuno_Rage_Description" 					"Yuno goes into a rage and increases his damage, lifesteal and attack speed"
+"DOTA_Tooltip_ability_Yuno_Rage_Description" 					"Yuno goes into a rage and increases his lifesteal and attack speed"
 "DOTA_Tooltip_ability_Yuno_Rage_speed_a" 						"ADDITIONAL ATTACK SPEED:"
 "DOTA_Tooltip_ability_Yuno_Rage_lifesteal" 						"%VAMPIRISM:"
 "DOTA_Tooltip_ability_Yuno_Rage_duration" 						"DURATION:"
-"DOTA_Tooltip_ability_Yuno_Rage_bonus_dmg" 						"ADDITIONAL DAMAGE:"
 "DOTA_Tooltip_ability_Yuno_Rage_lore" 							"This hero was created thanks to <font color='#fffc00'>Dim4ik</font>"
 
 "DOTA_Tooltip_modifier_yuno_rage" 								"Rage"
@@ -8716,10 +8715,11 @@
 "DOTA_Tooltip_ability_Ns_Tricks_damage_max" 					"MAX DAMAGE:"
 
 "DOTA_Tooltip_ability_Ns_FullCounter" 						"Full counter"
-"DOTA_Tooltip_ability_Ns_FullCounter_Description" 			"The Juicy Captain puts a full counter on the enemy. Full counter is silence, root, disable passive abilities and powerlessness"
+"DOTA_Tooltip_ability_Ns_FullCounter_Description" 			"The Juicy Captain puts a full counter on the enemy. Full counter is damage from owner intellect, silence, root, disable passive abilities and powerlessness"
 "DOTA_Tooltip_ability_Ns_FullCounter_duration" 				"DURATION:"
 "DOTA_Tooltip_ability_Ns_FullCounter_magic" 					"% MAGIC RESISTANCE REDUCTION:"
 "DOTA_Tooltip_ability_Ns_FullCounter_armor" 					"ARMOR REDUCTION:"
+"DOTA_Tooltip_ability_Ns_FullCounter_int_damage"			"%DAMAGE FROM INT:"
 
 "DOTA_Tooltip_modifier_ns_fullcounter_debuff" 				"Full counter"
 "DOTA_Tooltip_modifier_ns_fullcounter_debuff_Description" 	"Reduced armor by %dMODIFIER_PROPE RTY_PHYSICAL_ARMOR_BONUS% and magic resistance by %dMODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS%%%"
@@ -9830,6 +9830,113 @@
 "DOTA_Tooltip_Ability_special_bonus_unique_ashab_6"                                         "-{s:bonus_AbilityCooldown} сек. перезарядки Ракетка"
 "DOTA_Tooltip_Ability_special_bonus_unique_ashab_7"                                         "+{s:bonus_max_health_to_damage}% урона от Мышцы на химикатах"
 "DOTA_Tooltip_Ability_special_bonus_unique_ashab_8"                                         "+{s:bonus_min_mult} мин/макс коэфф Ракетка"
+
+//=================================================================================================================
+// Never (new)
+//=================================================================================================================
+
+"DOTA_Tooltip_ability_never_innate"							"ЧСВ"
+"DOTA_Tooltip_ability_never_innate_Description"				"Never крадёт души убитых им существ. Каждая душа добавляет к атакам героя чистый урон, равный %soul_damage_pure%%% <span class=\"GameplayValues GameplayVariable\">от его ловкости</span>. За обычное существо даётся %soul_bonus% душа, а за героя — %soul_hero_bonus%. При смерти герой выпускает %soul_release_tooltip%%% из украденных душ."
+"DOTA_Tooltip_ability_never_innate_soul_damage_pure"		"%УРОН ЗА ДУШУ:"
+"DOTA_Tooltip_ability_never_innate_soul_max"				"МАКС. ДУШ:"
+"DOTA_Tooltip_ability_never_innate_current_souls_tooltip"	"ТЕКУЩИЙ МАКСИМУМ ДУШ:"
+"DOTA_Tooltip_ability_never_innate_scepter_Description"		"Позволяет увеличить максимум душ на %scepter_bonus% за каждого убитого героя, пока владелец способности не умрёт."
+"DOTA_Tooltip_ability_never_innate_necromastery_Note1"		"Кража душ отключается истощением."
+"DOTA_Tooltip_ability_never_innate_necromastery_Note2"		"Бонусы от уже украденных душ не отключаются истощением."
+
+"DOTA_Tooltip_modifier_never_innate"						"ЧСВ"
+"DOTA_Tooltip_modifier_never_innate_Description"			"Добавляет к атакам героя чистый урон, завсящий от его ловкости."
+
+"DOTA_Tooltip_ability_never_shadowraze_a"					"ZXC(Ближний)"
+"DOTA_Tooltip_ability_never_shadowraze_a_Description"		"Создаёт перед собой магический взрыв, нанося урон и атакуя врагов в зоне его действия. Накладывает на жертв складывающийся эффект, увеличивающий урон от этой способности и замедляющий их на %shadowraze_slow%%%."
+"DOTA_Tooltip_ability_never_shadowraze_a_shadowraze_damage"	"БАЗОВЫЙ УРОН:"
+"DOTA_Tooltip_ability_never_shadowraze_a_shadowraze_slow"	"%ЗАМЕДЛЕНИЕ:"
+"DOTA_Tooltip_ability_never_shadowraze_a_shadowraze_range"	"ДАЛЬНОСТЬ ПРИМЕНЕНИЯ:"
+"DOTA_Tooltip_ability_never_shadowraze_a_duration"			"ДЛИТЕЛЬНОСТЬ ЭФФЕКТА:"
+"DOTA_Tooltip_ability_never_shadowraze_a_stack_bonus_damage""ДОП. УРОН ЗА ПОПАДАНИЕ"
+"DOTA_Tooltip_ability_never_shadowraze_a_Note0"				"Длительность эффекта обновляется при каждом наложении."
+
+"DOTA_Tooltip_ability_never_shadowraze_b"					"ZXC(Средний)"
+"DOTA_Tooltip_ability_never_shadowraze_b_Description"		"Создаёт неподалёку от себя магический взрыв, нанося урон и атакуя врагов в зоне его действия. Накладывает на жертв складывающийся эффект, увеличивающий урон от этой способности и замедляющий их на %shadowraze_slow%%%."
+"DOTA_Tooltip_ability_never_shadowraze_b_shadowraze_damage"	"БАЗОВЫЙ УРОН:"
+"DOTA_Tooltip_ability_never_shadowraze_b_shadowraze_slow"	"%ЗАМЕДЛЕНИЕ:"
+"DOTA_Tooltip_ability_never_shadowraze_b_shadowraze_range"	"ДАЛЬНОСТЬ ПРИМЕНЕНИЯ:"
+"DOTA_Tooltip_ability_never_shadowraze_b_duration"			"ДЛИТЕЛЬНОСТЬ ЭФФЕКТА:"
+"DOTA_Tooltip_ability_never_shadowraze_b_stack_bonus_damage""ДОП. УРОН ЗА ПОПАДАНИЕ"
+"DOTA_Tooltip_ability_never_shadowraze_b_Note0"				"Длительность эффекта обновляется при каждом наложении."
+
+"DOTA_Tooltip_ability_never_shadowraze_c"					"ZXC(Дальний)"
+"DOTA_Tooltip_ability_never_shadowraze_c_Description"		"Создаёт вдалеке от себя магический взрыв, нанося урон и атакуя врагов в зоне его действия. Накладывает на жертв складывающийся эффект, увеличивающий урон от этой способности и замедляющий их на %shadowraze_slow%%%."
+"DOTA_Tooltip_ability_never_shadowraze_c_shadowraze_damage"	"БАЗОВЫЙ УРОН:"
+"DOTA_Tooltip_ability_never_shadowraze_c_shadowraze_slow"	"%ЗАМЕДЛЕНИЕ:"
+"DOTA_Tooltip_ability_never_shadowraze_c_shadowraze_range"	"ДАЛЬНОСТЬ ПРИМЕНЕНИЯ:"
+"DOTA_Tooltip_ability_never_shadowraze_c_duration"			"ДЛИТЕЛЬНОСТЬ ЭФФЕКТА:"
+"DOTA_Tooltip_ability_never_shadowraze_c_stack_bonus_damage""ДОП. УРОН ЗА ПОПАДАНИЕ:"
+"DOTA_Tooltip_ability_never_shadowraze_c_Note0"				"Длительность эффекта обновляется при каждом наложении."
+
+"DOTA_Tooltip_ability_never_shadowraze_a_shard_description"	"После трёх попаданий по вражеским героям уменьшает перезарядку способности на %shadowraze_cooldown_shard% сек."
+"DOTA_Tooltip_ability_never_shadowraze_b_shard_description"	"После трёх попаданий по вражеским героям уменьшает перезарядку способности на %shadowraze_cooldown_shard% сек."
+"DOTA_Tooltip_ability_never_shadowraze_c_shard_description"	"После трёх попаданий по вражеским героям уменьшает перезарядку способности на %shadowraze_cooldown_shard% сек."
+
+"DOTA_Tooltip_modifier_never_shadowraze"					"ZXC"
+"DOTA_Tooltip_modifier_never_shadowraze_Description"		"Замедлен на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% и получает больше урона от этой способности."
+"DOTA_Tooltip_modifier_never_shadowraze_shard"				"ZXC"
+"DOTA_Tooltip_modifier_never_shadowraze_shard_Description"	"Уменьшает перезарядку этой способности после трёх попаданий."
+
+"DOTA_Tooltip_ability_never_speed"							"РАЗБЕГ"
+"DOTA_Tooltip_ability_never_speed_Description"				"Never становится самым быстрым на карте, чтобы разъебать всех врагов. Пассивно увеличивает себе и всем ближайшим союзникам скорость передвижения. При активации умножает себе пассивную скорость передвижения и ускоряет атаку на %duration% сек. По окончании способности владелец теряет %soul_loss% душ."
+"DOTA_Tooltip_ability_never_speed_radius"					"РАДИУС:"
+"DOTA_Tooltip_ability_never_speed_soul_loss"				"ПОТЕРЯ ДУШ:"
+"DOTA_Tooltip_ability_never_speed_movespeed_ally"			"%ДОП. СКОРОСТЬ ПЕРЕДВИЖЕНИЯ:"
+"DOTA_Tooltip_ability_never_speed_movespeed_mult"			"МНОЖИТЕЛЬ СКОРОСТИ ПЕРЕДВИЖЕНИЯ:"
+"DOTA_Tooltip_ability_never_speed_attackspeed"				"ДОП. СКОРОСТЬ АТАКИ:"
+"DOTA_Tooltip_ability_never_speed_Note0"					"Невозможно применить, если душ недостаточно."
+
+"DOTA_Tooltip_modifier_never_speed"							"РАЗБЕГ"
+"DOTA_Tooltip_modifier_never_speed_Description"				"Получает больше скорости передвижения и скорости атаки."
+"DOTA_Tooltip_modifier_never_speed_aura_buff"				"РАЗБЕГ"
+"DOTA_Tooltip_modifier_never_speed_aura_buff_Description"	"Скорость передвижения увеличена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%"
+
+"dota_hud_error_never_no_souls"								"Не хватает душ."
+
+"DOTA_Tooltip_ability_never_spit"							"ПЛЕВОК В ЛИЦО"
+"DOTA_Tooltip_ability_never_spit_Description"				"После каждых %attacks% атак Never плюёт во врага, нанося дополнительный урон, запрещая использовать способности и замедляя на %slow%%%. Добавляет 1 душу к способности ЧСВ."
+"DOTA_Tooltip_ability_never_spit_duration"					"ДЛИТЕЛЬНОСТЬ ЭФФЕКТА:"
+"DOTA_Tooltip_ability_never_spit_damage"					"ДОПОЛНИТЕЛЬНЫЙ УРОН:"
+
+"DOTA_Tooltip_modifier_never_spit"							"Плевок В Лицо"
+"DOTA_Tooltip_modifier_never_spit_Description"				"Наладывает отрицательные эффекты при атаке."
+"DOTA_Tooltip_modifier_never_spit_debuff"					"Плевок В Лицо"
+"DOTA_Tooltip_modifier_never_spit_debuff_Description"		"Замедлен на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% и не может использовать способности."
+		
+"DOTA_Tooltip_ability_never_requiem"						"1000-7?"
+"DOTA_Tooltip_ability_never_requiem_Description"			"Never выпускает собранные души в волнах <font color='#ff0000'>Dead Inside</font> энергии. Существа возле него могут получить урон от нескольких волн. За каждую задетую волну на жертву накладывается %requiem_slow_duration% сек. замедления, снижения сопротивления магии и страха (но не более %requiem_slow_duration_max% сек.). Создаёт одну волну энергии за каждую душу, захваченную с помощью <span class=\"GameplayValues GameplayVariable\">ЧСВ.</span><br><br>Если герой погибнет, то эта способность сработает автоматически вне зависимости от её готовности."
+"DOTA_Tooltip_ability_never_requiem_abilitycastpoint"       "ЗАДЕРЖКА ПРИМЕНЕНИЯ:"
+"DOTA_Tooltip_ability_never_requiem_requiem_reduction_ms"	"%ЗАМЕДЛЕНИЕ ПЕРЕДВИЖЕНИЯ:"
+"DOTA_Tooltip_ability_never_requiem_requiem_reduction_mres"	"%УМЕНЬШЕНИЕ СОПРОТИВЛЕНИЯ МАГИИ:"
+"DOTA_Tooltip_ability_never_requiem_requiem_slow_duration"	"ДЛИТЕЛЬНОСТЬ СТРАХА ЗА ВОЛНУ:"
+"DOTA_Tooltip_ability_never_requiem_requiem_slow_duration_max" "МАКС. ДЛИТЕЛЬНОСТЬ СТРАХА:"
+"DOTA_Tooltip_ability_never_requiem_abilitycooldown"		"ПЕРЕЗАРЯДКА:"
+
+"DOTA_Tooltip_modifier_never_requiem"						"1000-7?"
+"DOTA_Tooltip_modifier_never_requiem_Description"			"В страхе бежит от дединсайда."
+
+"DOTA_Tooltip_ability_never_requiem_Note0"					"Способность не накладывает страх и замедление, если сработала при смерти."
+"DOTA_Tooltip_ability_never_requiem_Note1"	      			"<span class=\"ADWarning\">Не имеет эффекта без способности <b>ЧСВ</b>.</span>"
+
+"DOTA_Tooltip_ability_never_requiem_scepter_Description"	"Заставляет ослабленные волны этой способности возвращаться к герою, излечивая его на количество нанесённого на обратном пути урона."
+"DOTA_Tooltip_ability_never_requiem_requiem_damage_pct_scepter" "%УРОН ПРИ ВОЗВРАЩЕНИИ:"
+"DOTA_Tooltip_ability_never_requiem_requiem_heal_pct_scepter" "%ЛЕЧЕНИЕ ПРИ ВОЗВРАЩЕНИИ:"
+
+"DOTA_Tooltip_ability_special_bonus_unique_never_1"			"+{s:bonus_stack_bonus_damage} к доп. урону за попадание у ZXC"
+"DOTA_Tooltip_ability_special_bonus_unique_never_2"			"+{s:bonus_attackspeed} к скорости атаки от Разбег"
+"DOTA_Tooltip_ability_special_bonus_unique_never_3"			"+{s:bonus_damage} к урону от Плевка В Лицо"
+"DOTA_Tooltip_ability_special_bonus_unique_never_4"			"+{s:bonus_shadowraze_damage} к урону от ZXC"
+"DOTA_Tooltip_ability_special_bonus_unique_never_5"			"+{s:bonus_soul_damage_pure}% к урону от ловкости за душу"
+"DOTA_Tooltip_ability_special_bonus_unique_never_6"			"-{s:bonus_AbilityCooldown} сек. перезарядки 1000-7?"
+"DOTA_Tooltip_ability_special_bonus_unique_never_7"			"Разбег ускоряет заклинания на {s:bonus_casttime}%"
+"DOTA_Tooltip_ability_special_bonus_unique_never_7_Description"	"Действует только на активный эффект."
+"DOTA_Tooltip_ability_special_bonus_unique_never_8"			"Плевок В Лицо наносит чистый урон"
 
 "npc_dota_azazin_antosha"                                                                   "Антон"
 "npc_dota_azazin_kobold"                                                                    "Кобольд"
