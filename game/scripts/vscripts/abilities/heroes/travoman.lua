@@ -897,8 +897,6 @@ function travoman_remote_mines_self_detonate:OnSpellStart(use_ability, bonus_del
     ParticleManager:SetParticleControl(particle_explosion_fx, 1, Vector(radius+100, 1, 1))
     ParticleManager:SetParticleControl(particle_explosion_fx, 3, self:GetCaster():GetAbsOrigin())
     ParticleManager:ReleaseParticleIndex(particle_explosion_fx)
-
-    AddFOWViewer(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), radius, radius, false)
     
     local flag = 0
     local enemies = FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetCaster():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, flag, FIND_ANY_ORDER, false)

@@ -113,7 +113,7 @@ function modifier_polnaref_scepter_in_stand_buff:OnCreated(kv)
         ability_stand_spawn:SetActivated(false)
     end
     if self.stand then
-        self.stand:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_polnaref_scepter_in_stand_buff_stand", {})
+        self.stand:AddNewModifier(self:GetCaster(), self:GetAbility(), " ", {})
     end
     local particle = ParticleManager:CreateParticle("particles/econ/events/fall_2021/blink_dagger_fall_2021_end.vpcf", PATTACH_WORLDORIGIN, nil)
     ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())

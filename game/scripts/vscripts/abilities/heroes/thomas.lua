@@ -137,7 +137,7 @@ function thomas_fired:GetCastRange(location, target)
 end
 
 function thomas_fired:GetManaCost(level)
-    return self:GetSpecialValueFor("mana_per_sec")
+    return self:GetSpecialValueFor( "mana_per_sec" ) + self:GetSpecialValueFor( "mana_perc_per_sec" ) * self:GetCaster():GetMaxMana() / 100
 end
 
 function thomas_fired:OnToggle()
@@ -161,12 +161,12 @@ function modifier_thomas_fired:IsPurgable()
 end
 
 function modifier_thomas_fired:IsHidden()
-    return false
+    return true
 end
 
 function modifier_thomas_fired:OnCreated()
     if not IsServer() then return end
-    self.manacost = self:GetAbility():GetSpecialValueFor( "mana_per_sec" )
+    self.manacost = self:GetAbility():GetSpecialValueFor( "mana_per_sec" ) + self:GetAbility():GetSpecialValueFor( "mana_perc_per_sec" ) * self:GetParent():GetMaxMana() / 100
     self:StartIntervalThink(0.2)
     self:OnIntervalThink()
 end
@@ -273,6 +273,9 @@ function Thomas_MLG_RaGE:Explosion(scepter)
     end
 
     if not self:GetCaster():HasShard() then
+        self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", { duration = stun_duration * (1 - self:GetCaster():GetStatusResistance()) } )
+    else
+        local stun_duration = self:GetSpecialValueFor("shard_duration")
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_birzha_stunned", { duration = stun_duration * (1 - self:GetCaster():GetStatusResistance()) } )
     end
 

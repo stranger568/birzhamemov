@@ -764,7 +764,7 @@ function serega_pirat_radiance:GetIntrinsicModifierName()
 end
 
 function serega_pirat_radiance:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_serega_pirat_3")
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_serega_pirat_6")
 end
 
 modifier_serega_pirat_radiance = class({})
@@ -836,7 +836,7 @@ modifier_serega_pirat_radiance_debuff = class({})
 function modifier_serega_pirat_radiance_debuff:IsPurgable() return true end
 
 function modifier_serega_pirat_radiance_debuff:OnCreated()
-	self.slow = self:GetAbility():GetSpecialValueFor("slow") + self:GetCaster():FindTalentValue("special_bonus_birzha_serega_pirat_6")
+	self.slow = self:GetAbility():GetSpecialValueFor("slow") + self:GetCaster():FindTalentValue("special_bonus_birzha_serega_pirat_3")
 	self.rotate = self:GetAbility():GetSpecialValueFor("rotate")
 	if not IsServer() then return end
 	self.radiance_burn_damage = self:GetAbility():GetSpecialValueFor("radiance_burn_damage")

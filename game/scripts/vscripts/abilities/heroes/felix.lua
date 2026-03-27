@@ -315,17 +315,17 @@ function modifier_Felix_ItsATrap:DeclareFunctions()
 	local funcs = 
 	{
 		MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING,
-		MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS
+		MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE
 	}
 	return funcs
 end
 
-function modifier_Felix_ItsATrap:GetModifierMagicalResistanceBonus()
+function modifier_Felix_ItsATrap:GetModifierIncomingDamage_Percentage()
 	return self:GetAbility():GetSpecialValueFor("resist_minus") + self:GetCaster():FindTalentValue("special_bonus_birzha_felix_1")
 end
 
 function modifier_Felix_ItsATrap:GetModifierStatusResistanceStacking()
-	return self:GetAbility():GetSpecialValueFor("resist_minus") + self:GetCaster():FindTalentValue("special_bonus_birzha_felix_1")
+	return -self:GetAbility():GetSpecialValueFor("resist_minus") - self:GetCaster():FindTalentValue("special_bonus_birzha_felix_1")
 end
 
 function modifier_Felix_ItsATrap:GetEffectName()
@@ -612,8 +612,13 @@ end
 function modifier_Felix_WaterShield:DeclareFunctions()
 	return 
 	{
-		MODIFIER_EVENT_ON_TAKEDAMAGE
+		MODIFIER_EVENT_ON_TAKEDAMAGE,
+		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
 	}
+end
+
+function modifier_Felix_WaterShield:GetModifierMoveSpeedBonus_Percentage()
+	return self:GetAbility():GetSpecialValueFor("movespeed")
 end
 
 function modifier_Felix_WaterShield:OnTakeDamage(keys)

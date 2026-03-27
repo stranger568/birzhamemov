@@ -48,8 +48,23 @@ if (PreGame)
     PreGame.style.opacity = "0";
 }
 
-let RootInnateDisplay = FindDotaHudElement("ContentsContainer")
-if (RootInnateDisplay)
+GameEvents.Subscribe( "dota_player_update_selected_unit", UpdateSelectionUnit );
+GameEvents.Subscribe( "dota_player_update_query_unit", UpdateSelectionUnit );
+GameEvents.Subscribe( "m_event_dota_inventory_changed_query_unit", UpdateSelectionUnit );
+GameEvents.Subscribe( "game_rules_state_change", UpdateSelectionUnit );
+
+let HEROES_WITH_INNATE = 
 {
-    RootInnateDisplay.GetParent().visible = false
+    npc_dota_hero_nevermore: true,
+}
+
+function UpdateSelectionUnit()
+{
+    let selected_hero_portrait = Players.GetLocalPlayerPortraitUnit()
+    let unit_name = Entities.GetUnitName( selected_hero_portrait )
+    let RootInnateDisplay = FindDotaHudElement("ContentsContainer")
+    if (RootInnateDisplay)
+    {
+        RootInnateDisplay.GetParent().visible = HEROES_WITH_INNATE[unit_name]
+    }
 }

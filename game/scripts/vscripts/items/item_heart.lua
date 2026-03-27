@@ -17,7 +17,6 @@ function modifier_item_tar2:DeclareFunctions()
     local funcs = 
     {
         MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
-        MODIFIER_PROPERTY_HEALTH_BONUS,
         MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE
     }
 
@@ -26,11 +25,11 @@ end
 
 function modifier_item_tar2:OnCreated()
     if not IsServer() then return end
-    self.health = self:GetAbility():GetSpecialValueFor('hp')
     self.str = self:GetAbility():GetSpecialValueFor('str')
     self.health_regen_percent_per_second = self:GetAbility():GetSpecialValueFor('health_regen_percent_per_second')
-    if self:GetParent():FindAllModifiersByName("modifier_item_tar2")[1] ~= self then
-        self.health_regen_percent_per_second = 0
+    self.missing_health_regen = self:GetAbility():GetSpecialValueFor('missing_health_regen')
+    if self:GetParent():FindModifierByName("modifier_item_heart") and self:GetParent():FindAllModifiersByName("modifier_item_tar2")[1] ~= self then
+        self.missing_health_regen = 0
     end
     self:SetHasCustomTransmitterData(true)
     self:StartIntervalThink(FrameTime())
@@ -38,12 +37,14 @@ end
 
 function modifier_item_tar2:OnIntervalThink()
     if not IsServer() then return end
-    self.health = self:GetAbility():GetSpecialValueFor('hp')
     self.str = self:GetAbility():GetSpecialValueFor('str')
-    if self:GetParent():FindAllModifiersByName("modifier_item_tar2")[1] ~= self then
-        self.health_regen_percent_per_second = 0
+    if self:GetParent():HasModifier("modifier_item_heart") and self:GetParent():FindAllModifiersByName("modifier_item_tar2")[1] ~= self then
+        self.missing_health_regen = 0
     else
-        self.health_regen_percent_per_second = self:GetAbility():GetSpecialValueFor('health_regen_percent_per_second')
+        local base_regen = self.health_regen_percent_per_second
+        local missing_hp_pct = (self:GetParent():GetMaxHealth() - self:GetParent():GetHealth()) / self:GetParent():GetMaxHealth()
+        local extra_regen = missing_hp_pct * self.missing_health_regen
+        self.hp_regen_perc = base_regen + extra_regen
     end
     self:SendBuffRefreshToClients()
 end
@@ -51,16 +52,14 @@ end
 function modifier_item_tar2:AddCustomTransmitterData()
     return 
     {
-        health = self.health,
         str = self.str,
-        health_regen_percent_per_second = self.health_regen_percent_per_second,
+        hp_regen_perc = self.hp_regen_perc,
     }
 end
 
 function modifier_item_tar2:HandleCustomTransmitterData( data )
-    self.health = data.health
     self.str = data.str
-    self.health_regen_percent_per_second = data.health_regen_percent_per_second
+    self.hp_regen_perc = data.hp_regen_perc
 end
 
 function modifier_item_tar2:GetModifierBonusStats_Strength()
@@ -68,12 +67,7 @@ function modifier_item_tar2:GetModifierBonusStats_Strength()
     return self.str
 end
 
-function modifier_item_tar2:GetModifierHealthBonus()
-    if not self:GetAbility() then return end
-    return self.health
-end
-
 function modifier_item_tar2:GetModifierHealthRegenPercentage()
     if not self:GetAbility() then return end
-    return self.health_regen_percent_per_second
+    return self.hp_regen_perc
 end

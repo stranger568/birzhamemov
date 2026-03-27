@@ -438,6 +438,8 @@ function modifier_mina_passive_shard:GetModifierProcAttack_BonusDamage_Pure( par
     end
 end
 
+LinkLuaModifier("mina_radiation_field_cooldown","abilities/heroes/mina.lua",LUA_MODIFIER_MOTION_NONE)
+
 mina_radiation_field = class({})
 
 function mina_radiation_field:OnInventoryContentsChanged()
@@ -470,10 +472,17 @@ function mina_radiation_field:Damage(target)
         ability = self,
         damage_flags = DOTA_DAMAGE_FLAG_HPLOSS + DOTA_DAMAGE_FLAG_NO_DAMAGE_MULTIPLIERS
     }
-    ApplyDamage( damage )
-    ParticleManager:ReleaseParticleIndex( ParticleManager:CreateParticle( "particles/heroes/hero_mina/radiation_field.vpcf", PATTACH_ABSORIGIN_FOLLOW, target ) )
-    target:EmitSound("Hero_Zuus.StaticField")
+    if not target:HasModifier("mina_radiation_field_cooldown") then
+        target:AddNewModifier(self:GetCaster(), self, "mina_radiation_field_cooldown", {duration = self:GetSpecialValueFor("cooldown")})
+        ApplyDamage( damage )
+        ParticleManager:ReleaseParticleIndex( ParticleManager:CreateParticle( "particles/heroes/hero_mina/radiation_field.vpcf", PATTACH_ABSORIGIN_FOLLOW, target ) )
+        target:EmitSound("Hero_Zuus.StaticField")
+    end
 end
+
+mina_radiation_field_cooldown = class({})
+function mina_radiation_field_cooldown:IsHidden() return true end
+function mina_radiation_field_cooldown:IsPurgable() return false end
 
 LinkLuaModifier("modifier_mina_nuclear_strike","abilities/heroes/mina.lua",LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_mina_nuclear_strike_slow","abilities/heroes/mina.lua",LUA_MODIFIER_MOTION_NONE)

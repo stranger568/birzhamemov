@@ -334,21 +334,31 @@ function modifier_Bullet_Stats:DeclareFunctions()
         MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
         MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
         MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+        MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,
     }
 
     return funcs
 end
 
 function modifier_Bullet_Stats:GetModifierBonusStats_Strength()
-    return self:GetAbility():GetSpecialValueFor("stat") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_6")
+    return self:GetAbility():GetSpecialValueFor("stat")
 end
 
 function modifier_Bullet_Stats:GetModifierBonusStats_Agility()
-    return self:GetAbility():GetSpecialValueFor("stat") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_6")
+    return self:GetAbility():GetSpecialValueFor("stat")
 end
 
 function modifier_Bullet_Stats:GetModifierBonusStats_Intellect()
-    return self:GetAbility():GetSpecialValueFor("stat") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_6")
+    return self:GetAbility():GetSpecialValueFor("stat")
+end
+
+function modifier_Bullet_Stats:GetModifierMoveSpeedBonus_Percentage()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_5")
+end
+
+function modifier_Bullet_Stats:GetModifierMagicalResistanceBonus()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_6")
 end
 
 modifier_Bullet_Stats_debuff = class({})
@@ -362,21 +372,31 @@ function modifier_Bullet_Stats_debuff:DeclareFunctions()
         MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
         MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
         MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+        MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,
     }
 
     return funcs
 end
 
 function modifier_Bullet_Stats_debuff:GetModifierBonusStats_Strength()
-    return (self:GetAbility():GetSpecialValueFor("stat") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_5")) * -1
+    return self:GetAbility():GetSpecialValueFor("stat") * -1
 end
 
 function modifier_Bullet_Stats_debuff:GetModifierBonusStats_Agility()
-    return (self:GetAbility():GetSpecialValueFor("stat") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_5")) * -1
+    return self:GetAbility():GetSpecialValueFor("stat") * -1
 end
 
 function modifier_Bullet_Stats_debuff:GetModifierBonusStats_Intellect()
-    return (self:GetAbility():GetSpecialValueFor("stat") + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_5")) * -1
+    return self:GetAbility():GetSpecialValueFor("stat") * -1
+end
+
+function modifier_Bullet_Stats_debuff:GetModifierMoveSpeedBonus_Percentage()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_5") * -1
+end
+
+function modifier_Bullet_Stats_debuff:GetModifierMagicalResistanceBonus()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_6") * -1
 end
 
 LinkLuaModifier("modifier_Bullet_BulletInTheHead", "abilities/heroes/bullet", LUA_MODIFIER_MOTION_NONE)
@@ -393,7 +413,7 @@ function Bullet_BulletInTheHead:GetBehavior()
 end
 
 function Bullet_BulletInTheHead:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level )
+    return (self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_1"))
 end
 
 function Bullet_BulletInTheHead:GetManaCost(level)
@@ -529,15 +549,17 @@ function Bullet_BulletInTheHead:OnProjectileHit_ExtraData( target, location, ext
         end
     end
 
-    ApplyDamage({victim = target, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_PURE, ability = self})
-    
-    if self:GetCaster():HasTalent("special_bonus_birzha_bullet_1") then
-        target:AddNewModifier(self:GetCaster(), self, "modifier_Bullet_BulletInTheHead_slow", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_1", "value2")})
-    end
+    ApplyDamage({victim = target, attacker = self:GetCaster(), damage = damage, damage_type = DAMAGE_TYPE_MAGICAL, ability = self})
 
-    if self:GetCaster():HasTalent("special_bonus_birzha_bullet_7") then
-        target:AddNewModifier(self:GetCaster(), self, "modifier_Bullet_BulletInTheHead_bonus_damage", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_7", "value2")})
-    end
+    self:GetCaster():PerformAttack(target, true, true, true, false, false, false, true)
+    
+   -- if self:GetCaster():HasTalent("special_bonus_birzha_bullet_1") then
+   --     target:AddNewModifier(self:GetCaster(), self, "modifier_Bullet_BulletInTheHead_slow", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_1", "value2")})
+   -- end
+
+   -- if self:GetCaster():HasTalent("special_bonus_birzha_bullet_7") then
+   --     target:AddNewModifier(self:GetCaster(), self, "modifier_Bullet_BulletInTheHead_bonus_damage", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_7", "value2")})
+   -- end
 
     if self:GetCaster():HasScepter() then
         local scepter_stun_duration = self:GetSpecialValueFor("scepter_stun_duration")
@@ -566,31 +588,31 @@ function modifier_Bullet_BulletInTheHead:OnIntervalThink( kv )
     end
 end
 
-modifier_Bullet_BulletInTheHead_slow = class({})
-function modifier_Bullet_BulletInTheHead_slow:DeclareFunctions()
-    return
-    {
-        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
-    }
-end
-function modifier_Bullet_BulletInTheHead_slow:GetModifierMoveSpeedBonus_Percentage()
-    return self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_1")
-end
-
-function modifier_Bullet_BulletInTheHead_slow:GetEffectName()
-    return "particles/econ/items/wraith_king/wraith_king_arcana/wk_arc_slow_debuff.vpcf"
-end
-
-modifier_Bullet_BulletInTheHead_bonus_damage = class({})
-function modifier_Bullet_BulletInTheHead_bonus_damage:DeclareFunctions()
-    return
-    {
-        MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE
-    }
-end
-function modifier_Bullet_BulletInTheHead_bonus_damage:GetModifierIncomingDamage_Percentage()
-    return self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_7")
-end
-function modifier_Bullet_BulletInTheHead_bonus_damage:GetEffectName()
-    return "particles/bullet_debuff_asassinatebloodseeker_rupture.vpcf"
-end
+-- modifier_Bullet_BulletInTheHead_slow = class({})
+-- function modifier_Bullet_BulletInTheHead_slow:DeclareFunctions()
+--     return
+--     {
+--         MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
+--     }
+-- end
+-- function modifier_Bullet_BulletInTheHead_slow:GetModifierMoveSpeedBonus_Percentage()
+--     return self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_1")
+-- end
+-- 
+-- function modifier_Bullet_BulletInTheHead_slow:GetEffectName()
+--     return "particles/econ/items/wraith_king/wraith_king_arcana/wk_arc_slow_debuff.vpcf"
+-- end
+-- 
+-- modifier_Bullet_BulletInTheHead_bonus_damage = class({})
+-- function modifier_Bullet_BulletInTheHead_bonus_damage:DeclareFunctions()
+--     return
+--     {
+--         MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE
+--     }
+-- end
+-- function modifier_Bullet_BulletInTheHead_bonus_damage:GetModifierIncomingDamage_Percentage()
+--     return self:GetCaster():FindTalentValue("special_bonus_birzha_bullet_7")
+-- end
+-- function modifier_Bullet_BulletInTheHead_bonus_damage:GetEffectName()
+--     return "particles/bullet_debuff_asassinatebloodseeker_rupture.vpcf"
+-- end

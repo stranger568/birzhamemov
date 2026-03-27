@@ -72,14 +72,10 @@ function ruby_ranged_mode:OnProjectileHit(target, vLocation)
     else 
         self.end_damage = damage
     end
-
+    
     ApplyDamage({ victim = target, attacker = self:GetCaster(), ability = self, damage = self.end_damage, damage_type = DAMAGE_TYPE_PHYSICAL })
 
-    if self:GetCaster():HasTalent("special_bonus_birzha_ruby_7") then
-        self:GetCaster():PerformAttack(target, true, true, true, false, false, false, true)
-    else
-        self:GetCaster():PerformAttack(target, true, true, true, false, false, true, true)
-    end
+    self:GetCaster():PerformAttack(target, true, true, true, false, false, true, true)
 end
 
 function ruby_ranged_mode:PlayEffects()

@@ -535,7 +535,7 @@ function BirzhaGameMode:EndGame( victoryTeam )
 		BirzhaData.PostData()
 		BirzhaData.PostHeroesInfo()
 		BirzhaData.PostHeroPlayerHeroInfo()
-		BirzhaData:SendDataPlayerReports()
+		--BirzhaData:SendDataPlayerReports()
 	end
 end
 

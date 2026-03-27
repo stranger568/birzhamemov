@@ -123,8 +123,16 @@
         "AbilityCooldown"                       "50"
         "AbilityValues"
 		{
-            "radius"                            "800"
-            "radius_damage"                     "200"
+            "radius"
+            {     
+                "value"                         "800"
+                "affected_by_aoe_increase"      "1"
+            }
+            "radius_damage"
+            {     
+                "value"                         "200"
+                "affected_by_aoe_increase"      "1"
+            }
             "interval"
             {
                 "value"                             "0.25"

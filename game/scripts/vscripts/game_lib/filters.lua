@@ -15,8 +15,6 @@ function BirzhaGameMode:DamageFilter(filterTable)
     local IMMUNE_MODIFIERS_VICTIM = 
     {
         "modifier_LenaGolovach_Radio_god",
-        "modifier_kurumi_zafkiel",
-        "modifier_Dio_Za_Warudo",
         "modifier_Felix_WaterShield",
         "modifier_kurumi_god",
         "modifier_ExplosionMagic_immunity",

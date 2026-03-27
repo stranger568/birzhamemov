@@ -29,6 +29,7 @@ function haku_needle:Precache(context)
         "particles/generic_gameplay/generic_lifesteal.vpcf",
         "particles/emperor_time.vpcf",
         "particles/devil_trigger22.vpcf",
+		"particles/econ/items/omniknight/omni_ti8_head/omniknight_repel_buff_ti8.vpcf",
     }
     for _, particle_name in pairs(particle_list) do
         PrecacheResource("particle", particle_name, context)
@@ -102,6 +103,10 @@ function haku_needle:OnSpellStart()
 				info.Target = enemy
 				ProjectileManager:CreateTrackingProjectile(info)
 				secondary_knives_thrown = secondary_knives_thrown + 1
+			elseif #enemies == 1 then
+				info.iMoveSpeed = 1100
+				ProjectileManager:CreateTrackingProjectile(info)
+				secondary_knives_thrown = secondary_knives_thrown + 1
 			end
 			if secondary_knives_thrown >= 1 then
 				break
@@ -159,8 +164,11 @@ function haku_jump:DealDamage()
 	for _,enemy in pairs(enemies) do
 		damageTable.victim = enemy
 		ApplyDamage(damageTable)
+        if self:GetCaster():HasTalent("special_bonus_birzha_haku_5") then
+            self:GetCaster():PerformAttack(enemy, true, true, true, false, false, false, true)
+        end
 		if self:GetCaster():HasModifier("modifier_haku_frost_attack") then
-			enemy:AddNewModifier(self:GetCaster(), self, "modifier_marci_companion_run_custom_debuff_frost", {duration = (self:GetSpecialValueFor("root_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_haku_2") ) * (1-enemy:GetStatusResistance())})
+			enemy:AddNewModifier(self:GetCaster(), self, "modifier_marci_companion_run_custom_debuff_frost", {duration = (self:GetSpecialValueFor("root_duration") + self:GetCaster():FindTalentValue("special_bonus_birzha_haku_2", "value1") ) * (1-enemy:GetStatusResistance())})
 		end
 	end
 	if self:GetCaster():HasModifier("modifier_haku_frost_attack") then
@@ -648,7 +656,7 @@ modifier_marci_companion_run_custom_debuff_frost = class({})
 function modifier_marci_companion_run_custom_debuff_frost:CheckState()
 	return 
 	{
-		[MODIFIER_STATE_ROOTED] = true
+		[MODIFIER_STATE_ROOTED] = true,
 	}
 end
 
@@ -699,7 +707,12 @@ function modifier_haku_frost_attack:DeclareFunctions()
 		MODIFIER_PROPERTY_ATTACK_RANGE_BASE_OVERRIDE,
 		MODIFIER_EVENT_ON_ATTACK_LANDED,
 		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+		MODIFIER_PROPERTY_BASE_ATTACK_TIME_CONSTANT,
 	}
+end
+
+function modifier_haku_frost_attack:GetModifierBaseAttackTimeConstant()
+	return self:GetCaster():FindTalentValue("special_bonus_birzha_haku_7", "value2")
 end
 
 function modifier_haku_frost_attack:GetModifierAttackRangeOverride()
@@ -746,7 +759,7 @@ modifier_haku_frost_attack_debuff = class({})
 function modifier_haku_frost_attack_debuff:DeclareFunctions()
 	return 
 	{
-		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
+		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
 	}
 end
 
@@ -783,13 +796,16 @@ function modifier_haku_frost_attack_buff:DeclareFunctions()
 end
 
 function modifier_haku_frost_attack_buff:GetModifierPreAttack_BonusDamage()
-	return self:GetAbility():GetSpecialValueFor("bonus_damage")
+	return self:GetAbility():GetSpecialValueFor("bonus_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_haku_1")
 end
 
 function modifier_haku_frost_attack_buff:OnAttackLanded(params)
 	if not IsServer() then return end
 	if params.attacker ~= self:GetParent() then return end
 	if params.target:IsWard() then return end
+	local heal = self:GetCaster():FindTalentValue("special_bonus_birzha_haku_3", "value2")
+	self:GetParent():Heal(heal, self:GetAbility())
+	SendOverheadEventMessage(nil, OVERHEAD_ALERT_HEAL, caster, heal, nil)
 	self:GetParent():EmitSound("Hero_Ancient_Apparition.ProjectileImpact")
 	self:SetStackCount(self:GetStackCount() - 1)
 	if self:GetStackCount() <= 0 then
@@ -1319,7 +1335,7 @@ LinkLuaModifier("modifier_haku_needle_heal", "abilities/heroes/haku", LUA_MODIFI
 haku_needle_heal = class({}) 
 
 function haku_needle_heal:GetCooldown(level)
-    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_haku_7")
+    return self.BaseClass.GetCooldown( self, level ) + self:GetCaster():FindTalentValue("special_bonus_birzha_haku_7", "value1")
 end
 
 function haku_needle_heal:GetManaCost(level)
@@ -1354,8 +1370,9 @@ modifier_haku_needle_heal = class({})
 
 function modifier_haku_needle_heal:OnCreated()
     if not IsServer() then return end
+	local interval = 0.5 + self:GetCaster():FindTalentValue("special_bonus_birzha_haku_4", "value2")
     self:OnIntervalThink()
-    self:StartIntervalThink(0.5)
+    self:StartIntervalThink(interval)
 end
 
 function modifier_haku_needle_heal:IsHidden()
@@ -1402,7 +1419,11 @@ function haku_needle_heal:OnProjectileHit( target, vLocation )
     	heal = heal + self:GetCaster():GetIntellect(false)
     end
     target:Heal(heal, self)
-    target:Purge(false, true, false, false, false)
+	if not self:GetCaster():HasTalent("special_bonus_birzha_haku_6") then
+    	target:Purge(false, true, false, false, false)
+	else
+		target:Purge(false, true, false, true, true)
+	end
     target:EmitSound("Hero_PhantomAssassin.Dagger.Target")
 end
 
@@ -1431,7 +1452,7 @@ function haku_eyes:OnSpellStart()
 	    local distance = vector:Length2D()
 		local facing = ( math.abs( AngleDiff(center_angle,facing_angle) ) < 85 )
 		if facing then
-			enemy:AddNewModifier( caster, self, "modifier_birzha_stunned_purge", {duration = (  self:GetSpecialValueFor( "stun_duration" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_haku_3"  )  ) * (1-enemy:GetStatusResistance()) } )
+			enemy:AddNewModifier( caster, self, "modifier_birzha_stunned_purge", {duration = (  self:GetSpecialValueFor( "stun_duration" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_haku_3", "value1"  )  ) * (1-enemy:GetStatusResistance()) } )
 			ApplyDamage({ victim = enemy, attacker = self:GetCaster(), damage = self:GetSpecialValueFor( "damage" ) + self:GetCaster():GetIntellect(false), ability=self, damage_type = DAMAGE_TYPE_MAGICAL })
 		end
 	end
@@ -1441,6 +1462,7 @@ end
 
 LinkLuaModifier("modifier_haku_aura", "abilities/heroes/haku", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_haku_aura_hero", "abilities/heroes/haku", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_haku_help_bkb", "abilities/heroes/haku", LUA_MODIFIER_MOTION_NONE)
 
 haku_aura = class({})
 
@@ -1482,6 +1504,7 @@ function modifier_haku_aura_hero:DeclareFunctions()
 	local funcs = 
 	{
 		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
+		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
 		MODIFIER_EVENT_ON_TAKEDAMAGE
 	}
 	return funcs
@@ -1489,6 +1512,10 @@ end
 
 function modifier_haku_aura_hero:GetModifierPhysicalArmorBonus()
 	return self:GetAbility():GetSpecialValueFor("armor")
+end
+
+function modifier_haku_aura_hero:GetModifierMoveSpeedBonus_Percentage()
+	return self:GetCaster():FindTalentValue("special_bonus_birzha_haku_2", "value2")
 end
 
 function modifier_haku_aura_hero:OnTakeDamage(params)
@@ -1570,6 +1597,9 @@ function modifier_haku_help:OnTakeDamage( params )
     	local heal = self:GetParent():GetMaxHealth() / 100 * (self:GetAbility():GetSpecialValueFor("heal") + self:GetCaster():FindTalentValue("special_bonus_birzha_haku_5"))
         ApplyDamage({ victim = self:GetCaster(), attacker = params.attacker, damage = heal, damage_type = DAMAGE_TYPE_PURE, ability = self:GetAbility(), damage_flags = DOTA_DAMAGE_FLAG_NON_LETHAL + DOTA_DAMAGE_FLAG_HPLOSS + DOTA_DAMAGE_FLAG_NO_DAMAGE_MULTIPLIERS })
         self:GetParent():Heal(heal, self:GetAbility())
+		if self:GetCaster():HasTalent("special_bonus_birzha_haku_8") then
+			self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_haku_help_bkb", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_haku_8", "value2")})
+		end
         self:Destroy()         
     end
 end
@@ -1593,4 +1623,23 @@ function modifier_haku_help:PlayEffects()
 	ParticleManager:SetParticleControlEnt(effect_cast_2, 3, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
 	ParticleManager:SetParticleControlEnt(effect_cast_2, 4, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
 	self:AddParticle(effect_cast_2,false,false, -1,false,false)
+end
+
+modifier_haku_help_bkb = class({})
+
+function modifier_haku_help_bkb:IsPurgable() return false end
+function modifier_haku_help_bkb:IsPurgeException() return false end
+function modifier_haku_help_bkb:IsHidden() return false end
+
+function modifier_haku_help_bkb:OnCreated()
+    if not IsServer() then return end
+        local particle = ParticleManager:CreateParticle( "particles/econ/items/omniknight/omni_ti8_head/omniknight_repel_buff_ti8.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
+        self:AddParticle(particle, false, false, -1, false, false )
+    return
+end
+
+function modifier_haku_help_bkb:CheckState()
+    return {
+        [MODIFIER_STATE_MAGIC_IMMUNE] = true,
+    }
 end

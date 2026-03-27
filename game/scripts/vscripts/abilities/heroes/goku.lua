@@ -58,9 +58,9 @@ function goku_kamehame:GetCastRange(location, target)
 end
 
 function goku_kamehame:GetChannelTime()
-    local cast = 1.5
+    local cast = self:GetSpecialValueFor("cast_point")
     if self:GetCaster():HasShard() then
-        cast = self:GetSpecialValueFor("shard_cast_point")
+        cast = cast + self:GetSpecialValueFor("shard_cast_point")
     end
     return cast
 end

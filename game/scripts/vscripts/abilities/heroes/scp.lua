@@ -16,6 +16,7 @@ function Scp_FastKill:Precache(context)
         "particles/items_fx/abyssal_blink_end.vpcf",
         "particles/status_fx/status_effect_medusa_stone_gaze.vpcf",
         "particles/items_fx/abyssal_blink_start.vpcf",
+        "particles/brew/hovan_beer_thinker.vpcf",
     }
     for _, particle_name in pairs(particle_list) do
         PrecacheResource("particle", particle_name, context)
@@ -61,9 +62,7 @@ function modifier_Scp_FastKill:GetModifierProcAttack_BonusDamage_Physical(params
 
     if result_angle >= (180 - (105 / 2)) and result_angle <= (180 + (105 / 2)) then 
 
-        if self:GetCaster():HasTalent("special_bonus_birzha_scp_3") then
-           params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_scp_ultimate_vision", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_scp_3", "value2") * ( 1 - params.target:GetStatusResistance()) }) 
-        end
+        params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_scp_ultimate_vision", {duration = self:GetAbility():GetSpecialValueFor("duration") * ( 1 - params.target:GetStatusResistance()) }) 
 
         params.target:EmitSound("Hero_Riki.Backstab")
 
@@ -90,9 +89,7 @@ function modifier_Scp_FastKill:GetModifierProcAttack_BonusDamage_Pure(params)
 
     if result_angle >= (180 - (105 / 2)) and result_angle <= (180 + (105 / 2)) then 
 
-        if self:GetCaster():HasTalent("special_bonus_birzha_scp_3") then
-           params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_scp_ultimate_vision", {duration = self:GetCaster():FindTalentValue("special_bonus_birzha_scp_3", "value2") * ( 1 - params.target:GetStatusResistance()) }) 
-        end
+        params.target:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_scp_ultimate_vision", {duration = self:GetAbility():GetSpecialValueFor("duration") * ( 1 - params.target:GetStatusResistance()) }) 
 
         params.target:EmitSound("Hero_Riki.Backstab")
 
@@ -122,7 +119,7 @@ function modifier_scp_ultimate_vision:DeclareFunctions()
 end
 
 function modifier_scp_ultimate_vision:GetBonusVisionPercentage()
-    return self:GetCaster():FindTalentValue("special_bonus_birzha_scp_3")
+    return self:GetAbility():GetSpecialValueFor("vision_perc")
 end
 
 LinkLuaModifier("modifier_scp_screamer", "abilities/heroes/scp", LUA_MODIFIER_MOTION_NONE)
@@ -233,92 +230,245 @@ function modifier_scp_screamer:GetEffectAttachType()
     return PATTACH_OVERHEAD_FOLLOW
 end
 
-LinkLuaModifier("modifier_Scp_DamageAura", "abilities/heroes/scp", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_Scp_DamageAura_debuff", "abilities/heroes/scp", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_scp_feces_aura", "abilities/heroes/scp", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_scp_feces_debuff", "abilities/heroes/scp", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_scp_feces_buff", "abilities/heroes/scp", LUA_MODIFIER_MOTION_NONE)
 
-Scp_DamageAura = class({}) 
+Scp_Feces = class({})
 
-function Scp_DamageAura:GetIntrinsicModifierName()
-    if self:GetCaster():IsIllusion() then return end
-    return "modifier_Scp_DamageAura"
+function Scp_Feces:GetCooldown(level)
+    return self.BaseClass.GetCooldown( self, level )
 end
 
-function Scp_DamageAura:GetCastRange(location, target)
-    return self:GetSpecialValueFor("aura_radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_scp_2")
+function Scp_Feces:GetManaCost(level)
+    return self.BaseClass.GetManaCost(self, level)
 end
 
-modifier_Scp_DamageAura = class({})
-
-function modifier_Scp_DamageAura:IsHidden()
-    return true
+function Scp_Feces:GetAOERadius()
+    return self:GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_scp_2")
 end
 
-function modifier_Scp_DamageAura:IsPurgable()
-    return false
+function Scp_Feces:OnSpellStart()
+    if not IsServer() then return end
+    local caster = self:GetCaster()
+	local duration = self:GetSpecialValueFor("duration")
+    caster:AddNewModifier(caster, self, "modifier_scp_feces_buff", {duration = duration})
+    CreateModifierThinker(caster, self, "modifier_scp_feces_aura", {duration = duration}, caster:GetAbsOrigin(), caster:GetTeamNumber(), false)
 end
 
-function modifier_Scp_DamageAura:GetAuraRadius()
-    return self:GetAbility():GetSpecialValueFor("aura_radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_scp_2")
+modifier_scp_feces_aura = class({})
+
+function modifier_scp_feces_aura:OnCreated()
+    if not IsServer() then return end
+
+	self.parent = self:GetParent()
+
+	self:StartIntervalThink(FrameTime())
+
+    self.max_radius = self:GetAbility():GetSpecialValueFor("radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_scp_2")
+
+	self.radius_effect = 0
+    self.cast_duration = 0.5
+    self.radius_per_time = self.max_radius / (self.cast_duration / FrameTime())
+
+    local particle = "particles/brew/hovan_beer_thinker.vpcf"
+	self.particle = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+	ParticleManager:SetParticleControl(self.particle, 0, self:GetParent():GetAbsOrigin())
+	ParticleManager:SetParticleControl(self.particle, 1, Vector(self.radius_effect, self.radius_effect, 1))
 end
 
-function modifier_Scp_DamageAura:GetAuraSearchFlags()
-    return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
+function modifier_scp_feces_aura:OnIntervalThink()
+    if not IsServer() then return end
+	self.radius_effect = self.radius_effect + self.radius_per_time
+    if self.radius_effect >= self.max_radius then
+        self.radius_effect = self.max_radius
+    end
 end
 
-function modifier_Scp_DamageAura:GetAuraSearchTeam()
+function modifier_scp_feces_aura:OnDestroy()
+    if not IsServer() then return end
+    if self.particle then
+	   ParticleManager:DestroyParticle(self.particle,true)
+    end
+end
+
+function modifier_scp_feces_aura:GetAuraRadius()
+    return self.radius_effect
+end
+
+function modifier_scp_feces_aura:GetAuraDuration()
+    return 0
+end
+
+function modifier_scp_feces_aura:GetAuraSearchTeam()
     return DOTA_UNIT_TARGET_TEAM_ENEMY
 end
 
-function modifier_Scp_DamageAura:GetAuraSearchType()
+function modifier_scp_feces_aura:GetAuraSearchType()
     return DOTA_UNIT_TARGET_ALL
 end
 
-function modifier_Scp_DamageAura:GetModifierAura()
-    return "modifier_Scp_DamageAura_debuff"
+function modifier_scp_feces_aura:GetModifierAura()
+    return "modifier_scp_feces_debuff"
 end
 
-function modifier_Scp_DamageAura:IsAuraActiveOnDeath() 
+function modifier_scp_feces_aura:IsAuraActiveOnDeath() 
     return false 
 end
 
-function modifier_Scp_DamageAura:IsAura()
+function modifier_scp_feces_aura:IsAura()
     return true
 end
 
-modifier_Scp_DamageAura_debuff = class({})
+modifier_scp_feces_buff = class({})
 
-function modifier_Scp_DamageAura_debuff:IsHidden()
-    return false
+function modifier_scp_feces_buff:IsHidden() return self:GetStackCount() == 0 end
+function modifier_scp_feces_buff:IsPurgable() return false end
+
+function modifier_scp_feces_buff:DeclareFunctions()
+    local funcs = {
+        MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
+        MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE,
+    }
+    return funcs
 end
 
-function modifier_Scp_DamageAura_debuff:IsPurgable()
-    return false
+function modifier_scp_feces_buff:GetModifierConstantHealthRegen()
+    return self:GetAbility():GetSpecialValueFor("hp_regen") * self:GetStackCount()
 end
 
-function modifier_Scp_DamageAura_debuff:OnCreated()
+function modifier_scp_feces_buff:GetModifierHealthRegenPercentage()
+    return self:GetCaster():FindTalentValue("special_bonus_birzha_scp_3") * self:GetStackCount()
+end
+
+modifier_scp_feces_debuff = class({})
+
+function modifier_scp_feces_debuff:IsHidden() return false end
+function modifier_scp_feces_debuff:IsPurgable() return false end
+
+function modifier_scp_feces_debuff:OnCreated()
     if not IsServer() then return end
-    self:StartIntervalThink(0.2)
-end   
-
-function modifier_Scp_DamageAura_debuff:OnIntervalThink()
-    local target_max_hp = self:GetParent():GetMaxHealth() / 100
-    local aura_damage = self:GetAbility():GetSpecialValueFor("aura_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_scp_7")
-    local aura_damage_interval = self:GetAbility():GetSpecialValueFor("aura_damage_interval")
-    
-    if not self:GetParent():IsBoss() then
-        local damage_table = {}
-        damage_table.attacker = self:GetCaster()
-        damage_table.victim = self:GetParent()
-        damage_table.damage_type = DAMAGE_TYPE_PURE
-        damage_table.ability = self:GetAbility()
-        damage_table.damage = target_max_hp * -aura_damage * aura_damage_interval
-        damage_table.damage_flags = DOTA_DAMAGE_FLAG_HPLOSS
-        ApplyDamage(damage_table)
+    local mod = self:GetCaster():FindModifierByName( "modifier_scp_feces_buff" )
+    if mod and self:GetParent():IsRealHero() then
+        mod:IncrementStackCount()
     end
-end   
+    self:StartIntervalThink(0.5)
+end
+
+function modifier_scp_feces_debuff:OnIntervalThink()
+    if not IsServer() then return end
+    local damage = self:GetAbility():GetSpecialValueFor("damage")
+    local hp_damage = self:GetParent():GetMaxHealth() * self:GetCaster():FindTalentValue("special_bonus_birzha_scp_7") / 100
+    local full_damage = damage + hp_damage
+    ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), damage = full_damage * 0.5, ability = self:GetAbility(), damage_type = DAMAGE_TYPE_MAGICAL})
+end
+
+function modifier_scp_feces_debuff:OnDestroy()
+    if not IsServer() then return end
+    local mod = self:GetCaster():FindModifierByName( "modifier_scp_feces_buff" )
+    if mod and mod:GetStackCount() > 0 then
+        mod:DecrementStackCount()
+    end
+end
+
+function modifier_scp_feces_debuff:DeclareFunctions()
+    local funcs = {
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+    }
+    return funcs
+end
+
+function modifier_scp_feces_debuff:GetModifierMoveSpeedBonus_Percentage()
+    return self:GetAbility():GetSpecialValueFor("slow")
+end
+
+-- LinkLuaModifier("modifier_Scp_DamageAura", "abilities/heroes/scp", LUA_MODIFIER_MOTION_NONE)
+-- LinkLuaModifier("modifier_Scp_DamageAura_debuff", "abilities/heroes/scp", LUA_MODIFIER_MOTION_NONE)
+-- 
+-- Scp_DamageAura = class({}) 
+-- 
+-- function Scp_DamageAura:GetIntrinsicModifierName()
+--     if self:GetCaster():IsIllusion() then return end
+--     return "modifier_Scp_DamageAura"
+-- end
+-- 
+-- function Scp_DamageAura:GetCastRange(location, target)
+--     return self:GetSpecialValueFor("aura_radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_scp_2")
+-- end
+-- 
+-- modifier_Scp_DamageAura = class({})
+-- 
+-- function modifier_Scp_DamageAura:IsHidden()
+--     return true
+-- end
+-- 
+-- function modifier_Scp_DamageAura:IsPurgable()
+--     return false
+-- end
+-- 
+-- function modifier_Scp_DamageAura:GetAuraRadius()
+--     return self:GetAbility():GetSpecialValueFor("aura_radius") + self:GetCaster():FindTalentValue("special_bonus_birzha_scp_2")
+-- end
+-- 
+-- function modifier_Scp_DamageAura:GetAuraSearchFlags()
+--     return DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
+-- end
+-- 
+-- function modifier_Scp_DamageAura:GetAuraSearchTeam()
+--     return DOTA_UNIT_TARGET_TEAM_ENEMY
+-- end
+-- 
+-- function modifier_Scp_DamageAura:GetAuraSearchType()
+--     return DOTA_UNIT_TARGET_ALL
+-- end
+-- 
+-- function modifier_Scp_DamageAura:GetModifierAura()
+--     return "modifier_Scp_DamageAura_debuff"
+-- end
+-- 
+-- function modifier_Scp_DamageAura:IsAuraActiveOnDeath() 
+--     return false 
+-- end
+-- 
+-- function modifier_Scp_DamageAura:IsAura()
+--     return true
+-- end
+-- 
+-- modifier_Scp_DamageAura_debuff = class({})
+-- 
+-- function modifier_Scp_DamageAura_debuff:IsHidden()
+--     return false
+-- end
+-- 
+-- function modifier_Scp_DamageAura_debuff:IsPurgable()
+--     return false
+-- end
+-- 
+-- function modifier_Scp_DamageAura_debuff:OnCreated()
+--     if not IsServer() then return end
+--     self:StartIntervalThink(0.2)
+-- end   
+-- 
+-- function modifier_Scp_DamageAura_debuff:OnIntervalThink()
+--     local target_max_hp = self:GetParent():GetMaxHealth() / 100
+--     local aura_damage = self:GetAbility():GetSpecialValueFor("aura_damage") + self:GetCaster():FindTalentValue("special_bonus_birzha_scp_7")
+--     local aura_damage_interval = self:GetAbility():GetSpecialValueFor("aura_damage_interval")
+--     
+--     if not self:GetParent():IsBoss() then
+--         local damage_table = {}
+--         damage_table.attacker = self:GetCaster()
+--         damage_table.victim = self:GetParent()
+--         damage_table.damage_type = DAMAGE_TYPE_PURE
+--         damage_table.ability = self:GetAbility()
+--         damage_table.damage = target_max_hp * -aura_damage * aura_damage_interval
+--         damage_table.damage_flags = DOTA_DAMAGE_FLAG_HPLOSS
+--         ApplyDamage(damage_table)
+--     end
+-- end   
 
 LinkLuaModifier("modifier_Scp_fast_movement", "abilities/heroes/scp", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_Scp_fast_movement_invisibility", "abilities/heroes/scp", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_fast_movement_shard", "abilities/heroes/scp", LUA_MODIFIER_MOTION_NONE)
 
 Scp_fast_movement = class({}) 
 
@@ -326,26 +476,32 @@ function Scp_fast_movement:GetIntrinsicModifierName()
     return "modifier_Scp_fast_movement"
 end
 
-function Scp_fast_movement:GetBehavior()
-    if self:GetCaster():HasTalent("special_bonus_birzha_scp_4") then
-        return DOTA_ABILITY_BEHAVIOR_NO_TARGET
-    end
-    return DOTA_ABILITY_BEHAVIOR_PASSIVE
+function Scp_fast_movement:GetCooldown(level)
+    return self.BaseClass.GetCooldown( self, level )
 end
 
-function Scp_fast_movement:GetCooldown(iLevel)
-    if self:GetCaster():HasTalent("special_bonus_birzha_scp_4") then
-        return self:GetCaster():FindTalentValue("special_bonus_birzha_scp_4", "value3")
-    end
-    return 0
+function Scp_fast_movement:GetCastRange(location, target)
+    return self:GetSpecialValueFor("radius")
+end
+
+function Scp_fast_movement:GetManaCost(level)
+    return self.BaseClass.GetManaCost(self, level)
 end
 
 function Scp_fast_movement:OnSpellStart()
     if not IsServer() then return end
-    local random = self:GetCaster():GetAbsOrigin() + RandomVector(RandomInt(self:GetCaster():FindTalentValue("special_bonus_birzha_scp_4"), self:GetCaster():FindTalentValue("special_bonus_birzha_scp_4", "value2")))
+    local random = self:GetCaster():GetAbsOrigin() + RandomVector(RandomInt(self:GetSpecialValueFor("min_radius"), self:GetSpecialValueFor("max_radius")))
 
     local particle_1 = ParticleManager:CreateParticle("particles/items_fx/abyssal_blink_start.vpcf", PATTACH_WORLDORIGIN, self:GetCaster())
     ParticleManager:SetParticleControl(particle_1, 0, self:GetCaster():GetAbsOrigin())
+
+    if self:GetCaster():HasTalent("special_bonus_birzha_scp_4") then
+        self:GetCaster():Purge( false, true, false, false, false )
+    end
+
+    if self:GetCaster():HasShard() then
+        self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_fast_movement_shard", {duration = self:GetSpecialValueFor("shard_duration")})
+    end
 
     FindClearSpaceForUnit(self:GetCaster(), random, true)
 
@@ -354,13 +510,6 @@ function Scp_fast_movement:OnSpellStart()
     ParticleManager:SetParticleControl(particle_2, 0, self:GetCaster():GetAbsOrigin())
 end
 
-function Scp_fast_movement:GetCastRange(location, target)
-    local minus_radius = 0
-    if self:GetCaster():HasShard() then
-        minus_radius = self:GetSpecialValueFor("shard_radius")
-    end
-    return self:GetSpecialValueFor("radius") + minus_radius
-end
 
 modifier_Scp_fast_movement = class({})
 
@@ -379,8 +528,8 @@ end
 
 function modifier_Scp_fast_movement:OnIntervalThink()
     local radius = self:GetAbility():GetSpecialValueFor("radius")
-    if self:GetCaster():HasShard() then
-        radius = radius + self:GetAbility():GetSpecialValueFor("shard_radius")
+    if self:GetCaster():FindModifierByName("modifier_fast_movement_shard") then
+        radius = 0
     end
     local enemyHeroes = FindUnitsInRadius(self:GetParent():GetTeam(), self:GetParent():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, 0, false)
     if #enemyHeroes>0 or self:GetParent():PassivesDisabled() then
@@ -440,6 +589,10 @@ function modifier_Scp_fast_movement_invisibility:CheckState()
     }
     return state
 end
+
+modifier_fast_movement_shard = class({})
+function modifier_fast_movement_shard:IsHidden() return true end
+function modifier_fast_movement_shard:IsPurgable() return false end
 
 LinkLuaModifier("modifier_scp173_statue_aghanim_origin", "abilities/heroes/scp", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_scp173_statue_aghanim_statue", "abilities/heroes/scp", LUA_MODIFIER_MOTION_NONE)

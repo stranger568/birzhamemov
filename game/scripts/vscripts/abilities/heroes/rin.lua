@@ -484,7 +484,6 @@ function modifier_rin_satana_explosion:OnOrder(keys)
         elseif cancel_commands[keys.order_type] and self:GetElapsedTime() >= 0.4 then
             self:Destroy()
         end
-
     end
 end
 
@@ -571,7 +570,7 @@ function rin_satana_explosion:OnProjectileHit( target, vLocation )
     end
         ApplyDamage({victim = target, attacker = self:GetCaster(), ability = self, damage = self.end_damage, damage_type = DAMAGE_TYPE_MAGICAL})
         if self:GetCaster():HasTalent("special_bonus_birzha_rin_8") then
-            self:GetCaster():PerformAttack(target, true, true, true, true, false, false, true)
+            self:GetCaster():PerformAttack(target, true, true, true, false, false, true, true)
         end
         target:EmitSound("Hero_Juggernaut.OmniSlash.Damage")
         target:EmitSound("Hero_Jakiro.LiquidFire")

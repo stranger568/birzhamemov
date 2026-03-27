@@ -560,7 +560,12 @@ function modifier_Miku_ritmic_song_buff:DeclareFunctions()
 	return 
 	{
 		MODIFIER_EVENT_ON_ATTACK_LANDED,
+		MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE
 	}
+end
+
+function modifier_Miku_ritmic_song_buff:GetModifierIncomingDamage_Percentage()
+	return self:GetAbility():GetSpecialValueFor("incom_dmg")
 end
 
 function modifier_Miku_ritmic_song_buff:OnAttackLanded( keys )
@@ -613,13 +618,33 @@ end
 function modifier_Miku_ritmic_song_debuff:OnCreated()
 	if not IsServer() then return end
 	local attacks = self:GetAbility():GetSpecialValueFor("attack_count")
+	local damage =
+    {
+        victim = self:GetParent(),
+        attacker = self:GetCaster(),
+        damage = ( self:GetCaster():GetMana() * self:GetAbility():GetSpecialValueFor( "damage" )),
+        damage_type = DAMAGE_TYPE_MAGICAL,
+        ability = self:GetAbility(),
+        damage_flags = DOTA_DAMAGE_FLAG_HPLOSS + DOTA_DAMAGE_FLAG_NO_DAMAGE_MULTIPLIERS
+    }
 	self:SetStackCount(attacks)
+	ApplyDamage(damage)
 end
 
 function modifier_Miku_ritmic_song_debuff:OnRefresh( keys )
 	if not IsServer() then return end
 	local attacks = self:GetAbility():GetSpecialValueFor("attack_count")
+	local damage =
+    {
+        victim = self:GetParent(),
+        attacker = self:GetCaster(),
+        damage = ( self:GetCaster():GetMana() * self:GetAbility():GetSpecialValueFor( "damage" )),
+        damage_type = DAMAGE_TYPE_MAGICAL,
+        ability = self:GetAbility(),
+        damage_flags = DOTA_DAMAGE_FLAG_HPLOSS + DOTA_DAMAGE_FLAG_NO_DAMAGE_MULTIPLIERS
+    }
 	self:SetStackCount(attacks)
+	ApplyDamage(damage)
 end
 
 function modifier_Miku_ritmic_song_debuff:DeclareFunctions()

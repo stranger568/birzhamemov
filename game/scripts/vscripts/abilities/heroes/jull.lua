@@ -428,8 +428,11 @@ function modifier_jull_in_time:IsPurgable() return true end
 function modifier_jull_in_time:OnCreated()
     self.slow = self:GetAbility():GetSpecialValueFor("slow") 
     self.magic_resistance = self:GetAbility():GetSpecialValueFor("magic_resistance")
+    local max_stack = self:GetAbility():GetSpecialValueFor("max_stack")
     if not IsServer() then return end
-    self:IncrementStackCount() 
+    if self:GetStackCount() < max_stack then 
+        self:IncrementStackCount()
+    end 
 end
 
 function modifier_jull_in_time:OnRefresh()

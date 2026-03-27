@@ -630,6 +630,7 @@ end
 modifier_metagame_shadow_blade = class({})
 
 function modifier_metagame_shadow_blade:IsPurgable() return false end
+function modifier_metagame_shadow_blade:GetPriority() return 4 end
 
 function modifier_metagame_shadow_blade:OnCreated()
     if not IsServer() then return end
@@ -638,7 +639,6 @@ end
 
 function modifier_metagame_shadow_blade:OnIntervalThink()
     if not IsServer() then return end
-    self:GetParent():RemoveModifierByName("modifier_item_dustofappearance")
     self:GetParent():RemoveModifierByName("modifier_truesight")
 end
 
@@ -660,7 +660,7 @@ function modifier_metagame_shadow_blade:CheckState()
     {
         [MODIFIER_STATE_INVISIBLE] = true,
         [MODIFIER_STATE_TRUESIGHT_IMMUNE] = true,
-        [MODIFIER_STATE_NO_UNIT_COLLISION] = true
+        [MODIFIER_STATE_NO_UNIT_COLLISION] = true,
     }
 end
 

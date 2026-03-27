@@ -501,7 +501,7 @@ end
 
 function modifier_V1lat_ItsNotNormal:OnCreated()
     if not IsServer() then return end
-    self.damage = self:GetAbility():GetSpecialValueFor("damage")
+    self.damage = self:GetAbility():GetSpecialValueFor("damage") + (self:GetCaster():GetIntellect(false) / 100 * self:GetAbility():GetSpecialValueFor("int_damage"))
     local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_obsidian_destroyer/obsidian_destroyer_prison.vpcf", PATTACH_WORLDORIGIN, self:GetParent())
     ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
     ParticleManager:SetParticleControl(particle, 2, self:GetParent():GetAbsOrigin())

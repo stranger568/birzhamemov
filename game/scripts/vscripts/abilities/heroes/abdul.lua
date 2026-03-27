@@ -289,7 +289,7 @@ function modifier_Abdulov_TripToHell:OnCreated( kv )
     self.blockers = {}
 
     if self:GetCaster():HasScepter() then
-        local amount = 20
+        local amount = 30
         local particle2 = ParticleManager:CreateParticle("particles/abdul_shard.vpcf",PATTACH_WORLDORIGIN, self:GetParent())
         ParticleManager:SetParticleControl(particle2,0, self:GetParent():GetAbsOrigin())
         ParticleManager:SetParticleControl(particle2,2, self:GetParent():GetAbsOrigin())

@@ -13,7 +13,7 @@ end
 item_refresher_custom.NotRefresh = 
 {
     ["item_refresher_custom"] = true,
-    ["item_refresher_shard"] = true,
+    ["item_refresher_shard_custom"] = true,
     ["item_ex_machina"] = true,
     ["item_ex_machina_custom"] = true,
     ["nolik_tech"] = true,
@@ -93,7 +93,7 @@ end
 item_refresher_shard_custom.NotRefresh = 
 {
     ["item_refresher_custom"] = true,
-    ["item_refresher_shard"] = true,
+    ["item_refresher_shard_custom"] = true,
     ["item_ex_machina"] = true,
     ["item_ex_machina_custom"] = true,
     ["nolik_tech"] = true,

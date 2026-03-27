@@ -325,6 +325,7 @@ end
 
 function modifier_freddy_toreador:OnOrder( params )
     if params.unit~=self:GetParent() then return end
+	if params.unit:IsRooted() or params.unit:IsStunned() then return end
     if  params.order_type==DOTA_UNIT_ORDER_MOVE_TO_POSITION then
         self:ChangePoint( params.new_pos )
     elseif 
@@ -350,8 +351,8 @@ function modifier_freddy_toreador:ChangePoint( point )
 
     local direction = (point - self:GetParent():GetAbsOrigin())
 
-    if direction:Length2D() > 120 then
-        direction = direction:Normalized() * 120
+    if direction:Length2D() > 170 then
+        direction = direction:Normalized() * 170
     end
 
     FindClearSpaceForUnit( self:GetCaster(), self:GetParent():GetAbsOrigin() + direction, true )

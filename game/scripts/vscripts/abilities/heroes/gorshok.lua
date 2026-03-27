@@ -34,6 +34,9 @@ gorshok_death_anarhia.spawn_anarhist_talent = false
 function gorshok_death_anarhia:OnSpellStart()
     if not IsServer() then return end
 
+    self.health = self:GetSpecialValueFor( "zombie_health" )
+    self.damage = self:GetSpecialValueFor( "zombie_damage" )
+    self.mult = self:GetSpecialValueFor( "zombie_multiplier" )
     self.count = self:GetSpecialValueFor( "zombies_count" ) + self:GetCaster():FindTalentValue("special_bonus_birzha_gorshok_7")
 
     if not self:GetCaster():HasTalent("special_bonus_birzha_gorshok_6") then
@@ -46,6 +49,11 @@ function gorshok_death_anarhia:OnSpellStart()
 
     for i = 1, self.count do
         local zombie = CreateUnitByName("npc_gorshok_mini_zombie", self:GetCaster():GetAbsOrigin() + (self:GetCaster():GetForwardVector() * 300) + (self:GetCaster():GetRightVector() * 20 * i), true, self:GetCaster(), nil, self:GetCaster():GetTeamNumber())
+        zombie:SetBaseDamageMin(self.damage)
+        zombie:SetBaseDamageMax(self.damage)
+        zombie:SetBaseMaxHealth(self.health)
+        zombie:SetMaxHealth(self.health)
+        zombie:SetHealth(self.health)
         zombie:SetOwner(self:GetCaster())
         zombie:SetControllableByPlayer(self:GetCaster():GetPlayerID(), true)
         FindClearSpaceForUnit(zombie, zombie:GetAbsOrigin(), true)
@@ -64,6 +72,13 @@ end
 
 function gorshok_death_anarhia:SpawnAnarchist(abs)
     local zombie = CreateUnitByName("npc_gorshok_mega_zombie", abs, true, self:GetCaster(), nil, self:GetCaster():GetTeamNumber())
+    self.health = self.health * self.mult
+    self.damage = self.damage * self.mult
+    zombie:SetBaseDamageMin(self.damage)
+    zombie:SetBaseDamageMax(self.damage)
+    zombie:SetBaseMaxHealth(self.health)
+    zombie:SetMaxHealth(self.health)
+    zombie:SetHealth(self.health)
     zombie:SetOwner(self:GetCaster())
     zombie:SetControllableByPlayer(self:GetCaster():GetPlayerID(), true)
     FindClearSpaceForUnit(zombie, zombie:GetAbsOrigin(), true)
@@ -87,23 +102,6 @@ end
 function modifier_gorshok_death_anarhia_zombie:IsHidden()
     return true
 end
-
-function modifier_gorshok_death_anarhia_zombie:OnCreated()
-    if not IsServer() then return end
-    local health = self:GetAbility():GetSpecialValueFor( "zombie_health" )
-    local damage = self:GetAbility():GetSpecialValueFor( "zombie_damage" )
-    local mult = self:GetAbility():GetSpecialValueFor( "zombie_multiplier" )
-
-    if self:GetParent():GetUnitName() == "npc_gorshok_mega_zombie" then
-        health = health * mult
-        damage = damage * mult
-    end
-
-    self:GetParent():SetBaseDamageMin(damage)
-    self:GetParent():SetBaseDamageMax(damage)
-    self:GetParent():SetBaseMaxHealth(health)
-    self:GetParent():SetHealth(health)
-end 
 
 function modifier_gorshok_death_anarhia_zombie:DeclareFunctions()
     local decFuncs =
@@ -512,6 +510,7 @@ function modifier_gorshok_wodoo_hunt:OnCreated()
     self:GetParent():SetBaseDamageMin(damage)
     self:GetParent():SetBaseDamageMax(damage)
     self:GetParent():SetBaseMaxHealth(health)
+    self:GetParent():SetMaxHealth(health)
     self:GetParent():SetHealth(health)
 end 
 
@@ -677,9 +676,14 @@ function modifier_gorshok_broodmother_spin_web:DeclareFunctions()
     local decFuncs = {
         MODIFIER_PROPERTY_INVISIBILITY_LEVEL,
         MODIFIER_EVENT_ON_ATTACK_LANDED,
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
         MODIFIER_EVENT_ON_ABILITY_EXECUTED,
     }
     return decFuncs
+end
+
+function modifier_gorshok_broodmother_spin_web:GetModifierMoveSpeedBonus_Percentage()
+    return self:GetAbility():GetSpecialValueFor("movespeed")  
 end
 
 function modifier_gorshok_broodmother_spin_web:OnAttackLanded( keys )

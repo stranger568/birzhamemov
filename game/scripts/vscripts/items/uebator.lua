@@ -100,8 +100,8 @@ end
 
 modifier_item_uebator_active = class({})
 
-function modifier_item_uebator_active:IsPurgable() return false end
-function modifier_item_uebator_active:IsPurgeException() return false end
+function modifier_item_uebator_active:IsPurgable() return true end
+function modifier_item_uebator_active:IsPurgeException() return true end
 
 function modifier_item_uebator_active:OnCreated()
 	if IsServer() then

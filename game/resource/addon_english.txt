@@ -1537,17 +1537,16 @@
 "DOTA_Tooltip_ability_item_tar2" 	"Gay Tarasque"
 "DOTA_Tooltip_ability_item_tar2_Description" 	"<h1>Passive: Gay Regeneration </h1> Restores %health_regen_percent_per_second%%% of your maximum health per second."
 "DOTA_Tooltip_ability_item_tar2_str" 	"+$str"
-"DOTA_Tooltip_ability_item_tar2_hp" 	"+$health"
 
 "DOTA_Tooltip_ability_item_butter2" 	"Gay Butterfly"
-"DOTA_Tooltip_ability_item_butter2_Description" 	"<h1>Active: Ride the Rainbow</h1> Gives the hero the ability to pass through obstacles and cannot be targeted. The effect will be interrupted if hit <br><br>Duration %duration% sec."
+"DOTA_Tooltip_ability_item_butter2_Description" 	"<h1>Active: Ride the Rainbow</h1> Allows the hero to pass through obstacles, increases movement speed by %movespeed_bonus%%%, and makes them untargetable. The effect is interrupted if the hero is hit. <br><br>Duration: %duration% seconds."
 "DOTA_Tooltip_ability_item_butter2_agi" 	"+$agi"
 "DOTA_Tooltip_ability_item_butter2_dmg" 	"+$damage"
-"DOTA_Tooltip_ability_item_butter2_attack" 	"+$attack"
+"DOTA_Tooltip_ability_item_butter2_attack"	"%+$attack_pct"
 "DOTA_Tooltip_ability_item_butter2_ev" 	"%+$evasion"
 
-"DOTA_Tooltip_modifier_item_butter2_active" 								"Gays kaya butterfly"
-"DOTA_Tooltip_modifier_item_butter2_active_Description" 					"Moves through obstacles and cannot be targeted"
+"DOTA_Tooltip_modifier_item_butter2_active" 								"Gay Butterfly"
+"DOTA_Tooltip_modifier_item_butter2_active_Description" 					"Passes through obstacles and cannot be targeted. Movement speed increased by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%."
 
 "DOTA_Tooltip_ability_item_recipe_frostmorn" 	"Recipe: Frostmourne"
 "DOTA_Tooltip_ability_item_frostmorn" 	"Frostmourne"
@@ -1839,15 +1838,15 @@
 "DOTA_Tooltip_modifier_item_stone_mask_stats_Description" 				"Stone Mask Charges"
 
 "DOTA_Tooltip_Ability_item_demon_paper" 								"Contract with Satan"
-"DOTA_Tooltip_ability_item_demon_paper_Description" 					"<h1>Active: Curse of Blood</h1> Increases the lifesteal effect to %bonus_lifesteal_active%%% for %duration% sec., and the type of outgoing and incoming physical damage becomes pure<br><br>Dispel type: <span class= \"GameplayValues GameplayVariable\">normal</span>"
-"DOTA_Tooltip_ability_item_demon_paper_bonus_strength" 				"+$str"
-"DOTA_Tooltip_ability_item_demon_paper_bonus_damage" 				"+$damage"
-"DOTA_Tooltip_ability_item_demon_paper_bonus_lifesteal" 				"%+$li festeal"
-"DOTA_Tooltip_ability_item_demon_paper_status_resistance" 			"%+$status_resist"
-"DOTA_Tooltip_ability_item_demon_paper_lore" 						"This item was created thanks to <font color='#fffc00'>HEX</font>"
+"DOTA_Tooltip_ability_item_demon_paper_Description" 					"<h1>Active: Curse of Blood</h1> Changes the damage type of the next %stacks% attacks from physical to pure for %duration% seconds.<br><br>Dispel type: <span class=\"GameplayValues GameplayVariable\">Normal</span>"
+"DOTA_Tooltip_ability_item_demon_paper_bonus_strength"					"+$str"
+"DOTA_Tooltip_ability_item_demon_paper_bonus_int"						"+$int"
+"DOTA_Tooltip_ability_item_demon_paper_bonus_attack"					"+$attack"
+"DOTA_Tooltip_ability_item_demon_paper_bonus_mana"						"+$mana_regen"
+"DOTA_Tooltip_ability_item_demon_paper_lore" 							"This item was created thanks to <font color='#fffc00'>HEX</font>"
 
 "DOTA_Tooltip_modifier_item_demon_paper_active" 										"Curse of Blood"
-"DOTA_Tooltip_modifier_item_demon_paper_active_Description" 							"Physical damage output and incoming type becomes pure"
+"DOTA_Tooltip_modifier_item_demon_paper_active_Description" 							"The next attack will deal pure damage"
 
 "DOTA_Tooltip_Ability_item_banner_crusader" 								"Banner of the Crusader"
 "DOTA_Tooltip_ability_item_banner_crusader_Description" 					"<h1>Active: Raise Shields</h1> For all allies within %radius%, increases armor by %bonus_armor_active%, attack speed by %bonus_attack_speed%, movement speed by %bonus_movespeed%%% and grants block % damage_block% damage from attacks, and also gives a one-time effect to reflect the enemy's ability\n<h1>Passive: Defense</h1>Has a %damage_block_chance%%% chance of blocking %damage_block% damage from attacks"
@@ -3343,6 +3342,7 @@
 "DOTA_Tooltip_ability_nolik_mostdel_duration" 										"DURATION:"
 "DOTA_Tooltip_ability_nolik_mostdel_damage_reduced" 									"%INCOMING DAMAGE REDUCTION:"
 "DOTA_Tooltip_ability_nolik_mostdel_energy_lose" 									"% REDUCTION IN ENERGY COST:"
+"DOTA_Tooltip_ability_nolik_mostdel_spell_amp"										"%SPELL AMPLIFICATION:"
 "DOTA_Tooltip_ability_nolik_mostdel_bonus_mana" 										"ADDITIONAL MANA:"
 "DOTA_Tooltip_ability_nolik_mostdel_lore" 											"This hero was created thanks to <font color='#fffc00'>AroundSpitE</font >"
 
@@ -3359,7 +3359,7 @@
 "DOTA_Tooltip_ability_nolik_chill_lore" 												"This hero was created thanks to <font color='#fffc00'>AroundSpitE</font>"
 
 "DOTA_Tooltip_ability_nolik_energizer" 												"Electric shock"
-"DOTA_Tooltip_ability_nolik_energizer_Description" 									"Converts %energy_cost%%% of energy into damage and releases a bolt of shock at the target\n<h1>More hits</h1>Using an ability while Strong Sustain, resets the cooldown of Electric Shock, but resets the effect of Strong Sustain \n<h1>Ability level</h1>Ability level automatically increases at <b>1 / 6 / 12 / 18 / 24</b> level"
+"DOTA_Tooltip_ability_nolik_energizer_Description" 									"Converts %energy_cost%%% of energy into damage and releases a bolt of shock at the target. Shock moves between enemies within a %radius% radius, but removes %jump_damage%%% damage per jump\n<h1>More hits</h1>Using an ability while Strong Sustain, resets the cooldown of Electric Shock, but resets the effect of Strong Sustain \n<h1>Ability level</h1>Ability level automatically increases at <b>1 / 6 / 12 / 18 / 24</b> level"
 "DOTA_Tooltip_ability_nolik_energizer_damage_energy" 								"ENERGY DAMAGE:"
 "DOTA_Tooltip_ability_nolik_energizer_lore" 											"This hero was created thanks to <font color='#fffc00'>AroundSpitE</font>"
 
@@ -3409,10 +3409,9 @@
 "DOTA_Tooltip_ability_special_bonus_birzha_nolik_3" 									"+{s:value} to Rest radius"
 "DOTA_Tooltip_ability_special_bonus_birzha_nolik_4" 									"-{s:value} sec cooldown Fixed technology"
 "DOTA_Tooltip_ability_special_bonus_birzha_nolik_5" 									"+{s:value} energy per attack"
-"DOTA_Tooltip_ability_special_bonus_birzha_nolik_6" 									"Electric shock moves between enemies"
-"DOTA_Tooltip_ability_special_bonus_birzha_nolik_6_description" 						"Shock moves between enemies within a 400 radius, but removes 25% damage per jump"
+"DOTA_Tooltip_ability_special_bonus_birzha_nolik_6" 									"{s:value}x damage multiplier for Electric Shock"
 "DOTA_Tooltip_ability_special_bonus_birzha_nolik_7" 									"Fixie technology works on Refresher Orb"
-"DOTA_Tooltip_ability_special_bonus_birzha_nolik_8" 									"+{s:va lue} seconds duration Helper"
+"DOTA_Tooltip_ability_special_bonus_birzha_nolik_8" 									"+{s:value} seconds duration Helper"
 
 //================================================================ ===================================================== ===============
 // Pyramid head
@@ -3862,7 +3861,7 @@
 "npc_dota_hero_beastmaster" 	"Kama bullet"
 
 "DOTA_Tooltip_ability_bullet_sha" 						"Shaa"
-"DOTA_Tooltip_ability_bullet_sha_Description" 			"Kicks the target with a shout of <font 00D4FF='#ff0000'>Shaa</font> and stuns it, if there were enemies in the target's radius, then they also receive damage and stun"
+"DOTA_Tooltip_ability_bullet_sha_Description" 			"Kicks the target with a shout of <font color='#ff0000'>Shaa</font> and stuns it, if there were enemies in the target's radius, then they also receive damage and stun.<br>When used alternatively, enemies will not be knocked back."
 "DOTA_Tooltip_ability_bullet_sha_damage" 				"DAMAGE:"
 "DOTA_Tooltip_ability_bullet_sha_knockback_distance" 	"KNockback DISTANCE:"
 "DOTA_Tooltip_ability_bullet_sha_stun_duration" 			"STUN DURATION:"
@@ -3874,18 +3873,18 @@
 "DOTA_Tooltip_ability_bullet_taa_aoe_radius" 			"RADIUS:"
 
 "DOTA_Tooltip_ability_Bullet_Stats" 						"Healthy lifestyle"
-"DOTA_Tooltip_ability_Bullet_Stats_Description" 			"Toggled - Kama Bullet gives itself and its allies healthy lifestyle in the form of attributes or reduces them for opponents"
+"DOTA_Tooltip_ability_Bullet_Stats_Description" 			"Kama Bullet gives itself and its allies healthy lifestyle in the form of attributes or reduces them for opponents"
 "DOTA_Tooltip_ability_Bullet_Stats_stat" 				"ATRIBUTES:"
 "DOTA_Tooltip_ability_Bullet_Stats_radius" 				"RADIUS:"
 
 "DOTA_Tooltip_modifier_Bullet_Stats_debuff" 					"Healthy lifestyle"
-"DOTA_Tooltip_modifier_Bullet_Stats_debuff_Description" 		" Kama bullet reduces your attributes by %dMODIFIER_PROPERTY_STATS_STRENGTH_BONUS%"
+"DOTA_Tooltip_modifier_Bullet_Stats_debuff_Description" 		"Kama bullet reduces your attributes by %dMODIFIER_PROPERTY_STATS_STRENGTH_BONUS%"
 
 "DOTA_Tooltip_modifier_Bullet_Stats" 						"Healthy lifestyle"
 "DOTA_Tooltip_modifier_Bullet_Stats_Description" 			"Kama bullet increases your attributes by %dMODIFIER_PROPERTY_STATS_STRENGTH_BONUS %"
 
 "DOTA_Tooltip_Ability_Bullet_BulletInTheHead" 								"Bullet to the Head"
-"DOTA_Tooltip_Ability_Bullet_BulletInTheHead_Description" 					"The Kama Bullet aims at an enemy unit and fires a devastating shot that deals damage from a great distance"
+"DOTA_Tooltip_Ability_Bullet_BulletInTheHead_Description" 					"Kama Bullet targets an enemy unit and fires a devastating shot from a great distance, dealing not only base damage but also attack damage."
 "DOTA_Tooltip_Ability_Bullet_BulletInTheHead_damage" 						"DAMAGE:"
 "DOTA_Tooltip_Ability_Bullet_BulletInTheHead_strength_damage"				"%BONUS DAMAGE FROM STRENGTH:"
 "DOTA_Tooltip_Ability_Bullet_BulletInTheHead_cast_range" 					"CAST RANGE:"
@@ -3907,16 +3906,15 @@
 "DOTA_Tooltip_modifier_Bullet_BulletInTheHead_slow" 						"Bullet to the head"
 "DOTA_Tooltip_modifier_Bullet_BulletInTheHead_slow_Description" 			"Slowed down by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%"
 
-"DOTA_Tooltip_Ability_special_bonus_birzha_bullet_1"				       "A bullet to the forehead slows down by {s:value}% for {s:value2} seconds."
+"DOTA_Tooltip_Ability_special_bonus_birzha_bullet_1"				"-{s:value} sec. cooldown Bullet to the Head"
 "DOTA_Tooltip_Ability_special_bonus_birzha_bullet_2" 				"Improving Taa and Shaa"
-"DOTA_Tooltip_Ability_special_bonus_birzha_bullet_2_description" 				"Taa reduces the target's armor by {s:value} and Shaa increases attack speed by {s:value2}. Duration {s:value3} seconds."
+"DOTA_Tooltip_Ability_special_bonus_birzha_bullet_2_description" 	"Taa reduces the target's armor by {s:value} and Shaa increases attack speed by {s:value2}. Duration {s:value3} seconds."
 "DOTA_Tooltip_Ability_special_bonus_birzha_bullet_3" 				"+{s:value} damage to Taa and Shaa"
-"DOTA_Tooltip_Ability_special_bonus_birzha_bullet_4" 				"T aa and Shaa deals attack damage"
-"DOTA_Tooltip_Ability_special_bonus_birzha_bullet_5" 				"-{s:value} reduction of healthy lifestyle attributes"
-"DOTA_Tooltip_Ability_special_bonus_birzha_bullet_6" 				"+{s:value} increases in healthy lifestyle attributes"
-"DOTA_Tooltip_Ability_special_bonus_birzha_bullet_7" 				"Bullet to the forehead upgrade"
-"DOTA_Tooltip_Ability_special_bonus_birzha_bullet_7_description" 				"Pierces magic immunity and increases incoming damage to the target by {s:value}%. Duration {s :value2} seconds."
-"DOTA_Tooltip_Ability_special_bonus_birzha_bullet_8" 				"A bullet to the forehead kills the enemy with {s:value}% health"
+"DOTA_Tooltip_Ability_special_bonus_birzha_bullet_4" 				"Taa and Shaa deals attack damage"
+"DOTA_Tooltip_Ability_special_bonus_birzha_bullet_5" 				"+{s:value}% to change the movement speed of the Healthy Lifestyle"
+"DOTA_Tooltip_Ability_special_bonus_birzha_bullet_6" 				"+{s:value}% to change the magic resistance of the Healthy Lifestyle"
+"DOTA_Tooltip_Ability_special_bonus_birzha_bullet_7" 				"Bullet to the Head through magic immunity"
+"DOTA_Tooltip_Ability_special_bonus_birzha_bullet_8" 				"Bullet to the Head kills the enemy with {s:value}% health"
 
 //================================================================ ===================================================== ===============
 // Ax | Abdulov | Abdulov
@@ -4133,6 +4131,7 @@
 "DOTA_Tooltip_Ability_gorshok_spin_web" 				"Forester"
 "DOTA_Tooltip_Ability_gorshok_spin_web_Description" 	"The pot produces a web in which it and its summoned creatures are invisible to opponents, and the web can also pass through obstacles. A new web can be spun from anywhere on the map if it touches the old one. If you exceed the maximum number of webs, then the oldest of them will disappear"
 "DOTA_Tooltip_Ability_gorshok_spin_web_count" 			"QUANTITY OF WEBS:"
+"DOTA_Tooltip_Ability_gorshok_spin_web_movespeed"		"%ADDITIONAL MOVESPEED:"
 "DOTA_Tooltip_Ability_gorshok_spin_web_lore" 			"This hero was created thanks to <font color='#fffc00'>ForeverBlin4ik</font>"
 
 "DOTA_Tooltip_Ability_special_bonus_birzha_gorshok_1" 	"Giving rum reduces outgoing damage by {s:value}%"
@@ -4666,14 +4665,15 @@
 "DOTA_Tooltip_ability_Grem_HardSkeleton_lore" 				"This hero was created thanks to <font color='#fffc00'>Alexander Rogovnin</font>"
 
 "DOTA_Tooltip_ability_Grem_DoNothing" 						"Do nothing"
-"DOTA_Tooltip_ability_Grem_DoNothing_Description" 			"Grem does nothing, causing his damage to be increased and he also gains resistance to incoming damage. The ability removes all negative effects"
-"DOTA_Tooltip_ability_Grem_DoNothing_bonus_damage" 			"%ADON DAMAGE:"
+"DOTA_Tooltip_ability_Grem_DoNothing_Description" 			"Graham does nothing, which slows him down, increases his damage, and also gives him resistance to incoming damage. The ability removes all negative effects."
+"DOTA_Tooltip_ability_Grem_DoNothing_bonus_damage" 			"%ADDITIONAL DAMAGE:"
+"DOTA_Tooltip_ability_Grem_DoNothing_slow"					"%MOVESPEED SLOW:"
 "DOTA_Tooltip_ability_Grem_DoNothing_damage_reduction" 		"%DAMAGE RESISTANCE:"
 "DOTA_Tooltip_ability_Grem_DoNothing_duration" 				"DURATION:"
 "DOTA_Tooltip_ability_Grem_DoNothing_lore" 					"This hero was created thanks to <font color='#fffc00'>Alexander Rogovnin</font>"
 
 "DOTA_Tooltip_modifier_grem_donothing" 						"Do nothing"
-"DOTA_Tooltip_modifier_grem_donothing_Description" 			"Damage increased by %dMODIFIER_PROPERTY_DAMAGEOUTGOING _PERCENTAGE%%%, incoming damage reduced by %dMODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE%%%"
+"DOTA_Tooltip_modifier_grem_donothing_Description" 			"Damage increased by %dMODIFIER_PROPERTY_DAMAGEOUTGOING _PERCENTAGE%%%, incoming damage reduced by %dMODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE%%%, movement speed reduced by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%"
 
 "DOTA_Tooltip_modifier_Grem_HardSkeleton_buff" 						"Hard Skeleton"
 "DOTA_Tooltip_modifier_Grem_HardSkeleton_buff_Description" 			"Health regeneration increased by %dMODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT%"
@@ -4725,7 +4725,7 @@
 "DOTA_Tooltip_ability_Red_GetMoreMass" 						"Gain weight"
 "DOTA_Tooltip_ability_Red_GetMoreMass_Description" 			"The nerd gets fat and tells you why you're fat"
 "DOTA_Tooltip_ability_Red_GetMoreMass_armor" 				"ADDITIONAL ARMOR:"
-"DOTA_Tooltip_ability_Red_GetMoreMass_health" 				"ADDITIONAL HEALTH:"
+"DOTA_Tooltip_ability_Red_GetMoreMass_strenght" 			"ADDITIONAL STRENGTH:"
 "DOTA_Tooltip_ability_Red_GetMoreMass_move_speed" 			"%MOVEMENT SPEED REDUCTION:"
 "DOTA_Tooltip_ability_Red_GetMoreMass_attack_speed" 			"ATTACK SPEED REDUCTION:"
 "DOTA_Tooltip_ability_Red_GetMoreMass_lore" 					"This hero was created thanks to <font color='#fffc00'>KerGar</font>"
@@ -5042,62 +5042,76 @@
 
 "npc_dota_hero_sand_king" "SCP-173"
 
-"DOTA_Tooltip_ability_Scp_fast_movement" 											"Fast movement"
-"DOTA_Tooltip_ability_Scp_fast_movement_Description" 								"If there are no enemy units in range, you become invisible and gain additional movement speed"
-"DOTA_Tooltip_ability_Scp_fast_movement_movespeed" 									"ADDITIONAL MOVEMENT SPEED:"
-"DOTA_Tooltip_ability_Scp_fast_movement_radius" 										"RADIUS:"
-"DOTA_Tooltip_ability_Scp_fast_movement_movespeed_limit" 							"MOVEMENT SPEED LIMIT:"
-"DOTA_Tooltip_ability_Scp_fast_movement_lore" 										"This hero was created thanks to <font color='#fffc00'>Ezik</font>"
+"DOTA_Tooltip_ability_Scp_fast_movement"											"Fast movement"
+"DOTA_Tooltip_ability_Scp_fast_movement_Description"								"<h1>Active Ability</h1>Teleports the hero to a random location within a radius of %min_radius% to %max_radius%\n<h1>Passive Ability</h1>If there are no enemy units within the radius, you become invisible and gain additional movement speed."
+"DOTA_Tooltip_ability_Scp_fast_movement_movespeed"									"BONUS MOVE SPEED:"
+"DOTA_Tooltip_ability_Scp_fast_movement_radius"										"RADIUS:"
+"DOTA_Tooltip_ability_Scp_fast_movement_movespeed_limit"							"MOVE SPEED LIMIT:"
+"DOTA_Tooltip_ability_Scp_fast_movement_lore"										"This character was created thanks to <font color='#fffc00'>Ezik</font>"
 
-"DOTA_Tooltip_modifier_Scp_fast_movement_invisibility" 								"Fast movement"
-"DOTA_Tooltip_modifier_Scp_fast_movement_invisibility_Description" 					"Invisible. Movement speed increased by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT%"
+"DOTA_Tooltip_modifier_Scp_fast_movement_invisibility"								"Fast movement"
+"DOTA_Tooltip_modifier_Scp_fast_movement_invisibility_Description"					"Invisible. Movement speed increased by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT%"
 
-"DOTA_Tooltip_ability_Scp173_Screamer" 												"Screamer"
-"DOTA_Tooltip_ability_Scp173_Screamer_Description" 									"SCP scares the enemy, causing damage and stunning them"
-"DOTA_Tooltip_ability_Scp173_Screamer_duration" 										"STUN DURATION:"
-"DOTA_Tooltip_ability_Scp173_Screamer_damage" 										"DAMAGE:"
-"DOTA_Tooltip_ability_Scp173_Screamer_lore" 											"This hero was created thanks to <font color='#fffc00'>Ezik</font>"
+"DOTA_Tooltip_ability_Scp_Feces"													"Waste"
+"DOTA_Tooltip_ability_Scp_Feces_Description"										"SCP-173 leaves a pool of excrement beneath itself, in which all enemies are slowed and take damage. For each enemy within the ability's radius, the hero increases health regeneration by %hp_regen%"
+"DOTA_Tooltip_ability_Scp_Feces_duration"											"DURATION:"
+"DOTA_Tooltip_ability_Scp_Feces_slow"												"%SLOW:"
+"DOTA_Tooltip_ability_Scp_Feces_radius"												"RADIUS:"
+"DOTA_Tooltip_ability_Scp_Feces_damage"												"DPS:"
+"DOTA_Tooltip_ability_Scp_Feces_lore"												"This hero was created thanks to <font color='#fffc00'>Ezik</font>"
 
-"DOTA_Tooltip_modifier_scp_screamer" 												"Screamer"
-"DOTA_Tooltip_modifier_scp_screamer_Description" 									"Stunned"
+"DOTA_Tooltip_modifier_scp_feces_debuff"											"Waste"
+"DOTA_Tooltip_modifier_scp_feces_debuff_Description"								"Mired in excrement."
 
-"DOTA_Tooltip_ability_Scp_DamageAura" 												"He's nearby"
-"DOTA_Tooltip_ability_Scp_DamageAura_Description" 									"SCP-173 strikes fear into its enemies"
-"DOTA_Tooltip_ability_Scp_DamageAura_aura_damage" 									"%HEALTH REDUCTION PER SECOND:"
-"DOTA_Tooltip_ability_Scp_DamageAura_aura_radius" 									"RADIUS:"
-"DOTA_Tooltip_ability_Scp_DamageAura_lore" 											"This hero was created thanks to <font color='#fffc00'>Ezik</font>"
+"DOTA_Tooltip_modifier_scp_feces_buff"												"Waste"
+"DOTA_Tooltip_modifier_scp_feces_buff_Description"									"Gains +%dMODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT% to health regeneration."
 
-"DOTA_Tooltip_modifier_Scp_DamageAura_debuff" 										"He's nearby"
-"DOTA_Tooltip_modifier_Scp_DamageAura_debuff_Description" 							"Takes damage"
+"DOTA_Tooltip_ability_Scp173_Screamer"												"Screamer"
+"DOTA_Tooltip_ability_Scp173_Screamer_Description"									"SCP frightens the enemy, dealing damage and stunning them."
+"DOTA_Tooltip_ability_Scp173_Screamer_duration"										"STUN DURATION:"
+"DOTA_Tooltip_ability_Scp173_Screamer_damage"										"DAMAGE:"
+"DOTA_Tooltip_ability_Scp173_Screamer_lore"											"This character was created thanks to <font color='#fffc00'>Ezik</font>"
 
-"DOTA_Tooltip_modifier_scp_ultimate_vision" 											"Break your neck"
-"DOTA_Tooltip_modifier_scp_ultimate_vision_Description" 								"View reduced by %dMODIFIER_PROPERTY_BONUS_VISION_PERCENTAGE%%%"
+"DOTA_Tooltip_modifier_scp_screamer"												"Screamer"
+"DOTA_Tooltip_modifier_scp_screamer_Description"									"Stunned."
 
-"DOTA_Tooltip_ability_Scp_FastKill" 													"Crack your neck"
-"DOTA_Tooltip_ability_Scp_FastKill_Description" 										"Each of his attacks from behind deals extra damage"
-"DOTA_Tooltip_ability_Scp_FastKill_bonus_damage" 									"%EXTRA DAMAGE:"
-"DOTA_Tooltip_ability_Scp_FastKill_lore" 											"This hero was created thanks to <font color='#fffc00'>Ezik</font>"
+// "DOTA_Tooltip_ability_Scp_DamageAura"											"He's nearby"
+// "DOTA_Tooltip_ability_Scp_DamageAura_Description"								"SCP-173 strikes fear into its enemies"
+// "DOTA_Tooltip_ability_Scp_DamageAura_aura_damage"								"%HEALTH REDUCTION PER SECOND:"
+// "DOTA_Tooltip_ability_Scp_DamageAura_aura_radius"								"RADIUS:"
+// "DOTA_Tooltip_ability_Scp_DamageAura_lore"										"This hero was created thanks to <font color='#fffc00'>Ezik</font>"
+// 
+// "DOTA_Tooltip_modifier_Scp_DamageAura_debuff"									"He's nearby"
+// "DOTA_Tooltip_modifier_Scp_DamageAura_debuff_Description"						"Takes damage"
 
-"DOTA_Tooltip_ability_Scp_fast_movement_shard_description" 							"Reduces radius by %shard_radius%"
+"DOTA_Tooltip_modifier_scp_ultimate_vision"											"Neck Snap"
+"DOTA_Tooltip_modifier_scp_ultimate_vision_Description"								"Overview reduced by %dMODIFIER_PROPERTY_BONUS_VISION_PERCENTAGE%%%"
+
+"DOTA_Tooltip_ability_Scp_FastKill"													"Neck Snap"
+"DOTA_Tooltip_ability_Scp_FastKill_Description"										"Each attack from behind deals additional damage and reduces the victim's vision."
+"DOTA_Tooltip_ability_Scp_FastKill_duration"										"DURATION:"
+"DOTA_Tooltip_ability_Scp_FastKill_bonus_damage"									"%BONUS DAMAGE:"
+"DOTA_Tooltip_ability_Scp_FastKill_vision_perc"										"%REDUCED VISIBILITY:"
+"DOTA_Tooltip_ability_Scp_FastKill_lore"											"This character was created thanks to <font color='#fffc00'>Ezik</font>"
+
+"DOTA_Tooltip_ability_Scp_fast_movement_shard_description"							"Does not reveal invisibility for %shard_duration% sec. after using the ability"
 	
-"DOTA_Tooltip_Ability_scp173_statue_aghanim" 										"Statue"
-"DOTA_Tooltip_Ability_scp173_statue_aghanim_Description" 							"Leaves a statue in the last place where it was a second ago. You can teleport to this statue if there is an enemy within %radius next to it. The statue gives vision in %vision_radius%"
-"DOTA_Tooltip_ability_scp173_statue_aghanim_lore" 									"This hero was created thanks to <font color='#fffc00'>Ezik</font>"
+"DOTA_Tooltip_Ability_scp173_statue_aghanim"										"Statue"
+"DOTA_Tooltip_Ability_scp173_statue_aghanim_Description"							"Leaves a statue at the last place he was a second ago. You can teleport to this statue if there is an enemy within %radius% of it. The statue provides visibility within a radius of %vision_radius%."
+"DOTA_Tooltip_ability_scp173_statue_aghanim_lore"									"This character was created thanks to <font color='#fffc00'>Ezik</font>"
 	
-"DOTA_Tooltip_Ability_scp173_statue_aghanim_teleport" 								"Replace statue"
-"DOTA_Tooltip_Ability_scp173_statue_aghanim_teleport_Description" 					"Teleports to the statue's location"
-"DOTA_Tooltip_ability_scp173_statue_aghanim_teleport_lore" 							"This hero was created thanks to <font color='#fffc00'>Ezik</font>"
+"DOTA_Tooltip_Ability_scp173_statue_aghanim_teleport"								"Replace the statue"
+"DOTA_Tooltip_Ability_scp173_statue_aghanim_teleport_Description"					"Teleports to the location of the statue"
+"DOTA_Tooltip_ability_scp173_statue_aghanim_teleport_lore"							"This character was created thanks to <font color='#fffc00'>Ezik</font>"
 
-"DOTA_Tooltip_Ability_special_bonus_birzha_scp_1" 									"-{s:value} Screamer cooldown"
-"DOTA_Tooltip_Ability_special_bonus_birzha_scp_2" 									"+{s:value} radius He's nearby"
-"DOTA_Tooltip_Ability_special_bonus_birzha_scp_3" 									"Crunching your neck reduces visibility"
-"DOTA_Tooltip_Ability_special_bonus_birzha_scp_3_description" 						"Each attack reduces vision by {s:value}%. Duration {s:value2} seconds."
-"DOTA_Tooltip_Ability_special_bonus_birzha_scp_4" 									"Fast movement becomes active"
-"DOTA_Tooltip_Ability_special_bonus_birzha_scp_4_description" 						"Instantly teleports to a random location within a radius of { s:value} to {s:value2}. Cooldown {s:value3} seconds."
-"DOTA_Tooltip_Ability_special_bonus_birzha_scp_5" 									"+{s:value}% damage from back Wring neck"
+"DOTA_Tooltip_Ability_special_bonus_birzha_scp_1" 									"-{s:value} sec. Screamer Cooldown"
+"DOTA_Tooltip_Ability_special_bonus_birzha_scp_2" 									"+{s:value} Waste AOE"
+"DOTA_Tooltip_Ability_special_bonus_birzha_scp_3" 									"+{s:value}% to restore from max health for the enemy from Waste"
+"DOTA_Tooltip_Ability_special_bonus_birzha_scp_4" 									"Normal Dispel from Fast Movement"
+"DOTA_Tooltip_Ability_special_bonus_birzha_scp_5" 									"+{s:value}% damage to the back from Neck Snap"
 "DOTA_Tooltip_Ability_special_bonus_birzha_scp_6" 									"Screamer disables passive abilities"
-"DOTA_Tooltip_Ability_special_bonus_birzha_scp_7" 									"+{s:value}% damage He's nearby"
-"DOTA_Tooltip_Ability_special_bonus_birzha_scp_8" 									"Collapse Neck deals pure damage"
+"DOTA_Tooltip_Ability_special_bonus_birzha_scp_7" 									"+{s:value}% Waste Max Health DPS"
+"DOTA_Tooltip_Ability_special_bonus_birzha_scp_8" 									"Neck Snap deals pure damage"
 
 "dota_hud_error_scp682" "You cannot do this. Fury is active"
 
@@ -5857,10 +5871,10 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_sonic_1" 										"-{s:value} forward dash cooldown"
 "DOTA_Tooltip_Ability_special_bonus_birzha_sonic_2" 										"-{s:value} sec. Jump cooldown"
 "DOTA_Tooltip_Ability_special_bonus_birzha_sonic_3" 										"-{s:value} sec cooldown Gotta go fast"
-"DOTA_Tooltip_Ability_special_bonus_birzha_sonic_4" 										"{s:value}x speed Gotta go fast"
+"DOTA_Tooltip_Ability_special_bonus_birzha_sonic_4" 										"+{s:value}% to movement speed per charge Speed Steal"
 "DOTA_Tooltip_Ability_special_bonus_birzha_sonic_5" 										"+{s:value} sec Charge stun duration"
 "DOTA_Tooltip_Ability_special_bonus_birzha_sonic_6" 										"{s:value} charge for stealing speed"
-"DOTA_Tooltip_Ability_special_bonus_birzha_sonic_7" 										"+{s:value} to speed limit from Faster than Light per charge of Speed Steal"
+"DOTA_Tooltip_Ability_special_bonus_birzha_sonic_7" 										"+{s:value} to the speed limit from Faster than light per unit of agility"
 "DOTA_Tooltip_Ability_special_bonus_birzha_sonic_8" 										"+{s:value} to Jump radius"
 
 //================================================================ ===================================================== ===============
@@ -6327,11 +6341,10 @@
 "npc_dota_hero_phantom_assassin" 	"Yuno Gasai"
 
 "DOTA_Tooltip_ability_Yuno_Rage" 								"Bloodthirst"
-"DOTA_Tooltip_ability_Yuno_Rage_Description" 					"Yuno goes into a rage and increases his damage, lifesteal and attack speed"
+"DOTA_Tooltip_ability_Yuno_Rage_Description" 					"Yuno goes into a rage and increases his lifesteal and attack speed"
 "DOTA_Tooltip_ability_Yuno_Rage_speed_a" 						"ADDITIONAL ATTACK SPEED:"
 "DOTA_Tooltip_ability_Yuno_Rage_lifesteal" 						"%VAMPIRISM:"
 "DOTA_Tooltip_ability_Yuno_Rage_duration" 						"DURATION:"
-"DOTA_Tooltip_ability_Yuno_Rage_bonus_dmg" 						"ADDITIONAL DAMAGE:"
 "DOTA_Tooltip_ability_Yuno_Rage_lore" 							"This hero was created thanks to <font color='#fffc00'>Dim4ik</font>"
 
 "DOTA_Tooltip_modifier_yuno_rage" 								"Rage"
@@ -6385,7 +6398,7 @@
 "DOTA_Tooltip_Ability_haku_needle_stun_duration" 			"STUN DURATION :"
 "DOTA_Tooltip_Ability_haku_needle_lore" 						"This hero was created thanks to <font color='#fffc00'>URRR</font>"
 
-"DOTA_Tooltip_Ability_haku_jump" 							"Jump"
+"DOTA_Tooltip_Ability_haku_jump" 							"Rebound"
 "DOTA_Tooltip_Ability_haku_jump_Description" 				"Haku jumps away from an enemy in a specified direction for a selected distance. After pushing off the target of the ability, the hero jumps to the selected area, dealing damage to all enemies in the area and slowing them down. If Ice Attacks is active, enemies will be frozen in the place where Haku landed for %root_duration% sec."
 "DOTA_Tooltip_Ability_haku_jump_min_jump_distance" 			"MIN. DISTANCE:"
 "DOTA_Tooltip_Ability_haku_jump_max_jump_distance" 			"MAX DISTANCE:"
@@ -6413,7 +6426,7 @@
 "DOTA_Tooltip_modifier_haku_zerkalo_parent" 				"In the mirror"
 "DOTA_Tooltip_modifier_haku_zerkalo_parent_Description" 	""
 
-"DOTA_Tooltip_Ability_haku_zerkala" 						"Mirrors made of ice"
+"DOTA_Tooltip_Ability_haku_zerkala" 						"Ice Mirrors"
 "DOTA_Tooltip_Ability_haku_zerkala_Description" 			"Ice mirrors appear around Haku, Heroes in the circle of mirrors cannot use abilities and items. Every %attack_cooldown% seconds, a needle flies out of a random mirror at a random enemy."
 "DOTA_Tooltip_Ability_haku_zerkala_damage" 					"% DAMAGE OF MIRROR NEEDLES FROM HAKU ATTACK:"
 "DOTA_Tooltip_Ability_haku_zerkala_duration" 				" MIRRORS DURATION:"
@@ -6467,18 +6480,22 @@
 "DOTA_Tooltip_Ability_haku_eyes_scepter_description" 		"Ability pierces magic immunity"
 "DOTA_Tooltip_Ability_haku_aura_shard_description" 			"Aura 's aura goes global"
 
-"DOTA_Tooltip_Ability_special_bonus_birzha_haku_1" 			"Healing needles cure intelligence"
-"DOTA_Tooltip_Ability_special_bonus_birzha_haku_2" 			"+{s:value} sec freeze Rebound"
-"DOTA_Tooltip_Ability_special_bonus_birzha_haku_3" 			"+{s:value} sec stun duration Beautiful eyes"
-"DOTA_Tooltip_Ability_special_bonus_birzha_haku_4" 			"Paralyzing Needle on {s:value} targets"
-"DOTA_Tooltip_Ability_special_bonus_birzha_haku_5" 			"+{s:value}% health recovery Rescue"
-"DOTA_Tooltip_Ability_special_bonus_birzha_haku_6" 			"-{s:value} sec cooldown Rebound"
-"DOTA_Tooltip_Ability_special_bonus_birzha_haku_7" 			"-{s:value} sec cooldown for Healing Needles"
-"DOTA_Tooltip_Ability_special_bonus_birzha_haku_8" 			"+{s:value}% Ice Mirror damage"
+"DOTA_Tooltip_modifier_haku_help_bkb"						"Rescue "
+"DOTA_Tooltip_modifier_haku_help_bkb_Description"			"Immune to magic"
+
+"DOTA_Tooltip_Ability_special_bonus_birzha_haku_1"			"+{s:value} to damage Ice Attacks / Healing Needles heal based on intelligence"
+"DOTA_Tooltip_Ability_special_bonus_birzha_haku_2"			"+{s:value1} sec. freeze Rebound / +{s:value2}% to movespeed from Kindness"
+"DOTA_Tooltip_Ability_special_bonus_birzha_haku_3"			"Ice Attacks heal {s:value2} health / +{s:value1} sec. stun duration Beautiful Eyes"
+"DOTA_Tooltip_Ability_special_bonus_birzha_haku_4"			"Paralyzing Needle per {s:value1} targets / -{s:value2} to the Healing Needles interval"
+"DOTA_Tooltip_Ability_special_bonus_birzha_haku_4_Description"	"Paralyzing Needle flies toward the primary target if there is no secondary enemy."
+"DOTA_Tooltip_Ability_special_bonus_birzha_haku_5"			"Rebound deals attack damage / +{s:value}% health restoration Salvation"
+"DOTA_Tooltip_Ability_special_bonus_birzha_haku_6"			"-{s:value} sec. cooldown Rebound / Strong dispel from Healing Needles"
+"DOTA_Tooltip_Ability_special_bonus_birzha_haku_7"			"Frost Attacks reduce BAT to {s:value2} / -{s:value1} sec. cooldown Healing Needles"
+"DOTA_Tooltip_Ability_special_bonus_birzha_haku_8"			"+{s:value1}% damage from Ice Mirror / Rescue grants magic immunity for {s:value2} sec."
 
 
 //================================================================ ===================================================== ===============
-// Good
+// Хоро / Good( гуд)) найс перевод от нейронки ) 
 //================================================================ ===================================================== ===============
 
 "npc_dota_horo_wolf_1" "Wolf"
@@ -6604,7 +6621,7 @@
 "DOTA_Tooltip_modifier_LenaGolovach_Radio_damage_Description" 		"Damage increased by %dMODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE%"
 
 "DOTA_Tooltip_modifier_LenaGolovach_Radio_movespeed" 				"Radio Ruffles"
-"DOTA_Tooltip_modifier_LenaGolovach_Radio_movespeed_Description" 	"Constant movement speed %dMODIFIER_PROPERTY_MOVESP EED_ABSOLUTE%"
+"DOTA_Tooltip_modifier_LenaGolovach_Radio_movespeed_Description" 	"Constant movement speed %dMODIFIER_PROPERTY_MOVESPEED_ABSOLUTE%"
 
 "DOTA_Tooltip_modifier_LenaGolovach_Radio_health" 					"Roffles from Radio"
 "DOTA_Tooltip_modifier_LenaGolovach_Radio_health_Description" 		"Health increased by %dMODIFIER_PROPERTY_HEALTH_BONUS%"
@@ -6690,7 +6707,7 @@
 // Dragon Knight | Robie the Vicious | Robi Evil
 //================================================================ ===================================================== ===============
 
-"npc_dota_hero_dragon_knight" 						"Robbie the Evil"
+"npc_dota_hero_dragon_knight" 						"Robbie Rotten"
 
 "DOTA_Tooltip_ability_robbie_trap" 					"Trap"
 "DOTA_Tooltip_ability_robbie_trap_Description" 		"Robbie throws a net at an enemy, causing them to stand still"
@@ -6699,15 +6716,20 @@
 "DOTA_Tooltip_modifier_robbie_trap" 					"Trap"
 "DOTA_Tooltip_modifier_robbie_trap_Description" 		"Caught"
 
-"DOTA_Tooltip_ability_roby_agility" 					"Agility"
-"DOTA_Tooltip_ability_roby_agility_Description" 		"Agile Robby increases his running speed "
-"DOTA_Tooltip_ability_roby_agility_bonus_speed" 		"ADDITIONAL MOVEMENT SPEED:"
-"DOTA_Tooltip_ability_roby_agility_hp_regen" 		"ADDITIONAL HEALTH REGENERATION:"
+"DOTA_Tooltip_ability_roby_agility"					"Trick"
+"DOTA_Tooltip_ability_roby_agility_Description"		"Tricky Robbie gets a barrier that blocks any damage he takes and increases his agility."
+"DOTA_Tooltip_ability_roby_agility_duration"		"DURATION:"
+"DOTA_Tooltip_ability_roby_agility_bonus_agi"		"%BONUS AGILITY:"
+"DOTA_Tooltip_ability_roby_agility_damage_absorb"	"DAMAGE BARRIER:"
+
+"DOTA_Tooltip_modifier_roby_agility"				"Trick"
+"DOTA_Tooltip_modifier_roby_agility_Description"	"Absorbs any damage and increases agility"
 
 "DOTA_Tooltip_ability_robbie_timeinvis" 						"Disguise time"
-"DOTA_Tooltip_ability_robbie_timeinvis_Description" 			"Robbie camouflages himself in the shadows. Each attack from behind deals bonus damage based on agility."
-"DOTA_Tooltip_ability_robbie_timeinvis_damage_multiplier" 	"AGILITY IN DAMAGE:"
-"DOTA_Tooltip_ability_robbie_timeinvis_shard_description" 			"Works on illusions"
+"DOTA_Tooltip_ability_robbie_timeinvis_Description"				"Robbie disguises himself in the shadows, increasing his movement speed and regeneration. Each attack from the back deals additional damage, which depends on dexterity."
+"DOTA_Tooltip_ability_robbie_timeinvis_damage_multiplier"		"BONUS DAMAGE FROM AGILITY:"
+"DOTA_Tooltip_ability_robbie_timeinvis_hp_regen"				"BONUS HEALTH REGEN:"	
+"DOTA_Tooltip_ability_robbie_timeinvis_bonus_speed"				"BONUS MOVE SPEED:"
 
 "DOTA_Tooltip_ability_Robi_WeAreNumberOne" 					"We are number one"
 "DOTA_Tooltip_ability_Robi_WeAreNumberOne_Description" 		"Creates a clone of itself next to each enemy hero, which attacks him after a short delay. While active, the ability's owner can use the Swap Clone ability to switch places with the selected illusion. Illusions are not under the player's control, have a base speed of 400 units and ignore obstacles"
@@ -6719,13 +6741,13 @@
 "DOTA_Tooltip_ability_Robi_WeAreNumberOneTeleport_Description" 	"Replaces the selected clone"
 
 "DOTA_Tooltip_Ability_special_bonus_birzha_robbie_1" 		"-{s:value} sec cooldown for Trap "
-"DOTA_Tooltip_Ability_special_bonus_birzha_robbie_2" 		"+{s:value} health regen Agility"
+"DOTA_Tooltip_Ability_special_bonus_birzha_robbie_2" 		"+{s:value}% to agility from Trick"
 "DOTA_Tooltip_Ability_special_bonus_birzha_robbie_3" 		"Trap disables passive abilities"
-"DOTA_Tooltip_Ability_special_bonus_birzha_robbie_4" 		" Replace clone dispels negative effects"
-"DOTA_Tooltip_Ability_special_bonus_birzha_robbie_5" 		"+{s:value} sec duration We are number One"
+"DOTA_Tooltip_Ability_special_bonus_birzha_robbie_4" 		"Replace clone dispels negative effects"
+"DOTA_Tooltip_Ability_special_bonus_birzha_robbie_5" 		"+{s:value} sec duration We are Number One"
 "DOTA_Tooltip_Ability_special_bonus_birzha_robbie_6" 		"+{s:value} agility to damage Disguise Time"
-"DOTA_Tooltip_Ability_special_bonus_birzha_robbie_7" 		"-{s:value} sec cooldown Camouflage time"
-"DOTA_Tooltip_Ability_special_bonus_birzha_robbie_8" 		"+{s:value}% damage to clones We Are number one"
+"DOTA_Tooltip_Ability_special_bonus_birzha_robbie_7" 		"-{s:value} sec cooldown Disguise time"
+"DOTA_Tooltip_Ability_special_bonus_birzha_robbie_8" 		"+{s:value}% damage to clones We are Number One"
 
 
 //================================================================ ===================================================== ===============
@@ -7352,6 +7374,7 @@
 "DOTA_Tooltip_ability_jull_in_time_slow" 												" %MOVEMENT SPEED SLOW:"
 "DOTA_Tooltip_ability_jull_in_time_magic_resistance" 									"%REDUCED MAGIC RESISTANCE:"
 "DOTA_Tooltip_ability_jull_in_time_duration" 											"DURATION:"
+"DOTA_Tooltip_ability_jull_in_time_max_stack"											"MAX. EFFECTS:"
 "DOTA_Tooltip_ability_jull_in_time_lore" 												"This hero was created thanks to <font color='#fffc00'>daertc</font>"
 
 "DOTA_Tooltip_ability_jull_light_future" 												"Light from the future"
@@ -7472,14 +7495,14 @@
 "DOTA_Tooltip_Ability_Felix_WaterStream_scepter_description" 			"Every %scepter_cooldown% seconds, a stream of water flies to a priority target<br><br>Tries to restore the health of the most wounded ally first, then damage the most wounded enemy"
 
 "DOTA_Tooltip_Ability_Felix_ItsATrap" 									"It's a TRAP"
-"DOTA_Tooltip_Ability_Felix_ItsATrap_Description" 						"Frightens the enemy with its secret. They are stunned and their resistance to magic damage and effects is reduced"
+"DOTA_Tooltip_Ability_Felix_ItsATrap_Description" 						"Frightens the enemy with its secret. It becomes stunned, its incoming damage increases, and its resistance to effects decreases."
 "DOTA_Tooltip_Ability_Felix_ItsATrap_stun_duration" 					"STUN DURATION:"
 "DOTA_Tooltip_Ability_Felix_ItsATrap_resist_minus" 						"%RESISTANCE REDUCTION:"
 "DOTA_Tooltip_Ability_Felix_ItsATrap_lore" 								"This hero was created thanks to <font color='#fffc00'>Xelisum</font> and <font color='#fffc00'>?cpt Mosya</font>"
 "DOTA_Tooltip_Ability_Felix_ItsATrap_shard_description" 					"Area %radius% and pierces spell immunity, but the cooldown is increased to %scepter_cd% sec and the stun duration is reduced to %stun_duration_scepter% sec."
 
 "DOTA_Tooltip_modifier_Felix_ItsATrap" 									"It's a TRAP"
-"DOTA_Tooltip_modifier_Felix_ItsATrap_Description" 						"Stunned. Magic resistance reduced by %dMODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS%%% and effect resistance reduced by %dMODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING%%%"
+"DOTA_Tooltip_modifier_Felix_ItsATrap_Description" 						"Stunned. Damage taken increased by %dMODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE%%%, and resistance effect decreased by %dMODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING%%%"
 
 "DOTA_Tooltip_Ability_Felix_NyashaCat" 									"Nice Cat-Boy"
 "DOTA_Tooltip_Ability_Felix_NyashaCat_Description" 						"<h1>Active ability</h1>Increases the attributes of allies according to the formula %base_attribute% + ( %bonus_attribute%%% + Felix's Intelligence / %intellect_math% )<br><br>Decreases the healing of enemies according to the formula ( % heal_lose%%% + Felix's Intelligence / %intellect_math_2% )\n<h1>Passive ability</h1>Felix's sweetness warms the hearts of allies, their health and mana regeneration increases\n<h1>Upgrade Water Barrier</h1>Increases healing and absorbing damage from an ability according to the formula (%bonus_heal%%% + Felix's Intelligence / %intellect_math_3% )"
@@ -7501,6 +7524,7 @@
 "DOTA_Tooltip_Ability_Felix_WaterShield_Description" 					"Felix creates a barrier around himself. Allies within his radius gain full resistance to incoming damage, but lose the ability to do so."
 "DOTA_Tooltip_Ability_Felix_WaterShield_resistance" 					"%INCOMING DAMAGE RESISTANCE:"
 "DOTA_Tooltip_Ability_Felix_WaterShield_radius" 						"RADIUS:"
+"DOTA_Tooltip_Ability_Felix_WaterShield_movespeed"						"%BONUS MOVE SPEED:"
 "DOTA_Tooltip_Ability_Felix_WaterShield_duration" 						"DURATION:"
 "DOTA_Tooltip_Ability_Felix_WaterShield_lore" 							"This hero was created thanks to <font color='#fffc00'>Xelisum</font> and <font color='#fffc00'>?cpt Mosya</font>"
 
@@ -7519,7 +7543,7 @@
 "DOTA_Tooltip_modifier_Felix_water_block" 								"Water barrier"
 "DOTA_Tooltip_modifier_Felix_water_block_Description" 					"Absorbs incoming damage"
 
-"DOTA_Tooltip_ability_special_bonus_birzha_felix_1" 						"-{s:value}% reduction in resistances Its a trap"
+"DOTA_Tooltip_ability_special_bonus_birzha_felix_1" 						"+{s:value}% reduction in resistances Its a trap"
 "DOTA_Tooltip_ability_special_bonus_birzha_felix_2" 						"-{s:value} sec cooldown for Water Barrier"
 "DOTA_Tooltip_ability_special_bonus_birzha_felix_3" 						"+{s:value} sec stun duration Its a trap"
 "DOTA_Tooltip_ability_special_bonus_birzha_felix_4" 						"+{s:value}% damage and health recovery Water Flow"
@@ -7887,7 +7911,7 @@
 "DOTA_Tooltip_ability_Miku_HealSound_lore" 					"This hero was created thanks to <font color='#fffc00'>Dim4ik</font>"
 
 "DOTA_Tooltip_ability_Miku_ritmic_song" 						"Rhythmic melody "
-"DOTA_Tooltip_ability_Miku_ritmic_song_Description" 			"<h1>Target ally</h1>Restores mana to the allied target according to the formula (%base_mana% + %perc_mana%%% of Miku's maximum mana) and it receives %attack_count% enhanced attacks, slowing down the enemy by %debuff_movespeed %%% duration %buff_duration% sec Effect duration %debuff_duration% sec.\n<h1>Enemy target</h1>Burns mana from the enemy target according to the formula (%base_mana% + %perc_mana%%% of Miku's maximum mana reserve) and she receives %attack_count% weakened attacks, reducing damage by %debuff_damage%%.. Effect duration %debuff_duration% sec.\n<h1>Musical Wave upgrade</h1>If you use the Musical Wave ability on the target, the victim's status disappears, and Each subsequent target of the Music Wave ability receives the attack effect from Rhythmic Melody."
+"DOTA_Tooltip_ability_Miku_ritmic_song_Description" 			"<h1>Ally Target</h1>Restores the ally target's mana according to the formula (%base_mana% + %perc_mana%%% of Miku's maximum mana pool), reduces incoming damage by %incom_dmg%%%, and gives them %attack_count% enhanced attacks that slow enemies by %debuff_movespeed%%% for %buff_duration% seconds. Effect duration: %debuff_duration% seconds.<h1>Target Enemy</h1>Deals %damage% magic damage to the selected target for each unit of mana, burns mana according to the formula (%base_mana% + %perc_mana%%% of maximum mana of Miku's mana pool) and it receives %attack_count% weakened attacks, reducing damage by %debuff_damage%%.. Effect duration %debuff_duration% sec.\n<h1>Musical Wave Upgrade</h1>If the Musical Wave ability is used on the target, the victim's status disappears, and each subsequent target of the Musical Wave ability receives the effect of attacks from Rhythmic Melody"
 "DOTA_Tooltip_ability_Miku_ritmic_song_lore" 				"This hero was created thanks to <font color='#fffc00'>Dim4ik</font>"
 
 "DOTA_Tooltip_modifier_Miku_ritmic_song" 					"Victim Status"
@@ -8121,7 +8145,8 @@
 "DOTA_Tooltip_ability_thomas_fired_Description" 				"Thomas ignites wood and releases fire from himself, damaging enemies and destroying trees."
 "DOTA_Tooltip_ability_thomas_fired_damage" 					"DAMAGE PER SECOND:"
 "DOTA_Tooltip_ability_thomas_fired_radius" 					"RADIUS:"
-"DOTA_Tooltip_ability_thomas_fired_mana_per_sec" 			"MANA CONSUMPTION:"
+"DOTA_Tooltip_ability_thomas_fired_mana_per_sec" 			"MANA COST:"
+"DOTA_Tooltip_ability_thomas_fired_mana_perc_per_sec"		"%MANA COST FROM MAX MANA:"
 "DOTA_Tooltip_ability_thomas_fired_lore" 					"This hero was created thanks to <font color='#fffc0 0'>WND</font>"
 
 "DOTA_Tooltip_ability_Thomas_MLG_RaGE" 						"MLG ANGER"
@@ -8134,7 +8159,7 @@
 "DOTA_Tooltip_modifier_Train_Thomas" 						"Evil Condition"
 "DOTA_Tooltip_modifier_Train_Thomas_Description" 			"When colliding with an enemy, Thomas will explode"
 
-"DOTA_Tooltip_ability_Thomas_MLG_RaGE_shard_description" 	"Does not get stun after explosion"
+"DOTA_Tooltip_ability_Thomas_MLG_RaGE_shard_description" 	"Reduces the duration of the hero's stun after an explosion to %shard_duration% seconds."
 "DOTA_Tooltip_ability_Thomas_MLG_RaGE_scepter_description" 	"Triggers on death, but deals %scepter_multiple% less damage"
 
 "DOTA_Tooltip_ability_special_bonus_birzha_thomas_1" 										"+{s:value} damage Exhaust smoke"
@@ -8560,7 +8585,7 @@
 "DOTA_Tooltip_ability_V1lat_AiAiAi_duration" 			"EARTHSHAKER STUN DURATION:"
 "DOTA_Tooltip_ability_V1lat_AiAiAi_frostbite_duration" 	"BLOOD FROZDING DURATION:"
 "DOTA_Tooltip_ability_V1lat_AiAiAi_dot_damage" 			"PERIODIC DAMAGE:"
-"DOTA_Tooltip_ability_V1lat_AiAiAi_damage" 				"MO MENTAL DAMAGE:"
+"DOTA_Tooltip_ability_V1lat_AiAiAi_damage" 				"MOMENTAL DAMAGE:"
 "DOTA_Tooltip_ability_V1lat_AiAiAi_lore" 				"This hero was created thanks to <font color='#fffc00'>Dim4ik</font>"
 
 "DOTA_Tooltip_modifier_V1lat_AiAiAi_debuff" 								"Ice Slam"
@@ -8570,6 +8595,7 @@
 "DOTA_Tooltip_ability_V1lat_ItsNotNormal_Description" 		"Places all creatures in a radius into astral imprisonment and steals %bo nus_int% intelligence from each for %duration_stack% sec. When the effect ends, an explosion occurs, dealing damage to the target"
 "DOTA_Tooltip_ability_V1lat_ItsNotNormal_duration" 			"DURATION:"
 "DOTA_Tooltip_ability_V1lat_ItsNotNormal_damage" 			"DAMAGE:"
+"DOTA_Tooltip_ability_V1lat_ItsNotNormal_int_damage"		"%INT TO DAMAGE:"
 "DOTA_Tooltip_ability_V1lat_ItsNotNormal_radius" 			"RADIUS:"
 "DOTA_Tooltip_ability_V1lat_ItsNotNormal_lore" 				"This hero was created thanks to <font color='#fffc00'>Dim4ik</font>"
 
@@ -8689,26 +8715,28 @@
 "DOTA_Tooltip_ability_Ns_Tricks_damage_max" 					"MAX DAMAGE:"
 
 "DOTA_Tooltip_ability_Ns_FullCounter" 						"Full counter"
-"DOTA_Tooltip_ability_Ns_FullCounter_Description" 			"The Juicy Captain puts a full counter on the enemy. Full counter is silence, root, disable passive abilities and powerlessness"
+"DOTA_Tooltip_ability_Ns_FullCounter_Description" 			"The Juicy Captain puts a full counter on the enemy. Full counter is damage from owner intellect, silence, root, disable passive abilities and powerlessness"
 "DOTA_Tooltip_ability_Ns_FullCounter_duration" 				"DURATION:"
 "DOTA_Tooltip_ability_Ns_FullCounter_magic" 					"% MAGIC RESISTANCE REDUCTION:"
 "DOTA_Tooltip_ability_Ns_FullCounter_armor" 					"ARMOR REDUCTION:"
+"DOTA_Tooltip_ability_Ns_FullCounter_int_damage"			"%DAMAGE FROM INT:"
 
 "DOTA_Tooltip_modifier_ns_fullcounter_debuff" 				"Full counter"
 "DOTA_Tooltip_modifier_ns_fullcounter_debuff_Description" 	"Reduced armor by %dMODIFIER_PROPE RTY_PHYSICAL_ARMOR_BONUS% and magic resistance by %dMODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS%%%"
 
 "DOTA_Tooltip_ability_Ns_TricksMaster" 						"Tricks Master"
-"DOTA_Tooltip_ability_Ns_TricksMaster_Description" 			"With every passing second of his life, NS learns more and more tricks from Dota. Increases his intelligence forever"
-"DOTA_Tooltip_ability_Ns_TricksMaster_bonus_intellect" 		"BONUS INTELLIGENCE:"
+"DOTA_Tooltip_ability_Ns_TricksMaster_Description" 			"With each kill, NS learns more and more tricks from Dota. Increases his intelligence and additional spell damage permanently. Effects accumulate from the start of the game, but the hero will only receive them after learning the ability."
+"DOTA_Tooltip_ability_Ns_TricksMaster_int_kill"		 		"BONUS INTELLIGENCE:"
+"DOTA_Tooltip_ability_Ns_TricksMaster_spell_amp"			"SPELL AMP:"
 
-"DOTA_Tooltip_ability_ns_old_beer" 							"Old beer"
+"DOTA_Tooltip_ability_ns_old_beer" 							"Old Beer-Enjoyer"
 "DOTA_Tooltip_ability_ns_old_beer_Description" 				"The hero imbues his attacks with wisdom, causing them to deal additional damage based on his intelligence"
-"DOTA_Tooltip_ability_ns_old_beer_intellect_damage_pct" 		"% INTELLIGENCE IN DAMAGE:"
+"DOTA_Tooltip_ability_ns_old_beer_intellect_damage_pct" 		"%INTELLIGENCE IN DAMAGE:"
 "DOTA_Tooltip_ability_ns_old_beer_shard_description" 		"Each %attack_count_shard% attack inflicts an effect on the enemy that prevents the use of abilities. Silence duration is %silence_shard_duration% sec."
 "DOTA_Tooltip_ability_ns_old_beer_scepter_description" 		"Your attack bounces to a random target within %scepter_radius%"
 
 "DOTA_Tooltip_modifier_ns_TricksMaster" 											"Tricks Master"
-"DOTA_Tooltip_modifier_ns_TricksMaster_Description" 								"Intelligence increased by %dMODIFIER_PROPERTY_STATS_INTELLECT_BONUS%"
+"DOTA_Tooltip_modifier_ns_TricksMaster_Description" 								"Intelligence increased by %dMODIFIER_PROPERTY_STATS_INTELLECT_BONUS%, Spell amplification increased by %dMODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE%%%"
 "DOTA_Tooltip_modifier_ns_tricks_teleportation" 								"Tricks"
 "DOTA_Tooltip_modifier_ns_tricks_teleportation_Description" 					"Teleports to a random location"	
 "DOTA_Tooltip_modifier_ns_tricks_bonus_damage" 									"Tricks"
@@ -8755,9 +8783,9 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_ns_3" 				"-{s:value} seconds cooldown of Chips"
 "DOTA_Tooltip_Ability_special_bonus_birzha_ns_4" 				"Chips only apply negative effects to enemies"
 "DOTA_Tooltip_Ability_special_bonus_birzha_ns_4_description" 	"Only positive effect on allies"
-"DOTA_Tooltip_Ability_special_bonus_birzha_ns_5" 				"+{s:value}% to damage from Old Beer"
+"DOTA_Tooltip_Ability_special_bonus_birzha_ns_5" 				"+{s:value}% to damage from Old Beer-Enjoyer"
 "DOTA_Tooltip_Ability_special_bonus_birzha_ns_6" 				"+{s:value} sec duration Full Counter"
-"DOTA_Tooltip_Ability_special_bonus_birzha_ns_7" 				"Double Chip Master"
+"DOTA_Tooltip_Ability_special_bonus_birzha_ns_7" 				"+{s:value}% to spell damage Tricks Master"
 "DOTA_Tooltip_Ability_special_bonus_birzha_ns_8" 				"Full counter stuns the enemy"
 
 //================================================================ ===================================================== ===============
@@ -8786,7 +8814,7 @@
 "DOTA_Tooltip_ability_mina_passive_shard_damage" 						"DAMAGE:"
 
 "DOTA_Tooltip_ability_mina_radiation_field" 							"Radiation field"
-"DOTA_Tooltip_ability_mina_radiation_field_Description" 				"All enemies hit by hero's abilities will take additional damage proportional to their current health"
+"DOTA_Tooltip_ability_mina_radiation_field_Description" 				"All enemies hit by hero's abilities will take additional damage proportional to their current health. Has a cooldown for each target of %cooldown% seconds."
 "DOTA_Tooltip_ability_mina_radiation_field_damage_health_pct" 		"%DAMAGE FROM CURRENT HEALTH:"
 
 "DOTA_Tooltip_ability_mina_nuclear_strike" 							"Bombs"
@@ -9802,6 +9830,113 @@
 "DOTA_Tooltip_Ability_special_bonus_unique_ashab_6"                                         "-{s:bonus_AbilityCooldown} сек. перезарядки Ракетка"
 "DOTA_Tooltip_Ability_special_bonus_unique_ashab_7"                                         "+{s:bonus_max_health_to_damage}% урона от Мышцы на химикатах"
 "DOTA_Tooltip_Ability_special_bonus_unique_ashab_8"                                         "+{s:bonus_min_mult} мин/макс коэфф Ракетка"
+
+//=================================================================================================================
+// Never (new)
+//=================================================================================================================
+
+"DOTA_Tooltip_ability_never_innate"							"ЧСВ"
+"DOTA_Tooltip_ability_never_innate_Description"				"Never крадёт души убитых им существ. Каждая душа добавляет к атакам героя чистый урон, равный %soul_damage_pure%%% <span class=\"GameplayValues GameplayVariable\">от его ловкости</span>. За обычное существо даётся %soul_bonus% душа, а за героя — %soul_hero_bonus%. При смерти герой выпускает %soul_release_tooltip%%% из украденных душ."
+"DOTA_Tooltip_ability_never_innate_soul_damage_pure"		"%УРОН ЗА ДУШУ:"
+"DOTA_Tooltip_ability_never_innate_soul_max"				"МАКС. ДУШ:"
+"DOTA_Tooltip_ability_never_innate_current_souls_tooltip"	"ТЕКУЩИЙ МАКСИМУМ ДУШ:"
+"DOTA_Tooltip_ability_never_innate_scepter_Description"		"Позволяет увеличить максимум душ на %scepter_bonus% за каждого убитого героя, пока владелец способности не умрёт."
+"DOTA_Tooltip_ability_never_innate_necromastery_Note1"		"Кража душ отключается истощением."
+"DOTA_Tooltip_ability_never_innate_necromastery_Note2"		"Бонусы от уже украденных душ не отключаются истощением."
+
+"DOTA_Tooltip_modifier_never_innate"						"ЧСВ"
+"DOTA_Tooltip_modifier_never_innate_Description"			"Добавляет к атакам героя чистый урон, завсящий от его ловкости."
+
+"DOTA_Tooltip_ability_never_shadowraze_a"					"ZXC(Ближний)"
+"DOTA_Tooltip_ability_never_shadowraze_a_Description"		"Создаёт перед собой магический взрыв, нанося урон и атакуя врагов в зоне его действия. Накладывает на жертв складывающийся эффект, увеличивающий урон от этой способности и замедляющий их на %shadowraze_slow%%%."
+"DOTA_Tooltip_ability_never_shadowraze_a_shadowraze_damage"	"БАЗОВЫЙ УРОН:"
+"DOTA_Tooltip_ability_never_shadowraze_a_shadowraze_slow"	"%ЗАМЕДЛЕНИЕ:"
+"DOTA_Tooltip_ability_never_shadowraze_a_shadowraze_range"	"ДАЛЬНОСТЬ ПРИМЕНЕНИЯ:"
+"DOTA_Tooltip_ability_never_shadowraze_a_duration"			"ДЛИТЕЛЬНОСТЬ ЭФФЕКТА:"
+"DOTA_Tooltip_ability_never_shadowraze_a_stack_bonus_damage""ДОП. УРОН ЗА ПОПАДАНИЕ"
+"DOTA_Tooltip_ability_never_shadowraze_a_Note0"				"Длительность эффекта обновляется при каждом наложении."
+
+"DOTA_Tooltip_ability_never_shadowraze_b"					"ZXC(Средний)"
+"DOTA_Tooltip_ability_never_shadowraze_b_Description"		"Создаёт неподалёку от себя магический взрыв, нанося урон и атакуя врагов в зоне его действия. Накладывает на жертв складывающийся эффект, увеличивающий урон от этой способности и замедляющий их на %shadowraze_slow%%%."
+"DOTA_Tooltip_ability_never_shadowraze_b_shadowraze_damage"	"БАЗОВЫЙ УРОН:"
+"DOTA_Tooltip_ability_never_shadowraze_b_shadowraze_slow"	"%ЗАМЕДЛЕНИЕ:"
+"DOTA_Tooltip_ability_never_shadowraze_b_shadowraze_range"	"ДАЛЬНОСТЬ ПРИМЕНЕНИЯ:"
+"DOTA_Tooltip_ability_never_shadowraze_b_duration"			"ДЛИТЕЛЬНОСТЬ ЭФФЕКТА:"
+"DOTA_Tooltip_ability_never_shadowraze_b_stack_bonus_damage""ДОП. УРОН ЗА ПОПАДАНИЕ"
+"DOTA_Tooltip_ability_never_shadowraze_b_Note0"				"Длительность эффекта обновляется при каждом наложении."
+
+"DOTA_Tooltip_ability_never_shadowraze_c"					"ZXC(Дальний)"
+"DOTA_Tooltip_ability_never_shadowraze_c_Description"		"Создаёт вдалеке от себя магический взрыв, нанося урон и атакуя врагов в зоне его действия. Накладывает на жертв складывающийся эффект, увеличивающий урон от этой способности и замедляющий их на %shadowraze_slow%%%."
+"DOTA_Tooltip_ability_never_shadowraze_c_shadowraze_damage"	"БАЗОВЫЙ УРОН:"
+"DOTA_Tooltip_ability_never_shadowraze_c_shadowraze_slow"	"%ЗАМЕДЛЕНИЕ:"
+"DOTA_Tooltip_ability_never_shadowraze_c_shadowraze_range"	"ДАЛЬНОСТЬ ПРИМЕНЕНИЯ:"
+"DOTA_Tooltip_ability_never_shadowraze_c_duration"			"ДЛИТЕЛЬНОСТЬ ЭФФЕКТА:"
+"DOTA_Tooltip_ability_never_shadowraze_c_stack_bonus_damage""ДОП. УРОН ЗА ПОПАДАНИЕ:"
+"DOTA_Tooltip_ability_never_shadowraze_c_Note0"				"Длительность эффекта обновляется при каждом наложении."
+
+"DOTA_Tooltip_ability_never_shadowraze_a_shard_description"	"После трёх попаданий по вражеским героям уменьшает перезарядку способности на %shadowraze_cooldown_shard% сек."
+"DOTA_Tooltip_ability_never_shadowraze_b_shard_description"	"После трёх попаданий по вражеским героям уменьшает перезарядку способности на %shadowraze_cooldown_shard% сек."
+"DOTA_Tooltip_ability_never_shadowraze_c_shard_description"	"После трёх попаданий по вражеским героям уменьшает перезарядку способности на %shadowraze_cooldown_shard% сек."
+
+"DOTA_Tooltip_modifier_never_shadowraze"					"ZXC"
+"DOTA_Tooltip_modifier_never_shadowraze_Description"		"Замедлен на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% и получает больше урона от этой способности."
+"DOTA_Tooltip_modifier_never_shadowraze_shard"				"ZXC"
+"DOTA_Tooltip_modifier_never_shadowraze_shard_Description"	"Уменьшает перезарядку этой способности после трёх попаданий."
+
+"DOTA_Tooltip_ability_never_speed"							"РАЗБЕГ"
+"DOTA_Tooltip_ability_never_speed_Description"				"Never становится самым быстрым на карте, чтобы разъебать всех врагов. Пассивно увеличивает себе и всем ближайшим союзникам скорость передвижения. При активации умножает себе пассивную скорость передвижения и ускоряет атаку на %duration% сек. По окончании способности владелец теряет %soul_loss% душ."
+"DOTA_Tooltip_ability_never_speed_radius"					"РАДИУС:"
+"DOTA_Tooltip_ability_never_speed_soul_loss"				"ПОТЕРЯ ДУШ:"
+"DOTA_Tooltip_ability_never_speed_movespeed_ally"			"%ДОП. СКОРОСТЬ ПЕРЕДВИЖЕНИЯ:"
+"DOTA_Tooltip_ability_never_speed_movespeed_mult"			"МНОЖИТЕЛЬ СКОРОСТИ ПЕРЕДВИЖЕНИЯ:"
+"DOTA_Tooltip_ability_never_speed_attackspeed"				"ДОП. СКОРОСТЬ АТАКИ:"
+"DOTA_Tooltip_ability_never_speed_Note0"					"Невозможно применить, если душ недостаточно."
+
+"DOTA_Tooltip_modifier_never_speed"							"РАЗБЕГ"
+"DOTA_Tooltip_modifier_never_speed_Description"				"Получает больше скорости передвижения и скорости атаки."
+"DOTA_Tooltip_modifier_never_speed_aura_buff"				"РАЗБЕГ"
+"DOTA_Tooltip_modifier_never_speed_aura_buff_Description"	"Скорость передвижения увеличена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%"
+
+"dota_hud_error_never_no_souls"								"Не хватает душ."
+
+"DOTA_Tooltip_ability_never_spit"							"ПЛЕВОК В ЛИЦО"
+"DOTA_Tooltip_ability_never_spit_Description"				"После каждых %attacks% атак Never плюёт во врага, нанося дополнительный урон, запрещая использовать способности и замедляя на %slow%%%. Добавляет 1 душу к способности ЧСВ."
+"DOTA_Tooltip_ability_never_spit_duration"					"ДЛИТЕЛЬНОСТЬ ЭФФЕКТА:"
+"DOTA_Tooltip_ability_never_spit_damage"					"ДОПОЛНИТЕЛЬНЫЙ УРОН:"
+
+"DOTA_Tooltip_modifier_never_spit"							"Плевок В Лицо"
+"DOTA_Tooltip_modifier_never_spit_Description"				"Наладывает отрицательные эффекты при атаке."
+"DOTA_Tooltip_modifier_never_spit_debuff"					"Плевок В Лицо"
+"DOTA_Tooltip_modifier_never_spit_debuff_Description"		"Замедлен на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% и не может использовать способности."
+		
+"DOTA_Tooltip_ability_never_requiem"						"1000-7?"
+"DOTA_Tooltip_ability_never_requiem_Description"			"Never выпускает собранные души в волнах <font color='#ff0000'>Dead Inside</font> энергии. Существа возле него могут получить урон от нескольких волн. За каждую задетую волну на жертву накладывается %requiem_slow_duration% сек. замедления, снижения сопротивления магии и страха (но не более %requiem_slow_duration_max% сек.). Создаёт одну волну энергии за каждую душу, захваченную с помощью <span class=\"GameplayValues GameplayVariable\">ЧСВ.</span><br><br>Если герой погибнет, то эта способность сработает автоматически вне зависимости от её готовности."
+"DOTA_Tooltip_ability_never_requiem_abilitycastpoint"       "ЗАДЕРЖКА ПРИМЕНЕНИЯ:"
+"DOTA_Tooltip_ability_never_requiem_requiem_reduction_ms"	"%ЗАМЕДЛЕНИЕ ПЕРЕДВИЖЕНИЯ:"
+"DOTA_Tooltip_ability_never_requiem_requiem_reduction_mres"	"%УМЕНЬШЕНИЕ СОПРОТИВЛЕНИЯ МАГИИ:"
+"DOTA_Tooltip_ability_never_requiem_requiem_slow_duration"	"ДЛИТЕЛЬНОСТЬ СТРАХА ЗА ВОЛНУ:"
+"DOTA_Tooltip_ability_never_requiem_requiem_slow_duration_max" "МАКС. ДЛИТЕЛЬНОСТЬ СТРАХА:"
+"DOTA_Tooltip_ability_never_requiem_abilitycooldown"		"ПЕРЕЗАРЯДКА:"
+
+"DOTA_Tooltip_modifier_never_requiem"						"1000-7?"
+"DOTA_Tooltip_modifier_never_requiem_Description"			"В страхе бежит от дединсайда."
+
+"DOTA_Tooltip_ability_never_requiem_Note0"					"Способность не накладывает страх и замедление, если сработала при смерти."
+"DOTA_Tooltip_ability_never_requiem_Note1"	      			"<span class=\"ADWarning\">Не имеет эффекта без способности <b>ЧСВ</b>.</span>"
+
+"DOTA_Tooltip_ability_never_requiem_scepter_Description"	"Заставляет ослабленные волны этой способности возвращаться к герою, излечивая его на количество нанесённого на обратном пути урона."
+"DOTA_Tooltip_ability_never_requiem_requiem_damage_pct_scepter" "%УРОН ПРИ ВОЗВРАЩЕНИИ:"
+"DOTA_Tooltip_ability_never_requiem_requiem_heal_pct_scepter" "%ЛЕЧЕНИЕ ПРИ ВОЗВРАЩЕНИИ:"
+
+"DOTA_Tooltip_ability_special_bonus_unique_never_1"			"+{s:bonus_stack_bonus_damage} к доп. урону за попадание у ZXC"
+"DOTA_Tooltip_ability_special_bonus_unique_never_2"			"+{s:bonus_attackspeed} к скорости атаки от Разбег"
+"DOTA_Tooltip_ability_special_bonus_unique_never_3"			"+{s:bonus_damage} к урону от Плевка В Лицо"
+"DOTA_Tooltip_ability_special_bonus_unique_never_4"			"+{s:bonus_shadowraze_damage} к урону от ZXC"
+"DOTA_Tooltip_ability_special_bonus_unique_never_5"			"+{s:bonus_soul_damage_pure}% к урону от ловкости за душу"
+"DOTA_Tooltip_ability_special_bonus_unique_never_6"			"-{s:bonus_AbilityCooldown} сек. перезарядки 1000-7?"
+"DOTA_Tooltip_ability_special_bonus_unique_never_7"			"Разбег ускоряет заклинания на {s:bonus_casttime}%"
+"DOTA_Tooltip_ability_special_bonus_unique_never_7_Description"	"Действует только на активный эффект."
+"DOTA_Tooltip_ability_special_bonus_unique_never_8"			"Плевок В Лицо наносит чистый урон"
 
 "npc_dota_azazin_antosha"                                                                   "Антон"
 "npc_dota_azazin_kobold"                                                                    "Кобольд"

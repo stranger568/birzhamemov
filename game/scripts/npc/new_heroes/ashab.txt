@@ -46,6 +46,7 @@
             "radius"
             {
                 "value"                         "300"
+                "affected_by_aoe_increase"      "1"
                 "special_bonus_unique_ashab_4"  "+200"
             }
             "duration_to_explosion"             "4"
@@ -122,7 +123,11 @@
             }
             "cast_time"                         "1"
             "rocket_duration"                   "3"
-            "radius_explosion"                  "800"
+            "radius_explosion"
+            {     
+                "value"                         "800"
+                "affected_by_aoe_increase"      "1"
+            }
             "explosion_damage"                  "250 425 600"
             "max_mult"
             {

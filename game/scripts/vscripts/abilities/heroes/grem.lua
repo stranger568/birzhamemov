@@ -404,6 +404,7 @@ function modifier_grem_donothing:DeclareFunctions()
     {
         MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE,
         MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE,
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
         MODIFIER_PROPERTY_MODEL_SCALE,
     }
     return funcs
@@ -411,6 +412,10 @@ end
 
 function modifier_grem_donothing:GetModifierDamageOutgoing_Percentage()
     return self:GetAbility():GetSpecialValueFor("bonus_damage")
+end
+
+function modifier_grem_donothing:GetModifierMoveSpeedBonus_Percentage()
+    return self:GetAbility():GetSpecialValueFor("slow")
 end
 
 function modifier_grem_donothing:GetModifierIncomingDamage_Percentage()
