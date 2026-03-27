@@ -419,32 +419,40 @@ end
 function modifier_kurumi_zafkiel:DeclareFunctions()
     return
     {
-        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
-        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
-        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
+    --  MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
+    --  MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
+    --  MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
+        MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE,
     }
 end
 
-function modifier_kurumi_zafkiel:GetAbsoluteNoDamagePhysical(params)
+function modifier_kurumi_zafkiel:GetModifierIncomingDamage_Percentage(params)
     if params.original_damage <= 0 then return end
     if params.attacker == self:GetParent() then return end
     self.damage_taken = self.damage_taken + params.damage
-    return 1
+    return -100
 end
 
-function modifier_kurumi_zafkiel:GetAbsoluteNoDamageMagical(params)
-    if params.original_damage <= 0 then return end
-    if params.attacker == self:GetParent() then return end
-    self.damage_taken = self.damage_taken + params.damage
-    return 1
-end
-
-function modifier_kurumi_zafkiel:GetAbsoluteNoDamagePure(params)
-    if params.original_damage <= 0 then return end
-    if params.attacker == self:GetParent() then return end
-    self.damage_taken = self.damage_taken + params.damage
-    return 1
-end
+--function modifier_kurumi_zafkiel:GetAbsoluteNoDamagePhysical(params)
+--    if params.original_damage <= 0 then return end
+--    if params.attacker == self:GetParent() then return end
+--    self.damage_taken = self.damage_taken + params.damage
+--    return 1
+--end
+--
+--function modifier_kurumi_zafkiel:GetAbsoluteNoDamageMagical(params)
+--    if params.original_damage <= 0 then return end
+--    if params.attacker == self:GetParent() then return end
+--    self.damage_taken = self.damage_taken + params.damage
+--    return 1
+--end
+--
+--function modifier_kurumi_zafkiel:GetAbsoluteNoDamagePure(params)
+--    if params.original_damage <= 0 then return end
+--    if params.attacker == self:GetParent() then return end
+--    self.damage_taken = self.damage_taken + params.damage
+--    return 1
+--end
 
 function modifier_kurumi_zafkiel:OnDestroy()
     if not IsServer() then return end
@@ -455,7 +463,7 @@ function modifier_kurumi_zafkiel:OnDestroy()
         return
     end
     self:GetParent():SetHealth(self:GetParent():GetHealth() - self.damage_taken)
-    self.damage_taken = 0 
+    self.damage_taken = 0
 end
 
 function modifier_kurumi_zafkiel:CheckState()

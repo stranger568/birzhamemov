@@ -114,6 +114,8 @@ function modifier_overlord_prihvosti:OnCreated()
 
     self:GetParent():SetBaseMaxHealth(health)
 
+    self:GetParent():SetMaxHealth(health)
+    
     self:GetParent():SetHealth(health)
 end
 

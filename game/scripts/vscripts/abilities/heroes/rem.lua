@@ -216,7 +216,7 @@ function rem_morgenshtern:OnSpellStart()
         bHasFrontalCone     = false,
         bReplaceExisting    = false,
         iUnitTargetTeam     = DOTA_UNIT_TARGET_TEAM_BOTH,
-        iUnitTargetFlags    = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+        iUnitTargetFlags    = DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
         iUnitTargetType     = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
         fExpireTime         = GameRules:GetGameTime() + 10.0,
         bDeleteOnHit        = true,

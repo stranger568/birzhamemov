@@ -52,7 +52,6 @@ function modifier_yuno_rage:DeclareFunctions()
     local decFuncs = 
     {
         MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-        MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
         MODIFIER_EVENT_ON_TAKEDAMAGE,
         MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE,
         MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE
@@ -62,10 +61,6 @@ end
 
 function modifier_yuno_rage:GetModifierAttackSpeedBonus_Constant()
     return self:GetAbility():GetSpecialValueFor('speed_a')
-end
-
-function modifier_yuno_rage:GetModifierPreAttack_BonusDamage()
-    return self:GetAbility():GetSpecialValueFor('bonus_dmg')
 end
 
 function modifier_yuno_rage:GetModifierTotalDamageOutgoing_Percentage()

@@ -885,56 +885,66 @@ end
 
 modifier_Dio_Za_Warudo = class({})
 
-function modifier_Dio_Za_Warudo:OnCreated()
-	if not IsServer() then return end
-    self.damagetaken = 0 
-end
-
 function modifier_Dio_Za_Warudo:GetStatusEffectName()
 	return "particles/status_fx/status_effect_faceless_chronosphere.vpcf"
 end
 
+function modifier_Dio_Za_Warudo:OnCreated()
+    if not IsServer() then return end
+    self.damage_taken = 0
+end
+
 function modifier_Dio_Za_Warudo:DeclareFunctions()
-	return
+    return
     {
-		MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
-        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
-        MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
-	}
+       -- MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
+       -- MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL,
+       -- MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE,
+        MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE,
+    }
 end
 
-function modifier_Dio_Za_Warudo:GetAbsoluteNoDamagePhysical(params)
+function modifier_Dio_Za_Warudo:GetModifierIncomingDamage_Percentage(params)
     if params.original_damage <= 0 then return end
     if params.attacker == self:GetParent() then return end
-    self.damagetaken = self.damagetaken + params.damage
-    return 1
+    self.damage_taken = self.damage_taken + params.damage
+    return -100
 end
 
-function modifier_Dio_Za_Warudo:GetAbsoluteNoDamageMagical(params)
-    if params.original_damage <= 0 then return end
-    if params.attacker == self:GetParent() then return end
-    self.damage_taken = self.damagetaken + params.damage
-    return 1
-end
-
-function modifier_Dio_Za_Warudo:GetAbsoluteNoDamagePure(params)
-    if params.original_damage <= 0 then return end
-    if params.attacker == self:GetParent() then return end
-    self.damagetaken = self.damagetaken + params.damage
-    return 1
-end
+--function modifier_Dio_Za_Warudo:GetAbsoluteNoDamagePhysical(params)
+--    if params.original_damage <= 0 then return end
+--    if params.attacker == self:GetParent() then return end
+--    self.damage_taken = self.damage_taken + params.damage
+--    print(params.damage, self.damage_taken)
+--    return 1
+--end
+--
+--function modifier_Dio_Za_Warudo:GetAbsoluteNoDamageMagical(params)
+--    if params.original_damage <= 0 then return end
+--    if params.attacker == self:GetParent() then return end
+--    self.damage_taken = self.damage_taken + params.damage
+--    print(params.damage, self.damage_taken)
+--    return 1
+--end
+--
+--function modifier_Dio_Za_Warudo:GetAbsoluteNoDamagePure(params)
+--    if params.original_damage <= 0 then return end
+--    if params.attacker == self:GetParent() then return end
+--    self.damage_taken = self.damage_taken + params.damage
+--    print(params.damage, self.damage_taken)
+--    return 1
+--end
 
 function modifier_Dio_Za_Warudo:OnDestroy()
-	if IsServer() then
-        self:GetParent():AddNewModifier( self:GetAbility():GetCaster(), self:GetAbility(), "modifier_birzha_stunned", { duration = 0.1 }  )
-		if self:GetParent():GetHealth() - self.damagetaken <=0 then 
-			self:GetParent():Kill(self:GetAbility(), self:GetCaster())
-			self.damagetaken = 0 
-			return
-		end
-		self:GetParent():SetHealth(self:GetParent():GetHealth() - self.damagetaken)
-		self.damagetaken = 0 
-	end
+    if not IsServer() then return end
+    self:GetParent():AddNewModifier( self:GetCaster(), self:GetAbility(), "modifier_birzha_stunned", { duration = 0.1 })
+    if self:GetParent():GetHealth() - self.damage_taken <= 0 then 
+        self:GetParent():Kill(self:GetAbility(), self:GetCaster())
+        self.damage_taken = 0 
+        return
+    end
+    self:GetParent():SetHealth(self:GetParent():GetHealth() - self.damage_taken)
+    self.damage_taken = 0
 end
 
 function modifier_Dio_Za_Warudo:CheckState()

@@ -14,6 +14,7 @@ function robbie_trap:Precache(context)
         "particles/units/heroes/hero_riki/riki_backstab.vpcf",
         "particles/generic_hero_status/status_invisibility_start.vpcf",
         "particles/gachi_shield_scepter.vpcf",
+        "particles/robbie/shield.vpcf",
     }
     for _, particle_name in pairs(particle_list) do
         PrecacheResource("particle", particle_name, context)
@@ -139,7 +140,7 @@ function modifier_roby_agility:OnCreated(keys)
     self.agility = self:GetParent():GetAgility() * self.bonus_agi / 100
     self.damage_absorb = self:GetAbility():GetSpecialValueFor( "damage_absorb" )
 	self:SetStackCount(self.damage_absorb)
-	self.particle = ParticleManager:CreateParticle("particles/gachi_shield_scepter.vpcf", PATTACH_CUSTOMORIGIN, self:GetParent())
+	self.particle = ParticleManager:CreateParticle("particles/robbie/shield.vpcf", PATTACH_CUSTOMORIGIN, self:GetParent())
 	ParticleManager:SetParticleControl(self.particle, 1, Vector(100,1,1))
 	ParticleManager:SetParticleControlEnt(self.particle, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
 	self:AddParticle(self.particle, false, false, -1, false, false)
@@ -185,8 +186,7 @@ function modifier_roby_agility:GetModifierTotal_ConstantBlock(kv)
                 SendOverheadEventMessage(nil, OVERHEAD_ALERT_BLOCK, target, original_shield_amount, nil)
                 self.damage_talent_enemy = self.original_full_absorb
                 if not self:IsNull() then
-                    self:SetStackCount(0)
-                    ParticleManager:DestroyParticle(self.particle, true)
+                    self:Destroy()
                 end
                 return original_shield_amount
             end
