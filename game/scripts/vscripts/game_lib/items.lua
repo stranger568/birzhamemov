@@ -1,3 +1,5 @@
+local NEUTRAL_KV_ITEMS_LIST = LoadKeyValues("scripts/npc/npc_neutral_items_custom.txt")["neutral_tiers"]
+
 function BirzhaGameMode:ThinkGoldDrop()
 	if RollPercentage(self.m_GoldDropPercent) then
 		self:SpawnGoldEntity( Vector( 0, 0, 0 ) + RandomVector(RandomInt(self.m_GoldRadiusMin, self.m_GoldRadiusMax)) )
@@ -154,14 +156,6 @@ function BirzhaGameMode:SpecialItemAdd(event, duplicate, new_owner)
     local ITEM_TIERS = 
     {
         [1] = { -- Базовые предметы (ранняя игра)
-            {"item_occult_bracelet", "neutral"},
-            {"item_kobold_cup", "neutral"},
-            {"item_chipped_vest", "neutral"},
-            {"item_polliwog_charm", "neutral"},
-            {"item_dormant_curio", "neutral"},
-            {"item_duelist_gloves", "neutral"},
-            {"item_spark_of_courage", "neutral"},
-
             "item_staff_of_wizardry",
             "item_ogre_axe",
             "item_blade_of_alacrity",
@@ -176,13 +170,6 @@ function BirzhaGameMode:SpecialItemAdd(event, duplicate, new_owner)
             "item_javelin",
         },
         [2] = { -- Средние предметы (мидгейм)
-            {"item_essence_ring", "neutral"},
-			{"item_mana_draught", "neutral"},
-			{"item_poor_mans_shield", "neutral"},
-			{"item_searing_signet", "neutral"},
-			{"item_defiant_shell", "neutral"},
-			{"item_pogo_stick", "neutral"},
-
             "item_echo_sabre",
             "item_lesser_crit",
             "item_burger_larin",
@@ -204,13 +191,6 @@ function BirzhaGameMode:SpecialItemAdd(event, duplicate, new_owner)
             "item_rod_of_atos",
         },
         [3] = { -- Сильные предметы (поздний мидгейм)
-            {"item_serrated_shiv", "neutral"},
-			{"item_unrelenting_eye", "neutral"},
-			{"item_gunpowder_gauntlets", "neutral"},
-			{"item_whisper_of_the_dread", "neutral"},
-			{"item_jidi_pollen_bag", "neutral"},
-			{"item_psychic_headband", "neutral"},
-
             "item_dagon_2",
             "item_radiance",
             "item_aether_lupa",
@@ -227,13 +207,6 @@ function BirzhaGameMode:SpecialItemAdd(event, duplicate, new_owner)
             "item_revenants_brooch",
         },
         [4] = { -- Очень сильные предметы (лейтгейм)
-            {"item_crippling_crossbow", "neutral"},
-			{"item_giant_maul", "neutral"},
-			{"item_rattlecage", "neutral"},
-			{"item_idol_of_screeauk", "neutral"},
-			{"item_flayers_bota", "neutral"},
-			{"item_metamorphic_mandible", "neutral"},
-
             "item_wind_waker",
             "item_medkit",
             "item_cuirass_3",
@@ -246,15 +219,6 @@ function BirzhaGameMode:SpecialItemAdd(event, duplicate, new_owner)
             "item_bloodthorn_custom",
         },
         [5] = { -- Легендарные предметы (ультра лейтгейм/финальная стадия)
-            {"item_desolator_2", "neutral"},
-			{"item_fallen_sky", "neutral"},
-			{"item_demonicon", "neutral"},
-			{"item_minotaur_horn", "neutral"},
-			{"item_spider_legs", "neutral"},
-			{"item_riftshadow_prism", "neutral"},
-			{"item_dezun_bloodrite", "neutral"},
-			{"item_divine_regalia", "neutral"},
-
             "item_magic_daedalus",
             "item_radiance_2",
             "item_butter2",
@@ -270,56 +234,27 @@ function BirzhaGameMode:SpecialItemAdd(event, duplicate, new_owner)
 
     local BONUS_TIERS =
     {
-        [1] = { -- Базовые предметы (ранняя игра)
-            {"item_enhancement_mystical", 1},
-		    {"item_enhancement_brawny", 1},
-		    {"item_enhancement_alert", 1},
-		    {"item_enhancement_tough", 1},
-		    {"item_enhancement_quickened", 1},
-        },
-        [2] = { -- Средние предметы (мидгейм)
-            {"item_enhancement_mystical", 2},
-			{"item_enhancement_brawny", 2},
-			{"item_enhancement_alert", 2},
-			{"item_enhancement_tough", 2},
-			{"item_enhancement_quickened", 2},
-			{"item_enhancement_keen_eyed", 1},
-			{"item_enhancement_vast", 1},
-			{"item_enhancement_vampiric", 1},
-        },
-        [3] = { -- Сильные предметы (поздний мидгейм)
-            {"item_enhancement_mystical", 3},
-			{"item_enhancement_brawny", 3},
-			{"item_enhancement_alert", 3},
-			{"item_enhancement_tough", 3},
-			{"item_enhancement_quickened", 3},
-			{"item_enhancement_keen_eyed", 2},
-			{"item_enhancement_vast", 2},
-			{"item_enhancement_vampiric", 2},
-        },
-        [4] = { -- Очень сильные предметы (лейтгейм)
-            {"item_enhancement_mystical", 4},
-			{"item_enhancement_brawny", 4},
-			{"item_enhancement_alert", 4},
-			{"item_enhancement_tough", 4},
-			{"item_enhancement_quickened", 4},
-			{"item_enhancement_vampiric", 3},
-			{"item_enhancement_timeless", 1},
-			{"item_enhancement_titanic", 1},
-			{"item_enhancement_crude", 1},
-        },
-        [5] = { -- Легендарные предметы (ультра лейтгейм/финальная стадия)
-            {"item_enhancement_timeless", 2},
-            {"item_enhancement_titanic", 2},
-            {"item_enhancement_crude", 2},
-            {"item_enhancement_feverish", 1},
-            {"item_enhancement_fleetfooted", 1},
-            {"item_enhancement_audacious", 1},
-            {"item_enhancement_evolved", 1},
-            {"item_enhancement_boundless", 1},
-            {"item_enhancement_wise", 1},
-        }
+        [1] = {},
+        [2] = {},
+        [3] = {},
+        [4] = {},
+        [5] = {}
     }
+
+    for tier, neutral_data in pairs(NEUTRAL_KV_ITEMS_LIST) do
+        if ITEM_TIERS[tonumber(tier)] then
+            local neutral_items_list = neutral_data.items
+            for item_name, _ in pairs(neutral_items_list) do
+                table.insert(ITEM_TIERS[tonumber(tier)], {item_name, "neutral"})
+            end
+        end
+        if BONUS_TIERS[tonumber(tier)] then
+            local enhancements_list = neutral_data.enhancements.global
+            for item_name, ench_level in pairs(enhancements_list) do
+                table.insert(BONUS_TIERS[tonumber(tier)], {item_name, ench_level})
+            end
+        end
+    end
 
     -- Выбираем случайные предметы для каждого уровня
     local tiersListItems = {}
