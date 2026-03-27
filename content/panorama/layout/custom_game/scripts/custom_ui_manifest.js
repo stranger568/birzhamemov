@@ -60,11 +60,21 @@ let HEROES_WITH_INNATE =
 
 function UpdateSelectionUnit()
 {
-    let selected_hero_portrait = Players.GetLocalPlayerPortraitUnit()
-    let unit_name = Entities.GetUnitName( selected_hero_portrait )
     let RootInnateDisplay = FindDotaHudElement("ContentsContainer")
-    if (RootInnateDisplay)
+    let selected_hero_portrait = Players.GetLocalPlayerPortraitUnit()
+    if (selected_hero_portrait != -1)
     {
-        RootInnateDisplay.GetParent().visible = HEROES_WITH_INNATE[unit_name]
+        let unit_name = Entities.GetUnitName( selected_hero_portrait )
+        if (RootInnateDisplay && unit_name)
+        {
+            RootInnateDisplay.GetParent().visible = HEROES_WITH_INNATE[unit_name] ? true : false
+        }
+    }
+    else
+    {
+        if (RootInnateDisplay)
+        {
+            RootInnateDisplay.GetParent().visible = false
+        }
     }
 }
