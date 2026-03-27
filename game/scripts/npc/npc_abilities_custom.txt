@@ -20164,15 +20164,14 @@
 		"BaseClass"						"ability_lua"
 		"ScriptFile"					"abilities/heroes/travoman"
 		"AbilityTextureName"			"travoman/land_mines"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_AUTOCAST"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"HasScepterUpgrade"				"1"
 		"AbilityCastRange"				"200"
 		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
 		"AbilityCooldown"				"0"
-		"AbilityChargeRestoreTime"		"15 14 13 12"
-		"AbilityManaCost"				"200"
+		"AbilityManaCost"				"125 150 175 205"
 		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
 
 		"AbilityValues"
@@ -20183,14 +20182,20 @@
 				"affected_by_aoe_increase"	"1"
 			}	
 			"proximity_threshold"		"1"
-			"damage"					"200 300 400 500"
+			"damage"					"300 375 450 525"
 			"activation_delay"			"1"
 			"cast_range_scepter_bonus"	"300"
 			"AbilityCharges"
 			{
-				"value"										 	"3"
-				"special_bonus_unique_travoman_3"				"+2"
+				"value"													"0"
+				"special_bonus_unique_extra_mines_land_mine"			"+3"
 			}
+			"AbilityCooldown"
+			{
+				"value"										"12"
+				"special_bonus_unique_extra_mines_land_mine"			  "=0"
+			}
+			"AbilityChargeRestoreTime"		"19 16 13 10"
 		}
 	}
 
@@ -20233,15 +20238,15 @@
 		"BaseClass"						"ability_lua"
 		"ScriptFile"					"abilities/heroes/travoman"
 		"AbilityTextureName"			"travoman/suicide"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_NORMAL_WHEN_STOLEN"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_AUTOCAST | DOTA_ABILITY_BEHAVIOR_NORMAL_WHEN_STOLEN"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
 		"FightRecapLevel"				"1"
-		"HasShardUpgrade"			   "1"
+		"HasShardUpgrade"			   	"1"
 		"AbilityCastRange"				"1000"
-		"AbilityCastPoint"				"0.5"
+		"AbilityCastPoint"				"1.0"
 		"AbilityCooldown"				"25"
 		"AbilityManaCost"				"100 125 150 175"
 
@@ -20275,9 +20280,9 @@
 		"HasScepterUpgrade"				"1"
 		"AbilityDraftPreAbility"		"techies_focused_detonate"
 		"AbilityCastRange"				"500"
-		"AbilityCastPoint"				"0.3"
-		"AbilityCooldown"				"6"
-		"AbilityManaCost"				"120 240 360"
+		"AbilityCastPoint"				"0.8"
+		"AbilityCooldown"				"10"
+		"AbilityManaCost"				"200 240 360"
 
 		"AbilityValues"
 		{
@@ -20292,7 +20297,7 @@
 			"cast_range_scepter_bonus"	"300"
 			"vision_radius"				"500"
 			"vision_duration"			"3.0"
-			"detonate_delay"			"0.25"
+			"detonate_delay"			"0.23"
 		}
 	}
 
@@ -20358,8 +20363,7 @@
 		}
 	}
 	
-
-	"special_bonus_birzha_travoman_1"
+	"special_bonus_birzha_extra_mines_land_mine"
 	{
 		"BaseClass"						"special_bonus_undefined"														
 		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
@@ -20367,50 +20371,22 @@
 
 		"AbilityValues"
 		{
-			"value"						"-7"	
+			"value"						"3"	
 		}
 	}
-
-	"special_bonus_birzha_travoman_2"
-	{
-		"BaseClass"						"special_bonus_undefined"														
-		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-
-		"AbilityValues"
-		{
-			"value"						"0"		
-		}
-	}	
-	"special_bonus_birzha_travoman_3"
-	{
-		"BaseClass"						"special_bonus_undefined"														
-		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-
-		"AbilityValues"
-		{
-			"value"						"2"	
-		}
-	}
-	"special_bonus_unique_travoman_3"
+	"special_bonus_unique_extra_mines_land_mine"
 	{
 		"BaseClass"						"special_bonus_base"														
 		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 	}	
-	"special_bonus_birzha_travoman_4"
+	"special_bonus_birzha_suicide_ignore_self_damage"
 	{
 		"BaseClass"						"special_bonus_undefined"														
 		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-
-		"AbilityValues"
-		{
-			"value"						"0"
-		}
 	}
-	"special_bonus_birzha_travoman_5"
+	"special_bonus_birzha_suicide_stun"
 	{
 		"BaseClass"						"special_bonus_undefined"														
 		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
@@ -20421,7 +20397,7 @@
 			"value"						"1.5"
 		}
 	}
-	"special_bonus_birzha_travoman_6"
+	"special_bonus_birzha_trap_muted_item"
 	{
 		"BaseClass"						"special_bonus_undefined"														
 		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
@@ -20432,18 +20408,8 @@
 			"value"						"0"				
 		}
 	}
-	"special_bonus_birzha_travoman_7"
-	{
-		"BaseClass"						"special_bonus_undefined"														
-		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-
-		"AbilityValues"
-		{
-			"value"						"-3"			
-		}
-	}
-	"special_bonus_birzha_travoman_8"
+	
+	"special_bonus_birzha_delay_before_explosion_land_mine"
 	{
 		"BaseClass"						"special_bonus_undefined"														
 		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
@@ -20454,7 +20420,56 @@
 			"value"						"-0.5"	
 		}
 	}
+	
+	"special_bonus_birzha_range_cast_suicide"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 
+		"AbilityValues"
+		{
+			"value"						"500"			
+		}
+	}
+	
+	"special_bonus_birzha_suicide_bonus_damage"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilityValues"
+		{
+			"value"						"600"			
+		}
+	}
+	
+	"special_bonus_birzha_travoman_suicide_pure_damage"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+	
+	"special_bonus_birzha_travoman_land_mine_no_sounds"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+	
+	"special_bonus_birzha_travoman_move_mines"
+	{
+		"BaseClass"						"special_bonus_undefined"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		
+		"AbilityValues"
+		{
+			"value"         			"60"
+		}
+	}
 	//=================================================================================================================
 	// Паровозик Томас
 	//=================================================================================================================
