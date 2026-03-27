@@ -294,10 +294,10 @@ function BirzhaGameMode:PlayHeroSpecificSounds(killer, victim)
             death = {sound = "sasake_death", chance = 25},
             kill = {sound = "sasake_kill", chance = 25}
         },
-        npc_dota_hero_travoman = {
-            death = {sound = "travoman_death", chance = 25},
-            kill = {sound = "travoman_kill", chance = 25}
-        },
+        --npc_dota_hero_travoman = {
+        --    death = {sound = "travoman_death", chance = 25},
+        --    kill = {sound = "travoman_kill", chance = 25}
+        --},
         npc_dota_hero_old_god = {
             death = {sound = "stariy_death", chance = 100}
         }
@@ -641,10 +641,10 @@ function BirzhaGameMode:PlayHeroSpawnSounds(hero)
         ["npc_dota_hero_ashab_tamaev"] = {
             always = "ashab_spawn"
         },
-        ["npc_dota_hero_travoman"] = {
-            firstSpawn = "travoman_spawn",
-            respawn = {sound = "travoman_spawn", chance = 25}
-        },
+        --["npc_dota_hero_travoman"] = {
+        --    firstSpawn = "travoman_spawn",
+        --    respawn = {sound = "travoman_spawn", chance = 25}
+        --},
         ["npc_dota_hero_sasake"] = {
             respawn = {sound = "sasake_respawn", chance = 20}
         }
