@@ -273,8 +273,6 @@ function never_requiem:StopEffects1( success )
 	end
 
 	ParticleManager:ReleaseParticleIndex( self.effect_precast )
-
-	self:GetCaster():FadeGesture("ACT_DOTA_CAST_ABILITY_6")
 end
 
 function never_requiem:PlayEffects2( lines )
