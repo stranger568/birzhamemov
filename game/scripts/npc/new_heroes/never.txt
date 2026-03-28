@@ -249,7 +249,6 @@
 		"HasScepterUpgrade"			    "1"
 		"AbilitySound"					"Hero_Nevermore.RequiemOfSouls"
 		"AbilityCastPoint"				"1.67 1.67 1.67"
-		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_6"
 		"AbilityManaCost"				"150 175 200"
 		"AbilityModifierSupportValue"	"0.5"
 
