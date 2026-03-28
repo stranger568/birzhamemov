@@ -48,15 +48,15 @@ end
 
 function never_requiem:OnAbilityPhaseInterrupted()
     if self.s % 5 == 0 then
-        self:GetCaster():EmitSound( "never_requiem_start_1")
+        self:GetCaster():StopSound( "never_requiem_start_1")
     elseif self.s % 5 == 1 then
-        self:GetCaster():EmitSound( "never_requiem_start_2")
+        self:GetCaster():StopSound( "never_requiem_start_2")
     elseif self.s % 5 == 2 then
-        self:GetCaster():EmitSound( "never_requiem_start_3")
+        self:GetCaster():StopSound( "never_requiem_start_3")
     elseif self.s % 5 == 3 then
-        self:GetCaster():EmitSound( "never_requiem_start_4")
+        self:GetCaster():StopSound( "never_requiem_start_4")
     elseif self.s % 5 == 4 then
-        self:GetCaster():EmitSound( "never_requiem_start_5")
+        self:GetCaster():StopSound( "never_requiem_start_5")
     end
 	self:StopEffects1( false )
 end
@@ -262,6 +262,7 @@ function never_requiem:PlayEffects1()
 	self.effect_precast = ParticleManager:CreateParticle( particle_precast, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )	
 
 	self:GetCaster():EmitSound(sound_precast)
+	self:GetCaster():StartGesture("ACT_DOTA_CAST_ABILITY_6")
 end
 function never_requiem:StopEffects1( success )
 	local sound_precast = "Hero_Nevermore.RequiemOfSoulsCast"
@@ -272,6 +273,8 @@ function never_requiem:StopEffects1( success )
 	end
 
 	ParticleManager:ReleaseParticleIndex( self.effect_precast )
+
+	self:GetCaster():FadeGesture("ACT_DOTA_CAST_ABILITY_6")
 end
 
 function never_requiem:PlayEffects2( lines )
