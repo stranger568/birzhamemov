@@ -20,7 +20,7 @@ function never_spit:GetIntrinsicModifierName()
 end
 
 function never_spit:GetAbilityDamageType()
-    local talent = self:GetCaster():FindAbilityByName("special_bonus_unique_never_8")
+    local talent = self:GetCaster():FindAbilityByName("special_bonus_unique_never_6")
     if talent and talent:GetLevel() > 0 then 
         return DAMAGE_TYPE_PURE
     end
@@ -42,6 +42,7 @@ function modifier_never_spit:OnCreated()
     self.attacks = self:GetAbility():GetSpecialValueFor( "attacks" )
 	self.damage = self:GetAbility():GetSpecialValueFor( "damage" )
 	self.duration = self:GetAbility():GetSpecialValueFor( "duration" )
+    self.stacks = self:GetAbility():GetSpecialValueFor( "stacks" )
 end
 
 function modifier_never_spit:OnRefresh()
@@ -49,6 +50,7 @@ function modifier_never_spit:OnRefresh()
     self.attacks = self:GetAbility():GetSpecialValueFor( "attacks" )
 	self.damage = self:GetAbility():GetSpecialValueFor( "damage" )
 	self.duration = self:GetAbility():GetSpecialValueFor( "duration" )
+    self.stacks = self:GetAbility():GetSpecialValueFor( "stacks" )
 end
 
 function modifier_never_spit:OnAttackLanded(params)
@@ -75,7 +77,7 @@ function modifier_never_spit:OnAttackLanded(params)
 		ApplyDamage( damageTable )
         target:AddNewModifier(attacker, self:GetAbility(), "modifier_never_spit_debuff", {duration = self.duration * (1 - params.target:GetStatusResistance())})
         if soul_mod then 
-            soul_mod:AddStack(1)
+            soul_mod:AddStack(self.stacks)
         end
         self:PlayEffects(params)
         self:SetStackCount(0)

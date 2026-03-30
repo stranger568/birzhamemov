@@ -22,7 +22,7 @@
 			}
 			"soul_max"					"20 22 24 26"
 			"soul_release"				"0.70"
-			"soul_release_tooltip"		"30"
+			"soul_release_tooltip"		"20"
 			"soul_hero_bonus"			"5"
 			"soul_bonus"				"1"
 			"scepter_bonus"				"1"
@@ -67,14 +67,14 @@
 			}
 			"shadowraze_slow"			"5 6 7 8"
 			"duration"					"7"
-			"shadowraze_range"			"250"
+			"shadowraze_range"			"200"
 			"shadowraze_radius"
 			{
 				"value"					"250"
 				"affected_by_aoe_increase"	"1"
 			}
 
-			"shadowraze_cooldown_shard"	"5"
+			"shadowraze_cooldown_shard"	"6"
 			"shard_duration"			"3"
 		}
 	}
@@ -120,7 +120,7 @@
 				"affected_by_aoe_increase"	"1"
 			}
 
-			"shadowraze_cooldown_shard"	"5"
+			"shadowraze_cooldown_shard"	"6"
 			"shard_duration"			"3"
 		}
 	}
@@ -166,7 +166,7 @@
 				"affected_by_aoe_increase"	"1"
 			}
 
-			"shadowraze_cooldown_shard"	"5"
+			"shadowraze_cooldown_shard"	"6"
 			"shard_duration"			"3"
 		}
 	}
@@ -199,11 +199,10 @@
 				"value"					"650"
 				"affected_by_aoe_increase"	"1"
 			}
-
 			"casttime"
 			{
-				"value"					"0"
-				"special_bonus_unique_never_7"	"+30"
+				"value"					"0 0 0 0"
+				"special_bonus_unique_never_7"	"+40"
 			}
 		}
 	}
@@ -230,6 +229,7 @@
 			"attacks"					"5"
 			"duration"					"0.5 0.7 0.9 1.1"
 			"slow"						"100"
+			"stacks"					"1 2 3 4"
 		}
 	}
 
@@ -249,7 +249,6 @@
 		"HasScepterUpgrade"			    "1"
 		"AbilitySound"					"Hero_Nevermore.RequiemOfSouls"
 		"AbilityCastPoint"				"1.67 1.67 1.67"
-		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_6"
 		"AbilityManaCost"				"150 175 200"
 		"AbilityModifierSupportValue"	"0.5"
 
@@ -258,7 +257,7 @@
 			"AbilityCooldown"				
 			{
 				"value"					"100 85 70"
-				"special_bonus_unique_never_6" "-20"
+				"special_bonus_scepter" "-15"
 			}
 			"requiem_damage"			"80 120 160"
 			"requiem_radius"	

@@ -15,6 +15,7 @@ function never_innate:GetAbilityTextureName()
 end
 
 function never_innate:GetIntrinsicModifierName()
+	if self:GetCaster():IsIllusion() then return end
     return "modifier_never_innate"
 end
 
@@ -45,6 +46,9 @@ function modifier_never_innate:OnCreated()
 		if IsInToolsMode() then
             self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_bp_never_reward", {})
         end
+		if self:GetCaster():HasModifier("modifier_bp_never_reward") then
+			self:GetCaster():SetRangedProjectileName("particles/never_arcana/never_arcana_attack.vpcf")
+		end
 	end
 end
 

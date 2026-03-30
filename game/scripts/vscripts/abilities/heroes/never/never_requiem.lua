@@ -31,53 +31,53 @@ function never_requiem:GetManaCost(level)
 end
 
 function never_requiem:OnAbilityPhaseStart()
-    if self.s % 5 == 0 then
-        self:GetCaster():EmitSound( "never_requiem_start_1")
-    elseif self.s % 5 == 1 then
-        self:GetCaster():EmitSound( "never_requiem_start_2")
-    elseif self.s % 5 == 2 then
-        self:GetCaster():EmitSound( "never_requiem_start_3")
-    elseif self.s % 5 == 3 then
-        self:GetCaster():EmitSound( "never_requiem_start_4")
-    elseif self.s % 5 == 4 then
-        self:GetCaster():EmitSound( "never_requiem_start_5")
-    end
+   	if self.s % 5 == 0 then
+   	    self:GetCaster():EmitSound( "never_requiem_start_1")
+   	elseif self.s % 5 == 1 then
+   	    self:GetCaster():EmitSound( "never_requiem_start_2")
+   	elseif self.s % 5 == 2 then
+   	    self:GetCaster():EmitSound( "never_requiem_start_3")
+   	elseif self.s % 5 == 3 then
+   	    self:GetCaster():EmitSound( "never_requiem_start_4")
+   	elseif self.s % 5 == 4 then
+   	    self:GetCaster():EmitSound( "never_requiem_start_5")
+   	end
 	self:PlayEffects1()
 	return true
 end
 
 function never_requiem:OnAbilityPhaseInterrupted()
-    if self.s % 5 == 0 then
-        self:GetCaster():EmitSound( "never_requiem_start_1")
-    elseif self.s % 5 == 1 then
-        self:GetCaster():EmitSound( "never_requiem_start_2")
-    elseif self.s % 5 == 2 then
-        self:GetCaster():EmitSound( "never_requiem_start_3")
-    elseif self.s % 5 == 3 then
-        self:GetCaster():EmitSound( "never_requiem_start_4")
-    elseif self.s % 5 == 4 then
-        self:GetCaster():EmitSound( "never_requiem_start_5")
-    end
+   	if self.s % 5 == 0 then
+   	    self:GetCaster():StopSound( "never_requiem_start_1")
+   	elseif self.s % 5 == 1 then
+   	    self:GetCaster():StopSound( "never_requiem_start_2")
+   	elseif self.s % 5 == 2 then
+   	    self:GetCaster():StopSound( "never_requiem_start_3")
+   	elseif self.s % 5 == 3 then
+   	    self:GetCaster():StopSound( "never_requiem_start_4")
+   	elseif self.s % 5 == 4 then
+   	    self:GetCaster():StopSound( "never_requiem_start_5")
+   	end
 	self:StopEffects1( false )
 end
 
 function never_requiem:OnSpellStart()
-    if self.s % 5 == 0 then
-        EmitSoundOn( "never_requiem_1", self:GetCaster() )
-        StopSoundOn( "never_requiem_start_1", self:GetCaster() )
-    elseif self.s % 5 == 1 then
-        EmitSoundOn( "never_requiem_2", self:GetCaster() )
-        StopSoundOn( "never_requiem_start_2", self:GetCaster() )
-    elseif self.s % 5 == 2 then
-        EmitSoundOn( "never_requiem_3", self:GetCaster() )
-        StopSoundOn( "never_requiem_start_3", self:GetCaster() )
-    elseif self.s % 5 == 3 then
-        EmitSoundOn( "never_requiem_4", self:GetCaster() )
-        StopSoundOn( "never_requiem_start_4", self:GetCaster() )
-    elseif self.s % 5 == 4 then
-        EmitSoundOn( "never_requiem_5", self:GetCaster() )
-        StopSoundOn( "never_requiem_start_5", self:GetCaster() )
-    end
+   	if self.s % 5 == 0 then
+   	    EmitSoundOn( "never_requiem_1", self:GetCaster() )
+   	    StopSoundOn( "never_requiem_start_1", self:GetCaster() )
+   	elseif self.s % 5 == 1 then
+   	    EmitSoundOn( "never_requiem_2", self:GetCaster() )
+   	    StopSoundOn( "never_requiem_start_2", self:GetCaster() )
+   	elseif self.s % 5 == 2 then
+   	    EmitSoundOn( "never_requiem_3", self:GetCaster() )
+   	    StopSoundOn( "never_requiem_start_3", self:GetCaster() )
+   	elseif self.s % 5 == 3 then
+   	    EmitSoundOn( "never_requiem_4", self:GetCaster() )
+   	    StopSoundOn( "never_requiem_start_4", self:GetCaster() )
+   	elseif self.s % 5 == 4 then
+   	    EmitSoundOn( "never_requiem_5", self:GetCaster() )
+   	    StopSoundOn( "never_requiem_start_5", self:GetCaster() )
+   	end
     self.s = self.s + 1
 
 	local soul_per_line = self:GetSpecialValueFor("requiem_soul_conversion")
@@ -252,6 +252,7 @@ function never_requiem:Implode( lines, modifier )
 end
 
 function never_requiem:PlayEffects1()
+	self:GetCaster():StartGesture(ACT_DOTA_CAST_ABILITY_6)
 
 	local particle_precast = "particles/units/heroes/hero_nevermore/nevermore_wings.vpcf"
 	if self:GetCaster():HasModifier("modifier_bp_never_reward") then
@@ -263,6 +264,7 @@ function never_requiem:PlayEffects1()
 
 	self:GetCaster():EmitSound(sound_precast)
 end
+
 function never_requiem:StopEffects1( success )
 	local sound_precast = "Hero_Nevermore.RequiemOfSoulsCast"
 

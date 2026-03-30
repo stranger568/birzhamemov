@@ -1,188 +1,53 @@
-LinkLuaModifier( "modifier_item_mem_sange", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_item_mem_sange_maim", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_item_mem_sange_disarm", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "item_heavens_halberd_custom_sange_cooldown", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "item_manta_custom_yasha_cooldown", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE)
-
-item_heavens_halberd_custom_sange_cooldown = class({})
-function item_heavens_halberd_custom_sange_cooldown:IsHidden() return true end
-function item_heavens_halberd_custom_sange_cooldown:IsPurgable() return false end
-function item_heavens_halberd_custom_sange_cooldown:IsPurgeException() return false end
-function item_heavens_halberd_custom_sange_cooldown:RemoveOnDeath() return false end
-
-item_manta_custom_yasha_cooldown = class({})
-function item_manta_custom_yasha_cooldown:IsHidden() return true end
-function item_manta_custom_yasha_cooldown:IsPurgable() return false end
-function item_manta_custom_yasha_cooldown:IsPurgeException() return false end
-function item_manta_custom_yasha_cooldown:RemoveOnDeath() return false end
+LinkLuaModifier("modifier_item_mem_sange", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE)
 
 item_mem_sange = class({})
 
-function item_mem_sange:GetIntrinsicModifierName()
+function item_mem_sange:GetIntrinsicModifierName() 
 	return "modifier_item_mem_sange" 
 end
 
 modifier_item_mem_sange = class({})
-
 function modifier_item_mem_sange:IsHidden() return true end
 function modifier_item_mem_sange:IsPurgable() return false end
-function modifier_item_mem_sange:IsPurgeException() return false end
-function modifier_item_mem_sange:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
+function modifier_item_mem_sange:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+
+function modifier_item_mem_sange:OnCreated()
+	if not IsServer() then return end
+	if not self:GetAbility() or self:GetAbility():IsNull() then return end
+	self.ability = self:GetAbility()
+	self.mod = self:GetParent():AddNewModifier(self:GetParent(), self.ability, "modifier_item_sange", {})
+end
+
+function modifier_item_mem_sange:OnDestroy()
+	if not IsServer() then return end
+	if not self.mod or self.mod:IsNull() then return end
+	self.mod:Destroy()
+end
 
 function modifier_item_mem_sange:DeclareFunctions()
-	local funcs = 
-	{
-		MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING,
-		MODIFIER_PROPERTY_HP_REGEN_AMPLIFY_PERCENTAGE,
-		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
-		MODIFIER_EVENT_ON_ATTACK_LANDED,
-	}
-	return funcs
+	return	{
+	   		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
+   			MODIFIER_PROPERTY_HP_REGEN_AMPLIFY_PERCENTAGE,
+	  		}
 end
 
-function modifier_item_mem_sange:GetModifierStatusResistanceStacking()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("effect_resistance") 
-end
-
-function modifier_item_mem_sange:GetModifierBonusStats_Strength()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("bonus_strength") 
+function modifier_item_mem_sange:GetModifierBonusStats_Strength() 
+	return self:GetAbility():GetSpecialValueFor("bonus_str")
 end
 
 function modifier_item_mem_sange:GetModifierHPRegenAmplify_Percentage()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("health_regen_increase") 
+	if self:GetParent():HasModifier("modifier_item_mem_sange_yasha") then return end
+	if self:GetParent():HasModifier("modifier_item_mem_kaya_sange") then return end
+	return self:GetAbility():GetSpecialValueFor("heal_amp")
 end
 
 function modifier_item_mem_sange:Custom_AllHealAmplify_Percentage()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("health_regen_increase") 
+	if self:GetParent():HasModifier("modifier_item_mem_sange_yasha") then return end
+	if self:GetParent():HasModifier("modifier_item_mem_kaya_sange") then return end 
+	return self:GetAbility():GetSpecialValueFor("heal_amp")
 end
-
-function modifier_item_mem_sange:OnAttackLanded( params )
-	if not IsServer() then return end
-	if params.attacker ~= self:GetParent() then return end
-	if params.target:IsWard() then return end
-	if self:GetParent():FindAllModifiersByName("modifier_item_mem_sange")[1] ~= self then return end
-
-	local priority_sword_modifiers = 
-	{
-		"modifier_item_heavens_halberd_custom",
-		"modifier_item_mem_sange_yasha",
-		"modifier_item_mem_sange_cheburek",
-		"modifier_item_mem_chebureksword"
-	}
-
-	for _, sword_modifier in pairs(priority_sword_modifiers) do
-		if self:GetParent():HasModifier(sword_modifier) then
-			return nil
-		end
-	end
-
-	SangeAttack(self:GetParent(), params.target, self:GetAbility(), "modifier_item_mem_sange_maim", "modifier_item_mem_sange_disarm")
-end
-
-function SangeAttack(attacker, target, ability, modifier_stacks, modifier_proc)
-	if attacker:IsIllusion() then
-		return 
-	end
-
-	if target:IsMagicImmune() then
-		return 
-	end
-
-	local modifier_maim = target:AddNewModifier(attacker, ability, modifier_stacks, {duration = ability:GetSpecialValueFor("stack_duration") * (1 - target:GetStatusResistance())})
-
-	if modifier_maim and modifier_maim:GetStackCount() < ability:GetSpecialValueFor("max_stacks") then
-		modifier_maim:SetStackCount(modifier_maim:GetStackCount() + 1)
-		target:EmitSound("mem.SangeStack")
-	end
-
-	if ability and ability:GetName() == "item_heavens_halberd_custom" then
-		if not attacker:HasModifier("item_heavens_halberd_custom_sange_cooldown") then
-			target:AddNewModifier(attacker, ability, modifier_proc, {duration = ability:GetSpecialValueFor("proc_duration_enemy") * (1 - target:GetStatusResistance())})
-			attacker:AddNewModifier(attacker, ability, "item_heavens_halberd_custom_sange_cooldown", {duration = 5})
-			target:EmitSound("mem.SangeProc")
-		end
-		return
-	end
-
-	if ability:IsCooldownReady() and RollPercentage(ability:GetSpecialValueFor("proc_chance")) then
-		target:AddNewModifier(attacker, ability, modifier_proc, {duration = ability:GetSpecialValueFor("proc_duration_enemy") * (1 - target:GetStatusResistance())})
-		target:EmitSound("mem.SangeProc")
-		ability:UseResources(false, false, false, true)
-	end
-end
-
-modifier_item_mem_sange_maim = class({})
-
-function modifier_item_mem_sange_maim:GetTexture()
-	return "item_mem_sange"
-end
-
-function modifier_item_mem_sange_maim:IsPurgable() return true end
-
-function modifier_item_mem_sange_maim:GetEffectName()
-	return "particles/items2_fx/sange_maim.vpcf"
-end
-
-function modifier_item_mem_sange_maim:GetEffectAttachType()
-	return PATTACH_ABSORIGIN_FOLLOW
-end
-
-function modifier_item_mem_sange_maim:OnCreated()
-	self.maim_stack = self:GetAbility():GetSpecialValueFor("maim_stack")
-end
-
-function modifier_item_mem_sange_maim:DeclareFunctions()
-	return
-	{
-		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
-	}
-end
-
-function modifier_item_mem_sange_maim:GetModifierAttackSpeedBonus_Constant()
-	return self.maim_stack * self:GetStackCount() 
-end
-
-function modifier_item_mem_sange_maim:GetModifierMoveSpeedBonus_Percentage()
-	return self.maim_stack * self:GetStackCount() 
-end
-
-modifier_item_mem_sange_disarm = class({})
-
-function modifier_item_mem_sange_disarm:GetTexture()
-	return "item_mem_sange"
-end
-
-function modifier_item_mem_sange_disarm:GetEffectName()
-	return "particles/items2_fx/heavens_halberd.vpcf"
-end
-
-function modifier_item_mem_sange_disarm:GetEffectAttachType()
-	return PATTACH_ABSORIGIN_FOLLOW
-end
-
-function modifier_item_mem_sange_disarm:CheckState()
-	local states = 
-	{
-		[MODIFIER_STATE_DISARMED] = true,
-	}
-	return states
-end
-
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 LinkLuaModifier( "modifier_item_mem_yasha", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_item_mem_yasha_stacks", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_item_mem_yasha_proc", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE )
 
 item_mem_yasha = class({})
 
@@ -202,600 +67,464 @@ function modifier_item_mem_yasha:DeclareFunctions()
 		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE_UNIQUE,
 		MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
-		MODIFIER_EVENT_ON_ATTACK_LANDED,
 	}
 	return funcs
 end
 
-function modifier_item_mem_yasha:GetModifierAttackSpeedBonus_Constant()
-	if not self:GetAbility() then return end
+function modifier_item_mem_yasha:GetModifierAttackSpeedBonus_Constant() 
 	return self:GetAbility():GetSpecialValueFor("bonus_attack_speed") 
 end
 
 function modifier_item_mem_yasha:GetModifierMoveSpeedBonus_Percentage_Unique()
-	if not self:GetAbility() then return end
+	if self:GetParent():HasModifier("modifier_item_mem_sange_yasha") then return end
+	if self:GetParent():HasModifier("modifier_item_mem_yasha_kaya") then return end
 	return self:GetAbility():GetSpecialValueFor("bonus_ms") 
 end
 
-function modifier_item_mem_yasha:GetModifierBonusStats_Agility()
-	if not self:GetAbility() then return end
+function modifier_item_mem_yasha:GetModifierBonusStats_Agility() 
 	return self:GetAbility():GetSpecialValueFor("bonus_agility") 
 end
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+LinkLuaModifier( "modifier_item_mem_kaya", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE )
 
-function modifier_item_mem_yasha:OnAttackLanded( params )
-	if not IsServer() then return end
-	if params.attacker ~= self:GetParent() then return end
-	if params.target:IsWard() then return end
-	if self:GetParent():FindAllModifiersByName("modifier_item_mem_yasha")[1] ~= self then return end
+item_mem_kaya = class({})
 
-	local priority_sword_modifiers = 
-	{
-		"modifier_item_manta_custom_passive",
-		"modifier_item_mem_sange_yasha",
-		"modifier_item_mem_cheburek_yasha",
-		"modifier_item_mem_chebureksword"
-	}
-
-	for _, sword_modifier in pairs(priority_sword_modifiers) do
-		if self:GetParent():HasModifier(sword_modifier) then
-			return nil
-		end
-	end
-
-	YashaAttack(self:GetParent(), self:GetAbility(), "modifier_item_mem_yasha_stacks", "modifier_item_mem_yasha_proc")
+function item_mem_kaya:GetIntrinsicModifierName()
+	return "modifier_item_mem_kaya" 
 end
 
-function YashaAttack(attacker, ability, modifier_stacks, modifier_proc)
-	local modifier_as = attacker:AddNewModifier(attacker, ability, modifier_stacks, {duration = ability:GetSpecialValueFor("stack_duration")})
+modifier_item_mem_kaya = class({})
 
-	if modifier_as and modifier_as:GetStackCount() < ability:GetSpecialValueFor("max_stacks") then
-		modifier_as:SetStackCount(modifier_as:GetStackCount() + 1)
-		attacker:EmitSound("mem.YashaStack")
-	end
+function modifier_item_mem_kaya:IsHidden() return true end
+function modifier_item_mem_kaya:IsPurgable() return false end
+function modifier_item_mem_kaya:IsPurgeException() return false end
+function modifier_item_mem_kaya:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
-	if attacker:IsIllusion() then
-		return 
-	end
-
-	if ability and ability:GetName() == "item_manta_custom" then
-		if not attacker:HasModifier("item_manta_custom_yasha_cooldown") then
-			attacker:AddNewModifier(attacker, ability, modifier_proc, {duration = ability:GetSpecialValueFor("proc_duration_self")})
-			attacker:EmitSound("mem.YashaProc")
-			attacker:AddNewModifier(attacker, ability, "item_manta_custom_yasha_cooldown", {duration = 5})
-		end
-		return
-	end
-
-	if ability and ability:GetName() == "item_lostvane_custom" then
-		if not attacker:HasModifier("item_manta_custom_yasha_cooldown") then
-			attacker:AddNewModifier(attacker, ability, modifier_proc, {duration = ability:GetSpecialValueFor("proc_duration_self")})
-			attacker:EmitSound("mem.YashaProc")
-			attacker:AddNewModifier(attacker, ability, "item_manta_custom_yasha_cooldown", {duration = 5})
-		end
-		return
-	end
-
-	if ability:IsCooldownReady() and RollPercentage(ability:GetSpecialValueFor("proc_chance")) then
-		attacker:AddNewModifier(attacker, ability, modifier_proc, {duration = ability:GetSpecialValueFor("proc_duration_self")})
-		attacker:EmitSound("mem.YashaProc")
-		ability:UseResources(false, false, false, true)
-	end
-end
-
-modifier_item_mem_yasha_stacks = class({})
-
-function modifier_item_mem_yasha_stacks:GetTexture()
-	return "item_mem_yasha"
-end
-
-function modifier_item_mem_yasha_stacks:GetEffectName()
-	return "particles/item/swords/yasha_buff.vpcf"
-end
-
-function modifier_item_mem_yasha_stacks:GetEffectAttachType()
-	return PATTACH_ABSORIGIN_FOLLOW
-end
-
-function modifier_item_mem_yasha_stacks:OnCreated()
-	self.as_stack = self:GetAbility():GetSpecialValueFor("as_stack")
-end
-
-function modifier_item_mem_yasha_stacks:DeclareFunctions()
-	local funcs = 
-	{
-		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-	}
-	return funcs
-end
-
-function modifier_item_mem_yasha_stacks:GetModifierAttackSpeedBonus_Constant()
-	return self.as_stack * self:GetStackCount() 
-end
-
-modifier_item_mem_yasha_proc = class({})
-
-function modifier_item_mem_yasha_proc:GetTexture()
-	return "item_mem_yasha"
-end
-
-function modifier_item_mem_yasha_proc:GetEffectName()
-	return "particles/item/swords/yasha_proc.vpcf"
-end
-
-function modifier_item_mem_yasha_proc:GetEffectAttachType()
-	return PATTACH_ABSORIGIN_FOLLOW
-end
-
-function modifier_item_mem_yasha_proc:OnCreated()
-	self.proc_ms = self:GetAbility():GetSpecialValueFor("proc_ms")
-end
-
-function modifier_item_mem_yasha_proc:DeclareFunctions()
-	local funcs = 
-	{
-		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
-	}
-	return funcs
-end
-
-function modifier_item_mem_yasha_proc:GetModifierMoveSpeedBonus_Percentage()
-	return self.proc_ms 
-end
-
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-LinkLuaModifier( "modifier_item_mem_cheburek", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_item_mem_cheburek_amp", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_item_mem_cheburek_silence", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE )
-
-item_mem_cheburek = class({})
-
-function item_mem_cheburek:GetIntrinsicModifierName()
-	return "modifier_item_mem_cheburek" 
-end
-
-modifier_item_mem_cheburek = class({})
-
-function modifier_item_mem_cheburek:IsHidden() return true end
-function modifier_item_mem_cheburek:IsPurgable() return false end
-function modifier_item_mem_cheburek:IsPurgeException() return false end
-function modifier_item_mem_cheburek:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
-
-function modifier_item_mem_cheburek:DeclareFunctions()
+function modifier_item_mem_kaya:DeclareFunctions()
 	local funcs = 
 	{
 		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
 		MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE,
 		MODIFIER_PROPERTY_MP_REGEN_AMPLIFY_PERCENTAGE,
-		MODIFIER_EVENT_ON_ATTACK_LANDED,
 	}
 	return funcs
 end
 
-function modifier_item_mem_cheburek:GetModifierBonusStats_Intellect()
-	if not self:GetAbility() then return end
+function modifier_item_mem_kaya:GetModifierBonusStats_Intellect() 
 	return self:GetAbility():GetSpecialValueFor("bonus_int") 
 end
 
-function modifier_item_mem_cheburek:GetModifierSpellAmplify_Percentage()
-	if not self:GetAbility() then return end
+function modifier_item_mem_kaya:GetModifierSpellAmplify_Percentage()
+	if self:GetParent():HasModifier("modifier_item_mem_kaya_sange") then return end
+	if self:GetParent():HasModifier("modifier_item_mem_yasha_kaya") then return end
 	return self:GetAbility():GetSpecialValueFor("spell_amplify") 
 end
 
-function modifier_item_mem_cheburek:GetModifierMPRegenAmplify_Percentage()
-	if not self:GetAbility() then return end
+function modifier_item_mem_kaya:GetModifierMPRegenAmplify_Percentage()
+	if self:GetParent():HasModifier("modifier_item_mem_kaya_sange") then return end
+	if self:GetParent():HasModifier("modifier_item_mem_yasha_kaya") then return end
 	return self:GetAbility():GetSpecialValueFor("mana_regen_increase")
 end
 
-function modifier_item_mem_cheburek:OnAttackLanded( params )
-	if not IsServer() then return end
-	if params.attacker ~= self:GetParent() then return end
-	if params.target:IsWard() then return end
-	if self:GetParent():FindAllModifiersByName("modifier_item_mem_cheburek")[1] ~= self then return end
-
-	local priority_sword_modifiers = {
-		"modifier_item_mem_sange_cheburek",
-		"modifier_item_mem_cheburek_yasha",
-		"modifier_item_mem_chebureksword"
-	}
-	for _, sword_modifier in pairs(priority_sword_modifiers) do
-		if self:GetParent():HasModifier(sword_modifier) then
-			return nil
-		end
-	end
-
-	CheburekAttack(self:GetParent(), params.target, self:GetAbility(), "modifier_item_mem_cheburek_amp", "modifier_item_mem_cheburek_silence")
-end
-
-function CheburekAttack(attacker, target, ability, modifier_stacks, modifier_proc)
-	if attacker:IsIllusion() then
-		return 
-	end
-
-	if target:IsMagicImmune() then
-		return 
-	end
-
-	local modifier_amp = target:AddNewModifier(attacker, ability, modifier_stacks, {duration = ability:GetSpecialValueFor("stack_duration") * (1 - target:GetStatusResistance())})
-
-	if modifier_amp and modifier_amp:GetStackCount() < ability:GetSpecialValueFor("max_stacks") then
-		modifier_amp:SetStackCount(modifier_amp:GetStackCount() + 1)
-		target:EmitSound("mem.cheburekStack")
-	end
-
-	if ability:IsCooldownReady() and RollPercentage(ability:GetSpecialValueFor("proc_chance")) then
-		target:AddNewModifier(attacker, ability, modifier_proc, {duration = ability:GetSpecialValueFor("proc_duration_enemy") * (1 - target:GetStatusResistance())})
-		target:EmitSound("mem.cheburekProc")
-		ability:UseResources(false, false, false, true)
-	end
-end
-
-modifier_item_mem_cheburek_amp = class({})
-
-function modifier_item_mem_cheburek_amp:GetTexture()
-	return "item_mem_cheburek"
-end
-
-function modifier_item_mem_cheburek_amp:GetEffectName()
-	return "particles/item/swords/azura_debuff.vpcf"
-end
-
-function modifier_item_mem_cheburek_amp:GetEffectAttachType()
-	return PATTACH_ABSORIGIN_FOLLOW
-end
-
-function modifier_item_mem_cheburek_amp:OnCreated()
-	self.magical_resistance = self:GetAbility():GetSpecialValueFor("amp_stack")
-end
-
-function modifier_item_mem_cheburek_amp:DeclareFunctions()
-	local funcs = 
-	{
-		MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,
-	}
-	return funcs
-end
-
-function modifier_item_mem_cheburek_amp:GetModifierMagicalResistanceBonus()
-	return self.magical_resistance * self:GetStackCount() 
-end
-
-modifier_item_mem_cheburek_silence = class({})
-
-function modifier_item_mem_cheburek_silence:GetTexture()
-	return "item_mem_cheburek"
-end
-
-function modifier_item_mem_cheburek_silence:GetEffectName()
-	return "particles/item/swords/azura_proc.vpcf"
-end
-
-function modifier_item_mem_cheburek_silence:GetEffectAttachType()
-	return PATTACH_OVERHEAD_FOLLOW
-end
-
-function modifier_item_mem_cheburek_silence:CheckState()
-	local states = 
-	{
-		[MODIFIER_STATE_SILENCED] = true,
-	}
-	return states
-end
-
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 LinkLuaModifier( "modifier_item_mem_sange_yasha", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_item_mem_sange_yasha_stacks", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_item_mem_sange_yasha_damage", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE )
 
 item_mem_sange_yasha = class({})
 
-function item_mem_sange_yasha:GetIntrinsicModifierName()
+function item_mem_sange_yasha:GetIntrinsicModifierName() 
 	return "modifier_item_mem_sange_yasha" 
 end
 
 modifier_item_mem_sange_yasha = class({})
-
 function modifier_item_mem_sange_yasha:IsHidden() return true end
 function modifier_item_mem_sange_yasha:IsPurgable() return false end
-function modifier_item_mem_sange_yasha:IsPurgeException() return false end
-function modifier_item_mem_sange_yasha:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
+
+function modifier_item_mem_sange_yasha:OnCreated()
+	if not IsServer() then return end
+	if not self:GetAbility() or self:GetAbility():IsNull() then return end
+	self.mod = self:GetParent():AddNewModifier(self:GetCaster(), self.ability, "modifier_item_sange", {})
+end
+
+function modifier_item_mem_sange_yasha:OnDestroy()
+	if not IsServer() then return end
+	if not self.mod or self.mod:IsNull() then return end
+	self.mod:Destroy()
+end
 
 function modifier_item_mem_sange_yasha:DeclareFunctions()
-	local funcs = 
-	{
-		MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING,
-		MODIFIER_PROPERTY_HP_REGEN_AMPLIFY_PERCENTAGE,
-		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
-		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE_UNIQUE,
-		MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
-		MODIFIER_EVENT_ON_ATTACK_LANDED,
-	}
-	return funcs
+	return
+{
+    MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
+    MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
+    MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+    MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+    MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING,
+    MODIFIER_PROPERTY_HP_REGEN_AMPLIFY_PERCENTAGE,
+	MODIFIER_EVENT_ON_ATTACK_LANDED,
+}
 end
 
-function modifier_item_mem_sange_yasha:GetModifierStatusResistanceStacking()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("effect_resistance") 
-end
-
-function modifier_item_mem_sange_yasha:GetModifierBonusStats_Strength()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("bonus_strength") 
-end
-
-function modifier_item_mem_sange_yasha:GetModifierHPRegenAmplify_Percentage()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("health_regen_increase") 
-end
-
-function modifier_item_mem_sange_yasha:Custom_AllHealAmplify_Percentage()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("health_regen_increase") 
-end
-
-function modifier_item_mem_sange_yasha:GetModifierAttackSpeedBonus_Constant()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("bonus_attack_speed") 
-end
-
-function modifier_item_mem_sange_yasha:GetModifierMoveSpeedBonus_Percentage_Unique()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("bonus_ms") 
+function modifier_item_mem_sange_yasha:GetModifierBonusStats_Strength() 
+	return self:GetAbility():GetSpecialValueFor("bonus_str")
 end
 
 function modifier_item_mem_sange_yasha:GetModifierBonusStats_Agility()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("bonus_agility") 
+	return self:GetAbility():GetSpecialValueFor("bonus_agi")
 end
 
-function modifier_item_mem_sange_yasha:OnAttackLanded( params )
+function modifier_item_mem_sange_yasha:GetModifierStatusResistanceStacking() 
+	return self:GetAbility():GetSpecialValueFor("status_bonus")
+end
+
+function modifier_item_mem_sange_yasha:GetModifierAttackSpeedBonus_Constant()
+	return self:GetAbility():GetSpecialValueFor("attack_speed")
+end
+
+function modifier_item_mem_sange_yasha:GetModifierMoveSpeedBonus_Percentage() 
+	if self:GetParent():HasModifier("modifier_item_mem_yasha_kaya") then return end
+	return self:GetAbility():GetSpecialValueFor("move_bonus")
+end
+
+function modifier_item_mem_sange_yasha:GetModifierHPRegenAmplify_Percentage() 
+	if self:GetParent():HasModifier("modifier_item_abyssal_blade") then return end
+	if self:GetParent():HasModifier("modifier_item_mem_kaya_sange") then return end
+	return self:GetAbility():GetSpecialValueFor("heal_amp")
+end
+
+function modifier_item_mem_sange_yasha:OnAttackLanded(params)
 	if not IsServer() then return end
 	if params.attacker ~= self:GetParent() then return end
 	if params.target:IsWard() then return end
 	if self:GetParent():FindAllModifiersByName("modifier_item_mem_sange_yasha")[1] ~= self then return end
+	self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_item_mem_sange_yasha_stacks", {duration = self:GetAbility():GetSpecialValueFor("stacks_duration")})
+	self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_item_mem_sange_yasha_damage", {duration = self:GetAbility():GetSpecialValueFor("stacks_duration")})
+end
 
-	local priority_sword_modifiers = 
-	{
-		"modifier_item_mem_chebureksword"
-	}
+modifier_item_mem_sange_yasha_damage = class({})
+function modifier_item_mem_sange_yasha_damage:IsPurgable() return true end
 
-	for _, sword_modifier in pairs(priority_sword_modifiers) do
-		if self:GetParent():HasModifier(sword_modifier) then
-			return nil
-		end
+function modifier_item_mem_sange_yasha_damage:OnCreated()
+    if not IsServer() then return end
+    self:StartIntervalThink(FrameTime())
+end
+
+function modifier_item_mem_sange_yasha_damage:OnIntervalThink()
+    if not IsServer() then return end
+    local modifier = self:GetParent():FindAllModifiersByName("modifier_item_mem_sange_yasha_stacks")
+	if #modifier >= self:GetAbility():GetSpecialValueFor("max_stacks") then
+		self:SetStackCount(self:GetAbility():GetSpecialValueFor("max_stacks"))
+	else
+    	self:SetStackCount(#modifier)
 	end
-
-	SangeAttack(self:GetParent(), params.target, self:GetAbility(), "modifier_item_mem_sange_maim", "modifier_item_mem_sange_disarm")
-	YashaAttack(self:GetParent(), self:GetAbility(), "modifier_item_mem_yasha_stacks", "modifier_item_mem_yasha_proc")
+	if not self:GetParent():HasModifier("modifier_item_mem_sange_yasha") then 
+		self:Destroy()
+	end
 end
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-LinkLuaModifier( "modifier_item_mem_chebureksword", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE )
-
-item_mem_chebureksword = class({})
-
-function item_mem_chebureksword:GetIntrinsicModifierName()
-	return "modifier_item_mem_chebureksword" 
+function modifier_item_mem_sange_yasha_damage:DeclareFunctions()
+	return {MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE}
 end
 
-modifier_item_mem_chebureksword = class({})
-
-function modifier_item_mem_chebureksword:IsHidden() return true end
-function modifier_item_mem_chebureksword:IsPurgable() return false end
-function modifier_item_mem_chebureksword:IsPurgeException() return false end
-function modifier_item_mem_chebureksword:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
-
-function modifier_item_mem_chebureksword:DeclareFunctions()
-	local funcs = 
-	{
-		MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING,
-		MODIFIER_PROPERTY_HP_REGEN_AMPLIFY_PERCENTAGE,
-		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
-		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
-		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE_UNIQUE,
-		MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
-		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
-		MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE,
-		MODIFIER_PROPERTY_MP_REGEN_AMPLIFY_PERCENTAGE,
-		MODIFIER_EVENT_ON_ATTACK_LANDED,
-	}
-	return funcs
+function modifier_item_mem_sange_yasha_damage:GetModifierDamageOutgoing_Percentage() 
+	return self:GetAbility():GetSpecialValueFor("stacks_bonus_dmg") * self:GetStackCount()
 end
 
-function modifier_item_mem_chebureksword:GetModifierStatusResistanceStacking()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("effect_resistance") 
+function modifier_item_mem_sange_yasha_damage:GetEffectName() return "particles/item/swords/yasha_buff.vpcf" end
+function modifier_item_mem_sange_yasha_damage:GetEffectAttachType() return PATTACH_OVERHEAD_FOLLOW end
+
+modifier_item_mem_sange_yasha_stacks = class({})
+function modifier_item_mem_sange_yasha_stacks:IsHidden() return true end
+function modifier_item_mem_sange_yasha_stacks:IsPurgable() return true end
+function modifier_item_mem_sange_yasha_stacks:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+LinkLuaModifier( "modifier_item_mem_kaya_sange", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_item_mem_kaya_sange_stacks", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_item_mem_kaya_sange_damage", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE )
+
+item_mem_kaya_sange = class({})
+
+function item_mem_kaya_sange:GetIntrinsicModifierName() 
+	return "modifier_item_mem_kaya_sange" 
 end
 
-function modifier_item_mem_chebureksword:GetModifierBonusStats_Strength()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("bonus_strength") 
+modifier_item_mem_kaya_sange = class({})
+function modifier_item_mem_kaya_sange:IsHidden() return true end
+function modifier_item_mem_kaya_sange:IsPurgable() return false end
+
+function modifier_item_mem_kaya_sange:OnCreated()
+	if not IsServer() then return end
+	if not self:GetAbility() or self:GetAbility():IsNull() then return end
+	self.damage_incom = 0
+	self.mod = self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_item_sange", {})
 end
 
-function modifier_item_mem_chebureksword:GetModifierHPRegenAmplify_Percentage()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("health_regen_increase") 
+function modifier_item_mem_kaya_sange:OnDestroy()
+	if not IsServer() then return end
+	if not self.mod or self.mod:IsNull() then return end
+	self.mod:Destroy()
 end
 
-function modifier_item_mem_chebureksword:Custom_AllHealAmplify_Percentage()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("health_regen_increase") 
+function modifier_item_mem_kaya_sange:DeclareFunctions()
+	return {
+	    	MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
+    		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
+    		MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE,
+    		MODIFIER_PROPERTY_MP_REGEN_AMPLIFY_PERCENTAGE,
+    		MODIFIER_PROPERTY_HP_REGEN_AMPLIFY_PERCENTAGE,
+			MODIFIER_PROPERTY_MANACOST_PERCENTAGE_STACKING,
+			MODIFIER_EVENT_ON_TAKEDAMAGE, 
+			}
 end
 
-function modifier_item_mem_chebureksword:GetModifierAttackSpeedBonus_Constant()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("bonus_attack_speed") 
+function modifier_item_mem_kaya_sange:GetModifierBonusStats_Strength() 
+	return self:GetAbility():GetSpecialValueFor("bonus_str")
 end
 
-function modifier_item_mem_chebureksword:GetModifierMoveSpeedBonus_Percentage_Unique()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("bonus_ms") 
+function modifier_item_mem_kaya_sange:GetModifierBonusStats_Intellect()
+	return self:GetAbility():GetSpecialValueFor("bonus_int")
 end
 
-function modifier_item_mem_chebureksword:GetModifierBonusStats_Agility()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("bonus_agility") 
+function modifier_item_mem_kaya_sange:GetModifierPercentageManacostStacking()
+	return self:GetAbility():GetSpecialValueFor("mana_reduce_amp")
 end
 
-function modifier_item_mem_chebureksword:GetModifierBonusStats_Intellect()
-	if not self:GetAbility() then return end
+function modifier_item_mem_kaya_sange:GetModifierSpellAmplify_Percentage()
+	if self:GetParent():HasModifier("modifier_item_mem_yasha_kaya") then return end 
+	return self:GetAbility():GetSpecialValueFor("spell_damage")
+end
+
+function modifier_item_mem_kaya_sange:GetModifierMPRegenAmplify_Percentage()
+	if self:GetParent():HasModifier("modifier_item_mem_yasha_kaya") then return end 	
+	return self:GetAbility():GetSpecialValueFor("regen_amp")
+end
+
+function modifier_item_mem_kaya_sange:GetModifierHPRegenAmplify_Percentage()
+	if self:GetParent():HasModifier("modifier_item_abyssal_blade") then return end
+	return self:GetAbility():GetSpecialValueFor("heal_amp")
+end
+
+function modifier_item_mem_kaya_sange:OnTakeDamage(params)
+	if not IsServer() then return end
+	if params.unit ~= self:GetParent() then return end
+    if self:GetParent():IsIllusion() then return end
+    if not self:GetParent():IsAlive() then return end
+	if self:GetParent():FindAllModifiersByName("modifier_item_mem_kaya_sange")[1] ~= self then return end
+	self.damage_incom = self.damage_incom + params.damage
+	print(self.damage_incom)
+	if self.damage_incom >= self:GetAbility():GetSpecialValueFor("damage_for_stack") then
+		self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_item_mem_kaya_sange_stacks", {duration = self:GetAbility():GetSpecialValueFor("stacks_duration")})
+		self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_item_mem_kaya_sange_damage", {duration = self:GetAbility():GetSpecialValueFor("stacks_duration")})
+		self.damage_incom = 0
+	end
+end
+
+modifier_item_mem_kaya_sange_damage = class({})
+function modifier_item_mem_kaya_sange_damage:IsPurgable() return true end
+
+function modifier_item_mem_kaya_sange_damage:OnCreated()
+	if not IsServer() then return end 
+    self:StartIntervalThink(FrameTime())
+end
+
+function modifier_item_mem_kaya_sange_damage:OnIntervalThink()
+    if not IsServer() then return end
+    local modifier = self:GetParent():FindAllModifiersByName("modifier_item_mem_kaya_sange_stacks")
+	if #modifier >= self:GetAbility():GetSpecialValueFor("max_stacks") then
+		self:SetStackCount(self:GetAbility():GetSpecialValueFor("max_stacks"))
+	else
+    	self:SetStackCount(#modifier)
+	end
+	if not self:GetParent():HasModifier("modifier_item_mem_kaya_sange") then 
+		self:Destroy()
+	end
+end
+
+function modifier_item_mem_kaya_sange_damage:DeclareFunctions()
+	return {MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE}
+end
+
+function modifier_item_mem_kaya_sange_damage:GetModifierIncomingDamage_Percentage() 
+	return self:GetAbility():GetSpecialValueFor("stacks_incoming_dmg")
+end
+
+function modifier_item_mem_kaya_sange_damage:GetEffectName() return "particles/items2_fx/sange_maim.vpcf" end
+function modifier_item_mem_kaya_sange_damage:GetEffectAttachType() return PATTACH_OVERHEAD_FOLLOW end
+
+modifier_item_mem_kaya_sange_stacks = class({})
+function modifier_item_mem_kaya_sange_stacks:IsHidden() return true end
+function modifier_item_mem_kaya_sange_stacks:IsPurgable() return true end
+function modifier_item_mem_kaya_sange_stacks:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+LinkLuaModifier( "modifier_item_mem_yasha_kaya", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_item_mem_yasha_kaya_stacks", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_item_mem_yasha_kaya_spells", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE )
+
+item_mem_yasha_kaya = class({})
+
+function item_mem_yasha_kaya:GetIntrinsicModifierName()
+	return "modifier_item_mem_yasha_kaya" 
+end
+
+modifier_item_mem_yasha_kaya = class({})
+
+function modifier_item_mem_yasha_kaya:IsHidden() return self:GetStackCount() == 0 end
+function modifier_item_mem_yasha_kaya:IsPurgable() return false end
+function modifier_item_mem_yasha_kaya:IsPurgeException() return false end
+function modifier_item_mem_yasha_kaya:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
+
+function modifier_item_mem_yasha_kaya:OnCreated()
+	if not IsServer() then return end
+    if not self:GetAbility() or self:GetAbility():IsNull() then return end
+	self.bonus_spell_amp = self:GetAbility():GetSpecialValueFor("bonus_spell_amp")
+	self.mana_restoration_amp = self:GetAbility():GetSpecialValueFor("mana_restoration_amp")
+	self.stacks_duration = self:GetAbility():GetSpecialValueFor("stacks_duration")
+	
+	self.useless =
+    {
+        ["aang_quas"] = true,
+        ["aang_wex"] = true,
+        ["aang_exort"] = true,
+        ["aang_invoke"] = true,
+        ["kakashi_quas"] = true,
+        ["kakashi_wex"] = true,
+        ["kakashi_exort"] = true,
+        ["kakashi_invoke"] = true,
+        ["mum_change_hook_style"] = true,
+    }
+
+	if self:GetParent():FindAllModifiersByName("modifier_item_mem_yasha_kaya")[1] ~= self or self:GetParent():HasItemInInventory("item_mem_kaya") then
+        self.spell_amp = 0
+        self.mana_restoration_amp = 0
+    end
+
+	self:SetHasCustomTransmitterData(true)
+    self:StartIntervalThink(FrameTime())
+end
+
+function modifier_item_mem_yasha_kaya:OnIntervalThink()
+    if not IsServer() then return end
+    if self:GetParent():FindAllModifiersByName("modifier_item_mem_yasha_kaya")[1] ~= self or self:GetParent():HasItemInInventory("item_mem_kaya") then
+        self.bonus_spell_amp = 0
+        self.mana_restoration_amp = 0
+    else
+        self.mana_restoration_amp = self:GetAbility():GetSpecialValueFor("mana_restoration_amp")
+        self.bonus_spell_amp = self:GetAbility():GetSpecialValueFor("bonus_spell_amp")
+    end
+	if not self:GetParent():HasModifier("modifier_item_mem_yasha_kaya") then 
+		self:Destroy()
+	end
+    self:SendBuffRefreshToClients()
+end
+
+function modifier_item_mem_yasha_kaya:AddCustomTransmitterData()
+    self.data = self.data or {}
+    self.data.mana_restoration_amp   = self.mana_restoration_amp or 0
+    self.data.bonus_spell_amp = self.bonus_spell_amp or 0
+    return self.data
+end
+
+function modifier_item_mem_yasha_kaya:HandleCustomTransmitterData( data )
+    self.mana_restoration_amp = data.mana_restoration_amp
+    self.bonus_spell_amp = data.bonus_spell_amp
+end
+
+function modifier_item_mem_yasha_kaya:DeclareFunctions()
+	return 	{
+			MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
+			MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
+			MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
+			MODIFIER_PROPERTY_MP_REGEN_AMPLIFY_PERCENTAGE ,
+			MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE_UNIQUE,
+			MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE,
+			MODIFIER_PROPERTY_CASTTIME_PERCENTAGE,
+			MODIFIER_EVENT_ON_ABILITY_FULLY_CAST,
+			}
+end
+
+function modifier_item_mem_yasha_kaya:GetModifierBonusStats_Agility() 
+	return self:GetAbility():GetSpecialValueFor("bonus_agi") 
+end 
+
+function modifier_item_mem_yasha_kaya:GetModifierBonusStats_Intellect() 
 	return self:GetAbility():GetSpecialValueFor("bonus_int") 
 end
 
-function modifier_item_mem_chebureksword:GetModifierSpellAmplify_Percentage()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("spell_amplify") 
+function modifier_item_mem_yasha_kaya:GetModifierAttackSpeedBonus_Constant() 
+	return self:GetAbility():GetSpecialValueFor("bonus_attack_speed") 
 end
 
-function modifier_item_mem_chebureksword:GetModifierMPRegenAmplify_Percentage()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("mana_regen_increase")
+function modifier_item_mem_yasha_kaya:GetModifierMoveSpeedBonus_Percentage_Unique() 
+	return self:GetAbility():GetSpecialValueFor("bonus_movespeed") 
 end
 
-function modifier_item_mem_chebureksword:OnAttackLanded( params )
+function modifier_item_mem_yasha_kaya:GetModifierPercentageCasttime() 
+	return self:GetAbility():GetSpecialValueFor("spell_speed_amp") 
+end
+
+function modifier_item_mem_yasha_kaya:GetModifierMPRegenAmplify_Percentage() 
+	return self.mana_restoration_amp 
+end
+
+function modifier_item_mem_yasha_kaya:GetModifierSpellAmplify_Percentage() 
+	return self.bonus_spell_amp 
+end
+
+function modifier_item_mem_yasha_kaya:OnAbilityFullyCast(params)
 	if not IsServer() then return end
-	if params.attacker ~= self:GetParent() then return end
-	if params.target:IsWard() then return end
-	if self:GetParent():FindAllModifiersByName("modifier_item_mem_chebureksword")[1] ~= self then return end
-
-	SangeAttack(self:GetParent(), params.target, self:GetAbility(), "modifier_item_mem_sange_maim", "modifier_item_mem_sange_disarm")
-	YashaAttack(self:GetParent(), self:GetAbility(), "modifier_item_mem_yasha_stacks", "modifier_item_mem_yasha_proc")
-	CheburekAttack(self:GetParent(), params.target, self:GetAbility(), "modifier_item_mem_cheburek_amp", "modifier_item_mem_cheburek_silence")
+	if self:GetParent():FindAllModifiersByName("modifier_item_mem_yasha_kaya")[1] ~= self then return end
+	local hAbility = params.ability
+    if hAbility == nil or not ( hAbility:GetCaster() == self:GetParent() ) then
+        return 0
+    end
+    if hAbility:IsToggle() or hAbility:IsItem() then
+        return 0
+    end
+    if self.useless[hAbility:GetAbilityName()] then
+        return 0
+    end
+    if hAbility:GetCooldown(hAbility:GetLevel()) <= 0 then
+        return 0
+    end
+	self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_item_mem_yasha_kaya_stacks", {duration = self.stacks_duration})
+	self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_item_mem_yasha_kaya_spells", {duration = self.stacks_duration})
 end
 
-LinkLuaModifier( "modifier_item_heavens_halberd_custom", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_item_heavens_halberd_custom_active", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE )
+modifier_item_mem_yasha_kaya_spells = class({})
+function modifier_item_mem_yasha_kaya_spells:IsPurgable() return true end
 
-item_heavens_halberd_custom = class({})
-
-function item_heavens_halberd_custom:GetIntrinsicModifierName()
-	return "modifier_item_heavens_halberd_custom"
+function modifier_item_mem_yasha_kaya_spells:OnCreated()
+    if not IsServer() then return end
+    self:StartIntervalThink(FrameTime())
 end
 
-function item_heavens_halberd_custom:OnSpellStart(keys)
-	if not IsServer() then return end
-	local target = self:GetCursorTarget()
-
-	if target:TriggerSpellAbsorb(self) then return end
-
-	local duration = self:GetSpecialValueFor("disarm_melee")
-
-	if target:IsRangedAttacker() then
-		duration = self:GetSpecialValueFor("disarm_range")
+function modifier_item_mem_yasha_kaya_spells:OnIntervalThink()
+    if not IsServer() then return end
+    local modifier = self:GetParent():FindAllModifiersByName("modifier_item_mem_yasha_kaya_stacks")
+	if #modifier >= self:GetAbility():GetSpecialValueFor("max_stacks") then
+		self:SetStackCount(self:GetAbility():GetSpecialValueFor("max_stacks"))
+	else
+    	self:SetStackCount(#modifier)
 	end
-
-	target:AddNewModifier(self:GetCaster(), self, "modifier_item_heavens_halberd_custom_active", {duration = duration})
-
-	target:EmitSound("DOTA_Item.HeavensHalberd.Activate")
 end
 
-modifier_item_heavens_halberd_custom = class({})
-
-function modifier_item_heavens_halberd_custom:IsHidden() return true end
-function modifier_item_heavens_halberd_custom:IsPurgable() return false end
-function modifier_item_heavens_halberd_custom:IsPurgeException() return false end
-function modifier_item_heavens_halberd_custom:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
-
-function modifier_item_heavens_halberd_custom:DeclareFunctions()
-	local funcs = 
-	{
-		MODIFIER_PROPERTY_STATUS_RESISTANCE_STACKING,
-		MODIFIER_PROPERTY_HP_REGEN_AMPLIFY_PERCENTAGE,
-		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
-		MODIFIER_PROPERTY_EVASION_CONSTANT,
-		MODIFIER_EVENT_ON_ATTACK_LANDED,
-	}
-	return funcs
+function modifier_item_mem_yasha_kaya_spells:DeclareFunctions()
+	return {MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE}
 end
 
-function modifier_item_heavens_halberd_custom:GetModifierStatusResistanceStacking()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("effect_resistance") 
+function modifier_item_mem_yasha_kaya_spells:GetModifierSpellAmplify_Percentage() 
+	return self:GetAbility():GetSpecialValueFor("stacks_spell_amp") * self:GetStackCount()
 end
 
-function modifier_item_heavens_halberd_custom:GetModifierBonusStats_Strength()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("bonus_strength") 
-end
+function modifier_item_mem_yasha_kaya_spells:GetEffectName() return "particles/item/swords/azura_debuff.vpcf" end
+function modifier_item_mem_yasha_kaya_spells:GetEffectAttachType() return PATTACH_OVERHEAD_FOLLOW end
 
-function modifier_item_heavens_halberd_custom:GetModifierHPRegenAmplify_Percentage()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("health_regen_increase") 
-end
-
-function modifier_item_heavens_halberd_custom:Custom_AllHealAmplify_Percentage()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("health_regen_increase") 
-end
-
-function modifier_item_heavens_halberd_custom:GetModifierEvasion_Constant()
-	if not self:GetAbility() then return end
-	return self:GetAbility():GetSpecialValueFor("bonus_evasion") 
-end
-
-function modifier_item_heavens_halberd_custom:OnAttackLanded( params )
-	if not IsServer() then return end
-	if params.attacker ~= self:GetParent() then return end
-	if params.target:IsWard() then return end
-	if self:GetParent():FindAllModifiersByName("modifier_item_heavens_halberd_custom")[1] ~= self then return end
-
-	local priority_sword_modifiers = 
-	{
-		"modifier_item_mem_sange_yasha",
-		"modifier_item_mem_sange_cheburek",
-		"modifier_item_mem_chebureksword"
-	}
-
-	for _, sword_modifier in pairs(priority_sword_modifiers) do
-		if self:GetParent():HasModifier(sword_modifier) then
-			return nil
-		end
-	end
-
-	SangeAttack(self:GetParent(), params.target, self:GetAbility(), "modifier_item_mem_sange_maim", "modifier_item_mem_sange_disarm")
-end
-
-modifier_item_heavens_halberd_custom_active = class({})
-
-function modifier_item_heavens_halberd_custom_active:IsPurgable() return false end
-
-function modifier_item_heavens_halberd_custom_active:GetEffectName()
-	return "particles/items2_fx/heavens_halberd.vpcf"
-end
-
-function modifier_item_heavens_halberd_custom_active:GetEffectAttachType()
-	return PATTACH_ABSORIGIN_FOLLOW
-end
-
-function modifier_item_heavens_halberd_custom_active:CheckState()
-	local states = 
-	{
-		[MODIFIER_STATE_DISARMED] = true,
-	}
-	return states
-end
-
-
-
-
-
-
+modifier_item_mem_yasha_kaya_stacks = class({})
+function modifier_item_mem_yasha_kaya_stacks:IsHidden() return true end
+function modifier_item_mem_yasha_kaya_stacks:IsPurgable() return true end
+function modifier_item_mem_yasha_kaya_stacks:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 LinkLuaModifier("modifier_item_manta_custom_invulnerable", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_item_manta_custom_passive", "items/item_swords.lua", LUA_MODIFIER_MOTION_NONE)
 
@@ -856,29 +585,6 @@ end
 function modifier_item_manta_custom_passive:GetModifierBonusStats_Strength()
 	if not self:GetAbility() then return end
 	return self:GetAbility():GetSpecialValueFor("bonus_strength") 
-end
-
-function modifier_item_manta_custom_passive:OnAttackLanded( params )
-	if not IsServer() then return end
-	if params.attacker ~= self:GetParent() then return end
-	if params.target:IsWard() then return end
-	if self:GetParent():FindAllModifiersByName("modifier_item_manta_custom_passive")[1] ~= self then return end
-
-	local priority_sword_modifiers = 
-	{
-		"modifier_item_lostvane_custom_custom_passive",
-		"modifier_item_mem_sange_yasha",
-		"modifier_item_mem_cheburek_yasha",
-		"modifier_item_mem_chebureksword"
-	}
-
-	for _, sword_modifier in pairs(priority_sword_modifiers) do
-		if self:GetParent():HasModifier(sword_modifier) then
-			return nil
-		end
-	end
-
-	YashaAttack(self:GetParent(), self:GetAbility(), "modifier_item_mem_yasha_stacks", "modifier_item_mem_yasha_proc")
 end
 
 modifier_item_manta_custom_invulnerable = class({})
@@ -1000,7 +706,6 @@ function modifier_item_lostvane_custom_custom_passive:DeclareFunctions()
 		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
 		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
 		MODIFIER_PROPERTY_EVASION_CONSTANT,
-		MODIFIER_EVENT_ON_ATTACK_LANDED,
 	}
 	return funcs
 end
@@ -1072,28 +777,6 @@ function modifier_item_lostvane_custom_custom_passive:GetAuraEntityReject(target
 	else
 		return true
 	end
-end
-
-function modifier_item_lostvane_custom_custom_passive:OnAttackLanded( params )
-	if not IsServer() then return end
-	if params.attacker ~= self:GetParent() then return end
-	if params.target:IsWard() then return end
-	if self:GetParent():FindAllModifiersByName("modifier_item_lostvane_custom_custom_passive")[1] ~= self then return end
-
-	local priority_sword_modifiers = 
-	{
-		"modifier_item_mem_sange_yasha",
-		"modifier_item_mem_cheburek_yasha",
-		"modifier_item_mem_chebureksword"
-	}
-
-	for _, sword_modifier in pairs(priority_sword_modifiers) do
-		if self:GetParent():HasModifier(sword_modifier) then
-			return nil
-		end
-	end
-
-	YashaAttack(self:GetParent(), self:GetAbility(), "modifier_item_mem_yasha_stacks", "modifier_item_mem_yasha_proc")
 end
 
 modifier_item_lostvane_custom_custom_passive_aura = class({})
@@ -1176,200 +859,3 @@ end
 modifier_item_lostvane_custom_custom_flaso = class({})
 function modifier_item_lostvane_custom_custom_flaso:IsPurgable() return false end
 function modifier_item_lostvane_custom_custom_flaso:IsHidden() return true end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
