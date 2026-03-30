@@ -816,29 +816,6 @@
 			"intellect_reg"	 "50"
   		}
   	}
-
-	"item_quarterstaff"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"875"
-		"ItemShopTags"					"damage;attack_speed"
-		"ItemQuality"					"component"
-		"ItemAliases"					"quarterstaff"
-		"IsObsolete"					"0"
-
-		// Special	
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityValues"
-		{
-				"bonus_speed"			"10"
-				"bonus_damage"			"10"
-		}
-	}
 	
 	//=================================================================================================================
 	// Vape
@@ -873,6 +850,7 @@
 		{
 			"mana"			 	"150"
 			"int"		  		"5"
+			"aoe_bonus"			"50"
 		}
   	}
 	
@@ -891,11 +869,12 @@
   		"AbilityValues"
   		{
   			"reg"					"350"
-  			"intellect_reg"	 	"100"
-			"mana"		   		"150"
+  			"intellect_reg"	 		"100"
+			"mana"		   			"150"
 			"int"					"9"
 			"str"					"4"
 			"agi"					"4"
+			"aoe_bonus"				"50"
   		}
   	}
 
@@ -904,7 +883,7 @@
 		"BaseClass"						"item_datadriven"
 		"AbilityTextureName" 			"recipe"
 		"Model"							"models/props_gameplay/recipe.vmdl"
-		"ItemCost"						"0"
+		"ItemCost"						"800"
 
 		"ItemRecipe"					"1"
 		"ItemResult"					"item_hookah"
@@ -938,6 +917,8 @@
 			"agi"		  				"6"
 			"bonus_mana_percentage"		"6"
 			"mana_regen_passive"		"1.5"
+			"aoe_bonus"					"100"
+			"duration"					"5"
 		}
 	}
 
@@ -1531,7 +1512,7 @@
 		{
 			"bonus_damage"	  	"50"
 			"duration"		  	"7"
-			"base_coruprion_armor"	"-8"
+			"base_coruprion_armor"	"-6"
 
 			"damage_stack_max"		"20"
 			"damage_per_kill"		"2"
@@ -1558,9 +1539,9 @@
 		
 		"AbilityValues"
 		{
-			"bonus_damage"	  	"100"
+			"bonus_damage"	  	"85"
 			"duration"		  	"7"
-			"base_coruprion_armor"	"-12"
+			"base_coruprion_armor"	"-9"
 
 			"damage_stack_max"		"40"
 			"damage_per_kill"		"2"
@@ -1587,9 +1568,9 @@
 		
 		"AbilityValues"
 		{
-			"bonus_damage"	  	"150"
+			"bonus_damage"	  	"115"
 			"duration"		  	"7"
-			"base_coruprion_armor"	"-12"
+			"base_coruprion_armor"	"-9"
 			"bonus_corruption_armor_percent"	"3.5"
 			"health_percent_per_corruption"	 "10"
 
@@ -2919,8 +2900,12 @@
 			"bonus_int"				 "15"
 			"bonus_mana"			 "3"
 
-			"stacks"				 "5"
-			"duration" 				 "8"
+			"proc_chance"			 "30"
+			"active_proc_chance"	 "100"
+			"pure_dmg"				 "80"
+			"active_pure_dmg"		 "70"
+			"hp_loss"				 "6"
+			"duration" 				 "5"
 		}
 	}
 
@@ -3045,7 +3030,7 @@
 		"AbilityValues"
 		{
 			"bonus_damage"				"60"
-			"evasion"					"15"
+			"evasion"					"25"
 			"aura_radius"
 			{
 				"value"				"700"
@@ -3388,7 +3373,7 @@
 
 		"ItemRequirements"
 		{
-			"01"						"item_lifesteal;item_quarterstaff"
+			"01"						"item_lifesteal;item_broadsword"
 		}
 	}
 
@@ -3681,17 +3666,13 @@
 			"bonus_armor"					"5"
 		}
 	}
-
-	//=================================================================================================================
-	// Лол Кек Чебурек
-	//=================================================================================================================
 	
 	"item_recipe_mem_sange"
 	{
 		"BaseClass"						"item_datadriven"
 		"AbilityTextureName" 			"recipe"
 		"Model"							"models/props_gameplay/recipe.vmdl"
-		"ItemCost"						"450"
+		"ItemCost"						"650"
 		"ItemRecipe"					"1"
 		"ItemResult"					"item_mem_sange"
 		"ItemRequirements"
@@ -3704,7 +3685,7 @@
 	{
 		"BaseClass"						"item_datadriven"
 		"AbilityTextureName" 			"recipe"
-		"ItemCost"						"450"
+		"ItemCost"						"650"
 		"ItemRecipe"					"1"
 		"ItemResult"					"item_mem_yasha"
 		"Model"							"models/props_gameplay/recipe.vmdl"
@@ -3714,14 +3695,14 @@
 		}
 	}
 
-	"item_recipe_mem_cheburek"
+	"item_recipe_mem_kaya"
 	{
 		"BaseClass"						"item_datadriven"
 		"AbilityTextureName" 			"recipe"
 		"Model"							"models/props_gameplay/recipe.vmdl"
-		"ItemCost"						"450"
+		"ItemCost"						"650"
 		"ItemRecipe"					"1"
-		"ItemResult"					"item_mem_cheburek"
+		"ItemResult"					"item_mem_kaya"
 		"ItemRequirements"
 		{
 			"01"						"item_staff_of_wizardry;item_robe"
@@ -3742,18 +3723,31 @@
 		}
 	}
 
-	"item_recipe_mem_chebureksword"
+	"item_recipe_mem_yasha_kaya"
 	{
 		"BaseClass"						"item_datadriven"
 		"AbilityTextureName" 			"recipe"
-		"Model"							"models/props_gameplay/recipe.vmdl"
 		"ItemCost"						"0"
 		"ItemRecipe"					"1"
-		"ItemResult"					"item_mem_chebureksword"
+		"ItemResult"					"item_mem_yasha_kaya"
+		"Model"							"models/props_gameplay/recipe.vmdl"
 		"ItemRequirements"
 		{
-			"01"						"item_mem_sange_yasha;item_mem_cheburek"
-			"02"						"item_mem_sange;item_mem_cheburek;item_mem_yasha"
+			"01"						"item_mem_yasha;item_mem_kaya"
+		}
+	}
+
+	"item_recipe_mem_kaya_sange"
+	{
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName" 			"recipe"
+		"ItemCost"						"0"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_mem_kaya_sange"
+		"Model"							"models/props_gameplay/recipe.vmdl"
+		"ItemRequirements"
+		{
+			"01"						"item_mem_kaya;item_mem_sange"
 		}
 	}
 	
@@ -3763,24 +3757,17 @@
 		"ScriptFile"					"items/item_swords.lua"
 		"AbilityTextureName"			"items/sange"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityCooldown"				"5"
 		"AbilitySharedCooldown"			"sword"
-		"ItemCost"						"1750"
+		"ItemCost"						"2100"
 		"ItemShopTags"					"damage;str;unique"
 		"ItemQuality"					"artifact"
 		"ItemAliases"					"sange"
 
 		"AbilityValues"
 		{
-			"proc_chance"			"30"
-			"proc_duration_enemy"	"1.0"
-			"maim_stack"			"-7"
-			"max_stacks"			"3"
-			"stack_duration"		"5.0"
-
 			"bonus_strength"		"16"
-			"effect_resistance"		"12"
-			"health_regen_increase"	"20"
+			"slow_resistance"		"25"
+			"heal_amp"				"16"
 		}
 	}
 
@@ -3790,51 +3777,37 @@
 		"ScriptFile"					"items/item_swords.lua"
 		"AbilityTextureName"			"items/yasha"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityCooldown"				"5"
 		"AbilitySharedCooldown"			"sword"
-		"ItemCost"						"1750"
+		"ItemCost"						"2100"
 		"ItemShopTags"					"agi;attack_speed;move_speed"
 		"ItemQuality"					"artifact"
 		"ItemAliases"					"yasha"
 
 		"AbilityValues"
 		{
-			"proc_chance"			"30"
-			"proc_duration_self"	"5.0"
-			"proc_ms"				"15"
-			"as_stack"				"7"
-			"max_stacks"			"3"
-			"stack_duration"		"5.0"
 			"bonus_attack_speed"	"15"
 			"bonus_agility"			"16"
-			"bonus_ms"				"8"
+			"bonus_ms"				"10"
 		}
 	}
 
-	"item_mem_cheburek"
+	"item_mem_kaya"
 	{
 		"BaseClass"						"item_lua"
 		"ScriptFile"					"items/item_swords.lua"
-		"AbilityTextureName"			"items/cheburek"
+		"AbilityTextureName"			"items/kaya"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityCooldown"				"5"
 		"AbilitySharedCooldown"			"sword"
-		"ItemCost"						"1750"
+		"ItemCost"						"2100"
 		"ItemShopTags"					"int;unique"
 		"ItemQuality"					"artifact"
-		"ItemAliases"					"cheburek"
+		"ItemAliases"					"kaya"
 
 		"AbilityValues"
 		{
-			"proc_chance"			"30"
-			"proc_duration_enemy"	"1.0"
-			"amp_stack"				"-7"
-			"max_stacks"			"3"
-			"stack_duration"		"5.0"
-			
 			"bonus_int"				"16"
 			"spell_amplify"			"12"
-			"mana_regen_increase"	"50"
+			"mana_regen_increase"	"30"
 		}
 	}
 
@@ -3842,11 +3815,10 @@
 	{
 		"BaseClass"						"item_lua"
 		"ScriptFile"					"items/item_swords.lua"
-		"AbilityTextureName"			"items/sange_and_yasha"
+		"AbilityTextureName"			"item_sange_and_yasha"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityCooldown"				"5"
 		"AbilitySharedCooldown"			"sword"
-		"ItemCost"						"3500"
+		"ItemCost"						"4200"
 		"ItemShopTags"					"damage;str;agi;attack_speed;unique"
 		"ItemQuality"					"artifact"
 		"ItemAliases"					"sny;s&y;sy;sange and yasha"
@@ -3855,111 +3827,78 @@
 
 		"AbilityValues"
 		{
-			"proc_chance"			"30"
-			"proc_duration_enemy"	"1.0"
-			"proc_duration_self"	"3.0"
-			"proc_ms"				"15"
-			"maim_stack"			"-7"
-			"as_stack"				"5"
-			"max_stacks"			"4"
-			"stack_duration"		"5.0"
+			"bonus_str"					"16"
+			"bonus_agi"					"16"
+			"status_bonus"				"16"
+			"attack_speed"				"20"
+			"move_bonus"				"12"
+			"slow_resistance"			"30"
+			"heal_amp"					"20"
 
-			"bonus_strength"		"16"
-			"effect_resistance"		"15"
-			"health_regen_increase"	"22"
-			"bonus_attack_speed"	"15"
-			"bonus_agility"			"16"
-			"bonus_ms"				"10"
+			"max_stacks"				"5"
+			"stacks_duration"			"5"
+			"stacks_bonus_dmg"			"6"
 		}
 	}
 
-	"item_mem_chebureksword"
+	"item_mem_yasha_kaya"
 	{
 		"BaseClass"						"item_lua"
 		"ScriptFile"					"items/item_swords.lua"
-		"AbilityTextureName"			"items/chebureksword"
+		"AbilityTextureName"			"item_yasha_and_kaya"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityCooldown"				"3"
 		"AbilitySharedCooldown"			"sword"
-		"ItemCost"						"5250"
-		"ItemShopTags"					"agi;int;str;damage;attack_speed;move_speed;unique"
+		"ItemCost"						"4200"
+		"ItemShopTags"					"damage;str;agi;attack_speed;unique;dps;magic_dmg"
 		"ItemQuality"					"artifact"
-		"ItemAliases"					"snany;s&a&y;say;sange and cheburek and yasha;triumvirate"
 		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"				"1"
 
 		"AbilityValues"
 		{
-			"proc_chance"			"30"
-			"proc_duration_enemy"	"1.0"
-			"proc_duration_self"	"3.0"
-			"proc_ms"				"15"
-			"amp_stack"				"-7"
-			"maim_stack"			"-7"
-			"as_stack"				"5"
-			"max_stacks"			"5"
-			"stack_duration"		"5.0"
+			"bonus_agi"					"16"
+			"bonus_int"					"16"
+			"bonus_attack_speed"		"20"
+			"bonus_movespeed"			"12"
+			"bonus_spell_amp"			"12"
+			"mana_restoration_amp"		"40"
+			"spell_speed_amp"			"25"
 
-			"bonus_strength"		"20"
-			"effect_resistance"		"15"
-			"health_regen_increase"	"22"
-			"bonus_attack_speed"	"20"
-			"bonus_agility"			"20"
-			"bonus_ms"				"10"
-			"bonus_int"				"20"
-			"spell_amplify"			"15"
-			"mana_regen_increase"	"50"
+			"max_stacks"				"5"
+			"stacks_duration"			"5"
+			"stacks_spell_amp"			"3.6"
 		}
 	}
 
-	"item_recipe_heavens_halberd_custom"
-	{
-		"BaseClass"						"item_datadriven"
-		"AbilityTextureName" 			"recipe"
-		"ItemCost"						"200"	
-		"ItemShopTags"					""
-		"ItemRecipe"					"1"
-		"ItemResult"					"item_heavens_halberd_custom"
-		"ItemRequirements"
-		{
-			"01"						"item_mem_sange;item_talisman_of_evasion"
-		}
-	}
-
-	"item_heavens_halberd_custom"
+	"item_mem_kaya_sange"
 	{
 		"BaseClass"						"item_lua"
 		"ScriptFile"					"items/item_swords.lua"
-		"AbilityTextureName"			"item_heavens_halberd"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityCooldown"				"18"
-		"AbilityCastRange"				"650"
-		"AbilityCastPoint"				"0.0"
-		"AbilityManaCost"				"100"
-		"ItemCost"						"3550"
-		"ItemShopTags"					"str;damage;evasion"
+		"AbilityTextureName"			"item_kaya_and_sange"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilitySharedCooldown"			"sword"
+		"ItemCost"						"4200"
+		"ItemShopTags"					"damage;str;agi;unique;magic_dmg"
 		"ItemQuality"					"artifact"
-		"ItemAliases"					"heaven's halberd"
 		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
-		"ShouldBeSuggested"				"1"
-		
+		"SuggestLategame"				"1"
+
 		"AbilityValues"
 		{
+			"bonus_str"					"16"
+			"bonus_int"					"16"
+			"spell_damage"				"12"
+			"regen_amp"					"40"
+			"heal_amp"					"20"
+			"slow_resistance"			"25"
+			"mana_reduce_amp"			"25"
 
-			"bonus_evasion"				"20"
-			"disarm_range"				"5.0"
-			"disarm_melee"				"3.0"
-			"proc_chance"				"30"
-			"proc_duration_enemy"		"1.0"
-			"maim_stack"				"-7"
-			"max_stacks"				"3"
-			"stack_duration"			"5.0"
-			"bonus_strength"			"16"
-			"effect_resistance"			"12"
-			"health_regen_increase"		"20"
+			"max_stacks"				"5"
+			"stacks_duration"			"5"
+			"damage_for_stack"			"250"
+			"stacks_incoming_dmg"		"-5"
 		}
 	}
 
@@ -4032,13 +3971,6 @@
 			"tooltip_damage_outgoing_ranged"			"28"
 			"invuln_duration"		"0.1"
 			"vision_radius"			"1000"
-
-			"proc_chance"			"30"
-			"proc_duration_self"	"5.0"
-			"proc_ms"				"15"
-			"as_stack"				"7"
-			"max_stacks"			"3"
-			"stack_duration"		"5.0"
 		}
 	}
 
@@ -4085,13 +4017,6 @@
 
 			"invuln_duration"		"0.1"
 			"vision_radius"			"1000"
-
-			"proc_chance"			"30"
-			"proc_duration_self"	"5.0"
-			"proc_ms"				"15"
-			"as_stack"				"7"
-			"max_stacks"			"3"
-			"stack_duration"		"5.0"
 		}
 	}
 
@@ -4192,7 +4117,7 @@
 			"lifesteal_active"	"15"
 			"magic_lifesteal_active"			"20"
 			"armor_active"		"-8"
-			"damage_per_second_active"				"150"
+			"damage_per_second_active"				"100"
 			"bonus_attack_speed_active"				"80"
 			"damage_per_charge"			"1"
 			"lifesteal_per_charge"			"0.5"
@@ -4351,13 +4276,8 @@
 			"bonus_mana"			"250"
 			"active_duration"		"6"
 			"bonus_damage"			"40"
-			"crit_multiplier"		"160"
+			"crit_multiplier"		"190"
 			"proc_chance"			"30"
-			"proc_duration_self"	"3.0"
-			"proc_ms"				"15"
-			"as_stack"				"5"
-			"max_stacks"			"5"
-			"stack_duration"		"5.0"
 			"bonus_attack_speed"	"25"
 			"bonus_agility"			"25"
 			"bonus_ms"				"10"
@@ -4435,13 +4355,13 @@
 		"BaseClass"					 "item_datadriven"
 		"AbilityTextureName"			"recipe"
 		"Model"						 "models/props_gameplay/recipe.vmdl"
-		"ItemCost"					  "2600"  
+		"ItemCost"					  "1600"  
 		"ItemShopTags"				  ""
 		"ItemRecipe"					"1"
 		"ItemResult"					"item_refresher_custom"
 		"ItemRequirements"
 		{
-			"01"						"item_cornucopia;item_cornucopia"
+			"01"						"item_ring_of_tarrasque;item_tiara_of_selemene"
 		}
 	}
 
@@ -4463,9 +4383,9 @@
 
 		"AbilityValues"
 		{
-			"bonus_health_regen"		"12"
-			"bonus_mana_regen"	  	"6"
-			"damage"					"20"
+			"bonus_health_regen"		"14"
+			"bonus_mana_regen"	  	"7"
+			"damage"					"0"
 		}
 	}
 
@@ -4864,41 +4784,6 @@
 		}
 	}
 
-		"item_recipe_eternal_shroud"
-	{
-		"ItemCost"						"1600"	
-		"ItemShopTags"					""
-		"ItemRecipe"					"1"
-		"ItemResult"					"item_eternal_shroud"
-		"ItemRequirements"
-		{
-			"01"						"item_cloak;item_ogre_axe;item_vitality_booster"
-		}
-	}
-
-		"item_eternal_shroud"
-	{
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"ItemCost"						"440"
-		"ItemShopTags"					"regen_health;magic_resist;tank"
-		"ItemQuality"					"epic"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
-		"SuggestLategame"				"1"
-
-		"AbilityValues"
-		{
-			"bonus_spell_resist"					"20"
-			"bonus_strength"						"10"
-			"bonus_health"							"250"
-			"stack_threshold"						"400"
-			"stack_duration"						"5"
-			"stack_resist"							"2"
-			"mana_restore_pct"						"25"
-			"max_stacks"							"5"
-
-		}
-	}
-	
 		"item_smoke_of_deceit"
 	{
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"

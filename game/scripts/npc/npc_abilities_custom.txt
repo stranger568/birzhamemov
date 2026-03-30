@@ -3516,7 +3516,7 @@
 		"BaseClass"						"ability_lua"
 		"ScriptFile"					"abilities/heroes/azazin.lua"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
+		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_3"
 		"AbilityTextureName"			"Azazin/TeamA"
 		"AbilityCastPoint"				"0.65"
 		"AbilityCooldown"				"20"
@@ -3569,6 +3569,7 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
 		"AbilityTextureName" 			"Azazin/Agressive"
 		"AbilityCastPoint"				"0.4"
 		"AbilityCooldown"				"20 19 18 17"
@@ -3603,6 +3604,7 @@
 		"ScriptFile"					"abilities/heroes/azazin.lua"
 		"AbilityType"					"ABILITY_TYPE_ULTIMATE"	
 		"AbilityTextureName" 			"Azazin/Spinner"
+		"AbilityCastAnimation"			"ACT_DOTA_FLAIL"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
@@ -3840,9 +3842,9 @@
 		{
 			"duration"				"20"
 			"bonus_strength"		"30 40 50"
-			"movespeed_slow"		"-25"
-			"range"					"100"
-			"strength_multiplier"	"1.25 1.5 1.75"
+			"movespeed_limit"		"175 245 315"
+			"range"					"200"
+			"strength_multiplier"	"2 2.5 3"
 			"radius"
 			{
 				"value"				"300"
@@ -14117,7 +14119,6 @@
 				"LinkedSpecialBonus"					"special_bonus_birzha_van_6"
 			}
 			"burn_duration"				"3"
-			"ministun_duration"			"0.6"
 			"gold"						"25 50 75 100"
 		}
 	}
