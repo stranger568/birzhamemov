@@ -97,12 +97,25 @@ function modifier_item_liquid:IsPurgable() return false end
 function modifier_item_liquid:IsPurgeException() return false end
 function modifier_item_liquid:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
+function modifier_item_liquid:OnCreated()
+	if not IsServer() then return end
+	if not self:GetAbility() or self:GetAbility():IsNull() then return end
+	self.mod = self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_item_chasm_stone", {})
+end
+
+function modifier_item_liquid:OnDestroy()
+	if not IsServer() then return end
+	if not self.mod or self.mod:IsNull() then return end
+	self.mod:Destroy()
+end
+
 function modifier_item_liquid:DeclareFunctions()
     local funcs = {
         MODIFIER_PROPERTY_MANA_BONUS,
         MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
         MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
         MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
+        MODIFIER_PROPERTY_AOE_BONUS_PERCENTAGE ,
     }
 
     return funcs

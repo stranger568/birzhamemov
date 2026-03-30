@@ -7,11 +7,11 @@ item_hookah = class({})
 function item_hookah:OnSpellStart()
 	if not IsServer() then return end
 	local hookah = CreateUnitByName("item_hookah", self:GetCaster():GetCursorPosition(), true, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
-	hookah:AddNewModifier(hookah, self, "modifier_hookah_aura", {duration = 5})
-	hookah:AddNewModifier(hookah, self, "modifier_kill", {duration = 5})
-	hookah:SetDayTimeVisionRange(0)
-	hookah:SetNightTimeVisionRange(0)
-	self:GetParent():EmitSound("ui.tournament_open")
+	hookah:AddNewModifier(hookah, self, "modifier_hookah_aura", {duration = self:GetSpecialValueFor("duration")})
+	hookah:AddNewModifier(hookah, self, "modifier_kill", {duration = self:GetSpecialValueFor("duration")})
+	hookah:SetDayTimeVisionRange(300)
+	hookah:SetNightTimeVisionRange(300)
+	self:GetCaster():EmitSound("ui.tournament_open")
 end
 
 function item_hookah:GetIntrinsicModifierName() 
@@ -25,6 +25,18 @@ function modifier_hookah_passive:IsPurgable() return false end
 function modifier_hookah_passive:IsPurgeException() return false end
 function modifier_hookah_passive:GetAttributes()  return MODIFIER_ATTRIBUTE_MULTIPLE end
 
+function modifier_hookah_passive:OnCreated()
+	if not IsServer() then return end
+	if not self:GetAbility() or self:GetAbility():IsNull() then return end
+	self.mod = self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_item_chasm_stone", {})
+end
+
+function modifier_hookah_passive:OnDestroy()
+	if not IsServer() then return end
+	if not self.mod or self.mod:IsNull() then return end
+	self.mod:Destroy()
+end
+
 function modifier_hookah_passive:DeclareFunctions()
 	return 
 	{
@@ -34,6 +46,7 @@ function modifier_hookah_passive:DeclareFunctions()
 		MODIFIER_PROPERTY_MANA_BONUS,
 		MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,
 		MODIFIER_PROPERTY_EXTRA_MANA_PERCENTAGE,
+		MODIFIER_PROPERTY_AOE_BONUS_CONSTANT_STACKING ,
 	}
 end
 
@@ -65,6 +78,11 @@ end
 function modifier_hookah_passive:GetModifierConstantManaRegen()
 	if not self:GetAbility() then return end
 	return self:GetAbility():GetSpecialValueFor("mana_regen_passive")
+end
+
+function modifier_hookah_passive:GetModifierAoEBonusConstantStacking()
+    if not self:GetAbility() then return end
+    return self:GetAbility():GetSpecialValueFor('aoe')
 end
 
 modifier_hookah_aura = class({})
@@ -106,7 +124,7 @@ function modifier_hookah_aura:GetAuraRadius()
 end
 
 function modifier_hookah_aura:GetAuraSearchTeam()
-	return DOTA_UNIT_TARGET_TEAM_FRIENDLY
+	return DOTA_UNIT_TARGET_TEAM_BOTH  
 end
 
 function modifier_hookah_aura:GetAuraSearchType()
@@ -129,10 +147,14 @@ function modifier_hookah_regen:OnCreated()
 	
 	if not IsServer() then return end
 
-	local particle_drain_fx = ParticleManager:CreateParticle("particles/econ/items/lion/lion_demon_drain/lion_spell_mana_drain_demon.vpcf", PATTACH_ABSORIGIN, self:GetParent())
-	ParticleManager:SetParticleControlEnt(particle_drain_fx, 0, self:GetAuraOwner(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetAuraOwner():GetAbsOrigin(), true)
-	ParticleManager:SetParticleControlEnt(particle_drain_fx, 1, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
-	self:AddParticle(particle_drain_fx, false, false, -1, false, false)
+	local particle_drain_fx = "particles/econ/items/lion/lion_demon_drain/lion_spell_mana_drain_demon.vpcf"
+	if self:GetParent():GetTeamNumber() ~= self:GetCaster():GetTeamNumber() then
+		particle_drain_fx = "particles/hookah/hookah_enemy.vpcf"
+	end
+	local particle = ParticleManager:CreateParticle(particle_drain_fx, PATTACH_ABSORIGIN, self:GetParent())
+	ParticleManager:SetParticleControlEnt(particle, 0, self:GetAuraOwner(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetAuraOwner():GetAbsOrigin(), true)
+	ParticleManager:SetParticleControlEnt(particle, 1, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
+	self:AddParticle(particle, false, false, -1, false, false)
 
 	self:StartIntervalThink(0.1)
 end
@@ -140,7 +162,11 @@ end
 function modifier_hookah_regen:OnIntervalThink()
 	if not IsServer() then return end
 	self:GetParent():EmitSound("Hero_WitchDoctor_Ward.Attack")
-	self:GetParent():GiveMana(self.mana_regen)
+	if self:GetParent():GetTeamNumber() ~= self:GetCaster():GetTeamNumber() then
+		self:GetParent():SpendMana(self.mana_regen, self:GetAbility())
+	else
+		self:GetParent():GiveMana(self.mana_regen)
+	end
 end
 
 function modifier_hookah_regen:GetTexture()

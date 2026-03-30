@@ -48,6 +48,39 @@ function modifier_item_demon_paper:GetModifierConstantManaRegen()
 	return self:GetAbility():GetSpecialValueFor("bonus_mana")
 end
 
+function modifier_item_demon_paper:DeclareFunctions()
+	return 	
+	{
+		MODIFIER_PROPERTY_PROCATTACK_BONUS_DAMAGE_PURE,
+		MODIFIER_PROPERTY_ALWAYS_ETHEREAL_ATTACK,
+	}
+end
+
+function modifier_item_demon_paper:GetModifierProcAttack_BonusDamage_Pure( params )
+	if not IsServer() then return end
+	if params.attacker ~= self:GetParent() then return end
+	if params.target:IsWard() then return end
+	if self:GetParent():FindAllModifiersByName("modifier_item_demon_paper")[1] ~= self then return end
+	local proc_chance = self:GetAbility():GetSpecialValueFor("proc_chance")
+	local pure_dmg = self:GetAbility():GetSpecialValueFor("pure_dmg")
+	if self:GetParent():HasModifier("modifier_item_demon_paper_active") then 
+		proc_chance = self:GetAbility():GetSpecialValueFor("active_proc_chance")
+	end
+	if self:GetParent():HasModifier("modifier_item_demon_paper_active") then 
+		pure_dmg = self:GetAbility():GetSpecialValueFor("pure_dmg") + self:GetAbility():GetSpecialValueFor("active_pure_dmg")
+	end
+	if RollPercentage(proc_chance) then
+		params.target:EmitSound("DOTA_Item.HotD.Activate")
+        SendOverheadEventMessage(nil, OVERHEAD_ALERT_BONUS_PURE_DAMAGE , params.target, params.original_damage + (params.original_damage / 100 * pure_dmg), nil)
+		return pure_dmg
+	end
+	return 0
+end
+
+function modifier_item_demon_paper:GetAllowEtherealAttack()
+    return 1
+end
+
 modifier_item_demon_paper_active = class({})
 
 function modifier_item_demon_paper_active:GetTexture()
@@ -62,56 +95,19 @@ function modifier_item_demon_paper_active:GetEffectAttachType()
 	return PATTACH_ABSORIGIN_FOLLOW
 end
 
-function modifier_item_demon_paper_active:OnCreated()
-	if not IsServer() then return end
-	local stacks = self:GetAbility():GetSpecialValueFor("stacks")
-	local particle = ParticleManager:CreateParticle("particles/econ/items/warlock/warlock_staff_glory/warlock_upheaval_hellborn_debuff.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
-	ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
-	ParticleManager:SetParticleControl(particle, 1, self:GetParent():GetAbsOrigin())
-	self:AddParticle(particle, false, false, -1, false, false)
-	self:SetStackCount(stacks)
-end
-
-function modifier_item_demon_paper_active:OnRefresh()
-	if not IsServer() then return end
-	local stacks = self:GetAbility():GetSpecialValueFor("stacks")
-	local particle = ParticleManager:CreateParticle("particles/econ/items/warlock/warlock_staff_glory/warlock_upheaval_hellborn_debuff.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
-	ParticleManager:SetParticleControl(particle, 0, self:GetParent():GetAbsOrigin())
-	ParticleManager:SetParticleControl(particle, 1, self:GetParent():GetAbsOrigin())
-	self:AddParticle(particle, false, false, -1, false, false)
-	self:SetStackCount(stacks)
-end
-
 function modifier_item_demon_paper_active:DeclareFunctions()
-	return 	
-	{
-		MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE,
-		MODIFIER_PROPERTY_ALWAYS_ETHEREAL_ATTACK,
-	}
+	return {MODIFIER_EVENT_ON_ATTACK_LANDED}
 end
 
-function modifier_item_demon_paper_active:GetModifierTotalDamageOutgoing_Percentage( params )
-	if not IsServer() then return end
-	if params.damage_category ~= DOTA_DAMAGE_CATEGORY_ATTACK then return 0 end
-	local damageTable = 
-	{
-		victim = params.target,
-		attacker = self:GetParent(),
-		damage = params.original_damage,
-		damage_type = DAMAGE_TYPE_PURE,
-		damage_flag = DOTA_DAMAGE_FLAG_MAGIC_AUTO_ATTACK + DOTA_DAMAGE_FLAG_NO_SPELL_AMPLIFICATION + DOTA_DAMAGE_FLAG_NO_SPELL_LIFESTEAL,
-		ability = self:GetAbility()
-	}
-	ApplyDamage( damageTable )
-
-	self:DecrementStackCount()
-	if self:GetStackCount() <= 0 then
-		self:Destroy()
+function modifier_item_demon_paper_active:OnAttackLanded(params)
+	if not IsServer() then return end 
+	if params.attacker ~= self:GetParent() then return end 
+	if params.target == self:GetParent() then return end
+	local parent_hp = self:GetParent():GetMaxHealth()
+	local hp_loss = parent_hp * (self:GetAbility():GetSpecialValueFor("hp_loss") / 100)
+	if self:GetParent():GetHealth() > hp_loss then
+		self:GetParent():SetHealth(self:GetParent():GetHealth() - hp_loss)
+	else
+		self:GetParent():SetHealth(1)
 	end
-
-	return -1000
-end
-
-function modifier_item_demon_paper_active:GetAllowEtherealAttack()
-    return 1
 end
