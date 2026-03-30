@@ -1,5 +1,25 @@
 local NEUTRAL_KV_ITEMS_LIST = LoadKeyValues("scripts/npc/npc_neutral_items_custom.txt")["neutral_tiers"]
 
+function BirzhaGameMode:GetOppositeChestPoint(points, source_point)
+    if not points or #points <= 1 or not source_point then
+        return source_point
+    end
+    local source_origin = source_point:GetAbsOrigin()
+    local mirrored_origin = Vector(-source_origin.x, -source_origin.y, source_origin.z)
+    local opposite_point = nil
+    local best_distance = math.huge
+    for _, point in pairs(points) do
+        if point ~= source_point then
+            local distance = (point:GetAbsOrigin() - mirrored_origin):Length2D()
+            if distance < best_distance then
+                best_distance = distance
+                opposite_point = point
+            end
+        end
+    end
+    return opposite_point or source_point
+end
+
 function BirzhaGameMode:ThinkGoldDrop()
 	if RollPercentage(self.m_GoldDropPercent) then
 		self:SpawnGoldEntity( Vector( 0, 0, 0 ) + RandomVector(RandomInt(self.m_GoldRadiusMin, self.m_GoldRadiusMax)) )
@@ -48,86 +68,98 @@ end
 
 function BirzhaGameMode:WarnItem()
     local chest_point = Entities:FindAllByName("chest_point")
-    BirzhaGameMode.RandomGeneratePoint = chest_point[RandomInt(1, #chest_point)]
-	local spawnLocation = GetGroundPosition(BirzhaGameMode.RandomGeneratePoint:GetAbsOrigin(), nil)
+    local first_point = chest_point[RandomInt(1, #chest_point)]
+    local second_point = BirzhaGameMode:GetOppositeChestPoint(chest_point, first_point)
+    BirzhaGameMode.RandomGeneratePoints = {first_point}
+    if second_point and second_point ~= first_point then
+        table.insert(BirzhaGameMode.RandomGeneratePoints, second_point)
+    end
+
 	CustomGameEventManager:Send_ServerToAllClients("birzha_toast_manager_create", {text = "ItemWillSpawn", icon = "item"} )
 	EmitGlobalSound( "powerup_03" )
-	CreateModifierThinker( nil, nil, "modifier_birzha_map_center_vision", { duration = 12, radius = 300 }, spawnLocation, DOTA_TEAM_NEUTRALS, false )
-    for _, team in pairs(_G.GET_TEAM_LIST[GetMapName()]) do
-        AddFOWViewer(team, spawnLocation, 300, 12, false)
-        GameRules:ExecuteTeamPing(team, spawnLocation.x, spawnLocation.y, nil, 0)
+
+    for _, point in pairs(BirzhaGameMode.RandomGeneratePoints) do
+	    local spawnLocation = GetGroundPosition(point:GetAbsOrigin(), nil)
+	    CreateModifierThinker( nil, nil, "modifier_birzha_map_center_vision", { duration = 12, radius = 300 }, spawnLocation, DOTA_TEAM_NEUTRALS, false )
+        for _, team in pairs(_G.GET_TEAM_LIST[GetMapName()]) do
+            AddFOWViewer(team, spawnLocation, 300, 12, false)
+            GameRules:ExecuteTeamPing(team, spawnLocation.x, spawnLocation.y, nil, 0)
+        end
+	    local effect_spawn = ParticleManager:CreateParticle( "particles/particle_spawn_item_birzha.vpcf", PATTACH_CUSTOMORIGIN, nil )
+	    ParticleManager:SetParticleControl( effect_spawn, 0, spawnLocation)
+	    ParticleManager:SetParticleControl( effect_spawn, 1, spawnLocation)
+	    Timers:CreateTimer(10, function()
+		    ParticleManager:DestroyParticle(effect_spawn, false)
+        	ParticleManager:ReleaseParticleIndex( effect_spawn )
+	    end)
     end
-	local effect_spawn = ParticleManager:CreateParticle( "particles/particle_spawn_item_birzha.vpcf", PATTACH_CUSTOMORIGIN, nil )
-	ParticleManager:SetParticleControl( effect_spawn, 0, spawnLocation)
-	ParticleManager:SetParticleControl( effect_spawn, 1, spawnLocation)
-	Timers:CreateTimer(10, function()
-		ParticleManager:DestroyParticle(effect_spawn, false)
-    	ParticleManager:ReleaseParticleIndex( effect_spawn )
-	end)
 end
 
 function BirzhaGameMode:SpawnItem()
-	local spawnLocation = GetGroundPosition(BirzhaGameMode.RandomGeneratePoint:GetAbsOrigin(), nil) + Vector(0,0,800)
-	local visual = GetGroundPosition(BirzhaGameMode.RandomGeneratePoint:GetAbsOrigin(), nil) + Vector(0,0,100)
-	local end_pos = GetGroundPosition(BirzhaGameMode.RandomGeneratePoint:GetAbsOrigin(), nil)
+    local spawn_points = BirzhaGameMode.RandomGeneratePoints or {}
 
-	local particle_l = ParticleManager:CreateParticle("particles/spawn_chect_knockback.vpcf", PATTACH_WORLDORIGIN, nil)
-    ParticleManager:SetParticleControl(particle_l, 0, visual)
-    ParticleManager:SetParticleControl(particle_l, 60, Vector(255,140,0))
-    ParticleManager:SetParticleControl(particle_l, 61, Vector(1,1,1))
-    ParticleManager:ReleaseParticleIndex( particle_l )
+    for _, point in pairs(spawn_points) do
+	    local spawnLocation = GetGroundPosition(point:GetAbsOrigin(), nil) + Vector(0,0,800)
+	    local visual = GetGroundPosition(point:GetAbsOrigin(), nil) + Vector(0,0,100)
+	    local end_pos = GetGroundPosition(point:GetAbsOrigin(), nil)
 
-	local newItem = CreateItem( "item_treasure_chest", nil, nil )
-    newItem.is_cooldown_take = true
-	local drop = CreateItemOnPositionForLaunch(spawnLocation, newItem )
-	newItem:LaunchLootInitialHeight( false, 0, 50, 0.25, spawnLocation )
-    Timers:CreateTimer(0.3, function()
-        newItem.is_cooldown_take = nil
-    end)
+	    local particle_l = ParticleManager:CreateParticle("particles/spawn_chect_knockback.vpcf", PATTACH_WORLDORIGIN, nil)
+        ParticleManager:SetParticleControl(particle_l, 0, visual)
+        ParticleManager:SetParticleControl(particle_l, 60, Vector(255,140,0))
+        ParticleManager:SetParticleControl(particle_l, 61, Vector(1,1,1))
+        ParticleManager:ReleaseParticleIndex( particle_l )
 
-    local ping_counter = 0
+	    local newItem = CreateItem( "item_treasure_chest", nil, nil )
+        newItem.is_cooldown_take = true
+	    local drop = CreateItemOnPositionForLaunch(spawnLocation, newItem )
+	    newItem:LaunchLootInitialHeight( false, 0, 50, 0.25, spawnLocation )
+        Timers:CreateTimer(0.3, function()
+            newItem.is_cooldown_take = nil
+        end)
 
-    Timers:CreateTimer(1, function()
-        if drop and not drop:IsNull() then
-            ping_counter = ping_counter + 1
-            for _, team in pairs(_G.GET_TEAM_LIST[GetMapName()]) do
-                local location_drop = drop:GetAbsOrigin()
-                AddFOWViewer(team, location_drop, 300, 1.1, false)
-                if ping_counter <= 5 then
-                    GameRules:ExecuteTeamPing(team, location_drop.x, location_drop.y, nil, 0)
+        local ping_counter = 0
+        Timers:CreateTimer(1, function()
+            if drop and not drop:IsNull() then
+                ping_counter = ping_counter + 1
+                for _, team in pairs(_G.GET_TEAM_LIST[GetMapName()]) do
+                    local location_drop = drop:GetAbsOrigin()
+                    AddFOWViewer(team, location_drop, 300, 1.1, false)
+                    if ping_counter <= 5 then
+                        GameRules:ExecuteTeamPing(team, location_drop.x, location_drop.y, nil, 0)
+                    end
                 end
+                return 1
             end
-            return 1
-        end
-    end)
+        end)
 
-	Timers:CreateTimer(0.25, function()
+	    Timers:CreateTimer(0.25, function()
+		    local effect_cast = ParticleManager:CreateParticle( "particles/econ/items/earthshaker/earthshaker_arcana/earthshaker_arcana_aftershock_v2.vpcf", PATTACH_CUSTOMORIGIN, nil )
+		    ParticleManager:SetParticleControl( effect_cast, 0, visual)
+		    ParticleManager:SetParticleControl( effect_cast, 1, Vector( 200, 200, 200 ) )
+		    ParticleManager:ReleaseParticleIndex( effect_cast )
+
+            local targets = FindUnitsInRadius(DOTA_TEAM_NOTEAM, end_pos, nil, 300, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_ANY_ORDER, false)
+            for _,unit in pairs(targets) do
+                local direction = unit:GetAbsOrigin() - visual
+                direction.z = 0
+                direction = direction:Normalized()
+                local knockback = unit:AddNewModifier(unit, nil, "modifier_generic_knockback_lua", {direction_x = direction.x, direction_y = direction.y, distance = 400, height = 100, duration = 0.25, IsStun = true})
+                local callback = function( bInterrupted )
+                    unit:Stop()
+                    FindClearSpaceForUnit(unit, unit:GetAbsOrigin(), true)
+                end
+                knockback:SetEndCallback( callback )
+            end
+	    end)
+    end
+    Timers:CreateTimer(0.25, function()
+        EmitGlobalSound( "chest_dropped" )
 		CustomGameEventManager:Send_ServerToAllClients("birzha_toast_manager_create", {text = "ItemHasSpawned", icon = "item2"} )
-		EmitGlobalSound( "chest_dropped" )
-
-		local effect_cast = ParticleManager:CreateParticle( "particles/econ/items/earthshaker/earthshaker_arcana/earthshaker_arcana_aftershock_v2.vpcf", PATTACH_CUSTOMORIGIN, nil )
-		ParticleManager:SetParticleControl( effect_cast, 0, visual)
-		ParticleManager:SetParticleControl( effect_cast, 1, Vector( 200, 200, 200 ) )
-		ParticleManager:ReleaseParticleIndex( effect_cast )
-
-        local targets = FindUnitsInRadius(DOTA_TEAM_NOTEAM, end_pos, nil, 300, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_ANY_ORDER, false)
-        for _,unit in pairs(targets) do
-            local direction = unit:GetAbsOrigin() - visual
-            direction.z = 0
-            direction = direction:Normalized()
-            local knockback = unit:AddNewModifier(unit, nil, "modifier_generic_knockback_lua", {direction_x = direction.x, direction_y = direction.y, distance = 400, height = 100, duration = 0.25, IsStun = true})
-            local callback = function( bInterrupted )
-                unit:Stop()
-                FindClearSpaceForUnit(unit, unit:GetAbsOrigin(), true)
-            end
-            knockback:SetEndCallback( callback )
-        end
-	end)
+    end)
 end
 
 function BirzhaGameMode:SpecialItemAdd(event, duplicate, new_owner)
     -- Получаем предмет и владельца
-
     local owner = event.HeroEntityIndex and EntIndexToHScript(event.HeroEntityIndex) or event.UnitEntityIndex and EntIndexToHScript(event.UnitEntityIndex)
     if new_owner then
         owner = new_owner
