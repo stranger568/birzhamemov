@@ -74,6 +74,11 @@ function shadowraze.OnSpellStart( abil )
 	local stack_duration = abil:GetSpecialValueFor("duration")
 	local cooldown_shard = abil:GetSpecialValueFor("shadowraze_cooldown_shard")
 	local shard_check = false
+	local flags = DOTA_UNIT_TARGET_FLAG_NONE
+	local talent = abil:GetCaster():FindAbilityByName("special_bonus_unique_never_8")
+    if talent and talent:GetLevel() > 0 then 
+		flags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
+	end
 
 	local enemies = FindUnitsInRadius(
 		abil:GetCaster():GetTeamNumber(),
@@ -82,7 +87,7 @@ function shadowraze.OnSpellStart( abil )
 		target_radius,
 		DOTA_UNIT_TARGET_TEAM_ENEMY,
 		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-		DOTA_UNIT_TARGET_FLAG_NONE,
+		flags,
 		FIND_ANY_ORDER,
 		false
 	)

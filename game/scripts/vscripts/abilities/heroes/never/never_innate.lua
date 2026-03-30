@@ -15,6 +15,7 @@ function never_innate:GetAbilityTextureName()
 end
 
 function never_innate:GetIntrinsicModifierName()
+	if self:GetCaster():IsIllusion() then return end
     return "modifier_never_innate"
 end
 
