@@ -476,7 +476,7 @@ function modifier_tailer_doubleform:AllowIllusionDuplicate() return true end
 
 function modifier_tailer_doubleform:OnCreated()
 	self.bonus_strength_kv = self:GetAbility():GetSpecialValueFor("bonus_strength")
-	self.movespeed_slow = self:GetAbility():GetSpecialValueFor("movespeed_slow")
+	self.movespeed_limit = self:GetAbility():GetSpecialValueFor("movespeed_limit")
 	self.range = self:GetAbility():GetSpecialValueFor("range")
 	self.strength_multiplier = self:GetAbility():GetSpecialValueFor("strength_multiplier")
 	self.radius = self:GetAbility():GetSpecialValueFor("radius")
@@ -512,7 +512,7 @@ end
 
 function modifier_tailer_doubleform:OnRefresh()
 	self.bonus_strength_kv = self:GetAbility():GetSpecialValueFor("bonus_strength")
-	self.movespeed_slow = self:GetAbility():GetSpecialValueFor("movespeed_slow")
+	self.movespeed_limit = self:GetAbility():GetSpecialValueFor("movespeed_limit")
 	self.range = self:GetAbility():GetSpecialValueFor("range")
 	self.strength_multiplier = self:GetAbility():GetSpecialValueFor("strength_multiplier")
 	self.radius = self:GetAbility():GetSpecialValueFor("radius")
@@ -529,7 +529,7 @@ function modifier_tailer_doubleform:DeclareFunctions()
 	local funcs = 
 	{
 		MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
-		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+		MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE_MAX,
 		MODIFIER_PROPERTY_MODEL_CHANGE,
 		MODIFIER_PROPERTY_MODEL_SCALE,
 		MODIFIER_PROPERTY_TOOLTIP,
@@ -610,8 +610,8 @@ function modifier_tailer_doubleform:GetModifierBonusStats_Strength()
 	return self.bonus_strength
 end
 
-function modifier_tailer_doubleform:GetModifierMoveSpeedBonus_Percentage()
-	return self.movespeed_slow
+function modifier_tailer_doubleform:GetModifierMoveSpeed_AbsoluteMax()
+	return self.movespeed_limit
 end
 
 function modifier_tailer_doubleform:GetModifierModelChange()

@@ -363,7 +363,7 @@ function van_takeitboy:OnOrbFire( params )
     local stun_duration = self:GetSpecialValueFor( "ministun_duration" )
     if params.target:IsBoss() then return end
     params.target:AddNewModifier( self:GetCaster(), self, "modifier_van_takeitboy_debuff", { duration = duration*(1-params.target:GetStatusResistance()) } )
-    params.target:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned_purge", { duration = stun_duration * (1-params.target:GetStatusResistance()) })
+    --params.target:AddNewModifier( self:GetCaster(), self, "modifier_birzha_stunned_purge", { duration = stun_duration * (1-params.target:GetStatusResistance()) })
 end
 
 modifier_van_takeitboy_debuff = class({})
@@ -408,6 +408,10 @@ end
 function modifier_van_takeitboy_debuff:OnIntervalThink()
     self.damageTable.damage = self.damage + ((self.damage_pct/100)*self:GetParent():GetMaxHealth())
     ApplyDamage( self.damageTable )
+end
+
+function modifier_van_takeitboy_debuff:CheckState()
+    return {[MODIFIER_STATE_PASSIVES_DISABLED] = true}
 end
 
 function modifier_van_takeitboy_debuff:GetEffectName()
