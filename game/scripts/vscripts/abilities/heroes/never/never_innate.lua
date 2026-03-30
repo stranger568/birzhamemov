@@ -42,7 +42,9 @@ function modifier_never_innate:OnCreated()
 		self.bonus_max_souls = 0 
         self.soul_max = self:GetAbility():GetSpecialValueFor("soul_max")
 		self:SetHasCustomTransmitterData(true)
-		--self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_bp_never_reward", {})
+		if IsInToolsMode() then
+            self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_bp_never_reward", {})
+        end
 	end
 end
 
