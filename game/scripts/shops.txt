@@ -61,13 +61,13 @@
 	"misc"
 	{
 		"item"		"item_mega_spinner"
-		"item"		"item_memolator"
 		"item"		"item_memolator2"
 		"item"		"item_memolator3"
 
 		"item"		"item_frostmorn"
-		"item"		"item_uebator"
-		"item"		"item_mem_chebureksword"
+		"item"		"item_mem_sange_yasha"
+		"item"		"item_mem_yasha_kaya"
+		"item"		"item_mem_kaya_sange"
 		"item"		"item_stun_gun"
 
 		"item"		"item_birzha_diffusal_blade_2"		
@@ -91,6 +91,7 @@
 		"item"		"item_ship_magic_armor"
 		"item"		"item_banner_crusader"
 		"item"		"item_armor_damned"
+		"item"		"item_uebator"
 		"item"		"item_nimbus_lapteva"
 
 		"item"		"item_birzha_holy_locket"
@@ -102,140 +103,134 @@
 		"item"		"item_power_orb"
 		"item"		"item_tar2"
 		"item"		"item_gamble_gold_ring"
-	}	
-	
-	// Level 1 - Green Recipes
+	}
+
 	"basics"
 	{		
 		"item"		"item_magic_wand"
-		"item"		"item_null_talisman"
-		"item"		"item_wraith_band"
 		"item"		"item_bracer"
+		"item"		"item_wraith_band"
+		"item"		"item_null_talisman"
 
+		"item"		"item_power_treads"
 		"item"		"item_soul_ring"
 		"item"		"item_orb_of_corrosion"
 		"item"		"item_falcon_blade"
-		"item"		"item_power_treads"
 
 		"item"		"item_phase_boots"
-		"item"		"item_oblivion_staff"
 		"item"		"item_pers"
  		"item"		"item_nuts"
+		"item"		"item_oblivion_staff"
 
-		"item"		"item_hand_of_midas_custom"	
-		"item"		"item_moon_shard"	
+		"item"		"item_hand_of_midas_custom"
+		"item"		"item_moon_shard"
 		"item"		"item_soul_booster"
 	}
 
-	// Level 2 - Blue Recipes
 	"support"
 	{
-		"item"		"item_buckler"
 		"item"		"item_ring_of_basilius"
 		"item"		"item_ring_of_aquila"
 		"item"		"item_headdress"
-		
 		"item"		"item_urn_of_shadows"
-		"item"		"item_pavise"
-		"item"		"item_arcane_boots"
 		"item"		"item_tranquil_boots"
 		
-		"item"		"item_spirit_vessel"
-		"item"		"item_solar_crest"
+		"item"		"item_arcane_boots"
 		"item"		"item_mekansm"
+		"item"		"item_essence_distiller"
 		"item"		"item_ancient_janggo"
 
-		"item"		"item_vladmir"		
-		"item"		"item_pipe"
+		"item"		"item_pavise"
 		"item"		"item_guardian_greaves"
+		"item"		"item_spirit_vessel"
 		"item"		"item_boots_of_bearing"
-		"item"		"item_essence_distiller"
+
+		"item"		"item_solar_crest"
+		"item"		"item_glimmer_cape"
+		"item"		"item_holy_locket"
+		"item"		"item_pipe"
 	}
 				
-	"magics"			
-	{
-		"item"		"item_glimmer_cape"
-		"item"		"item_force_staff"
-		"item"		"item_dagon"
-		"item"		"item_meteor_hammer"
-		
+	"magics"
+	{		
+		"item"		"item_veil_of_discord"
 		"item"		"item_rod_of_atos"
-		"item"		"item_aether_lens"
 		"item"		"item_cyclone"	
-		"item"		"item_orchid"	
+		"item"		"item_phylactery"
 
+		"item"		"item_bloodstone"
 		"item"		"item_gungir"
-		"item"		"item_ethereal_blade_custom"
 		"item"		"item_wind_waker"
+		"item"		"item_angels_demise"
+
+		"item"		"item_force_staff"
+		"item"		"item_aether_lens"
+		"item"		"item_meteor_hammer"
+		"item"		"item_dagon"
+
+		"item"		"item_ultimate_scepter"
+		"item"		"item_crellas_crozier"
+		"item"		"item_orchid"
 		"item"		"item_refresher_custom"
 
+		"item"		"item_ethereal_blade_custom"
 		"item"		"item_sheepstick"
-		"item"		"item_bloodstone"
-		"item"		"item_ultimate_scepter"
 	}
-		
-	// Level 3 - Purple Recipes	
+
 	"defense"
 	{
+		"item"		"item_buckler"
 		"item"		"item_vanguard"
 		"item"		"item_blade_mail_custom"
-		"item"		"item_helm_of_the_dominator"	
+		"item"		"item_helm_of_the_dominator"
+
+		"item"		"item_vladmir"
+		"item"		"item_crimson_guard"
 		"item"		"item_armlet"
+		"item"		"item_helm_of_the_overlord"
 
-		"item"		"item_crimson_guard"		
+		"item"		"item_consecrated_wraps"
 		"item"		"item_aeon_disk"
-		"item"		"item_heart"
-
-		"item"		"item_veil_of_discord"
-		"item"		"item_eternal_shroud"
 		"item"		"item_lotus_orb"
 
 		"item"		"item_shivas_guard"
-		"item"		"item_skadi" 
 		"item"		"item_sphere"
 		"item"		"item_assault"
-
-		// Not purchasable anymore
-		"item"		"item_hood_of_defiance"
-
+		"item"		"item_heart"
 	}
 			
 	"weapons"
 	{	
 		"item"		"item_mage_slayer"
 		"item"		"item_memolator"
-		"item"		"item_bfury"
-		"item"		"item_nullifier"	
-
 		"item"		"item_lesser_crit"
-		"item"		"item_witch_blade"
-		"item"		"item_basher"	
-		"item"		"item_invis_sword" 		
 
-		"item"		"item_revenants_brooch"	
-		"item"		"item_devastator"
-		"item"		"item_abyssal_blade"	
-		"item"		"item_silver_edge"
+		"item"		"item_basher"
+		"item"		"item_maelstrom"
+		"item"		"item_invis_sword"
+		"item"		"item_diffusal_blade"
 
 		"item"		"item_greater_crit"
-		"item"		"item_diffusal_blade"	
+		"item"		"item_abyssal_blade"
+		"item"		"item_mjollnir"
+		"item"		"item_silver_edge"
+
+		"item"		"item_bfury"
+		"item"		"item_nullifier"
+		"item"		"item_manta"
 		"item"		"item_radiance"
-		"item"		"item_monkey_king_bar" 	
 
 		"item"		"item_rapier"
-		"item"		"item_disperser"
+		"item"		"item_monkey_king_bar"
 		"item"		"item_butterfly"
 		"item"		"item_bloodthorn"
-		
-		// Not purchasable items
-		"item"		"item_aetherial_halo"	
-		"item"		"item_caster_rapier"	
+		"item"		"item_satanic"
+		"item"		"item_devastator"	
 	}
-		
-	// Level 4 - Orange / Orb / Artifacts				
+
 	"artifacts"
 	{	
- 		"item"		"item_dragon_lance"
+		"item"		"item_dragon_lance"
 		"item"		"item_echo_sabre"	
  		"item"		"item_maelstrom"
  		"item"		"item_phylactery_custom"
@@ -243,44 +238,21 @@
 		"item"		"item_hurricane_pike"
 		"item"		"item_harpoon"
 		"item"		"item_mjollnir"
+		"item"		"item_disperser"
 
 		"item"		"item_mem_sange"
  		"item"		"item_mem_yasha"
- 		"item"		"item_kaya"
+		"item"		"item_mem_kaya"
  		"item"		"item_heavens_halberd"
 
- 		"item"		"item_mem_sange_yasha"
 		"item"		"item_manta_custom"
+		"item"		"item_witch_blade"
+		"item"		"item_skadi"
+		"item"		"item_specialists_array"
+		"item"		"item_hydras_breath"
 
  		"item"		"item_overwhelming_blink"
  		"item"		"item_swift_blink"		
  		"item"		"item_arcane_blink"
-		"item"		"item_satanic"
-	}
-
-	"sideshop1"
-	{
-		"item"		"item_tpscroll_custom"
-		"item"		"item_magic_stick"
-		"item"		"item_quelling_blade"
-		"item"		"item_boots"
-		"item"		"item_boots_of_elves"
-		"item"		"item_belt_of_strength"
-		"item"		"item_robe"
-		"item"		"item_crown"
-	}
-
-	"sideshop2"
-	{
-		"item"		"item_gloves"
-		"item"		"item_chainmail"
-		"item"		"item_cloak"
-		"item"		"item_void_stone"
-		"item"		"item_helm_of_iron_will"
-		"item"		"item_energy_booster"
-		"item"		"item_vitality_booster"
-		"item"		"item_lifesteal"
-		"item"		"item_broadsword"
-		"item"		"item_blink"
 	}
 }
