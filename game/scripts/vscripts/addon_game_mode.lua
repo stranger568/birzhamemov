@@ -58,7 +58,7 @@ function BirzhaGameMode:InitGameMode()
 
     -- Дефолтные настройки овертроу
     self.m_GatheredShuffledTeams = {}
-	self.spawnTime = 90
+	self.spawnTime = 150
 	self.nNextSpawnItemNumber = 1
 	self.hasWarnedSpawn = false
 	self.leadingTeam = -1
