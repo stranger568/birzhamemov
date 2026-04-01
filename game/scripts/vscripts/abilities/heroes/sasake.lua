@@ -121,8 +121,10 @@ function modifier_sasake_invis_talent:DeclareFunctions()
     return funcs
 end
 
-function modifier_sasake_invis_talent:OnHeroKilled()
+function modifier_sasake_invis_talent:OnHeroKilled(params)
     if not IsServer() then return end
+    if params.target == self:GetCaster() then return end
+    if params.attacker ~= self:GetCaster() then return end
     if self:GetCaster():HasScepter() then
         self:GetAbility():EndCooldown()
     end
