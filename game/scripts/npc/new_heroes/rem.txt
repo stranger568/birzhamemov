@@ -1,0 +1,301 @@
+"DOTAAbilities"
+{
+        "rem_q"
+    {
+        "BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/rem/rem_q.lua"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
+		"AbilityTextureName" 			"Rem/ul_huma"
+		"AbilityCastAnimation"		    "ACT_DOTA_CAST_ABILITY_3"
+        "MaxLevel"                      "6"
+		"AbilityCastPoint"				"0.8"
+		"AbilityCastRange"				"1150"
+		"AbilityManaCost"				"90 110 130 150 170 190"
+        "LinkedAbility"                 "rem_q_alt"
+
+		"AbilityValues"
+        {
+            "proj_speed"                "1700"
+            "duration"                  "1 1.3 1.6 1.9 2.2 2.5"
+            "radius"
+            {
+                "value"                 "285 325 365 405 445 485"
+                "affected_by_aoe_increase"  "1"
+            }
+            "knockback"                 "250 275 300 325 350 375"
+            "damage_per_second"{
+                "value"                 "80 95 110 125 140 155"
+                "CalculateSpellDamageTooltip"           "1"
+            } 
+            "damage"
+            {
+                "value"                 "150 220 290 360 430 500"
+                "CalculateSpellDamageTooltip"           "1"
+            }               
+            "interval"                  "0.2"
+            "attackspeed_reduce"
+            {
+                "value"                 "-15 -25 -35 -45 -55 -65"
+                "special_bonus_unique_rem_1"    "-25"
+            }
+            "AbilityCharges"
+			{
+				"value"										"0"
+				"special_bonus_unique_rem_8"			 "+2"
+			}
+			"AbilityCooldown"
+			{
+				"value"										"25 24 23 22 21 20"
+				"special_bonus_unique_rem_8"			  "=0"
+			}
+			
+			"AbilityChargeRestoreTime"		"25 24 23 22 21 20"
+        }
+    }
+        "rem_w"
+    {
+        "BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/rem/rem_w.lua"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES_STRONG"
+		"AbilityTextureName"		    "Rem/el_huma"
+		"AbilityCastAnimation"		    "ACT_DOTA_CAST_ABILITY_5"
+        "MaxLevel"                      "6"
+		"AbilityCastPoint"				"0.5"
+		"AbilityCastRange"				"900"
+		"AbilityCooldown"				"23 22 21 20 19 18"
+		"AbilityManaCost"				"75 90 105 120 135 150"
+        "LinkedAbility"                 "rem_w_alt"
+        "HasShardUpgrade"				"1"
+
+        "AbilityValues"
+        {
+            "spikes_count"          "3"
+            "spike_radius_start"    "100"
+            "spike_radius_step"     "50"
+            "spike_duration"        "4"
+            "spike_delay"           "0.15"
+            "stun_duration"         "1.2 1.4 1.6 1.8 2 2.2"
+            "damage_dot"
+            {
+                "value"                 "65 80 95 110 125 140"
+                "CalculateSpellDamageTooltip"           "1"
+            }           
+            "shard_radius"
+            {
+                "value"             "475"
+                "special_bonus_unique_rem_2"    "+75"
+                "affected_by_aoe_increase"  "1"
+            }
+            "shard_damage_base"
+            {
+                "value"                 "80 100 120 140 160 180"
+                "CalculateSpellDamageTooltip"           "1"
+            }    
+            "shard_damage_agility"
+            {
+                "value"                 "40 55 70 85 100 115"
+                "special_bonus_unique_rem_4"      "+15"
+                "CalculateSpellDamageTooltip"           "1"
+            }
+            "shard_slow_duration"   "2"
+            "shard_slow"            "-10 -15 -20 -25 -30 -35"
+            "shard_damage"          {"special_bonus_shard"     "35"}
+            "shard_interval"        {"special_bonus_shard"     "1.5"}
+        }
+    }
+        "rem_q_alt"
+    {
+        "BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/rem/rem_q_alt.lua"
+        "AbilityTextureName"	    	"Rem/Strikejump"
+		"AbilityBehavior"		    	"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"AbilityUnitTargetTeam"	    	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"	    	"DAMAGE_TYPE_PHYSICAL"
+		"SpellDispellableType"	        "SPELL_DISPELLABLE_YES_STRONG"
+		"SpellImmunityType"		    	"SPELL_IMMUNITY_ENEMIES_NO"
+		"AbilityCastAnimation"	    	"ACT_DOTA_CAST_ABILITY_1"
+        "LinkedAbility"                 "rem_q"
+        "AbilityCooldown"               "21 20 19 18 17 16"
+        "AbilityManaCost"               "60 70 80 90 100 110"
+        "AbilityCastRange"              "775"
+		"AnimationPlaybackRate"	    	"1.2"
+        "MaxLevel"                      "6"
+
+        "AbilityValues"
+        {
+            "turn_rate_slow"        "-70"
+            "stun_duration"			"0.5"
+			"damage"				
+            {
+                "value"                 "120 170 220 270 320 370"
+                "CalculateSpellDamageTooltip"           "1"
+            }
+            "damage_factor"         "15 25 35 45 55 65"
+			"radius"
+			{
+				"value"				"350"
+				"affected_by_aoe_increase"	"1"
+			}
+        }
+    }
+        "rem_w_alt"
+    {
+        "BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/rem/rem_w_alt.lua"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetFlags"	 	"DOTA_UNIT_TARGET_FLAG_NONE"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES_STRONG"
+		"AbilityTextureName" 			"Rem/throw_morgenshtern"
+		"AbilityCastAnimation"		    "ACT_DOTA_CAST_ABILITY_2"
+		"AbilityCastPoint"				"0.4"
+		"AbilityCooldown"				"28 27 26 25 24 23"
+		"AbilityManaCost"				"70 80 90 100 110 120"
+        "MaxLevel"                      "6"
+        "LinkedAbility"                 "rem_w"
+        "HasScepterUpgrade"				"1"
+
+        "AbilityValues"
+		{
+			"latch_radius"				"125"
+			"stun_radius"				"80"
+            "cast_range"
+            {
+                "value"                 "700 800 900 1000 1100 1200"
+                "special_bonus_scepter" "+500"
+            }
+			"damage"
+            {
+                "value"                 "100 150 200 250 300 350"
+                "CalculateSpellDamageTooltip"           "1"
+            }			
+			"stun_duration"				"0.5 0.6 0.7 0.8 0.9 1"
+			"speed"						"2800"
+
+            "scepter_cooldown_reduction" {"special_bonus_scepter"   "2"}
+		}
+    }
+        "rem_e"
+    {
+        "BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/rem/rem_e.lua"
+        "AbilityTextureName"			"Rem/Morgenshtern"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_TOGGLE | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_INVISIBLE | DOTA_ABILITY_BEHAVIOR_IGNORE_SILENCE"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_SELF"
+        "Innate"                        "1"
+        "MaxLevel"                      "1"
+        
+        "AbilityValues"
+        {
+            "bonus_damage"
+            {
+                "value"                 "10"
+                "hero_levelup"          "+2.5"
+            }
+            "attack_range"              "180"
+        }
+    }
+        "rem_r"
+    {
+        "BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/rem/rem_r.lua"
+        "AbilityTextureName"			"Rem/DemonicForm"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_SELF"
+        "SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+        "AbilityCastAnimation"		    "ACT_DOTA_CAST_ABILITY_4"
+        "AbilityType"					"ABILITY_TYPE_ULTIMATE"
+        "AbilityCastPoint"              "1.3"
+
+        "AbilityValues"
+        {
+            "AbilityCooldown"
+            {
+                "value"                 "55 47 39"
+                "special_bonus_unique_rem_6"    "-14"
+            }
+            "mana_loss"
+            {
+                "value"                 "10 8 6"
+                "special_bonus_unique_rem_3"    "-1"
+            }
+            "bonus_health"              "275 450 675"    
+            "bonus_movespeed"           "14 22 30"
+            "bonus_attackspeed"         "16 25 34"         
+            "bonus_casttime"            "20 25 30"
+            "spell_amplify"             "15 20 25"
+            "mana_limit"                "10"
+            "debuff_duration"           "5"
+            "movespeed_slow"            "-20"
+            "attackspeed_slow"          "-60"
+            "lifesteal"             {"special_bonus_unique_rem_7" "125"}
+        }
+    }
+
+        "special_bonus_unique_rem_1"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_rem_2"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_rem_3"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_rem_4"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_rem_5"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_rem_6"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_rem_7"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_rem_8"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+}

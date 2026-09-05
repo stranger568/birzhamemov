@@ -95,6 +95,7 @@
 		"AbilityTextureName"			        "old_god_d"
 		"AbilityManaCost"				        "0"
         "MaxLevel"                              "1"
+		"Innate"								"1"
         "AbilityValues"
 		{
             "AbilityCooldown"

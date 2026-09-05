@@ -19,9 +19,9 @@
         "AbilityCastAnimation"                  "ACT_DOTA_ATTACK"
 		"AbilityValues"
 		{
-            "radius_width"
+            "radius"
 			{
-				"value"						"200"
+				"value"						"200 245 290 335"
 				"affected_by_aoe_increase"	"1"
 			}
             "knockback_distance"            "450 500 550 600"
@@ -120,6 +120,7 @@
         "AbilityType"					        "ABILITY_TYPE_ULTIMATE"
         "LinkedAbility"                         "nix_phantom_r"
         "MaxLevel"                              "4"
+		"Innate"								"1"
 		"AbilityValues"
 		{
             "manacost_from_current_mana"        "6"

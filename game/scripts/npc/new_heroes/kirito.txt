@@ -1,0 +1,359 @@
+"DOTAAbilities"
+{
+      "kirito_innate"
+    {
+        "BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/kirito/kirito_innate"
+        "AbilityTextureName"		    "kirito/kirito_innate"
+		"AbilityBehavior"      			"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+        "Innate"						"1"
+        "AbilityValues"
+        {
+            "bonus_ms"                  "0"
+            "bonus_as"                  "0"
+            "duration"
+            {
+                "value"                 "3"
+                "hero_levelup"			"+0.15"
+            }
+        }
+    }
+
+      "kirito_spear"
+    {
+        "BaseClass"					  "ability_lua"
+	    "ScriptFile"				  "abilities/heroes/kirito/kirito_spear"
+	    "AbilityBehavior"			  "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
+		"AbilityUnitTargetType"		  "DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_HERO"
+	    "SpellImmunityType"			  "SPELL_IMMUNITY_ENEMIES_YES"
+	    "AbilityUnitTargetFlags"	  "DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+	    "SpellDispellableType"		  "SPELL_DISPELLABLE_NO"
+	    "AbilityUnitDamageType"		  "DAMAGE_TYPE_MAGICAL"
+        "LinkedAbility"				  "kirito_spear_release"
+	    "AbilityTextureName"		  "kirito/kirito_spear"
+        "HasScepterUpgrade"           "1"
+	    "AbilityManaCost"			  "50 80 110 140"
+	    "AbilityCastPoint"			  "0.2"
+
+	    "AbilityValues"
+        {
+            "AbilityCooldown"
+            {
+                "value"               "17 15 13 11"
+                "special_bonus_unique_kirito_8" "-6"
+            }
+            "range"
+            {
+               "value"                "375 400 425 450"
+               "special_bonus_scepter""+100"
+            }
+            "radius"
+            {
+                "value"               "325 375 425 475"  
+                "affected_by_aoe_increase"  "1"
+            }                  
+            "damage"                  "140 250 360 470"
+            "stun_duration"
+            {
+                "value"               "1.1 1.3 1.5 1.7"
+                "special_bonus_unique_kirito_1"  "+0.3"
+            }
+            "lenght_sword"            "190"
+            "width_sword"             
+            {
+                "value"               "110"
+                "affected_by_aoe_increase"  "1"
+            } 
+            "duration"                "1.5"
+            "distance"                "230"
+
+            "mark_cooldown"
+            {
+                "value"               "0"
+                "special_bonus_scepter""+1.5"
+            }
+        }
+    }
+    
+        "kirito_spear_release"
+    {
+        "BaseClass"					  "ability_lua"
+	    "ScriptFile"				  "abilities/heroes/kirito/kirito_spear"
+        "AbilityBehavior"			  "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK | DOTA_ABILITY_BEHAVIOR_IGNORE_SILENCE"
+        "AbilityTextureName"		  "kirito/kirito_spear_release"
+        "AbilityCastPoint"            "0.3"
+    }
+
+        "kirito_falcon_rush"
+    {
+        "BaseClass"                   "ability_lua"
+        "ScriptFile"                  "abilities/heroes/kirito/kirito_falcon_rush"
+        "AbilityTextureName"          "kirito/kirito_dualblades"
+        "AbilityBehavior"             "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_SHOW_IN_GUIDES"
+        "AbilityUnitTargetTeam"       "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"       "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "SpellDispellableType"        "SPELL_DISPELLABLE_YES"
+        "AbilityCastAnimation"        "ACT_DOTA_CAST_ABILITY_2"
+        "AbilityCooldown"             "24 22 20 18"
+        "AbilityManaCost"             "85 90 95 100"
+        "AbilityValues"
+        {
+            "duration"                "3.0 4.0 5.0 6.0"
+            "attack_factor"           "30 40 50 60"
+            "rush_range"
+            {
+                "value"               "575 600 625 650"
+                "affected_by_aoe_increase"  "1"
+            }
+            "rush_speed"              "1000"
+            "base_attack_rate"        "1.5 1.4 1.3 1.2"
+            "attack_speed_factor"     "12"
+        }
+    }
+
+        "kirito_mark"
+    {
+        "BaseClass"					  "ability_lua"
+	    "ScriptFile"				  "abilities/heroes/kirito/kirito_mark"
+	    "AbilityBehavior"			  "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT | DOTA_ABILITY_BEHAVIOR_SHOW_IN_GUIDES"
+		"AbilityUnitTargetType"		  "DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_HERO"
+	    "SpellImmunityType"			  "SPELL_IMMUNITY_ENEMIES_NO"
+	    "SpellDispellableType"		  "SPELL_DISPELLABLE_YES"
+	    "AbilityUnitDamageType"		  "DAMAGE_TYPE_PHYSICAL"
+	    "AbilityTextureName"		  "kirito/kirito_mark"
+	    "AbilityManaCost"			  "90 60 30 0"
+		"AbilityCooldown"			  "15 14 13 12"
+        "HasShardUpgrade"             "1"
+        "LinkedAbility"				  "kirito_mark_cancel"
+	    "AbilityCastAnimation"		  "ACT_DOTA_CAST_ABILITY_3"
+
+        "AbilityValues"
+        {
+            "AbilityCastRange"
+            {
+                "value"                 "520"
+                "affected_by_aoe_increase"  "1"
+            }
+            "AbilityCooldown"
+            {
+                "value"                 "15 14 13 12"
+                "special_bonus_unique_kirito_3" "-2"
+            }
+            "parry_duration"            "2.0"
+            "speed_penalty"             "-25"
+            "parry_stun_duration"       "0.5 0.6 0.7 0.8"
+
+            "damage_factor"        
+            {
+                "value"                          "120 175 225 275"
+                "special_bonus_unique_kirito_5"  "+65"
+            }
+            "attack_length"             "520"
+            "knockback_range"           "300"
+            "cone_angle"                "140"
+
+            "crit_damage"
+            {
+                "value"                 "60 90 120 150"
+                "special_bonus_unique_kirito_2"   "+20"
+            }
+            "stun_duration"             "0.2 0.3 0.4 0.5"
+            "sai_proc_vuln_chance"      "14 18 22 26"
+            "dmg_pct"
+            {
+                "value"                 "5 6 7 8"
+                "special_bonus_unique_kirito_4"  "+2"
+            }                   
+            "vuln_slow"                 "-5 -7 -9 -11"
+            "stacks_count"              "3"
+            "vuln_duration"             "8.0"
+            "shard_duration"
+            {
+                "value"                 "0"
+                "special_bonus_shard"   "+0.5"
+            }
+        }
+    }
+
+        "kirito_mark_cancel"
+    {
+        "BaseClass"					  "ability_lua"
+	    "ScriptFile"				  "abilities/heroes/kirito/kirito_mark"
+        "AbilityBehavior"			  "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_MOVEMENT"
+        "AbilityTextureName"		  "kirito/kirito_mark_cancel"
+        "AbilityCooldown"   "1.0"
+        "AbilityCastPoint"  "0.0"
+        "AbilityCastRange"  "0"
+        "MaxLevel"  "1"
+    }
+
+        "kirito_starburst_stream"
+    {
+        "BaseClass"                             "ability_lua"
+        "ScriptFile"                            "abilities/heroes/kirito/kirito_starburst_stream"
+        "AbilityTextureName"                    "kirito/kirito_ultimate"
+        "AbilityType"				            "ABILITY_TYPE_ULTIMATE"
+        "AbilityBehavior"                       "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AOE"
+        "AbilityUnitTargetTeam"                 "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"                 "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitTargetFlags"                "DOTA_UNIT_TARGET_FLAG_NOT_MAGIC_IMMUNE_ALLIES"
+        "AbilityUnitDamageType"                 "DAMAGE_TYPE_PHYSICAL"
+        "SpellImmunityType"                     "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"                  "SPELL_DISPELLABLE_NO"
+        "AbilityCastPoint"                      "0.3"
+        "AbilityManaCost"                       "130 165 200"
+        "AbilityCastRange"                      "175"
+        "AbilityValues"
+        {
+            "AbilityCooldown"                       
+            {
+                "value"                          "45 41 37"
+                "special_bonus_unique_kirito_6"  "-9"
+            }
+            "attack_damage_clone"               
+            {
+                "value"                          "20 35 50"
+            }
+            "slash_count"                       
+            {
+                "value"                          "4 5 6"
+                "special_bonus_unique_kirito_7"  "+2"
+            }
+            "bonus_slashes_tooltip"
+            {
+                "dynamic_value"			"true"
+            }
+            "slash_radius"
+            {
+                "value"                         "200"
+                "affected_by_aoe_increase"      "true"
+            }
+            "dash_speed"                        "3800"
+            "dash_length"                       "800"
+        }
+    }
+
+
+      "special_bonus_unique_kirito_1"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_kirito_2"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_kirito_3"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_kirito_4"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_kirito_5"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_kirito_6"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_kirito_7"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_kirito_8"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+}
+
+
+
+//        "kirito_ultimate"
+//    {
+//        "BaseClass"					  "ability_lua"
+//	    "ScriptFile"				  "abilities/heroes/kirito/kirito_ultimate"
+//        "LinkedAbility"				  "kirito_ultimate_launch"
+//        "AbilityType"				  "ABILITY_TYPE_ULTIMATE"
+//        "AbilityBehavior"			  "DOTA_ABILITY_BEHAVIOR_NO_TARGET"	
+//        "AbilityUnitDamageType"		  "DAMAGE_TYPE_PURE"
+//		"SpellDispellableType"		  "SPELL_DISPELLABLE_YES"
+//        "AbilityCastAnimation"		  "ACT_DOTA_CAST_ABILITY_2"
+//		"AbilityCastGestureSlot"	  "DEFAULT"
+//        "AbilityTextureName"		  "kirito/kirito_ultimate"
+//        "AbilityCastRange"            "900"
+//        "AbilityCastPoint"			  "0.4"
+//		"AbilityManaCost"			  "100 175 250"
+//        "AbilityValues"
+//        {
+//            "AbilityCooldown"	
+//            { 
+//               "value"                "65 60 55"
+//               "special_bonus_unique_kirito_6"  "-15"
+//            }
+//            "damage_time"             "3"
+//
+//            "shield_duration"         "4"
+//            "barrier_health"
+//            {
+//                "value"               "325 575 825"
+//                "special_bonus_unique_kirito_5" "375"
+//            }          
+//
+//            "damage_perc"
+//            {
+//                "value"               "45 60 75"
+//                "special_bonus_unique_kirito_7" "35"
+//            }             
+//            "mark_chance"             "35 50 65"
+//            "swords_count"            "3 4 5"
+//            "sword_speed"             "2000"
+//            "radius"
+//            {
+//                "value"               "200 275 350"
+//                "affected_by_aoe_increase"  "1"
+//            }
+//            "swords_duration"         "8"
+//        }
+//    }
+//        "kirito_ultimate_launch"
+//    {
+//        "BaseClass"					  "ability_lua"
+//	    "ScriptFile"				  "abilities/heroes/kirito/kirito_ultimate"
+//        "AbilityType"				  "ABILITY_TYPE_ULTIMATE"
+//        "AbilityBehavior"			  "DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE  | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_MOVEMENT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING "
+//		"AbilityUnitDamageType"		  "DAMAGE_TYPE_PURE"
+//        "AbilityUnitTargetTeam"       "DOTA_UNIT_TARGET_TEAM_ENEMY"
+//        "AbilityUnitTargetType"       "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"	
+//		"SpellImmunityType"			  "SPELL_IMMUNITY_ENEMIES_NO"
+//		"SpellDispellableType"		  "SPELL_DISPELLABLE_YES"
+//        "AbilityCastAnimation"		  "ACT_DOTA_CAST_ABILITY_2"
+//		"AbilityCastGestureSlot"	  "DEFAULT"
+//        "AbilityTextureName"		  "kirito/kirito_ultimate_launch"
+//        "AbilityCooldown"             "1"
+//        "AbilityCastRange"            "900"
+//    }

@@ -1,0 +1,427 @@
+"DOTAAbilities"
+{
+    "meepo_q"
+    {
+        "BaseClass"                 "ability_lua"
+        "ScriptFile"                "abilities/heroes/meeponegeroi/meepo_q"
+        "AbilityTextureName"        "meeponegeroi/meepo_q"
+        "AbilityBehavior"           "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+        "AbilityUnitDamageType"     "DAMAGE_TYPE_MAGICAL"
+        "AbilityUnitTargetTeam"     "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"     "DOTA_UNIT_TARGET_HERO"
+        "SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"		"SPELL_DISPELLABLE_YES"
+        "AbilityCastAnimation"      "ACT_DOTA_CAST_ABILITY_1"
+        "AbilityCastRange"          "450 525 600 675"
+        "AbilityCooldown"           "28 26 24 22"
+        "AbilityManaCost"           "125 175 225 275"
+        "AbilityCastPoint"          "0.25"
+        "AnimationPlaybackRate"     "1.3"
+        
+        "AbilityValues"
+        {
+            "aoe_radius"
+            {
+                "value"         "450 525 600 675"
+                "affected_by_aoe_increase"  "1" 
+            }
+            "bath_duration"     "2.5 4.5 6.5 8.5"
+            "fall_damage"
+            {           
+                "value"         "80 100 120 140"
+                "CalculateSpellDamageTooltip" "1"
+            }       
+            "explode_damage"
+            {           
+                "value"         "100 150 200 250"
+                "CalculateSpellDamageTooltip" "1"
+            }    
+            "damage_per_second"
+            {           
+                "value"         "50 65 80 95"
+                "CalculateSpellDamageTooltip" "1"
+            } 
+            "bomb_interval"     "2"
+            "bomb_damage"
+            {           
+                "value"         "60 80 100 120"
+                "CalculateSpellDamageTooltip" "1"
+            }       
+            "bomb_additive_explosion_damage"
+            {           
+                "value"         "50 65 80 95"
+                "CalculateSpellDamageTooltip" "1"
+            }  
+            "bomb_additive_dps_damage"
+            {           
+                "value"         "5 10 15 20"
+                "CalculateSpellDamageTooltip" "1"
+            }  
+            "taunt_duration"    "0.5 0.8 1.1 1.4"
+            "slow"              "20 25 30 35"
+            "hp_regen"          "0.5 1 1.5 2"
+        }
+    }
+
+    "meepo_w"
+    {
+        "BaseClass"                 "ability_lua"
+        "ScriptFile"                "abilities/heroes/meeponegeroi/meepo_w"
+        "AbilityTextureName"        "meeponegeroi/meepo_w"
+        "AbilityBehavior"           "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityUnitDamageType"     "DAMAGE_TYPE_MAGICAL"
+        "AbilityUnitTargetTeam"     "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"     "DOTA_UNIT_TARGET_HERO"
+        "SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"		"SPELL_DISPELLABLE_NO"
+        "AbilityCastAnimation"      "ACT_DOTA_CAST_ABILITY_2"
+        "AbilityCastRange"          "650"
+        "AbilityManaCost"           "80"
+        "AbilityCastPoint"          "0.25"
+        "AnimationPlaybackRate"     "1.3"
+        "AbilityCharges"            "1 1 2 2"
+        "AbilityChargeRestoreTime"  "18 17 16 15"
+        
+        "AbilityValues"
+        {
+            "damage"
+            {           
+                "value"         "100 140 180 220"
+                "CalculateSpellDamageTooltip" "1"
+            }  
+            "min_duration"          "1 1.5 2 2.5"
+            "max_duration"          "2 2.5 3 3.5"
+            "enemy_movespeed"       "300 285 270 255"
+            "gold"                  "11 17 23 29"
+        }
+    }
+    "meepo_e"
+    {
+        "BaseClass"                 "ability_lua"
+        "ScriptFile"                "abilities/heroes/meeponegeroi/meepo_e"
+        "AbilityTextureName"        "meeponegeroi/meepo_e"
+        "AbilityBehavior"           "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+        "AbilityValues"
+        {
+            "AbilityCooldown"           "32 28 24 20"
+        }
+    }
+    "meepo_barnacle"
+    {
+        "BaseClass"                 "ability_lua"
+        "ScriptFile"                "abilities/heroes/meeponegeroi/meepo_e"
+        "AbilityTextureName"        "meeponegeroi/meepo_barnacle"
+        "AbilityBehavior"           "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+        "AbilityUnitDamageType"     "DAMAGE_TYPE_MAGICAL"
+        "AbilityUnitTargetTeam"     "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"     "DOTA_UNIT_TARGET_HEROES_AND_CREEPS"
+        "SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"		"SPELL_DISPELLABLE_YES"
+        "AbilityCastAnimation"      "ACT_DOTA_CAST_ABILITY_2"
+        "DependentOnAbility"		"meepo_e"
+        "AbilityCastPoint"          "0.3"
+        "AbilityCastRange"          "450 475 500 525"
+        "AbilityManaCost"           "95 115 135 155"
+
+        "AbilityValues"
+        {
+            "barnacle_duration"     "4 4.5 5 5.5"
+            "barnacle_radius"       "525"
+            "barnacle_health"       "2 2 3 4"
+            "invul_duration"        "1 1.5 2 2.5"
+            "damage_per_second"
+            {           
+                "value"         "60 80 100 120"
+                "CalculateSpellDamageTooltip" "1"
+            }  
+            "lifesteal"             "15 20 25 30"
+        }
+    }
+    "meepo_taser"
+    {
+        "BaseClass"                 "ability_lua"
+        "ScriptFile"                "abilities/heroes/meeponegeroi/meepo_e"
+        "AbilityTextureName"        "meeponegeroi/meepo_taser"
+        "AbilityBehavior"           "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+        "AbilityUnitDamageType"     "DAMAGE_TYPE_MAGICAL"
+        "AbilityUnitTargetTeam"     "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"     "DOTA_UNIT_TARGET_HEROES_AND_CREEPS"
+        "SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"		"SPELL_DISPELLABLE_YES_STRONG"
+        "AbilityCastAnimation"      "ACT_DOTA_CAST_ABILITY_1"
+        "DependentOnAbility"		"meepo_e"
+        "AbilityCastPoint"          "0.5"
+        "AbilityCastRange"          "600"
+        "AbilityManaCost"           "70 100 130 160"
+
+        "AbilityValues"
+        {
+            "stun_duration"         "1.4 1.7 2 2.3"
+            "taser_damage_pct"
+            {
+                "value"         "13 18 23 28"
+                "CalculateSpellDamageTooltip"   "1"
+                "DamageTypeTooltip" "DAMAGE_TYPE_MAGICAL"
+            }
+        }
+    }
+    "meepo_cheatcode"
+    {
+        "BaseClass"                 "ability_lua"
+        "ScriptFile"                "abilities/heroes/meeponegeroi/meepo_e"
+        "AbilityTextureName"        "meeponegeroi/meepo_cheatcode"
+        "AbilityBehavior"           "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+        "AbilityUnitDamageType"     "DOTA_UNIT_TARGET_SELF"
+        "AbilityUnitTargetTeam"     "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"		"SPELL_DISPELLABLE_YES"
+        "AbilityCastAnimation"      "ACT_DOTA_OVERRIDE_ABILITY_4"
+        "DependentOnAbility"		"meepo_e"
+        "AbilityCastPoint"          "0.2"
+        "AbilityManaCost"           "120 155 190 225"
+
+        "AbilityValues"
+        {
+            "duration"              "5"
+            "heal"                  "130 220 310 400"
+            "full_heal_pct"         "10 14 18 22"
+            "barrier_amount"        "110 190 270 350"
+        }
+    }
+    "meepo_kunai"
+    {
+        "BaseClass"                 "ability_lua"
+        "ScriptFile"                "abilities/heroes/meeponegeroi/meepo_e"
+        "AbilityTextureName"        "meeponegeroi/meepo_kunai"
+        "AbilityBehavior"           "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+        "AbilityUnitDamageType"     "DAMAGE_TYPE_MAGICAL"
+        "AbilityUnitTargetTeam"     "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"     "DOTA_UNIT_TARGET_HEROES_AND_CREEPS"
+        "SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_NO"
+        "AbilityCastAnimation"      "ACT_DOTA_CAST_ABILITY_2"
+        "DependentOnAbility"		"meepo_e"
+        "AbilityCastPoint"          "0.3"
+        "AbilityCastRange"          "550 675 800 925"
+        "AbilityManaCost"           "110 130 150 170"
+
+        "AbilityValues"
+        {
+            "radius"
+            {
+                "value"             "300 350 400 450"
+                "affected_by_aoe_increase"  "1"
+            }
+            "damage"
+            {           
+                "value"         "40 80 120 160"
+                "CalculateSpellDamageTooltip" "1"
+            }  
+            "duration"              "0.5 0.7 0.9 1.1"
+            "kunai_speed"           "1400 1550 1700 1850"
+        }
+    }
+    "meepo_r"
+    {
+        "BaseClass"                 "ability_lua"
+        "ScriptFile"                "abilities/heroes/meeponegeroi/meepo_r"
+        "AbilityTextureName"        "meeponegeroi/meepo_r"
+        "AbilityType"				"ABILITY_TYPE_ULTIMATE"
+        "AbilityBehavior"           "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+        "AbilityCooldown"           "25 20 15"
+
+        "AbilityValues"
+        {
+        }
+    }
+    "meepo_zeus"
+    {
+        "BaseClass"                 "ability_lua"
+        "ScriptFile"                "abilities/heroes/meeponegeroi/meepo_r"
+        "AbilityTextureName"        "meeponegeroi/meepo_zeus"
+        "AbilityBehavior"           "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+        "AbilityType"				"ABILITY_TYPE_ULTIMATE"
+        "AbilityUnitDamageType"     "DAMAGE_TYPE_MAGICAL"
+        "AbilityUnitTargetTeam"     "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"     "DOTA_UNIT_TARGET_HERO"
+        "SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"		"SPELL_DISPELLABLE_YES_STRONG"
+        "AbilityCastAnimation"      "ACT_DOTA_CAST_ABILITY_2"
+        "DependentOnAbility"		"meepo_r"
+        "AbilityCooldown"           "100 90 80"
+        "AbilityManaCost"           "175 250 325"
+
+        "AbilityValues"
+        {
+            "bolt_manacost"             "125 175 225"
+            "bolt_delay"                "2"
+            "bolt_cooldown"             "2.5"
+            "bolt_damage"               "250 375 500"
+            "bolt_damage_pct"           "5 10 15"
+            "bolt_delay_slow"           "-24 -36 -48"
+            "fly_bolt_aoe"  
+            {
+                "value"                 "325 400 475"
+                "affected_by_aoe_increase"  "1"
+            }
+            "sight_duration"            "3"
+            "ministun_duration"         "0.6 0.9 1.2"
+            "true_sight_radius"
+            {
+                "value"                 "600"
+                "affected_by_aoe_increase"  "1"
+            }
+
+            "duration"                  "9 11 13"
+            "transform_duration"        "1.5"
+            "transform_time"            "1.25"
+        }
+    }
+    "meepo_pudge"
+    {
+        "BaseClass"                 "ability_lua"
+        "ScriptFile"                "abilities/heroes/meeponegeroi/meepo_r"
+        "AbilityTextureName"        "meeponegeroi/meepo_pudge"
+        "AbilityBehavior"           "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+        "AbilityUnitDamageType"     "DAMAGE_TYPE_PURE"  
+        "SpellImmunityType"         "SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityType"				"ABILITY_TYPE_ULTIMATE"
+        "AbilityCastAnimation"      "ACT_EXPLODE"
+        "DependentOnAbility"		"meepo_r"
+        "AbilityCastPoint"          "0.3 0.3 0.3 0.3"
+        "AbilityCastRange"          "800 900 1000"
+        "AbilityCooldown"           "60 55 50"
+        "AbilityManaCost"           "110 190 270"
+
+        "AbilityValues"
+        {
+            "hook_distance"             "800 900 1000"
+            "hook_speed"                "1050 1200 1350"
+            "hook_width"                "100 120 140"
+            "duration"                  "6"
+            "vision_radius"             "500 500 500"
+            "vision_duration"           "4.0 4.0 4.0"
+            "max_charge_time"           "5 4 3"
+            "max_damage"                "100"
+        }
+    }
+    "meepo_alchemist"
+    {
+        "BaseClass"                 "ability_lua"
+        "ScriptFile"                "abilities/heroes/meeponegeroi/meepo_r"
+        "AbilityTextureName"        "meeponegeroi/meepo_alchemist"
+        "AbilityBehavior"           "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+        "AbilityType"				"ABILITY_TYPE_ULTIMATE"
+        "DependentOnAbility"		"meepo_r"
+        "AbilityCooldown"           "65 60 55"
+        "AbilityManaCost"           "125 200 275"
+
+        "AbilityValues"
+        {
+        }
+    }
+    "meepo_techies"
+    {
+        "BaseClass"                 "ability_lua"
+        "ScriptFile"                "abilities/heroes/meeponegeroi/meepo_r"
+        "AbilityTextureName"        "meeponegeroi/meepo_techies"
+        "AbilityBehavior"           "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+        "AbilityType"				"ABILITY_TYPE_ULTIMATE"
+        "DependentOnAbility"		"meepo_r"
+        "AbilityCooldown"           "90 80 70"
+        "AbilityManaCost"           "150 250 350"
+
+        "AbilityValues"
+        {
+        }
+    }
+    "meepo_treant"
+    {
+        "BaseClass"                 "ability_lua"
+        "ScriptFile"                "abilities/heroes/meeponegeroi/meepo_r"
+        "AbilityTextureName"        "meeponegeroi/meepo_treant"
+        "AbilityBehavior"           "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+        "AbilityType"				"ABILITY_TYPE_ULTIMATE"
+        "DependentOnAbility"		"meepo_r"
+        "AbilityCooldown"           "48 42 36"
+        "AbilityManaCost"           "130 190 250"
+
+        "AbilityValues"
+        {
+        }
+    }
+    
+
+    "meepo_empty1"
+	{
+		"BaseClass"									"ability_lua"
+        "ScriptFile"                                "abilities/heroes/meeponegeroi/meepo_e"
+		"AbilityTextureName"			            "invoker_empty1"
+		"MaxLevel"						            "0"
+		"AbilityBehavior"				            "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+	}
+    "meepo_empty2"
+	{
+		"BaseClass"									"ability_lua"
+        "ScriptFile"                                "abilities/heroes/meeponegeroi/meepo_e"
+		"AbilityTextureName"			            "invoker_empty2"
+		"MaxLevel"						            "0"
+		"AbilityBehavior"				            "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+	}
+    
+        "special_bonus_unique_meeponegeroi_1"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_meeponegeroi_2"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_meeponegeroi_3"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_meeponegeroi_4"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_meeponegeroi_5"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_meeponegeroi_6"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_meeponegeroi_7"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_meeponegeroi_8"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+}

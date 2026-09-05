@@ -93,12 +93,12 @@
 	{
 		"BaseClass"						        "ability_lua"
 		"ScriptFile"					        "abilities/heroes/ashab/ashab_f"
-		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
 		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
 		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
 		"AbilityTextureName"			        "ashab_f"
-        "MaxLevel"                              "1"
+        "Innate"                                "1"
 	}
 
     "ashab_r"

@@ -1,0 +1,436 @@
+"DOTAAbilities"
+{
+        "golovach_q"
+    {
+        "BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/golovach/golovach_q"
+		"AbilityUnitTargetTeam"		            "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_NO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_YES"
+        "AbilityUnitDamageType"			        "DAMAGE_TYPE_MAGICAL"
+		"AbilityTextureName"			        "lenagolovach/golovach_q"
+		"AbilityCastAnimation"		  			"ACT_DOTA_ATTACK"
+		"HasShardUpgrade"						"1"
+        "AbilityCastPoint"                      "0.3"
+        "AbilityCastRange"                      "675"
+        "AbilityManaCost"                       "75 85 95 105"
+        "AbilityValues"
+        {
+			"AbilityCooldown"                   
+			{
+				"value"							"16 15 14 13"
+				"special_bonus_shard"			"-2"
+			}
+            "duration"                          "4"
+            "damage"                            
+			{
+				"value"								"65 90 115 140"
+				"special_bonus_unique_golovach_1"	"+40"
+			}
+            "armor_reduction"                   "-4 -6 -8 -10"
+            "stun_duration"                     "0.4 0.5 0.6 0.7"
+            "interval"                          "1.3"
+			"shard_radius"						
+			{
+				"special_bonus_shard"				"250"
+				"affected_by_aoe_increase"			"1"
+			}
+        }
+    }
+
+        "golovach_w"
+    {
+        "BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/golovach/golovach_w"
+		"AbilityUnitTargetTeam"		            "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_NO"
+        "AbilityUnitDamageType"			        "DAMAGE_TYPE_PHYSICAL"
+		"AbilityTextureName"			        "lenagolovach/golovach_w"
+        "AbilityManaCost"                       "100 120 140 160"
+        "AbilityCooldown"                       "25 23 21 19"
+        "AbilityValues"
+        {
+            "duration"                          
+			{
+				"value"								"5 6 7 8"
+				"special_bonus_unique_golovach_2"	"+2"
+			}
+            "units_count"                       "4"
+            "units_offset"                      "120"
+			"base_damage"						
+			{
+				"value"							    "20 30 40 50"
+				"special_bonus_unique_golovach_3"	"+25"
+			}
+			"caster_damage"						"15 20 25 30"
+			"barrier_duration"					"3"
+			"barrier_per_attack"				"10 15 20 25"
+        }
+    }
+
+		"golovach_e"
+	{
+		"BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/golovach/golovach_e"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_YES"
+		"IsBreakable"							"1"
+		"AbilityCooldown"						"4"
+		"AbilityTextureName"			        "lenagolovach/golovach_e"
+		"AbilityValues"
+		{
+			"duration"							"5"
+			"chance"							"14 18 22 26"
+			"bonus_as"							
+			{
+				"value"								"70 115 160 205"
+				"special_bonus_unique_golovach_4"	"+50"
+			}
+			"health_per_attack"					"10 19 28 37"
+			"health_per_attack_pct"
+			{
+				"value"								"0"
+				"special_bonus_unique_golovach_7"	"+1"
+			}
+			"health_duration"					"3"
+		}
+	}
+		"golovach_s"
+    {
+        "BaseClass"								"ability_lua"
+		"ScriptFile"							"abilities/heroes/golovach/golovach_s"
+		"AbilityTextureName"					"lenagolovach/golovach_s"
+		"Innate"								"1"
+		"MaxLevel"                      		"1"
+		"IsBreakable"							"1"
+		"AbilityBehavior"      					"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+        "AbilityValues"		
+        {	
+			"AbilityCooldown"
+			{
+				"value"							"30"
+				"hero_levelup"					"-1"
+			}
+            "duration"							"3"
+			"heal"		
+			{		
+				"value"							"25"
+				"hero_levelup"					"+1"
+			}		
+			"hp_to_proc"						"20"
+			"stacks"							"5"
+			"respawn_time"						
+			{
+				"value"							"1"
+				"special_bonus_unique_golovach_5"	"+1"
+			}
+			"talent_cooldown"					"65"
+        }
+    }
+		"golovach_r"
+    {
+        "BaseClass"						        "ability_lua"
+		"ScriptFile"					        "abilities/heroes/golovach/golovach_r"
+		"AbilityType"							"ABILITY_TYPE_ULTIMATE"
+		"AbilityUnitTargetTeam"		            "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityUnitTargetType"		            "DOTA_UNIT_TARGET_HERO"
+		"SpellImmunityType"			            "SPELL_IMMUNITY_ENEMIES_YES"
+		"SpellDispellableType"	  	            "SPELL_DISPELLABLE_YES"
+		"AbilityCastAnimation"		  			"ACT_DOTA_CAST_ABILITY_4"
+		"AbilityTextureName"			        "lenagolovach/golovach_r"
+		"HasScepterUpgrade"						"1"
+		"AbilityCastPoint"						"0.5"
+        "AbilityManaCost"                       "125 200 275"
+        "AbilityCooldown"                       "42 38 34"
+        "AbilityValues"
+        {
+            "duration"                          "5 6 7"
+			"knockback_radius"
+			{
+				"value"							"350 475 600"
+				"affected_by_aoe_increase"		"1"
+			}
+			"knockback"							"480 540 600"
+			"radius"
+			{
+				"value"							"700 800 900"
+				"affected_by_aoe_increase"		"1"
+			}
+			"incoming_damage"					"-15 -25 -35"
+			"slow_duration"						"2.5 3.5 4.5"
+			"slow"
+			{
+				"value"							"-25 -40 -55"
+				"special_bonus_unique_golovach_6"	"-45"
+			}
+        }
+    }
+
+		"special_bonus_unique_golovach_1"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_golovach_2"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_golovach_3"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_golovach_4"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_golovach_5"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_golovach_6"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_golovach_7"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+		"special_bonus_unique_golovach_8"
+	{
+        "BaseClass"						"special_bonus_base"														
+		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
+
+
+
+    //	"golovach_rocket"
+	//{
+	//	"BaseClass"						"ability_lua"
+	//	"ScriptFile"					"abilities/heroes/golovach.lua"
+	//	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+	//	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	//	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	//	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+	//	"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+	//	"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
+	//	"AbilityTextureName"			"lenagolovach/rocket"
+	//	"AbilityCastRange"				"800 900 1000 1100"
+	//	"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_2"
+	//	"AbilityCooldown"				"20"
+	//	"AbilityManaCost"				"150"
+	//	"HasShardUpgrade"				"1"
+//
+	//	"AbilityValues"
+	//	{
+	//		"damage"				"40 70 100 130"
+	//		"duration"				"4"
+	//		"vision_radius"
+	//		{
+	//			"value"				"325 425 525 625"
+	//			"affected_by_aoe_increase"	"1"
+	//		}				
+	//		"vision_duration"		"3.5"
+	//		"agi_bonus"		
+	//		{
+	//			"value"					"0.2 0.3 0.4 0.5"
+	//			"LinkedSpecialBonus"	"special_bonus_birzha_golovach_6"
+	//		}
+	//		"stun_time"				"0.25"
+	//	}
+	//}
+//
+	//"LenaGolovach_Donate"
+	//{
+	//	"BaseClass"						"ability_lua"
+	//	"ScriptFile"					"abilities/heroes/golovach.lua"
+	//	"AbilityTextureName"			"lenagolovach/Donate"
+	//	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	//	"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+	//	"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+	//	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	//	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO" 
+	//	
+	//	"AbilityValues"
+	//	{
+	//		"radius"					"450 600 750 900"
+	//		"money"		
+	//		{
+	//			"value"					"5"
+	//			"LinkedSpecialBonus"	"special_bonus_birzha_golovach_2"
+	//		}
+	//	}
+	//}
+//
+	//"LenaGolovach_taunt"
+	//{
+	//	"BaseClass"						"ability_lua"
+	//	"ScriptFile"					"abilities/heroes/golovach.lua"
+	//	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"	
+	//	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"			   
+	//	"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+	//	"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+	//	"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
+	//	"AbilityTextureName"			"lenagolovach/Taunt"
+	//	"AbilityCastRange"				"800"
+	//	"AbilityCastPoint"				"0.2"
+	//	"AbilityCooldown"				"20"
+	//	"AbilityManaCost"				"105 115 125 135"
+	//	"HasScepterUpgrade"				"1"
+//
+	//	"AbilityValues"
+	//	{
+	//		"duration"		
+	//		{
+	//			"value"					"1 1.5 2 2.5"
+	//			"LinkedSpecialBonus"	"special_bonus_birzha_golovach_1"
+	//		}
+	//		"radius"
+	//		{
+	//			"value"				"300"
+	//			"affected_by_aoe_increase"	"1"
+	//		}	
+	//	}
+	//}
+//
+	//"LenaGolovach_Radio"
+	//{
+	//	"BaseClass"						"ability_lua"
+	//	"ScriptFile"					"abilities/heroes/golovach.lua"
+	//	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"				   
+	//	"AbilityType"					"ABILITY_TYPE_ULTIMATE"
+	//	"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+	//	"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
+	//	"AbilityTextureName"			"lenagolovach/radio"
+	//	"AbilityCooldown"				"70"
+	//	"AbilityManaCost"				"150 170 200"
+//
+	//	"AbilityValues"
+	//	{
+	//		"duration"		
+	//		{
+	//			"value"					"6 8 10"
+	//			"LinkedSpecialBonus"	"special_bonus_birzha_golovach_8"
+	//		}
+	//		"damage"				"300 400 500"
+	//		"health"				"1000 2000 3000"
+	//		"base_attack"			"0.8 0.6 0.4"
+	//		"movespeed"				"800 900 1000"
+	//	}
+	//}
+//
+	//"special_bonus_birzha_golovach_1"
+	//{
+	//	"BaseClass"						"special_bonus_undefined"														
+	//	"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+	//	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+//
+	//	"AbilityValues"
+	//	{
+	//		"value"						"1"			
+	//	}
+	//}
+	//"special_bonus_birzha_golovach_2"
+	//{
+	//	"BaseClass"						"special_bonus_undefined"														
+	//	"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+	//	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+//
+	//	"AbilityValues"
+	//	{
+	//		"value"						"5"			
+	//	}
+	//}
+	//"special_bonus_birzha_golovach_3"
+	//{
+	//	"BaseClass"						"special_bonus_undefined"														
+	//	"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+	//	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+//
+	//	"AbilityValues"
+	//	{
+	//		"value"						"2"			
+	//	}
+	//}
+	//"special_bonus_birzha_golovach_4"
+	//{
+	//	"BaseClass"						"special_bonus_undefined"														
+	//	"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+	//	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+//
+	//	"AbilityValues"
+	//	{
+	//		"value"						"-20"			
+	//	}
+	//}
+	//"special_bonus_birzha_golovach_5"
+	//{
+	//	"BaseClass"						"special_bonus_undefined"														
+	//	"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+	//	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+//
+	//	"AbilityValues"
+	//	{
+	//		"value"						"10"					
+	//	}
+	//}
+	//"special_bonus_birzha_golovach_6"
+	//{
+	//	"BaseClass"						"special_bonus_undefined"														
+	//	"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+	//	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+//
+	//	"AbilityValues"
+	//	{
+	//		"value"						"0.8"		
+	//	}
+	//}
+	//"special_bonus_birzha_golovach_7"
+	//{
+	//	"BaseClass"						"special_bonus_undefined"														
+	//	"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+	//	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+//
+	//	"AbilityValues"
+	//	{
+	//		"value"						"50"			
+	//	}
+	//}
+	//"special_bonus_birzha_golovach_8"
+	//{
+	//	"BaseClass"						"special_bonus_undefined"														
+	//	"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
+	//	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+//
+	//	"AbilityValues"
+	//	{
+	//		"value"						"5"			
+	//	}
+	//}
+}
