@@ -75,6 +75,9 @@
 "ServerNoConnection"                "<b>Нет подключения к серверам Биржи мемов</b><br><br>Данная игра не будет засчитана"
 "LowHumansInLobby"                  "<b>Меньше 3 игроков в лобби</b><br><br>Данная игра не будет засчитана"
 
+"TelegramChannel"				"Телеграм-канал автора с информацией о кастомке и не только!"
+"TwitchChannel"					"Стрим от автора кастомки — Игры с подписчиками / Разработка кастомок"
+
 "birzha_win_predict"				" Предсказывает победу ! Предсказаний подряд:"
 "birzha_win_predict_1"				"Предсказаний подряд"
 "birzha_win_predict_2"				"Предсказать победу"
@@ -309,6 +312,7 @@
 "gametime"										"Время до сундуков с наградой<br><br>Сундуки появляются в двух случайных противоположных друг от друга точках и дают 3 случайных предмета на выбор. Разряд предмета зависит от вашего положения в таблице лидерства<br><br>За 10 сек. до появления, на карте отображается место появления"
 "gametimename"									"Время игры <br><br> День и ночь меняются каждые 5 минут игры"
 "fountaintime"									"Время действия фонтана <br><br> После окончания времени, фонтан перестает атаковать врагов"
+"creepspawntime"								"Время до появления крипов <br><br> Кобольд либо Антон могут появится в случайной точке на карте"
 "gamekills"										"Очков для победы"
 
 "OpenGameInfo"									"Открыть информацию об игре"
@@ -814,6 +818,16 @@
 "sounds_294"		"Дымоок"
 
 "shop_notification"         "Появился сбор на обновления"
+"DonateFundraiser"   		 "Сбор <br> на обновления"
+"DonateFundraiserDescription"    "Все собранные средства пойдут на разработку режима, обслуживание сервера, добавление новых функций, эффектов и уникальных наград"
+"DonateFundraiserWindow"    "Сбор средств на обновления"
+"DonateFundraiserHelp"        "Поддержите выпуск новых обновлений"
+"DonateFundraiserCurrent"    "ТЕКУЩИЙ СБОР"
+"DonateFundraiserHeroesAndItems"    "Новые герои и предметы"
+"DonateFundraiserGlobalUpdate"        "Глобальное обновление"
+"DonateFundraiserBuySub"            "Купить подписку"
+"DonateFundraiserBuyBitcoin"        "Купить биткойны"
+
 "new_item_info"             "New"
 
 "info_button_wheel_check"	"Кнопка для вызова колеса чата"
@@ -1084,9 +1098,10 @@
 "birzhabanhero" 	"Забанить"
 "tokeninfo"			"Удвоить рейтинг"
 
-"birzhastr" 	"Сила"
-"birzhaagi" 	"Ловкость"
-"birzhaint" 	"Интеллект"
+"birzhastr" 	"СИЛА"
+"birzhaagi" 	"ЛОВКОСТЬ"
+"birzhaint" 	"ИНТЕЛЛЕКТ"
+"birzhauniv" 	"УНИВЕРСАЛЬНЫЕ"
 "birzharatehood" "Рейтинг: "
 "custom_end_screen_legend_rating" "Рейтинг"
 
@@ -1537,7 +1552,7 @@
 "DOTA_Tooltip_modifier_item_baldezh_active_Description"							"Полное сопротивление магическому урону"
 
 "DOTA_Tooltip_ability_item_tar2"	"Гейская Тараска"
-"DOTA_Tooltip_ability_item_tar2_Description"	"<h1>Пассивное: Гейская Регенерация</h1> увеличивает восстановление здоровья на %missing_health_regen%%% от недостающего здоровья."
+"DOTA_Tooltip_ability_item_tar2_Description"	"<h1>Пассивное: Гейская Регенерация</h1> Увеличивает восстановление здоровья на %missing_health_regen%%% от недостающего здоровья."
 "DOTA_Tooltip_ability_item_tar2_str"	"+$str"
 "DOTA_Tooltip_ability_item_tar2_health_regen_percent_per_second"		"%+макс. здоровья в секунду"
 
@@ -1679,7 +1694,7 @@
 "DOTA_Tooltip_modifier_item_mem_sange_yasha_damage"							"LOL Yasha And KEK Sange"
 "DOTA_Tooltip_modifier_item_mem_sange_yasha_damage_Description"				"Увеличивает урон за каждый эффект."
 
-"DOTA_Tooltip_ability_item_mem_yasha_kaya_Description"						"<h1>Пассивная: Amplification </h1> За каждую применённую способность владелец на %stacks_duration% сек. получает складывающийся эффект. Каждый такой эффект увеличивает урон от заклинаний предмета на %stacks_spell_amp%%%.<br><br>Максимум эффектов: %max_stacks%"
+"DOTA_Tooltip_ability_item_mem_yasha_kaya_Description"						"<h1>Пассивная: Amplification </h1> За каждую применённую способность владелец на %stacks_duration% сек. получает складывающийся эффект. Каждый такой эффект увеличивает доп. урон заклинаний предмета на %stacks_spell_amp%%%.<br><br>Максимум эффектов: %max_stacks%"
 "DOTA_Tooltip_ability_item_mem_yasha_kaya_Note0"							"Каждый эффект накладывается отдельно друг от друга."
 "DOTA_Tooltip_ability_item_mem_yasha_kaya_bonus_agi"						"+$agi"
 "DOTA_Tooltip_ability_item_mem_yasha_kaya_bonus_int"						"+$int"
@@ -3294,6 +3309,14 @@
 "DOTA_Tooltip_Ability_kaneki_feeling_Description" "Канеки чувствует всех противников у которых меньше %hp_need%%% здоровья. Он видит их в любой точке карты, и получает за них дополнительную скорость передвижения и урон"
 "DOTA_Tooltip_Ability_kaneki_feeling_movespeed_bonus" "%ДОП. СКОРОСТЬ ПЕРЕДВИЖЕНИЯ:"
 "DOTA_Tooltip_Ability_kaneki_feeling_bonus_damage" "%ДОП. УРОН:"
+
+"DOTA_Tooltip_Ability_kaneki_feeling_scepter_Description"	"Убирает лимит на скорость передвижения при %stacks_to_limit% и более эффектах. При активации на противника накладывается эффект на %aghanim_duration% сек. Если во время эффекта он передвигается, то получает чистый урон, зависящий от преодолённого расстояния. Половина от нанесённого урона передаётся владельцу в качестве здоровья."
+"DOTA_Tooltip_Ability_kaneki_feeling_aghanim_duration"		"ДЛИТЕЛЬНОСТЬ ЭФФЕКТА:"
+"DOTA_Tooltip_Ability_kaneki_feeling_aghanim_distance_damage"	"%УРОН ОТ ПРОЙДЕННОГО РАССТОЯНИЯ:"
+
+"DOTA_Tooltip_modifier_kaneki_feeling_debuff_aghanim"	"Чувство крови"
+"DOTA_Tooltip_modifier_kaneki_feeling_debuff_aghanim_Description"	"Получает урон при передвижении."
+
 
 "DOTA_Tooltip_modifier_kaneki_feeling_aura" "Чувство крови"
 "DOTA_Tooltip_modifier_kaneki_feeling_aura_Description" "Вы становитесь сильнее когда видите слабого противника"
@@ -5079,14 +5102,14 @@
 "DOTA_Tooltip_modifier_scp_screamer"												"Скример"
 "DOTA_Tooltip_modifier_scp_screamer_Description"									"Оглушен"
 
-// "DOTA_Tooltip_ability_Scp_DamageAura"												"Он рядом"
-// "DOTA_Tooltip_ability_Scp_DamageAura_Description"									"SCP-173 вселяет страх в своих врагов"
-// "DOTA_Tooltip_ability_Scp_DamageAura_aura_damage"									"%УМЕНЬШЕНИЕ ЗДОРОВЬЯ В СЕКУНДУ:"
-// "DOTA_Tooltip_ability_Scp_DamageAura_aura_radius"									"РАДИУС:"
-// "DOTA_Tooltip_ability_Scp_DamageAura_lore"											"Данный герой создан благодаря <font color='#fffc00'>Ezik</font>"
-// 
-// "DOTA_Tooltip_modifier_Scp_DamageAura_debuff"										"Он рядом"
-// "DOTA_Tooltip_modifier_Scp_DamageAura_debuff_Description"							"Получает урон"
+"DOTA_Tooltip_ability_Scp_DamageAura"												"Он рядом"
+"DOTA_Tooltip_ability_Scp_DamageAura_Description"									"SCP-173 вселяет страх в своих врагов"
+"DOTA_Tooltip_ability_Scp_DamageAura_aura_damage"									"%УМЕНЬШЕНИЕ ЗДОРОВЬЯ В СЕКУНДУ:"
+"DOTA_Tooltip_ability_Scp_DamageAura_aura_radius"									"РАДИУС:"
+"DOTA_Tooltip_ability_Scp_DamageAura_lore"											"Данный герой создан благодаря <font color='#fffc00'>Ezik</font>"
+
+"DOTA_Tooltip_modifier_Scp_DamageAura_debuff"										"Он рядом"
+"DOTA_Tooltip_modifier_Scp_DamageAura_debuff_Description"							"Получает урон"
 
 "DOTA_Tooltip_modifier_scp_ultimate_vision"											"Свернуть шею"
 "DOTA_Tooltip_modifier_scp_ultimate_vision_Description"								"Обзор уменьшен на %dMODIFIER_PROPERTY_BONUS_VISION_PERCENTAGE%%%"
@@ -5105,7 +5128,7 @@
 "DOTA_Tooltip_ability_scp173_statue_aghanim_lore"									"Данный герой создан благодаря <font color='#fffc00'>Ezik</font>"
 	
 "DOTA_Tooltip_Ability_scp173_statue_aghanim_teleport"								"Заменить статую"
-"DOTA_Tooltip_Ability_scp173_statue_aghanim_teleport_Description"					"Телепортируется на место статуи"
+"DOTA_Tooltip_Ability_scp173_statue_aghanim_teleport_Description"					"Телепортируется на место статуи и применяет на случайного врага <span class=\"GameplayValues GameplayVariable\">Скример</span>"
 "DOTA_Tooltip_ability_scp173_statue_aghanim_teleport_lore"							"Данный герой создан благодаря <font color='#fffc00'>Ezik</font>"
 
 "DOTA_Tooltip_Ability_special_bonus_birzha_scp_1" 									"-{s:value} сек. перезарядки Скример"
@@ -5697,49 +5720,56 @@
 "DOTA_Tooltip_Ability_monika_omniper_range" 						"ДАЛЬНОСТЬ ТЕЛЕПОРТАЦИИ:"
 "DOTA_Tooltip_Ability_monika_omniper_damage" 						"УРОН:"
 "DOTA_Tooltip_Ability_monika_omniper_lore"							"Данный герой создан благодаря <font color='#fffc00'>Dim4ik</font>"
-"DOTA_Tooltip_Ability_monika_omniper_scepter_description" 			"Способность концептуальный урон срабатывает на все цели способности"
+"DOTA_Tooltip_Ability_monika_omniper_scepter_description" 			"Накладывает на всех задетых врагов эффект от способности Концептуальный Урон."
 
 "DOTA_Tooltip_Ability_monika_concept" 								"Концептуальный урон"
-"DOTA_Tooltip_Ability_monika_concept_Description" 					"Каждая атака Моники имеет шанс призвать иллюзию, которая наносит дополнительный физический урон. Иллюзия пропадает сделав лишь одну атаку"
+"DOTA_Tooltip_Ability_monika_concept_Description" 					"Каждая атака Моники имеет шанс призвать иллюзию, атака которой помимо базового урона, также наносит урон, зависящий от ловкости владельца. Множитель ловкости будет максимальным, если ловкость героя на 50% выше его силы. Иллюзия пропадает сделав лишь одну атаку."
 "DOTA_Tooltip_Ability_monika_concept_chance" 						"%ШАНС:"
+"DOTA_Tooltip_Ability_monika_concept_damage_base" 					"БАЗОВЫЙ УРОН:"
+"DOTA_Tooltip_Ability_monika_concept_damage_min" 					"МИН. МНОЖИТЕЛЬ ЛОВКОСТИ:"
+"DOTA_Tooltip_Ability_monika_concept_damage_max" 					"МАКС. МНОЖИТЕЛЬ ЛОВКОСТИ:"
 "DOTA_Tooltip_Ability_monika_concept_illusion_damage" 				"ДОП. УРОН:"
 "DOTA_Tooltip_Ability_monika_concept_lore"							"Данный герой создан благодаря <font color='#fffc00'>Dim4ik</font>"
-"DOTA_Tooltip_Ability_monika_concept_shard_description" 			"Создает иллюзию, которая наносит магический урон и создает иллюзию, которая наносит чистый урон"
+"DOTA_Tooltip_Ability_monika_concept_shard_description" 			"Создаёт дополнительную иллюзию, которая наносит магический урон."
 
 "DOTA_Tooltip_Ability_monika_fourthwall" 							"Разрушение четвертой стены"
-"DOTA_Tooltip_Ability_monika_fourthwall_Description" 				"Моника может управлять игрой. Изменяет атрибуты силы в атрибуты ловкости. Также даёт постоянный бонус к ловкости"
-"DOTA_Tooltip_Ability_monika_fourthwall_interval" 					"ИНТЕРВАЛ:"
-"DOTA_Tooltip_Ability_monika_fourthwall_bonus_agility" 				"ДОП. ЛОВКОСТЬ:"
+"DOTA_Tooltip_Ability_monika_fourthwall_Description" 				"Моника управляет игрой, изменяя свои атрибуты силы в атрибуты ловкости со скоростью %agi_per_sec% в сек."
+"DOTA_Tooltip_Ability_monika_fourthwall_agi_per_sec" 				"ЛОВКОСТИ В СЕКУНДУ:"
 "DOTA_Tooltip_Ability_monika_fourthwall_lore"						"Данный герой создан благодаря <font color='#fffc00'>Dim4ik</font>"
 
 "DOTA_Tooltip_Ability_monika_fourthwall_two" 						"Разрушение четвертой стены"
-"DOTA_Tooltip_Ability_monika_fourthwall_two_Description" 			"Моника может управлять игрой. Изменяет атрибуты ловкости в атрибуты силы"
-"DOTA_Tooltip_Ability_monika_fourthwall_two_interval" 				"ИНТЕРВАЛ:"
+"DOTA_Tooltip_Ability_monika_fourthwall_two_Description" 			"Моника управляет игрой, изменяя свои атрибуты ловкости в атрибуты силы со скоростью %str_per_sec% в сек."
+"DOTA_Tooltip_Ability_monika_fourthwall_two_str_per_sec" 			"СИЛЫ В СЕКУНДУ:"
 "DOTA_Tooltip_Ability_monika_fourthwall_two_lore"					"Данный герой создан благодаря <font color='#fffc00'>Dim4ik</font>"
 
-"DOTA_Tooltip_Ability_monika_perception" 							"Восприятие информации"
-"DOTA_Tooltip_Ability_monika_perception_Description" 				"Моника способна находить героев и оказывать на них воздействие. Телепортирует себя или союзного героя в любую точку карты, в точке телепортации наносит урон всем противникам в радиусе %radius%"
-"DOTA_Tooltip_Ability_monika_perception_damage" 					"УРОН:"
-"DOTA_Tooltip_Ability_monika_perception_duration" 					"ДЛИТЕЛЬНОСТЬ:"
-"DOTA_Tooltip_Ability_monika_perception_lore"						"Данный герой создан благодаря <font color='#fffc00'>Dim4ik</font>"
+"DOTA_Tooltip_Ability_monika_r" 									"Восприятие информации"
+"DOTA_Tooltip_Ability_monika_r_Description" 						"Моника способна находить героев и оказывать на них воздействие. Создаёт рядом с выбранным противником точную его копию, которая привязывает его к себе и атакует раз в %illusion_attack_rate% сек. <br><br> Применение подспособности уничтожит копию и телепортирует Монику на её место, создавая взрыв, который оглушит всех врагов рядом и помимо базового урона, также нанесёт им урон зависящий от ловкости владельца. Множитель ловкости будет максимальным, если ловкость героя на 50% выше его силы. <br><br> Длительность оглушения увеличивается с силой героя и достигает максимума, когда его сила на 50% выше ловкости."
+"DOTA_Tooltip_Ability_monika_r_duration"							"ДЛИТЕЛЬНОСТЬ ПРИВЯЗКИ:"		
+"DOTA_Tooltip_Ability_monika_r_illusion_incoming" 					"%ВХОДЯЩИЙ УРОН КОПИИ:"
+"DOTA_Tooltip_Ability_monika_r_illusion_outgoing" 					"%ИСХОДЯЩИЙ УРОН КОПИИ:"
+"DOTA_Tooltip_Ability_monika_r_leash_radius" 						"ДАЛЬНОСТЬ ПРИВЯЗКИ:"
+"DOTA_Tooltip_Ability_monika_r_illusion_attack_rate" 				"ВРЕМЯ АТАКИ КОПИИ:"
+"DOTA_Tooltip_Ability_monika_r_base_damage" 						"БАЗОВЫЙ УРОН:"
+"DOTA_Tooltip_Ability_monika_r_damage_min" 							"МИН. МНОЖИТЕЛЬ ЛОВКОСТИ:"
+"DOTA_Tooltip_Ability_monika_r_damage_max" 							"МАКС. МНОЖИТЕЛЬ ЛОВКОСТИ:"
+"DOTA_Tooltip_Ability_monika_r_stun_duration_min" 					"МИН. ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
+"DOTA_Tooltip_Ability_monika_r_stun_duration_max" 					"МАКС. ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
+"DOTA_Tooltip_Ability_monika_r_radius" 								"РАДИУС:"
+"DOTA_Tooltip_Ability_monika_r_lore"								"Данный герой создан благодаря <font color='#fffc00'>Dim4ik</font>"
 
-"DOTA_Tooltip_Ability_monika_perception_teleport" 					"Восприятие информации"
-"DOTA_Tooltip_Ability_monika_perception_teleport_Description" 		"Телепортирует цель в указанную точку"
+"DOTA_Tooltip_Ability_monika_r_two" 								"Восприятие информации"
+"DOTA_Tooltip_Ability_monika_r_two_Description" 					"Телепортирует героя на место копии."
 
-"DOTA_Tooltip_modifier_monika_ult_casted" 							"Восприятие информации"
-
-"DOTA_Tooltip_modifier_monika_ult_casted_debuff" 					"Восприятие информации"
-"DOTA_Tooltip_modifier_monika_ult_casted_debuff_description" 		"Не может атаковать"
 
 "Dota_Tooltip_Ability_special_bonus_birzha_monika_1" 				"-{s:value} сек. перезарядки Локальная вездесущность"
 "Dota_Tooltip_Ability_special_bonus_birzha_monika_2" 				"+{s:value} дальность Локальная вездесущность"
 "Dota_Tooltip_Ability_special_bonus_birzha_monika_3" 				"+{s:value}% шанс Концептуальный урон"
-"Dota_Tooltip_Ability_special_bonus_birzha_monika_4" 				"Разрушение четвертой стены в оглушении"
-"Dota_Tooltip_Ability_special_bonus_birzha_monika_5" 				"+{s:value} урона Концептуальный урон"
-"Dota_Tooltip_Ability_special_bonus_birzha_monika_6" 				"Восприятие информации накладывает обезоруживание на {s:value} сек."
+"Dota_Tooltip_Ability_special_bonus_birzha_monika_4" 				"Разрушение четвертой стены можно использовать в оглушении"
+"Dota_Tooltip_Ability_special_bonus_birzha_monika_5" 				"+{s:value} к базовому урону от Концептуальный урон"
+"Dota_Tooltip_Ability_special_bonus_birzha_monika_6" 				"Копия от Восприятия Информации неуязвима в первые {s:value} сек. жизни"
 "DOTA_Tooltip_ability_special_bonus_birzha_monika_7" 				"Локальная вездесущность восстанавливает здоровье"
 "DOTA_Tooltip_ability_special_bonus_birzha_monika_7_description" 	"Восстанавливает потерянное за последние {s:value} сек. здоровье"
-"DOTA_Tooltip_ability_special_bonus_birzha_monika_8" 				"Концептуальный урон работает на иллюзиях"
+"DOTA_Tooltip_ability_special_bonus_birzha_monika_8" 				"-{s:value} сек. времени атаки копии от Восприятие Информации"
 
 
 //=================================================================================================================
@@ -6518,74 +6548,6 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_horo_8" 						"+{s:value} здоровья Смена формы"
 
 //=================================================================================================================
-// BloodSeeker | LenaGolovach | LenaGolovach
-//=================================================================================================================
-
-"npc_dota_hero_bloodseeker" 			"LenaGolovach"
-"npc_dota_golovach_taunt" 				"Привет Привет"
-
-"DOTA_Tooltip_Ability_LenaGolovach_Donate" 					"Донаты"
-"DOTA_Tooltip_Ability_LenaGolovach_Donate_Description" 		"Все противники в радиусе Головача донатят своему любимому стримеру"
-"DOTA_Tooltip_Ability_LenaGolovach_Donate_radius" 			"РАДИУС:"
-"DOTA_Tooltip_Ability_LenaGolovach_Donate_money" 			"ДОНАТ:"
-"DOTA_Tooltip_Ability_LenaGolovach_Donate_lore"				"Данный герой создан благодаря <font color='#fffc00'>Dim4ik</font>"
-
-"DOTA_Tooltip_modifier_LenaGolovach_Donate" 				"Донат"
-"DOTA_Tooltip_modifier_LenaGolovach_Donate_Description" 	"Теряет золото"
-
-"DOTA_Tooltip_Ability_LenaGolovach_taunt" 					"Таунт"
-"DOTA_Tooltip_Ability_LenaGolovach_taunt_Description" 		"Головач ставит на стол таунт. Он заставляет противников атаковать себя"
-"DOTA_Tooltip_Ability_LenaGolovach_taunt_radius" 			"РАДИУС:"
-"DOTA_Tooltip_Ability_LenaGolovach_taunt_duration" 			"ДЛИТЕЛЬНОСТЬ:"
-"DOTA_Tooltip_Ability_LenaGolovach_taunt_scepter_description" "Применяет на таунт эффект способности Ракеты на Е"
-"DOTA_Tooltip_Ability_LenaGolovach_taunt_lore"				"Данный герой создан благодаря <font color='#fffc00'>Dim4ik</font>"
-
-"DOTA_Tooltip_Ability_golovach_rocket" 						"Ракеты на Е"
-"DOTA_Tooltip_Ability_golovach_rocket_Description" 			"Запускает залп ракет в ближайшего вражеского героя. Каждая ракета наносит урон"
-"DOTA_Tooltip_Ability_golovach_rocket_damage" 				"УРОН:"
-"DOTA_Tooltip_Ability_golovach_rocket_agi_bonus" 			"МНОЖИТЕЛЬ ЛОВКОСТИ:"
-"DOTA_Tooltip_Ability_golovach_rocket_shard_description" "Оглушает цель на %stun_time% сек."
-"DOTA_Tooltip_Ability_golovach_rocket_lore"					"Данный герой создан благодаря <font color='#fffc00'>Dim4ik</font>"
-
-"DOTA_Tooltip_modifier_golovach_rocket" 					"Ракеты на Е"
-"DOTA_Tooltip_modifier_golovach_rocket_Description" 		"Выпускает ракеты"
-
-"DOTA_Tooltip_Ability_LenaGolovach_Radio" 					"Рофлы с Радио"
-"DOTA_Tooltip_Ability_LenaGolovach_Radio_Description" 		"Головач услышав рофл с радио начинает сильно рофлить и получает два случайных бонуса на время. Бонусы: <font color='#00D4FF'>Дополнительный урон</font>, <font color='#00D4FF'>здоровье</font>, <font color='#00D4FF'>скорость атаки</font> и <font color='#00D4FF'>скорость передвижения</font>"
-"DOTA_Tooltip_Ability_LenaGolovach_Radio_duration" 			"ДЛИТЕЛЬНОСТЬ:"
-"DOTA_Tooltip_Ability_LenaGolovach_Radio_damage" 			"УРОН:"
-"DOTA_Tooltip_Ability_LenaGolovach_Radio_health" 			"ЗДОРОВЬЕ:"
-"DOTA_Tooltip_Ability_LenaGolovach_Radio_base_attack" 		"СКОРОСТЬ АТАКИ:"
-"DOTA_Tooltip_Ability_LenaGolovach_Radio_movespeed" 		"СКОРОСТЬ ПЕРЕДВИЖЕНИЯ:"
-"DOTA_Tooltip_Ability_LenaGolovach_Radio_lore"				"Данный герой создан благодаря <font color='#fffc00'>Dim4ik</font>"
-
-"DOTA_Tooltip_modifier_LenaGolovach_Radio_damage" 					"Рофлы с Радио"
-"DOTA_Tooltip_modifier_LenaGolovach_Radio_damage_Description" 		"Урон увеличен на %dMODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE%"
-
-"DOTA_Tooltip_modifier_LenaGolovach_Radio_movespeed" 				"Рофлы с Радио"
-"DOTA_Tooltip_modifier_LenaGolovach_Radio_movespeed_Description" 	"Постоянная скорость передвижения %dMODIFIER_PROPERTY_MOVESPEED_ABSOLUTE%"
-
-"DOTA_Tooltip_modifier_LenaGolovach_Radio_health" 					"Рофлы с Радио"
-"DOTA_Tooltip_modifier_LenaGolovach_Radio_health_Description" 		"Здоровье увеличено на %dMODIFIER_PROPERTY_HEALTH_BONUS%"
-
-"DOTA_Tooltip_modifier_LenaGolovach_Radio_baseattack" 				"Рофлы с Радио"
-"DOTA_Tooltip_modifier_LenaGolovach_Radio_baseattack_Description" 	"Базовая скорость атаки уменьшена до %fMODIFIER_PROPERTY_BASE_ATTACK_TIME_CONSTANT%"
-
-"DOTA_Tooltip_modifier_LenaGolovach_Radio_god" 						"Рофлы с Радио"
-"DOTA_Tooltip_modifier_LenaGolovach_Radio_god_Description" 			"Бессмертие"
-
-"Dota_Tooltip_Ability_special_bonus_birzha_golovach_1" 						"+{s:value} сек. длительности Таунт"
-"Dota_Tooltip_Ability_special_bonus_birzha_golovach_2" 						"+{s:value} золота Донаты"
-"Dota_Tooltip_Ability_special_bonus_birzha_golovach_3" 						"+{s:value} цели Ракеты на Е"
-"Dota_Tooltip_Ability_special_bonus_birzha_golovach_4" 						"-{s:value} сек. перезарядки Рофлы С радио"
-"Dota_Tooltip_Ability_special_bonus_birzha_golovach_5" 						"Таунт взрывается"
-"Dota_Tooltip_Ability_special_bonus_birzha_golovach_5_description" 			"По окончанию Таунт взрывается и наносит {s:value}% от макс. здоровья"
-"Dota_Tooltip_Ability_special_bonus_birzha_golovach_6" 						"+{s:value} множитель ловкости Ракеты на Е"
-"Dota_Tooltip_Ability_special_bonus_birzha_golovach_7" 						"Таунт возвращает урон"
-"Dota_Tooltip_Ability_special_bonus_birzha_golovach_7_description" 			"Возвращает {s:value}% входящего урона"
-"Dota_Tooltip_Ability_special_bonus_birzha_golovach_8" 						"+{s:value} сек. длительности Рофлы с радио"
-
-//=================================================================================================================
 // Bounty Hunter | Еврей | Jew
 //=================================================================================================================
 
@@ -6692,70 +6654,6 @@
 "DOTA_Tooltip_Ability_special_bonus_birzha_robbie_7" 		"-{s:value} сек. перезарядки Время Маскировки"
 "DOTA_Tooltip_Ability_special_bonus_birzha_robbie_8" 		"+{s:value}% к урону клонов We are Number One"
 
-
-//=================================================================================================================
-// Crystal Maiden | Рем | Rem
-//=================================================================================================================
-
-"npc_dota_hero_crystal_maiden"								"Рем"
-
-"DOTA_Tooltip_ability_Rem_StrikeJump" 						"Удар с прыжка"
-"DOTA_Tooltip_ability_Rem_StrikeJump_Description" 			"Рем совершает прыжок в указанную область, после ударяет по ней. Ударные волны наносят урон врагам и оглушают их"
-"DOTA_Tooltip_ability_Rem_StrikeJump_stun_duration"			"ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
-"DOTA_Tooltip_ability_Rem_StrikeJump_damage"				"УРОН:"
-"DOTA_Tooltip_ability_Rem_StrikeJump_radius"				"РАДИУС:"
-"DOTA_Tooltip_ability_Rem_StrikeJump_shard_description"		"Наносит урон от атак"
-"DOTA_Tooltip_ability_Rem_StrikeJump_Lore"					"Данный герой посвящен <font color='#fffc00'>Диме Rem ♥</font>"
-
-"DOTA_Tooltip_ability_rem_morgenshtern"						"Бросить Моргенштерн"
-"DOTA_Tooltip_ability_rem_morgenshtern_Description"			"Рем бросает Моргенштерн  в указанном направлении. Если попадает в цель, тогда она притягивается к ней, оглушая и нанося урон. Любые враги, с которыми Рем сталкивается по пути, также получают урон и оглушаются"
-"DOTA_Tooltip_ability_rem_morgenshtern_duration"			"ДЛИТЕЛЬНОСТЬ:"
-"DOTA_Tooltip_ability_rem_morgenshtern_damage"				"УРОН:"
-"DOTA_Tooltip_ability_rem_morgenshtern_cast_range"			"ДАЛЬНОСТЬ:"
-"DOTA_Tooltip_ability_rem_morgenshtern_lore"				"Данный герой посвящен <font color='#fffc00'>Диме Rem ♥</font>"
-"DOTA_Tooltip_ability_rem_morgenshtern_scepter_description"	"Снижает время перезарядки до %cooldown_scepter% сек. и увеличивает дальность на %bonus_cast_range_scepter%"
-
-"DOTA_Tooltip_ability_Rem_BigBoobs" 						"Большие сиськи"
-"DOTA_Tooltip_ability_Rem_BigBoobs_Description" 			"Из-за величины своих сисек, Рем увеличивает свой урон"
-"DOTA_Tooltip_ability_Rem_BigBoobs_bonus_damage_pct"		"%ДОП. УРОН:"
-"DOTA_Tooltip_ability_Rem_BigBoobs_lore" 					"Данный герой посвящен <font color='#fffc00'>Диме Rem ♥</font>"
-
-"DOTA_Tooltip_ability_Rem_DemonicForm" 						"Демоническое Происхождение"
-"DOTA_Tooltip_ability_Rem_DemonicForm_Description" 			"Рем превращается в могущественного демона c быстрой скоростью атаки"
-"DOTA_Tooltip_ability_Rem_DemonicForm_bonus_range"			"ДОП. ДАЛЬНОСТЬ АТАКИ:"
-"DOTA_Tooltip_ability_Rem_DemonicForm_bonus_health"			"ДОП. ЗДОРОВЬЕ:"
-"DOTA_Tooltip_ability_Rem_DemonicForm_base_attack_time"		"СКОРОСТЬ АТАКИ:"
-"DOTA_Tooltip_ability_Rem_DemonicForm_duration"				"ДЛИТЕЛЬНОСТЬ:"
-"DOTA_Tooltip_ability_Rem_DemonicForm_lore" 				"Данный герой посвящен <font color='#fffc00'>Диме Rem ♥</font>"
-
-"DOTA_Tooltip_modifier_DemonicForm"							"Демонический облик"
-"DOTA_Tooltip_modifier_DemonicForm_description"				"Здоровье увеличено на %dMODIFIER_PROPERTY_HEALTH_BONUS%, базовая скорость атаки %fMODIFIER_PROPERTY_BASE_ATTACK_TIME_CONSTANT%, Дальность атаки %dMODIFIER_PROPERTY_ATTACK_RANGE_BONUS%"
-
-"DOTA_Tooltip_modifier_jump_strike_buff_speed"				"Удар с прыжка"
-"DOTA_Tooltip_modifier_jump_strike_buff_speed_description"	"Скорость передвижения увеличена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%"
-
-"DOTA_Tooltip_ability_Rem_el_huma" 							"Эль Хьюма"
-"DOTA_Tooltip_ability_Rem_el_huma_Description" 				"Создает ледяные шипы в выбранной области. Они наносят урон и оглушают"
-"DOTA_Tooltip_ability_Rem_el_huma_stun_duration"			"ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
-"DOTA_Tooltip_ability_Rem_el_huma_damage"					"УРОН:"
-"DOTA_Tooltip_ability_Rem_el_huma_radius"					"РАДИУС:"
-"DOTA_Tooltip_ability_Rem_el_huma_lore" 					"Данный герой посвящен <font color='#fffc00'>Диме Rem ♥</font>"
-
-"DOTA_Tooltip_ability_Rem_ul_huma" 							"Уль Хьюма"
-"DOTA_Tooltip_ability_Rem_ul_huma_Description" 				"Рем сжимает осколки льда в шар холодной энергии, который наносит урон всем задетым врагам. Когда шар достигнет точки назначения, осколки высвободятся, создавая непроходимый барьер"
-"DOTA_Tooltip_ability_Rem_ul_huma_shard_damage"				"УРОН:"
-"DOTA_Tooltip_ability_Rem_ul_huma_shard_duration"			"ДЛИТЕЛЬНОСТЬ:"
-"DOTA_Tooltip_ability_Rem_ul_huma_lore" 					"Данный герой посвящен <font color='#fffc00'>Диме Rem ♥</font>"
-
-"Dota_Tooltip_Ability_special_bonus_birzha_rem_1" 			"+{s:value}% урона Большие сиськи"
-"Dota_Tooltip_Ability_special_bonus_birzha_rem_2" 			"-{s:value} сек. перезарядки Удар с прыжка"
-"Dota_Tooltip_Ability_special_bonus_birzha_rem_3" 			"+{s:value} сек. длительности оглушения Бросить моргенштерн"
-"Dota_Tooltip_Ability_special_bonus_birzha_rem_4" 			"Удар с прыжка увеличивает скорость передвижения"
-"Dota_Tooltip_Ability_special_bonus_birzha_rem_4_description" 			"Увеличивает скорость передвижения на {s:value}%. Длительность {s:value2} сек."
-"Dota_Tooltip_Ability_special_bonus_birzha_rem_5" 			"+{s:value} дальности атаки Демоническое происхождение"
-"Dota_Tooltip_Ability_special_bonus_birzha_rem_6" 			"-{s:value} сек. перезарядки Уль хьюма"
-"Dota_Tooltip_Ability_special_bonus_birzha_rem_7" 			"Удар с прыжка сквозь иммунитет к магии"
-"Dota_Tooltip_Ability_special_bonus_birzha_rem_8" 			"-{s:value} сек. перезарядки Демоническое происхождение"
 
 //=================================================================================================================
 // Wyvern | Наклз | Knuckles
@@ -7045,7 +6943,14 @@
 "DOTA_Tooltip_ability_thomas_ability_two_one"								"Цыганская помощь: Ли"
 "DOTA_Tooltip_ability_thomas_ability_two_one_Description"					"Призывает на помощь цыган. Количество цыган зависит от суммы убийств и помощи деленной на %math_cel%. Минимальное количество цыган 1, максимальное %max_count%.<br>Скорость атаки цыган зависит от скорости атаки Шелби деленной на %attack_speed_mult%<br>Урон цыган равен %damage%%% от урона Шелби\n<h1>Цыган: Выбивание долгов</h1>Каждая атака Цыгана навешивает долг на противника, который равен %gold_steal% золота. Шелби забирает золото противника себе до момента пока долг не будет полностью выплачен"
 "DOTA_Tooltip_ability_thomas_ability_two_one_abilitygoldcost"				"СТОИМОСТЬ ЗОЛОТА:"
+"DOTA_Tooltip_ability_thomas_ability_two_one_max_count"						"МАКС. КОЛ-ВО ЦЫГАН:"
+"DOTA_Tooltip_ability_thomas_ability_two_one_attack_range"					"ДАЛЬНОСТЬ АТАКИ ЦЫГАН:"
+"DOTA_Tooltip_ability_thomas_ability_two_one_damage"						"%УРОН ЦЫГАН ОТ АТАКИ ГЕРОЯ:"
+"DOTA_Tooltip_ability_thomas_ability_two_one_gold_steal"					"ВОРУЕМОЕ ЗОЛОТО:"
+"DOTA_Tooltip_ability_thomas_ability_two_one_duration_swap"					"ДЛИТЕЛЬНОСТЬ ЖИЗНИ:"
 "DOTA_Tooltip_ability_thomas_ability_two_one_lore"							"Данный герой создан благодаря <font color='#fffc00'>ForeverBlin4ik</font>"
+
+"DOTA_Tooltip_ability_thomas_ability_two_one_scepter_Description"			"Увеличивает урон и воруемое золото цыган."
 
 "DOTA_Tooltip_ability_thomas_ability_two_two"								"Цыганская помощь: Голдмана"
 "DOTA_Tooltip_ability_thomas_ability_two_two_Description"					"Создает глубокий лес. Противники внутри леса теряют обзор. Каждые %interval% сек. в случайном месте леса падает телега, которая оглушает и наносит урон противникам рядом"
@@ -7054,7 +6959,12 @@
 "DOTA_Tooltip_ability_thomas_ability_two_two_stun_duration"					"ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
 "DOTA_Tooltip_ability_thomas_ability_two_two_duration_debuff"				"ДЛИТЕЛЬНОСТЬ:"
 "DOTA_Tooltip_ability_thomas_ability_two_two_abilitygoldcost"				"СТОИМОСТЬ ЗОЛОТА:"
+"DOTA_Tooltip_ability_thomas_ability_two_two_aghanim_attacks"				"АТАК ДЛЯ ПРИЗЫВА:"
+"DOTA_Tooltip_ability_thomas_ability_two_two_aghanim_slow_pct"				"%ЗАМЕДЛЕНИЕ ПЕРЕДВИЖЕНИЯ:"
+"DOTA_Tooltip_ability_thomas_ability_two_two_aghanim_slow_duration"			"ДЛИТЕЛЬНОСТЬ ЗАМЕДЛЕНИЯ:"
 "DOTA_Tooltip_ability_thomas_ability_two_two_lore"							"Данный герой создан благодаря <font color='#fffc00'>ForeverBlin4ik</font>"
+
+"DOTA_Tooltip_ability_thomas_ability_two_two_scepter_Description"			"Накладывает на всех цыган в лесу эффект, который делает их невидимыми, позволяет замедлять противников атаками и после каждых %aghanim_attacks% атак призывать рядом дополнительного цыгана. Одновременно может существовать максимум до %aghanim_max_gypsy% цыган."
 
 "DOTA_Tooltip_ability_thomas_ability_three"									"Пустить лошадей"
 "DOTA_Tooltip_ability_thomas_ability_three_Description"						"Выпускает волну лошадей в выбранном направлении. Лошади наносят урон противникам, замедляют их и раскрывают туман войны"	
@@ -7066,8 +6976,10 @@
 "DOTA_Tooltip_ability_thomas_ability_three_shard_description"				"Накладывает безмолвие на противника"
 
 "DOTA_Tooltip_ability_shelby_ultimate"										"Хорош как Шелби"
-"DOTA_Tooltip_ability_shelby_ultimate_Description"							"Каждое уникальное нанесение урона от разных способностей / предметов / атак дает заряд хорошиста, который дает бонусы. При %stack_for_active% зарядах можно использовать способность. После использования способности Шелби расстреливает всех противников в радиусе %attack_radius% ( Важно чтоб противник находился спереди от взгляда Шелби ), нанося %damage%%% урона и получает %lifesteal%%% вампиризма. После окончания действия способности все заряды хорошиста пропадают"
+"DOTA_Tooltip_ability_shelby_ultimate_Description"							"Каждое уникальное нанесение урона от разных способностей / предметов / атак дает заряд хорошиста, который дает бонусы. При %stack_for_active% зарядах можно использовать способность. После использования способности Шелби расстреливает всех противников в %shoot_angle%-градусном конусе перед ним в радиусе %attack_radius%, получая %lifesteal%%% вампиризма. После окончания действия способности все заряды хорошиста пропадают"
 "DOTA_Tooltip_ability_shelby_ultimate_duration"								"ДЛИТЕЛЬНОСТЬ СТРЕЛЬБЫ:"
+"DOTA_Tooltip_ability_shelby_ultimate_base_damage"							"БАЗОВЫЙ УРОН ВЫСТРЕЛОВ:"
+"DOTA_Tooltip_ability_shelby_ultimate_damage"								"%УРОН ВЫСТРЕЛОВ ОТ АТАКИ:"
 "DOTA_Tooltip_ability_shelby_ultimate_attackspeed_stack"					"ДОП. СКОРОСТЬ АТАКИ ЗА ЗАРЯД:"
 "DOTA_Tooltip_ability_shelby_ultimate_damage_stack"							"ДОП. УРОН ЗА ЗАРЯД:"
 "DOTA_Tooltip_ability_shelby_ultimate_movespeed_stack"						"%ДОП. СКОРОСТЬ ПЕРЕДВИЖЕНИЯ ЗА ЗАРЯД"
@@ -7076,8 +6988,18 @@
 "DOTA_Tooltip_ability_shelby_ultimate_charge_duration"						"ДЛИТЕЛЬНОСТЬ ЗАРЯДА:"
 "DOTA_Tooltip_ability_shelby_ultimate_lore"									"Данный герой создан благодаря <font color='#fffc00'>ForeverBlin4ik</font>"
 
-"DOTA_Tooltip_ability_shelby_shard"											"Хладнокровность"
-"DOTA_Tooltip_ability_shelby_shard_Description"								"Каждое уникальное нанесение урона от разных способностей / предметов / атак дает заряд на %duration% сек., который уменьшает входящий урон на %resist%%%. Использование предмета Бонд с кнопкой также дает 2 заряда способности"	
+"DOTA_Tooltip_ability_shelby_shard"											"Хладнокровность "
+"DOTA_Tooltip_ability_shelby_shard_Description"								"Каждое уникальное нанесение урона от разных способностей / предметов / атак дает заряд на %duration% сек., который уменьшает входящий урон. <br><br> При активации герой начнёт выкуривать сигарету в течение %AbilityChannelTime% сек. По окончании восстанавливает здоровье, получает %stacks% заряда способности и эффект, который добавляет к атакам героя дополнительный магический урон на %effect_duration% сек. Такая атака считается отдельным источником урона."	
+"DOTA_Tooltip_ability_shelby_shard_duration"								"ДЛИТЕЛЬНОСТЬ ЗАРЯДА:"
+"DOTA_Tooltip_ability_shelby_shard_effect_duration"							"ДЛИТЕЛЬНОСТЬ ЭФФЕКТА:"
+"DOTA_Tooltip_ability_shelby_shard_heal"									"%ВОССТАНОВЛЕНИЕ ЗДОРОВЬЯ:"
+"DOTA_Tooltip_ability_shelby_shard_bonus_damage"							"ДОПОЛНИТЕЛЬНЫЙ УРОН:"
+"DOTA_Tooltip_ability_shelby_shard_resist"									"%УМЕНЬШЕНИЕ УРОНА ЗА ЗАРЯД:"
+"DOTA_Tooltip_ability_shelby_shard_AbilityCooldown"							"ПЕРЕЗАРЯДКА:"
+"DOTA_Tooltip_ability_shelby_shard_lore"									"Данный герой создан благодаря <font color='#fffc00'>ForeverBlin4ik</font>"
+
+"DOTA_Tooltip_modifier_shelby_shard_effect"									"Хладнорковность"
+"DOTA_Tooltip_modifier_shelby_shard_effect_Description"						"Атаки наносят дополнительный магический урон."
 
 "DOTA_Tooltip_modifier_thomas_ability_one_debuff"							"Напряжение"
 "DOTA_Tooltip_modifier_thomas_ability_one_debuff_Description"				"Броня уменьшена на %fMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS% и магическое сопротивление уменьшено на %fMODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS%%%"
@@ -7102,7 +7024,7 @@
 "DOTA_Tooltip_ability_special_bonus_birzha_shelby_3"						"+{s:value} к урону Напрячь за заряд Хорош как шелби"
 "DOTA_Tooltip_ability_special_bonus_birzha_shelby_4"						"+{s:value} сек. длительности Хорош как шелби"
 "DOTA_Tooltip_ability_special_bonus_birzha_shelby_6"						"+{s:value}% урона во время Хорош как шелби"
-"DOTA_Tooltip_ability_special_bonus_birzha_shelby_7"						"-{s:value} сек. перезарядки Напрячь"
+"DOTA_Tooltip_ability_special_bonus_birzha_shelby_7"						"-{s:value} сек. применения Хладнокровности"
 "DOTA_Tooltip_ability_special_bonus_birzha_shelby_5"						"-{s:value} сек. перезарядки Хорош как шелби"
 "DOTA_Tooltip_ability_special_bonus_birzha_shelby_8"						"+{s:value} макс. зарядов Хорош как шелби"
 
@@ -7192,6 +7114,9 @@
 "DOTA_Tooltip_Ability_stray_kill_stealer_damage" 			"УРОН:"
 "DOTA_Tooltip_Ability_stray_kill_stealer_lore"				"Данный герой создан благодаря <font color='#fffc00'>What's your problem?</font>"
 
+"DOTA_Tooltip_modifier_stray_kill_stealer_stacks"			"Киллстиллер"
+"DOTA_Tooltip_modifier_stray_kill_stealer_stacks_Description""Доп. золото от Усатый Воришка увеличено на %dMODIFIER_PROPERTY_TOOLTIP%."
+
 "DOTA_Tooltip_Ability_stray_donate_music" 					"Музыка от донатера"
 "DOTA_Tooltip_Ability_stray_donate_music_Description" 		"Stray получает на время один из перечисленных эффектов\n<h1>Эффект: Clockwerk Dungeon Master</h1>Выпускает высокомощную шрапнель в случайных существ неподалёку, нанося им незначительный магический урон %damageone% и ненадолго их оглушая<br>Дополнительное сопротивление эффектам: %resistone%%%\n<h1>Эффект: Шансон</h1>Каждая атака может оглушить цель<br>Шанс оглушения: %bashchance%%%<br>Длительность оглушения %bashduration%<br>Дополнительная регенерация здоровья %healthregen%\n<h1>Эффект: В соло суки</h1>Каждая %stacks%-ая атака нанесёт критический урон %critical%%%<br>Дополнительная скорость передвижения: %bonusmovespeed%%%"
 "DOTA_Tooltip_Ability_stray_donate_music_duration" 			"ДЛИТЕЛЬНОСТЬ:"
@@ -7220,6 +7145,12 @@
 "DOTA_Tooltip_modifier_stray_shveps_buff_Description" 		"Регенерация здоровья увеличена на %dMODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT%"
 
 "DOTA_Tooltip_ability_stray_kill_stealer_shard_description"				"Срабатывает 2 раза"
+
+"DOTA_Tooltip_Ability_stray_innate"							"Усатый Воришка"
+"DOTA_Tooltip_Ability_stray_innate_Description"				"Стрей получает больше денег за свои и чужие убийства рядом. Убийства <span class=\"GameplayValues GameplayVariable\">Киллстиллером</span> навсегда увеличивают доп. золото на %bonus_gold_per_charge%."
+"DOTA_Tooltip_Ability_stray_innate_bonus_gold_owner_kill"	"БОНУС ЗА УБИЙСТВО (СВОЁ):"
+"DOTA_Tooltip_Ability_stray_innate_bonus_gold_nearby_kill"	"БОНУС ЗА УБИЙСТВО (ЧУЖОЕ):"
+"DOTA_Tooltip_Ability_stray_innate_nearby_radius"			"РАДИУС:"
 
 "DOTA_Tooltip_Ability_special_bonus_birzha_stray_1" 		"+{s:value} урон в секунду Крысинный Яд"
 "DOTA_Tooltip_Ability_special_bonus_birzha_stray_2" 		"+{s:value} урона Крыса"
@@ -7486,7 +7417,7 @@
 "DOTA_Tooltip_modifier_Felix_water_block" 								"Водяная преграда"
 "DOTA_Tooltip_modifier_Felix_water_block_Description" 					"Впитывает входящий урон"
 
-"DOTA_Tooltip_ability_special_bonus_birzha_felix_1"						"+{s:value}% уменьшение сопротивлений Its a trap"
+"DOTA_Tooltip_ability_special_bonus_birzha_felix_1"						"+{s:value}% к уменьшению сопр. эффектам и увеличению урона Its a trap"
 "DOTA_Tooltip_ability_special_bonus_birzha_felix_2"						"-{s:value} сек. перезарядки Водяная преграда"
 "DOTA_Tooltip_ability_special_bonus_birzha_felix_3"						"+{s:value} сек. длительности оглушения Its a trap"
 "DOTA_Tooltip_ability_special_bonus_birzha_felix_4"						"+{s:value}% урона и восст. здоровья Водный поток"
@@ -7590,7 +7521,7 @@
 "DOTA_Tooltip_ability_Megumin_mana_aura_radius"				"РАДИУС:"
 
 "DOTA_Tooltip_modifier_megumin_aura_2"						"Няшность Мегумин"
-"DOTA_Tooltip_modifier_megumin_aura_2_Description"			"Увеличивает восстановление маны на %fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% и урон от способностей на "
+"DOTA_Tooltip_modifier_megumin_aura_2_Description"			"Увеличивает восстановление маны на %fMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% и урон от способностей на %dMODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE%%%"
 
 "DOTA_Tooltip_modifier_mana_aura_active_regeneration"					"Няшность Мегумин"
 "DOTA_Tooltip_modifier_mana_aura_active_regeneration_Description"					"Увеличивает восстановление маны на %dMODIFIER_PROPERTY_MANA_REGEN_TOTAL_PERCENTAGE%%% "
@@ -8009,7 +7940,7 @@
 "DOTA_Tooltip_ability_travoman_suicide_radius"												"РАДИУС ВЗРЫВА:"
 "DOTA_Tooltip_ability_travoman_suicide_damage"												"УРОН:"
 "DOTA_Tooltip_ability_travoman_suicide_silence_duration"									"ДЛИТЕЛЬНОСТЬ БЕЗМОЛВИЯ:"
-"DOTA_Tooltip_ability_travoman_suicide_hp_cost"												"УРОН СЕБЕ:100%"
+"DOTA_Tooltip_ability_travoman_suicide_hp_cost"												"%УРОН СЕБЕ:"
 "DOTA_Tooltip_ability_travoman_suicide_duration"											"ДЛИТЕЛЬНОСТЬ ПОЛЕТА:"
 "DOTA_Tooltip_ability_travoman_suicide_damage_per_charge"									"ДОП. УРОН ЗА ЗАРЯД:"
 "DOTA_Tooltip_ability_travoman_suicide_lore"												"Данный герой создан благодаря <font color='#fffc00'>What's your problem?</font>"
@@ -9571,12 +9502,6 @@
 "npc_dota_hero_sans"												    "Санс"
 
 //=================================================================================================================
-// КИРИТО
-//=================================================================================================================
-
-"npc_dota_hero_kirito"												    "Кирито"
-
-//=================================================================================================================
 // НИКС
 //=================================================================================================================
 
@@ -9584,7 +9509,7 @@
 
 "DOTA_Tooltip_Ability_nix_marci_q"                                          "Siuuuu"
 "DOTA_Tooltip_Ability_nix_marci_q_description"                              "Выпинывает ближайших противников в указанную точку.\n<h1>Эффект усиления</h1>Увеличивает урон способности на %upgrade_damage_str%%% от силы героя"
-"DOTA_Tooltip_Ability_nix_marci_q_radius_width"                             "РАДИУС:"
+"DOTA_Tooltip_Ability_nix_marci_q_radius"                             		"РАДИУС:"
 "DOTA_Tooltip_Ability_nix_marci_q_knockback_distance"                       "ДАЛЬНОСТЬ ОТКИДЫВАНИЯ:"
 "DOTA_Tooltip_Ability_nix_marci_q_base_damage"                              "УРОН:"
 
@@ -9666,7 +9591,7 @@
 "npc_dota_hero_old_god"                                                                 "Старый бог"
 
 "DOTA_Tooltip_Ability_old_god_q"                                                        "Большие яйца"
-"DOTA_Tooltip_Ability_old_god_q_description"                                            "Старый бог врывается прямо в противника, показывая у кого большие яйца. Вы притягиваетесь к противнику с уменьшенной базовой скоростью атаки. А также если цель пытается от вас убежать, то она получает замедление зависимое от расстояния между вами.<br>\n<h1>Бонус от Старый бог!</h1>Старый бог постоянно стреляет по привязанному врагу, даже если не атакует его."
+"DOTA_Tooltip_Ability_old_god_q_description"                                            "Старый бог врывается прямо в противника, показывая у кого большие яйца. Вы притягиваетесь к противнику с уменьшенной базовой скоростью атаки. А также если цель пытается от вас убежать, то она получает замедление зависимое от расстояния между вами.\n<h1>Бонус от Старый бог!</h1>Старый бог постоянно стреляет по привязанному врагу, даже если не атакует его."
 "DOTA_Tooltip_Ability_old_god_q_base_attack_time"                                       "БАЗОВАЯ СКОРОСТЬ АТАКИ:"
 "DOTA_Tooltip_Ability_old_god_q_duration"                                               "ДЛИТЕЛЬНОСТЬ:"
 "DOTA_Tooltip_Ability_old_god_q_max_range"                                              "ДАЛЬНОСТЬ ПРИВЯЗКИ:"
@@ -9677,13 +9602,13 @@
 "DOTA_Tooltip_modifier_old_god_q_Description"		                                    "Привязался к противнику. Базовая скорость атаки по привязанному противнику намного меньше"
 
 "DOTA_Tooltip_Ability_old_god_w"                                                        "Вовчик?"
-"DOTA_Tooltip_Ability_old_god_w_description"                                            "Да сука кто такой вовчик. Внезапно возле старого бога появляется тот самый Вовчик, который на удивление сильно похож на него. Он также копирует возможность стрелять лазерами из глаз<br>\n<h1>Бонус от Старый бог!</h1>Призывает каким-то образом 2 Вовчика."
+"DOTA_Tooltip_Ability_old_god_w_description"                                            "Да сука кто такой вовчик. Внезапно возле старого бога появляется тот самый Вовчик, который на удивление сильно похож на него. Он также копирует возможность стрелять лазерами из глаз\n<h1>Бонус от Старый бог!</h1>Призывает каким-то образом 2 Вовчика."
 "DOTA_Tooltip_Ability_old_god_w_duration"                                               "ДЛИТЕЛЬНОСТЬ:"
 "DOTA_Tooltip_Ability_old_god_w_outgoing_damage"                                        "%ИСХОДЯЩИЙ УРОН ИЛЛЮЗИИ:"
 "DOTA_Tooltip_Ability_old_god_w_incoming_damage"                                        "%ВХОДЯЩИЙ УРОН ИЛЛЮЗИИ:"
 
 "DOTA_Tooltip_Ability_old_god_e"                                                        "Натура"
-"DOTA_Tooltip_Ability_old_god_e_description"                                            "Внезапный донат с любимой песней. Старый бог получает щит, который поглощает физический входящий урон<br>\n<h1>Бонус от Старый бог!</h1>Щит защищает от всего входящего урона"
+"DOTA_Tooltip_Ability_old_god_e_description"                                            "Внезапный донат с любимой песней. Старый бог получает щит, который поглощает физический входящий урон\n<h1>Бонус от Старый бог!</h1>Щит защищает от всего входящего урона"
 "DOTA_Tooltip_Ability_old_god_e_shield_from_hp"                                         "%ТЕКУЩЕЕ ЗДОРОВЬЕ В ЩИТ:"
 "DOTA_Tooltip_Ability_old_god_e_duration"                                               "ДЛИТЕЛЬНОСТЬ:"
 
@@ -9691,14 +9616,15 @@
 "DOTA_Tooltip_modifier_old_god_e_Description"		                                    "Защита от входящего урона"
 
 "DOTA_Tooltip_Ability_old_god_d"                                                        "Старый бог!"
-"DOTA_Tooltip_Ability_old_god_d_description"                                            "Старый показывает свои фирменные мышцы, получая уникальный эффект, который ненадолго дарует бонусы для других его способностей. Дополнительно получает %attack_range% дальности атаки"
+"DOTA_Tooltip_Ability_old_god_d_description"                                            "Старый показывает свои фирменные мышцы, получая уникальный эффект, который увеличивает дальность атаки и ненадолго дарует бонусы для других его способностей."
+"DOTA_Tooltip_Ability_old_god_d_attack_range"											"ДОП. ДАЛЬНОСТЬ АТАКИ:"
 "DOTA_Tooltip_Ability_old_god_d_duration"                                               "ДЛИТЕЛЬНОСТЬ:"
 
 "DOTA_Tooltip_modifier_old_god_d"					                                    "Старый бог!"
 "DOTA_Tooltip_modifier_old_god_d_Description"		                                    "Боевой клич. Способности получили дополнительные эффекты, а дальность атаки увеличена на %dMODIFIER_PROPERTY_ATTACK_RANGE_BONUS%"
 
 "DOTA_Tooltip_Ability_old_god_r"                                                        "Лазеры из глаз"
-"DOTA_Tooltip_Ability_old_god_r_description"                                            "Подошла короночка. Старый бог выпускает 2 лазера из своих глаз, которые следуют за ближайшим противников или же за текущей целью атаки. Цель лазера получает переодический урон.<br>\n<h1>Бонус от Старый бог!</h1>Способность проходит сквозь иммунитет к магии"
+"DOTA_Tooltip_Ability_old_god_r_description"                                            "Подошла короночка. Старый бог выпускает 2 лазера из своих глаз, которые следуют за ближайшим противников или же за текущей целью атаки. Цель лазера получает переодический урон.\n<h1>Бонус от Старый бог!</h1>Способность проходит сквозь иммунитет к магии"
 "DOTA_Tooltip_Ability_old_god_r_radius"                                                 "РАДИУС ПОИСКА:"
 "DOTA_Tooltip_Ability_old_god_r_radius_damage"                                          "РАДИУС ЛАЗЕРА:"
 "DOTA_Tooltip_Ability_old_god_r_interval"                                               "ИНТЕРВАЛ УРОНА:"
@@ -9788,7 +9714,7 @@
 "DOTA_Tooltip_Ability_special_bonus_unique_ashab_8"                                         "+{s:bonus_min_mult} мин/макс коэфф Ракетка"
 
 //=================================================================================================================
-// Never (new)
+// Never (new) 
 //=================================================================================================================
 
 "npc_dota_hero_nevermore" 								"Never"
@@ -9801,7 +9727,7 @@
 "DOTA_Tooltip_ability_never_innate_scepter_Description"		"Позволяет увеличить максимум душ на %scepter_bonus% за каждого убитого героя, пока владелец способности не умрёт."
 "DOTA_Tooltip_ability_never_innate_necromastery_Note1"		"Кража душ отключается истощением."
 "DOTA_Tooltip_ability_never_innate_necromastery_Note2"		"Бонусы от уже украденных душ не отключаются истощением."
-"DOTA_Tooltip_ability_never_innate_lore"				"Удалите меня из Биржи Мемов"
+"DOTA_Tooltip_ability_never_innate_lore"					"Удалите меня из Биржи Мемов"
 
 "DOTA_Tooltip_modifier_never_innate"						"ЧСВ"
 "DOTA_Tooltip_modifier_never_innate_Description"			"Добавляет к атакам героя чистый урон, завсящий от его ловкости."
@@ -9903,12 +9829,415 @@
 "DOTA_Tooltip_ability_special_bonus_unique_never_7_Description"	"Действует только на активный эффект."
 "DOTA_Tooltip_ability_special_bonus_unique_never_8"			"ZXC сквозь невосприимчивость к магии"
 
+//=================================================================================================================
+// Кирито | Kirito | Dazzle
+//=================================================================================================================
+
+"npc_dota_hero_kirito"												    "Кирито"
+
+"DOTA_Tooltip_ability_kirito_innate"						"Читер?"
+"DOTA_Tooltip_ability_kirito_innate_Description"			"Позволяет герою атаковать врагов во время движения и проходить сквозь существ. Когда Кирито получает смертельный урон, он ненадолго отсрочит свою смерть, получив свободное перемещение."
+"DOTA_Tooltip_ability_kirito_innate_bonus_as"				"ДОП. СКОРОСТЬ АТАКИ:"
+"DOTA_Tooltip_ability_kirito_innate_bonus_ms"				"%ДОП. СКОРОСТЬ ПЕРЕДВИЖЕНИЯ:"
+"DOTA_Tooltip_ability_kirito_innate_duration"				"ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_kirito_innate_Lore"					"Данный герой создан благодаря <font color='#fffc00'>Микрочел</font>"
+
+"DOTA_Tooltip_modifier_kirito_innate_wraith_form"			"Читер?"
+"DOTA_Tooltip_modifier_kirito_innate_wraith_form_Description""Ещё не умер. Сражайся."
+
+"DOTA_Tooltip_ability_kirito_spear"							"Копье"
+"DOTA_Tooltip_ability_kirito_spear_Description"				"Кирито бросается в выбранную сторону пронзая всех противников на пути. После рывка держит поражённых врагов в течение %duration% сек. <br><br> При использовнии подспособности бьёт жертв об землю, оглушая и нанося урон им и всем врагам рядом."
+"DOTA_Tooltip_ability_kirito_spear_range"					"ДАЛЬНОСТЬ РЫВКА:"
+"DOTA_Tooltip_ability_kirito_spear_width_sword"				"ШИРИНА ПОРАЖЕНИЯ МЕЧА:"
+"DOTA_Tooltip_ability_kirito_spear_lenght_sword"			"ДАЛЬНОСТЬ ПОРАЖЕНИЯ МЕЧА:"
+"DOTA_Tooltip_ability_kirito_spear_duration"				"ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_kirito_spear_radius"					"РАДИУС:"
+"DOTA_Tooltip_ability_kirito_spear_damage"					"УРОН:"
+"DOTA_Tooltip_ability_kirito_spear_stun_duration"			"ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
+"DOTA_Tooltip_ability_kirito_spear_Lore"					"Данный герой создан благодаря <font color='#fffc00'>Микрочел</font>"
+
+"DOTA_Tooltip_ability_kirito_spear_scepter"					"Копье"
+"DOTA_Tooltip_ability_kirito_spear_scepter_Description"		"Увеличивает дальность применения. Попадание уменьшает перезарядку <span class=\"GameplayValues GameplayVariable\">Искусства Блока</span> на %mark_cooldown% сек. за каждого поражённого врага."
+"DOTA_Tooltip_ability_kirito_spear_mark_cooldown"			"УМЕНЬШЕНИЕ ПЕРЕЗАРЯДКИ:"
+
+"DOTA_Tooltip_ability_kirito_spear_release"					"Копье"
+"DOTA_Tooltip_ability_kirito_spear_release_Description"		"Ударьте врагов об землю."
+"DOTA_Tooltip_ability_kirito_spear_release_Lore"			"Данный герой создан благодаря <font color='#fffc00'>Микрочел</font>"
+"DOTA_Tooltip_modifier_kirito_spear_stand"					"Копье"
+"DOTA_Tooltip_modifier_kirito_spear_enemy"					"Копье"
+"DOTA_Tooltip_modifier_kirito_spear_enemy_Description"		"Оглушён."
+
+"DOTA_Tooltip_ability_kirito_falcon_rush"					"Уникальный Навык: Два Меча"
+"DOTA_Tooltip_ability_kirito_falcon_rush_Description"		"Кирито использует уникальный навык <b>Двух Мечей</b>, получая возможность стремительно сближаться с целью атаки, а также после короткой задержки повторять каждый свой удар."
+"DOTA_Tooltip_ability_kirito_falcon_rush_duration"			"ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_kirito_falcon_rush_rush_range"		"МАКС. ДАЛЬНОСТЬ СБЛИЖЕНИЯ:"
+"DOTA_Tooltip_ability_kirito_falcon_rush_rush_speed"		"СКОРОСТЬ СБЛИЖЕНИЯ:"
+"DOTA_Tooltip_ability_kirito_falcon_rush_base_attack_rate"	"БАЗОВЫЙ ИНТЕРВАЛ АТАК:"
+"DOTA_Tooltip_ability_kirito_falcon_rush_attack_speed_factor" "%ВЛИЯНИЕ ДОП. СКОРОСТИ АТАКИ:"
+"DOTA_Tooltip_ability_kirito_falcon_rush_Lore"				"Данный герой создан благодаря <font color='#fffc00'>Микрочел</font>"
+
+"DOTA_Tooltip_modifier_kirito_falcon_rush"					"Уникальный Навык: Два Меча"
+"DOTA_Tooltip_modifier_kirito_falcon_rush_Description"		"Повторяет все совершённые атаки."
+
+"DOTA_Tooltip_ability_kirito_mark"							"Искусство Блока"
+"DOTA_Tooltip_ability_kirito_mark_Description"				"В течение %parry_duration% сек. может парировать атаки в указанном направлении. Если парировать атаку вражеского героя, тот оглушится на %parry_stun_duration% сек. и получит один эффект метки. По окончании способности бьёт перед собой усиленной атакой и отталкивает противников.<br><br> Парирование можно остановить раньше времени, применив подспособность. \n<h1>Косые Метки</h1> Атаки героя могут наложить на врагов метку, которая замедляет передвижение и увеличивает урон владельца по ним. Урон по цели, которая находится под %stacks_count% эффектами меток становится критическим и оглушает, а также атака владельца по этой цели не может промахнутся.<br> После срабатывания метки сбрасываются."
+"DOTA_Tooltip_ability_kirito_mark_damage_factor"			"%УРОН ОТ АТАКИ:"
+"DOTA_Tooltip_ability_kirito_mark_dmg_pct"					"%УВЕЛИЧЕНИЕ УРОНА ОТ МЕТКИ:"
+"DOTA_Tooltip_ability_kirito_mark_stun_duration"			"ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
+"DOTA_Tooltip_ability_kirito_mark_sai_proc_vuln_chance"		"%ШАНС МЕТКИ:"
+"DOTA_Tooltip_ability_kirito_mark_vuln_duration"			"ДЛИТЕЛЬНОСТЬ МЕТКИ:"
+"DOTA_Tooltip_ability_kirito_mark_crit_damage"				"%КРИТ. УРОН ОТ МЕТКИ:"
+"DOTA_Tooltip_ability_kirito_mark_vuln_slow"				"%ЗАМЕДЛЕНИЕ ОТ МЕТКИ:"
+"DOTA_Tooltip_ability_kirito_mark_knockback_range"			"ДАЛЬНОСТЬ ОТТАЛКИВАНИЯ:"
+"DOTA_Tooltip_ability_kirito_mark_Note0"					"Критический урон от метки действует на все виды урона."
+"DOTA_Tooltip_ability_kirito_mark_Lore"						"Данный герой создан благодаря <font color='#fffc00'>Микрочел</font>"
+
+"DOTA_Tooltip_ability_kirito_mark_shard"					"Исскусство Блока"
+"DOTA_Tooltip_ability_kirito_mark_shard_Description"		"В первые %shard_duration% сек. действия способности даёт невосприимчивость к магии."
+"DOTA_Tooltip_ability_kirito_mark_shard_duration"			"ДЛИТЕЛЬНОСТЬ НЕВОСПР. К МАГИИ:"
+
+"DOTA_Tooltip_ability_kirito_mark_cancel"					"Искусство Блока"
+"DOTA_Tooltip_ability_kirito_mark_cancel_Description"		"Прерывает парирование."
+"DOTA_Tooltip_ability_kirito_mark_cancel_Lore"				"Данный герой создан благодаря <font color='#fffc00'>Микрочел</font>"
+"DOTA_Tooltip_modifier_kirito_mark"							"Искусство Блока"
+"DOTA_Tooltip_modifier_kirito_mark_Description"				"Парирует атаки."
+"DOTA_Tooltip_modifier_kirito_mark_effect"					"Искусство Блока"
+"DOTA_Tooltip_modifier_kirito_mark_effect_Description"		"Уменьшает скорость передвижения и увеличивает урон по существу от владельца за каждый эффект."
+
+"DOTA_Tooltip_ability_kirito_starburst_stream"				"Starburst Stream"
+"DOTA_Tooltip_ability_kirito_starburst_stream_Description"	"Кирито начинает ускоряться, нанося стремительные атаки по выбранному противнику. Пока Кирито атакует врага, он неуязвим и не может использовать споособности и предметы. Под уникальным навыком <b>Двух Мечей</b> Кирито атакует вместе со своим отражением, которое наносит меньше урона. <br><br> Количество ударов увеличивается на 1 за <span class=\"GameplayValues GameplayVariable\">количество атак героя в секунду</span>."
+"DOTA_Tooltip_ability_kirito_starburst_stream_slash_count"	"КОЛИЧЕСТВО УДАРОВ:"
+"DOTA_Tooltip_ability_kirito_starburst_stream_slash_radius"	"РАДИУС:"
+"DOTA_Tooltip_ability_kirito_starburst_stream_dash_length"	"ДАЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_kirito_starburst_stream_attack_damage_clone" "%УРОН ОТРАЖЕНИЯ:"
+"DOTA_Tooltip_ability_kirito_starburst_stream_bonus_slashes_tooltip" "ДОП. КОЛ-ВО УДАРОВ:"
+
+
+"DOTA_Tooltip_modifier_kirito_starburst_stream_slash"		""
+
+//"DOTA_Tooltip_ability_kirito_ultimate"						"Щит Из Мечей"
+//"DOTA_Tooltip_ability_kirito_ultimate_Description"			"Позволяет применить способность, если за последние %damage_time% сек. владелец получал урон. При активации Кирито окружает себя мечами, создавая барьер, защищающий от любого урона. Если барьер за время действия не был сломан, то способность заменяется на <span class=\"GameplayValues GameplayVariable\">Выпустить Мечи</span>."
+//"DOTA_Tooltip_ability_kirito_ultimate_shield_duration"		"ДЛИТЕЛЬНОСТЬ БАРЬЕРА:"
+//"DOTA_Tooltip_ability_kirito_ultimate_barrier_health"		"ПРОЧНОСТЬ БАРЬЕРА:"
+//"DOTA_Tooltip_ability_kirito_ultimate_swords_count"			"КОЛИЧЕСТВО МЕЧЕЙ:"
+//"DOTA_Tooltip_ability_kirito_ultimate_swords_duration"		"ДЛИТЕЛЬНОСТЬ ЭФФЕКТА:"
+//"DOTA_Tooltip_ability_kirito_ultimate_radius"				"РАДИУС:"
+//"DOTA_Tooltip_ability_kirito_ultimate_damage_perc"			"%УРОН ОТ АТАКИ:"
+//"DOTA_Tooltip_ability_kirito_ultimate_mark_chance"			"%ШАНС МЕТКИ:"
+//"DOTA_Tooltip_ability_kirito_ultimate_Lore"					"Данный герой создан благодаря <font color='#fffc00'>Микрочел</font>"
+//
+//"DOTA_Tooltip_ability_kirito_ultimate_launch"				"Выпустить Мечи"
+//"DOTA_Tooltip_ability_kirito_ultimate_launch_Description"	"При активации направляет все свои мечи в выбранную точку. При попадании наносит урон всем врагам в области, и имеет увеличенный шанс наложить эффект метки."
+//"DOTA_Tooltip_ability_kirito_ultimate_launch_Lore"			"Данный герой создан благодаря <font color='#fffc00'>Микрочел</font>"
+//
+//"DOTA_Tooltip_modifier_kirito_ultimate_shield"				"Щит Из Мечей"
+//"DOTA_Tooltip_modifier_kirito_ultimate_shield_Description"	"Поглощает любой урон."
+
+"DOTA_Tooltip_ability_special_bonus_unique_kirito_1"		"+{s:bonus_stun_duration} сек. к длительности оглушения у Копья"
+"DOTA_Tooltip_ability_special_bonus_unique_kirito_2"		"+{s:bonus_crit_damage}% к крит. урону меток"
+"DOTA_Tooltip_ability_special_bonus_unique_kirito_3"		"-{s:bonus_AbilityCooldown} сек. перезарядки Исскуства Блока"
+"DOTA_Tooltip_ability_special_bonus_unique_kirito_4"		"+{s:bonus_dmg_pct}% к увеличению урона от меток"
+"DOTA_Tooltip_ability_special_bonus_unique_kirito_5"		"+{s:bonus_damage_factor}% крит. урона от Исскуства Блока"
+"DOTA_Tooltip_ability_special_bonus_unique_kirito_6"		"-{s:bonus_AbilityCooldown} сек. перезарядки Starburst Stream"
+"DOTA_Tooltip_ability_special_bonus_unique_kirito_7"		"+{s:bonus_slash_count} атаки от Starburst Stream"
+"DOTA_Tooltip_ability_special_bonus_unique_kirito_8"		"-{s:bonus_AbilityCooldown} сек. перезарядки Копья"
+
+//=================================================================================================================
+// BloodSeeker | LenaGolovach | ЛенаГоловач
+//=================================================================================================================
+
+"npc_dota_hero_bloodseeker" 								"LenaGolovach"
+
+"DOTA_Tooltip_ability_golovach_q"							"МОПСОТРЯСКА"
+"DOTA_Tooltip_ability_golovach_q_Description"				"Сиёга включает выбранному врагу Селюк.fm, заставляя его трясти мопсярками, раз в %interval% сек. оглушая и нанося урон. Во время эффекта броня цели уменьшается."
+"DOTA_Tooltip_ability_golovach_q_damage"					"УРОН:"
+"DOTA_Tooltip_ability_golovach_q_stun_duration"				"ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
+"DOTA_Tooltip_ability_golovach_q_duration"					"ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_golovach_q_armor_reduction"			"УМЕНЬШЕНИЕ БРОНИ:"
+"DOTA_Tooltip_ability_golovach_q_AbilityCooldown"			"ПЕРЕЗАРЯДКА:"
+
+"DOTA_Tooltip_ability_golovach_q_shard"						"МОПСОТРЯСКА"
+"DOTA_Tooltip_ability_golovach_q_shard_Description"			"Уменьшает перезарядку. Позволяет накладывать эффект на всех врагов в радиусе %shard_radius% от цели."
+"DOTA_Tooltip_ability_golovach_q_shard_radius"				"РАДИУС:"
+
+"DOTA_Tooltip_modifier_golovach_q_debuff"					"Мопсотряска"
+"DOTA_Tooltip_modifier_golovach_q_debuff_Description"		"Броня уменьшена на %dMODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS%. Оглушается и получает урон."
+
+"DOTA_Tooltip_ability_golovach_w"							"ПОЗВАТЬ БУСТАКОУ"
+"DOTA_Tooltip_ability_golovach_w_Description"				"Сиёга больше не выдерживает от игр со стримснайперами и руинерами, поэтому зовёт в пати 4-ёх бустеров. Каждый бустер имеет долю от урона владельца и такую же скорость атаки. Атаки бустеров дают владельцу барьер, который блокирует физический урон."
+"DOTA_Tooltip_ability_golovach_w_duration"					"ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_golovach_w_base_damage"				"БАЗОВЫЙ УРОН БУСТАКОВ:"
+"DOTA_Tooltip_ability_golovach_w_caster_damage"				"%УРОН БУСТАКОВ ОТ АТАКИ:"
+"DOTA_Tooltip_ability_golovach_w_barrier_duration"			"ДЛИТЕЛЬНОСТЬ БАРЬЕРА:"
+"DOTA_Tooltip_ability_golovach_w_barrier_per_attack"		"КОЛ-ВО БАРЬЕРА ЗА АТАКУ:"
+
+"DOTA_Tooltip_modifier_golovach_w"							"Позвать Бустакоу"
+"DOTA_Tooltip_modifier_golovach_w_Description"				"Ваши птсы защищают бустеры."
+"DOTA_Tooltip_modifier_golovach_w_barrier"					"Позвать Бустакоу"
+"DOTA_Tooltip_modifier_golovach_w_barrier_Description"		"Блокирует входящий физический урон."
+
+"DOTA_Tooltip_ability_golovach_e"							"RAGE ДОНАТ"
+"DOTA_Tooltip_ability_golovach_e_Description"				"В момент атаки или получения урона, Сиёге с шансом может прилететь донат от хейтера, после которого он начинает злиться. На %duration% сек. получает эффект, который увеличивает скорость атаки и позволяет атаками воровать здоровье противников."
+"DOTA_Tooltip_ability_golovach_e_duration"					"ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_golovach_e_chance"					"%ШАНС:"
+"DOTA_Tooltip_ability_golovach_e_health_duration"			"ДЛИТЕЛЬНОСТЬ КРАЖИ:"
+"DOTA_Tooltip_ability_golovach_e_bonus_as"					"ДОП. СКОРОСТЬ АТАКИ:"
+"DOTA_Tooltip_ability_golovach_e_health_per_attack"			"КРАЖА ЗДОРОВЬЯ:"
+
+"DOTA_Tooltip_modifier_golovach_e_buff"						"Rage Донат"
+"DOTA_Tooltip_modifier_golovach_e_buff_Description"			"Скорость атаки увеличена на %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%. Атаки воруют здоровье противников."
+"DOTA_Tooltip_modifier_golovach_e_health"					"Rage Донат"
+"DOTA_Tooltip_modifier_golovach_e_health_Description"		"Здоровье увеличено на %dMODIFIER_PROPERTY_HEALTH_BONUS%."
+"DOTA_Tooltip_modifier_golovach_e_health_enemy"				"Rage Донат"
+"DOTA_Tooltip_modifier_golovach_e_health_enemy_Description"	"Здоровье уменьшено на %dMODIFIER_PROPERTY_HEALTH_BONUS%."
+
+"DOTA_Tooltip_ability_golovach_r"							"ПОИСК ВИНОВАТОГО"
+"DOTA_Tooltip_ability_golovach_r_Description"				"После очередного вуза Сиёга дико сгорает и в поисках виновника откидывает и замедляет всех врагов рядом, после чего бежит на ближайшего противника в радиусе действия чтобы разбить ему ебаво. Под действием эффекта Сиёга получает меньше урона."
+"DOTA_Tooltip_ability_golovach_r_duration"					"ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_golovach_r_slow"						"%ЗАМЕДЛЕНИЕ:"
+"DOTA_Tooltip_ability_golovach_r_slow_duration"				"ДЛИТЕЛЬНОСТЬ ЗАМЕДЛЕНИЯ:"
+"DOTA_Tooltip_ability_golovach_r_radius"					"РАДИУС ПОИСКА:"
+"DOTA_Tooltip_ability_golovach_r_incoming_damage"			"%УМЕНЬШЕНИЕ УРОНА:"
+"DOTA_Tooltip_ability_golovach_r_knockback"					"ДАЛЬНОСТЬ ОТТАЛКИВАНИЯ:"
+"DOTA_Tooltip_ability_golovach_r_knockback_radius"			"РАДИУС ОТТАЛКИВАНИЯ:"
+
+"DOTA_Tooltip_ability_golovach_r_scepter"					"ПОИСК ВИНОВАТОГО"
+"DOTA_Tooltip_ability_golovach_r_scepter_Description"		"На героя постоянно действует эффект <span class=\"GameplayValues GameplayVariable\">Rage Донат</span> во время погони."
+
+"DOTA_Tooltip_modifier_golovach_r_debuff"					"Поиск Виноватого"
+"DOTA_Tooltip_modifier_golovach_r_debuff_Description"		"Видим для всех и замедлен."
+
+"DOTA_Tooltip_ability_golovach_s"							"А ВОТ И МЫ"
+"DOTA_Tooltip_ability_golovach_s_Description"				"Сиёга фидонит не переставая. Каждая смерть даёт ему складывающийся эффект, который уменьшает время возрождения. При достижении %stacks% смертей, опустив здоровье менее чем %hp_to_proc%%%, дарует владельцу иммунитет к магии на %duration% секунды, развеивает отрицательные эффекты и постепенно восстанавливает здоровье.<br><br>ТИП РАЗВЕИВАНИЯ: сильное"
+"DOTA_Tooltip_ability_golovach_s_respawn_time"				"УМЕНЬШЕНИЕ ВРЕМЕНИ ВОЗРОЖДЕНИЯ:"
+"DOTA_Tooltip_ability_golovach_s_duration"					"ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_golovach_s_heal"						"%ВОССТАНОВЛЕНИЕ ЗДОРОВЬЯ:"
+
+"DOTA_Tooltip_modifier_golovach_s"							"А Вот И Мы"
+"DOTA_Tooltip_modifier_golovach_s_Description"				"Счётчик фида. Уменьшает время возрождения за каждый эффект."
+
+"DOTA_Tooltip_modifier_golovach_s_buff"						"А Вот И Мы"
+"DOTA_Tooltip_modifier_golovach_s_buff_Description"			"Чуть не сфидил. Иммунитет к магии и восстановление здоровья."
+
+"DOTA_Tooltip_modifier_golovach_r"							"Поиск Виноватого"
+"DOTA_Tooltip_modifier_golovach_r_Description"				""
+
+"DOTA_Tooltip_modifier_golovach_r_slow"						"Поиск Виноватого"
+"DOTA_Tooltip_modifier_golovach_r_slow_Description"			"Замедлен на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%."
+
+"DOTA_Tooltip_ability_special_bonus_unique_golovach_1"		"+{s:bonus_damage} к урону от Мопсотряски"
+"DOTA_Tooltip_ability_special_bonus_unique_golovach_2"		"+{s:bonus_duration} сек. времени жизни бустеров от Позвать Бустакоу"
+"DOTA_Tooltip_ability_special_bonus_unique_golovach_3"		"+{s:bonus_base_damage} к базовому урону бустеров от Позвать Бустакоу"
+"DOTA_Tooltip_ability_special_bonus_unique_golovach_4"		"+{s:bonus_bonus_as} к скорости атаки от Rage Донат"
+"DOTA_Tooltip_ability_special_bonus_unique_golovach_5"		"+{s:bonus_respawn_time} сек. к уменьшению времени возрождения от А Вот И Мы"
+"DOTA_Tooltip_ability_special_bonus_unique_golovach_6"		"+{s:bonus_slow}% к замедлению от Поиск Виноватого"
+"DOTA_Tooltip_ability_special_bonus_unique_golovach_7"		"+{s:bonus_health_per_attack_pct}% к краже макс. здоровья врагов от Rage Донат"
+"DOTA_Tooltip_ability_special_bonus_unique_golovach_8"		"А Вот И Мы становится активной"
+"DOTA_Tooltip_ability_special_bonus_unique_golovach_8_Description"	"Позволяет сфидить самостоятельно и получить сразу 5 эффектов способности. Перезарядка: 65 сек."
+
+//=================================================================================================================
+// Crystal Maiden | Рем | Rem
+//=================================================================================================================
+
+"npc_dota_hero_crystal_maiden"								"Рем"
+
+"DOTA_Tooltip_ability_rem_q" 								"Аль Хьюма"
+"DOTA_Tooltip_ability_rem_q_Description" 					"Создаёт гигантское ледяное копьё и бросает в выбранную точку. При попадании отталкивает всех врагов в радиусе действия, накладывает на них оцепенение, уменьшает скорость атаки и наносит урон."
+"DOTA_Tooltip_ability_rem_q_duration"						"ДЛИТЕЛЬНОСТЬ ОЦЕПЕНЕНИЯ:"
+"DOTA_Tooltip_ability_rem_q_damage"							"УРОН ПРИ ПОПАДАНИИ:"
+"DOTA_Tooltip_ability_rem_q_damage_per_second"				"УРОН В СЕКУНДУ:"
+"DOTA_Tooltip_ability_rem_q_radius"							"РАДИУС:"
+"DOTA_Tooltip_ability_rem_q_knockback"						"ДАЛЬНОСТЬ ОТТАЛКИВАНИЯ:"
+"DOTA_Tooltip_ability_rem_q_attackspeed_reduce"				"ЗАМЕДЛЕНИЕ АТАКИ:"
+"DOTA_Tooltip_ability_rem_q_proj_speed"						"СКОРОСТЬ СНАРЯДА:"
+"DOTA_Tooltip_ability_rem_q_Lore"							"Данный герой посвящен <font color='#fffc00'>Диме Rem ♥</font>"
+
+"DOTA_Tooltip_ability_rem_w"								"Эль Хьюма"
+"DOTA_Tooltip_ability_rem_w_Description"					"Вызывает %spikes_count% ледяных кристалла, которые последовательно вырываются из-под земли в указанном направлении. Чем дальше расположен кристалл, тем он больше. Прикоснувшиеся к кристаллу враги оглушаются и получают периодический урон. В конце действия кристаллы разрушаются и из них вылетают ледяные осколки в ближайших врагов, которые замедляют и наносят им урон, зависящий от ловкости Рем.<br><br> Кристаллы могут быть разрушены любыми способностями владельца."
+"DOTA_Tooltip_ability_rem_w_spike_radius_start"				"НАЧАЛЬНЫЙ РАДИУС:"
+"DOTA_Tooltip_ability_rem_w_spike_radius_step"				"ПРИРОСТ РАДИУСА:"
+"DOTA_Tooltip_ability_rem_w_spike_duration"					"ДЛИТЕЛЬНОСТЬ ШИПОВ:"
+"DOTA_Tooltip_ability_rem_w_stun_duration"					"ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
+"DOTA_Tooltip_ability_rem_w_damage_dot"						"УРОН В СЕКУНДУ:"
+"DOTA_Tooltip_ability_rem_w_shard_radius"					"РАДИУС ОСКОЛКОВ:"
+"DOTA_Tooltip_ability_rem_w_shard_damage_base"				"УРОН ОСКОЛКОВ:"	
+"DOTA_Tooltip_ability_rem_w_shard_damage_agility"			"%УРОН ОСКОЛКОВ ОТ ЛОВКОСТИ:"
+"DOTA_Tooltip_ability_rem_w_shard_slow_duration"			"ДЛИТЕЛЬНОСТЬ ЗАМЕДЛЕНИЯ:"
+"DOTA_Tooltip_ability_rem_w_shard_slow"						"%ЗАМЕДЛЕНИЕ:"
+
+"DOTA_Tooltip_ability_rem_w_shard_description"				"Каждые %shard_interval% сек. из кристаллов вылетают ледяные осколки в ближайших врагов, нанося %shard_damage%%% от основного урона."
+
+"DOTA_Tooltip_ability_rem_q_alt"							"Удар С Прыжка"
+"DOTA_Tooltip_ability_rem_q_alt_Description"				"Рем совершает прыжок в указанную область и бьёт мощным ударом по земле. Ударная волна оглушает всех врагов в радиусе действия и наносит им урон. Во время прыжка Рем поворачивается на %turn_rate_slow%%% медленнее."
+"DOTA_Tooltip_ability_rem_q_alt_stun_duration"				"ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
+"DOTA_Tooltip_ability_rem_q_alt_damage"						"УРОН:"
+"DOTA_Tooltip_ability_rem_q_alt_radius"						"РАДИУС:"
+"DOTA_Tooltip_ability_rem_q_alt_damage_factor"				"%УРОН ОТ АТАКИ:"
+
+"DOTA_Tooltip_ability_rem_w_alt"							"Бросить Моргенштерн"
+"DOTA_Tooltip_ability_rem_w_alt_description"				"Рем бросает Моргенштерн в выбранного врага. При попадании притягивает цель к себе, оглушая и нанося ей урон. Все противники на пути также оглушаются и получают урон."
+"DOTA_Tooltip_ability_rem_w_alt_stun_duration"				"ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
+"DOTA_Tooltip_ability_rem_w_alt_speed"						"СКОРОСТЬ:"
+"DOTA_Tooltip_ability_rem_w_alt_damage"						"УРОН:"
+"DOTA_Tooltip_ability_rem_w_alt_cast_range"					"ДАЛЬНОСТЬ ПРИМЕНЕНИЯ:"
+
+"DOTA_Tooltip_ability_rem_w_alt_scepter_description"		"Увеличивает дальность применения. Каждый задетый противник также начинает притягиваться к владельцу. За каждого задетого врага(включая цель) перезарядка всех способностей владельца уменьшается на %scepter_cooldown_reduction% сек."
+
+"DOTA_Tooltip_ability_rem_e" 								"Взять Моргенштерн"
+"DOTA_Tooltip_ability_rem_e_Description"					"Рем берёт в руки свой Моргенштерн, переходя в ближний бой. Заменяет набор базовых способностей и увеличивает урон от атаки."
+"DOTA_Tooltip_ability_rem_e_bonus_damage"					"%ДОП. УРОН"
+"DOTA_Tooltip_ability_rem_e_attack_range"					"ДАЛЬНОСТЬ АТАКИ:"
+
+"DOTA_Tooltip_ability_rem_r"								"Демоническое Происхождение"
+"DOTA_Tooltip_ability_rem_r_Description"					"При активации на лбу Рем появляется демонический рог, который служит источником её силы. Рог дарует Рем дополнительный урон заклинаний, скорость применения заклинаний, увеличенные скорость передвижения, атаки и здоровье, а также заклинания перестают требовать маны. Под действием эффекта герой не может пополнять ману и теряет %mana_loss%%% маны в секунду. Если мана Рем упадёт ниже %mana_limit%%%, то она получит негативный эффект, который замедляет её скорость передвижения и атаки на %debuff_duration% сек."
+"DOTA_Tooltip_ability_rem_r_mana_loss"						"%ТРАТА МАНЫ:"
+"DOTA_Tooltip_ability_rem_r_debuff_duration"				"ДЛИТЕЛЬНОСТЬ ДЕБАФФА:"
+"DOTA_Tooltip_ability_rem_r_bonus_health"					"ДОП. ЗДОРОВЬЕ:"
+"DOTA_Tooltip_ability_rem_r_bonus_movespeed"				"%ДОП. СКОРОСТЬ ПЕРЕДВИЖЕНИЯ:"
+"DOTA_Tooltip_ability_rem_r_bonus_attackspeed"				"%ДОП. СКОРОСТЬ АТАКИ:"
+"DOTA_Tooltip_ability_rem_r_spell_amplify"					"%ДОП. УРОН ЗАКЛИНАНИЙ:"
+"DOTA_Tooltip_ability_rem_r_bonus_casttime"					"%УСКОРЕНИЕ ЗАКЛИНАНИЙ:"
+"DOTA_Tooltip_ability_rem_r_movespeed_slow"					"%ЗАМЕДЛЕНИЕ ПЕРЕДВИЖЕНИЯ:"
+"DOTA_Tooltip_ability_rem_r_attackspeed_slow"				"ЗАМЕДЛЕНИЕ АТАКИ:"
+
+
+"DOTA_Tooltip_modifier_rem_q"								"Аль Хьюма"
+"DOTA_Tooltip_modifier_rem_q_Description"					"Заморожен. Атака замедлена на %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT% и получает урон."
+"DOTA_Tooltip_modifier_rem_w_debuff"						"Эль Хьюма"
+"DOTA_Tooltip_modifier_rem_w_debuff_Description"			"Оглушён. Получает периодический урон."
+"DOTA_Tooltip_modifier_rem_w_slow"							"Эль Хьюма"
+"DOTA_Tooltip_modifier_rem_w_slow_Description"				"Замедлен на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%."
+"DOTA_Tooltip_modifier_rem_r"								"Демоническое Происхождение"
+"DOTA_Tooltip_modifier_rem_r_Description"					"УБЕЙ ИХ."
+"DOTA_Tooltip_modifier_rem_r_debuff"						"Демоническое Происхождение"
+"DOTA_Tooltip_modifier_rem_r_debuff_Description"			"Рем потратила слишком много маны. Скорость передвижения замедлена на %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%, а скорость атаки на %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%."
+
+"DOTA_Tooltip_ability_special_bonus_unique_rem_1"			"+{s:bonus_attackspeed_reduce} к замедлению атаки от Аль Хьюма"
+"DOTA_Tooltip_ability_special_bonus_unique_rem_2"			"+{s:bonus_shard_radius} к радиусу осколков от Эль Хьюма"
+"DOTA_Tooltip_ability_special_bonus_unique_rem_3"			"-{s:bonus_mana_loss}% траты маны от Демонического Происхождения"
+"DOTA_Tooltip_ability_special_bonus_unique_rem_4"			"+{s:bonus_shard_damage_agility}% к урону осколков от ловкости Эль Хьюмы"
+"DOTA_Tooltip_ability_special_bonus_unique_rem_5"			"Бросить Моргенштерн сквозь невосприимчивость к магии"
+"DOTA_Tooltip_ability_special_bonus_unique_rem_6"			"-{s:bonus_AbilityCooldown} сек. перезарядки Демонического Происхождения"
+"DOTA_Tooltip_ability_special_bonus_unique_rem_7"			"Демоническое Происхождение даёт {s:bonus_lifesteal}% общего вампиризма"
+"DOTA_Tooltip_ability_special_bonus_unique_rem_8"			"2 заряда Аль Хьюма"
+
+
+//====================================
+//   Gojo Satoru / Ancient Apparition / Годжо Сатору
+//====================================
+"npc_dota_hero_ancient_apparition"                                                       "Годжо Сатору"
+
+"DOTA_Tooltip_ability_goju_red_orb"                                                      "Обратное вращение: <font color='#FF3B3B'>Красный</font>"
+"DOTA_Tooltip_ability_goju_red_orb_Description"                                          "Годжо запускает сферу <font color='#FF3B3B'>Красного</font> в выбранную сторону, которая отталкивает и наносит урон всем задетым врагам.\n<h1>Альтернативное применение</h1> В течение %AbilityChannelTime% сек. заряжает <font color='#FF3B3B'>Красный</font>, после чего выпускает мощную волну, дальность, урон, длительность оглушения и сила отталкивания которой увеличивается в зависимости от времени поддержания."
+"DOTA_Tooltip_ability_goju_red_orb_distance"                                			 "ДАЛЬНОСТЬ ПРИМЕНЕНИЯ:"
+"DOTA_Tooltip_ability_goju_red_orb_orb_radius"                                           "РАДИУС СФЕРЫ:"
+"DOTA_Tooltip_ability_goju_red_orb_orb_speed"                                            "СКОРОСТЬ СФЕРЫ:"
+"DOTA_Tooltip_ability_goju_red_orb_orb_damage"                                           "УРОН СФЕРЫ:"
+"DOTA_Tooltip_ability_goju_red_orb_explosion_min_radius"								 "МИН. РАДИУС ВОЛНЫ:"
+"DOTA_Tooltip_ability_goju_red_orb_explosion_max_radius"								 "МАКС. РАДИУС ВОЛНЫ:"
+"DOTA_Tooltip_ability_goju_red_orb_explosion_damage"									 "УРОН ВОЛНЫ:"
+"DOTA_Tooltip_ability_goju_red_orb_explosion_speed"										 "СКОРОСТЬ ВОЛНЫ:"
+"DOTA_Tooltip_ability_goju_red_orb_explosion_level_mult"								 "ДОП. УРОН ВОЛНЫ ЗА 1 УРОВЕНЬ ГЕРОЯ:"
+"DOTA_Tooltip_ability_goju_red_orb_Lore"												 "Данный герой создан благодаря <font color='#fffc00'>EYEOFLIE (Anime Overthrow)</font>"
+"DOTA_Tooltip_ability_goju_red_orb_shard_Description"						 			 "Увеличивает урон и скорость полёта."
+
+"DOTA_Tooltip_ability_goju_blue_orb"                                                     "Прямое вращение: <font color='#399DFF'>Синий</font>"
+"DOTA_Tooltip_ability_goju_blue_orb_Description"                                         "Годжо запускает сферу <font color='#399DFF'>Синего</font> с огромной силой притяжения в выбранную сторону. Врагов на пути будет засасывать внутрь и наносить урон. <br><br> Попадание сферой <font color='#FF3B3B'>Красного</font> вызовет взрыв <font color='#A65CFF'>Фиолетового</font>, нанеся урон всем жертвам. Чем больше врагов, тем сильнее взрыв.<br><br> Повторное использование изменит направление и переместит сферу в выбранную точку."
+"DOTA_Tooltip_ability_goju_blue_orb_duration"											 "ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_goju_blue_orb_damage_per_second"                                   "УРОН:"
+"DOTA_Tooltip_ability_goju_blue_orb_dmgps_interval"                                      "ИНТЕРВАЛ УРОНА:"
+"DOTA_Tooltip_ability_goju_blue_orb_explosion_damage"                                    "УРОН ОТ ВЗРЫВА:"
+"DOTA_Tooltip_ability_goju_blue_orb_radius"                                              "РАДИУС:"
+"DOTA_Tooltip_ability_goju_blue_orb_distance"                                            "ДАЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_goju_blue_orb_movespeed"                                           "СКОРОСТЬ:"
+"DOTA_Tooltip_ability_goju_blue_orb_targets_for_mult"                                    "ВРАГОВ ДЛЯ МНОЖИТЕЛЯ:"
+"DOTA_Tooltip_ability_goju_blue_orb_explosion_mult"                                      "МНОЖИТЕЛЬ УРОНА:"
+"DOTA_Tooltip_ability_goju_blue_orb_Lore"												 "Данный герой создан благодаря <font color='#fffc00'>EYEOFLIE (Anime Overthrow)</font>"
+"DOTA_Tooltip_ability_goju_blue_orb_shard_Description"						 			 "Увеличивает урон и скорость полёта."
+
+"DOTA_Tooltip_ability_goju_infinite_void"                                                "Бесконечность"
+"DOTA_Tooltip_ability_goju_infinite_void_Description"                                    "Создаёт Бесконечность между собой и противниками, избегая любого урона меньше %damage_treshold% и уклоняясь от всех направленных снарядов. Во время эффекта противники не могут приблизиться к Годжо. <br><br> Способность можно применить повторно чтобы телепортироваться в выбранную точку. При применении на противника герой телепортируется к нему и проведёт серию атак, нанося магический урон, равный <span class=\"GameplayValues GameplayVariable\">урону от атаки Годжо</span> + %bonus_damage%, после чего оглушает цель. \n<h1>Улучшение <font color='#4a6e92'>Шести Глаз</font></h1> Усиливает бесконечность, увеличивая силу отталкивания и скорость передвижения героя. Прижатый к препятствию враг получает физический урон." 
+"DOTA_Tooltip_ability_goju_infinite_void_duration"                                       "ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_goju_infinite_void_radius"                                         "РАДИУС:"
+"DOTA_Tooltip_ability_goju_infinite_void_blink_distance"                                 "ДАЛЬНОСТЬ ТЕЛЕПОРТАЦИИ:"
+"DOTA_Tooltip_ability_goju_infinite_void_attacks_count"									 "КОЛ-ВО АТАК:"
+"DOTA_Tooltip_ability_goju_infinite_void_push_distance"								     "ДАЛЬНОСТЬ ОТТАЛКИВАНИЯ:"
+"DOTA_Tooltip_ability_goju_infinite_void_chain_radius"								     "РАДИУС ЗАХВАТА:"
+"DOTA_Tooltip_ability_goju_infinite_void_aura_crash_damage"								 "УРОН ОТ БЕСКОНЕЧНОСТИ:"
+"DOTA_Tooltip_ability_goju_infinite_void_six_eyes_movespeed"							 "СКОРОСТЬ ПЕРЕДВИЖЕНИЯ:"
+"DOTA_Tooltip_ability_goju_infinite_void_stun_duration"								     "ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ"
+"DOTA_Tooltip_ability_goju_infinite_void_bonus_damage"									 "ДОП. УРОН:"
+"DOTA_Tooltip_ability_goju_infinite_void_Lore"											 "Данный герой создан благодаря <font color='#fffc00'>EYEOFLIE (Anime Overthrow)</font>"
+
+"DOTA_Tooltip_ability_goju_remove_blindfold"											 "Снять Повязку"
+"DOTA_Tooltip_ability_goju_remove_blindfold_Description"								 "Сняв повязку, Годжо полностью использует силу <font color='#4a6e92'>Шести Глаз</font>. Улучшает некоторые способности и открывает доступ к Расширению Территории."
+"DOTA_Tooltip_ability_goju_remove_blindfold_duration"									 "ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_goju_remove_blindfold_Lore"										 "Данный герой создан благодаря <font color='#fffc00'>EYEOFLIE (Anime Overthrow)</font>"
+
+"DOTA_Tooltip_ability_goju_domain_expansion"                                             "Расширение Территории"
+"DOTA_Tooltip_ability_goju_domain_expansion_Description"                                 "Бесконечная Пустота перегружает разум бесконечным потоком информации. Раскрывает территорию на 0.2 секунды, оглушая противников и нанося им урон. Раскрытие территории даёт эффект, который переводит героя в ближний бой и даёт дополнительные бонусы."
+"DOTA_Tooltip_ability_goju_domain_expansion_Note0"									     "Имеет общую перезарядку с Техника Пустоты: <font color='#A65CFF'>Фиолетовый</font>."
+"DOTA_Tooltip_ability_goju_domain_expansion_duration_buff"                      		 "ДЛИТЕЛЬНОСТЬ ЭФФЕКТА:"
+"DOTA_Tooltip_ability_goju_domain_expansion_damage"                             		 "УРОН:"
+"DOTA_Tooltip_ability_goju_domain_expansion_radius"                             		 "РАДИУС:"
+"DOTA_Tooltip_ability_goju_domain_expansion_frozen_duration"                    		 "ДЛИТЕЛЬНОСТЬ ОГЛУШЕНИЯ:"
+"DOTA_Tooltip_ability_goju_domain_expansion_attack_range"        						 "ДАЛЬНОСТЬ АТАКИ:"               
+"DOTA_Tooltip_ability_goju_domain_expansion_movespeed_bonus_perc"               		 "%ДОП. СКОРОСТЬ ПЕРЕДВИЖЕНИЯ:"
+"DOTA_Tooltip_ability_goju_domain_expansion_base_damage_bonus"							 "ДОП. БАЗОВЫЙ УРОН ОТ АТАКИ:"
+"DOTA_Tooltip_ability_goju_domain_expansion_attack_damage"								 "ДОП. УРОН ОТ АТАКИ:"
+"DOTA_Tooltip_ability_goju_domain_expansion_spell_amplify"							     "%ДОП. УРОН ЗАКЛИНАНИЙ:"
+"DOTA_Tooltip_ability_goju_domain_expansion_full_damage"							     "УРОН В СЕКУНДУ:"
+"DOTA_Tooltip_ability_goju_domain_expansion_full_int_to_damage"							 "%УРОН ОТ ИНТЕЛЛЕКТА ПРОТИВНИКА:"
+"DOTA_Tooltip_ability_goju_domain_expansion_duration"								     "ДЛИТЕЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_goju_domain_expansion_blast_radius"								 "РАДИУС:"
+"DOTA_Tooltip_ability_goju_domain_expansion_full_domain_cooldown"					     "ПЕРЕЗАРЯДКА:"
+"DOTA_Tooltip_ability_goju_domain_expansion_scepter_description"                         "Позволяет полноценно расширить территорию. Создаёт пространство в котором враги не могут пошевелиться и получают урон от собственного интеллекта. <br><br> <font color='#FF0000'>Для применения необходимо находится под действием Бесконечности (E + S)</font>"
+"DOTA_Tooltip_ability_goju_domain_expansion_Lore"										 "Данный герой создан благодаря <font color='#fffc00'>EYEOFLIE (Anime Overthrow)</font>"
+
+"DOTA_Tooltip_ability_goju_hollow_purple_test"                                           "Техника Пустоты: <font color='#A65CFF'>Фиолетовый</font>"
+"DOTA_Tooltip_ability_goju_hollow_purple_test_Description"                               "<font color='#A65CFF'>Фиолетовый</font> объединяет притяжение <font color='#399DFF'>Синего</font> и отталкивание <font color='#FF3B3B'>Красного</font>. Получившаяся техника уничтожает всё на своём пути."
+"DOTA_Tooltip_ability_goju_hollow_purple_test_Note0"									 "Имеет общую перезарядку с Раширением Территории."
+"DOTA_Tooltip_ability_goju_hollow_purple_test_damage"                                    "УРОН:"
+"DOTA_Tooltip_ability_goju_hollow_purple_test_radius"                                    "РАДИУС:"
+"DOTA_Tooltip_ability_goju_hollow_purple_test_distance"                                  "ДАЛЬНОСТЬ:"
+"DOTA_Tooltip_ability_goju_hollow_purple_test_movespeed"                                 "СКОРОСТЬ:"
+"DOTA_Tooltip_ability_goju_hollow_purple_test_Lore"										 "Данный герой создан благодаря <font color='#fffc00'>EYEOFLIE (Anime Overthrow)</font>"
+"DOTA_Tooltip_ability_goju_hollow_purple_test_shard_Description"						 "Увеличивает скорость полёта."
+
+"DOTA_Tooltip_modifier_goju_red_indicator"												 "Обратное вращение: <font color='#FF3B3B'>Красный</font>"
+"DOTA_Tooltip_modifier_goju_red_indicator_Description"									 "Произносит заклинание."
+"DOTA_Tooltip_modifier_gojo_projectile_thinker_aura"									 "Прямое Вращение: <font color='#399DFF'>Синий</font>"
+"DOTA_Tooltip_modifier_item_six_eyes_active"											 "Шесть Глаз"
+"DOTA_Tooltip_modifier_goju_domain_expansion"											 "Расширение Территории"
+"DOTA_Tooltip_modifier_goju_domain_expansion_Description"								 "Получает бонусы за раскрытую территорию."
+"DOTA_Tooltip_modifier_goju_domain_expansion_debuff"									 "Расширение Территории"
+"DOTA_Tooltip_modifier_goju_infinite_void"											     "Бесконечность"
+"DOTA_Tooltip_modifier_goju_infinity_motion"											 "Бесконечность"
+"DOTA_Tooltip_modifier_goju_vision"														 "Видимость"
+"DOTA_Tooltip_modifier_goju_vision_Description"											 "Враги вас видят."
+
+"DOTA_Tooltip_ability_special_bonus_unique_gojo_1"										 "-{s:bonus_AbilityCooldown} сек. перезарядки Красного"
+"DOTA_Tooltip_ability_special_bonus_unique_gojo_2"										 "+{s:bonus_bonus_damage} к доп. урону атак от Бесконечности"
+"DOTA_Tooltip_ability_special_bonus_unique_gojo_3"										 "+{s:bonus_attacks_count} к атакам от Бесконечности"
+"DOTA_Tooltip_ability_special_bonus_unique_gojo_4"										 "+{s:bonus_explosion_level_mult} к доп. урону волны за уровень от Красного"
+"DOTA_Tooltip_ability_special_bonus_unique_gojo_5"										 "+{s:bonus_damage} к урону Фиолетового"
+"DOTA_Tooltip_ability_special_bonus_unique_gojo_6"										 "+{s:bonus_duration} сек. к длительности Бесконечности"
+"DOTA_Tooltip_ability_special_bonus_unique_gojo_7"										 "-{s:bonus_AbilityCooldown} сек. перезарядки Расширения Территории и Фиолетового"
+"DOTA_Tooltip_ability_special_bonus_unique_gojo_8"										 "Глобальное применение Расширение Территории"
+
+//====================================
+//   Мипонегерой / Meeponegeroi / Broodmother
+//====================================
+"npc_dota_hero_broodmother"                                                      		 "Meeponegeroi"
+
 "npc_dota_azazin_antosha"                                                                   "Антон"
 "npc_dota_azazin_kobold"                                                                    "Кобольд"
-"spawn_anton"                                                                               "В центральном круге появился Антоша"
-"spawn_kobold"                                                                              "В центральном круге появился Кобольд"
+"spawn_anton"                                                                               "На карте появился Антоша! Успейте зафармить его быстрее других."
+"spawn_kobold"                                                                              "На карте появился Кобольд! Успейте зафармить его быстрее других."
 "DOTA_Tooltip_ability_item_bag_of_gold_event"	                                            "Биткоин"
-"DOTA_Tooltip_ability_item_bag_of_gold_event_Description"	                                "Дает 25 золота"
+"DOTA_Tooltip_ability_item_bag_of_gold_event_Description"	                                "Дает дополнительное золото."
+"DOTA_Tooltip_ability_item_bag_of_gold_exp"	                                            	"Осколок мудрости"
+"DOTA_Tooltip_ability_item_bag_of_gold_exp_Description"	                                	"Даёт дополнительный опыт."
 }	
 }
 
