@@ -1,6 +1,6 @@
 "whitelist"
 {
-"npc_dota_hero_ancient_apparition" "1"
+    "npc_dota_hero_ancient_apparition" "1"
 	"npc_dota_hero_antimage" "1"
 	"npc_dota_hero_axe" "1"
 	"npc_dota_hero_bane" "1"
@@ -126,4 +126,6 @@
 	"npc_dota_hero_dawnbreaker" "1"
 	"npc_dota_hero_marci" "1"
 	"npc_dota_hero_primal_beast" "1"
+	"npc_dota_hero_kez" "1"
+	"npc_dota_hero_ancient_apparition" "1"
 }

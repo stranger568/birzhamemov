@@ -53,6 +53,31 @@
 		"DisplayOverheadAlertOnReceived" "0"
 	}
 
+	"item_bag_of_gold_exp"
+	{
+        "BaseClass"						"item_bag_of_gold"
+		"AbilityName"					"item_bag_of_gold"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"Model"							"models/props_gameplay/rune_xp.vmdl"
+		"Effect"						"particles/econ/items/oracle/oracle_carnival/oracle_carnival_fatesedict_body_glow.vpcf"
+		"ItemKillable"					"0"
+		"AbilityTextureName"			"item_enhancement_wise"
+		"AbilityCastRange"				"100"
+		"AbilityCastPoint"				"0.0"
+		"ItemPurchasable"				"0"
+		"ItemShopTags"					"consumable"
+		"ItemQuality"					"consumable"
+		"ItemStackable"					"1"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+		"ItemPermanent"					"0"
+		"ItemInitialCharges"			"0"
+		"ItemKillable"					"0"
+		"ItemCastOnPickup"				"1"
+		"DisplayOverheadAlertOnReceived" "0"
+	}
+
 	"item_treasure_chest"
 	{
 		"AbilityTextureName"			"items/chest"
@@ -2318,8 +2343,8 @@
 				"value"				"625"
 				"affected_by_aoe_increase"	"1"
 			}
-			"damage_ship"					"250"
-			"chance_ship"					"25"
+			"damage_ship"					"175"
+			"chance_ship"					"15"
 		}
 	}
 
@@ -2888,7 +2913,7 @@
 		"AbilityBehavior" 			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"ScriptFile" 				"items/demon_paper"
 		"AbilityTextureName"		"items/demon_paper"
-		"AbilityCooldown" 			"18"
+		"AbilityCooldown" 			"24"
 		"AbilityManaCost" 			"90"
 		"ItemShopTags" 				"regen;movespeed;magic"
 		"ItemQuality" 				"rare"
@@ -2902,9 +2927,9 @@
 
 			"proc_chance"			 "30"
 			"active_proc_chance"	 "100"
-			"pure_dmg"				 "80"
-			"active_pure_dmg"		 "70"
-			"hp_loss"				 "6"
+			"pure_dmg"				 "75"
+			"active_pure_dmg"		 "35"
+			"hp_loss"				 "8"
 			"duration" 				 "5"
 		}
 	}
@@ -3795,7 +3820,7 @@
 	{
 		"BaseClass"						"item_lua"
 		"ScriptFile"					"items/item_swords.lua"
-		"AbilityTextureName"			"items/kaya"
+		"AbilityTextureName"			"item_kaya"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilitySharedCooldown"			"sword"
 		"ItemCost"						"2100"
@@ -4173,7 +4198,7 @@
 		"ItemResult"					"item_bloodthorn_2"
 		"ItemRequirements"
 		{
-			"01"						"item_bloodthorn_custom;item_birzha_diffusal_blade_2"
+			//"01"						"item_bloodthorn_custom;item_birzha_diffusal_blade_2"
 		}
 	}
 	
@@ -4234,8 +4259,8 @@
 				"affected_by_aoe_increase"	"1"
 			}
 			"bonus_armor"			    "10"
-			"damage_ship"				"250"
-			"chance_ship"				"25"
+			"damage_ship"				"125"
+			"chance_ship"				"15"
 		}
 	}
 	

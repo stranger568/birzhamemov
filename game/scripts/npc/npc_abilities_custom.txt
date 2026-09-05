@@ -2,6 +2,11 @@
 #base "../npc/new_heroes/old_god.txt"
 #base "../npc/new_heroes/ashab.txt"
 #base "../npc/new_heroes/never.txt"
+#base "../npc/new_heroes/kirito.txt"
+#base "../npc/new_heroes/golovach.txt"
+#base "../npc/new_heroes/rem.txt"
+#base "../npc/new_heroes/gojo.txt"
+#base "../npc/new_heroes/meeponegeroi.txt"
 
 "DOTAAbilities"
 {
@@ -404,7 +409,9 @@
 
 		"AbilityValues"
 		{
+			"radius"					"175"
 			"duration"					"0.75 1 1.25 1.5"
+			"AbilityCastRange"				"1800"
 			"damage"		
 			{
 				"value"					"90 180 270 360"
@@ -878,6 +885,8 @@
 			"movespeed"					"-20"
 			"duration"					"3"
 			"shard_stun_duration"		"1"
+			"startAngle"				"75"
+			"endAngle"					"150"
 		}
 	}
 
@@ -1325,7 +1334,7 @@
 		"SpellDispellableType"					"SPELL_DISPELLABLE_YES_STRONG"
 		"AbilityUnitDamageType"					"DAMAGE_TYPE_PHYSICAL"
 		"AbilityTextureName"					"Kirill/ShakeTheGround"
-		"AbilityCastRange"						"%fissure_range"
+		"AbilityCastRange"						"1000 1100 1200 1300"
 		"AbilityCastPoint"						"0.6"
 		"AbilityCastAnimation"					"ACT_DOTA_CAST_ABILITY_4"
 		"AbilityManaCost"						"130 160 190 210"
@@ -1336,6 +1345,7 @@
 		"AbilityValues"
 		{
 			"damage"					"200 300 400 500"
+			"radius"					"225"
 			"str_multi"		
 			{
 				"value"					"0.5 1 1.5 2"
@@ -1497,6 +1507,7 @@
 
 		"AbilityValues"
 		{
+			"radius"						"100"
 			"attack_count"		
 			{
 				"value"						"3 4 5 6"
@@ -1582,12 +1593,12 @@
 		"BaseClass"						"ability_lua"
 		"ScriptFile"					"abilities/heroes/saitama.lua"
 		"AbilityTextureName"			"saitama/lemiter"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"MaxLevel"						"1"
+		"AbilityBehavior"      			"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"Innate"						"1"
 		
 		"AbilityValues"
 		{
-			"damage_for_stack"			"1600"
+			"damage_for_stack"				"1600"
 			"damage_per_stack"		
 			{
 				"value"						"1"
@@ -1598,7 +1609,12 @@
 				"value"						"-0.5"
 				"LinkedSpecialBonus"		"special_bonus_birzha_saitama_6"
 			}
-			"max_charges"					"25"
+			"max_charges"
+			{
+				"value"						"10"
+				"hero_levelup"				"+5"
+				"levelup_interval"			"5"
+			}
 		}
 	}
 
@@ -1622,6 +1638,7 @@
 		
 		"AbilityValues"
 		{
+			"radius" 						"175"
 			"damage"		
 			{
 				"value"						"200 300 400"
@@ -2690,8 +2707,10 @@
 		"BaseClass"						"ability_lua"
 		"ScriptFile"					"abilities/heroes/migi"
 		"AbilityTextureName"			"migi/death"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityBehavior"      			"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"AbilityCooldown"				"60"
 		"MaxLevel"						"1"
+		"Innate"						"1"
 
 		"AbilityValues"
 		{
@@ -3065,9 +3084,9 @@
 		"BaseClass"						"ability_lua"
 		"ScriptFile"					"abilities/heroes/mum.lua"
 		"AbilityTextureName"			"mum/flesh"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
-		"MaxLevel"						"1"
+		"Innate"						"1"
 		"AbilityValues"
 		{
 			"flesh_heap_strength_buff_amount" 		"2"
@@ -3363,7 +3382,7 @@
 				"value" 						"18 16 14 12"
 				"special_bonus_unique_venom_2"	"-2"
 			}
-			"latch_radius"		"80"
+			"latch_radius"		"120"
 			"stun_radius"		"80"
 			"duration"			"1.5 1.75 2 2.25"
 			"speed"				"5000"
@@ -3972,7 +3991,7 @@
 			"duration"						"1"
 			"range"							"350 450 550 650"
 			"slow"							"-30"	
-			"shard_stun_duration"			"1.5"
+			"shard_stun_duration"			"1"
 			"AbilityChargeRestoreTime"	  "15"
 			"AbilityCharges"
 			{
@@ -4035,7 +4054,7 @@
 			"bonus_attack_speed" 		"20 25 30 35"
 			"heal"		
 			{
-				"value"					"16 24 32 40"
+				"value"					"6 8 10 12"
 			}
 			"movespeed_slow" 			"-18 -24 -30 -36"
 			"attack_speed_slow" 		"-16 -32 -48 -64"
@@ -4052,15 +4071,30 @@
 		"AbilityTextureName"		"kaneki/feeling"
 		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_YES"
 		"SpellDispellableType"		"SPELL_DISPELLABLE_NO"
-		"IsGrantedByScepter"  		"1"
 		"HasScepterUpgrade"			"1"
-		"MaxLevel"					"1"
+		"Innate"					"1"
 
 		"AbilityValues"
 		{
-			"movespeed_bonus" 		"25"
-			"hp_need" 				"35"
-			"bonus_damage" 			"20"
+			"movespeed_bonus"
+			{
+				"value"				"5"
+				"hero_levelup"		"+0.3"
+			}
+			"hp_need" 				"20"
+			"bonus_damage"
+			{
+				"value"				"10"
+				"hero_levelup"		"+0.6"
+			}
+			"stacks_to_limit"		{"special_bonus_scepter" "3"}
+			"aghanim_duration"		{"special_bonus_scepter" "5"}
+			"aghanim_distance_damage"	
+			{
+				"special_bonus_scepter" "40"
+				"CalculateSpellDamageTooltip"   "1"
+                "DamageTypeTooltip" "DAMAGE_TYPE_PURE"
+			}
 		}
 	}
 
@@ -4293,9 +4327,9 @@
 		"BaseClass"						"ability_lua"
 		"ScriptFile"					"abilities/heroes/nolik.lua"
 		"AbilityTextureName"			"nolik/energy"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"MaxLevel"						"1"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
 		"HasScepterUpgrade"				"1"
+		"Innate"						"1"
 
 		"AbilityValues"
 		{
@@ -4454,6 +4488,7 @@
 
 		"AbilityValues"
 		{
+			"AbilityCastRange"			"1500"
 			"damage_per_second"			"50 70 90 110"
 			"movement_slow_base"		"20 25 30 35"
 			"vines_duration"			"3"
@@ -4531,17 +4566,24 @@
 		"BaseClass"						"ability_lua"
 		"ScriptFile"					"abilities/heroes/pyramide.lua"
 		"AbilityTextureName"			"pyramide/passive"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"MaxLevel"						"1"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
 		"HasScepterUpgrade"				"1"
+		"Innate"						"1"
+		"IsBreakable"					"1"
 
 		"AbilityValues"
 		{
 			"damage_resist"				"-50"
-			"cleave_damage"				"100"
+			"cleave_damage"
+			{
+				"value"					"30"
+				"hero_levelup"			"+3"
+			}
 			"movespeed"		
 			{
 				"value"					"260"
+				"hero_levelup"			"10"
+				"levelup_interval"		"10"
 				"LinkedSpecialBonus"	"special_bonus_birzha_pyramide_5"
 			}
 			"bat_speed"		
@@ -5183,13 +5225,31 @@
 		"AbilityCooldown"				"25"
 		"AbilityManaCost"				"75"
 		"HasScepterUpgrade"				"1"
+		"Innate"						"1"
 
 		"AbilityValues"
 		{
-			"duration"			"10"	
-			"attack_speed"		"60"
-			"armor"				"6"
-			"hp_regen"			"5"
+			"duration"
+			{
+				"value"			"5"
+				"hero_levelup"	"1"
+				"levelup_interval"	"5"
+			}
+			"attack_speed"
+			{
+				"value"			"20"
+				"hero_levelup"	"+2"
+			}
+			"armor"
+			{
+				"value"			"2"
+				"hero_levelup"	"+0.4"
+			}
+			"hp_regen"
+			{
+				"value"			"5"
+				"hero_levelup"	"+1"
+			}
 			"scepter_regen"		"1"
 		}
 	}
@@ -5411,7 +5471,7 @@
 	{
 		"BaseClass"						"ability_lua"
 		"ScriptFile"					"abilities/heroes/dwayne.lua"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_MOVEMENT | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_MOVEMENT | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
@@ -6679,15 +6739,22 @@
 		"AbilityManaCost"				"65"
 		"RequiredLevel"					"1"
 		"MaxLevel"						"1"
+		"Innate"						"1"
 
 		"AbilityValues"
 		{
 			"bonus_attack_speed"		
 			{
 				"value"						"40"
+				"hero_levelup"				"+2"
 				"LinkedSpecialBonus"		"special_bonus_birzha_gorshok_4"
 			}
-			"duration"					"5"
+			"duration"
+			{
+				"value"					"5"
+				"hero_levelup"			"1"
+				"levelup_interval"		"4"
+			}
 			"bonus_armor"				"8"
 			"bonus_magical_resist"		"50"
 		}
@@ -7106,7 +7173,7 @@
 			}
 			"radius"		
 			{
-				"value"						"300"
+				"value"						"180"
 				"affected_by_aoe_increase"	"1"
 				"LinkedSpecialBonus"		"special_bonus_birzha_goku_6"
 				"LinkedSpecialBonusField"	"value2"
@@ -7323,7 +7390,7 @@
 		"AbilityValues"
 		{
 			"value"						"600"	
-			"value2"					"200"			
+			"value2"					"150"			
 		}
 	}
 	"special_bonus_birzha_goku_7"
@@ -9522,6 +9589,7 @@
 			"duration"		 		"2"
 			"agi_mult" 				"0.7 0.9 1.1 1.3"
 
+			"radius"				"150"
 			"range"
 			{
 				"value"									"350 400 450 500"
@@ -9618,6 +9686,7 @@
 		"MaxLevel"						"1"
 		"AbilityCastAnimation"		  "ACT_DOTA_CAST_ABILITY_5"
 		"HasShardUpgrade"				"1"
+		"Innate"						"1"
 
 		"AbilityValues"
 		{
@@ -9658,6 +9727,7 @@
 			"movespeed"					"-10 -20 -30"
 			"duration"					"5"
 
+			"radius"					"120"
 			"range"						"600"
 			"akame_attack"				"100"
 			"agility_attack"			"1 2 3"
@@ -10250,6 +10320,8 @@
 		"ScriptFile"					"abilities/heroes/scp.lua"
 		"AbilityTextureName"			"scp/statue_aghanim_teleport"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"IsGrantedByScepter"			"1"
+		"HasScepterUpgrade"				"1"
 		"MaxLevel"						"1"
 	}
 
@@ -10326,34 +10398,35 @@
 		}
 	}
 
- //	"Scp_DamageAura"
- //	{
- //		"BaseClass"						"ability_lua"
- //		"ScriptFile"					"abilities/heroes/scp.lua"
- //		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_AURA"
- //		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
- //		"AbilityUnitTargetFlags" 		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES" 
- //		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
- //		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
- //		"AbilityTextureName"			"scp/DamageAura"
- //		"AbilityCastRange"				"600"
- //		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
- //
- //		"AbilityValues"
- //		{
- //			"aura_radius"
- //			{
- //				"value"									"600"
- //				"LinkedSpecialBonus"					"special_bonus_birzha_scp_2"
- //			}
- //			"aura_damage"
- //			{
- //				"value"									"-0.5 -0.7 -0.9 -1.2" 
- //				"LinkedSpecialBonus"					"special_bonus_birzha_scp_7"
- //			}
- //			"aura_damage_interval"		"0.2" 
- //		}
- //	}
+		"Scp_DamageAura"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/heroes/scp.lua"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_AURA | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetFlags" 		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES" 
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+		"AbilityTextureName"			"scp/DamageAura"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
+		"Innate"						"1"
+
+		"AbilityValues"
+		{
+			"aura_radius"
+			{
+				"value"									"600"
+				"affected_by_aoe_increase"				"1"
+			}
+			"aura_damage"
+			{
+				"value"									"0.5"
+				"hero_levelup"							"+0.4"
+				"levelup_interval"						"6"
+			}
+			"aura_damage_interval"		"0.2" 
+		}
+	}
 
 	"Scp_FastKill"
 	{
@@ -11266,6 +11339,7 @@
 
 		"AbilityValues"
 		{
+			"radius"						"150"
 			"range"					
 			{
 				"value"									"350 400 450 500"
@@ -11344,7 +11418,7 @@
 		"AbilityValues"
 		{
 			"fly_duration"			"1"
-			"cast_duration"			"1"
+			"cast_duration"			"0.5"
 			"duration"				"10"
 			"radius"
 			{
@@ -11731,7 +11805,7 @@
 
 	"serega_pirat_bike_release"	
 	{
-		"BaseClass"			 		"ability_lua"
+		"BaseClass"			 			"ability_lua"
 		"ScriptFile"					"abilities/heroes/serega_pirat"
 		"AbilityTextureName"			"serega_pirat/serega_pirat_bike_release"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
@@ -12199,6 +12273,8 @@
 
 		"AbilityValues"
 		{
+			"startRadius"				"120"
+			"endRadius"					"160"	
 			"health_cost"					
 			{
 				"value"									"4"
@@ -12419,9 +12495,10 @@
 		"AbilityUnitTargetTeam"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityCooldown" 			"10"
 		"AbilityManaCost" 			"100"
-		"SpellImmunityType"		 "SPELL_IMMUNITY_ENEMIES_NO"
+		"AbilityCastPoint"			"0.2"
+		"SpellImmunityType"		 	"SPELL_IMMUNITY_ENEMIES_NO"
 		"SpellDispellableType"		"SPELL_DISPELLABLE_YES_STRONG"
-		"AbilityUnitDamageType"	 "DAMAGE_TYPE_MAGICAL"
+		"AbilityUnitDamageType"	 	"DAMAGE_TYPE_MAGICAL"
 		"HasScepterUpgrade"			"1"
 
 		"AbilityValues"
@@ -12443,9 +12520,10 @@
 		"ScriptFile"				"abilities/heroes/monika.lua"
 		"AbilityBehavior" 			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName" 		"monika/koncept"
-		"SpellImmunityType"		 "SPELL_IMMUNITY_ENEMIES_NO"
+		"AbilityUnitDamageType"	 	"DAMAGE_TYPE_PHYSICAL"
+		"SpellImmunityType"		 	"SPELL_IMMUNITY_ENEMIES_NO"
 		"SpellDispellableType"		"SPELL_DISPELLABLE_NO"
-		"AbilityCooldown"			"1"
+		"AbilityCooldown"			"2"
 		"HasShardUpgrade"			"1"
 
 		"AbilityValues"
@@ -12455,11 +12533,9 @@
 				"value"									"9 12 15 18"
 				"LinkedSpecialBonus"					"special_bonus_birzha_monika_3"
 			}
-			"illusion_damage"					
-			{
-				"value"									"30 40 50 60"
-				"LinkedSpecialBonus"					"special_bonus_birzha_monika_5"
-			}
+			"damage_base"					"20 30 40 50"
+			"damage_min"					"0.2"
+			"damage_max"					"0.5 0.7 0.9 1.1"
 		}
 	}
 	
@@ -12473,8 +12549,7 @@
 
 		"AbilityValues"
 		{
-			"interval" 					"1 0.6 0.2 0.08"
-			"bonus_agility" 			"3 5 7 9"
+			"agi_per_sec" 			"4 8 12 16"
 		}
 	}
 	
@@ -12488,46 +12563,54 @@
 
 		"AbilityValues"
 		{
-			"interval" 				"1 0.6 0.2 0.08"
+			"str_per_sec" 			"4 8 12 16"
 		}
 	}
 	
-	"monika_perception"
+	"monika_r"
 	{
 		"BaseClass"					"ability_lua"
 		"ScriptFile"				"abilities/heroes/monika.lua"
 		"AbilityTextureName" 		"monika/monikaultimate"
 		"AbilityBehavior" 			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityType"				"ABILITY_TYPE_ULTIMATE"
-		"AbilityManaCost"			"120"
-		"AbilityCastRange"			"700"
-		"AbilityCooldown"			"30"
-		"AbilityUnitTargetTeam" 	"DOTA_UNIT_TARGET_TEAM_BOTH"
+		"AbilityUnitTargetTeam" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType" 	"DOTA_UNIT_TARGET_HERO"
-		"AbilityUnitTargetFlags"	"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
-		"SpellImmunityType"		 "SPELL_IMMUNITY_ENEMIES_YES"
+		"SpellImmunityType"		 	"SPELL_IMMUNITY_ENEMIES_NO"
 		"SpellDispellableType"		"SPELL_DISPELLABLE_NO"
-		"AbilityUnitDamageType"	 "DAMAGE_TYPE_MAGICAL"
+		"AbilityUnitDamageType"	 	"DAMAGE_TYPE_MAGICAL"
+		"AbilityManaCost"			"120 160 200"
+		"AbilityCastRange"			"750 900 1050"
+		"AbilityCooldown"			"65 55 45"
+		"AbilityCastPoint"			"0.4"
 
 		"AbilityValues"
 		{
-			"damage" 				"300 400 500"
+			"duration"				"5 6 7"
+			"leash_radius"			"675"
+			"illusion_incoming"		"340 280 220"
+			"illusion_outgoing"		"30 45 60"
+			"illusion_attack_rate"	"1"
+			"base_damage"			"100 150 200"
+			"damage_min"			"0.5"
+			"damage_max"			"1.5 2 2.5"
+			"stun_duration_min"		"0.5"
+			"stun_duration_max"		"2 2.5 3"
 			"radius"
 			{
 				"value"				"400"
 				"affected_by_aoe_increase"	"1"
-			}	
-			"duration"				"5"
+			}
 		}
 	}
 	
-	"monika_perception_teleport"
+	"monika_r_two"
 	{
 		"BaseClass"				"ability_lua"
 		"ScriptFile"			"abilities/heroes/monika.lua"
-		"MaxLevel" 				"1"
 		"AbilityTextureName" 	"monika/monikaultimate"
-		"AbilityBehavior" 		"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"AbilityBehavior"		"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_MOVEMENT"
+		"MaxLevel" 				"1"
 	}
 
 	"special_bonus_birzha_monika_1"
@@ -12615,7 +12698,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"0"			
+			"value"						"-0.5"			
 		}
 	}
 
@@ -12930,14 +13013,18 @@
 		"BaseClass"						"ability_lua"
 		"ScriptFile"					"abilities/heroes/sonic.lua"
 		"AbilityTextureName"			"sonic/steal_speed"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
-		"MaxLevel"						"1"
+		"Innate"						"1"
 
 		"AbilityValues"
 		{
-			"duration"					"10"
+			"duration"
+			{
+				"value"					"5"
+				"hero_levelup"			"+1"
+			}
 			"movespeed"					"5"
 			"maximum_charges"			"50"			
 		}
@@ -13108,6 +13195,7 @@
 
    	 	"AbilityValues"
   	 	{
+			"radius"					"100"
 			"damage"					
 			{
 				"value"									"150 225 300 375"
@@ -13890,6 +13978,7 @@
 		{
 			"damage_crit"				"300"
 			"base_damage"				"100 200 300 400"
+			"radius"					"75"
 		}
 	}
 
@@ -15069,215 +15158,6 @@
 			"value"						"1000"			
 		}
 	}
-
-	//=================================================================================================================
-	// BloodSeeker | LenaGolovach | LenaGolovach
-	//=================================================================================================================
-
-	"golovach_rocket"
-	{
-		"BaseClass"						"ability_lua"
-		"ScriptFile"					"abilities/heroes/golovach.lua"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
-		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
-		"AbilityTextureName"			"lenagolovach/rocket"
-		"AbilityCastRange"				"800 900 1000 1100"
-		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_2"
-		"AbilityCooldown"				"20"
-		"AbilityManaCost"				"150"
-		"HasShardUpgrade"				"1"
-
-		"AbilityValues"
-		{
-			"damage"				"40 70 100 130"
-			"duration"				"4"
-			"vision_radius"
-			{
-				"value"				"325 425 525 625"
-				"affected_by_aoe_increase"	"1"
-			}				
-			"vision_duration"		"3.5"
-			"agi_bonus"		
-			{
-				"value"					"0.2 0.3 0.4 0.5"
-				"LinkedSpecialBonus"	"special_bonus_birzha_golovach_6"
-			}
-			"stun_time"				"0.25"
-		}
-	}
-
-	"LenaGolovach_Donate"
-	{
-		"BaseClass"						"ability_lua"
-		"ScriptFile"					"abilities/heroes/golovach.lua"
-		"AbilityTextureName"			"lenagolovach/Donate"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO" 
-		
-		"AbilityValues"
-		{
-			"radius"					"450 600 750 900"
-			"money"		
-			{
-				"value"					"5"
-				"LinkedSpecialBonus"	"special_bonus_birzha_golovach_2"
-			}
-		}
-	}
-
-	"LenaGolovach_taunt"
-	{
-		"BaseClass"						"ability_lua"
-		"ScriptFile"					"abilities/heroes/golovach.lua"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"	
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"			   
-		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
-		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
-		"AbilityTextureName"			"lenagolovach/Taunt"
-		"AbilityCastRange"				"800"
-		"AbilityCastPoint"				"0.2"
-		"AbilityCooldown"				"20"
-		"AbilityManaCost"				"105 115 125 135"
-		"HasScepterUpgrade"				"1"
-
-		"AbilityValues"
-		{
-			"duration"		
-			{
-				"value"					"1 1.5 2 2.5"
-				"LinkedSpecialBonus"	"special_bonus_birzha_golovach_1"
-			}
-			"radius"
-			{
-				"value"				"300"
-				"affected_by_aoe_increase"	"1"
-			}	
-		}
-	}
-
-	"LenaGolovach_Radio"
-	{
-		"BaseClass"						"ability_lua"
-		"ScriptFile"					"abilities/heroes/golovach.lua"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"				   
-		"AbilityType"					"ABILITY_TYPE_ULTIMATE"
-		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
-		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
-		"AbilityTextureName"			"lenagolovach/radio"
-		"AbilityCooldown"				"70"
-		"AbilityManaCost"				"150 170 200"
-
-		"AbilityValues"
-		{
-			"duration"		
-			{
-				"value"					"6 8 10"
-				"LinkedSpecialBonus"	"special_bonus_birzha_golovach_8"
-			}
-			"damage"				"300 400 500"
-			"health"				"1000 2000 3000"
-			"base_attack"			"0.8 0.6 0.4"
-			"movespeed"				"800 900 1000"
-		}
-	}
-
-	"special_bonus_birzha_golovach_1"
-	{
-		"BaseClass"						"special_bonus_undefined"														
-		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-
-		"AbilityValues"
-		{
-			"value"						"1"			
-		}
-	}
-	"special_bonus_birzha_golovach_2"
-	{
-		"BaseClass"						"special_bonus_undefined"														
-		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-
-		"AbilityValues"
-		{
-			"value"						"5"			
-		}
-	}
-	"special_bonus_birzha_golovach_3"
-	{
-		"BaseClass"						"special_bonus_undefined"														
-		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-
-		"AbilityValues"
-		{
-			"value"						"2"			
-		}
-	}
-	"special_bonus_birzha_golovach_4"
-	{
-		"BaseClass"						"special_bonus_undefined"														
-		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-
-		"AbilityValues"
-		{
-			"value"						"-20"			
-		}
-	}
-	"special_bonus_birzha_golovach_5"
-	{
-		"BaseClass"						"special_bonus_undefined"														
-		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-
-		"AbilityValues"
-		{
-			"value"						"10"					
-		}
-	}
-	"special_bonus_birzha_golovach_6"
-	{
-		"BaseClass"						"special_bonus_undefined"														
-		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-
-		"AbilityValues"
-		{
-			"value"						"0.8"		
-		}
-	}
-	"special_bonus_birzha_golovach_7"
-	{
-		"BaseClass"						"special_bonus_undefined"														
-		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-
-		"AbilityValues"
-		{
-			"value"						"50"			
-		}
-	}
-	"special_bonus_birzha_golovach_8"
-	{
-		"BaseClass"						"special_bonus_undefined"														
-		"AbilityType"					"ABILITY_TYPE_ATTRIBUTES"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-
-		"AbilityValues"
-		{
-			"value"						"5"			
-		}
-	}
-
 	//=================================================================================================================
 	// Еврей
 	//=================================================================================================================
@@ -16746,6 +16626,7 @@
 		"AbilityCooldown"				"3"
 		"AbilityManaCost"				"50"
 		"HasScepterUpgrade"				"1"
+		"Innate"						"1"
 
 		"AbilityValues"
 		{
@@ -16909,6 +16790,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_AOE"		
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_3"
+		"HasScepterUpgrade"				"1"
 		"AbilityCooldown"				"50"
 		"AbilityGoldCost"				"100 120 140 160"	
 		"AbilityCastRange"				"3000"
@@ -16917,14 +16799,22 @@
 
 		"AbilityValues"
 		{
-			"math_cel"					"5"
-			"max_count"					"10"
-			"attack_speed_mult"			"3"
-			"attack_range"				"400"
-			"damage"					"10 15 20 25"
-			"gold_steal"				"13"
-			"duration_swap"				"15"
 			"abilitygoldcost"			"100 120 140 160"	
+			"math_cel"					"5"
+			"max_count"					"5"
+			"attack_speed_mult"			"2"
+			"attack_range"				"400"
+			"damage"
+			{
+				"value"					"10 15 20 25"
+				"special_bonus_scepter"	"+15"
+			}
+			"gold_steal"				
+			{
+				"value"					"13"
+				"special_bonus_scepter"	"+12"
+			}
+			"duration_swap"				"15"
 		}
 	}
 
@@ -16935,6 +16825,7 @@
 		"AbilityTextureName"			"bebra/ability_two_two"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_HIDDEN"		
 		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_3"
+		"HasScepterUpgrade"				"1"
 		"AbilityCooldown"				"50"
 		"AbilityGoldCost"				"100 120 140 160"	
 		"AbilityCastRange"				"3000"
@@ -16955,7 +16846,12 @@
 			"stun_duration"				"1.2"
 			"duration_debuff"			"15"
 			"abilitygoldcost"			"100 120 140 160"	
-			"interval"					"0.9"	
+			"interval"					"0.9"
+
+			"aghanim_attacks" { "special_bonus_scepter"	"5"}
+			"aghanim_slow_pct"{	"special_bonus_scepter"	"15 20 25 30"}
+			"aghanim_slow_duration"{ "special_bonus_scepter" "1.5"}
+			"aghanim_max_gypsy"	{ "special_bonus_scepter" "15"}
 		}
 	}
 
@@ -16971,8 +16867,7 @@
 		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_3"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 		"AbilityCooldown"				"12"
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
-		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"	
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"	
 		"AbilityCastRange"				"900"
 		"AbilityManaCost"				"125"
 		"HasShardUpgrade"				"1"
@@ -16999,25 +16894,28 @@
 		"AbilityType"					"ABILITY_TYPE_ULTIMATE"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
 		"AbilityCooldown"				"40"
 
 		"AbilityValues"
 		{
 			"duration"				"6"
-			"stack_for_active"		"3"
+			"stack_for_active"		"5"
 			"attack_radius"
 			{
 				"value"				"600"
 				"affected_by_aoe_increase"	"1"
-			}	
+			}
+			"base_damage"			"45 80 110"
 			"damage"				"45 60 75"
 			"lifesteal"				"50"
-			"attackspeed_stack"		"25 35 45"
-			"damage_stack"			"25 35 45"
+			"attackspeed_stack"		"15 25 35"
+			"damage_stack"			"15 25 35"
 			"movespeed_stack"		"4 6 8"
 			"vision_stack"			"100"
 			"max_charges"			"5"
 			"charge_duration"		"7"
+			"shoot_angle"			"120"
 		}
 	}
 
@@ -17026,16 +16924,41 @@
 		"BaseClass"						"ability_lua"
 		"ScriptFile"					"abilities/heroes/bebra.lua"
 		"AbilityTextureName"			"bebra/shard"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
-		"MaxLevel"						"1"
-		"IsGrantedByScepter"			"1"
-		"HasScepterUpgrade"				"1"
+		"SpellImmunityType"				"SPEE_IMMUNITY_ENEMIES_NO"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"AbilityBehavior"      			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"AbilityChannelTime"			"2"
+		"AbilityManaCost"				"80"
+		"IsBreakable"           		"1"
+		"Innate"						"1"
+		"MaxLevel"                      "1"
 
 		"AbilityValues"
 		{
-			"duration"				"10"
-			"resist"				"-8"
+			"AbilityCooldown"
+			{
+				"value"				"26"
+				"hero_levelup"		"-0.3"
+			}
+			"duration"				"5"
+			"effect_duration"		"8"
+			"resist"
+			{
+				"value"				"2"
+				"hero_levelup"		"+0.1"
+			}
+			"bonus_damage"
+			{
+				"value"				"10"
+				"hero_levelup"		"+3"
+			}
+			"stacks"				"3"
+			"heal"
+			{
+				"value"				"15"
+				"hero_levelup"		"+0.5"
+			}
 		}
 	}
 
@@ -17114,7 +17037,7 @@
 
 		"AbilityValues"
 		{
-			"value"						"-1"			
+			"value"						"-1.5"			
 		}
 	}
 	"special_bonus_birzha_shelby_8"
@@ -17330,7 +17253,7 @@
 		"SpellImmunityType"			 "SPELL_IMMUNITY_ENEMIES_NO"
 		"SpellDispellableType"	  	"SPELL_DISPELLABLE_NO"
 		"AbilityTextureName"			"Stray/RatPoison"
-		"AbilityCooldown"				"12"
+		"AbilityCooldown"				"19 17 15 13"
 		"AbilityManaCost"				"90 100 110 120"
 		"AbilityCastRange"				"700 800 900 1000"
 		
@@ -17361,6 +17284,7 @@
 		
 		"AbilityValues"
 		{
+			"radius"					"150"
 			"damage"					"150 200 250 300"
 			"AbilityCharges"
 			{
@@ -17388,7 +17312,7 @@
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"			"Stray/KillStealer"
-		"AbilityCooldown"				"35"
+		"AbilityCooldown"				"35 34 33 32"
 		"AbilityManaCost"				"90 100 110 120"
 		"AbilityCastRange"				"700 800 900 1000"
 		"HasShardUpgrade"				"1"
@@ -17398,6 +17322,7 @@
 			"damage_per_health"			"9 11 13 15"
 			"duration"					"1.5"
 			"damage"					"150 200 250 300"
+			"bonus_gold_per_charge"		"5"
 		}
 	}
 
@@ -17410,7 +17335,7 @@
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
 		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
 		"AbilityTextureName"			"Stray/DonateMusic"
-		"AbilityCooldown"				"40 50 60"
+		"AbilityCooldown"				"55 50 45"
 		"AbilityManaCost"				"120 160 200"
 
 		"AbilityValues"
@@ -17456,6 +17381,41 @@
 			"health_regeneration"		"5"
 			"rat_poison_bonus_damage"	"100"
 		}
+	}
+
+		"stray_innate"
+	{
+		"BaseClass"					"ability_lua"
+		"ScriptFile"				"abilities/heroes/stray.lua"
+		"AbilityTextureName"		"Stray/innate"
+		"AbilityBehavior"		   	"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"Innate"					"1"
+		
+		"AbilityValues"
+		{
+			"bonus_gold_per_charge"	"5"
+            "bonus_gold_owner_kill"
+            {
+                "value" "60"
+                "dynamic_value" "true"
+            }
+            "bonus_gold_nearby_kill"
+            {
+                "value" "30"
+                "dynamic_value" "true"
+            }
+            "nearby_radius"
+            {
+                "value" "600"
+                "hero_levelup"   "+20"
+				"affected_by_aoe_increase"	"1"
+            }
+            "AbilityCastRange"
+            {
+                "value" "600"
+                "hero_levelup"   "+20"
+            }
+        }
 	}
 
 		"special_bonus_birzha_stray_1"
@@ -17838,6 +17798,7 @@
 		"AbilityTextureName"			"jull/light_future"
 		"AbilityManaCost"				"100"
 		"MaxLevel"						"1"
+		"Innate"						"1"
 
 		"AbilityValues"
 		{
@@ -18025,7 +17986,7 @@
 		"ScriptFile"					"abilities/heroes/zema.lua"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"	
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
 		"AbilityTextureName"			"Zema/CosmoRay"
@@ -18035,6 +17996,8 @@
 
 		"AbilityValues"
 		{
+			"distance"					"1300"
+			"radius"					"100"
 			"base_dmg"					"50 100 150 200"
 			"tick_interval"				"0.2"
 			"duration"					"4 5 6 7"
@@ -18535,16 +18498,20 @@
 		"AbilityTextureName"			"Ricardo/ricardofire"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
-		"MaxLevel"				  	"1"
-		"AbilityBehavior"		   	"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityBehavior"		   		"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_2"
 		"HasShardUpgrade"				"1"
+		"Innate"						"1"
+		"IsBreakable"           		"1"
 
 		"AbilityValues"
 		{
-			"damage"					"15"
-			"multiplier"             	"1.5"
+			"damage"
+			{
+				"value"				"15"
+				"hero_levelup"		"+1.5"
+			}
 			"interval"		   		"0.5"
 			"radius"
 			{
@@ -18733,6 +18700,8 @@
 		
 		"AbilityValues"
 		{
+			"distance"				"800"
+			"radius"				"120"
 			"stun_duration"			"1.25"
 			"damage"				"170 280 390 500"
 			"fire_damage"			"50 80 105 130"
@@ -18771,18 +18740,20 @@
 		"AbilityCooldown"			   "20" 
 		"AbilityCastAnimation"		  "ACT_DOTA_CAST_ABILITY_3" 
 		"AbilityCastPoint"			  "0.05"
+		"MaxLevel"					  "5"
+		"Innate"					  "1"
 
 		"AbilityValues"
 		{
-			"mana_regen_passive"		"2.25 3.5 4.75 6"
+			"mana_regen_passive"		"1 2.25 3.5 4.75 6"
 			"radius"
 			{
 				"value"				"900"
 				"affected_by_aoe_increase"	"1"
 			}	
-			"mana_regen_active"	 	"20 25 30 35"
+			"mana_regen_active"	 	"10 20 25 30 35"
 			"duration"					"1.5"
-			"spell_damage"		  	"3 6 9 12"
+			"spell_damage"		  	"5 12 15 18 21"
 		}
 	}
 
@@ -19184,7 +19155,8 @@
 
 		"AbilityValues"
 		{
-			"range"					"1200"
+			"distance"				"1200"
+			"radius"				"100"
 			"min_stun_duration"		"0.5"
 			"max_stun_duration"		"0.8 1 1.2 1.4"
 			"min_damage"			"50"
@@ -19412,16 +19384,32 @@
 	{
 		"BaseClass"						"ability_lua"
 		"ScriptFile"					"abilities/heroes/dio.lua"
-		"AbilityBehavior"		 		"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityBehavior"		 		"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
 		"AbilityTextureName"	  		"dio/vampire"
-		"MaxLevel"						"1"
+		"Innate"						"1"
 	  
 		"AbilityValues"
 		{
-			"lifesteal"   		"25"
-			"attack_speed"  	"50"
-			"movespeed"   		"15"
-			"health"   			"30"
+			"lifesteal"
+			{
+				"value"			"15"
+				"hero_levelup"	"+0.5"
+			}
+			"attack_speed"
+			{
+				"value"			"30"
+				"hero_levelup"	"+2"
+			}
+			"movespeed"
+			{
+				"value"			"10"
+				"hero_levelup"	"+0.5"
+			}
+			"health"
+			{
+				"value"			"5"
+				"hero_levelup"	"+1"
+			}
 		}
 	}
 
@@ -19695,6 +19683,7 @@
 		"AbilityManaCost"				"100"
 		"MaxLevel"						"1"
 		"AbilityCastAnimation"	  	"ACT_DOTA_CAST_ABILITY_1"
+		"Innate"						"1"
 
 		"AbilityValues"
 		{
@@ -20165,7 +20154,7 @@
 		"BaseClass"						"ability_lua"
 		"ScriptFile"					"abilities/heroes/travoman"
 		"AbilityTextureName"			"travoman/land_mines"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_AUTOCAST"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"HasScepterUpgrade"				"1"
@@ -20260,7 +20249,11 @@
 			}	
 			"damage"					"250 350 450 550"
 			"silence_duration"			"2 3 4 5"
-			"hp_cost"					"50"
+			"hp_cost"
+			{
+				"value"					"100"
+				"DamageTypeTooltip" 	"DAMAGE_TYPE_PURE"
+			}
 			"duration"					"0.75"
 			"damage_per_charge"			"50"
 		}
@@ -20313,6 +20306,7 @@
 		"AbilityCastAnimation"			"ACT_INVALID"
 		"MaxLevel"				"1"
 		"AbilityCooldown"				"1.0 1.0 1.0"
+		"Innate"						"1"
 		
 		"AbilityValues"
 		{
@@ -20738,11 +20732,13 @@
 	{
 		"BaseClass"						"ability_lua"
 		"ScriptFile"					"abilities/heroes/pucci.lua"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"	
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"	
 		"AbilityTextureName"			"pucci/passive_wave"
-		"MaxLevel"						"1"
 		"AbilityCooldown"				"30"
+		"IsBreakable"					"1"
+		"MaxLevel"                      "1"
 		"HasShardUpgrade"				"1"
+		"Innate"						"1"
 
 		"AbilityValues"
 		{
@@ -22477,7 +22473,7 @@
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityTextureName"	 	"Ns/TricksMaster"
 		"SpellDispellableType"		"SPELL_DISPELLABLE_NO"
-		"IsBreakable"					"1"
+		"IsBreakable"				"1"
 		"AbilityType"				"ABILITY_TYPE_ULTIMATE"
 	  
 		"AbilityValues"
@@ -23642,6 +23638,7 @@
 		"AbilityType"					"ABILITY_TYPE_ULTIMATE"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
 		"AbilityCooldown"				"7"
+		"Innate"						"1"
 		"AbilityValues"
 		{
 			"cooldown_per_sphere"			"0.3333"
@@ -23704,7 +23701,7 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
 		"AbilityTextureName"			"kakashi/raikiri"
-	
+		
 		"AbilityManaCost"				"120"
 		"MaxLevel"						"1"
 		"AbilityChargeRestoreTime"		"16 15 14 13 12 11 10"
@@ -23714,6 +23711,7 @@
 		{
 			"damage"				"100 150 200 250 300 350"
 			"range"					"400 500 600 700 800 800 800"
+			"radius"				"150"
 			"AbilityCharges"
 			{
 				"value"										 	"1"
@@ -23853,6 +23851,8 @@
 				"value"										 	"1"
 				"special_bonus_unique_kakashi_2"				"+1"
 			}
+			"distance"					"340"
+			"radius"					"200"
 		}
 	}
 
@@ -24129,6 +24129,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
 		"AbilityCooldown"				"7"
 		"HasScepterUpgrade"				"1"
+		"Innate"						"1"
 
 		"AbilityValues"
 		{
@@ -24176,6 +24177,7 @@
 		{
 		   	"base_damage"		        "180 210 240 270 300 330 360"
 			"range"		   		        "400 500 600 700 800 800 800"
+			"radius"					"100"
 			"AbilityCharges"
 			{
 				"value"										 "1"
@@ -24625,7 +24627,7 @@
 		"AbilityBehavior" 							"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"AbilityTextureName"						"overlord_anime/three_book"
 		"AbilityCooldown"		  					"27 24 21 18 15"
-		"AbilityManaCost"		   				"10"
+		"AbilityManaCost"		   					"10"
 		"LinkedAbility"								"Overlord_spell_11"
 		"MaxLevel"									"5"
 		"LevelsBetweenUpgrades"						"3"	
@@ -24642,10 +24644,10 @@
 	{
 		"BaseClass"									"ability_lua"
 		"ScriptFile"								"abilities/heroes/overlord_anime.lua"
-		"AbilityBehavior" 							"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityBehavior" 							"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
 		"AbilityTextureName"						"overlord_anime/passive"
-		"MaxLevel"									"1"
 		"HasShardUpgrade"							"1"
+		"MaxLevel"									"1"
 		"AbilityValues"
 		{
 			"charge_ability"						"1"
@@ -25002,7 +25004,7 @@
 			"blood_damage"							"10 15 20 25 30"	
 			"manacost"								"20"	
 
-			"range"									"900"
+			"distance"								"900"
 			"radius"
 			{
 				"value"						"200"
@@ -25249,13 +25251,15 @@
 		"AbilityBehavior" 							"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"AbilityCooldown"							"30"
 		"AbilityManaCost"							"50"
+		"MaxLevel"									"5"
+		"Innate"									"1"
 
 		"AbilityValues"
 		{
 			"duration_active"					   "10"
-			"zombie_cooldown"					   "12 11 10 9"
-			"zombie_cooldown_active"				"5 4 3 2"
-			"zombie_count"						  "1 2 3 4"
+			"zombie_cooldown"					   "15 12 11 10 9"
+			"zombie_cooldown_active"				"6 5 4 3 2"
+			"zombie_count"						  "1 1 2 3 4"
 			"attack_count_die"					  "1"
 			"damage_hero"						   "75"
 		}
